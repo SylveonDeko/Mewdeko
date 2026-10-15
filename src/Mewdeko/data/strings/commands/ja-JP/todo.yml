@@ -3,17 +3,17 @@ todoadd:
     - listId
     - title
     - description
-  desc: '指定したリストに新しいタスクアイテムを追加します'
+  desc: '指定したリストに新しい ToDo 項目を追加します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: 'タスクアイテムのタイトル。'
+    - desc: 'ToDo 項目のタイトルです。'
       name: title
       optional: false
       type: string
-    - desc: 'アイテムの任意の説明。'
+    - desc: '項目の省略可能な説明です。'
       name: description
       optional: true
       type: string
@@ -23,21 +23,21 @@ todoaddpriority:
     - priority
     - title
     - description
-  desc: '優先度と任意の期限を持つタスクアイテムを追加します'
+  desc: '優先度と省略可能な期限を指定して ToDo 項目を追加します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: '優先度レベル (1=低, 2=中, 3=高, 4=重要)。'
+    - desc: '優先度レベル（1=低、2=中、3=高、4=緊急）です。'
       name: priority
       optional: false
       type: int
-    - desc: 'タスクアイテムのタイトル。'
+    - desc: 'ToDo 項目のタイトルです。'
       name: title
       optional: false
       type: string
-    - desc: 'アイテムの任意の説明。'
+    - desc: '項目の省略可能な説明です。'
       name: description
       optional: true
       type: string
@@ -45,40 +45,40 @@ todoaddtag:
   args:
     - itemId
     - tag
-  desc: 'タスクアイテムにタグを追加します'
+  desc: 'ToDo 項目にタグを追加します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
-    - desc: '追加するタグ。'
+    - desc: '追加するタグです。'
       name: tag
       optional: false
       type: string
 todocleardue:
   args:
     - itemId
-  desc: 'タスクアイテムの期限を削除します'
+  desc: 'ToDo 項目から期限を削除します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
 todoclearreminder:
   args:
     - itemId
-  desc: 'タスクアイテムのリマインダーを削除します'
+  desc: 'ToDo 項目からリマインダーを削除します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
 todocomplete:
   args:
     - itemId
-  desc: 'タスクアイテムを完了としてマークします'
+  desc: 'ToDo 項目を完了します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
@@ -86,13 +86,13 @@ todocreatelist:
   args:
     - name
     - description
-  desc: '新しいタスクリストを作成します'
+  desc: '新しい ToDo リストを作成します'
   params:
-    - desc: 'タスクリストの名前。'
+    - desc: 'ToDo リストの名前です。'
       name: name
       optional: false
       type: string
-    - desc: 'リストの任意の説明。'
+    - desc: 'リストの省略可能な説明です。'
       name: description
       optional: true
       type: string
@@ -100,31 +100,31 @@ todocreateserverlist:
   args:
     - name
     - description
-  desc: '新しいサーバー全体のタスクリストを作成します (管理者専用)'
+  desc: 'サーバー全体の新しい ToDo リストを作成します（管理者のみ）'
   params:
-    - desc: 'サーバータスクリストの名前。'
+    - desc: 'サーバーの ToDo リストの名前です。'
       name: name
       optional: false
       type: string
-    - desc: 'リストの任意の説明。'
+    - desc: 'リストの省略可能な説明です。'
       name: description
       optional: true
       type: string
 tododelete:
   args:
     - itemId
-  desc: 'タスクアイテムを削除します'
+  desc: 'ToDo 項目を削除します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
 tododeletelist:
   args:
     - listId
-  desc: 'タスクリスト全体を削除します'
+  desc: 'ToDo リスト全体を削除します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
@@ -133,17 +133,17 @@ todoedit:
     - itemId
     - title
     - description
-  desc: 'タスクアイテムのタイトルと説明を編集します'
+  desc: 'ToDo 項目のタイトルと説明を編集します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
-    - desc: '新しいタイトル。'
+    - desc: '新しいタイトルです。'
       name: title
       optional: false
       type: string
-    - desc: '新しい説明。'
+    - desc: '新しい説明です。'
       name: description
       optional: true
       type: string
@@ -152,17 +152,17 @@ todofilter:
     - listId
     - filter
     - value
-  desc: 'タグまたは優先度でタスクアイテムをフィルタリングします'
+  desc: 'タグまたは優先度で ToDo 項目を絞り込みます'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: 'フィルタータイプ (タグまたは優先度)。'
+    - desc: '絞り込みの種類（tag または priority）です。'
       name: filter
       optional: false
       type: string
-    - desc: 'フィルタリングする値。'
+    - desc: '絞り込みに使用する値です。'
       name: value
       optional: true
       type: string
@@ -171,35 +171,35 @@ todogrant:
     - listId
     - '@user'
     - permissions
-  desc: 'タスクリストのユーザーに権限を付与します (リストオーナー/管理者専用)'
+  desc: 'ToDo リストの権限をユーザーに付与します（リストの所有者または管理者のみ）'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: '権限を付与するユーザー。'
+    - desc: '権限を付与するユーザーです。'
       name: user
       optional: false
       type: IUser
-    - desc: 'カンマ区切りの権限 (view,add,edit,complete,delete,manage,all)。'
+    - desc: 'カンマ区切りの権限（view、add、edit、complete、delete、manage、all）です。'
       name: permissions
       optional: false
       type: string
 todolists:
   args:
     - includeServer
-  desc: 'ユーザーがアクセスできるすべてのタスクリストを一覧表示します'
+  desc: 'ユーザーがアクセスできるすべての ToDo リストを一覧表示します'
   params:
-    - desc: 'サーバー全体のリストを含めるかどうか。'
+    - desc: 'サーバー全体のリストを含めるかどうかです。'
       name: includeServer
       optional: true
       type: bool
 todopermissions:
   args:
     - listId
-  desc: 'タスクリストのすべての権限を表示します'
+  desc: 'ToDo リストのすべての権限を表示します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
@@ -207,13 +207,13 @@ todoremovetag:
   args:
     - itemId
     - tag
-  desc: 'タスクアイテムからタグを削除します'
+  desc: 'ToDo 項目からタグを削除します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
-    - desc: '削除するタグ。'
+    - desc: '削除するタグです。'
       name: tag
       optional: false
       type: string
@@ -221,13 +221,13 @@ todoreorder:
   args:
     - itemId
     - newPosition
-  desc: 'タスクアイテムを新しい位置に並び替えます'
+  desc: 'ToDo 項目を新しい位置に並べ替えます'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
-    - desc: '新しい位置 (1始まり)。'
+    - desc: '新しい位置です（1 から始まる）。'
       name: newPosition
       optional: false
       type: int
@@ -235,13 +235,13 @@ todorevoke:
   args:
     - listId
     - '@user'
-  desc: 'タスクリストに対するユーザーのすべての権限を取り消します'
+  desc: 'ToDo リストに対するユーザーのすべての権限を取り消します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: '権限を取り消すユーザー。'
+    - desc: '権限を取り消すユーザーです。'
       name: user
       optional: false
       type: IUser
@@ -249,13 +249,13 @@ todosearch:
   args:
     - listId
     - query
-  desc: 'リスト内のタスクアイテムを検索します'
+  desc: 'ToDo リスト内の ToDo 項目を検索します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: '検索クエリ。'
+    - desc: '検索クエリです。'
       name: query
       optional: false
       type: string
@@ -263,13 +263,13 @@ todosetcolor:
   args:
     - listId
     - color
-  desc: 'タスクリストの色を設定します'
+  desc: 'ToDo リストの色を設定します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: '16進数カラーコード (例:'
+    - desc: '16進数のカラーコード（例: #ff0000）。'
       name: color
       optional: false
       type: string
@@ -277,13 +277,13 @@ todosetdue:
   args:
     - itemId
     - dateString
-  desc: 'タスクアイテムの期限を設定します'
+  desc: 'ToDo 項目の期限を設定します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
-    - desc: '期限の日時。'
+    - desc: '期限の日付と時刻です。'
       name: dateString
       optional: false
       type: string
@@ -291,13 +291,13 @@ todosetreminder:
   args:
     - itemId
     - dateString
-  desc: 'タスクアイテムのリマインダー時間を設定します'
+  desc: 'ToDo 項目のリマインダー時刻を設定します'
   params:
-    - desc: 'タスクアイテムのID。'
+    - desc: 'ToDo 項目の ID です。'
       name: itemId
       optional: false
       type: int
-    - desc: 'リマインダーの日時。'
+    - desc: 'リマインダーの日付と時刻です。'
       name: dateString
       optional: false
       type: string
@@ -305,22 +305,22 @@ todoshow:
   args:
     - listId
     - includeCompleted
-  desc: 'タスクリストのすべてのアイテムを表示します'
+  desc: 'ToDo リストのすべての項目を表示します'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int
-    - desc: '完了したアイテムを含めるかどうか。'
+    - desc: '完了済みの項目を含めるかどうかです。'
       name: includeCompleted
       optional: true
       type: bool
 todotoggleprivacy:
   args:
     - listId
-  desc: 'タスクリストのプライバシー設定を切り替えます'
+  desc: 'ToDo リストの公開設定を切り替えます'
   params:
-    - desc: 'タスクリストのID。'
+    - desc: 'ToDo リストの ID です。'
       name: listId
       optional: false
       type: int

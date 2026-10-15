@@ -2,6 +2,7 @@
   "afk_already_in_list": "No se añadió ningún canal porque los canales que especificaste ya están en la lista.",
   "afk_channels_updated": "Añadido {0} a la lista de canales que Afk ignora",
   "afk_deletion_disabled": "¡La eliminación del Mensaje Afk ha sido deshabilitada!",
+  "afk_deletion_invalid": "El tiempo de borrado debe ser 0 o un número positivo de segundos.",
   "afk_deletion_set": "Los mensajes Afk ahora se eliminarán después de {0} segundos.",
   "afk_disabled": "Afk deshabilitado.",
   "afk_disabled_channels_none": "¡No tienes ningún canal deshabilitado!",

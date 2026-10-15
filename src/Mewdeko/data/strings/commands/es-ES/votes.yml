@@ -1,79 +1,65 @@
 votechannel:
   args:
     - channel
-  desc: >-
-    Establece el canal de texto especificado como canal de votos donde se
-    enviarán todas las confirmaciones de voto.
+  desc: 'Establece el canal de texto indicado como canal de votación, donde se enviarán todas las confirmaciones de voto.'
   params:
     - &ref_646
-      desc: 'El canal de texto a establecer como canal de votos.'
+      desc: 'El canal de texto que se establecerá como canal de votación.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel:
   args:
     - channel
-  desc: >-
-    Establece el canal de texto especificado como canal de votos donde se
-    enviarán todas las confirmaciones de voto.
+  desc: 'Establece el canal de texto indicado como canal de votación, donde se enviarán todas las confirmaciones de voto.'
   params:
-    - desc: 'El canal de texto a establecer como canal de votos.'
+    - desc: 'El canal de texto que se establecerá como canal de votación.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_1:
   args:
     - channel
-  desc: >-
-    Establece el canal de texto especificado como canal de votos donde se
-    enviarán todas las confirmaciones de voto.
+  desc: 'Establece el canal de texto indicado como canal de votación, donde se enviarán todas las confirmaciones de voto.'
   params:
-    - desc: 'El canal de texto a establecer como canal de votos.'
+    - desc: 'El canal de texto que se establecerá como canal de votación.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_2:
   args:
     - channel
-  desc: >-
-    Establece el canal de texto especificado como canal de votos donde se
-    enviarán todas las confirmaciones de voto.
+  desc: 'Establece el canal de texto indicado como canal de votación, donde se enviarán todas las confirmaciones de voto.'
   params:
-    - desc: 'El canal de texto a establecer como canal de votos.'
+    - desc: 'El canal de texto que se establecerá como canal de votación.'
       name: channel
       optional: false
       type: ITextChannel
 votemessage:
   args:
     - '[message]'
-  desc: >-
-    Establece un mensaje personalizado para enviar cuando un usuario vota o
-    previsualiza el mensaje de voto actual.
+  desc: 'Establece un mensaje personalizado que se enviará cuando un usuario vote o previsualice el mensaje de voto actual.'
   params:
-    - desc: 'El mensaje personalizado para votos. Usa "-" para restablecer al mensaje predeterminado. Si es nulo, previsualiza el mensaje de voto actual.'
+    - desc: 'El mensaje personalizado de voto que se establecerá. Usa "-" para restablecer el mensaje predeterminado. Si es null, previsualiza el mensaje de voto actual.'
       name: message
       optional: true
       type: string
 votepassword:
   args:
     - ''
-  desc: >-
-    Inicia un proceso de confirmación para establecer una nueva contraseña de
-    voto, advirtiendo al usuario sobre su seguridad.
+  desc: 'Inicia un proceso de confirmación para establecer una nueva contraseña de voto, advirtiendo al usuario sobre su seguridad.'
   params: [ ]
 voteroleadd:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Añade un rol que se otorgará a los usuarios cuando voten, con una duración
-    opcional para que el rol se elimine automáticamente.
+  desc: 'Añade un rol que se concederá a los usuarios al votar, con una duración opcional tras la cual el rol se quitará automáticamente.'
   params:
-    - desc: 'El rol a añadir como recompensa de voto.'
+    - desc: 'El rol que se añadirá como recompensa por votar.'
       name: role
       optional: false
       type: role
-    - desc: 'La duración para la que se otorgará el rol. Nulo para indefinido.'
+    - desc: 'La duración durante la cual se concederá el rol. Null para indefinido.'
       name: time
       optional: true
       type: duration
@@ -81,15 +67,13 @@ voteroleadd_IRole_=:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Añade un rol que se otorgará a los usuarios cuando voten, con una duración
-    opcional para que el rol se elimine automáticamente.
+  desc: 'Añade un rol que se concederá a los usuarios al votar, con una duración opcional tras la cual el rol se quitará automáticamente.'
   params:
-    - desc: 'El rol a añadir como recompensa de voto.'
+    - desc: 'El rol que se añadirá como recompensa por votar.'
       name: role
       optional: false
       type: role
-    - desc: 'La duración para la que se otorgará el rol. Nulo para indefinido.'
+    - desc: 'La duración durante la cual se concederá el rol. Null para indefinido.'
       name: time
       optional: true
       type: duration
@@ -97,15 +81,13 @@ voteroleadd_IRole_=_1:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Añade un rol que se otorgará a los usuarios cuando voten, con una duración
-    opcional para que el rol se elimine automáticamente.
+  desc: 'Añade un rol que se concederá a los usuarios al votar, con una duración opcional tras la cual el rol se quitará automáticamente.'
   params:
-    - desc: 'El rol a añadir como recompensa de voto.'
+    - desc: 'El rol que se añadirá como recompensa por votar.'
       name: role
       optional: false
       type: role
-    - desc: 'La duración para la que se otorgará el rol. Nulo para indefinido.'
+    - desc: 'La duración durante la cual se concederá el rol. Null para indefinido.'
       name: time
       optional: true
       type: duration
@@ -113,140 +95,132 @@ voteroleadd_IRole_=_2:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Añade un rol que se otorgará a los usuarios cuando voten, con una duración
-    opcional para que el rol se elimine automáticamente.
+  desc: 'Añade un rol que se concederá a los usuarios al votar, con una duración opcional tras la cual el rol se quitará automáticamente.'
   params:
-    - desc: 'El rol a añadir como recompensa de voto.'
+    - desc: 'El rol que se añadirá como recompensa por votar.'
       name: role
       optional: false
       type: role
-    - desc: 'La duración para la que se otorgará el rol. Nulo para indefinido.'
+    - desc: 'La duración durante la cual se concederá el rol. Null para indefinido.'
       name: time
       optional: true
       type: duration
 voteroleedit:
   args:
     - '@role time'
-  desc: 'Edita la duración por la que se otorga un rol de voto a los usuarios.'
+  desc: 'Edita la duración durante la cual se concede a los usuarios un rol de voto.'
   params:
     - &ref_648
-      desc: 'El rol a editar.'
+      desc: 'El rol que se editará.'
       name: role
       optional: false
       type: IRole
     - &ref_649
-      desc: 'La nueva duración para la que se otorgará el rol.'
+      desc: 'La nueva duración del rol que se concederá.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime:
   args:
     - '@role time'
-  desc: 'Edita la duración por la que se otorga un rol de voto a los usuarios.'
+  desc: 'Edita la duración durante la cual se concede a los usuarios un rol de voto.'
   params:
-    - desc: 'El rol a editar.'
+    - desc: 'El rol que se editará.'
       name: role
       optional: false
       type: IRole
-    - desc: 'La nueva duración para la que se otorgará el rol.'
+    - desc: 'La nueva duración del rol que se concederá.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_1:
   args:
     - '@role time'
-  desc: 'Edita la duración por la que se otorga un rol de voto a los usuarios.'
+  desc: 'Edita la duración durante la cual se concede a los usuarios un rol de voto.'
   params:
-    - desc: 'El rol a editar.'
+    - desc: 'El rol que se editará.'
       name: role
       optional: false
       type: IRole
-    - desc: 'La nueva duración para la que se otorgará el rol.'
+    - desc: 'La nueva duración del rol que se concederá.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_2:
   args:
     - '@role time'
-  desc: 'Edita la duración por la que se otorga un rol de voto a los usuarios.'
+  desc: 'Edita la duración durante la cual se concede a los usuarios un rol de voto.'
   params:
-    - desc: 'El rol a editar.'
+    - desc: 'El rol que se editará.'
       name: role
       optional: false
       type: IRole
-    - desc: 'La nueva duración para la que se otorgará el rol.'
+    - desc: 'La nueva duración del rol que se concederá.'
       name: time
       optional: false
       type: StoopidTime
 voteroleremove:
   args:
     - '@role'
-  desc: 'Elimina un rol de la lista de roles que se otorgan a los usuarios cuando votan.'
+  desc: 'Quita un rol de la lista de roles que se conceden a los usuarios al votar.'
   params:
     - &ref_650
-      desc: 'El rol a eliminar de las recompensas de voto.'
+      desc: 'El rol que se quitará de las recompensas de voto.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole:
   args:
     - '@role'
-  desc: 'Elimina un rol de la lista de roles que se otorgan a los usuarios cuando votan.'
+  desc: 'Quita un rol de la lista de roles que se conceden a los usuarios al votar.'
   params:
-    - desc: 'El rol a eliminar de las recompensas de voto.'
+    - desc: 'El rol que se quitará de las recompensas de voto.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_1:
   args:
     - '@role'
-  desc: 'Elimina un rol de la lista de roles que se otorgan a los usuarios cuando votan.'
+  desc: 'Quita un rol de la lista de roles que se conceden a los usuarios al votar.'
   params:
-    - desc: 'El rol a eliminar de las recompensas de voto.'
+    - desc: 'El rol que se quitará de las recompensas de voto.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_2:
   args:
     - '@role'
-  desc: 'Elimina un rol de la lista de roles que se otorgan a los usuarios cuando votan.'
+  desc: 'Quita un rol de la lista de roles que se conceden a los usuarios al votar.'
   params:
-    - desc: 'El rol a eliminar de las recompensas de voto.'
+    - desc: 'El rol que se quitará de las recompensas de voto.'
       name: role
       optional: false
       type: IRole
 voterolesclear:
   args:
     - ''
-  desc: 'Borra todos los roles que se otorgan a los usuarios cuando votan.'
+  desc: 'Elimina todos los roles que se conceden a los usuarios al votar.'
   params: [ ]
 voteroleslist:
   args:
     - ''
-  desc: 'Lista todos los roles que se otorgan a los usuarios cuando votan.'
+  desc: 'Muestra todos los roles que se conceden a los usuarios al votar.'
   params: [ ]
 votes:
   args:
     - '[@user]'
-  desc: >-
-    Muestra el número total de votos emitidos por un usuario específico o el
-    invocador del comando.
+  desc: 'Muestra el número total de votos emitidos por un usuario concreto o por quien ejecuta el comando.'
   params:
-    - desc: 'El usuario cuyos votos contar. Si es nulo, cuenta los votos del invocador del comando.'
+    - desc: 'El usuario cuyos votos se contarán. Si es null, cuenta los votos de quien ejecuta el comando.'
       name: user
       optional: true
       type: user
 votesleaderboard:
   args:
     - false
-  desc: >-
-    Muestra una tabla de clasificación de usuarios según su número de votos,
-    filtrando opcionalmente los votos del mes actual.
+  desc: 'Muestra una clasificación de usuarios según sus votos, opcionalmente filtrando los votos del mes actual.'
   params:
-    - desc: >-
-        Muestra una tabla de clasificación de usuarios según su número de votos,
-        filtrando opcionalmente los votos del mes actual.
+    - desc: 'Muestra una clasificación de usuarios según sus votos, opcionalmente filtrando los votos del mes actual.'
       name: false
       optional: false
       type: '='

@@ -1,0 +1,1475 @@
+allcatmdls:
+  args:
+    - action chnl
+  desc: '特定のカテゴリのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - &ref_61
+      desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_62
+      desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel:
+  args:
+    - action chnl
+  desc: '特定のカテゴリのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_1:
+  args:
+    - action chnl
+  desc: '特定のカテゴリのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_2:
+  args:
+    - action chnl
+  desc: '特定のカテゴリのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allchnlmdls:
+  args:
+    - action chnl
+  desc: '特定のチャンネルのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_63
+      desc: '権限を設定するチャンネルです。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel:
+  args:
+    - action chnl
+  desc: '特定のチャンネルのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するチャンネルです。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_1:
+  args:
+    - action chnl
+  desc: '特定のチャンネルのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するチャンネルです。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_2:
+  args:
+    - action chnl
+  desc: '特定のチャンネルのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するチャンネルです。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allcmdcooldowns:
+  args:
+    - ''
+  desc: 'サーバー内でクールダウンが有効なすべてのコマンドを表示します。'
+  params: [ ]
+allrolemdls:
+  args:
+    - action @role
+  desc: '特定のロールのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_64
+      desc: '権限を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole:
+  args:
+    - action @role
+  desc: '特定のロールのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_1:
+  args:
+    - action @role
+  desc: '特定のロールのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_2:
+  args:
+    - action @role
+  desc: '特定のロールのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+allsrvrmdls:
+  args:
+    - action
+  desc: 'サーバー全体のすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+allusrmdls:
+  args:
+    - action @user
+  desc: '特定のユーザーのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_65
+      desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser:
+  args:
+    - action @user
+  desc: '特定のユーザーのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_1:
+  args:
+    - action @user
+  desc: '特定のユーザーのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_2:
+  args:
+    - action @user
+  desc: '特定のユーザーのすべてのモジュールの権限を追加または削除します。'
+  params:
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+autobanword:
+  args:
+    - text
+  desc: '現在のサーバーの自動 BAN リストに、単語を追加または削除します。'
+  params:
+    - &ref_89
+      desc: '自動 BAN リストで切り替える単語です。'
+      name: word
+      optional: false
+      type: string
+autobanword_string:
+  args:
+    - text
+  desc: '現在のサーバーの自動 BAN リストに、単語を追加または削除します。'
+  params:
+    - desc: '自動 BAN リストで切り替える単語です。'
+      name: word
+      optional: false
+      type: string
+autobanword_string_1:
+  args:
+    - text
+  desc: '現在のサーバーの自動 BAN リストに、単語を追加または削除します。'
+  params:
+    - desc: '自動 BAN リストで切り替える単語です。'
+      name: word
+      optional: false
+      type: string
+autobanword_string_2:
+  args:
+    - text
+  desc: '現在のサーバーの自動 BAN リストに、単語を追加または削除します。'
+  params:
+    - desc: '自動 BAN リストで切り替える単語です。'
+      name: word
+      optional: false
+      type: string
+autobanwordlist:
+  args:
+    - ''
+  desc: '現在のサーバーの自動 BAN リストにあるすべての単語を、ページ分けして表示します。'
+  params: [ ]
+autobanwordlist_noparams:
+  args:
+    - ''
+  desc: '現在のサーバーの自動 BAN リストにあるすべての単語を、ページ分けして表示します。'
+  params: [ ]
+autobanwordlist_noparams_1:
+  args:
+    - ''
+  desc: '現在のサーバーの自動 BAN リストにあるすべての単語を、ページ分けして表示します。'
+  params: [ ]
+autobanwordlist_noparams_2:
+  args:
+    - ''
+  desc: '現在のサーバーの自動 BAN リストにあるすべての単語を、ページ分けして表示します。'
+  params: [ ]
+catcmd:
+  args:
+    - command action chnl
+  desc: '特定のカテゴリに対して、コマンド単位の権限を追加または削除します。'
+  params:
+    - &ref_120
+      desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - command action chnl
+  desc: '特定のカテゴリに対して、コマンド単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - command action chnl
+  desc: '特定のカテゴリに対して、コマンド単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - command action chnl
+  desc: '特定のカテゴリに対して、コマンド単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl:
+  args:
+    - module action chnl
+  desc: '特定のカテゴリに対して、モジュール単位の権限を追加または削除します。'
+  params:
+    - &ref_121
+      desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - module action chnl
+  desc: '特定のカテゴリに対して、モジュール単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - module action chnl
+  desc: '特定のカテゴリに対して、モジュール単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - module action chnl
+  desc: '特定のカテゴリに対して、モジュール単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するカテゴリです。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+channelblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'ID を指定してチャンネルをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - &ref_122
+      desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_123
+      desc: 'チャンネルの ID です。'
+      name: id
+      optional: false
+      type: ulong
+    - &ref_124
+      desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'ID を指定してチャンネルをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'チャンネルの ID です。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'ID を指定してチャンネルをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_638
+      desc: 'チャンネルの ID です。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'ID を指定してチャンネルをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'チャンネルの ID です。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+chnlcmd:
+  args:
+    - command action chnl
+  desc: '特定のコマンドに対して、チャンネル単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するチャンネルです。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+chnlfilterinv:
+  args:
+    - ''
+  desc: '特定のチャンネルの招待リンクフィルターを有効または無効にします。'
+  params: [ ]
+chnlfilterlin:
+  args:
+    - ''
+  desc: '特定のチャンネルのリンクフィルターを有効または無効にします。'
+  params: [ ]
+chnlfilterwords:
+  args:
+    - ''
+  desc: '特定のチャンネルの単語フィルターを有効または無効にします。'
+  params: [ ]
+chnlmdl:
+  args:
+    - module action chnl
+  desc: '特定のモジュールに対して、チャンネル単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するチャンネルです。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+cmdcooldown:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'サーバー内の指定したコマンドのクールダウンを設定または解除します。'
+  params:
+    - desc: 'クールダウンを設定するコマンドです。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'クールダウンの期間です。デフォルトは 0s で、クールダウンを解除します。'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'サーバー内の指定したコマンドのクールダウンを設定または解除します。'
+  params:
+    - desc: 'クールダウンを設定するコマンドです。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'クールダウンの期間です。デフォルトは 0s で、クールダウンを解除します。'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_1:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'サーバー内の指定したコマンドのクールダウンを設定または解除します。'
+  params:
+    - desc: 'クールダウンを設定するコマンドです。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'クールダウンの期間です。デフォルトは 0s で、クールダウンを解除します。'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_2:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'サーバー内の指定したコマンドのクールダウンを設定または解除します。'
+  params:
+    - desc: 'クールダウンを設定するコマンドです。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'クールダウンの期間です。デフォルトは 0s で、クールダウンを解除します。'
+      name: time
+      optional: true
+      type: duration
+filterword:
+  args:
+    - text
+  desc: '現在のサーバーのフィルター単語リストに、単語を追加または削除します。'
+  params:
+    - &ref_218
+      desc: 'フィルター単語リストで切り替える単語です。'
+      name: word
+      optional: true
+      type: string
+filterword_string:
+  args:
+    - text
+  desc: '現在のサーバーのフィルター単語リストに、単語を追加または削除します。'
+  params:
+    - desc: 'フィルター単語リストで切り替える単語です。'
+      name: word
+      optional: true
+      type: string
+filterword_string_1:
+  args:
+    - text
+  desc: '現在のサーバーのフィルター単語リストに、単語を追加または削除します。'
+  params:
+    - desc: 'フィルター単語リストで切り替える単語です。'
+      name: word
+      optional: true
+      type: string
+filterword_string_2:
+  args:
+    - text
+  desc: '現在のサーバーのフィルター単語リストに、単語を追加または削除します。'
+  params:
+    - desc: 'フィルター単語リストで切り替える単語です。'
+      name: word
+      optional: true
+      type: string
+fwarn:
+  args:
+    - text
+  desc: '現在のサーバーでフィルター単語の警告を有効または無効にします。'
+  params:
+    - &ref_219
+      desc: '警告を有効にする（"y"）か無効にする（"n"）かを示す文字列です。'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string:
+  args:
+    - text
+  desc: '現在のサーバーでフィルター単語の警告を有効または無効にします。'
+  params:
+    - desc: '警告を有効にする（"y"）か無効にする（"n"）かを示す文字列です。'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_1:
+  args:
+    - text
+  desc: '現在のサーバーでフィルター単語の警告を有効または無効にします。'
+  params:
+    - desc: '警告を有効にする（"y"）か無効にする（"n"）かを示す文字列です。'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_2:
+  args:
+    - text
+  desc: '現在のサーバーでフィルター単語の警告を有効または無効にします。'
+  params:
+    - desc: '警告を有効にする（"y"）か無効にする（"n"）かを示す文字列です。'
+      name: yesnt
+      optional: false
+      type: string
+fwclear:
+  args:
+    - ''
+  desc: '現在のサーバーのフィルター単語をすべて消去します。'
+  params: [ ]
+globalcommand:
+  args:
+    - cmd
+  desc: 'コマンドをグローバルブロックリストに追加または削除します。'
+  params:
+    - &ref_231
+      desc: '切り替えるコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo:
+  args:
+    - cmd
+  desc: 'コマンドをグローバルブロックリストに追加または削除します。'
+  params:
+    - desc: '切り替えるコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_1:
+  args:
+    - cmd
+  desc: 'コマンドをグローバルブロックリストに追加または削除します。'
+  params:
+    - desc: '切り替えるコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_2:
+  args:
+    - cmd
+  desc: 'コマンドをグローバルブロックリストに追加または削除します。'
+  params:
+    - desc: '切り替えるコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalmodule:
+  args:
+    - module
+  desc: 'モジュールをグローバルブロックリストに追加または削除します。'
+  params:
+    - &ref_232
+      desc: '切り替えるモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo:
+  args:
+    - module
+  desc: 'モジュールをグローバルブロックリストに追加または削除します。'
+  params:
+    - desc: '切り替えるモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_1:
+  args:
+    - module
+  desc: 'モジュールをグローバルブロックリストに追加または削除します。'
+  params:
+    - desc: '切り替えるモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_2:
+  args:
+    - module
+  desc: 'モジュールをグローバルブロックリストに追加または削除します。'
+  params:
+    - desc: '切り替えるモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalpermlist:
+  args:
+    - ''
+  desc: '現在グローバルにブロックされているすべてのモジュールとコマンドを一覧表示します。'
+  params: [ ]
+globalpermlist_noparams:
+  args:
+    - ''
+  desc: '現在グローバルにブロックされているすべてのモジュールとコマンドを一覧表示します。'
+  params: [ ]
+globalpermlist_noparams_1:
+  args:
+    - ''
+  desc: '現在グローバルにブロックされているすべてのモジュールとコマンドを一覧表示します。'
+  params: [ ]
+globalpermlist_noparams_2:
+  args:
+    - ''
+  desc: '現在グローバルにブロックされているすべてのモジュールとコマンドを一覧表示します。'
+  params: [ ]
+invwarn:
+  args:
+    - text
+  desc: '現在のサーバーに投稿された招待リンクの警告を有効または無効にします。'
+  params:
+    - desc: '警告を有効にする（"y"）か無効にする（"n"）かを示す文字列です。'
+      name: yesnt
+      optional: false
+      type: string
+listperms:
+  args:
+    - ''
+  desc: 'サーバーの権限を一覧表示します。'
+  params: [ ]
+lstfilterwords:
+  args:
+    - ''
+  desc: '現在のサーバーのフィルター単語リストにあるすべての単語を一覧表示します。'
+  params: [ ]
+manualblacklistcheck:
+  args:
+    - ''
+  desc: 'ボットの対象範囲内で、ブラックリストに登録されたエンティティの手動チェックを行います。'
+  params: [ ]
+moveperm:
+  args:
+    - number number
+  desc: '権限を階層の上に移動します。'
+  params:
+    - &ref_297
+      desc: '最初のインデックス'
+      name: from
+      optional: false
+      type: int
+    - &ref_298
+      desc: '置き換え後のインデックス'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int:
+  args:
+    - number number
+  desc: '権限を階層の上に移動します。'
+  params:
+    - desc: '最初のインデックス'
+      name: from
+      optional: false
+      type: int
+    - desc: '置き換え後のインデックス'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_1:
+  args:
+    - number number
+  desc: '権限を階層の上に移動します。'
+  params:
+    - desc: '最初のインデックス'
+      name: from
+      optional: false
+      type: int
+    - desc: '置き換え後のインデックス'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_2:
+  args:
+    - number number
+  desc: '権限を階層の上に移動します。'
+  params:
+    - desc: '最初のインデックス'
+      name: from
+      optional: false
+      type: int
+    - desc: '置き換え後のインデックス'
+      name: to
+      optional: false
+      type: int
+permrole:
+  args:
+    - '[@role]'
+  desc: '権限ロールをリセットします。'
+  params:
+    - desc: '権限ロールとして設定するロールです（設定する場合）。'
+      name: role
+      optional: true
+      type: role
+permrole_=:
+  args:
+    - '[@role]'
+  desc: '権限ロールをリセットします。'
+  params:
+    - desc: '権限ロールとして設定するロールです（設定する場合）。'
+      name: role
+      optional: true
+      type: role
+permrole_=_1:
+  args:
+    - '[@role]'
+  desc: '権限ロールをリセットします。'
+  params:
+    - desc: '権限ロールとして設定するロールです（設定する場合）。'
+      name: role
+      optional: true
+      type: role
+permrole_=_2:
+  args:
+    - '[@role]'
+  desc: '権限ロールをリセットします。'
+  params:
+    - desc: '権限ロールとして設定するロールです（設定する場合）。'
+      name: role
+      optional: true
+      type: role
+permrole_Reset:
+  args:
+    - reset
+  desc: '権限ロールをリセットします。'
+  params:
+    - &ref_342
+      desc: '権限ロールをリセットします。'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_1:
+  args:
+    - reset
+  desc: '権限ロールをリセットします。'
+  params:
+    - desc: '権限ロールをリセットします。'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_2:
+  args:
+    - reset
+  desc: '権限ロールをリセットします。'
+  params:
+    - desc: '権限ロールをリセットします。'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_3:
+  args:
+    - reset
+  desc: '権限ロールをリセットします。'
+  params:
+    - desc: '権限ロールをリセットします。'
+      name: _
+      optional: false
+      type: Reset
+removeperm:
+  args:
+    - number
+  desc: 'インデックスに基づいて、権限を一覧から削除します。'
+  params:
+    - &ref_405
+      desc: '削除する権限です。'
+      name: index
+      optional: false
+      type: int
+removeperm_int:
+  args:
+    - number
+  desc: 'インデックスに基づいて、権限を一覧から削除します。'
+  params:
+    - desc: '削除する権限です。'
+      name: index
+      optional: false
+      type: int
+removeperm_int_1:
+  args:
+    - number
+  desc: 'インデックスに基づいて、権限を一覧から削除します。'
+  params:
+    - desc: '削除する権限です。'
+      name: index
+      optional: false
+      type: int
+removeperm_int_2:
+  args:
+    - number
+  desc: 'インデックスに基づいて、権限を一覧から削除します。'
+  params:
+    - desc: '削除する権限です。'
+      name: index
+      optional: false
+      type: int
+resetglobalperms:
+  args:
+    - ''
+  desc: 'すべてのグローバル権限をリセットし、グローバルのコマンドとモジュールのブロックをすべて解除します。'
+  params: [ ]
+resetperms:
+  args:
+    - ''
+  desc: 'サーバーの権限をリセットします。'
+  params: [ ]
+rolecmd:
+  args:
+    - command action @role
+  desc: '特定のコマンドに対して、ロール単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolemdl:
+  args:
+    - module action @role
+  desc: '特定のモジュールに対して、ロール単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+serverblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string:
+  args:
+    - action guild text
+    - action guild
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_485
+      desc: 'サーバーオブジェクトです。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_1:
+  args:
+    - action guild text
+    - action guild
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'サーバーオブジェクトです。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_2:
+  args:
+    - action guild text
+    - action guild
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'サーバーオブジェクトです。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_3:
+  args:
+    - action guild text
+    - action guild
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'サーバーオブジェクトです。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'サーバーオブジェクトを指定してサーバーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+srvrcmd:
+  args:
+    - command action
+  desc: 'サーバーでコマンドを有効または無効にします。'
+  params:
+    - &ref_556
+      desc: '操作を実行するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_557
+      desc: 'コマンドを無効にするか有効にするかです。'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction:
+  args:
+    - command action
+  desc: 'サーバーでコマンドを有効または無効にします。'
+  params:
+    - desc: '操作を実行するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'コマンドを無効にするか有効にするかです。'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_1:
+  args:
+    - command action
+  desc: 'サーバーでコマンドを有効または無効にします。'
+  params:
+    - desc: '操作を実行するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'コマンドを無効にするか有効にするかです。'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_2:
+  args:
+    - command action
+  desc: 'サーバーでコマンドを有効または無効にします。'
+  params:
+    - desc: '操作を実行するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'コマンドを無効にするか有効にするかです。'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrfilterinv:
+  args:
+    - ''
+  desc: 'サーバー全体の招待リンクフィルターを有効または無効にします。'
+  params: [ ]
+srvrfilterlin:
+  args:
+    - ''
+  desc: 'サーバー全体のリンクフィルターを有効または無効にします。'
+  params: [ ]
+srvrfilterwords:
+  args:
+    - ''
+  desc: 'サーバー全体の単語フィルターを有効または無効にします。'
+  params: [ ]
+srvrmdl:
+  args:
+    - module action
+  desc: '特定のモジュールに対して、サーバーレベルの権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+userblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string:
+  args:
+    - action @user text
+    - action @user
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_637
+      desc: 'ユーザーオブジェクトです。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_1:
+  args:
+    - action @user text
+    - action @user
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ユーザーオブジェクトです。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_2:
+  args:
+    - action @user text
+    - action @user
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ユーザーオブジェクトです。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_3:
+  args:
+    - action @user text
+    - action @user
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ユーザーオブジェクトです。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+  params:
+    - desc: 'ブラックリストに追加するか削除するかを指定します。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ユーザーオブジェクトを指定してユーザーをブラックリストに登録または解除します。理由は任意で指定できます。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'ブラックリストの操作の理由です。'
+      name: reason
+      optional: true
+      type: string
+usrcmd:
+  args:
+    - command action @user
+  desc: '特定のコマンドに対して、ユーザー単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_639
+      desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser:
+  args:
+    - command action @user
+  desc: '特定のコマンドに対して、ユーザー単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_1:
+  args:
+    - command action @user
+  desc: '特定のコマンドに対して、ユーザー単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_2:
+  args:
+    - command action @user
+  desc: '特定のコマンドに対して、ユーザー単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するコマンドです。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrmdl:
+  args:
+    - module action @user
+  desc: '特定のモジュールに対して、ユーザー単位の権限を追加または削除します。'
+  params:
+    - desc: '権限を設定するモジュールです。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '実行する操作です（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '権限を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+verbose:
+  args:
+    - '[action]'
+  desc: 'コマンドの使用時に、問題の内容に応じてエラーを発生させるかどうかを設定します。'
+  params:
+    - desc: 'true または false で指定します。切り替えるだけの設定なので、あまり意味はありません。'
+      name: action
+      optional: true
+      type: action

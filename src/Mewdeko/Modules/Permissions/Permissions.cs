@@ -242,7 +242,7 @@ public partial class Permissions(
     }
 
     /// <summary>
-    ///     Moves a permission higher in the heirarchy.
+    ///     Moves a permission higher in the hierarchy.
     /// </summary>
     /// <param name="from">Initial Index</param>
     /// <param name="to">Replacement index</param>

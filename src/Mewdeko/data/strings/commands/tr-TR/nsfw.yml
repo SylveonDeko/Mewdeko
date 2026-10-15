@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: '"anal" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - &ref_90
+      desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Mevcut sunucu kanalında belirli aralıklarla "boobs" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda belirli aralıklarla "butts" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Mevcut sunucu kanalında ya da özel mesajlarda belirli aralıklarla "butts" subreddit''inden NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Her otomatik gönderim arasındaki saniye cinsinden aralık. Otomatik göndermeyi durdurmak için 0 olarak ayarlayın.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW içeriği filtrelemek için isteğe bağlı etiketler. Birden fazla etiketi ''|'' ile ayırın. Rastgele NSFW içerik için boş bırakın.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Her otomatik gönderim arasındaki saniye cinsinden aralık. Otomatik göndermeyi durdurmak için 0 olarak ayarlayın.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW içeriği filtrelemek için isteğe bağlı etiketler. Birden fazla etiketi ''|'' ile ayırın. Rastgele NSFW içerik için boş bırakın.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Her otomatik gönderim arasındaki saniye cinsinden aralık. Otomatik göndermeyi durdurmak için 0 olarak ayarlayın.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW içeriği filtrelemek için isteğe bağlı etiketler. Birden fazla etiketi ''|'' ile ayırın. Rastgele NSFW içerik için boş bırakın.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: 'Mevcut sunucu kanalında belirli aralıklarla NSFW içerik otomatik olarak göndermeyi başlatan ya da durduran komut.'
+  params:
+    - desc: 'Her otomatik gönderim arasındaki saniye cinsinden aralık. Otomatik göndermeyi durdurmak için 0 olarak ayarlayın.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW içeriği filtrelemek için isteğe bağlı etiketler. Birden fazla etiketi ''|'' ile ayırın. Rastgele NSFW içerik için boş bırakın.'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: '"bondage" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda "boobs" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda "ass" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Danbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_176
+      desc: 'Danbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Danbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Danbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Danbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Danbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Danbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Danbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Derpibooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_200
+      desc: 'Derpibooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Derpibooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Derpibooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Derpibooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Derpibooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Derpibooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Derpibooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle E621 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_203
+      desc: 'E621 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle E621 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'E621 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle E621 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'E621 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle E621 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'E621 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Gelbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_222
+      desc: 'Gelbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Gelbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Gelbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Gelbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Gelbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Gelbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Gelbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle "hentai" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_245
+      desc: '"hentai" subreddit''inden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle "hentai" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: '"hentai" subreddit''inden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle "hentai" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: '"hentai" subreddit''inden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle "hentai" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: '"hentai" subreddit''inden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle birden fazla kaynaktan NSFW içerik getirip göstererek bir "hentai bomb" başlatan komut.'
+  params:
+    - desc: 'Her kaynaktan NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: '"HENTAI_GIF" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Konachan resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_263
+      desc: 'Konachan resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Konachan resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Konachan resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Konachan resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Konachan resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Konachan resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Konachan resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: 'NHentai sitesinden bir mangayla ilgili bilgileri getirip gösteren komut.'
+  params:
+    - &ref_327
+      desc: 'Getirilecek manganın kimlik numarası.'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: 'NHentai sitesinden bir mangayla ilgili bilgileri getirip gösteren komut.'
+  params:
+    - desc: 'Getirilecek manganın kimlik numarası.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: 'NHentai sitesinden bir mangayla ilgili bilgileri getirip gösteren komut.'
+  params:
+    - desc: 'Getirilecek manganın kimlik numarası.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: 'NHentai sitesinden bir mangayla ilgili bilgileri getirip gösteren komut.'
+  params:
+    - desc: 'Getirilecek manganın kimlik numarası.'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - &ref_328
+      desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için sayfa numarası.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai aramasının türü.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: 'Verilen arama sorgusuna, sayfa numarasına, türe ve kara listeye göre NHentai''de hentai manga arayan komut.'
+  params:
+    - desc: 'NHentai için arama sorgusu.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai araması için kara liste.'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: 'NSFW etiket kara listesini yönetir.'
+  params:
+    - desc: 'Yapılacak işlem (add/remove).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Kara listeye eklenecek etiket.'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: 'Mevcut sunucudaki NSFW etiketleri kara listesini yöneten komut.'
+  params:
+    - desc: 'Kara listeye eklenecek ya da kaldırılacak isteğe bağlı etiket. Belirtilmezse mevcut kara listeyi gösterir.'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: '"porn" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle bir RealBooru kaynağından NSFW içerik getirip göstererek bir "porn bomb" başlatan komut.'
+  params:
+    - &ref_352
+      desc: 'RealBooru kaynağından NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle bir RealBooru kaynağından NSFW içerik getirip göstererek bir "porn bomb" başlatan komut.'
+  params:
+    - desc: 'RealBooru kaynağından NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle bir RealBooru kaynağından NSFW içerik getirip göstererek bir "porn bomb" başlatan komut.'
+  params:
+    - desc: 'RealBooru kaynağından NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle bir RealBooru kaynağından NSFW içerik getirip göstererek bir "porn bomb" başlatan komut.'
+  params:
+    - desc: 'RealBooru kaynağından NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: '"pussy" subreddit''inden NSFW içerik getirip gösteren komut.'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Realbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_383
+      desc: 'Realbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Realbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Realbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Realbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Realbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Realbooru resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Realbooru resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: 'Belirtilen bir subreddit''ten NSFW içerik getiren komut.'
+  params:
+    - &ref_384
+      desc: 'İçeriğin getirileceği subreddit''in adı.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: 'Belirtilen bir subreddit''ten NSFW içerik getiren komut.'
+  params:
+    - desc: 'İçeriğin getirileceği subreddit''in adı.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: 'Belirtilen bir subreddit''ten NSFW içerik getiren komut.'
+  params:
+    - desc: 'İçeriğin getirileceği subreddit''in adı.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: 'Belirtilen bir subreddit''ten NSFW içerik getiren komut.'
+  params:
+    - desc: 'İçeriğin getirileceği subreddit''in adı.'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Rule34 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_472
+      desc: 'Rule34 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Rule34 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Rule34 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Rule34 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Rule34 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Rule34 resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Rule34 resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Sankaku resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_474
+      desc: 'Sankaku resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Sankaku resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Sankaku resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Sankaku resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Sankaku resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Sankaku resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Sankaku resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Yandere resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - &ref_674
+      desc: 'Yandere resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Yandere resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Yandere resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Yandere resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Yandere resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut sunucu kanalında ya da özel mesajlarda, isteğe bağlı etiketlerle Yandere resim sitesinden NSFW içerik getirip gösteren komut.'
+  params:
+    - desc: 'Yandere resim sitesinden NSFW içeriği filtrelemek için isteğe bağlı etiketler.'
+      name: tags
+      optional: false
+      type: string[]

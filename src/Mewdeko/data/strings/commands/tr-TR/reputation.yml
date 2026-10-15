@@ -1,0 +1,605 @@
+anonrep:
+  args:
+    - '@user reptype text'
+  desc: 'Belirtilen kullanıcıya anonim itibar verir.'
+  params:
+    - &ref_228
+      desc: 'İtibar verilecek kullanıcı.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - &ref_229
+      desc: 'Verilecek itibarın türü.'
+      name: repType
+      optional: true
+      type: string
+    - &ref_230
+      desc: 'İtibar verme için isteğe bağlı sebep veya yorum.'
+      name: reason
+      optional: true
+      type: string
+checkrep:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının itibarını kontrol eder.'
+  params:
+    - &ref_425
+      desc: 'İtibarı kontrol edilecek kullanıcı.'
+      name: target
+      optional: true
+      type: IGuildUser
+giverep:
+  args:
+    - '@user reptype text'
+  desc: 'Belirtilen kullanıcıya itibar verir.'
+  params:
+    - desc: 'İtibar verilecek kullanıcı.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Verilecek itibarın türü.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'İtibar verme için isteğe bağlı sebep veya yorum.'
+      name: reason
+      optional: true
+      type: string
+myrep:
+  args:
+    - ''
+  desc: 'Geçerli kullanıcının itibarını kontrol eder.'
+  params: [ ]
+rep:
+  args:
+    - '@user reptype text'
+  desc: 'Belirtilen kullanıcıya itibar verir.'
+  params:
+    - desc: 'İtibar verilecek kullanıcı.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Verilecek itibarın türü.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'İtibar verme için isteğe bağlı sebep veya yorum.'
+      name: reason
+      optional: true
+      type: string
+repanon:
+  args:
+    - '@user reptype text'
+  desc: 'Belirtilen kullanıcıya anonim itibar verir.'
+  params:
+    - desc: 'İtibar verilecek kullanıcı.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Verilecek itibarın türü.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'İtibar verme için isteğe bağlı sebep veya yorum.'
+      name: reason
+      optional: true
+      type: string
+repanonymous:
+  args:
+    - enabled
+  desc: 'Anonim itibar vermeyi açar ya da kapatır.'
+  params:
+    - desc: 'Anonim itibarı açmak için true.'
+      name: enabled
+      optional: false
+      type: bool
+repchannel:
+  args:
+    - '#channel state number'
+  desc: 'Kanala özel itibar ayarlarını yapılandırır.'
+  params:
+    - desc: 'Yapılandırılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Ayarlanacak durum (enabled/disabled/readonly).'
+      name: state
+      optional: true
+      type: string
+    - desc: 'Bu kanal için itibar çarpanı.'
+      name: multiplier
+      optional: true
+      type: decimal
+repcheck:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının itibarını kontrol eder.'
+  params:
+    - desc: 'İtibarı kontrol edilecek kullanıcı. Boşsa komutu çalıştıran kişinin itibarını kontrol eder.'
+      name: target
+      optional: true
+      type: IGuildUser
+repcommandbypass:
+  args:
+    - commandname '@role'
+  desc: 'Bir komut gereksinimi için bypass rollerini ayarlar.'
+  params:
+    - &ref_426
+      desc: 'Komut adı.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: 'Gereksinimi atlayabilecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+repcommandinfo:
+  args:
+    - commandname
+  desc: 'Belirli bir komut için itibar gereksinimlerini gösterir.'
+  params:
+    - desc: 'Kontrol edilecek komut.'
+      name: commandName
+      optional: false
+      type: string
+repcommandreq:
+  args:
+    - commandname 50
+    - commandname 50 helper
+    - 'commandname 50 helper #channel1 #channel2'
+  desc: 'Bir komut için itibar gereksinimlerini ayarlar; isteğe bağlı olarak belirli kanallarla sınırlandırılabilir.'
+  params:
+    - desc: 'Komut adı.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: 'Gereken en düşük itibar.'
+      name: minReputation
+      optional: false
+      type: int
+    - desc: 'Gereken belirli itibar türü (isteğe bağlı, varsayılan toplam).'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Bu gereksinimin uygulanacağı isteğe bağlı kanallar (belirtilmezse genel olarak uygulanır).'
+      name: channels
+      optional: true
+      type: ITextChannel[]
+repcommandreqlist:
+  args:
+    - ''
+  desc: 'Sunucunun tüm komut gereksinimlerini listeler.'
+  params: [ ]
+repcommandreqremove:
+  args:
+    - commandname
+  desc: 'Bir komuttan itibar gereksinimlerini kaldırır.'
+  params:
+    - desc: 'Komut adı.'
+      name: commandName
+      optional: false
+      type: string
+repconfig:
+  args:
+    - ''
+  desc: 'Etkileşimli itibar yapılandırma arayüzünü açar.'
+  params: [ ]
+repcooldown:
+  args:
+    - minutes
+  desc: 'İtibar verme arasındaki varsayılan bekleme süresini ayarlar.'
+  params:
+    - desc: 'Dakika cinsinden bekleme süresi (1-1440).'
+      name: minutes
+      optional: false
+      type: int
+repdailylimit:
+  args:
+    - limit
+  desc: 'İtibar vermek için günlük sınırı ayarlar.'
+  params:
+    - desc: 'Günlük sınır (1-100).'
+      name: limit
+      optional: false
+      type: int
+repdecay:
+  args:
+    - enabled
+  desc: 'Hareketsiz kullanıcılar için itibar azalmasını açar ya da kapatır.'
+  params:
+    - desc: 'Azalmayı açmak için true.'
+      name: enabled
+      optional: false
+      type: bool
+repdecayamount:
+  args:
+    - amount
+  desc: 'Azalma miktarını ayarlar.'
+  params:
+    - desc: 'Azalma miktarı (1-100).'
+      name: amount
+      optional: false
+      type: int
+repdecayinactive:
+  args:
+    - days
+  desc: 'Azalmanın başlamasından önceki hareketsiz gün sayısını ayarlar.'
+  params:
+    - desc: 'Hareketsizlik günleri (1-365).'
+      name: days
+      optional: false
+      type: int
+repdecaytype:
+  args:
+    - type
+  desc: 'Azalma türünü ayarlar (daily, weekly, monthly).'
+  params:
+    - desc: 'Azalma türü.'
+      name: type
+      optional: false
+      type: string
+repenable:
+  args:
+    - enabled
+  desc: 'Bu sunucu için itibar sistemini açar ya da kapatır.'
+  params:
+    - desc: 'Açmak için true, kapatmak için false.'
+      name: enabled
+      optional: true
+      type: bool
+repeventcreate:
+  args:
+    - name multiplier duration
+  desc: 'Bir itibar çarpanı etkinliği oluşturur.'
+  params:
+    - desc: 'Etkinliğin adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'İtibar çarpanı.'
+      name: multiplier
+      optional: false
+      type: decimal
+    - desc: 'Saat cinsinden süre.'
+      name: duration
+      optional: false
+      type: int
+repeventend:
+  args:
+    - name
+  desc: 'Bir itibar etkinliğini erken bitirir.'
+  params:
+    - desc: 'Bitirilecek etkinliğin adı.'
+      name: name
+      optional: false
+      type: string
+repexport:
+  args:
+    - ''
+  desc: 'Mevcut itibar yapılandırmasını JSON''a aktarır.'
+  params: [ ]
+repfreeze:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının itibarını dondurur; itibar kazanmasını ya da kaybetmesini engeller.'
+  params:
+    - &ref_438
+      desc: 'Dondurulacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+repgive:
+  args:
+    - '@user reptype text'
+  desc: 'Belirtilen kullanıcıya itibar verir.'
+  params:
+    - desc: 'İtibar verilecek kullanıcı.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Verilecek itibarın türü.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'İtibar verme için isteğe bağlı sebep veya yorum.'
+      name: reason
+      optional: true
+      type: string
+rephistory:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının itibar geçmişini gösterir.'
+  params:
+    - desc: 'Geçmişi gösterilecek kullanıcı. Boşsa komutu çalıştıran kişinin geçmişini gösterir.'
+      name: target
+      optional: true
+      type: IGuildUser
+repimport:
+  args:
+    - ''
+  desc: 'Yüklenen JSON dosyasından itibar yapılandırmasını içe aktarır.'
+  params: [ ]
+replb:
+  args:
+    - number
+  desc: 'Sunucunun itibar sıralamasını gösterir.'
+  params:
+    - &ref_436
+      desc: 'Gösterilecek sayfa numarası.'
+      name: page
+      optional: true
+      type: int
+repleaderboard:
+  args:
+    - number
+  desc: 'Sunucunun itibar sıralamasını gösterir.'
+  params:
+    - desc: 'Gösterilecek sayfa numarası.'
+      name: page
+      optional: true
+      type: int
+repmilestonelost:
+  args:
+    - user role threshold
+  desc: 'Test için elle bir kilometre taşı kaybı olayı tetikler.'
+  params:
+    - desc: 'Kilometre taşını kaybeden kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kaybedilen rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'İtibar eşiği.'
+      name: threshold
+      optional: false
+      type: int
+repminage:
+  args:
+    - days
+  desc: 'İtibar vermek için gereken en düşük hesap yaşını ayarlar.'
+  params:
+    - desc: 'Gün cinsinden en düşük hesap yaşı (0-365).'
+      name: days
+      optional: false
+      type: int
+repminmembership:
+  args:
+    - hours
+  desc: 'İtibar vermek için gereken en düşük sunucu üyelik süresini ayarlar.'
+  params:
+    - desc: 'Saat cinsinden en düşük üyelik süresi (0-720).'
+      name: hours
+      optional: false
+      type: int
+repminmessages:
+  args:
+    - count
+  desc: 'İtibar vermek için gereken en düşük mesaj sayısını ayarlar.'
+  params:
+    - desc: 'En düşük mesaj sayısı (0-1000).'
+      name: count
+      optional: false
+      type: int
+repnegative:
+  args:
+    - enabled
+  desc: 'Negatif itibarı açar ya da kapatır.'
+  params:
+    - desc: 'Negatif itibarı açmak için true.'
+      name: enabled
+      optional: false
+      type: bool
+repnotificationchannel:
+  args:
+    - channel
+  desc: 'Itibar olayları için bildirim kanalını ayarlar.'
+  params:
+    - desc: 'Bildirimlerin gönderileceği kanal (devre dışı bırakmak için null).'
+      name: channel
+      optional: true
+      type: ITextChannel
+repreaction:
+  args:
+    - emoji number reptype
+  desc: 'Tepki tabanlı itibar vermeyi yapılandırır.'
+  params:
+    - desc: 'İtibar için kullanılacak emoji.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Verilecek itibar miktarı.'
+      name: amount
+      optional: true
+      type: int
+    - desc: 'İtibar türü (standard, helper, artist, memer).'
+      name: repType
+      optional: true
+      type: string
+repreactionlist:
+  args:
+    - ''
+  desc: 'Yapılandırılmış tüm tepki tabanlı itibar ayarlarını listeler.'
+  params: [ ]
+repreactionremove:
+  args:
+    - emoji
+  desc: 'Tepki tabanlı bir itibar yapılandırmasını kaldırır.'
+  params:
+    - desc: 'Kaldırılacak emoji.'
+      name: emoji
+      optional: false
+      type: string
+represet:
+  args:
+    - text
+  desc: 'Bir kullanıcının veya sunucudaki tüm kullanıcıların itibarını sıfırlar.'
+  params:
+    - desc: 'Sıfırlanacak kullanıcı veya herkesi sıfırlamak için "all".'
+      name: target
+      optional: false
+      type: string
+reprole:
+  args:
+    - ''
+    - detailed
+    - '@role'
+    - '@role 100'
+    - '@role 100 false #channel true 50'
+  desc: 'İtibar kilometre taşları için rol ödüllerini yönetir. Tüm ödülleri listelemek için parametre olmadan kullan; isteğe bağlı gelişmiş ayarlarla bir ödül eklemek/güncellemek için bir rol ve itibar belirt.'
+  params:
+    - &ref_437
+      desc: 'Verilecek rol (listeleme için isteğe bağlı).'
+      name: role
+      optional: true
+      type: IRole
+    - desc: 'Bu rolü kazanmak için gereken itibar (listeleme için isteğe bağlı).'
+      name: reputation
+      optional: true
+      type: int
+    - desc: 'İtibar düşerse rolün alınıp alınmayacağı.'
+      name: removeOnDrop
+      optional: true
+      type: bool
+    - desc: 'Rol verilişlerini duyurmak için isteğe bağlı kanal.'
+      name: announceChannel
+      optional: true
+      type: ITextChannel
+    - desc: 'DM bildirimleri gönderilsin mi.'
+      name: announceDm
+      optional: true
+      type: bool
+    - desc: 'Kilometre taşına ulaşınca verilecek isteğe bağlı XP ödülü.'
+      name: xpReward
+      optional: true
+      type: int
+    - desc: 'Listelerken ayrıntılı bilgileri göster (ilk parametre olarak ''detailed'' kullan).'
+      name: detailed
+      optional: true
+      type: string
+reprolechannel:
+  args:
+    - role channel
+  desc: 'Bir rol ödülü için duyuru kanalını ayarlar.'
+  params:
+    - desc: 'Yapılandırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Duyurular için kanal (devre dışı bırakmak için null).'
+      name: channel
+      optional: true
+      type: ITextChannel
+reproleremove:
+  args:
+    - '@role'
+  desc: 'Bir rol ödülü yapılandırmasını kaldırır.'
+  params:
+    - desc: 'Ödüllerden kaldırılacak rol.'
+      name: role
+      optional: true
+      type: IRole
+repset:
+  args:
+    - '@user number'
+  desc: 'Bir kullanıcının itibarını belirli bir değere ayarlar.'
+  params:
+    - desc: 'İtibarı ayarlanacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'İtibarın ayarlanacağı miktar.'
+      name: amount
+      optional: false
+      type: int
+repstats:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının ayrıntılı itibar istatistiklerini gösterir.'
+  params:
+    - desc: 'İstatistikleri gösterilecek kullanıcı. Null ise komutu kullananın istatistiklerini gösterir.'
+      name: target
+      optional: true
+      type: IGuildUser
+repstatus:
+  args:
+    - ''
+  desc: 'Mevcut itibar yapılandırmasını ayrıntılı bir embed içinde gösterir.'
+  params: [ ]
+reptake:
+  args:
+    - '@user number'
+  desc: 'Bir kullanıcıdan itibar çıkarır.'
+  params:
+    - desc: 'İtibarı çıkarılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Çıkarılacak itibar miktarı.'
+      name: amount
+      optional: true
+      type: int
+reptop:
+  args:
+    - number
+  desc: 'Sunucunun itibar sıralamasını gösterir.'
+  params:
+    - desc: 'Gösterilecek sayfa numarası.'
+      name: page
+      optional: true
+      type: int
+reptypeadd:
+  args:
+    - typeName displayName
+  desc: 'Özel bir itibar türü ekler.'
+  params:
+    - desc: 'İtibar türünün adı.'
+      name: typeName
+      optional: false
+      type: string
+    - desc: 'Tür için görünen ad.'
+      name: displayName
+      optional: false
+      type: string
+reptypelist:
+  args:
+    - ''
+  desc: 'Bu sunucudaki tüm özel itibar türlerini listeler.'
+  params: [ ]
+reptyperemove:
+  args:
+    - typeName
+  desc: 'Özel bir itibar türünü kaldırır.'
+  params:
+    - desc: 'Kaldırılacak itibar türünün adı.'
+      name: typeName
+      optional: false
+      type: string
+repunfreeze:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının itibarını çözer; böylece tekrar itibar kazanıp kaybedebilir.'
+  params:
+    - desc: 'Kilidi açılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+repweeklylimit:
+  args:
+    - limit
+  desc: 'Itibar verme için haftalık limiti ayarlar (isteğe bağlı).'
+  params:
+    - desc: 'Haftalık limit (devre dışı bırakmak için null, 1-500).'
+      name: limit
+      optional: true
+      type: int
+toprep:
+  args:
+    - number
+  desc: 'Sunucunun itibar sıralamasını gösterir.'
+  params:
+    - desc: 'Gösterilecek sayfa numarası.'
+      name: page
+      optional: true
+      type: int

@@ -4,12 +4,12 @@ addrolestorolestate:
   desc: 'ユーザーのロール状態にロールを追加します。'
   params:
     - &ref_26
-      desc: 'ロール状態を変更するユーザー。'
+      desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
     - &ref_25
-      desc: 'ユーザーのロール状態に追加するロール。'
+      desc: 'ユーザーのロール状態に追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -19,11 +19,11 @@ addrolestorolestate_IUser_IRole[]:
   desc: 'ユーザーのロール状態にロールを追加します。'
   params:
     - &ref_27
-      desc: 'ロール状態を変更するユーザー。'
+      desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
-    - desc: 'ユーザーのロール状態に追加するロール。'
+    - desc: 'ユーザーのロール状態に追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -32,11 +32,11 @@ addrolestorolestate_IUser_IRole[]_1:
     - '@user @role'
   desc: 'ユーザーのロール状態にロールを追加します。'
   params:
-    - desc: 'ロール状態を変更するユーザー。'
+    - desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
-    - desc: 'ユーザーのロール状態に追加するロール。'
+    - desc: 'ユーザーのロール状態に追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -45,11 +45,11 @@ addrolestorolestate_IUser_IRole[]_2:
     - '@user @role'
   desc: 'ユーザーのロール状態にロールを追加します。'
   params:
-    - desc: 'ロール状態を変更するユーザー。'
+    - desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
-    - desc: 'ユーザーのロール状態に追加するロール。'
+    - desc: 'ユーザーのロール状態に追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -59,7 +59,7 @@ deleteuserrolestate:
   desc: '特定のユーザーのロール状態を削除します。'
   params:
     - &ref_191
-      desc: 'ロール状態を削除するユーザー。'
+      desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
@@ -68,7 +68,7 @@ deleteuserrolestate_IGuildUser:
     - '@user'
   desc: '特定のユーザーのロール状態を削除します。'
   params:
-    - desc: 'ロール状態を削除するユーザー。'
+    - desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
@@ -77,7 +77,7 @@ deleteuserrolestate_IGuildUser_1:
     - '@user'
   desc: '特定のユーザーのロール状態を削除します。'
   params:
-    - desc: 'ロール状態を削除するユーザー。'
+    - desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
@@ -86,7 +86,7 @@ deleteuserrolestate_IGuildUser_2:
     - '@user'
   desc: '特定のユーザーのロール状態を削除します。'
   params:
-    - desc: 'ロール状態を削除するユーザー。'
+    - desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
@@ -95,7 +95,7 @@ deleteuserrolestate_IUser:
     - '@user'
   desc: '特定のユーザーのロール状態を削除します。'
   params:
-    - desc: 'ロール状態を削除するユーザー。'
+    - desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IUser
@@ -104,7 +104,7 @@ deleteuserrolestate_IUser_1:
     - '@user'
   desc: '特定のユーザーのロール状態を削除します。'
   params:
-    - desc: 'ロール状態を削除するユーザー。'
+    - desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IUser
@@ -113,7 +113,7 @@ deleteuserrolestate_IUser_2:
     - '@user'
   desc: '特定のユーザーのロール状態を削除します。'
   params:
-    - desc: 'ロール状態を削除するユーザー。'
+    - desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IUser
@@ -122,7 +122,7 @@ deleteuserrolestate_IUser_3:
     - '@user'
   desc: '特定のユーザーのロール状態を削除します。'
   params:
-    - desc: 'ロール状態を削除するユーザー。'
+    - desc: 'ロール状態を削除するユーザーです。'
       name: user
       optional: false
       type: IUser
@@ -131,12 +131,12 @@ removerolesfromrolestate:
     - '@user @role'
   desc: 'ユーザーのロール状態からロールを削除します。'
   params:
-    - desc: 'ロール状態を変更するユーザー。'
+    - desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
     - &ref_414
-      desc: 'ユーザーのロール状態から削除するロール。'
+      desc: 'ユーザーのロール状態から削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -145,11 +145,11 @@ removerolesfromrolestate_IUser_IRole[]:
     - '@user @role'
   desc: 'ユーザーのロール状態からロールを削除します。'
   params:
-    - desc: 'ロール状態を変更するユーザー。'
+    - desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
-    - desc: 'ユーザーのロール状態から削除するロール。'
+    - desc: 'ユーザーのロール状態から削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -158,11 +158,11 @@ removerolesfromrolestate_IUser_IRole[]_1:
     - '@user @role'
   desc: 'ユーザーのロール状態からロールを削除します。'
   params:
-    - desc: 'ロール状態を変更するユーザー。'
+    - desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
-    - desc: 'ユーザーのロール状態から削除するロール。'
+    - desc: 'ユーザーのロール状態から削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -171,11 +171,11 @@ removerolesfromrolestate_IUser_IRole[]_2:
     - '@user @role'
   desc: 'ユーザーのロール状態からロールを削除します。'
   params:
-    - desc: 'ロール状態を変更するユーザー。'
+    - desc: 'ロール状態を変更するユーザーです。'
       name: user
       optional: false
       type: IUser
-    - desc: 'ユーザーのロール状態から削除するロール。'
+    - desc: 'ユーザーのロール状態から削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -185,7 +185,7 @@ rolestatesadddenyrole:
   desc: 'ロール状態機能の拒否リストにロールを追加します。'
   params:
     - &ref_463
-      desc: '拒否リストに追加するロール。'
+      desc: '拒否リストに追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -194,7 +194,7 @@ rolestatesadddenyrole_IRole[]:
     - '@role'
   desc: 'ロール状態機能の拒否リストにロールを追加します。'
   params:
-    - desc: '拒否リストに追加するロール。'
+    - desc: '拒否リストに追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -203,7 +203,7 @@ rolestatesadddenyrole_IRole[]_1:
     - '@role'
   desc: 'ロール状態機能の拒否リストにロールを追加します。'
   params:
-    - desc: '拒否リストに追加するロール。'
+    - desc: '拒否リストに追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -212,7 +212,7 @@ rolestatesadddenyrole_IRole[]_2:
     - '@role'
   desc: 'ロール状態機能の拒否リストにロールを追加します。'
   params:
-    - desc: '拒否リストに追加するロール。'
+    - desc: '拒否リストに追加するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -222,7 +222,7 @@ rolestatesadddenyuser:
   desc: 'ロール状態機能の拒否リストにユーザーを追加します。'
   params:
     - &ref_464
-      desc: '拒否リストに追加するユーザー。'
+      desc: '拒否リストに追加するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
@@ -231,7 +231,7 @@ rolestatesadddenyuser_IGuildUser[]:
     - '@user'
   desc: 'ロール状態機能の拒否リストにユーザーを追加します。'
   params:
-    - desc: '拒否リストに追加するユーザー。'
+    - desc: '拒否リストに追加するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
@@ -240,7 +240,7 @@ rolestatesadddenyuser_IGuildUser[]_1:
     - '@user'
   desc: 'ロール状態機能の拒否リストにユーザーを追加します。'
   params:
-    - desc: '拒否リストに追加するユーザー。'
+    - desc: '拒否リストに追加するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
@@ -249,16 +249,16 @@ rolestatesadddenyuser_IGuildUser[]_2:
     - '@user'
   desc: 'ロール状態機能の拒否リストにユーザーを追加します。'
   params:
-    - desc: '拒否リストに追加するユーザー。'
+    - desc: '拒否リストに追加するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremoveadduser:
   args:
     - user
-  desc: 'ユーザーをロール状態から削除または拒否します。'
+  desc: 'ユーザーをロール状態から削除、または拒否します。'
   params:
-    - desc: 'ロール状態から削除/拒否するユーザー。'
+    - desc: 'ロール状態から削除・拒否するユーザーです。'
       name: user
       optional: false
       type: IUser
@@ -268,7 +268,7 @@ rolestatesremovedenyrole:
   desc: 'ロール状態機能の拒否リストからロールを削除します。'
   params:
     - &ref_465
-      desc: '拒否リストから削除するロール。'
+      desc: '拒否リストから削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -277,7 +277,7 @@ rolestatesremovedenyrole_IRole[]:
     - '@role'
   desc: 'ロール状態機能の拒否リストからロールを削除します。'
   params:
-    - desc: '拒否リストから削除するロール。'
+    - desc: '拒否リストから削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -286,7 +286,7 @@ rolestatesremovedenyrole_IRole[]_1:
     - '@role'
   desc: 'ロール状態機能の拒否リストからロールを削除します。'
   params:
-    - desc: '拒否リストから削除するロール。'
+    - desc: '拒否リストから削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -295,7 +295,7 @@ rolestatesremovedenyrole_IRole[]_2:
     - '@role'
   desc: 'ロール状態機能の拒否リストからロールを削除します。'
   params:
-    - desc: '拒否リストから削除するロール。'
+    - desc: '拒否リストから削除するロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -305,7 +305,7 @@ rolestatesremovedenyuser:
   desc: 'ロール状態機能の拒否リストからユーザーを削除します。'
   params:
     - &ref_466
-      desc: '拒否リストから削除するユーザー。'
+      desc: '拒否リストから削除するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
@@ -314,7 +314,7 @@ rolestatesremovedenyuser_IGuildUser[]:
     - '@user'
   desc: 'ロール状態機能の拒否リストからユーザーを削除します。'
   params:
-    - desc: '拒否リストから削除するユーザー。'
+    - desc: '拒否リストから削除するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
@@ -323,7 +323,7 @@ rolestatesremovedenyuser_IGuildUser[]_1:
     - '@user'
   desc: 'ロール状態機能の拒否リストからユーザーを削除します。'
   params:
-    - desc: '拒否リストから削除するユーザー。'
+    - desc: '拒否リストから削除するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
@@ -332,14 +332,14 @@ rolestatesremovedenyuser_IGuildUser[]_2:
     - '@user'
   desc: 'ロール状態機能の拒否リストからユーザーを削除します。'
   params:
-    - desc: '拒否リストから削除するユーザー。'
+    - desc: '拒否リストから削除するユーザーです。'
       name: users
       optional: false
       type: IGuildUser[]
 saveallrolestates:
   args:
     - ''
-  desc: 'サーバー内のすべてのユーザーのロール状態を保存します。'
+  desc: 'サーバー内の全ユーザーのロール状態を保存します。'
   params: [ ]
 setuserrolestate:
   args:
@@ -347,12 +347,12 @@ setuserrolestate:
   desc: '特定のユーザーのロール状態を設定します。'
   params:
     - &ref_529
-      desc: 'ロール状態を設定するユーザー。'
+      desc: 'ロール状態を設定するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
     - &ref_530
-      desc: 'ユーザーのロール状態に含めるロール。'
+      desc: 'ユーザーのロール状態に含めるロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -362,11 +362,11 @@ setuserrolestate_IGuildUser_IRole[]:
   desc: '特定のユーザーのロール状態を設定します。'
   params:
     - &ref_531
-      desc: 'ロール状態を設定するユーザー。'
+      desc: 'ロール状態を設定するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
-    - desc: 'ユーザーのロール状態に含めるロール。'
+    - desc: 'ユーザーのロール状態に含めるロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -375,11 +375,11 @@ setuserrolestate_IGuildUser_IRole[]_1:
     - '@user @role'
   desc: '特定のユーザーのロール状態を設定します。'
   params:
-    - desc: 'ロール状態を設定するユーザー。'
+    - desc: 'ロール状態を設定するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
-    - desc: 'ユーザーのロール状態に含めるロール。'
+    - desc: 'ユーザーのロール状態に含めるロールです。'
       name: roles
       optional: false
       type: IRole[]
@@ -388,68 +388,68 @@ setuserrolestate_IGuildUser_IRole[]_2:
     - '@user @role'
   desc: '特定のユーザーのロール状態を設定します。'
   params:
-    - desc: 'ロール状態を設定するユーザー。'
+    - desc: 'ロール状態を設定するユーザーです。'
       name: user
       optional: false
       type: IGuildUser
-    - desc: 'ユーザーのロール状態に含めるロール。'
+    - desc: 'ユーザーのロール状態に含めるロールです。'
       name: roles
       optional: false
       type: IRole[]
 togglerolestates:
   args:
     - ''
-  desc: 'ロール状態機能を有効または無効にします。'
+  desc: 'ロール状態機能を有効または無効に切り替えます。'
   params: [ ]
 togglerolestatesclearonban:
   args:
     - ''
-  desc: 'ユーザーがBANされたときにロール状態をクリアするかどうかを切り替えます。'
+  desc: 'ユーザーがBANされたときにロール状態を削除するかどうかを切り替えます。'
   params: [ ]
 togglerolestatesignorebots:
   args:
     - ''
-  desc: 'ロール状態機能がボットを無視するかどうかを切り替えます。'
+  desc: 'ロール状態機能でボットを無視するかどうかを切り替えます。'
   params: [ ]
 togglerolestatesskipautoassign:
   args:
     - ''
-  desc: '保存されたロール状態を持つユーザーに対して自動割り当てロールをスキップするかどうかを切り替えます。'
+  desc: '保存されたロール状態があるユーザーについて、自動付与ロールをスキップするかどうかを切り替えます。'
   params: [ ]
 transferrolestates:
   args:
     - serverid
-  desc: '現在のサーバーから別のサーバーにロール状態を転送します。'
+  desc: '現在のサーバーから別のサーバーへロール状態を移行します。'
   params:
     - &ref_627
-      desc: 'ターゲットサーバーのID。'
+      desc: '移行先サーバーの ID です。'
       name: serverId
       optional: false
       type: ulong
 transferrolestates_ulong:
   args:
     - serverid
-  desc: '現在のサーバーから別のサーバーにロール状態を転送します。'
+  desc: '現在のサーバーから別のサーバーへロール状態を移行します。'
   params:
-    - desc: 'ターゲットサーバーのID。'
+    - desc: '移行先サーバーの ID です。'
       name: serverId
       optional: false
       type: ulong
 transferrolestates_ulong_1:
   args:
     - serverid
-  desc: '現在のサーバーから別のサーバーにロール状態を転送します。'
+  desc: '現在のサーバーから別のサーバーへロール状態を移行します。'
   params:
-    - desc: 'ターゲットサーバーのID。'
+    - desc: '移行先サーバーの ID です。'
       name: serverId
       optional: false
       type: ulong
 transferrolestates_ulong_2:
   args:
     - serverid
-  desc: '現在のサーバーから別のサーバーにロール状態を転送します。'
+  desc: '現在のサーバーから別のサーバーへロール状態を移行します。'
   params:
-    - desc: 'ターゲットサーバーのID。'
+    - desc: '移行先サーバーの ID です。'
       name: serverId
       optional: false
       type: ulong

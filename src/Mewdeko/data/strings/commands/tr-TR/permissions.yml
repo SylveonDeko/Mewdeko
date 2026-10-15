@@ -1,0 +1,1475 @@
+allcatmdls:
+  args:
+    - action chnl
+  desc: 'Belirli bir kategorideki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - &ref_61
+      desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_62
+      desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel:
+  args:
+    - action chnl
+  desc: 'Belirli bir kategorideki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_1:
+  args:
+    - action chnl
+  desc: 'Belirli bir kategorideki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_2:
+  args:
+    - action chnl
+  desc: 'Belirli bir kategorideki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allchnlmdls:
+  args:
+    - action chnl
+  desc: 'Belirli bir kanaldaki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_63
+      desc: 'İzinlerin ayarlanacağı kanal.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel:
+  args:
+    - action chnl
+  desc: 'Belirli bir kanaldaki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kanal.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_1:
+  args:
+    - action chnl
+  desc: 'Belirli bir kanaldaki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kanal.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_2:
+  args:
+    - action chnl
+  desc: 'Belirli bir kanaldaki tüm modüller için izin ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kanal.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allcmdcooldowns:
+  args:
+    - ''
+  desc: 'Sunucuda aktif bekleme süresi olan tüm komutları gösterir.'
+  params: [ ]
+allrolemdls:
+  args:
+    - action @role
+  desc: 'Belirli bir rol için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_64
+      desc: 'İzinlerin ayarlanacağı rol.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole:
+  args:
+    - action @role
+  desc: 'Belirli bir rol için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı rol.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_1:
+  args:
+    - action @role
+  desc: 'Belirli bir rol için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı rol.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_2:
+  args:
+    - action @role
+  desc: 'Belirli bir rol için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı rol.'
+      name: role
+      optional: false
+      type: IRole
+allsrvrmdls:
+  args:
+    - action
+  desc: 'Tüm sunucu için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+allusrmdls:
+  args:
+    - action @user
+  desc: 'Belirli bir kullanıcı için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_65
+      desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser:
+  args:
+    - action @user
+  desc: 'Belirli bir kullanıcı için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_1:
+  args:
+    - action @user
+  desc: 'Belirli bir kullanıcı için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_2:
+  args:
+    - action @user
+  desc: 'Belirli bir kullanıcı için tüm modüllerin izinlerini ekler ya da kaldırır.'
+  params:
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+autobanword:
+  args:
+    - text
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki bir kelimeyi açar ya da kapatır.'
+  params:
+    - &ref_89
+      desc: 'Otomatik yasak listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: false
+      type: string
+autobanword_string:
+  args:
+    - text
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki bir kelimeyi açar ya da kapatır.'
+  params:
+    - desc: 'Otomatik yasak listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_1:
+  args:
+    - text
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki bir kelimeyi açar ya da kapatır.'
+  params:
+    - desc: 'Otomatik yasak listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_2:
+  args:
+    - text
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki bir kelimeyi açar ya da kapatır.'
+  params:
+    - desc: 'Otomatik yasak listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: false
+      type: string
+autobanwordlist:
+  args:
+    - ''
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki tüm kelimeleri sayfalı olarak gösterir.'
+  params: [ ]
+autobanwordlist_noparams:
+  args:
+    - ''
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki tüm kelimeleri sayfalı olarak gösterir.'
+  params: [ ]
+autobanwordlist_noparams_1:
+  args:
+    - ''
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki tüm kelimeleri sayfalı olarak gösterir.'
+  params: [ ]
+autobanwordlist_noparams_2:
+  args:
+    - ''
+  desc: 'Mevcut sunucunun otomatik yasak listesindeki tüm kelimeleri sayfalı olarak gösterir.'
+  params: [ ]
+catcmd:
+  args:
+    - command action chnl
+  desc: 'Belirli bir kategori için komuta özel izinleri ekler ya da kaldırır.'
+  params:
+    - &ref_120
+      desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - command action chnl
+  desc: 'Belirli bir kategori için komuta özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - command action chnl
+  desc: 'Belirli bir kategori için komuta özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - command action chnl
+  desc: 'Belirli bir kategori için komuta özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl:
+  args:
+    - module action chnl
+  desc: 'Belirli bir kategori için modüle özel izinleri ekler ya da kaldırır.'
+  params:
+    - &ref_121
+      desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - module action chnl
+  desc: 'Belirli bir kategori için modüle özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - module action chnl
+  desc: 'Belirli bir kategori için modüle özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - module action chnl
+  desc: 'Belirli bir kategori için modüle özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kategori.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+channelblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kanalı kimliğiyle kara listeye ekler ya da kara listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - &ref_122
+      desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_123
+      desc: 'Kanalın kimliği.'
+      name: id
+      optional: false
+      type: ulong
+    - &ref_124
+      desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kanalı kimliğiyle kara listeye ekler ya da kara listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Kanalın kimliği.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kanalı kimliğiyle kara listeye ekler ya da kara listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_638
+      desc: 'Kanalın kimliği.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kanalı kimliğiyle kara listeye ekler ya da kara listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Kanalın kimliği.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+chnlcmd:
+  args:
+    - command action chnl
+  desc: 'Belirli bir komut için kanala özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kanal.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+chnlfilterinv:
+  args:
+    - ''
+  desc: 'Belirli bir kanal için davet bağlantısı filtresini açar ya da kapatır.'
+  params: [ ]
+chnlfilterlin:
+  args:
+    - ''
+  desc: 'Belirli bir kanal için bağlantı filtresini açar ya da kapatır.'
+  params: [ ]
+chnlfilterwords:
+  args:
+    - ''
+  desc: 'Belirli bir kanal için kelime filtresini açar ya da kapatır.'
+  params: [ ]
+chnlmdl:
+  args:
+    - module action chnl
+  desc: 'Belirli bir modül için kanala özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kanal.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+cmdcooldown:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Sunucuda belirtilen komut için bekleme süresini ayarlar ya da temizler.'
+  params:
+    - desc: 'Bekleme süresi ayarlanacak komut.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Bekleme süresinin uzunluğu. Varsayılan 0s, yani bekleme süresini temizler.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Sunucuda belirtilen komut için bekleme süresini ayarlar ya da temizler.'
+  params:
+    - desc: 'Bekleme süresi ayarlanacak komut.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Bekleme süresinin uzunluğu. Varsayılan 0s, yani bekleme süresini temizler.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_1:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Sunucuda belirtilen komut için bekleme süresini ayarlar ya da temizler.'
+  params:
+    - desc: 'Bekleme süresi ayarlanacak komut.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Bekleme süresinin uzunluğu. Varsayılan 0s, yani bekleme süresini temizler.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_2:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Sunucuda belirtilen komut için bekleme süresini ayarlar ya da temizler.'
+  params:
+    - desc: 'Bekleme süresi ayarlanacak komut.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Bekleme süresinin uzunluğu. Varsayılan 0s, yani bekleme süresini temizler.'
+      name: time
+      optional: true
+      type: duration
+filterword:
+  args:
+    - text
+  desc: 'Mevcut sunucudaki filtrelenmiş kelimeler listesine bir kelime ekler ya da listeden çıkarır.'
+  params:
+    - &ref_218
+      desc: 'Filtrelenmiş kelimeler listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: true
+      type: string
+filterword_string:
+  args:
+    - text
+  desc: 'Mevcut sunucudaki filtrelenmiş kelimeler listesine bir kelime ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Filtrelenmiş kelimeler listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: true
+      type: string
+filterword_string_1:
+  args:
+    - text
+  desc: 'Mevcut sunucudaki filtrelenmiş kelimeler listesine bir kelime ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Filtrelenmiş kelimeler listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: true
+      type: string
+filterword_string_2:
+  args:
+    - text
+  desc: 'Mevcut sunucudaki filtrelenmiş kelimeler listesine bir kelime ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Filtrelenmiş kelimeler listesine açılıp kapatılacak kelime.'
+      name: word
+      optional: true
+      type: string
+fwarn:
+  args:
+    - text
+  desc: 'Mevcut sunucuda filtrelenmiş kelimeler için uyarıları açar ya da kapatır.'
+  params:
+    - &ref_219
+      desc: 'Uyarının açılıp ("y") kapatılacağını ("n") belirten metin.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string:
+  args:
+    - text
+  desc: 'Mevcut sunucuda filtrelenmiş kelimeler için uyarıları açar ya da kapatır.'
+  params:
+    - desc: 'Uyarının açılıp ("y") kapatılacağını ("n") belirten metin.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_1:
+  args:
+    - text
+  desc: 'Mevcut sunucuda filtrelenmiş kelimeler için uyarıları açar ya da kapatır.'
+  params:
+    - desc: 'Uyarının açılıp ("y") kapatılacağını ("n") belirten metin.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_2:
+  args:
+    - text
+  desc: 'Mevcut sunucuda filtrelenmiş kelimeler için uyarıları açar ya da kapatır.'
+  params:
+    - desc: 'Uyarının açılıp ("y") kapatılacağını ("n") belirten metin.'
+      name: yesnt
+      optional: false
+      type: string
+fwclear:
+  args:
+    - ''
+  desc: 'Mevcut sunucudaki tüm filtrelenmiş kelimeleri temizler.'
+  params: [ ]
+globalcommand:
+  args:
+    - cmd
+  desc: 'Bir komutu genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - &ref_231
+      desc: 'Açılıp kapatılacak komut.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo:
+  args:
+    - cmd
+  desc: 'Bir komutu genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Açılıp kapatılacak komut.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_1:
+  args:
+    - cmd
+  desc: 'Bir komutu genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Açılıp kapatılacak komut.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_2:
+  args:
+    - cmd
+  desc: 'Bir komutu genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Açılıp kapatılacak komut.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalmodule:
+  args:
+    - module
+  desc: 'Bir modülü genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - &ref_232
+      desc: 'Açılıp kapatılacak modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo:
+  args:
+    - module
+  desc: 'Bir modülü genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Açılıp kapatılacak modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_1:
+  args:
+    - module
+  desc: 'Bir modülü genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Açılıp kapatılacak modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_2:
+  args:
+    - module
+  desc: 'Bir modülü genel engel listesine ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Açılıp kapatılacak modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalpermlist:
+  args:
+    - ''
+  desc: 'Şu an genel olarak engellenmiş tüm modülleri ve komutları listeler.'
+  params: [ ]
+globalpermlist_noparams:
+  args:
+    - ''
+  desc: 'Şu an genel olarak engellenmiş tüm modülleri ve komutları listeler.'
+  params: [ ]
+globalpermlist_noparams_1:
+  args:
+    - ''
+  desc: 'Şu an genel olarak engellenmiş tüm modülleri ve komutları listeler.'
+  params: [ ]
+globalpermlist_noparams_2:
+  args:
+    - ''
+  desc: 'Şu an genel olarak engellenmiş tüm modülleri ve komutları listeler.'
+  params: [ ]
+invwarn:
+  args:
+    - text
+  desc: 'Mevcut sunucuda paylaşılan davet bağlantıları için uyarıları açar ya da kapatır.'
+  params:
+    - desc: 'Uyarının açılıp ("y") kapatılacağını ("n") belirten metin.'
+      name: yesnt
+      optional: false
+      type: string
+listperms:
+  args:
+    - ''
+  desc: 'Sunucunun izinlerini listeler.'
+  params: [ ]
+lstfilterwords:
+  args:
+    - ''
+  desc: 'Mevcut sunucudaki filtrelenmiş kelimeler listesinde bulunan tüm kelimeleri listeler.'
+  params: [ ]
+manualblacklistcheck:
+  args:
+    - ''
+  desc: 'Botun kapsamındaki kara listedeki varlıklar için elle kontrol yapar.'
+  params: [ ]
+moveperm:
+  args:
+    - number number
+  desc: 'Bir izni hiyerarşide yukarı taşır.'
+  params:
+    - &ref_297
+      desc: 'Başlangıç dizini'
+      name: from
+      optional: false
+      type: int
+    - &ref_298
+      desc: 'Yeni dizin'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int:
+  args:
+    - number number
+  desc: 'Bir izni hiyerarşide yukarı taşır.'
+  params:
+    - desc: 'Başlangıç dizini'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Yeni dizin'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_1:
+  args:
+    - number number
+  desc: 'Bir izni hiyerarşide yukarı taşır.'
+  params:
+    - desc: 'Başlangıç dizini'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Yeni dizin'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_2:
+  args:
+    - number number
+  desc: 'Bir izni hiyerarşide yukarı taşır.'
+  params:
+    - desc: 'Başlangıç dizini'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Yeni dizin'
+      name: to
+      optional: false
+      type: int
+permrole:
+  args:
+    - '[@role]'
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - desc: 'Varsa izin rolü olarak ayarlanacak rol'
+      name: role
+      optional: true
+      type: role
+permrole_=:
+  args:
+    - '[@role]'
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - desc: 'Varsa izin rolü olarak ayarlanacak rol'
+      name: role
+      optional: true
+      type: role
+permrole_=_1:
+  args:
+    - '[@role]'
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - desc: 'Varsa izin rolü olarak ayarlanacak rol'
+      name: role
+      optional: true
+      type: role
+permrole_=_2:
+  args:
+    - '[@role]'
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - desc: 'Varsa izin rolü olarak ayarlanacak rol'
+      name: role
+      optional: true
+      type: role
+permrole_Reset:
+  args:
+    - reset
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - &ref_342
+      desc: 'İzin rolünü sıfırlar.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_1:
+  args:
+    - reset
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - desc: 'İzin rolünü sıfırlar.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_2:
+  args:
+    - reset
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - desc: 'İzin rolünü sıfırlar.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_3:
+  args:
+    - reset
+  desc: 'İzin rolünü sıfırlar.'
+  params:
+    - desc: 'İzin rolünü sıfırlar.'
+      name: _
+      optional: false
+      type: Reset
+removeperm:
+  args:
+    - number
+  desc: 'Dizinine göre izin listesinden bir izni kaldırır.'
+  params:
+    - &ref_405
+      desc: 'Kaldırılacak izin'
+      name: index
+      optional: false
+      type: int
+removeperm_int:
+  args:
+    - number
+  desc: 'Dizinine göre izin listesinden bir izni kaldırır.'
+  params:
+    - desc: 'Kaldırılacak izin'
+      name: index
+      optional: false
+      type: int
+removeperm_int_1:
+  args:
+    - number
+  desc: 'Dizinine göre izin listesinden bir izni kaldırır.'
+  params:
+    - desc: 'Kaldırılacak izin'
+      name: index
+      optional: false
+      type: int
+removeperm_int_2:
+  args:
+    - number
+  desc: 'Dizinine göre izin listesinden bir izni kaldırır.'
+  params:
+    - desc: 'Kaldırılacak izin'
+      name: index
+      optional: false
+      type: int
+resetglobalperms:
+  args:
+    - ''
+  desc: 'Tüm genel izinleri sıfırlar; tüm genel komut ve modül engellerini temizler.'
+  params: [ ]
+resetperms:
+  args:
+    - ''
+  desc: 'Sunucunun izinlerini sıfırlar.'
+  params: [ ]
+rolecmd:
+  args:
+    - command action @role
+  desc: 'Belirli bir komut için role özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı rol.'
+      name: role
+      optional: false
+      type: IRole
+rolemdl:
+  args:
+    - module action @role
+  desc: 'Belirli bir modül için role özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı rol.'
+      name: role
+      optional: false
+      type: IRole
+serverblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_485
+      desc: 'Sunucu nesnesi.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_1:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Sunucu nesnesi.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_2:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Sunucu nesnesi.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_3:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Sunucu nesnesi.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir sunucuyu sunucu nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+srvrcmd:
+  args:
+    - command action
+  desc: 'Sunucuda bir komutu etkinleştirir ya da devre dışı bırakır.'
+  params:
+    - &ref_556
+      desc: 'İşlem yapılacak komut'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_557
+      desc: 'Komutun devre dışı mı yoksa etkin mi olacağı'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction:
+  args:
+    - command action
+  desc: 'Sunucuda bir komutu etkinleştirir ya da devre dışı bırakır.'
+  params:
+    - desc: 'İşlem yapılacak komut'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Komutun devre dışı mı yoksa etkin mi olacağı'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_1:
+  args:
+    - command action
+  desc: 'Sunucuda bir komutu etkinleştirir ya da devre dışı bırakır.'
+  params:
+    - desc: 'İşlem yapılacak komut'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Komutun devre dışı mı yoksa etkin mi olacağı'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_2:
+  args:
+    - command action
+  desc: 'Sunucuda bir komutu etkinleştirir ya da devre dışı bırakır.'
+  params:
+    - desc: 'İşlem yapılacak komut'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Komutun devre dışı mı yoksa etkin mi olacağı'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrfilterinv:
+  args:
+    - ''
+  desc: 'Sunucu genelinde davet bağlantısı filtresini açar ya da kapatır.'
+  params: [ ]
+srvrfilterlin:
+  args:
+    - ''
+  desc: 'Sunucu genelinde bağlantı filtresini açar ya da kapatır.'
+  params: [ ]
+srvrfilterwords:
+  args:
+    - ''
+  desc: 'Sunucu genelinde kelime filtresini açar ya da kapatır.'
+  params: [ ]
+srvrmdl:
+  args:
+    - module action
+  desc: 'Belirli bir modül için sunucu düzeyinde izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+userblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_637
+      desc: 'Kullanıcı nesnesi.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_1:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Kullanıcı nesnesi.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_2:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Kullanıcı nesnesi.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_3:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Kullanıcı nesnesi.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+  params:
+    - desc: 'Kara listeye ekleme mi çıkarma mı yapılacağını belirtir.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Bir kullanıcıyı kullanıcı nesnesiyle kara listeye ekler ya da listeden çıkarır; isteğe bağlı sebeple.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Kara liste işleminin sebebi.'
+      name: reason
+      optional: true
+      type: string
+usrcmd:
+  args:
+    - command action @user
+  desc: 'Belirli bir komut için kullanıcıya özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_639
+      desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser:
+  args:
+    - command action @user
+  desc: 'Belirli bir komut için kullanıcıya özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_1:
+  args:
+    - command action @user
+  desc: 'Belirli bir komut için kullanıcıya özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_2:
+  args:
+    - command action @user
+  desc: 'Belirli bir komut için kullanıcıya özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı komut.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrmdl:
+  args:
+    - module action @user
+  desc: 'Belirli bir modül için kullanıcıya özel izinleri ekler ya da kaldırır.'
+  params:
+    - desc: 'İzinlerin ayarlanacağı modül.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Yapılacak işlem (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'İzinlerin ayarlanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+verbose:
+  args:
+    - '[action]'
+  desc: 'Bir komut kullanılırken sorunun türüne göre komutların hata verip vermeyeceğini ayarlar.'
+  params:
+    - desc: 'Sadece bir doğru/yanlış ayarı. Zaten bir açma/kapama olduğu için pek işe yaramaz.'
+      name: action
+      optional: true
+      type: action

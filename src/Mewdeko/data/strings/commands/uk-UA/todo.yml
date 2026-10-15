@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Додає новий елемент завдання до вказаного списку'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Назва елемента завдання.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис елемента.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Додає елемент завдання з пріоритетом і необов''язковим терміном виконання'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Рівень пріоритету (1=Низький, 2=Середній, 3=Високий, 4=Критичний).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Назва елемента завдання.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис елемента.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Додає тег до елемента завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Тег, який потрібно додати.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Видаляє термін виконання з елемента завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Видаляє нагадування з елемента завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Позначає елемент завдання як виконаний'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Створює новий список завдань'
+  params:
+    - desc: 'Назва списку завдань.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис списку.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Створює загальносерверний список завдань (лише для адміністраторів)'
+  params:
+    - desc: 'Назва загальносерверного списку завдань.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис списку.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Видаляє елемент завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Видаляє весь список завдань'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Редагує назву та опис елемента завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Нова назва.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Новий опис.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Фільтрує елементи завдань за тегом або пріоритетом'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Тип фільтра (tag або priority).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Значення для фільтрації.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Надає користувачеві дозволи на список завдань (лише власник списку або адміністратор)'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Користувач, якому потрібно надати дозволи.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Дозволи через кому (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Показує всі списки завдань, доступні користувачеві'
+  params:
+    - desc: 'Чи включати загальносерверні списки.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Показує всі дозволи для списку завдань'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Видаляє тег з елемента завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Тег, який потрібно видалити.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Переміщує елемент завдання на нову позицію'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Нова позиція (нумерація з 1).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Скасовує всі дозволи користувача для списку завдань'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Користувач, у якого потрібно скасувати дозволи.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Шукає елементи завдань у списку'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Пошуковий запит.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Встановлює колір для списку завдань'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Шістнадцятковий код кольору, напр. #ff0000.'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Встановлює термін виконання для елемента завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Дата і час виконання.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Встановлює час нагадування для елемента завдання'
+  params:
+    - desc: 'ID елемента завдання.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Дата і час нагадування.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Показує всі елементи списку завдань'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Чи включати виконані елементи.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Перемикає налаштування приватності для списку завдань'
+  params:
+    - desc: 'ID списку завдань.'
+      name: listId
+      optional: false
+      type: int

@@ -1,9 +1,9 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: 'Створює новий заблокований голосовий канал, що відображає статистику сервера. Бот створить і керуватиме каналом.'
+  desc: 'Створює новий заблокований голосовий канал, який показує статистику сервера. Бот створить канал і керуватиме ним.'
   params:
-    - desc: 'Тип статистики для відображення.'
+    - desc: 'Тип статистики для показу.'
       name: type
       optional: false
       type: StatChannelType
@@ -20,7 +20,7 @@ statchanneladd:
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Тип статистики для відображення.'
+    - desc: 'Тип статистики для показу.'
       name: type
       optional: false
       type: StatChannelType
@@ -31,13 +31,13 @@ statchanneladd:
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Додає канал статистики, що показує кількість учасників із певною роллю.'
+  desc: 'Додає канал статистики, який показує, скільки учасників мають певну роль.'
   params:
     - desc: 'Голосовий канал для використання.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Роль, учасників якої треба порахувати.'
+    - desc: 'Роль, для якої рахувати учасників.'
       name: role
       optional: false
       type: IRole
@@ -48,7 +48,7 @@ statchannelrole:
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Додає канал статистики зворотного відліку. Використовуйте заповнювачі %days% і %hours%.'
+  desc: 'Додає канал статистики зі зворотним відліком. Використовуйте плейсхолдери %days% і %hours%.'
   params:
     - desc: 'Голосовий канал для використання.'
       name: channel
@@ -65,7 +65,7 @@ statchannelcountdown:
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'Додає канал статистики цілі учасників. Використовуйте %count%, %goal% і %goal.percent%.'
+  desc: 'Додає канал статистики з ціллю за кількістю учасників. Використовуйте %count%, %goal% і %goal.percent%.'
   params:
     - desc: 'Голосовий канал для використання.'
       name: channel
@@ -91,5 +91,25 @@ statchannelremove:
 statchannellist:
   args:
     - ''
-  desc: 'Перелічує всі канали статистики для цього сервера.'
+  desc: 'Показує всі канали статистики на цьому сервері.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Встановлює для каналу статистики лічильник Twitch.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Встановлює механізм оновлення для каналу статистики.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Встановлює стиль відображення для каналу статистики.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Показує стандартні налаштування для каналів статистики.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Показує доступні типи каналів статистики.'

@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Pokazuje przegląd twoich osiągnięć: rangę, punkty, postęp w każdej kategorii i ostatnio odblokowane osiągnięcia. Wspomnij o kimś, aby zobaczyć jego.'
+  params:
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: 'Pokazuje wszystkie osiągnięcia z jednej kategorii wraz z postępem w tych, które są jeszcze zablokowane.'
+  params:
+    - desc: 'Klucz lub nazwa kategorii, na przykład messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige lub custom.'
+      name: category
+      optional: false
+      type: string
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Pokazuje wszystkie osiągnięcia na serwerze wraz z postępem, strona po stronie.'
+  params:
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Pokazuje pięć ostatnio odblokowanych osiągnięć.'
+  params:
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Pokazuje pięć najlepszych odblokowań według stopnia i punktów.'
+  params:
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: 'Wyszukuje osiągnięcia po nazwie lub opisie i pokazuje twój postęp w każdym z nich.'
+  params:
+    - desc: 'Czego szukać.'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Pokazuje osiągnięcia zdobyte na wszystkich serwerach: łączną liczbę punktów, serwery i osiągnięcia globalne.'
+  params:
+    - desc: 'Użytkownik, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'Pokazuje, kto zdobył najwięcej osiągnięć na serwerze. Członkowie, którzy się ukrywają, są pomijani.'
+  params:
+    - desc: 'Points, Unlocked lub Recent. Domyślnie Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'Pokazuje, kto zdobył najwięcej osiągnięć na wszystkich serwerach.'
+  params:
+    - desc: 'Points, Unlocked lub Recent. Domyślnie Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Rysuje kartę profilu osiągnięć z rangą, punktami, postępem do następnej rangi i założonymi odznakami.'
+  params:
+    - desc: 'Członek, dla którego zostanie narysowana karta. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Pokazuje wszystkie liczby, które śledzą osiągnięcia: wiadomości, czas na kanałach głosowych, reakcje, zaproszenia, polecenia, czas na serwerze, boosty, poziom i reputację.'
+  params:
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: 'Rysuje osiągnięcie jako obraz: odblokowane lub zablokowane, z informacją, jak blisko jesteś ty lub ktoś inny.'
+  params:
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: 'Ustawia ikonę, jaką osiągnięcie pokazuje na swoim obrazie, w panelu i w aplikacjach: nazwę ikony, np. trophy, emoji serwera lub link do obrazu https. Pomiń ikonę, aby ponownie użyć ikony kategorii.'
+  params:
+    - desc: 'Nazwa lub klucz osiągnięcia, w cudzysłowie, jeśli zawiera spacje.'
+      name: achievement
+      optional: false
+      type: string
+    - desc: 'Ikona lub nic, aby ją usunąć.'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Pokazuje wszystkie odznaki, które ty lub ktoś inny posiadacie, z czterema założonymi miejscami na górze.'
+  params:
+    - desc: 'Członek, którego dotyczy polecenie. Domyślnie ty.'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: 'Umieszcza posiadaną przez ciebie odznakę w jednym z czterech miejsc na profilu. Klucze odznak wyświetla polecenie badges.'
+  params:
+    - desc: 'Miejsce, od 1 do 4.'
+      name: slot
+      optional: false
+      type: int
+    - desc: 'Klucz odznaki.'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'Opróżnia jedno z czterech miejsc na twoim profilu.'
+  params:
+    - desc: 'Miejsce, od 1 do 4.'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'Pokazuje, czym jest odznaka i jak ją zdobyć.'
+  params:
+    - desc: 'Klucz odznaki.'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: 'Ustawia, kto może widzieć twój profil osiągnięć, osiągnięcia, odznaki i miejsce w rankingu.'
+  params:
+    - desc: 'Profile, Achievements, Badges lub Leaderboard.'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone lub OnlyMe.'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: 'Włącza lub wyłącza dla ciebie wiadomości prywatne o odblokowaniu, wiadomości o odblokowaniu na serwerze lub wzmianki w nich.'
+  params:
+    - desc: 'Dm, Message lub Mention.'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: 'True, aby włączyć, false, aby wyłączyć.'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie osiągnięcia na serwerze wraz z ich kluczem, informacją, czy są włączone, i liczbą członków, którzy je odblokowali.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'Uruchamia lub wstrzymuje zdobywanie osiągnięć na serwerze. Uruchomienie włącza też liczenie wiadomości, a członkowie, którzy już spełniają warunki, otrzymują osiągnięcia po cichu.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: 'Ustawia kanał, na którym ogłaszane są odblokowania. Pomiń, aby przestać używać kanału logów.'
+  params:
+    - desc: 'Kanał.'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: 'Ustawia, gdzie ogłaszane są odblokowania: Auto używa kanału logów, jeśli jest ustawiony, a w przeciwnym razie kanału, na którym to się stało; Here używa kanału, na którym to się stało; LogChannel używa tylko kanału logów; DmOnly wysyła wyłącznie wiadomości prywatne; Silent niczego nie ogłasza.'
+  params:
+    - desc: 'Auto, Here, LogChannel, DmOnly lub Silent.'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'Ustawia, czy członkowie otrzymują odblokowania w wiadomościach prywatnych, chyba że sami to wyłączą.'
+  params:
+    - desc: 'True, aby włączyć, false, aby wyłączyć.'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: 'Ustawia treść wiadomości o odblokowaniu. Działa zwykły tekst i JSON embeda, z symbolami zastępczymi, na przykład %achievement.name%, %achievement.points%, %achievement.list% i %achievements.tier%. Pomiń, aby wrócić do domyślnej.'
+  params:
+    - desc: 'Treść wiadomości lub nic, aby ją wyczyścić.'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'Przyznaje członkom XP za każdy punkt osiągnięcia. 0 wyłącza tę funkcję.'
+  params:
+    - desc: 'XP za punkt, od 0 do 1000.'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'Aktywuje jedno osiągnięcie, aby członkowie mogli je zdobyć.'
+  params:
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: 'Dezaktywuje jedno osiągnięcie. Członkowie, którzy już je odblokowali, zachowują je.'
+  params:
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'Aktywuje lub dezaktywuje całą kategorię.'
+  params:
+    - desc: 'Klucz lub nazwa kategorii.'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Przekazuje osiągnięcie członkowi i ogłasza je jak każde inne odblokowanie.'
+  params:
+    - desc: 'Członek.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Odbiera członkowi osiągnięcie.'
+  params:
+    - desc: 'Członek.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: 'Po potwierdzeniu usuwa wszystkie osiągnięcia członka na serwerze.'
+  params:
+    - desc: 'Członek.'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: 'Tworzy osiągnięcie odblokowywane po osiągnięciu określonej liczby. Dostępne metryki: MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation i NetWorth.'
+  params:
+    - desc: 'Co liczyć.'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: 'Liczba do osiągnięcia.'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst lub Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Nazwa.'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'Tworzy osiągnięcie odblokowywane przez wypowiedzenie frazy w dowolnym miejscu na serwerze.'
+  params:
+    - desc: 'Fraza, w cudzysłowie, jeśli zawiera spacje.'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst lub Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Nazwa.'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: 'Tworzy osiągnięcie odblokowywane przez zareagowanie emoji.'
+  params:
+    - desc: 'Emoji.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst lub Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Nazwa.'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'Sprawia, że osiągnięcie może nadać tylko personel, za pomocą achgrant.'
+  params:
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst lub Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Nazwa.'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: 'Po potwierdzeniu usuwa osiągnięcie utworzone na serwerze. Wszyscy, którzy je odblokowali, tracą je.'
+  params:
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: 'Nadaje członkom rolę po odblokowaniu osiągnięcia.'
+  params:
+    - desc: 'Rola.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: 'Przyznaje członkom walutę po odblokowaniu osiągnięcia. 0 usuwa nagrodę.'
+  params:
+    - desc: 'Kwota.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: 'Przyznaje członkom XP po odblokowaniu osiągnięcia. 0 usuwa nagrodę.'
+  params:
+    - desc: 'Kwota.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: 'Usuwa wszystkie nagrody z osiągnięcia.'
+  params:
+    - desc: 'Nazwa lub klucz osiągnięcia.'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: 'Zatrzymuje zdobywanie osiągnięć przez członków z daną rolą. Uruchom ponownie, aby znów mogli je zdobywać.'
+  params:
+    - desc: 'Rola.'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'Zatrzymuje liczenie aktywności na kanale do osiągnięć. Uruchom ponownie, aby znów ją liczyć.'
+  params:
+    - desc: 'Kanał.'
+      name: channel
+      optional: false
+      type: IGuildChannel

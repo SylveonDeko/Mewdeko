@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "Non esiste un'azione di ban chiamata `{0}`. Azioni conosciute: {1}",
+  "ban_prune_cleared": "Impostazione di eliminazione dei messaggi per {0} in {1} cancellata.",
+  "ban_prune_cleared_none": "Non c'era nessuna impostazione di eliminazione dei messaggi per {0} in {1}.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "Nessuna impostazione di eliminazione dei messaggi configurata. I ban usano il valore predefinito di ogni azione.",
+  "ban_prune_list_title": "Eliminazione dei messaggi dei ban",
+  "ban_prune_reset": "Rimosse {0} impostazioni di eliminazione dei messaggi. Ogni azione è tornata al valore predefinito.",
+  "ban_prune_scope_category": "categoria {0}",
+  "ban_prune_scope_channel": "canale {0}",
+  "ban_prune_scope_guild": "questo server",
+  "ban_prune_set": "I ban da {0} ora eliminano **{1}** di messaggi per {2}.",
+  "ban_prune_set_all_actions": "ogni azione di ban",
+  "ban_prune_days": "{0} giorno/i di messaggi",
+  "ban_prune_days_none": "nessun messaggio",
+  "ban_prune_effective": "Un ban qui in questo momento elimina **{0}**.",
+  "ban_prune_defaults_title": "Predefiniti",
+  "ban_prune_overrides_title": "Sovrascritture"
+}

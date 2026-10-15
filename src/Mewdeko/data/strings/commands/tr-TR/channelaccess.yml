@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Başvuru formunu doldurabilmen için kapılı bir kanalın başvuru düğmesini gönderir'
+  params:
+    - desc: 'Başvuru yapılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Oy sayısından bağımsız olarak bir başvuruyu zorla kabul eder'
+  params:
+    - desc: 'Başvuru ID''si.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Kapatılan başvuruda gösterilecek isteğe bağlı not.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Bu sunucuda başvurudan engellenen herkesi listeler'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Bir kullanıcıyı tek bir kanal için veya tüm kapılı kanallar için başvurudan engeller'
+  params:
+    - desc: 'Engellenecek kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kapılı kanal; her yerde engellemek için boş bırak.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Bir kullanıcının tekrar başvurabilmesi için engeli kaldırır'
+  params:
+    - desc: 'Engellenmiş kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Engel kanala özelse, engelin ayarlandığı kapılı kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Bir kapının bir ayarını değiştirir. Değiştirebileceğin her şeyi görmek için ayarı vermeden çalıştır'
+  params:
+    - desc: 'Kapılı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Ayar adı.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Yeni değer.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Oy sayısından bağımsız olarak bir başvuruyu reddeder'
+  params:
+    - desc: 'Başvuru ID''si.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Kapatılan başvuruda gösterilecek isteğe bağlı not.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Bir kullanıcının başvuru geçmişini gösterir; kullanıcı verilmezse kendi geçmişini gösterir'
+  params:
+    - desc: 'Bakılacak kullanıcı.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Sunucudaki her kapıyı mevcut eşikleriyle birlikte listeler'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Kullanıcıların kapılı bir kanala başvurabilmesi için tıklayabileceği bir düğme gönderir'
+  params:
+    - desc: 'Kapılı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Panelin gönderileceği yer. Varsayılan olarak mevcut kanal.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Hâlâ karar bekleyen başvuruları listeler'
+  params:
+    - desc: 'İsteğe bağlı olarak listeyi tek bir kapılı kanalla sınırla.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Bir kapının başvuru formuna soru ekler. Bir kapıda en fazla beş soru olabilir'
+  params:
+    - desc: 'Kapılı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Soru metni, en fazla 45 karakter.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Bir kapının başvuru sorularını başvuranların göreceği sırayla gösterir'
+  params:
+    - desc: 'Kapılı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Bir kapının başvuru formundan, listelenen sıra numarasıyla soru kaldırır'
+  params:
+    - desc: 'Kapılı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Soru listesinde gösterilen, bir tabanlı sıra numarası.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Bir kanalın kapısını, sorularıyla ve başvuru geçmişiyle birlikte kaldırır'
+  params:
+    - desc: 'Kapılı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Kilitli bir kanal için başvurular açar; onaylanan başvuranlara verilen rolü atar'
+  params:
+    - desc: 'Kapılanacak kilitli kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Bir başvuru kabul edildiğinde verilecek rol. Başvuranları doğrudan kanala eklemek için boş bırak.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Kendi açık başvurularından birini geri çeker'
+  params:
+    - desc: 'İnceleme mesajında gösterilen başvuru ID''si.'
+      name: applicationId
+      optional: false
+      type: int

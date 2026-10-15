@@ -1,3 +1,18 @@
 {
-  "status": "Durum"
+  "status_role_channel_set": "Kanal {0} olarak ayarlandı",
+  "status": "Durum",
+  "status_addrole_successfully_removed": "{0} AddRoles listesinden şu roller başarıyla kaldırıldı\n{1}",
+  "status_addroles_none_removed": "{0} AddRoles listesinden hiçbir şey kaldırılmadı, verilen rollerin hiçbiri listede değil.",
+  "status_embed_channel_already_set": "{0} Bu zaten senin StatusEmbedChannel kanalın.",
+  "status_embed_channel_set": "{0} StatusEmbedChannel kanalı {1} olarak başarıyla ayarlandı!",
+  "status_readd_removed_now": "{0} ReaddRemoved artık `{1}`",
+  "status_remove_added_now": "{0} RemoveAdded artık `{1}`",
+  "status_removerole_none_removed": "{0} RemoveRoles listesinden hiçbir şey kaldırılmadı, verilen rollerin hiçbiri listede değil.",
+  "status_removerole_successfully_removed": "{0} RemoveRoles listesinden şu roller başarıyla kaldırıldı\n{1}",
+  "status_role_config_added": "StatusRole ayarı eklendi! Lütfen diğer komutlarla ayarla.",
+  "status_role_exists": "{0} Bu StatusRole zaten var!",
+  "status_role_text_select": "{0} Lütfen mevcut StatusRole metniyle ne yapmak istediğini seç",
+  "status_roles_added": "{0} Bu durumda şu roller eklenecek:\n{1}",
+  "status_roles_removed": "{0} Bu durumda şu roller kaldırılacak:\n{1}",
+  "status_too_long": "{0} Bu, normal bir durum mesajına bile sığmayacak kadar uzun. Tekrar dene."
 }

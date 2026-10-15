@@ -1,7 +1,7 @@
 confess:
   args:
     - serverid text
-  desc: 'Permite que usuários confessem anonimamente.'
+  desc: 'Permite que os usuários façam confissões anonimamente.'
   params:
     - &ref_139
       desc: 'O ID do servidor.'
@@ -9,46 +9,46 @@ confess:
       optional: false
       type: ulong
     - &ref_140
-      desc: 'A mensagem de confissão'
+      desc: 'A mensagem da confissão.'
       name: confession
       optional: false
       type: string
 confess_ulong_string:
   args:
     - serverid text
-  desc: 'Permite que usuários confessem anonimamente.'
+  desc: 'Permite que os usuários façam confissões anonimamente.'
   params:
     - desc: 'O ID do servidor.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'A mensagem de confissão'
+    - desc: 'A mensagem da confissão.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_1:
   args:
     - serverid text
-  desc: 'Permite que usuários confessem anonimamente.'
+  desc: 'Permite que os usuários façam confissões anonimamente.'
   params:
     - desc: 'O ID do servidor.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'A mensagem de confissão'
+    - desc: 'A mensagem da confissão.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_2:
   args:
     - serverid text
-  desc: 'Permite que usuários confessem anonimamente.'
+  desc: 'Permite que os usuários façam confissões anonimamente.'
   params:
     - desc: 'O ID do servidor.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'A mensagem de confissão'
+    - desc: 'A mensagem da confissão.'
       name: confession
       optional: false
       type: string
@@ -57,7 +57,7 @@ confessblacklist:
     - user
   desc: 'Adiciona um usuário à lista negra de confissões.'
   params:
-    - desc: 'O usuário a colocar na lista negra de confissões.'
+    - desc: 'O usuário a incluir na lista negra de confissões.'
       name: user
       optional: false
       type: IUser
@@ -111,7 +111,7 @@ confessionblacklist_IUser_2:
 confessionchannel:
   args:
     - '[@channel]'
-  desc: 'Define o canal de confissões para confissões anônimas.'
+  desc: 'Define o canal de confissões anônimas.'
   params:
     - desc: 'O canal de confissões (opcional).'
       name: channel
@@ -120,11 +120,9 @@ confessionchannel:
 confessionlogchannel:
   args:
     - '[@channel]'
-  desc: >-
-    Define o canal de log de confissões para registrar confissões. O uso
-    indevido deste recurso terminará comigo a 2m da sua casa.
+  desc: 'Define o canal de logs de confissões para registrá-las. O uso indevido deste recurso fará com que eu fique a 2 metros da sua casa.'
   params:
-    - desc: 'O canal de log de confissões (opcional).'
+    - desc: 'O canal de logs de confissões (opcional).'
       name: channel
       optional: true
       type: channel
@@ -140,9 +138,9 @@ confessionunblacklist:
 confesslogchannel:
   args:
     - channel
-  desc: 'Define o canal de log de confissões.'
+  desc: 'Define o canal de logs de confissões.'
   params:
-    - desc: 'O canal para registrar confissões.'
+    - desc: 'O canal onde as confissões serão registradas.'
       name: channel
       optional: true
       type: ITextChannel

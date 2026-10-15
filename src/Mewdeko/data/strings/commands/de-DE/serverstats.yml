@@ -1,0 +1,298 @@
+serveractivity:
+  args:
+    - '[days]'
+    - '7'
+    - '0'
+  desc: 'Zeigt die Aktivitätsübersicht des Servers für einen Zeitraum: Nachrichten, Sprachzeit, Mitwirkende, Beitritte und Austritte sowie das aktivste Mitglied und die aktivsten Kanäle. Verwende 0 für die gesamte Zeit.'
+  params:
+    - desc: 'Der Zeitraum in Tagen, 0 für die gesamte Zeit oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+useractivity:
+  args:
+    - '[@user] [days]'
+    - '@user 30'
+  desc: 'Zeigt die Aktivitätsübersicht eines Mitglieds für einen Zeitraum: Nachrichten und Sprachzeit mit Rängen, Gesamtwerte seit Beginn und die meistgenutzten Kanäle.'
+  params:
+    - desc: 'Das Mitglied, oder weggelassen für dich selbst.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Der Zeitraum in Tagen, 0 für die gesamte Zeit oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+channelactivity:
+  args:
+    - '[#channel] [days]'
+  desc: 'Zeigt die Aktivitätsübersicht eines Kanals für einen Zeitraum: Nachrichten, Sprachzeit, Mitwirkende und die aktivsten Mitglieder.'
+  params:
+    - desc: 'Der Kanal, oder weggelassen für den aktuellen Kanal.'
+      name: channel
+      optional: true
+      type: IGuildChannel
+    - desc: 'Der Zeitraum in Tagen, 0 für die gesamte Zeit oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+activitytop:
+  args:
+    - '[Messages|Voice] [days] [@role]'
+    - 'Voice 7'
+  desc: 'Rangliste der Mitglieder nach Nachrichten oder Sprachzeit über einen Zeitraum, optional nur für Mitglieder mit einer Rolle.'
+  params:
+    - desc: 'Nachrichten oder Sprachzeit.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Der Zeitraum in Tagen, 0 für die gesamte Zeit oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+    - desc: 'Nur Mitglieder mit dieser Rolle einbeziehen.'
+      name: role
+      optional: true
+      type: IRole
+activitytopchannels:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Rangliste der Kanäle nach Nachrichten oder Sprachzeit über einen Zeitraum.'
+  params:
+    - desc: 'Nachrichten oder Sprachzeit.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Der Zeitraum in Tagen, 0 für die gesamte Zeit oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+activitychart:
+  args:
+    - '[Messages|Voice|Members|Status|Joins|Leaves|Growth|InVoice] [days]'
+    - 'Members 30'
+  desc: 'Zeichnet ein Diagramm über einen Zeitraum mit Nachrichten, Sprachstunden, Mitgliederzahl, Mitgliederstatus, Beitritten, Austritten, Wachstum oder Mitgliedern im Sprach-Kanal.'
+  params:
+    - desc: 'Was im Diagramm dargestellt werden soll.'
+      name: kind
+      optional: true
+      type: StatChartKind
+    - desc: 'Der Zeitraum in Tagen, 1 bis 90, oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+activityexport:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Exportiert eine Mitgliederrangliste nach Nachrichten oder Sprachzeit als CSV-Datei.'
+  params:
+    - desc: 'Nachrichten oder Sprachzeit.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Der Zeitraum in Tagen, 0 für die gesamte Zeit oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+statssettings:
+  args:
+    - ''
+  desc: 'Zeigt die Einstellungen für die Aktivitätsstatistik-Erfassung an.'
+  params: [ ]
+statslookback:
+  args:
+    - '14'
+  desc: 'Legt den Standard-Zeitraum in Tagen fest, den Statistikbefehle verwenden, wenn keiner angegeben wird.'
+  params:
+    - desc: 'Der Zeitraum in Tagen, 1 bis 90.'
+      name: days
+      optional: false
+      type: int
+statscooldown:
+  args:
+    - '30'
+  desc: 'Legt fest, wie viele Sekunden zwischen zwei gezählten Nachrichten desselben Mitglieds vergehen müssen. 0 zählt jede Nachricht.'
+  params:
+    - desc: 'Die Abklingzeit in Sekunden, 0 bis 300.'
+      name: seconds
+      optional: false
+      type: int
+statstrackvoice:
+  args:
+    - ''
+  desc: 'Schaltet die Erfassung der Sprachzeit für Aktivitätsstatistiken um.'
+  params: [ ]
+statstracksnapshots:
+  args:
+    - ''
+  desc: 'Schaltet die stündlichen Snapshots von Mitgliedern und Status um, die für Mitglieder- und Status-Diagramme verwendet werden.'
+  params: [ ]
+statscountbots:
+  args:
+    - ''
+  desc: 'Schaltet um, ob Bots in den Aktivitätsstatistiken mitgezählt werden.'
+  params: [ ]
+statsignorevoicestate:
+  args:
+    - 'SelfMuted'
+    - 'Afk'
+  desc: 'Schaltet um, ob Zeit in einem Sprachzustand (SelfMuted, SelfDeafened, ServerMuted, ServerDeafened, Afk, Alone, Streaming, Video) zu den Sprachstatistiken zählt.'
+  params:
+    - desc: 'Der Zustand, der umgeschaltet wird.'
+      name: state
+      optional: false
+      type: VoiceStateFlags
+statsignore:
+  args:
+    - '#channel'
+    - '@role'
+    - '@user'
+  desc: 'Schaltet um, ob ein Kanal, alle Inhaber einer Rolle oder ein Mitglied von den Aktivitätsstatistiken ausgeschlossen wird.'
+  params:
+    - desc: 'Der Kanal, der umgeschaltet wird.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Die Rolle, die umgeschaltet werden soll.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Das Mitglied, das umgeschaltet wird.'
+      name: user
+      optional: false
+      type: IGuildUser
+statsignored:
+  args:
+    - ''
+  desc: 'Listet die Kanäle, Rollen und Mitglieder auf, die von den Aktivitätsstatistiken ausgeschlossen sind.'
+  params: [ ]
+statsprivacy:
+  args:
+    - ''
+  desc: 'Schließt dich auf allen Servern von den Aktivitätsstatistiken aus und löscht dabei deine gespeicherten Nachrichten- und Sprachstatistiken dauerhaft, oder nimmt dich wieder auf.'
+  params: [ ]
+topgames:
+  args:
+    - '[days]'
+    - '30'
+  desc: 'Rangliste der Spiele und Apps, in denen Mitglieder über einen Zeitraum am meisten Zeit verbringen, mit Spielerzahlen. Erfordert, dass die Spiele-Erfassung aktiviert ist.'
+  params:
+    - desc: 'Der Zeitraum in Tagen, 0 für die gesamte Zeit oder weggelassen für die Server-Standardeinstellung.'
+      name: days
+      optional: true
+      type: int
+whoplays:
+  args:
+    - 'Minecraft'
+  desc: 'Zeigt, wer ein Spiel spielt oder eine App verwendet: wie viele Mitglieder gerade dabei sind und welche Mitglieder die meiste Zeit darin verbringen.'
+  params:
+    - desc: 'Der Name des Spiels oder der App.'
+      name: game
+      optional: false
+      type: string
+statstrackactivities:
+  args:
+    - ''
+  desc: 'Schaltet die Erfassung der Spiele und Apps um, die Mitglieder verwenden (spielen, streamen, zuhören, schauen, konkurrieren). Standardmäßig deaktiviert.'
+  params: [ ]
+statsverifyactivities:
+  args:
+    - ''
+  desc: 'Schaltet um, ob nur Aktivitäten gezählt werden, die durch eine Discord-Anwendung, Spotify oder einen Stream gestützt werden. Dadurch werden Präsenzen blockiert, die von benutzerdefinierten Clients gefälscht wurden.'
+  params: [ ]
+statsactivityfiltermode:
+  args:
+    - 'Whitelist'
+    - 'Blacklist'
+  desc: 'Legt fest, ob die Aktivitätsfilterliste nur die aufgelisteten Spiele erlaubt (Whitelist) oder sie ignoriert (Blacklist).'
+  params:
+    - desc: 'Whitelist oder Blacklist.'
+      name: mode
+      optional: false
+      type: ActivityFilterMode
+statsactivityfilter:
+  args:
+    - 'Spotify'
+  desc: 'Schaltet einen Spiel- oder App-Namen auf der Aktivitätsfilterliste um.'
+  params:
+    - desc: 'Der Name der Aktivität.'
+      name: name
+      optional: false
+      type: string
+statsactivityfilters:
+  args:
+    - ''
+  desc: 'Listet den Aktivitätsfilter auf und zeigt, ob er eine Whitelist oder eine Blacklist ist.'
+  params: [ ]
+liveboardadd:
+  args:
+    - '#channel InviteLeaderboard [Weekly] [entries] [intervalMinutes]'
+    - '#stats GrowthChart Monthly'
+  desc: 'Veröffentlicht eine Rangliste, Statistik oder Übersicht, die der Bot laufend aktualisiert und anpinnt. Arten: InviteLeaderboard, MessageLeaderboard, VoiceLeaderboard, JoinsChart, LeavesChart, GrowthChart, MembersChart, MessagesChart, ServerOverview, InviteStats.'
+  params:
+    - desc: 'Der Kanal, in dem veröffentlicht wird.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Was angezeigt werden soll.'
+      name: kind
+      optional: false
+      type: LiveBoardKind
+    - desc: 'Der Zeitraum: AllTime, Daily, Weekly oder Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Zeilen für Ranglisten, 3 bis 25.'
+      name: entries
+      optional: true
+      type: int
+    - desc: 'Wie oft aktualisiert wird, mindestens alle 5 Minuten.'
+      name: intervalMinutes
+      optional: true
+      type: int
+liveboardlist:
+  args:
+    - ''
+  desc: 'Listet aktive Boards auf.'
+  params: [ ]
+liveboardremove:
+  args:
+    - '3'
+  desc: 'Löscht ein aktives Board und seine Nachricht.'
+  params:
+    - desc: 'Die Board-ID aus der Liste.'
+      name: id
+      optional: false
+      type: int
+liveboardrefresh:
+  args:
+    - ''
+  desc: 'Aktualisiert alle aktiven Boards sofort.'
+  params: [ ]
+serverreportchannel:
+  args:
+    - '[#channel]'
+  desc: 'Legt den Kanal fest, der geplante Server-Berichte erhält, und aktiviert sie. Lass den Kanal weg, um die Berichte zu deaktivieren.'
+  params:
+    - desc: 'Der Kanal oder weggelassen zum Deaktivieren.'
+      name: channel
+      optional: true
+      type: ITextChannel
+serverreportfrequency:
+  args:
+    - 'Weekly'
+  desc: 'Legt fest, wie oft Server-Berichte veröffentlicht werden: Daily, Weekly oder Monthly.'
+  params:
+    - desc: 'Daily, Weekly oder Monthly.'
+      name: frequency
+      optional: false
+      type: ReportFrequency
+serverreportnow:
+  args:
+    - '[Weekly]'
+  desc: 'Veröffentlicht sofort einen Server-Bericht im aktuellen Kanal für den angegebenen oder konfigurierten Zeitraum.'
+  params:
+    - desc: 'Der Zeitraum, der abgedeckt wird, oder weggelassen für den konfigurierten Zeitraum.'
+      name: frequency
+      optional: true
+      type: ReportFrequency

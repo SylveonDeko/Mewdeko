@@ -3,17 +3,17 @@ todoadd:
     - listId
     - title
     - description
-  desc: 'Belirtilen listeye yeni bir gorev ogesi ekler'
+  desc: 'Belirtilen listeye yeni bir yapılacak öğesi ekler'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
-    - desc: 'Gorev ogesinin basligi.'
+    - desc: 'Yapılacak öğenin başlığı.'
       name: title
       optional: false
       type: string
-    - desc: 'Oge icin ihtiyari aciklama.'
+    - desc: 'Öğe için isteğe bağlı açıklama.'
       name: description
       optional: true
       type: string
@@ -23,21 +23,21 @@ todoaddpriority:
     - priority
     - title
     - description
-  desc: 'Oncelik ve ihtiyari son tarihle bir gorev ogesi ekler'
+  desc: 'Öncelik ve isteğe bağlı son tarihle yapılacak öğesi ekler'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
-    - desc: 'Oncelik seviyesi (1=Dusuk, 2=Orta, 3=Yuksek, 4=Kritik).'
+    - desc: 'Öncelik seviyesi (1=Düşük, 2=Orta, 3=Yüksek, 4=Kritik).'
       name: priority
       optional: false
       type: int
-    - desc: 'Gorev ogesinin basligi.'
+    - desc: 'Yapılacak öğenin başlığı.'
       name: title
       optional: false
       type: string
-    - desc: 'Oge icin ihtiyari aciklama.'
+    - desc: 'Öğe için isteğe bağlı açıklama.'
       name: description
       optional: true
       type: string
@@ -45,9 +45,9 @@ todoaddtag:
   args:
     - itemId
     - tag
-  desc: 'Bir gorev ogesine etiket ekler'
+  desc: 'Bir yapılacak öğesine etiket ekler'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
@@ -58,27 +58,27 @@ todoaddtag:
 todocleardue:
   args:
     - itemId
-  desc: 'Bir gorev ogesinin son tarihini kaldirir'
+  desc: 'Bir yapılacak öğesinin son tarihini kaldırır'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
 todoclearreminder:
   args:
     - itemId
-  desc: 'Bir gorev ogesinin hatirlaticisini kaldirir'
+  desc: 'Bir yapılacak öğesinin hatırlatıcısını kaldırır'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
 todocomplete:
   args:
     - itemId
-  desc: 'Bir gorev ogesini tamamlanmis olarak isaretler'
+  desc: 'Bir yapılacak öğesini tamamlar'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
@@ -86,13 +86,13 @@ todocreatelist:
   args:
     - name
     - description
-  desc: 'Yeni bir gorev listesi olusturur'
+  desc: 'Yeni bir yapılacaklar listesi oluşturur'
   params:
-    - desc: 'Gorev listesinin adi.'
+    - desc: 'Yapılacaklar listesinin adı.'
       name: name
       optional: false
       type: string
-    - desc: 'Liste icin ihtiyari aciklama.'
+    - desc: 'Liste için isteğe bağlı açıklama.'
       name: description
       optional: true
       type: string
@@ -100,31 +100,31 @@ todocreateserverlist:
   args:
     - name
     - description
-  desc: 'Yeni bir sunucu geneli gorev listesi olusturur (yalnizca admin)'
+  desc: 'Sunucuya özel yeni bir yapılacaklar listesi oluşturur (yalnızca yönetici)'
   params:
-    - desc: 'Sunucu gorev listesinin adi.'
+    - desc: 'Sunucu yapılacaklar listesinin adı.'
       name: name
       optional: false
       type: string
-    - desc: 'Liste icin ihtiyari aciklama.'
+    - desc: 'Liste için isteğe bağlı açıklama.'
       name: description
       optional: true
       type: string
 tododelete:
   args:
     - itemId
-  desc: 'Bir gorev ogesini siler'
+  desc: 'Bir yapılacak öğesini siler'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
 tododeletelist:
   args:
     - listId
-  desc: 'Tum bir gorev listesini siler'
+  desc: 'Tüm yapılacaklar listesini siler'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
@@ -133,17 +133,17 @@ todoedit:
     - itemId
     - title
     - description
-  desc: 'Bir gorev ogesinin basligini ve aciklamasini duzenler'
+  desc: 'Bir yapılacak öğesinin başlığını ve açıklamasını düzenler'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Yeni baslik.'
+    - desc: 'Yeni başlık.'
       name: title
       optional: false
       type: string
-    - desc: 'Yeni aciklama.'
+    - desc: 'Yeni açıklama.'
       name: description
       optional: true
       type: string
@@ -152,17 +152,17 @@ todofilter:
     - listId
     - filter
     - value
-  desc: 'Gorev ogelerini etikete veya oncelige gore filtreler'
+  desc: 'Yapılacak öğelerini etikete veya önceliğe göre filtreler'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
-    - desc: 'Filtre turu (etiket veya oncelik).'
+    - desc: 'Filtre türü (tag veya priority).'
       name: filter
       optional: false
       type: string
-    - desc: 'Filtrelenecek deger.'
+    - desc: 'Filtrelenecek değer.'
       name: value
       optional: true
       type: string
@@ -171,35 +171,35 @@ todogrant:
     - listId
     - '@user'
     - permissions
-  desc: 'Bir gorev listesi icin kullaniciya izin verir (yalnizca liste sahibi/admin)'
+  desc: 'Bir yapılacaklar listesi için bir kullanıcıya izin verir (yalnızca liste sahibi/yöneticisi)'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
-    - desc: 'Izin verilecek kullanici.'
+    - desc: 'İzin verilecek kullanıcı.'
       name: user
       optional: false
       type: IUser
-    - desc: 'Virgullerle ayrilmis izinler (view,add,edit,complete,delete,manage,all).'
+    - desc: 'Virgülle ayrılmış izinler (view,add,edit,complete,delete,manage,all).'
       name: permissions
       optional: false
       type: string
 todolists:
   args:
     - includeServer
-  desc: 'Kullanicinin erisebilecegi tum gorev listelerini listeler'
+  desc: 'Kullanıcının erişebildiği tüm yapılacaklar listelerini listeler'
   params:
-    - desc: 'Sunucu geneli listelerin dahil edilip edilmeyecegi.'
+    - desc: 'Sunucu genelindeki listeler de dahil edilsin mi.'
       name: includeServer
       optional: true
       type: bool
 todopermissions:
   args:
     - listId
-  desc: 'Bir gorev listesinin tum izinlerini gosterir'
+  desc: 'Bir yapılacaklar listesinin tüm izinlerini gösterir'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
@@ -207,13 +207,13 @@ todoremovetag:
   args:
     - itemId
     - tag
-  desc: 'Bir gorev ogesinden etiketi kaldirir'
+  desc: 'Bir yapılacak öğesinden etiketi kaldırır'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Kaldirilacak etiket.'
+    - desc: 'Kaldırılacak etiket.'
       name: tag
       optional: false
       type: string
@@ -221,13 +221,13 @@ todoreorder:
   args:
     - itemId
     - newPosition
-  desc: 'Bir gorev ogesini yeni bir konuma yeniden siralar'
+  desc: 'Bir yapılacak öğesini yeni bir konuma taşır'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Yeni konum (1 tabanli).'
+    - desc: 'Yeni konum (1''den başlar).'
       name: newPosition
       optional: false
       type: int
@@ -235,13 +235,13 @@ todorevoke:
   args:
     - listId
     - '@user'
-  desc: 'Bir gorev listesinde kullanicinin tum izinlerini iptal eder'
+  desc: 'Bir kullanıcının yapılacaklar listesindeki tüm izinlerini iptal eder'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
-    - desc: 'Izinleri iptal edilecek kullanici.'
+    - desc: 'İzinleri iptal edilecek kullanıcı.'
       name: user
       optional: false
       type: IUser
@@ -249,9 +249,9 @@ todosearch:
   args:
     - listId
     - query
-  desc: 'Bir liste icinde gorev ogelerini arar'
+  desc: 'Bir liste içinde yapılacak öğelerini arar'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
@@ -263,13 +263,13 @@ todosetcolor:
   args:
     - listId
     - color
-  desc: 'Bir gorev listesinin rengini ayarlar'
+  desc: 'Bir yapılacaklar listesinin rengini ayarlar'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
-    - desc: 'Onaltilik renk kodu (orn.,'
+    - desc: 'Hex renk kodu, örn. #ff0000.'
       name: color
       optional: false
       type: string
@@ -277,9 +277,9 @@ todosetdue:
   args:
     - itemId
     - dateString
-  desc: 'Bir gorev ogesinin son tarihini ayarlar'
+  desc: 'Bir yapılacak öğesinin son tarihini ayarlar'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
@@ -291,13 +291,13 @@ todosetreminder:
   args:
     - itemId
     - dateString
-  desc: 'Bir gorev ogesi icin hatirlama zamani ayarlar'
+  desc: 'Bir yapılacak öğesi için hatırlatma zamanı ayarlar'
   params:
-    - desc: 'Gorev ogesinin IDsi.'
+    - desc: 'Yapılacak öğesinin ID''si.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Hatirlama tarihi ve saati.'
+    - desc: 'Hatırlatma tarihi ve saati.'
       name: dateString
       optional: false
       type: string
@@ -305,22 +305,22 @@ todoshow:
   args:
     - listId
     - includeCompleted
-  desc: 'Bir gorev listesindeki tum ogeleri gosterir'
+  desc: 'Bir yapılacaklar listesindeki tüm öğeleri gösterir'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int
-    - desc: 'Tamamlanan ogelerin dahil edilip edilmeyecegi.'
+    - desc: 'Tamamlanmış öğeler de dahil edilsin mi.'
       name: includeCompleted
       optional: true
       type: bool
 todotoggleprivacy:
   args:
     - listId
-  desc: 'Bir gorev listesinin gizlilik ayarini degistirir'
+  desc: 'Bir yapılacaklar listesinin gizlilik ayarını değiştirir'
   params:
-    - desc: 'Gorev listesinin IDsi.'
+    - desc: 'Yapılacaklar listesinin ID''si.'
       name: listId
       optional: false
       type: int

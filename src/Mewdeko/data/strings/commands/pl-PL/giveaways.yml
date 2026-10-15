@@ -1,58 +1,58 @@
 gbanner:
   args:
     - text
-  desc: 'Ustawia domyslny baner rozdania.'
+  desc: 'Ustawia domyślny baner giveawayów.'
   params:
     - &ref_221
-      desc: 'Ustawia domyslny baner rozdania.'
+      desc: 'Ustawia domyślny baner giveawayów.'
       name: banner
       optional: false
       type: string
 gbanner_string:
   args:
     - text
-  desc: 'Ustawia domyslny baner rozdania.'
+  desc: 'Ustawia domyślny baner giveawayów.'
   params:
-    - desc: 'Ustawia domyslny baner rozdania.'
+    - desc: 'Ustawia domyślny baner giveawayów.'
       name: banner
       optional: false
       type: string
 gbanner_string_1:
   args:
     - text
-  desc: 'Ustawia domyslny baner rozdania.'
+  desc: 'Ustawia domyślny baner giveawayów.'
   params:
-    - desc: 'Ustawia domyslny baner rozdania.'
+    - desc: 'Ustawia domyślny baner giveawayów.'
       name: banner
       optional: false
       type: string
 gbanner_string_2:
   args:
     - text
-  desc: 'Ustawia domyslny baner rozdania.'
+  desc: 'Ustawia domyślny baner giveawayów.'
   params:
-    - desc: 'Ustawia domyslny baner rozdania.'
+    - desc: 'Ustawia domyślny baner giveawayów.'
       name: banner
       optional: false
       type: string
 gdm:
   args:
     - ''
-  desc: 'Ustawia, czy wysylac PW do zwyciezcy rozdania.'
+  desc: 'Ustawia, czy wysyłać wiadomość prywatną do zwycięzcy giveawaya.'
   params: [ ]
 gdmmessage:
   args:
     - '[message]'
-  desc: 'Ustawia wiadomosc PW wysylana do uzytkownikow po wygraniu rozdania.'
+  desc: 'Ustawia treść wiadomości prywatnej wysyłanej użytkownikom, którzy wygrają giveaway.'
   params:
-    - desc: 'Ustawia wiadomosc PW wysylana do uzytkownikow po wygraniu rozdania.'
+    - desc: 'Ustawia treść wiadomości prywatnej wysyłanej użytkownikom, którzy wygrają giveaway.'
       name: message
       optional: true
       type: string
 gembedcolor:
   args:
     - text
-  desc: 'Ustawia kolor embeda dla rozdania.'
+  desc: 'Ustawia kolor embeda giveawayów.'
   params:
     - &ref_223
       desc: 'Kolor w formacie hex.'
@@ -62,7 +62,7 @@ gembedcolor:
 gembedcolor_string:
   args:
     - text
-  desc: 'Ustawia kolor embeda dla rozdania.'
+  desc: 'Ustawia kolor embeda giveawayów.'
   params:
     - desc: 'Kolor w formacie hex.'
       name: color
@@ -71,7 +71,7 @@ gembedcolor_string:
 gembedcolor_string_1:
   args:
     - text
-  desc: 'Ustawia kolor embeda dla rozdania.'
+  desc: 'Ustawia kolor embeda giveawayów.'
   params:
     - desc: 'Kolor w formacie hex.'
       name: color
@@ -80,7 +80,7 @@ gembedcolor_string_1:
 gembedcolor_string_2:
   args:
     - text
-  desc: 'Ustawia kolor embeda dla rozdania.'
+  desc: 'Ustawia kolor embeda giveawayów.'
   params:
     - desc: 'Kolor w formacie hex.'
       name: color
@@ -89,236 +89,236 @@ gembedcolor_string_2:
 gemote:
   args:
     - emote
-  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  desc: 'Ustawia emotkę używaną w giveawayach.'
   params:
     - &ref_224
-      desc: 'Emotka do ustawienia.'
+      desc: 'Emotka, na którą ustawić.'
       name: emote
       optional: false
       type: IEmote
 gemote_IEmote:
   args:
     - emote
-  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  desc: 'Ustawia emotkę używaną w giveawayach.'
   params:
-    - desc: 'Emotka do ustawienia.'
+    - desc: 'Emotka, na którą ustawić.'
       name: emote
       optional: false
       type: IEmote
 gemote_IEmote_1:
   args:
     - emote
-  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  desc: 'Ustawia emotkę używaną w giveawayach.'
   params:
-    - desc: 'Emotka do ustawienia.'
+    - desc: 'Emotka, na którą ustawić.'
       name: emote
       optional: false
       type: IEmote
 gemote_IEmote_2:
   args:
     - emote
-  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  desc: 'Ustawia emotkę używaną w giveawayach.'
   params:
-    - desc: 'Emotka do ustawienia.'
+    - desc: 'Emotka, na którą ustawić.'
       name: emote
       optional: false
       type: IEmote
 gend:
   args:
     - messageid
-  desc: 'Konczy rozdanie.'
+  desc: 'Kończy giveaway.'
   params:
     - &ref_225
-      desc: 'ID wiadomosci rozdania do zakonczenia'
+      desc: 'ID wiadomości giveawaya do zakończenia.'
       name: messageid
       optional: false
       type: ulong
 gend_ulong:
   args:
     - messageid
-  desc: 'Konczy rozdanie.'
+  desc: 'Kończy giveaway.'
   params:
-    - desc: 'ID wiadomosci rozdania do zakonczenia'
+    - desc: 'ID wiadomości giveawaya do zakończenia.'
       name: messageid
       optional: false
       type: ulong
 gend_ulong_1:
   args:
     - messageid
-  desc: 'Konczy rozdanie.'
+  desc: 'Kończy giveaway.'
   params:
-    - desc: 'ID wiadomosci rozdania do zakonczenia'
+    - desc: 'ID wiadomości giveawaya do zakończenia.'
       name: messageid
       optional: false
       type: ulong
 gend_ulong_2:
   args:
     - messageid
-  desc: 'Konczy rozdanie.'
+  desc: 'Kończy giveaway.'
   params:
-    - desc: 'ID wiadomosci rozdania do zakonczenia'
+    - desc: 'ID wiadomości giveawaya do zakończenia.'
       name: messageid
       optional: false
       type: ulong
 glist:
   args:
     - ''
-  desc: 'Wyswietla wszystkie aktywne rozdania.'
+  desc: 'Wyświetla wszystkie aktywne giveawaye.'
   params: [ ]
 greroll:
   args:
     - messageid
-  desc: 'Ponownie losuje rozdanie.'
+  desc: 'Losuje ponownie zwycięzców giveawaya.'
   params:
     - &ref_237
-      desc: 'ID wiadomosci rozdania'
+      desc: 'ID wiadomości giveawaya.'
       name: messageid
       optional: false
       type: ulong
 greroll_ulong:
   args:
     - messageid
-  desc: 'Ponownie losuje rozdanie.'
+  desc: 'Losuje ponownie zwycięzców giveawaya.'
   params:
-    - desc: 'ID wiadomosci rozdania'
+    - desc: 'ID wiadomości giveawaya.'
       name: messageid
       optional: false
       type: ulong
 greroll_ulong_1:
   args:
     - messageid
-  desc: 'Ponownie losuje rozdanie.'
+  desc: 'Losuje ponownie zwycięzców giveawaya.'
   params:
-    - desc: 'ID wiadomosci rozdania'
+    - desc: 'ID wiadomości giveawaya.'
       name: messageid
       optional: false
       type: ulong
 greroll_ulong_2:
   args:
     - messageid
-  desc: 'Ponownie losuje rozdanie.'
+  desc: 'Losuje ponownie zwycięzców giveawaya.'
   params:
-    - desc: 'ID wiadomosci rozdania'
+    - desc: 'ID wiadomości giveawaya.'
       name: messageid
       optional: false
       type: ulong
 gstart:
   args:
     - chan time number text
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params:
     - &ref_238
-      desc: 'Kanal do uruchomienia rozdania'
+      desc: 'Kanał, na którym rozpocząć giveaway.'
       name: chan
       optional: false
       type: ITextChannel
     - &ref_239
-      desc: 'Czas trwania rozdania'
+      desc: 'Czas trwania giveawaya.'
       name: time
       optional: false
       type: StoopidTime
     - &ref_240
-      desc: 'Liczba zwyciezcow'
+      desc: 'Liczba zwycięzców.'
       name: winners
       optional: false
       type: int
     - &ref_241
-      desc: 'Przedmiot do wylosowania'
+      desc: 'Przedmiot do rozdania.'
       name: what
       optional: false
       type: string
 gstart_ITextChannel_StoopidTime_int_string:
   args:
     - chan time number text
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params:
-    - desc: 'Kanal do uruchomienia rozdania'
+    - desc: 'Kanał, na którym rozpocząć giveaway.'
       name: chan
       optional: false
       type: ITextChannel
-    - desc: 'Czas trwania rozdania'
+    - desc: 'Czas trwania giveawaya.'
       name: time
       optional: false
       type: StoopidTime
-    - desc: 'Liczba zwyciezcow'
+    - desc: 'Liczba zwycięzców.'
       name: winners
       optional: false
       type: int
-    - desc: 'Przedmiot do wylosowania'
+    - desc: 'Przedmiot do rozdania.'
       name: what
       optional: false
       type: string
 gstart_ITextChannel_StoopidTime_int_string_1:
   args:
     - chan time number text
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params:
-    - desc: 'Kanal do uruchomienia rozdania'
+    - desc: 'Kanał, na którym rozpocząć giveaway.'
       name: chan
       optional: false
       type: ITextChannel
-    - desc: 'Czas trwania rozdania'
+    - desc: 'Czas trwania giveawaya.'
       name: time
       optional: false
       type: StoopidTime
-    - desc: 'Liczba zwyciezcow'
+    - desc: 'Liczba zwycięzców.'
       name: winners
       optional: false
       type: int
-    - desc: 'Przedmiot do wylosowania'
+    - desc: 'Przedmiot do rozdania.'
       name: what
       optional: false
       type: string
 gstart_ITextChannel_StoopidTime_int_string_2:
   args:
     - chan time number text
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params:
-    - desc: 'Kanal do uruchomienia rozdania'
+    - desc: 'Kanał, na którym rozpocząć giveaway.'
       name: chan
       optional: false
       type: ITextChannel
-    - desc: 'Czas trwania rozdania'
+    - desc: 'Czas trwania giveawaya.'
       name: time
       optional: false
       type: StoopidTime
-    - desc: 'Liczba zwyciezcow'
+    - desc: 'Liczba zwycięzców.'
       name: winners
       optional: false
       type: int
-    - desc: 'Przedmiot do wylosowania'
+    - desc: 'Przedmiot do rozdania.'
       name: what
       optional: false
       type: string
 gstart_noparams:
   args:
     - ''
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params: [ ]
 gstart_noparams_1:
   args:
     - ''
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params: [ ]
 gstart_noparams_2:
   args:
     - ''
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params: [ ]
 gstart_noparams_3:
   args:
     - ''
-  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  desc: 'Bardziej szczegółowe rozpoczynanie giveawaya: pozwala ustawić baner, rolę do oznaczenia i nie tylko.'
   params: [ ]
 gstats:
   args:
     - ''
-  desc: 'Wyswietla statystyki rozdania.'
+  desc: 'Pokazuje statystyki giveawayów.'
   params: [ ]
 gwinembedcolor:
   args:
     - text
-  desc: 'Ustawia kolor dla embeda zwyciezcy.'
+  desc: 'Ustawia kolor embeda zwycięzcy.'
   params:
     - desc: 'Kolor w formacie hex.'
       name: color

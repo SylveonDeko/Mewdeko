@@ -1,0 +1,2501 @@
+addblacklistedpermission:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '権限をブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加する権限です。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'この権限に固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '権限をブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加する権限です。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'この権限に固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_1:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '権限をブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加する権限です。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'この権限に固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_2:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '権限をブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加する権限です。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'この権限に固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'ロールをブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加するロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'このロールに固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'ロールをブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加するロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'このロールに固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_1:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'ロールをブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加するロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'このロールに固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_2:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'ロールをブラックリストに追加します。'
+  params:
+    - desc: 'ブラックリストに追加するロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'このロールに固有の、省略可能な処罰アクションです。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addemote:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'サーバーに新しい絵文字を追加します。'
+  params:
+    - desc: '絵文字の名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '絵文字画像の URL です。指定しない場合は、メッセージの添付ファイルから画像を取得します。'
+      name: url
+      optional: true
+      type: string
+addemote_string_=:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'サーバーに新しい絵文字を追加します。'
+  params:
+    - desc: '絵文字の名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '絵文字画像の URL です。指定しない場合は、メッセージの添付ファイルから画像を取得します。'
+      name: url
+      optional: true
+      type: string
+addroletolist:
+  args:
+    - '@role'
+  desc: '添付ファイルに記載されたユーザーの一覧に、指定したロールを付与します。'
+  params:
+    - &ref_28
+      desc: '添付ファイルに記載されたユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole:
+  args:
+    - '@role'
+  desc: '添付ファイルに記載されたユーザーの一覧に、指定したロールを付与します。'
+  params:
+    - desc: '添付ファイルに記載されたユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_1:
+  args:
+    - '@role'
+  desc: '添付ファイルに記載されたユーザーの一覧に、指定したロールを付与します。'
+  params:
+    - desc: '添付ファイルに記載されたユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_2:
+  args:
+    - '@role'
+  desc: '添付ファイルに記載されたユーザーの一覧に、指定したロールを付与します。'
+  params:
+    - desc: '添付ファイルに記載されたユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addroletorole:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - &ref_29
+      desc: '付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_30
+      desc: '新しいロールを受け取るメンバーの対象ロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: '付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '新しいロールを受け取るメンバーの対象ロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: '付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '新しいロールを受け取るメンバーの対象ロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: '付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '新しいロールを受け取るメンバーの対象ロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove:
+  args:
+    - '@role @role'
+  desc: '1 回の操作でユーザーにロールを追加し、同じユーザーから別のロールを削除します。'
+  params:
+    - &ref_33
+      desc: 'ユーザーに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_34
+      desc: '同じユーザーから削除するロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '1 回の操作でユーザーにロールを追加し、同じユーザーから別のロールを削除します。'
+  params:
+    - desc: 'ユーザーに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '同じユーザーから削除するロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '1 回の操作でユーザーにロールを追加し、同じユーザーから別のロールを削除します。'
+  params:
+    - desc: 'ユーザーに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '同じユーザーから削除するロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '1 回の操作でユーザーにロールを追加し、同じユーザーから別のロールを削除します。'
+  params:
+    - desc: 'ユーザーに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '同じユーザーから削除するロールです。'
+      name: role2
+      optional: false
+      type: IRole
+addtoall:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーに指定したロールを付与します。'
+  params:
+    - &ref_35
+      desc: 'サーバーの全メンバーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーに指定したロールを付与します。'
+  params:
+    - desc: 'サーバーの全メンバーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーに指定したロールを付与します。'
+  params:
+    - desc: 'サーバーの全メンバーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーに指定したロールを付与します。'
+  params:
+    - desc: 'サーバーの全メンバーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットに指定したロールを付与します。'
+  params:
+    - &ref_36
+      desc: 'すべてのボットに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットに指定したロールを付与します。'
+  params:
+    - desc: 'すべてのボットに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットに指定したロールを付与します。'
+  params:
+    - desc: 'すべてのボットに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットに指定したロールを付与します。'
+  params:
+    - desc: 'すべてのボットに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers:
+  args:
+    - '@role'
+  desc: 'ボットを除く、サーバー内のすべての人間のユーザーに指定したロールを付与します。'
+  params:
+    - &ref_37
+      desc: 'すべての人間のユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole:
+  args:
+    - '@role'
+  desc: 'ボットを除く、サーバー内のすべての人間のユーザーに指定したロールを付与します。'
+  params:
+    - desc: 'すべての人間のユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'ボットを除く、サーバー内のすべての人間のユーザーに指定したロールを付与します。'
+  params:
+    - desc: 'すべての人間のユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'ボットを除く、サーバー内のすべての人間のユーザーに指定したロールを付与します。'
+  params:
+    - desc: 'すべての人間のユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover:
+  args:
+    - time @role
+  desc: '指定した期間を超えてサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - &ref_38
+      desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいなければならない最短期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_39
+      desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: '指定した期間を超えてサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいなければならない最短期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: '指定した期間を超えてサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいなければならない最短期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: '指定した期間を超えてサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいなければならない最短期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder:
+  args:
+    - time @role
+  desc: '指定した期間未満でサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - &ref_40
+      desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいられる最長期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: '指定した期間未満でサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいられる最長期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: '指定した期間未満でサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいられる最長期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: '指定した期間未満でサーバーのメンバーであるすべてのユーザーに、指定したロールを付与します。'
+  params:
+    - desc: 'ロールを受け取るために、ユーザーがサーバーのメンバーでいられる最長期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '対象ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+adduserstorole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '指定したユーザーの一覧に特定のロールを付与します。ユーザーがまだそのロールを持っていない場合にのみ付与します。'
+  params:
+    - &ref_41
+      desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_42
+      desc: 'ロールを付与するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '指定したユーザーの一覧に特定のロールを付与します。ユーザーがまだそのロールを持っていない場合にのみ付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールを付与するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '指定したユーザーの一覧に特定のロールを付与します。ユーザーがまだそのロールを持っていない場合にのみ付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールを付与するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '指定したユーザーの一覧に特定のロールを付与します。ユーザーがまだそのロールを持っていない場合にのみ付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールを付与するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+addwhitelistedrole:
+  args:
+    - '@role'
+  desc: 'ホワイトリストにロールを追加します。'
+  params:
+    - &ref_43
+      desc: 'ホワイトリストに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole:
+  args:
+    - '@role'
+  desc: 'ホワイトリストにロールを追加します。'
+  params:
+    - desc: 'ホワイトリストに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'ホワイトリストにロールを追加します。'
+  params:
+    - desc: 'ホワイトリストに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'ホワイトリストにロールを追加します。'
+  params:
+    - desc: 'ホワイトリストに追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelisteduser:
+  args:
+    - '@user'
+  desc: 'ホワイトリストにユーザーを追加します。'
+  params:
+    - &ref_44
+      desc: 'ホワイトリストに追加するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser:
+  args:
+    - '@user'
+  desc: 'ホワイトリストにユーザーを追加します。'
+  params:
+    - desc: 'ホワイトリストに追加するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'ホワイトリストにユーザーを追加します。'
+  params:
+    - desc: 'ホワイトリストに追加するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'ホワイトリストにユーザーを追加します。'
+  params:
+    - desc: 'ホワイトリストに追加するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+atuo:
+  args:
+    - role threshold
+  desc: 'しきい値を超えるユーザーにロールを追加します。'
+  params:
+    - desc: '付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'しきい値です。'
+      name: threshold
+      optional: false
+      type: int
+atuu:
+  args:
+    - role threshold
+  desc: 'しきい値未満のユーザーにロールを追加します。'
+  params:
+    - desc: '付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'しきい値です。'
+      name: threshold
+      optional: false
+      type: int
+ccatc:
+  args:
+    - name count
+  desc: 'カテゴリーとテキストチャンネルを作成します。'
+  params:
+    - desc: 'カテゴリーの名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '作成するテキストチャンネルの数です。'
+      name: count
+      optional: false
+      type: int
+ccavc:
+  args:
+    - name count
+  desc: 'カテゴリーとボイスチャンネルを作成します。'
+  params:
+    - desc: 'カテゴリーの名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '作成するボイスチャンネルの数です。'
+      name: count
+      optional: false
+      type: int
+cctc:
+  args:
+    - category count
+  desc: 'カテゴリー内にテキストチャンネルを作成します。'
+  params:
+    - desc: 'チャンネルを追加するカテゴリーです。'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: '作成するテキストチャンネルの数です。'
+      name: count
+      optional: false
+      type: int
+ccvc:
+  args:
+    - category count
+  desc: 'カテゴリー内にボイスチャンネルを作成します。'
+  params:
+    - desc: 'チャンネルを追加するカテゴリーです。'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: '作成するボイスチャンネルの数です。'
+      name: count
+      optional: false
+      type: int
+createcatandtxtchannels:
+  args:
+    - text text
+  desc: 'サーバーにカテゴリーと指定したチャンネルを作成します。'
+  params:
+    - &ref_148
+      desc: '作成するカテゴリーの名前です'
+      name: catName
+      optional: false
+      type: string
+    - &ref_149
+      desc: '作成するチャンネルの名前です'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]:
+  args:
+    - text text
+  desc: 'サーバーにカテゴリーと指定したチャンネルを作成します。'
+  params:
+    - desc: '作成するカテゴリーの名前です'
+      name: catName
+      optional: false
+      type: string
+    - desc: '作成するチャンネルの名前です'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_1:
+  args:
+    - text text
+  desc: 'サーバーにカテゴリーと指定したチャンネルを作成します。'
+  params:
+    - desc: '作成するカテゴリーの名前です'
+      name: catName
+      optional: false
+      type: string
+    - desc: '作成するチャンネルの名前です'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_2:
+  args:
+    - text text
+  desc: 'サーバーにカテゴリーと指定したチャンネルを作成します。'
+  params:
+    - desc: '作成するカテゴリーの名前です'
+      name: catName
+      optional: false
+      type: string
+    - desc: '作成するチャンネルの名前です'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels:
+  args:
+    - text text
+  desc: '複数のボイスチャンネルを含むカテゴリーを作成します。'
+  params:
+    - &ref_150
+      desc: '作成するカテゴリーの名前です。'
+      name: catName
+      optional: false
+      type: string
+    - &ref_151
+      desc: 'カテゴリー内に作成するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]:
+  args:
+    - text text
+  desc: '複数のボイスチャンネルを含むカテゴリーを作成します。'
+  params:
+    - desc: '作成するカテゴリーの名前です。'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'カテゴリー内に作成するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_1:
+  args:
+    - text text
+  desc: '複数のボイスチャンネルを含むカテゴリーを作成します。'
+  params:
+    - desc: '作成するカテゴリーの名前です。'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'カテゴリー内に作成するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_2:
+  args:
+    - text text
+  desc: '複数のボイスチャンネルを含むカテゴリーを作成します。'
+  params:
+    - desc: '作成するカテゴリーの名前です。'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'カテゴリー内に作成するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のテキストチャンネルを追加します。'
+  params:
+    - &ref_152
+      desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_153
+      desc: '追加するテキストチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のテキストチャンネルを追加します。'
+  params:
+    - desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '追加するテキストチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のテキストチャンネルを追加します。'
+  params:
+    - desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '追加するテキストチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のテキストチャンネルを追加します。'
+  params:
+    - desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '追加するテキストチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のボイスチャンネルを追加します。'
+  params:
+    - desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_154
+      desc: '追加するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のボイスチャンネルを追加します。'
+  params:
+    - desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '追加するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のボイスチャンネルを追加します。'
+  params:
+    - desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '追加するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: '既存のカテゴリーに複数のボイスチャンネルを追加します。'
+  params:
+    - desc: '対象のカテゴリーチャンネルです。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '追加するボイスチャンネルの名前です。'
+      name: channels
+      optional: false
+      type: string[]
+createroles:
+  args:
+    - text
+  desc: '指定されたロール名の一覧に基づいて、サーバー内に複数のロールを作成します。'
+  params:
+    - &ref_155
+      desc: '作成するロール名をスペースで区切った一覧です。'
+      name: roles
+      optional: false
+      type: string
+createroles_string:
+  args:
+    - text
+  desc: '指定されたロール名の一覧に基づいて、サーバー内に複数のロールを作成します。'
+  params:
+    - desc: '作成するロール名をスペースで区切った一覧です。'
+      name: roles
+      optional: false
+      type: string
+createroles_string_1:
+  args:
+    - text
+  desc: '指定されたロール名の一覧に基づいて、サーバー内に複数のロールを作成します。'
+  params:
+    - desc: '作成するロール名をスペースで区切った一覧です。'
+      name: roles
+      optional: false
+      type: string
+createroles_string_2:
+  args:
+    - text
+  desc: '指定されたロール名の一覧に基づいて、サーバー内に複数のロールを作成します。'
+  params:
+    - desc: '作成するロール名をスペースで区切った一覧です。'
+      name: roles
+      optional: false
+      type: string
+createwebhook:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+  params:
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+  params:
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_1:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+  params:
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_2:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+  params:
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'テキストチャンネルに、カスタムアバター（省略可能）付きの Webhook を作成します。'
+      name: avatar
+      optional: true
+      type: string
+deleteroles:
+  args:
+    - '@role'
+  desc: 'サーバーから指定したロールの一覧を削除します。'
+  params:
+    - &ref_189
+      desc: '削除するロールの配列です。'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]:
+  args:
+    - '@role'
+  desc: 'サーバーから指定したロールの一覧を削除します。'
+  params:
+    - desc: '削除するロールの配列です。'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'サーバーから指定したロールの一覧を削除します。'
+  params:
+    - desc: '削除するロールの配列です。'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'サーバーから指定したロールの一覧を削除します。'
+  params:
+    - desc: '削除するロールの配列です。'
+      name: roles
+      optional: false
+      type: IRole[]
+exportrolelist:
+  args:
+    - ''
+  desc: 'ロールと、それに関連付けられたユーザーの一覧をテキストファイルにエクスポートします。バックアップや移行が簡単に行えます。'
+  params: [ ]
+grab:
+  args:
+    - '@user'
+  desc: 'ユーザーをコマンド実行者の現在のボイスチャンネルに呼び出します。'
+  params:
+    - &ref_233
+      desc: '呼び出して移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser:
+  args:
+    - '@user'
+  desc: 'ユーザーをコマンド実行者の現在のボイスチャンネルに呼び出します。'
+  params:
+    - desc: '呼び出して移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'ユーザーをコマンド実行者の現在のボイスチャンネルに呼び出します。'
+  params:
+    - desc: '呼び出して移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'ユーザーをコマンド実行者の現在のボイスチャンネルに呼び出します。'
+  params:
+    - desc: '呼び出して移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+importrolelist:
+  args:
+    - false
+  desc: 'テキストファイルからロールとユーザーの関連付けをインポートし、指定したロールをメンションしたユーザーに適用します。'
+  params:
+    - desc: 'テキストファイルからロールとユーザーの関連付けをインポートし、指定したロールをメンションしたユーザーに適用します。'
+      name: false
+      optional: false
+      type: '='
+liftlockdown:
+  args:
+    - lockdowntype.readonly
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+  params:
+    - &ref_274
+      desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=:
+  args:
+    - lockdowntype.readonly
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+  params:
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_1:
+  args:
+    - lockdowntype.readonly
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+  params:
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_2:
+  args:
+    - lockdowntype.readonly
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+  params:
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、ロックダウンを解除します。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+listblacklists:
+  args:
+    - ''
+  desc: 'ブラックリストとホワイトリストに登録されているすべてのロールと権限を一覧表示します。'
+  params: [ ]
+lock:
+  args:
+    - '[channel]'
+  desc: 'チャンネルの低速モードを有効または無効にします。時間はカスタマイズできます。'
+  params:
+    - desc: '低速モードを適用するチャンネルを指定する省略可能なパラメーターです。'
+      name: channel
+      optional: true
+      type: sockettextchannel
+lockdown:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+  params:
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - &ref_281
+      desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+  params:
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_1:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+  params:
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_2:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+  params:
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '指定したロックダウンの種類（Joins、Readonly、Full）に基づいて、サーバーをロックダウンします。'
+      name: false
+      optional: false
+      type: '='
+moveto:
+  args:
+    - channel
+  desc: 'コマンド実行者を指定したボイスチャンネルに移動させます。'
+  params:
+    - &ref_301
+      desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel:
+  args:
+    - channel
+  desc: 'コマンド実行者を指定したボイスチャンネルに移動させます。'
+  params:
+    - desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_1:
+  args:
+    - channel
+  desc: 'コマンド実行者を指定したボイスチャンネルに移動させます。'
+  params:
+    - desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_2:
+  args:
+    - channel
+  desc: 'コマンド実行者を指定したボイスチャンネルに移動させます。'
+  params:
+    - desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto:
+  args:
+    - '@user channel'
+  desc: '指定したユーザーを特定のボイスチャンネルに移動させます。'
+  params:
+    - &ref_302
+      desc: '移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel:
+  args:
+    - '@user channel'
+  desc: '指定したユーザーを特定のボイスチャンネルに移動させます。'
+  params:
+    - desc: '移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_1:
+  args:
+    - '@user channel'
+  desc: '指定したユーザーを特定のボイスチャンネルに移動させます。'
+  params:
+    - desc: '移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_2:
+  args:
+    - '@user channel'
+  desc: '指定したユーザーを特定のボイスチャンネルに移動させます。'
+  params:
+    - desc: '移動させるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーを移動させる対象のボイスチャンネルです。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+nuke:
+  args:
+    - '[@chan3]'
+  desc: 'テキストチャンネルを削除して再作成し、実質的に「ヌーク（初期化）」します。'
+  params:
+    - desc: 'ヌークするチャンネルを指定する省略可能なパラメーターです。'
+      name: chan3
+      optional: true
+      type: channel
+permcontrol:
+  args:
+    - channel perm @role perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - &ref_337
+      desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - &ref_338
+      desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_339
+      desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_340
+      desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]:
+  args:
+    - channel perm @role perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_1:
+  args:
+    - channel perm @role perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_2:
+  args:
+    - channel perm @role perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]:
+  args:
+    - channel perm @user perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_341
+      desc: '権限の変更を適用するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_1:
+  args:
+    - channel perm @user perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '権限の変更を適用するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_2:
+  args:
+    - channel perm @user perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '権限の変更を適用するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_3:
+  args:
+    - channel perm @user perms
+  desc: '指定した権限とアクションに従って、特定のユーザーのチャンネル権限を変更します。'
+  params:
+    - desc: '権限を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '実行するアクション（Allow、Deny、Inherit）です。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '権限の変更を適用するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '変更する権限の集合です。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permview:
+  args:
+    - ''
+  desc: '指定したロールに許可されている権限の一覧を表示します。'
+  params: [ ]
+permview_IGuildUser:
+  args:
+    - '@user'
+  desc: '指定したロールに許可されている権限の一覧を表示します。'
+  params:
+    - &ref_343
+      desc: '権限を表示するロールです。'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '指定したロールに許可されている権限の一覧を表示します。'
+  params:
+    - desc: '権限を表示するロールです。'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IRole:
+  args:
+    - '@role'
+  desc: '指定したロールに許可されている権限の一覧を表示します。'
+  params:
+    - &ref_344
+      desc: '権限を表示するロールです。'
+      name: user
+      optional: false
+      type: IRole
+permview_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したロールに許可されている権限の一覧を表示します。'
+  params:
+    - desc: '権限を表示するロールです。'
+      name: user
+      optional: false
+      type: IRole
+permview_noparams:
+  args:
+    - ''
+  desc: '指定したロールに許可されている権限の一覧を表示します。'
+  params: [ ]
+removeblacklistedpermission:
+  args:
+    - permission
+  desc: 'ブラックリストから権限を削除します。'
+  params:
+    - desc: 'ブラックリストから削除する権限です。'
+      name: permission
+      optional: false
+      type: GuildPermission
+removeblacklistedrole:
+  args:
+    - '@role'
+  desc: 'ブラックリストからロールを削除します。'
+  params:
+    - desc: 'ブラックリストから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removeemote:
+  args:
+    - text
+  desc: 'サーバーから絵文字を削除します。'
+  params:
+    - &ref_394
+      desc: 'コマンドの署名要件を満たすためのプレースホルダーパラメーターです。'
+      name: _
+      optional: false
+      type: string
+removeemote_string:
+  args:
+    - text
+  desc: 'サーバーから絵文字を削除します。'
+  params:
+    - desc: 'コマンドの署名要件を満たすためのプレースホルダーパラメーターです。'
+      name: _
+      optional: false
+      type: string
+removefromall:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーから指定したロールを削除します。'
+  params:
+    - &ref_395
+      desc: 'サーバーの全メンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーから指定したロールを削除します。'
+  params:
+    - desc: 'サーバーの全メンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_1:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーから指定したロールを削除します。'
+  params:
+    - desc: 'サーバーの全メンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_2:
+  args:
+    - '@role'
+  desc: 'サーバーの全メンバーから指定したロールを削除します。'
+  params:
+    - desc: 'サーバーの全メンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットから指定したロールを削除します。'
+  params:
+    - &ref_396
+      desc: 'すべてのボットから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットから指定したロールを削除します。'
+  params:
+    - desc: 'すべてのボットから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットから指定したロールを削除します。'
+  params:
+    - desc: 'すべてのボットから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'サーバー内のすべてのボットから指定したロールを削除します。'
+  params:
+    - desc: 'すべてのボットから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers:
+  args:
+    - '@role'
+  desc: 'ボットを除く、すべての人間のユーザーから指定したロールを削除します。'
+  params:
+    - &ref_397
+      desc: 'すべての人間のメンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole:
+  args:
+    - '@role'
+  desc: 'ボットを除く、すべての人間のユーザーから指定したロールを削除します。'
+  params:
+    - desc: 'すべての人間のメンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'ボットを除く、すべての人間のユーザーから指定したロールを削除します。'
+  params:
+    - desc: 'すべての人間のメンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'ボットを除く、すべての人間のユーザーから指定したロールを削除します。'
+  params:
+    - desc: 'すべての人間のメンバーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removefromrole:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーから、指定したロールを削除します。'
+  params:
+    - &ref_398
+      desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_399
+      desc: '最初のロールを削除される対象のメンバーが持つロールです。'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーから、指定したロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '最初のロールを削除される対象のメンバーが持つロールです。'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーから、指定したロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '最初のロールを削除される対象のメンバーが持つロールです。'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '現在別の指定したロールを持つすべてのユーザーから、指定したロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '最初のロールを削除される対象のメンバーが持つロールです。'
+      name: role2
+      optional: false
+      type: IRole
+removeroles:
+  args:
+    - '@user @role'
+  desc: 'ユーザーから指定したロールを削除します。'
+  params:
+    - &ref_412
+      desc: 'ロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_413
+      desc: 'ユーザーから削除するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'ユーザーから指定したロールを削除します。'
+  params:
+    - desc: 'ロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーから削除するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'ユーザーから指定したロールを削除します。'
+  params:
+    - desc: 'ロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーから削除するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'ユーザーから指定したロールを削除します。'
+  params:
+    - desc: 'ロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーから削除するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeusersfromrole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'ロールを持っている場合に限り、指定したユーザーの一覧から特定のロールを削除します。'
+  params:
+    - &ref_416
+      desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_417
+      desc: 'ロールを削除するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'ロールを持っている場合に限り、指定したユーザーの一覧から特定のロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールを削除するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'ロールを持っている場合に限り、指定したユーザーの一覧から特定のロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールを削除するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'ロールを持っている場合に限り、指定したユーザーの一覧から特定のロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールを削除するユーザーです。'
+      name: users
+      optional: false
+      type: IUser[]
+removewhitelistedrole:
+  args:
+    - '@role'
+  desc: 'ホワイトリストからロールを削除します。'
+  params:
+    - desc: 'ホワイトリストから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+removewhitelisteduser:
+  args:
+    - '@user'
+  desc: 'ホワイトリストからユーザーを削除します。'
+  params:
+    - desc: 'ホワイトリストから削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+renameemote:
+  args:
+    - text text
+  desc: 'サーバー上の既存の絵文字の名前を変更します。'
+  params:
+    - &ref_421
+      desc: '名前を変更する既存の絵文字です。'
+      name: emote
+      optional: false
+      type: string
+    - &ref_422
+      desc: '絵文字の新しい名前です。'
+      name: name
+      optional: false
+      type: string
+renameemote_string_string:
+  args:
+    - text text
+  desc: 'サーバー上の既存の絵文字の名前を変更します。'
+  params:
+    - desc: '名前を変更する既存の絵文字です。'
+      name: emote
+      optional: false
+      type: string
+    - desc: '絵文字の新しい名前です。'
+      name: name
+      optional: false
+      type: string
+rj:
+  args:
+    - action
+  desc: 'ロールジョブを管理します。'
+  params:
+    - desc: 'ロールジョブに対して実行するアクションです。'
+      name: action
+      optional: false
+      type: string
+rolejobs:
+  args:
+    - ''
+  desc: 'サーバー内で進行中のすべての一括ロール操作を、それぞれの詳細とともに一覧表示します。'
+  params: [ ]
+setbanner:
+  args:
+    - text
+  desc: 'サーバーのバナーを設定します。'
+  params:
+    - &ref_489
+      desc: '新しいサーバーバナーの URL です。'
+      name: img
+      optional: false
+      type: string
+setbanner_string:
+  args:
+    - text
+  desc: 'サーバーのバナーを設定します。'
+  params:
+    - desc: '新しいサーバーバナーの URL です。'
+      name: img
+      optional: false
+      type: string
+setdefaultpunishment:
+  args:
+    - punishmentaction
+  desc: 'サーバーの既定の処罰アクションを設定します。'
+  params:
+    - &ref_501
+      desc: '設定する既定の処罰アクションです。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction:
+  args:
+    - punishmentaction
+  desc: 'サーバーの既定の処罰アクションを設定します。'
+  params:
+    - desc: '設定する既定の処罰アクションです。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_1:
+  args:
+    - punishmentaction
+  desc: 'サーバーの既定の処罰アクションを設定します。'
+  params:
+    - &ref_502
+      desc: '設定する既定の処罰アクションです。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_2:
+  args:
+    - punishmentaction
+  desc: 'サーバーの既定の処罰アクションを設定します。'
+  params:
+    - desc: '設定する既定の処罰アクションです。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+seticon:
+  args:
+    - text
+  desc: 'サーバーのアイコンを設定します。'
+  params:
+    - &ref_525
+      desc: '新しいサーバーアイコンの URL です。'
+      name: img
+      optional: false
+      type: string
+seticon_string:
+  args:
+    - text
+  desc: 'サーバーのアイコンを設定します。'
+  params:
+    - desc: '新しいサーバーアイコンの URL です。'
+      name: img
+      optional: false
+      type: string
+setroles:
+  args:
+    - '@user @role'
+  desc: '時間制限（省略可能）付きでユーザーにロールを追加し、ユーザーのロールを変更します。'
+  params:
+    - &ref_521
+      desc: 'ロールを変更するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_522
+      desc: 'ユーザーに追加するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '時間制限（省略可能）付きでユーザーにロールを追加し、ユーザーのロールを変更します。'
+  params:
+    - desc: 'ロールを変更するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに追加するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '時間制限（省略可能）付きでユーザーにロールを追加し、ユーザーのロールを変更します。'
+  params:
+    - desc: 'ロールを変更するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに追加するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '時間制限（省略可能）付きでユーザーにロールを追加し、ユーザーのロールを変更します。'
+  params:
+    - desc: 'ロールを変更するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに追加するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_StoopidTime_IRole[]:
+  args:
+    - '@user time @role'
+  desc: '時間制限（省略可能）付きでユーザーにロールを追加し、ユーザーのロールを変更します。'
+  params:
+    - desc: 'ロールを変更するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_524
+      desc: 'ロールが有効な期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ユーザーに追加するロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+setservername:
+  args:
+    - text
+  desc: 'サーバーの名前を設定します。'
+  params:
+    - desc: 'サーバーの新しい名前です。'
+      name: name
+      optional: false
+      type: string
+setsplash:
+  args:
+    - text
+  desc: 'サーバーのスプラッシュ画像を設定します。'
+  params:
+    - desc: '新しいスプラッシュ画像の URL です。'
+      name: img
+      optional: false
+      type: string
+setsplash_string:
+  args:
+    - text
+  desc: 'サーバーのスプラッシュ画像を設定します。'
+  params:
+    - desc: 'サーバーのスプラッシュ画像を設定します。'
+      name: time
+      optional: false
+      type: StoopidTime
+sfr:
+  args:
+    - role emotes
+  desc: '特定のロール向けに絵文字を盗用します。'
+  params:
+    - desc: '絵文字を盗用する対象のロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'スペースで区切った絵文字の URL または絵文字名の一覧です。'
+      name: e
+      optional: false
+      type: string
+sj:
+  args:
+    - job
+  desc: '実行中のジョブを停止します。'
+  params:
+    - desc: '停止するジョブです。'
+      name: job
+      optional: false
+      type: string
+slowmode:
+  args:
+    - time channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - &ref_550
+      desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_549
+      desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel:
+  args:
+    - channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - &ref_547
+      desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_1:
+  args:
+    - channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_2:
+  args:
+    - channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_3:
+  args:
+    - channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime:
+  args:
+    - time
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - &ref_548
+      desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_1:
+  args:
+    - time
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_2:
+  args:
+    - time
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_3:
+  args:
+    - time
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_ITextChannel:
+  args:
+    - time channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_1:
+  args:
+    - time channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_2:
+  args:
+    - time channel
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params:
+    - desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '低速モードの設定を適用するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_noparams:
+  args:
+    - ''
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params: [ ]
+slowmode_noparams_1:
+  args:
+    - ''
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params: [ ]
+slowmode_noparams_2:
+  args:
+    - ''
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params: [ ]
+slowmode_noparams_3:
+  args:
+    - ''
+  desc: '現在のテキストチャンネルの低速モード間隔を、オフと既定の間隔の間で切り替えます。'
+  params: [ ]
+steal:
+  args:
+    - emotes
+  desc: '他のサーバーの絵文字を盗用します。'
+  params:
+    - desc: 'スペースで区切った絵文字の URL または絵文字名の一覧です。'
+      name: e
+      optional: false
+      type: string
+stealemotes:
+  args:
+    - text
+  desc: 'メッセージから絵文字を盗用し、サーバーに追加します。'
+  params:
+    - &ref_565
+      desc: '盗用する絵文字を含むメッセージです。'
+      name: e
+      optional: false
+      type: string
+stealemotes_string:
+  args:
+    - text
+  desc: 'メッセージから絵文字を盗用し、サーバーに追加します。'
+  params:
+    - desc: '盗用する絵文字を含むメッセージです。'
+      name: e
+      optional: false
+      type: string
+stealforrole:
+  args:
+    - '@role text'
+  desc: 'メッセージから絵文字を盗用し、指定したロールに固定します。'
+  params:
+    - &ref_566
+      desc: '絵文字を追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '盗用する絵文字を含むメッセージです。'
+      name: e
+      optional: false
+      type: string
+stealforrole_IRole_string:
+  args:
+    - '@role text'
+  desc: 'メッセージから絵文字を盗用し、指定したロールに固定します。'
+  params:
+    - desc: '絵文字を追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '盗用する絵文字を含むメッセージです。'
+      name: e
+      optional: false
+      type: string
+stopjob:
+  args:
+    - number
+  desc: 'ジョブ番号を指定して、一括ロール操作ジョブを停止します。'
+  params:
+    - &ref_570
+      desc: '停止する一括ロール操作のジョブ番号です。'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int:
+  args:
+    - number
+  desc: 'ジョブ番号を指定して、一括ロール操作ジョブを停止します。'
+  params:
+    - desc: '停止する一括ロール操作のジョブ番号です。'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_1:
+  args:
+    - number
+  desc: 'ジョブ番号を指定して、一括ロール操作ジョブを停止します。'
+  params:
+    - desc: '停止する一括ロール操作のジョブ番号です。'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_2:
+  args:
+    - number
+  desc: 'ジョブ番号を指定して、一括ロール操作ジョブを停止します。'
+  params:
+    - desc: '停止する一括ロール操作のジョブ番号です。'
+      name: jobnum
+      optional: false
+      type: int
+syncroletoall:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルとカテゴリーに同期します。'
+  params:
+    - &ref_593
+      desc: 'サーバー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルとカテゴリーに同期します。'
+  params:
+    - desc: 'サーバー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルとカテゴリーに同期します。'
+  params:
+    - desc: 'サーバー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルとカテゴリーに同期します。'
+  params:
+    - desc: 'サーバー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのカテゴリーに同期します。'
+  params:
+    - &ref_594
+      desc: 'カテゴリー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのカテゴリーに同期します。'
+  params:
+    - desc: 'カテゴリー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_1:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのカテゴリーに同期します。'
+  params:
+    - desc: 'カテゴリー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_2:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのカテゴリーに同期します。'
+  params:
+    - desc: 'カテゴリー全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルに同期します。'
+  params:
+    - &ref_595
+      desc: 'テキストチャンネル全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルに同期します。'
+  params:
+    - desc: 'テキストチャンネル全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_1:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルに同期します。'
+  params:
+    - desc: 'テキストチャンネル全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_2:
+  args:
+    - '@role'
+  desc: 'ロールの権限を、サーバー内のすべてのテキストチャンネルに同期します。'
+  params:
+    - desc: 'テキストチャンネル全体で同期するロールです。'
+      name: role
+      optional: false
+      type: IRole
+unlock:
+  args:
+    - '[channel]'
+  desc: '特定のチャンネルのロックを解除し、全員が再びメッセージを送信できるようにします。'
+  params:
+    - desc: 'ロックを解除するチャンネルです。null の場合は、現在のチャンネルのロックを解除します。'
+      name: channel
+      optional: true
+      type: sockettextchannel
+unlockdown:
+  args:
+    - ''
+  desc: '@everyone が再びメッセージを送信できるようにして、サーバーのロックを解除します。'
+  params: [ ]

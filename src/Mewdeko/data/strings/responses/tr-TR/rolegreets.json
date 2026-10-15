@@ -1,0 +1,18 @@
+{
+  "rolegreet_add_success": "{1} kanalında karşılanacak {0} eklendi!",
+  "rolegreet_button_preview": "Önizleme",
+  "rolegreet_button_regular": "Normal",
+  "rolegreet_confirm_remove": "Bu rol için tüm RoleGreet'leri kaldırmak istediğine emin misin?",
+  "rolegreet_confirm_removed": "RoleGreet'ler kaldırıldı!",
+  "rolegreet_delete_disabled": "RoleGreet #{0} artık silinmeyecek",
+  "rolegreet_delete_success": "RoleGreet #{0} {1} sonra silinecek şekilde güncellendi",
+  "rolegreet_disable_status": "RoleGreet {0} durumu {1} olarak ayarlandı",
+  "rolegreet_greetbots_set": "RoleGreet {0} için GreetBots {1} olarak ayarlandı",
+  "rolegreet_max_limit": "Görünüşe göre en fazla 10 RoleGreet sınırına ulaştın! Yeni bir tane eklemek için birini kaldır.",
+  "rolegreet_message_preview_prompt": "Bunu normal metin olarak mı görmek istersin, yoksa gerçekte nasıl göründüğünü önizlemek ister misin?",
+  "rolegreet_message_set": "RoleGreet #{0} için RoleGreet mesajı ayarlandı!",
+  "rolegreet_no_delete": "RoleGreet #{0} artık silinmeyecek.",
+  "rolegreet_no_greets_for_role": "Bu rol için karşılama yok!",
+  "rolegreet_webhook_disabled": "RoleGreet #{0} için webhook devre dışı!",
+  "rolegreet_webhook_invalid_avatar": "Kullanılan avatar URL'si doğrudan bir bağlantı değil ya da geçersiz! Lütfen başka bir URL kullan."
+}

@@ -1,0 +1,838 @@
+accept:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 승인된 상태로 표시하여 수락합니다.'
+  params:
+    - desc: '수락할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 수락하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 승인된 상태로 표시하여 수락합니다.'
+  params:
+    - desc: '수락할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 수락하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 승인된 상태로 표시하여 수락합니다.'
+  params:
+    - desc: '수락할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 수락하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 승인된 상태로 표시하여 수락합니다.'
+  params:
+    - desc: '수락할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 수락하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+acceptchannel:
+  args:
+    - '[@channel]'
+  desc: '수락된 제안을 게시할 채널을 설정합니다.'
+  params:
+    - desc: '수락된 제안을 게시할 채널입니다. null이면 기능이 비활성화됩니다.'
+      name: channel
+      optional: true
+      type: channel
+acceptmessage:
+  args:
+    - text
+  desc: '제안의 수락 메시지를 설정하거나 수정합니다.'
+  params:
+    - &ref_2
+      desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string:
+  args:
+    - text
+  desc: '제안의 수락 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_1:
+  args:
+    - text
+  desc: '제안의 수락 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_2:
+  args:
+    - text
+  desc: '제안의 수락 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+archiveonaccept:
+  args:
+    - ''
+  desc: '제안이 수락되면 보관할지 설정을 전환합니다.'
+  params: [ ]
+archiveonconsider:
+  args:
+    - ''
+  desc: '제안이 검토 중으로 표시되면 보관할지 설정을 전환합니다.'
+  params: [ ]
+archiveondeny:
+  args:
+    - ''
+  desc: '제안이 거부되면 보관할지 설정을 전환합니다.'
+  params: [ ]
+archiveonimplement:
+  args:
+    - ''
+  desc: '제안이 구현되면 보관할지 설정을 전환합니다.'
+  params: [ ]
+consider:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 검토 중으로 표시합니다.'
+  params:
+    - desc: '검토 중으로 표시할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 검토하는 이유나 의견입니다.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 검토 중으로 표시합니다.'
+  params:
+    - desc: '검토 중으로 표시할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 검토하는 이유나 의견입니다.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 검토 중으로 표시합니다.'
+  params:
+    - desc: '검토 중으로 표시할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 검토하는 이유나 의견입니다.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 검토 중으로 표시합니다.'
+  params:
+    - desc: '검토 중으로 표시할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 검토하는 이유나 의견입니다.'
+      name: reason
+      optional: true
+      type: string
+considerchannel:
+  args:
+    - '[@channel]'
+  desc: '검토 중인 제안을 게시할 채널을 설정합니다.'
+  params:
+    - desc: '검토 중인 제안을 게시할 채널입니다. null이면 기능이 비활성화됩니다.'
+      name: channel
+      optional: true
+      type: channel
+considermessage:
+  args:
+    - text
+  desc: '제안의 검토 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+deny:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 거부된 상태로 표시하여 거부합니다.'
+  params:
+    - desc: '거부할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 거부하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 거부된 상태로 표시하여 거부합니다.'
+  params:
+    - desc: '거부할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 거부하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 거부된 상태로 표시하여 거부합니다.'
+  params:
+    - desc: '거부할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 거부하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 거부된 상태로 표시하여 거부합니다.'
+  params:
+    - desc: '거부할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 제안을 거부하는 이유입니다.'
+      name: reason
+      optional: true
+      type: string
+denychannel:
+  args:
+    - '[@channel]'
+  desc: '거부된 제안을 게시할 채널을 설정합니다.'
+  params:
+    - desc: '거부된 제안을 게시할 채널입니다. null이면 기능이 비활성화됩니다.'
+      name: channel
+      optional: true
+      type: channel
+denymessage:
+  args:
+    - text
+  desc: '제안의 거부 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+implementchannel:
+  args:
+    - '[@channel]'
+  desc: '구현된 제안을 게시할 채널을 설정합니다.'
+  params:
+    - desc: '구현된 제안을 게시할 채널입니다. null이면 기능이 비활성화됩니다.'
+      name: channel
+      optional: true
+      type: channel
+implemented:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '제안을 구현됨으로 표시합니다.'
+  params:
+    - desc: '구현됨으로 표시할 제안의 고유 번호(ID)입니다.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '선택 사항입니다. 구현에 대한 이유나 세부 정보입니다.'
+      name: reason
+      optional: true
+      type: string
+implementmessage:
+  args:
+    - text
+  desc: '제안의 구현 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+maxsuggestionlength:
+  args:
+    - number
+  desc: '제안의 최대 길이를 설정합니다.'
+  params:
+    - &ref_291
+      desc: '제안에 입력할 수 있는 최대 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int:
+  args:
+    - number
+  desc: '제안의 최대 길이를 설정합니다.'
+  params:
+    - desc: '제안에 입력할 수 있는 최대 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_1:
+  args:
+    - number
+  desc: '제안의 최대 길이를 설정합니다.'
+  params:
+    - desc: '제안에 입력할 수 있는 최대 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_2:
+  args:
+    - number
+  desc: '제안의 최대 길이를 설정합니다.'
+  params:
+    - desc: '제안에 입력할 수 있는 최대 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength:
+  args:
+    - number
+  desc: '제안의 최소 길이를 설정합니다.'
+  params:
+    - &ref_294
+      desc: '제안에 입력해야 하는 최소 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int:
+  args:
+    - number
+  desc: '제안의 최소 길이를 설정합니다.'
+  params:
+    - desc: '제안에 입력해야 하는 최소 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_1:
+  args:
+    - number
+  desc: '제안의 최소 길이를 설정합니다.'
+  params:
+    - desc: '제안에 입력해야 하는 최소 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_2:
+  args:
+    - number
+  desc: '제안의 최소 길이를 설정합니다.'
+  params:
+    - desc: '제안에 입력해야 하는 최소 글자 수입니다.'
+      name: length
+      optional: false
+      type: int
+setsuggestchannel:
+  args:
+    - '[@channel]'
+  desc: '서버의 제안 채널을 설정하거나 비활성화합니다.'
+  params:
+    - desc: '제안 채널로 설정할 텍스트 채널입니다. null이면 제안 기능이 비활성화됩니다.'
+      name: channel
+      optional: true
+      type: channel
+suggest:
+  args:
+    - text
+  desc: '새 제안을 지정된 제안 채널에 제출합니다.'
+  params:
+    - &ref_582
+      desc: '제출할 제안의 내용입니다.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string:
+  args:
+    - text
+  desc: '새 제안을 지정된 제안 채널에 제출합니다.'
+  params:
+    - desc: '제출할 제안의 내용입니다.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_1:
+  args:
+    - text
+  desc: '새 제안을 지정된 제안 채널에 제출합니다.'
+  params:
+    - desc: '제출할 제안의 내용입니다.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_2:
+  args:
+    - text
+  desc: '새 제안을 지정된 제안 채널에 제출합니다.'
+  params:
+    - desc: '제출할 제안의 내용입니다.'
+      name: suggestion
+      optional: false
+      type: string
+suggestbuttonchannel:
+  args:
+    - channel
+  desc: '제안 버튼 채널을 설정합니다.'
+  params:
+    - &ref_583
+      desc: '제안 버튼 채널로 설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel:
+  args:
+    - channel
+  desc: '제안 버튼 채널을 설정합니다.'
+  params:
+    - desc: '제안 버튼 채널로 설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: '제안 버튼 채널을 설정합니다.'
+  params:
+    - desc: '제안 버튼 채널로 설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: '제안 버튼 채널을 설정합니다.'
+  params:
+    - desc: '제안 버튼 채널로 설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttoncolor:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안 버튼의 색상을 설정합니다.'
+  params:
+    - &ref_584
+      desc: '제안 버튼의 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안 버튼의 색상을 설정합니다.'
+  params:
+    - &ref_585
+      desc: '제안 버튼의 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_1:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안 버튼의 색상을 설정합니다.'
+  params:
+    - desc: '제안 버튼의 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_2:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안 버튼의 색상을 설정합니다.'
+  params:
+    - desc: '제안 버튼의 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttonemote:
+  args:
+    - '[emote]'
+  desc: '제안 버튼에 사용할 이모지를 설정합니다.'
+  params:
+    - desc: '제안 버튼에 사용할 이모지입니다. null이면 기본값으로 재설정됩니다.'
+      name: emote
+      optional: true
+      type: emote
+suggestbuttonlabel:
+  args:
+    - text
+  desc: '제안 버튼의 라벨을 설정합니다.'
+  params:
+    - &ref_586
+      desc: '제안 버튼의 라벨 텍스트입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string:
+  args:
+    - text
+  desc: '제안 버튼의 라벨을 설정합니다.'
+  params:
+    - desc: '제안 버튼의 라벨 텍스트입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_1:
+  args:
+    - text
+  desc: '제안 버튼의 라벨을 설정합니다.'
+  params:
+    - desc: '제안 버튼의 라벨 텍스트입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_2:
+  args:
+    - text
+  desc: '제안 버튼의 라벨을 설정합니다.'
+  params:
+    - desc: '제안 버튼의 라벨 텍스트입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonmessage:
+  args:
+    - text
+  desc: '제안 버튼 메시지를 설정하거나 수정합니다.'
+  params:
+    - &ref_587
+      desc: '제안 버튼에 설정할 메시지입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string:
+  args:
+    - text
+  desc: '제안 버튼 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '제안 버튼에 설정할 메시지입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_1:
+  args:
+    - text
+  desc: '제안 버튼 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '제안 버튼에 설정할 메시지입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_2:
+  args:
+    - text
+  desc: '제안 버튼 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '제안 버튼에 설정할 메시지입니다. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: toSet
+      optional: true
+      type: string
+suggestclear:
+  args:
+    - ''
+  desc: '서버의 모든 제안을 삭제합니다.'
+  params: [ ]
+suggestinfo:
+  args:
+    - num
+  desc: '특정 제안의 자세한 정보를 표시합니다.'
+  params:
+    - &ref_588
+      desc: '정보를 확인할 제안의 고유 번호(ID)입니다.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong:
+  args:
+    - num
+  desc: '특정 제안의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '정보를 확인할 제안의 고유 번호(ID)입니다.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_1:
+  args:
+    - num
+  desc: '특정 제안의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '정보를 확인할 제안의 고유 번호(ID)입니다.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_2:
+  args:
+    - num
+  desc: '특정 제안의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '정보를 확인할 제안의 고유 번호(ID)입니다.'
+      name: num
+      optional: false
+      type: ulong
+suggestmessage:
+  args:
+    - text
+  desc: '제안 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string:
+  args:
+    - text
+  desc: '제안 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_1:
+  args:
+    - text
+  desc: '제안 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: ''
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_2:
+  args:
+    - text
+  desc: '제안 메시지를 설정하거나 수정합니다.'
+  params:
+    - desc: '메시지 또는 임베드 코드입니다. 기본 메시지로 되돌리려면 "-"를 사용하세요.'
+      name: embed
+      optional: false
+      type: string
+suggestmotecolor:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안의 특정 이모지 버튼 색상을 설정합니다.'
+  params:
+    - &ref_589
+      desc: '변경할 버튼 번호입니다.'
+      name: num
+      optional: false
+      type: int
+    - desc: '버튼에 적용할 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안의 특정 이모지 버튼 색상을 설정합니다.'
+  params:
+    - desc: '변경할 버튼 번호입니다.'
+      name: num
+      optional: false
+      type: int
+    - desc: '버튼에 적용할 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_1:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안의 특정 이모지 버튼 색상을 설정합니다.'
+  params:
+    - desc: '변경할 버튼 번호입니다.'
+      name: num
+      optional: false
+      type: int
+    - desc: '버튼에 적용할 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_2:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '제안의 특정 이모지 버튼 색상을 설정합니다.'
+  params:
+    - desc: '변경할 버튼 번호입니다.'
+      name: num
+      optional: false
+      type: int
+    - desc: '버튼에 적용할 색상 종류입니다.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotes:
+  args:
+    - '[_]'
+  desc: '제안에 사용되는 사용자 지정 이모지를 설정합니다.'
+  params:
+    - desc: '쉼표로 구분한 이모지 문자열 목록이거나, 기본 반응을 사용하려면 "disable"입니다.'
+      name: _
+      optional: true
+      type: string
+suggestmotesmode:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '제안 이모지의 모드를 반응 또는 버튼 중에서 설정합니다.'
+  params:
+    - &ref_590
+      desc: '제안 이모지에 사용할 모드입니다.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '제안 이모지의 모드를 반응 또는 버튼 중에서 설정합니다.'
+  params:
+    - desc: '제안 이모지에 사용할 모드입니다.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_1:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '제안 이모지의 모드를 반응 또는 버튼 중에서 설정합니다.'
+  params:
+    - desc: '제안 이모지에 사용할 모드입니다.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_2:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '제안 이모지의 모드를 반응 또는 버튼 중에서 설정합니다.'
+  params:
+    - desc: '제안 이모지에 사용할 모드입니다.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestthreadstype:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '제안에 사용할 스레드 종류를 설정합니다.'
+  params:
+    - &ref_591
+      desc: '새 제안에 사용할 스레드 종류입니다.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '제안에 사용할 스레드 종류를 설정합니다.'
+  params:
+    - desc: '새 제안에 사용할 스레드 종류입니다.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_1:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '제안에 사용할 스레드 종류를 설정합니다.'
+  params:
+    - desc: '새 제안에 사용할 스레드 종류입니다.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_2:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '제안에 사용할 스레드 종류를 설정합니다.'
+  params:
+    - desc: '새 제안에 사용할 스레드 종류입니다.'
+      name: type
+      optional: false
+      type: SuggestThreadType

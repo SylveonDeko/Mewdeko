@@ -137,7 +137,7 @@ chattriggerrolegranttype:
       optional: false
       type: int
     - &ref_131
-      desc: 'The role grant type to set. <see cref="CtRoleGrantType" />'
+      desc: 'The role grant type to set.'
       name: type
       optional: false
       type: CtRoleGrantType
@@ -150,7 +150,7 @@ chattriggerrolegranttype_int_CtRoleGrantType:
       name: id
       optional: false
       type: int
-    - desc: 'The role grant type to set. <see cref="CtRoleGrantType" />'
+    - desc: 'The role grant type to set.'
       name: type
       optional: false
       type: CtRoleGrantType
@@ -163,7 +163,7 @@ chattriggerrolegranttype_int_CtRoleGrantType_1:
       name: id
       optional: false
       type: int
-    - desc: 'The role grant type to set. <see cref="CtRoleGrantType" />'
+    - desc: 'The role grant type to set.'
       name: type
       optional: false
       type: CtRoleGrantType
@@ -176,7 +176,7 @@ chattriggerrolegranttype_int_CtRoleGrantType_2:
       name: id
       optional: false
       type: int
-    - desc: 'The role grant type to set. <see cref="CtRoleGrantType" />'
+    - desc: 'The role grant type to set.'
       name: type
       optional: false
       type: CtRoleGrantType
@@ -208,7 +208,7 @@ chattriggervalidtype:
       optional: false
       type: int
     - &ref_132
-      desc: 'The trigger type to set validity for. <see cref="ChatTriggerType" />'
+      desc: 'The trigger type to set validity for.'
       name: type
       optional: false
       type: ChatTriggerType
@@ -226,7 +226,7 @@ chattriggervalidtype_int_ChatTriggerType_bool:
       name: id
       optional: false
       type: int
-    - desc: 'The trigger type to set validity for. <see cref="ChatTriggerType" />'
+    - desc: 'The trigger type to set validity for.'
       name: type
       optional: false
       type: ChatTriggerType
@@ -243,7 +243,7 @@ chattriggervalidtype_int_ChatTriggerType_bool_1:
       name: id
       optional: false
       type: int
-    - desc: 'The trigger type to set validity for. <see cref="ChatTriggerType" />'
+    - desc: 'The trigger type to set validity for.'
       name: type
       optional: false
       type: ChatTriggerType
@@ -260,7 +260,7 @@ chattriggervalidtype_int_ChatTriggerType_bool_2:
       name: id
       optional: false
       type: int
-    - desc: 'The trigger type to set validity for. <see cref="ChatTriggerType" />'
+    - desc: 'The trigger type to set validity for.'
       name: type
       optional: false
       type: ChatTriggerType
@@ -576,7 +576,7 @@ ctprefixtype:
       optional: false
       type: int
     - &ref_167
-      desc: 'The type of prefix to set. <see cref="RequirePrefixType" />'
+      desc: 'The type of prefix to set.'
       name: type
       optional: false
       type: RequirePrefixType
@@ -589,7 +589,7 @@ ctprefixtype_int_RequirePrefixType:
       name: id
       optional: false
       type: int
-    - desc: 'The type of prefix to set. <see cref="RequirePrefixType" />'
+    - desc: 'The type of prefix to set.'
       name: type
       optional: false
       type: RequirePrefixType
@@ -602,7 +602,7 @@ ctprefixtype_int_RequirePrefixType_1:
       name: id
       optional: false
       type: int
-    - desc: 'The type of prefix to set. <see cref="RequirePrefixType" />'
+    - desc: 'The type of prefix to set.'
       name: type
       optional: false
       type: RequirePrefixType
@@ -615,7 +615,7 @@ ctprefixtype_int_RequirePrefixType_2:
       name: id
       optional: false
       type: int
-    - desc: 'The type of prefix to set. <see cref="RequirePrefixType" />'
+    - desc: 'The type of prefix to set.'
       name: type
       optional: false
       type: RequirePrefixType
@@ -927,7 +927,7 @@ setctintertype:
       optional: false
       type: int
     - &ref_498
-      desc: 'The interaction type to set. <see cref="CtApplicationCommandType" />'
+      desc: 'The interaction type to set.'
       name: type
       optional: false
       type: CtApplicationCommandType
@@ -940,7 +940,7 @@ setctintertype_int_CtApplicationCommandType:
       name: id
       optional: false
       type: int
-    - desc: 'The interaction type to set. <see cref="CtApplicationCommandType" />'
+    - desc: 'The interaction type to set.'
       name: type
       optional: false
       type: CtApplicationCommandType
@@ -953,7 +953,7 @@ setctintertype_int_CtApplicationCommandType_1:
       name: id
       optional: false
       type: int
-    - desc: 'The interaction type to set. <see cref="CtApplicationCommandType" />'
+    - desc: 'The interaction type to set.'
       name: type
       optional: false
       type: CtApplicationCommandType
@@ -966,7 +966,7 @@ setctintertype_int_CtApplicationCommandType_2:
       name: id
       optional: false
       type: int
-    - desc: 'The interaction type to set. <see cref="CtApplicationCommandType" />'
+    - desc: 'The interaction type to set.'
       name: type
       optional: false
       type: CtApplicationCommandType

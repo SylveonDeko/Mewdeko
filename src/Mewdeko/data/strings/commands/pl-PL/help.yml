@@ -2,10 +2,9 @@ commands:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
+  desc: 'Pokazuje polecenia dla konkretnego modułu, opcjonalnie zawężone do frazy wyszukiwania. Jeśli brak wartości, jest aliasem dla modules, a ten z kolei jest aliasem dla help.'
   params:
-    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
+    - desc: 'Moduł do sprawdzenia, opcjonalnie z frazą, według której filtrować jego polecenia.'
       name: module
       optional: true
       type: string
@@ -13,10 +12,9 @@ commands_=:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
+  desc: 'Pokazuje polecenia dla konkretnego modułu, opcjonalnie zawężone do frazy wyszukiwania. Jeśli brak wartości, jest aliasem dla modules, a ten z kolei jest aliasem dla help.'
   params:
-    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
+    - desc: 'Moduł do sprawdzenia, opcjonalnie z frazą, według której filtrować jego polecenia.'
       name: module
       optional: true
       type: string
@@ -24,10 +22,9 @@ commands_=_1:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
+  desc: 'Pokazuje polecenia dla konkretnego modułu, opcjonalnie zawężone do frazy wyszukiwania. Jeśli brak wartości, jest aliasem dla modules, a ten z kolei jest aliasem dla help.'
   params:
-    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
+    - desc: 'Moduł do sprawdzenia, opcjonalnie z frazą, według której filtrować jego polecenia.'
       name: module
       optional: true
       type: string
@@ -35,10 +32,9 @@ commands_=_2:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
+  desc: 'Pokazuje polecenia dla konkretnego modułu, opcjonalnie zawężone do frazy wyszukiwania. Jeśli brak wartości, jest aliasem dla modules, a ten z kolei jest aliasem dla help.'
   params:
-    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
+    - desc: 'Moduł do sprawdzenia, opcjonalnie z frazą, według której filtrować jego polecenia.'
       name: module
       optional: true
       type: string
@@ -50,89 +46,85 @@ donate:
 exportcommandsjson:
   args:
     - ''
-  desc: >-
-    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  desc: 'Eksportuje wszystkie komendy do pliku JSON. Używane głównie przez https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams:
   args:
     - ''
-  desc: >-
-    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  desc: 'Eksportuje wszystkie komendy do pliku JSON. Używane głównie przez https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams_1:
   args:
     - ''
-  desc: >-
-    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  desc: 'Eksportuje wszystkie komendy do pliku JSON. Używane głównie przez https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams_2:
   args:
     - ''
-  desc: >-
-    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  desc: 'Eksportuje wszystkie komendy do pliku JSON. Używane głównie przez https://mewdeko.tech/commands.'
   params: [ ]
 guide:
   args:
     - ''
-  desc: 'Pokazuje przewodnik bota.'
+  desc: 'Pokazuje przewodnik po bocie.'
   params: [ ]
 h:
   args:
     - command
-  desc: Pokazuje pomoc dla określonego polecenia.
+  desc: 'Pokazuje pomoc dla konkretnego polecenia.'
   params:
-    - desc: Polecenie, dla którego uzyskać pomoc.
+    - desc: 'Polecenie, dla którego pokazać pomoc.'
       name: command
       optional: true
       type: string
 help:
   args:
     - command
-  desc: Pokazuje informacje pomocy dla poleceń.
+  desc: 'Pokazuje informacje pomocy dla poleceń.'
   params:
-    - desc: Polecenie, dla którego uzyskać pomoc.
+    - desc: 'Polecenie, dla którego pokazać pomoc.'
       name: command
       optional: true
       type: string
 modules:
   args:
     - ''
-  desc: 'Pokazuje listę wszystkich modułów. W zasadzie to obecnie tylko alias help.'
+  desc: 'Wyświetla listę wszystkich modułów. W tej chwili to po prostu alias help.'
   params: [ ]
 searchcommand:
   args:
     - text
-  desc: 'Szuka polecenia po nazwie lub opisie.'
+  desc: 'Wyszukuje polecenie po nazwie lub opisie.'
   params:
     - &ref_481
-      desc: 'Termin do wyszukania'
+      desc: 'Fraza do wyszukania'
       name: commandname
       optional: false
       type: string
 searchcommand_string:
   args:
     - text
-  desc: 'Szuka polecenia po nazwie lub opisie.'
+  desc: 'Wyszukuje polecenie po nazwie lub opisie.'
   params:
-    - desc: 'Termin do wyszukania'
+    - desc: 'Fraza do wyszukania'
       name: commandname
       optional: false
       type: string
 searchcommand_string_1:
   args:
     - text
-  desc: 'Szuka polecenia po nazwie lub opisie.'
+  desc: 'Wyszukuje polecenie po nazwie lub opisie.'
   params:
-    - desc: 'Termin do wyszukania'
+    - desc: 'Fraza do wyszukania'
       name: commandname
       optional: false
       type: string
 searchcommand_string_2:
   args:
     - text
-  desc: 'Szuka polecenia po nazwie lub opisie.'
+  desc: 'Wyszukuje polecenie po nazwie lub opisie.'
   params:
-    - desc: 'Termin do wyszukania'
+    - desc: 'Fraza do wyszukania'
       name: commandname
       optional: false
       type: string
@@ -144,5 +136,5 @@ source:
 vote:
   args:
     - ''
-  desc: 'Pokazuje link do głosowania na mewdeko.'
+  desc: 'Pokazuje link do głosowania na Mewdeko.'
   params: [ ]

@@ -3,17 +3,17 @@ coprmonitoradd:
     - '<ownerProject> [channel] [packages]'
     - '<ownerProject> [channel] [packages]'
     - ownerProject
-  desc: '서버에 COPR 프로젝트 모니터를 추가합니다.'
+  desc: '서버에 COPR 프로젝트 모니터를 추가해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트 (예: linux4switch/l4s).'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요. 예: linux4switch/l4s'
       name: ownerProject
       optional: false
       type: string
-    - desc: '알림을 위한 선택적 채널. 기본값은 현재 채널입니다.'
+    - desc: '알림을 받을 선택 채널이에요. 기본값은 현재 채널이에요.'
       name: channel
       optional: true
       type: ITextChannel
-    - desc: '모니터링할 패키지의 선택적 쉼표로 구분된 목록 (예: mesa,kernel).'
+    - desc: '모니터링할 패키지를 쉼표로 구분한 선택 목록이에요. 예: mesa,kernel'
       name: packages
       optional: true
       type: string
@@ -21,148 +21,148 @@ coprmonitorremove:
   args:
     - '<ownerProject> [channel]'
     - ownerProject
-  desc: '서버에서 COPR 프로젝트 모니터를 제거합니다.'
+  desc: '서버에서 COPR 프로젝트 모니터를 제거해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '특정 모니터를 제거하기 위한 선택적 채널.'
+    - desc: '특정 모니터를 제거할 선택 채널이에요.'
       name: channel
       optional: true
       type: ITextChannel
 coprmonitorlist:
   args:
     - ''
-  desc: '서버에 구성된 모든 COPR 모니터를 나열합니다.'
+  desc: '서버에 설정된 모든 COPR 모니터를 보여줘요.'
   params: [ ]
 coprmonitortoggle:
   args:
     - ownerProject
-  desc: 'COPR 모니터를 켜거나 끕니다.'
+  desc: 'COPR 모니터를 켜거나 꺼요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
 coprnotify:
   args:
     - ownerProject status enabled
-  desc: '모니터에 대한 알림을 트리거하는 빌드 상태를 구성합니다.'
+  desc: '모니터에서 알림을 보낼 빌드 상태를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '구성할 빌드 상태.'
+    - desc: '설정할 빌드 상태예요.'
       name: status
       optional: false
       type: CoprBuildStatus
-    - desc: '이 상태에 대한 알림을 활성화 또는 비활성화할지 여부.'
+    - desc: '이 상태의 알림을 켤지 끌지 설정해요.'
       name: enabled
       optional: false
       type: bool
 coprfilter:
   args:
     - ownerProject text
-  desc: 'COPR 모니터의 패키지 필터를 설정합니다.'
+  desc: 'COPR 모니터의 패키지 필터를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '쉼표로 구분된 패키지 목록, 또는 모든 것을 모니터링하려면 "all".'
+    - desc: '쉼표로 구분한 패키지 목록이에요. 모든 패키지를 모니터링하려면 "all"을 입력해요.'
       name: packages
       optional: false
       type: string
 coprsucceededmessage:
   args:
     - ownerProject text
-  desc: 'COPR 빌드가 성공했을 때 표시되는 메시지를 설정합니다.'
+  desc: 'COPR 빌드가 성공했을 때 표시할 메시지를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '메시지 또는 embed 코드. 기본값으로 재설정하려면 "-" 사용.'
+    - desc: '메시지 또는 임베드 코드예요. 기본값으로 되돌리려면 "-"를 입력해요.'
       name: message
       optional: false
       type: string
 coprfailedmessage:
   args:
     - ownerProject text
-  desc: 'COPR 빌드가 실패했을 때 표시되는 메시지를 설정합니다.'
+  desc: 'COPR 빌드가 실패했을 때 표시할 메시지를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '메시지 또는 embed 코드. 기본값으로 재설정하려면 "-" 사용.'
+    - desc: '메시지 또는 임베드 코드예요. 기본값으로 되돌리려면 "-"를 입력해요.'
       name: message
       optional: false
       type: string
 coprcanceledmessage:
   args:
     - ownerProject text
-  desc: 'COPR 빌드가 취소되었을 때 표시되는 메시지를 설정합니다.'
+  desc: 'COPR 빌드가 취소되었을 때 표시할 메시지를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '메시지 또는 embed 코드. 기본값으로 재설정하려면 "-" 사용.'
+    - desc: '메시지 또는 임베드 코드예요. 기본값으로 되돌리려면 "-"를 입력해요.'
       name: message
       optional: false
       type: string
 coprpendingmessage:
   args:
     - ownerProject text
-  desc: 'COPR 빌드가 보류 중일 때 표시되는 메시지를 설정합니다.'
+  desc: 'COPR 빌드가 대기 중일 때 표시할 메시지를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '메시지 또는 embed 코드. 기본값으로 재설정하려면 "-" 사용.'
+    - desc: '메시지 또는 임베드 코드예요. 기본값으로 되돌리려면 "-"를 입력해요.'
       name: message
       optional: false
       type: string
 coprrunningmessage:
   args:
     - ownerProject text
-  desc: 'COPR 빌드가 실행 중일 때 표시되는 메시지를 설정합니다.'
+  desc: 'COPR 빌드가 진행 중일 때 표시할 메시지를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '메시지 또는 embed 코드. 기본값으로 재설정하려면 "-" 사용.'
+    - desc: '메시지 또는 임베드 코드예요. 기본값으로 되돌리려면 "-"를 입력해요.'
       name: message
       optional: false
       type: string
 coprskippedmessage:
   args:
     - ownerProject text
-  desc: 'COPR 빌드가 건너뛰어졌을 때 표시되는 메시지를 설정합니다.'
+  desc: 'COPR 빌드가 건너뛰어졌을 때 표시할 메시지를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '메시지 또는 embed 코드. 기본값으로 재설정하려면 "-" 사용.'
+    - desc: '메시지 또는 임베드 코드예요. 기본값으로 되돌리려면 "-"를 입력해요.'
       name: message
       optional: false
       type: string
 coprdefaultmessage:
   args:
     - ownerProject text
-  desc: '다른 모든 빌드 상태의 기본 메시지를 설정합니다.'
+  desc: '다른 모든 빌드 상태의 기본 메시지를 설정해요.'
   params:
-    - desc: 'owner/project 형식의 COPR 프로젝트.'
+    - desc: 'owner/project 형식의 COPR 프로젝트예요.'
       name: ownerProject
       optional: false
       type: string
-    - desc: '메시지 또는 embed 코드. 기본값으로 재설정하려면 "-" 사용.'
+    - desc: '메시지 또는 임베드 코드예요. 기본값으로 되돌리려면 "-"를 입력해요.'
       name: message
       optional: false
       type: string

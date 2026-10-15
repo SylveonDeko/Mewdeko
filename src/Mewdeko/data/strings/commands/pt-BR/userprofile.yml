@@ -1,53 +1,53 @@
 deleteuserstatsdata:
   args:
     - ''
-  desc: 'Exclui os dados de estatísticas de comandos do usuário.'
+  desc: 'Apaga os dados de estatísticas de comandos do usuário.'
   params: [ ]
 greetdmoptout:
   args:
     - ''
-  desc: 'Permite que um usuário alterne a opção de não receber mensagens diretas de boas-vindas. Funciona apenas se o servidor que está ingressando usa o mewdeko para saudações por DM.'
+  desc: 'Permite que um usuário ative ou desative a opção de não receber DMs de boas-vindas. Só funciona se o servidor que ele entrar usar o mewdeko para DMs de boas-vindas.'
   params: [ ]
 profile:
   args:
     - '[@user]'
-  desc: 'Exibe o perfil do usuário ou o perfil de outro usuário, se especificado.'
+  desc: 'Mostra o seu perfil ou o perfil de outro usuário, se informado.'
   params:
-    - desc: 'O usuário cujo perfil será exibido. Se nulo, exibe o perfil do invocador.'
+    - desc: 'O usuário cujo perfil será exibido. Se null, mostra o perfil de quem executou o comando.'
       name: user
       optional: true
       type: user
 profile_=:
   args:
     - '[@user]'
-  desc: 'Exibe o perfil do usuário ou o perfil de outro usuário, se especificado.'
+  desc: 'Mostra o seu perfil ou o perfil de outro usuário, se informado.'
   params:
-    - desc: 'O usuário cujo perfil será exibido. Se nulo, exibe o perfil do invocador.'
+    - desc: 'O usuário cujo perfil será exibido. Se null, mostra o perfil de quem executou o comando.'
       name: user
       optional: true
       type: user
 profile_=_1:
   args:
     - '[@user]'
-  desc: 'Exibe o perfil do usuário ou o perfil de outro usuário, se especificado.'
+  desc: 'Mostra o seu perfil ou o perfil de outro usuário, se informado.'
   params:
-    - desc: 'O usuário cujo perfil será exibido. Se nulo, exibe o perfil do invocador.'
+    - desc: 'O usuário cujo perfil será exibido. Se null, mostra o perfil de quem executou o comando.'
       name: user
       optional: true
       type: user
 profile_=_2:
   args:
     - '[@user]'
-  desc: 'Exibe o perfil do usuário ou o perfil de outro usuário, se especificado.'
+  desc: 'Mostra o seu perfil ou o perfil de outro usuário, se informado.'
   params:
-    - desc: 'O usuário cujo perfil será exibido. Se nulo, exibe o perfil do invocador.'
+    - desc: 'O usuário cujo perfil será exibido. Se null, mostra o perfil de quem executou o comando.'
       name: user
       optional: true
       type: user
 pronouns:
   args:
     - '[@user]'
-  desc: 'Exibe os pronomes do usuário especificado ou do invocador do comando se nenhum usuário for especificado.'
+  desc: 'Exibe os pronomes do usuário informado ou de quem executou o comando, caso nenhum usuário seja informado.'
   params:
     - desc: 'Opcional. O usuário cujos pronomes serão exibidos.'
       name: user
@@ -57,7 +57,7 @@ pronounsforceclear:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - &ref_356
       desc: 'O ID do usuário cujos pronomes serão limpos.'
@@ -65,7 +65,7 @@ pronounsforceclear:
       optional: true
       type: IUser
     - &ref_357
-      desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+      desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -78,13 +78,13 @@ pronounsforceclear_IUser_bool_string:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - desc: 'O ID do usuário cujos pronomes serão limpos.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+    - desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -96,13 +96,13 @@ pronounsforceclear_IUser_bool_string_1:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - desc: 'O ID do usuário cujos pronomes serão limpos.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+    - desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -114,13 +114,13 @@ pronounsforceclear_IUser_bool_string_2:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - desc: 'O ID do usuário cujos pronomes serão limpos.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+    - desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -131,14 +131,14 @@ pronounsforceclear_IUser_bool_string_2:
 pronounsforceclear_ulong_bool_string:
   args:
     - user true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - &ref_359
       desc: 'O ID do usuário cujos pronomes serão limpos.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+    - desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -149,13 +149,13 @@ pronounsforceclear_ulong_bool_string:
 pronounsforceclear_ulong_bool_string_1:
   args:
     - user true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - desc: 'O ID do usuário cujos pronomes serão limpos.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+    - desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -166,13 +166,13 @@ pronounsforceclear_ulong_bool_string_1:
 pronounsforceclear_ulong_bool_string_2:
   args:
     - user true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - desc: 'O ID do usuário cujos pronomes serão limpos.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+    - desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -183,13 +183,13 @@ pronounsforceclear_ulong_bool_string_2:
 pronounsforceclear_ulong_bool_string_3:
   args:
     - user true|false text
-  desc: 'Limpa forçosamente os pronomes de um usuário por ID, opcionalmente marcando-os como desabilitados por abuso.'
+  desc: 'Limpa à força os pronomes de um usuário pelo ID, podendo marcá-lo como desativado por abuso.'
   params:
     - desc: 'O ID do usuário cujos pronomes serão limpos.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Se os pronomes estão sendo desabilitados por abuso.'
+    - desc: 'Se os pronomes estão sendo desativados por abuso.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -277,7 +277,7 @@ setbirthdayprivacy:
   desc: 'Define o modo de privacidade do aniversário no perfil do usuário.'
   params:
     - &ref_492
-      desc: 'O modo de exibição do aniversário a ser definido.'
+      desc: 'O modo de exibição do aniversário a definir.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
@@ -286,7 +286,7 @@ setbirthdayprivacy_BirthdayDisplayModeEnum:
     - birthdaydisplaymodeenum
   desc: 'Define o modo de privacidade do aniversário no perfil do usuário.'
   params:
-    - desc: 'O modo de exibição do aniversário a ser definido.'
+    - desc: 'O modo de exibição do aniversário a definir.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
@@ -295,7 +295,7 @@ setbirthdayprivacy_BirthdayDisplayModeEnum_1:
     - birthdaydisplaymodeenum
   desc: 'Define o modo de privacidade do aniversário no perfil do usuário.'
   params:
-    - desc: 'O modo de exibição do aniversário a ser definido.'
+    - desc: 'O modo de exibição do aniversário a definir.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
@@ -304,7 +304,7 @@ setbirthdayprivacy_BirthdayDisplayModeEnum_2:
     - birthdaydisplaymodeenum
   desc: 'Define o modo de privacidade do aniversário no perfil do usuário.'
   params:
-    - desc: 'O modo de exibição do aniversário a ser definido.'
+    - desc: 'O modo de exibição do aniversário a definir.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
@@ -314,7 +314,7 @@ setprivacy:
   desc: 'Define o nível de privacidade do perfil do usuário.'
   params:
     - &ref_513
-      desc: 'A configuração de privacidade a ser aplicada.'
+      desc: 'A configuração de privacidade a aplicar.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
@@ -323,7 +323,7 @@ setprivacy_ProfilePrivacyEnum:
     - privacyenum
   desc: 'Define o nível de privacidade do perfil do usuário.'
   params:
-    - desc: 'A configuração de privacidade a ser aplicada.'
+    - desc: 'A configuração de privacidade a aplicar.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
@@ -332,7 +332,7 @@ setprivacy_ProfilePrivacyEnum_1:
     - privacyenum
   desc: 'Define o nível de privacidade do perfil do usuário.'
   params:
-    - desc: 'A configuração de privacidade a ser aplicada.'
+    - desc: 'A configuração de privacidade a aplicar.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
@@ -341,7 +341,7 @@ setprivacy_ProfilePrivacyEnum_2:
     - privacyenum
   desc: 'Define o nível de privacidade do perfil do usuário.'
   params:
-    - desc: 'A configuração de privacidade a ser aplicada.'
+    - desc: 'A configuração de privacidade a aplicar.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
@@ -388,7 +388,7 @@ setprofileimage:
   desc: 'Define a URL da imagem de perfil no perfil do usuário.'
   params:
     - &ref_515
-      desc: 'A URL da imagem a ser definida como imagem de perfil.'
+      desc: 'A URL da imagem a definir como imagem de perfil.'
       name: url
       optional: false
       type: string
@@ -397,7 +397,7 @@ setprofileimage_string:
     - text
   desc: 'Define a URL da imagem de perfil no perfil do usuário.'
   params:
-    - desc: 'A URL da imagem a ser definida como imagem de perfil.'
+    - desc: 'A URL da imagem a definir como imagem de perfil.'
       name: url
       optional: false
       type: string
@@ -406,7 +406,7 @@ setprofileimage_string_1:
     - text
   desc: 'Define a URL da imagem de perfil no perfil do usuário.'
   params:
-    - desc: 'A URL da imagem a ser definida como imagem de perfil.'
+    - desc: 'A URL da imagem a definir como imagem de perfil.'
       name: url
       optional: false
       type: string
@@ -415,7 +415,7 @@ setprofileimage_string_2:
     - text
   desc: 'Define a URL da imagem de perfil no perfil do usuário.'
   params:
-    - desc: 'A URL da imagem a ser definida como imagem de perfil.'
+    - desc: 'A URL da imagem a definir como imagem de perfil.'
       name: url
       optional: false
       type: string
@@ -424,7 +424,7 @@ setpronouns:
     - '[pronouns]'
   desc: 'Define ou limpa os pronomes do usuário.'
   params:
-    - desc: 'Os pronomes a definir. Se nulo ou vazio, limpa quaisquer pronomes existentes.'
+    - desc: 'Os pronomes a definir. Se null ou vazio, limpa os pronomes existentes.'
       name: pronouns
       optional: true
       type: string
@@ -440,42 +440,42 @@ setswitchfc:
 setzodiac:
   args:
     - text
-  desc: 'Define o signo do zodíaco no perfil do usuário.'
+  desc: 'Define o signo no perfil do usuário.'
   params:
     - &ref_539
-      desc: 'O signo do zodíaco a ser definido.'
+      desc: 'O signo a definir.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string:
   args:
     - text
-  desc: 'Define o signo do zodíaco no perfil do usuário.'
+  desc: 'Define o signo no perfil do usuário.'
   params:
-    - desc: 'O signo do zodíaco a ser definido.'
+    - desc: 'O signo a definir.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_1:
   args:
     - text
-  desc: 'Define o signo do zodíaco no perfil do usuário.'
+  desc: 'Define o signo no perfil do usuário.'
   params:
-    - desc: 'O signo do zodíaco a ser definido.'
+    - desc: 'O signo a definir.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_2:
   args:
     - text
-  desc: 'Define o signo do zodíaco no perfil do usuário.'
+  desc: 'Define o signo no perfil do usuário.'
   params:
-    - desc: 'O signo do zodíaco a ser definido.'
+    - desc: 'O signo a definir.'
       name: zodiac
       optional: false
       type: string
 userstatsoptout:
   args:
     - ''
-  desc: 'Alterna o status de exclusão do usuário para coleta de estatísticas de comandos.'
+  desc: 'Alterna a opção de o usuário sair da coleta de estatísticas de comandos.'
   params: [ ]

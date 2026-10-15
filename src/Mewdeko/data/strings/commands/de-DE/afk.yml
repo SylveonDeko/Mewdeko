@@ -3,180 +3,180 @@ afk:
     - message
   desc: 'Setzt deinen AFK-Status.'
   params:
-    - desc: 'Die anzuzeigende AFK-Nachricht.'
+    - desc: 'Die AFK-Nachricht, die angezeigt wird.'
       name: message
       optional: true
       type: string
 afkdel:
   args:
     - ''
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params: [ ]
 afkdel_int:
   args:
     - number
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params:
     - &ref_49
-      desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Loeschung zu deaktivieren.'
+      desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Löschung zu deaktivieren.'
       name: num
       optional: false
       type: int
 afkdel_int_1:
   args:
     - number
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params:
-    - desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Loeschung zu deaktivieren.'
+    - desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Löschung zu deaktivieren.'
       name: num
       optional: false
       type: int
 afkdel_int_2:
   args:
     - number
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params:
-    - desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Loeschung zu deaktivieren.'
+    - desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Löschung zu deaktivieren.'
       name: num
       optional: false
       type: int
 afkdel_int_3:
   args:
     - number
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params:
-    - desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Loeschung zu deaktivieren.'
+    - desc: 'Die Dauer in Sekunden. Auf 0 setzen, um die automatische Löschung zu deaktivieren.'
       name: num
       optional: false
       type: int
 afkdel_noparams:
   args:
     - ''
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params: [ ]
 afkdel_noparams_1:
   args:
     - ''
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params: [ ]
 afkdel_noparams_2:
   args:
     - ''
-  desc: 'Legt die automatische Loeschdauer fuer AFK-Nachrichten fest.'
+  desc: 'Legt die automatische Löschdauer für AFK-Nachrichten fest.'
   params: [ ]
 afkdisable:
   args:
     - chan
-  desc: 'Legt die Kanaele fest, in denen die AFK-Nachricht nicht angezeigt wird.'
+  desc: 'Legt die Kanäle fest, in denen die AFK-Nachricht nicht angezeigt wird.'
   params:
     - &ref_50
-      desc: 'Kanaele, die zur AFK-Nachrichten-Blacklist hinzugefuegt werden sollen.'
+      desc: 'Kanäle, die zur AFK-Nachrichten-Blacklist hinzugefügt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkdisable_ITextChannel[]:
   args:
     - chan
-  desc: 'Legt die Kanaele fest, in denen die AFK-Nachricht nicht angezeigt wird.'
+  desc: 'Legt die Kanäle fest, in denen die AFK-Nachricht nicht angezeigt wird.'
   params:
-    - desc: 'Kanaele, die zur AFK-Nachrichten-Blacklist hinzugefuegt werden sollen.'
+    - desc: 'Kanäle, die zur AFK-Nachrichten-Blacklist hinzugefügt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkdisable_ITextChannel[]_1:
   args:
     - chan
-  desc: 'Legt die Kanaele fest, in denen die AFK-Nachricht nicht angezeigt wird.'
+  desc: 'Legt die Kanäle fest, in denen die AFK-Nachricht nicht angezeigt wird.'
   params:
-    - desc: 'Kanaele, die zur AFK-Nachrichten-Blacklist hinzugefuegt werden sollen.'
+    - desc: 'Kanäle, die zur AFK-Nachrichten-Blacklist hinzugefügt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkdisable_ITextChannel[]_2:
   args:
     - chan
-  desc: 'Legt die Kanaele fest, in denen die AFK-Nachricht nicht angezeigt wird.'
+  desc: 'Legt die Kanäle fest, in denen die AFK-Nachricht nicht angezeigt wird.'
   params:
-    - desc: 'Kanaele, die zur AFK-Nachrichten-Blacklist hinzugefuegt werden sollen.'
+    - desc: 'Kanäle, die zur AFK-Nachrichten-Blacklist hinzugefügt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkdisabledlist:
   args:
     - ''
-  desc: 'Listet die Textkanaele auf, in denen die AFK-Nachricht nicht angezeigt wird.'
+  desc: 'Listet die Textkanäle auf, in denen die AFK-Nachricht nicht angezeigt wird.'
   params: [ ]
 afklength:
   args:
     - number
-  desc: 'Legt die maximale Laenge aller AFK-Nachrichten fest.'
+  desc: 'Legt die maximale Länge aller AFK-Nachrichten fest.'
   params:
     - &ref_51
-      desc: 'Die maximale Laenge, die festgelegt werden soll.'
+      desc: 'Die maximale Länge, die du festlegen möchtest.'
       name: num
       optional: false
       type: int
 afklength_int:
   args:
     - number
-  desc: 'Legt die maximale Laenge aller AFK-Nachrichten fest.'
+  desc: 'Legt die maximale Länge aller AFK-Nachrichten fest.'
   params:
-    - desc: 'Die maximale Laenge, die festgelegt werden soll.'
+    - desc: 'Die maximale Länge, die du festlegen möchtest.'
       name: num
       optional: false
       type: int
 afklength_int_1:
   args:
     - number
-  desc: 'Legt die maximale Laenge aller AFK-Nachrichten fest.'
+  desc: 'Legt die maximale Länge aller AFK-Nachrichten fest.'
   params:
-    - desc: 'Die maximale Laenge, die festgelegt werden soll.'
+    - desc: 'Die maximale Länge, die du festlegen möchtest.'
       name: num
       optional: false
       type: int
 afklength_int_2:
   args:
     - number
-  desc: 'Legt die maximale Laenge aller AFK-Nachrichten fest.'
+  desc: 'Legt die maximale Länge aller AFK-Nachrichten fest.'
   params:
-    - desc: 'Die maximale Laenge, die festgelegt werden soll.'
+    - desc: 'Die maximale Länge, die du festlegen möchtest.'
       name: num
       optional: false
       type: int
 afkremove:
   args:
     - '@user'
-  desc: 'Entfernt den AFK-Status eines oder mehrerer Benutzer.'
+  desc: 'Entfernt den AFK-Status von einem oder mehreren Nutzern.'
   params:
     - &ref_52
-      desc: 'Der/die Benutzer, denen du den AFK-Status entfernen moechtest.'
+      desc: 'Der/die Nutzer, deren AFK-Status entfernt werden soll.'
       name: user
       optional: false
       type: IGuildUser[]
 afkremove_IGuildUser[]:
   args:
     - '@user'
-  desc: 'Entfernt den AFK-Status eines oder mehrerer Benutzer.'
+  desc: 'Entfernt den AFK-Status von einem oder mehreren Nutzern.'
   params:
-    - desc: 'Der/die Benutzer, denen du den AFK-Status entfernen moechtest.'
+    - desc: 'Der/die Nutzer, deren AFK-Status entfernt werden soll.'
       name: user
       optional: false
       type: IGuildUser[]
 afkremove_IGuildUser[]_1:
   args:
     - '@user'
-  desc: 'Entfernt den AFK-Status eines oder mehrerer Benutzer.'
+  desc: 'Entfernt den AFK-Status von einem oder mehreren Nutzern.'
   params:
-    - desc: 'Der/die Benutzer, denen du den AFK-Status entfernen moechtest.'
+    - desc: 'Der/die Nutzer, deren AFK-Status entfernt werden soll.'
       name: user
       optional: false
       type: IGuildUser[]
 afkremove_IGuildUser[]_2:
   args:
     - '@user'
-  desc: 'Entfernt den AFK-Status eines oder mehrerer Benutzer.'
+  desc: 'Entfernt den AFK-Status von einem oder mehreren Nutzern.'
   params:
-    - desc: 'Der/die Benutzer, denen du den AFK-Status entfernen moechtest.'
+    - desc: 'Der/die Nutzer, deren AFK-Status entfernt werden soll.'
       name: user
       optional: false
       type: IGuildUser[]
@@ -188,49 +188,37 @@ afkrm:
 afktimeout:
   args:
     - time
-  desc: >-
-    Legt die Timeout-Dauer fest, bevor ein Benutzer nicht mehr als AFK gilt.
-    Wird ausgeloest, wenn ein Benutzer eine Nachricht sendet oder in einem
-    Kanal tippt.
+  desc: 'Legt die Zeitspanne fest, nach der ein Nutzer nicht mehr als AFK gilt. Wird ausgelöst, wenn ein Nutzer eine Nachricht sendet oder in einem Kanal tippt.'
   params:
     - &ref_53
-      desc: 'Die Timeout-Dauer fuer den AFK-Status.'
+      desc: 'Die Zeitspanne für den AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
 afktimeout_StoopidTime:
   args:
     - time
-  desc: >-
-    Legt die Timeout-Dauer fest, bevor ein Benutzer nicht mehr als AFK gilt.
-    Wird ausgeloest, wenn ein Benutzer eine Nachricht sendet oder in einem
-    Kanal tippt.
+  desc: 'Legt die Zeitspanne fest, nach der ein Nutzer nicht mehr als AFK gilt. Wird ausgelöst, wenn ein Nutzer eine Nachricht sendet oder in einem Kanal tippt.'
   params:
-    - desc: 'Die Timeout-Dauer fuer den AFK-Status.'
+    - desc: 'Die Zeitspanne für den AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
 afktimeout_StoopidTime_1:
   args:
     - time
-  desc: >-
-    Legt die Timeout-Dauer fest, bevor ein Benutzer nicht mehr als AFK gilt.
-    Wird ausgeloest, wenn ein Benutzer eine Nachricht sendet oder in einem
-    Kanal tippt.
+  desc: 'Legt die Zeitspanne fest, nach der ein Nutzer nicht mehr als AFK gilt. Wird ausgelöst, wenn ein Nutzer eine Nachricht sendet oder in einem Kanal tippt.'
   params:
-    - desc: 'Die Timeout-Dauer fuer den AFK-Status.'
+    - desc: 'Die Zeitspanne für den AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
 afktimeout_StoopidTime_2:
   args:
     - time
-  desc: >-
-    Legt die Timeout-Dauer fest, bevor ein Benutzer nicht mehr als AFK gilt.
-    Wird ausgeloest, wenn ein Benutzer eine Nachricht sendet oder in einem
-    Kanal tippt.
+  desc: 'Legt die Zeitspanne fest, nach der ein Nutzer nicht mehr als AFK gilt. Wird ausgelöst, wenn ein Nutzer eine Nachricht sendet oder in einem Kanal tippt.'
   params:
-    - desc: 'Die Timeout-Dauer fuer den AFK-Status.'
+    - desc: 'Die Zeitspanne für den AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
@@ -240,10 +228,10 @@ afktype:
     - selfdisable
     - onmessage
     - ontype
-  desc: 'Legt den Typ des AFK-Verhaltens fuer den Server fest.'
+  desc: 'Legt die Art des AFK-Verhaltens für den Server fest.'
   params:
     - &ref_54
-      desc: 'Der festzulegende Typ des AFK-Verhaltens. <see cref="AfkTypeEnum" />'
+      desc: 'Die Art des AFK-Verhaltens.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -253,9 +241,9 @@ afktype_AfkTypeEnum:
     - selfdisable
     - onmessage
     - ontype
-  desc: 'Legt den Typ des AFK-Verhaltens fuer den Server fest.'
+  desc: 'Legt die Art des AFK-Verhaltens für den Server fest.'
   params:
-    - desc: 'Der festzulegende Typ des AFK-Verhaltens. <see cref="AfkTypeEnum" />'
+    - desc: 'Die Art des AFK-Verhaltens.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -265,9 +253,9 @@ afktype_AfkTypeEnum_1:
     - selfdisable
     - onmessage
     - ontype
-  desc: 'Legt den Typ des AFK-Verhaltens fuer den Server fest.'
+  desc: 'Legt die Art des AFK-Verhaltens für den Server fest.'
   params:
-    - desc: 'Der festzulegende Typ des AFK-Verhaltens. <see cref="AfkTypeEnum" />'
+    - desc: 'Die Art des AFK-Verhaltens.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -277,204 +265,188 @@ afktype_AfkTypeEnum_2:
     - selfdisable
     - onmessage
     - ontype
-  desc: 'Legt den Typ des AFK-Verhaltens fuer den Server fest.'
+  desc: 'Legt die Art des AFK-Verhaltens für den Server fest.'
   params:
-    - desc: 'Der festzulegende Typ des AFK-Verhaltens. <see cref="AfkTypeEnum" />'
+    - desc: 'Die Art des AFK-Verhaltens.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
 afkundisable:
   args:
     - chan
-  desc: 'Entfernt die angegebenen Kanaele aus der AFK-Nachrichten-Blacklist.'
+  desc: 'Entfernt die angegebenen Kanäle von der AFK-Nachrichten-Blacklist.'
   params:
     - &ref_55
-      desc: 'Die Textkanaele, die aus der AFK-Nachrichten-Blacklist entfernt werden sollen.'
+      desc: 'Die Textkanäle, die von der AFK-Nachrichten-Blacklist entfernt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkundisable_ITextChannel[]:
   args:
     - chan
-  desc: 'Entfernt die angegebenen Kanaele aus der AFK-Nachrichten-Blacklist.'
+  desc: 'Entfernt die angegebenen Kanäle von der AFK-Nachrichten-Blacklist.'
   params:
-    - desc: 'Die Textkanaele, die aus der AFK-Nachrichten-Blacklist entfernt werden sollen.'
+    - desc: 'Die Textkanäle, die von der AFK-Nachrichten-Blacklist entfernt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkundisable_ITextChannel[]_1:
   args:
     - chan
-  desc: 'Entfernt die angegebenen Kanaele aus der AFK-Nachrichten-Blacklist.'
+  desc: 'Entfernt die angegebenen Kanäle von der AFK-Nachrichten-Blacklist.'
   params:
-    - desc: 'Die Textkanaele, die aus der AFK-Nachrichten-Blacklist entfernt werden sollen.'
+    - desc: 'Die Textkanäle, die von der AFK-Nachrichten-Blacklist entfernt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkundisable_ITextChannel[]_2:
   args:
     - chan
-  desc: 'Entfernt die angegebenen Kanaele aus der AFK-Nachrichten-Blacklist.'
+  desc: 'Entfernt die angegebenen Kanäle von der AFK-Nachrichten-Blacklist.'
   params:
-    - desc: 'Die Textkanaele, die aus der AFK-Nachrichten-Blacklist entfernt werden sollen.'
+    - desc: 'Die Textkanäle, die von der AFK-Nachrichten-Blacklist entfernt werden sollen.'
       name: chan
       optional: false
       type: ITextChannel[]
 afkview:
   args:
     - '@user'
-  desc: 'Zeigt den AFK-Status eines bestimmten Benutzers an.'
+  desc: 'Zeigt den AFK-Status eines bestimmten Nutzers.'
   params:
     - &ref_56
-      desc: 'Der Benutzer, dessen AFK-Status geprueft werden soll.'
+      desc: 'Der Nutzer, dessen AFK-Status geprüft werden soll.'
       name: user
       optional: true
       type: IGuildUser
 afkview_IGuildUser:
   args:
     - '@user'
-  desc: 'Zeigt den AFK-Status eines bestimmten Benutzers an.'
+  desc: 'Zeigt den AFK-Status eines bestimmten Nutzers.'
   params:
-    - desc: 'Der Benutzer, dessen AFK-Status geprueft werden soll.'
+    - desc: 'Der Nutzer, dessen AFK-Status geprüft werden soll.'
       name: user
       optional: true
       type: IGuildUser
 afkview_IGuildUser_1:
   args:
     - '@user'
-  desc: 'Zeigt den AFK-Status eines bestimmten Benutzers an.'
+  desc: 'Zeigt den AFK-Status eines bestimmten Nutzers.'
   params:
-    - desc: 'Der Benutzer, dessen AFK-Status geprueft werden soll.'
+    - desc: 'Der Nutzer, dessen AFK-Status geprüft werden soll.'
       name: user
       optional: true
       type: IGuildUser
 afkview_IGuildUser_2:
   args:
     - '@user'
-  desc: 'Zeigt den AFK-Status eines bestimmten Benutzers an.'
+  desc: 'Zeigt den AFK-Status eines bestimmten Nutzers.'
   params:
-    - desc: 'Der Benutzer, dessen AFK-Status geprueft werden soll.'
+    - desc: 'Der Nutzer, dessen AFK-Status geprüft werden soll.'
       name: user
       optional: true
       type: IGuildUser
 customafkmessage:
   args:
     - text
-  desc: >-
-    Legt ein benutzerdefiniertes AFK-Embed fest, das angezeigt wird, wenn ein
-    Benutzer AFK ist. Verwende "-" zum Zuruecksetzen auf das Standard-Embed.
-    Siehe https://eb.mewdeko.tech fuer den Embed-Builder und
-    http://mewdeko.tech/placeholders fuer Platzhalter.
+  desc: 'Legt ein eigenes AFK-Embed fest, das angezeigt wird, wenn ein Nutzer AFK ist. Mit "-" wird auf das Standard-Embed zurückgesetzt. Den Embed-Builder findest du unter https://eb.mewdeko.tech, Platzhalter unter http://mewdeko.tech/placeholders.'
   params:
     - &ref_175
-      desc: 'Die benutzerdefinierte Nachricht. Verwende "-" zum Zuruecksetzen auf die Standardnachricht.'
+      desc: 'Die eigene Nachricht. Mit "-" wird auf die Standardnachricht zurückgesetzt.'
       name: embedCode
       optional: false
       type: string
 customafkmessage_string:
   args:
     - text
-  desc: >-
-    Legt ein benutzerdefiniertes AFK-Embed fest, das angezeigt wird, wenn ein
-    Benutzer AFK ist. Verwende "-" zum Zuruecksetzen auf das Standard-Embed.
-    Siehe https://eb.mewdeko.tech fuer den Embed-Builder und
-    http://mewdeko.tech/placeholders fuer Platzhalter.
+  desc: 'Legt ein eigenes AFK-Embed fest, das angezeigt wird, wenn ein Nutzer AFK ist. Mit "-" wird auf das Standard-Embed zurückgesetzt. Den Embed-Builder findest du unter https://eb.mewdeko.tech, Platzhalter unter http://mewdeko.tech/placeholders.'
   params:
-    - desc: 'Die benutzerdefinierte Nachricht. Verwende "-" zum Zuruecksetzen auf die Standardnachricht.'
+    - desc: 'Die eigene Nachricht. Mit "-" wird auf die Standardnachricht zurückgesetzt.'
       name: embedCode
       optional: false
       type: string
 customafkmessage_string_1:
   args:
     - text
-  desc: >-
-    Legt ein benutzerdefiniertes AFK-Embed fest, das angezeigt wird, wenn ein
-    Benutzer AFK ist. Verwende "-" zum Zuruecksetzen auf das Standard-Embed.
-    Siehe https://eb.mewdeko.tech fuer den Embed-Builder und
-    http://mewdeko.tech/placeholders fuer Platzhalter.
+  desc: 'Legt ein eigenes AFK-Embed fest, das angezeigt wird, wenn ein Nutzer AFK ist. Mit "-" wird auf das Standard-Embed zurückgesetzt. Den Embed-Builder findest du unter https://eb.mewdeko.tech, Platzhalter unter http://mewdeko.tech/placeholders.'
   params:
-    - desc: 'Die benutzerdefinierte Nachricht. Verwende "-" zum Zuruecksetzen auf die Standardnachricht.'
+    - desc: 'Die eigene Nachricht. Mit "-" wird auf die Standardnachricht zurückgesetzt.'
       name: embedCode
       optional: false
       type: string
 customafkmessage_string_2:
   args:
     - text
-  desc: >-
-    Legt ein benutzerdefiniertes AFK-Embed fest, das angezeigt wird, wenn ein
-    Benutzer AFK ist. Verwende "-" zum Zuruecksetzen auf das Standard-Embed.
-    Siehe https://eb.mewdeko.tech fuer den Embed-Builder und
-    http://mewdeko.tech/placeholders fuer Platzhalter.
+  desc: 'Legt ein eigenes AFK-Embed fest, das angezeigt wird, wenn ein Nutzer AFK ist. Mit "-" wird auf das Standard-Embed zurückgesetzt. Den Embed-Builder findest du unter https://eb.mewdeko.tech, Platzhalter unter http://mewdeko.tech/placeholders.'
   params:
-    - desc: 'Die benutzerdefinierte Nachricht. Verwende "-" zum Zuruecksetzen auf die Standardnachricht.'
+    - desc: 'Die eigene Nachricht. Mit "-" wird auf die Standardnachricht zurückgesetzt.'
       name: embedCode
       optional: false
       type: string
 getactiveafks:
   args:
     - ''
-  desc: 'Zeigt eine Liste der aktiven Benutzer an, die derzeit AFK sind.'
+  desc: 'Zeigt eine Liste aktiver Nutzer, die gerade AFK sind.'
   params: [ ]
 setafk:
   args:
     - '[message]'
-  desc: 'Setzt den AFK-Status des Benutzers mit einer optionalen Nachricht.'
+  desc: 'Setzt den AFK-Status des Nutzers mit optionaler Nachricht.'
   params:
-    - desc: 'Die AFK-Nachricht. Wenn nicht angegeben, wird der AFK-Status des Benutzers umgeschaltet.'
+    - desc: 'Die AFK-Nachricht. Wird keine angegeben, wird der AFK-Status umgeschaltet.'
       name: message
       optional: true
       type: string
 timedafk:
   args:
     - time text
-  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit einer benutzerdefinierten Nachricht.'
+  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit eigener Nachricht.'
   params:
     - &ref_621
-      desc: 'Die Dauer fuer den AFK-Status.'
+      desc: 'Die Dauer des AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
     - &ref_622
-      desc: 'Die benutzerdefinierte Nachricht fuer den AFK-Status.'
+      desc: 'Die eigene Nachricht für den AFK-Status.'
       name: message
       optional: false
       type: string
 timedafk_StoopidTime_string:
   args:
     - time text
-  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit einer benutzerdefinierten Nachricht.'
+  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit eigener Nachricht.'
   params:
-    - desc: 'Die Dauer fuer den AFK-Status.'
+    - desc: 'Die Dauer des AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
-    - desc: 'Die benutzerdefinierte Nachricht fuer den AFK-Status.'
+    - desc: 'Die eigene Nachricht für den AFK-Status.'
       name: message
       optional: false
       type: string
 timedafk_StoopidTime_string_1:
   args:
     - time text
-  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit einer benutzerdefinierten Nachricht.'
+  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit eigener Nachricht.'
   params:
-    - desc: 'Die Dauer fuer den AFK-Status.'
+    - desc: 'Die Dauer des AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
-    - desc: 'Die benutzerdefinierte Nachricht fuer den AFK-Status.'
+    - desc: 'Die eigene Nachricht für den AFK-Status.'
       name: message
       optional: false
       type: string
 timedafk_StoopidTime_string_2:
   args:
     - time text
-  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit einer benutzerdefinierten Nachricht.'
+  desc: 'Setzt einen zeitlich begrenzten AFK-Status mit eigener Nachricht.'
   params:
-    - desc: 'Die Dauer fuer den AFK-Status.'
+    - desc: 'Die Dauer des AFK-Status.'
       name: time
       optional: false
       type: StoopidTime
-    - desc: 'Die benutzerdefinierte Nachricht fuer den AFK-Status.'
+    - desc: 'Die eigene Nachricht für den AFK-Status.'
       name: message
       optional: false
       type: string

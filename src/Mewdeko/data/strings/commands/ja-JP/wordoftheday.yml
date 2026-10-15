@@ -1,0 +1,247 @@
+wotd:
+  args:
+    - ''
+  desc: '今日の単語を表示します。まだ投稿されていない場合は、そのプレビューを表示します。'
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: '毎日の単語の投稿をオンまたはオフにします。先にチャンネルを設定する必要があります。'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: '毎日の単語を投稿するチャンネルを設定し、投稿を有効にします。空欄のままにすると、チャンネルを消去して無効にします。'
+  params:
+    - desc: '投稿先のチャンネルです。消去する場合は省略します。'
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: '毎日の単語を投稿する現地時間（0〜23 時）を設定します。'
+  params:
+    - desc: '24 時間形式の時刻です。'
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: '毎日の投稿時刻と、新しい日の始まりを判断するために使用するタイムゾーンを設定します。'
+  params:
+    - desc: 'IANA のタイムゾーン名です。'
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: '毎日の単語ごとにメンションするロールを設定します。空欄のままにすると消去します。'
+  params:
+    - desc: 'メンションするロールです。消去する場合は省略します。'
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: '毎日の単語のカスタムメッセージテンプレートを設定します。埋め込み JSON とプレースホルダーに対応しています。テキストを指定せずに送信すると現在のテンプレートを表示し、"clear" を送信すると既定の埋め込みを使用します。'
+  params:
+    - desc: 'テンプレートのテキストです。省略すると表示、"clear" を指定するとリセットします。'
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: '辞書の単語の傾向を決める、最大 5 語のトピックを設定します。空欄のままにするか "clear" を送信すると削除します。'
+  params:
+    - desc: '"space" や "medieval history" などのテーマの単語です。省略するとクリアします。'
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: '辞書の単語を品詞に限定します: any（すべて）、noun（名詞）、verb（動詞）、adjective（形容詞）、adverb（副詞）。'
+  params:
+    - desc: '許可する品詞です。'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: '辞書の単語の難易度を設定します: any（すべて）、common（一般的）、moderate（中程度）、rare（珍しい）。'
+  params:
+    - desc: '難易度です。'
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: '単語の取得元を選択します。Dictionary は Datamuse と指定したフィルターを使用し、custom は wotdadd で追加された単語のみを使用し、mixed はカスタム単語がなくなるまでカスタム単語を使用します。'
+  params:
+    - desc: '単語の取得元です。'
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: 'このサーバーのカスタム単語リストに単語を追加します。定義を指定しない場合は、自動的に検索されます。'
+  params:
+    - desc: '追加する単語です。'
+      name: word
+      optional: false
+      type: string
+    - desc: '単語の定義です。省略すると検索されます。'
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: 'このサーバーのカスタム単語リストから単語を削除します。'
+  params:
+    - desc: '削除する単語です。'
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: 'このサーバーのカスタム単語と、それぞれが投稿された回数を一覧表示します。'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: '最近投稿された単語を表示します。'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: '現在の今日の単語の設定を表示します。'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: 'スケジュールに関係なく、新しい単語をすぐに投稿します。'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: 'このサーバーの今日の単語の設定、カスタム単語、履歴をすべてリセットします。'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: '特定の曜日のトピックを設定します。その日は基本トピックよりも優先されます。トピックを指定しないと、その日のルールを削除します。'
+  params:
+    - desc: '曜日です。'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'その日のトピックの単語です。省略するとルールを削除します。'
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: '特定の曜日の品詞と、省略可能な難易度を設定します。基本設定を継承するには "any" を使用します。'
+  params:
+    - desc: '曜日です。'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'その日の品詞、または any です。'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'その日の難易度、または any です。'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: '特定の月のトピックを設定します。その月の間は基本トピックよりも優先されます。曜日のルールは月のルールよりも優先されます。トピックを指定しないと、ルールを削除します。'
+  params:
+    - desc: '月の番号または名前です。'
+      name: month
+      optional: false
+      type: string
+    - desc: 'その月のトピックの単語です。省略するとルールを削除します。'
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: '特定の月の品詞と、省略可能な難易度を設定します。基本設定を継承するには "any" を使用します。'
+  params:
+    - desc: '月の番号または名前です。'
+      name: month
+      optional: false
+      type: string
+    - desc: 'その月の品詞、または any です。'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'その月の難易度、または any です。'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: 'すべての曜日と月のルール、および今日適用されているフィルターを表示します。'
+  params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: '今日の単語の投稿ごとに、公開のディスカッションスレッドを作成するかどうかを切り替えます。スレッドには、単語を使って文を作るよう促す開始メッセージが付きます。'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: 'ディスカッションスレッドの名前のテンプレートを設定します。%wotd.word%、%wotd.date%、%wotd.pos%、およびサーバーのプレースホルダーに対応しています。テキストを指定せずに送信すると現在のテンプレートを表示し、"clear" を送信するとリセットします。'
+  params:
+    - desc: 'スレッド名のテンプレートです。省略すると表示、"clear" を指定するとリセットします。'
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: 'ディスカッションスレッドが活動なしの状態で、Discord によってアーカイブされるまでの期間を設定します: 1h、24h、3d、7d。'
+  params:
+    - desc: '1h、24h、3d、7d のいずれかです。'
+      name: duration
+      optional: false
+      type: string

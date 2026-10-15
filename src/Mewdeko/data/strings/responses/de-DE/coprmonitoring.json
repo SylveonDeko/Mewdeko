@@ -24,6 +24,10 @@
   "copr_skipped_message_default": "Übersprungene Build-Meldungen verwenden das Standard-Format.",
   "copr_default_message_updated": "Standard-Build-Meldung aktualisiert!",
   "copr_default_message_default": "Standard-Build-Meldungen verwenden das Standard-Format.",
+  "copr_template_updated": "Vorlage für {0}-Builds aktualisiert!",
+  "copr_template_reset": "{0}-Build-Nachrichten verwenden das Standardformat.",
+  "copr_template_none": "Es ist keine eigene {0}-Vorlage gesetzt, es wird das Standardformat verwendet.",
+  "copr_template_show_title": "{0}/{1} {2}-Vorlage",
   "copr_build_title": "COPR-Build {0}",
   "copr_build_default_desc": "**Projekt:** {0}/{1}\n**Paket:** {2}\n**Build-ID:** {3}\n**Chroot:** {4}"
 }

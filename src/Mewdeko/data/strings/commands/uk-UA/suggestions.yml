@@ -1,0 +1,838 @@
+accept:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Приймає пропозицію і позначає її як схвалену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно прийняти.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина прийняття пропозиції.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Приймає пропозицію і позначає її як схвалену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно прийняти.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина прийняття пропозиції.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Приймає пропозицію і позначає її як схвалену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно прийняти.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина прийняття пропозиції.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Приймає пропозицію і позначає її як схвалену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно прийняти.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина прийняття пропозиції.'
+      name: reason
+      optional: true
+      type: string
+acceptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал, куди публікуються прийняті пропозиції.'
+  params:
+    - desc: 'Канал для публікації прийнятих пропозицій. Якщо null, функцію вимкнено.'
+      name: channel
+      optional: true
+      type: channel
+acceptmessage:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення про прийняття для пропозицій.'
+  params:
+    - &ref_2
+      desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення про прийняття для пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_1:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення про прийняття для пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_2:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення про прийняття для пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+archiveonaccept:
+  args:
+    - ''
+  desc: 'Перемикає архівування пропозицій після прийняття.'
+  params: [ ]
+archiveonconsider:
+  args:
+    - ''
+  desc: 'Перемикає архівування пропозицій після розгляду.'
+  params: [ ]
+archiveondeny:
+  args:
+    - ''
+  desc: 'Перемикає архівування пропозицій після відхилення.'
+  params: [ ]
+archiveonimplement:
+  args:
+    - ''
+  desc: 'Перемикає архівування пропозицій після впровадження.'
+  params: [ ]
+consider:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Позначає пропозицію як таку, що розглядається.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно позначити як таку, що розглядається.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Коментарі або міркування щодо розгляду пропозиції.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Позначає пропозицію як таку, що розглядається.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно позначити як таку, що розглядається.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Коментарі або міркування щодо розгляду пропозиції.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Позначає пропозицію як таку, що розглядається.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно позначити як таку, що розглядається.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Коментарі або міркування щодо розгляду пропозиції.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Позначає пропозицію як таку, що розглядається.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно позначити як таку, що розглядається.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Коментарі або міркування щодо розгляду пропозиції.'
+      name: reason
+      optional: true
+      type: string
+considerchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал, куди публікуються розглянуті пропозиції.'
+  params:
+    - desc: 'Канал для публікації розглянутих пропозицій. Якщо null, функцію вимкнено.'
+      name: channel
+      optional: true
+      type: channel
+considermessage:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення про розгляд для пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+deny:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Відхиляє пропозицію, позначаючи її як відхилену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно відхилити.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина відхилення пропозиції.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Відхиляє пропозицію, позначаючи її як відхилену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно відхилити.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина відхилення пропозиції.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Відхиляє пропозицію, позначаючи її як відхилену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно відхилити.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина відхилення пропозиції.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Відхиляє пропозицію, позначаючи її як відхилену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно відхилити.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина відхилення пропозиції.'
+      name: reason
+      optional: true
+      type: string
+denychannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал, куди публікуються відхилені пропозиції.'
+  params:
+    - desc: 'Канал для публікації відхилених пропозицій. Якщо null, функцію вимкнено.'
+      name: channel
+      optional: true
+      type: channel
+denymessage:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення про відхилення для пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+implementchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал, куди публікуються впроваджені пропозиції.'
+  params:
+    - desc: 'Канал для публікації впроваджених пропозицій. Якщо null, функцію вимкнено.'
+      name: channel
+      optional: true
+      type: channel
+implemented:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Позначає пропозицію як впроваджену.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, яку потрібно позначити як впроваджену.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Необов''язково. Причина або деталі впровадження.'
+      name: reason
+      optional: true
+      type: string
+implementmessage:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення про впровадження для пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+maxsuggestionlength:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину пропозицій.'
+  params:
+    - &ref_291
+      desc: 'Максимальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину пропозицій.'
+  params:
+    - desc: 'Максимальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину пропозицій.'
+  params:
+    - desc: 'Максимальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину пропозицій.'
+  params:
+    - desc: 'Максимальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength:
+  args:
+    - number
+  desc: 'Встановлює мінімальну довжину пропозицій.'
+  params:
+    - &ref_294
+      desc: 'Мінімальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int:
+  args:
+    - number
+  desc: 'Встановлює мінімальну довжину пропозицій.'
+  params:
+    - desc: 'Мінімальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Встановлює мінімальну довжину пропозицій.'
+  params:
+    - desc: 'Мінімальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Встановлює мінімальну довжину пропозицій.'
+  params:
+    - desc: 'Мінімальна кількість символів у пропозиції.'
+      name: length
+      optional: false
+      type: int
+setsuggestchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює або вимикає канал пропозицій для сервера.'
+  params:
+    - desc: 'Текстовий канал для пропозицій. Якщо null, пропозиції вимикаються.'
+      name: channel
+      optional: true
+      type: channel
+suggest:
+  args:
+    - text
+  desc: 'Надсилає нову пропозицію в призначений канал пропозицій.'
+  params:
+    - &ref_582
+      desc: 'Текст пропозиції для надсилання.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string:
+  args:
+    - text
+  desc: 'Надсилає нову пропозицію в призначений канал пропозицій.'
+  params:
+    - desc: 'Текст пропозиції для надсилання.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_1:
+  args:
+    - text
+  desc: 'Надсилає нову пропозицію в призначений канал пропозицій.'
+  params:
+    - desc: 'Текст пропозиції для надсилання.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_2:
+  args:
+    - text
+  desc: 'Надсилає нову пропозицію в призначений канал пропозицій.'
+  params:
+    - desc: 'Текст пропозиції для надсилання.'
+      name: suggestion
+      optional: false
+      type: string
+suggestbuttonchannel:
+  args:
+    - channel
+  desc: 'Встановлює канал для кнопки пропозицій.'
+  params:
+    - &ref_583
+      desc: 'Канал для кнопки пропозицій.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Встановлює канал для кнопки пропозицій.'
+  params:
+    - desc: 'Канал для кнопки пропозицій.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Встановлює канал для кнопки пропозицій.'
+  params:
+    - desc: 'Канал для кнопки пропозицій.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Встановлює канал для кнопки пропозицій.'
+  params:
+    - desc: 'Канал для кнопки пропозицій.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttoncolor:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір кнопки пропозицій.'
+  params:
+    - &ref_584
+      desc: 'Тип кольору для кнопки пропозицій.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір кнопки пропозицій.'
+  params:
+    - &ref_585
+      desc: 'Тип кольору для кнопки пропозицій.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_1:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір кнопки пропозицій.'
+  params:
+    - desc: 'Тип кольору для кнопки пропозицій.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_2:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір кнопки пропозицій.'
+  params:
+    - desc: 'Тип кольору для кнопки пропозицій.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttonemote:
+  args:
+    - '[emote]'
+  desc: 'Встановлює емодзі для кнопки пропозицій.'
+  params:
+    - desc: 'Емодзі для кнопки пропозицій. Якщо null, скидається до стандартного.'
+      name: emote
+      optional: true
+      type: emote
+suggestbuttonlabel:
+  args:
+    - text
+  desc: 'Встановлює напис для кнопки пропозицій.'
+  params:
+    - &ref_586
+      desc: 'Текст напису для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string:
+  args:
+    - text
+  desc: 'Встановлює напис для кнопки пропозицій.'
+  params:
+    - desc: 'Текст напису для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_1:
+  args:
+    - text
+  desc: 'Встановлює напис для кнопки пропозицій.'
+  params:
+    - desc: 'Текст напису для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_2:
+  args:
+    - text
+  desc: 'Встановлює напис для кнопки пропозицій.'
+  params:
+    - desc: 'Текст напису для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonmessage:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення кнопки пропозицій.'
+  params:
+    - &ref_587
+      desc: 'Повідомлення для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення кнопки пропозицій.'
+  params:
+    - desc: 'Повідомлення для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_1:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення кнопки пропозицій.'
+  params:
+    - desc: 'Повідомлення для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_2:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення кнопки пропозицій.'
+  params:
+    - desc: 'Повідомлення для кнопки пропозицій. Використовуйте "-", щоб скинути до стандартного.'
+      name: toSet
+      optional: true
+      type: string
+suggestclear:
+  args:
+    - ''
+  desc: 'Видаляє всі пропозиції з сервера.'
+  params: [ ]
+suggestinfo:
+  args:
+    - num
+  desc: 'Показує детальну інформацію про конкретну пропозицію.'
+  params:
+    - &ref_588
+      desc: 'Унікальний номер (ID) пропозиції, для якої показати інформацію.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong:
+  args:
+    - num
+  desc: 'Показує детальну інформацію про конкретну пропозицію.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, для якої показати інформацію.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_1:
+  args:
+    - num
+  desc: 'Показує детальну інформацію про конкретну пропозицію.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, для якої показати інформацію.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_2:
+  args:
+    - num
+  desc: 'Показує детальну інформацію про конкретну пропозицію.'
+  params:
+    - desc: 'Унікальний номер (ID) пропозиції, для якої показати інформацію.'
+      name: num
+      optional: false
+      type: ulong
+suggestmessage:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_1:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення пропозицій.'
+  params:
+    - desc: ''
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_2:
+  args:
+    - text
+  desc: 'Встановлює або оновлює повідомлення пропозицій.'
+  params:
+    - desc: 'Повідомлення або код вбудованого повідомлення. Використовуйте "-", щоб скинути до стандартного повідомлення.'
+      name: embed
+      optional: false
+      type: string
+suggestmotecolor:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір для конкретних кнопок з емодзі в пропозиціях.'
+  params:
+    - &ref_589
+      desc: 'Номер кнопки для зміни.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Тип кольору для застосування до кнопки.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір для конкретних кнопок з емодзі в пропозиціях.'
+  params:
+    - desc: 'Номер кнопки для зміни.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Тип кольору для застосування до кнопки.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_1:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір для конкретних кнопок з емодзі в пропозиціях.'
+  params:
+    - desc: 'Номер кнопки для зміни.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Тип кольору для застосування до кнопки.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_2:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Встановлює колір для конкретних кнопок з емодзі в пропозиціях.'
+  params:
+    - desc: 'Номер кнопки для зміни.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Тип кольору для застосування до кнопки.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotes:
+  args:
+    - '[_]'
+  desc: 'Налаштовує власні емодзі, які використовуються в пропозиціях.'
+  params:
+    - desc: 'Список емодзі через кому або "disable", щоб використовувати стандартні реакції.'
+      name: _
+      optional: true
+      type: string
+suggestmotesmode:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Встановлює режим емодзі для пропозицій: реакції або кнопки.'
+  params:
+    - &ref_590
+      desc: 'Режим для емодзі пропозицій.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Встановлює режим емодзі для пропозицій: реакції або кнопки.'
+  params:
+    - desc: 'Режим для емодзі пропозицій.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_1:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Встановлює режим емодзі для пропозицій: реакції або кнопки.'
+  params:
+    - desc: 'Режим для емодзі пропозицій.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_2:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Встановлює режим емодзі для пропозицій: реакції або кнопки.'
+  params:
+    - desc: 'Режим для емодзі пропозицій.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestthreadstype:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Встановлює тип гілок, які використовуються в пропозиціях.'
+  params:
+    - &ref_591
+      desc: 'Тип гілки для нових пропозицій.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Встановлює тип гілок, які використовуються в пропозиціях.'
+  params:
+    - desc: 'Тип гілки для нових пропозицій.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_1:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Встановлює тип гілок, які використовуються в пропозиціях.'
+  params:
+    - desc: 'Тип гілки для нових пропозицій.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_2:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Встановлює тип гілок, які використовуються в пропозиціях.'
+  params:
+    - desc: 'Тип гілки для нових пропозицій.'
+      name: type
+      optional: false
+      type: SuggestThreadType

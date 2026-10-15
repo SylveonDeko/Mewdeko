@@ -124,7 +124,7 @@
   "counting_reset_failed": "Falha ao fazer reset de contagem.",
   "counting_reset_on_error": "Reset em erro",
   "counting_reset_on_error_setting": "Reset em Erro",
-  "counting_reset_success": "Successfully reset counting in {0} to **{1}**.",
+  "counting_reset_success": "Contagem em {0} redefinida com sucesso para **{1}**.",
   "counting_restore_cancelled": "Restauração de contagem cancelada.",
   "counting_restore_confirm": "Tem certeza que deseja restaurar {0} do ponto de salvamento **{1}**? Número atual: **{2}**",
   "counting_restore_confirm_title": "Confirmar Restauração",

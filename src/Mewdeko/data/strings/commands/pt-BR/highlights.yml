@@ -5,9 +5,9 @@ highlight:
     - add
     - list
     - delete
-  desc: 'Adiciona, lista, remove ou combina destaques.'
+  desc: 'Adiciona, lista, remove ou verifica destaques.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'A ação a executar: add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
@@ -22,9 +22,9 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: 'Adiciona, lista, remove ou combina destaques.'
+  desc: 'Adiciona, lista, remove ou verifica destaques.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'A ação a executar: add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
@@ -39,9 +39,9 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: 'Adiciona, lista, remove ou combina destaques.'
+  desc: 'Adiciona, lista, remove ou verifica destaques.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'A ação a executar: add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
@@ -56,9 +56,9 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: 'Adiciona, lista, remove ou combina destaques.'
+  desc: 'Adiciona, lista, remove ou verifica destaques.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'A ação a executar: add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
@@ -69,13 +69,13 @@ highlight_HighlightActions_=_2:
 highlights:
   args:
     - action word
-  desc: Gerencia os destaques do usuário.
+  desc: 'Gerencia os destaques dos usuários.'
   params:
-    - desc: A ação a realizar com os destaques.
+    - desc: 'A ação a executar com os destaques.'
       name: action
       optional: false
       type: string
-    - desc: A palavra para destacar.
+    - desc: 'A palavra a destacar.'
       name: word
       optional: true
       type: string

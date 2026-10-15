@@ -1,81 +1,81 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: 'サーバー統計を表示する新しいロックされたボイスチャンネルを作成します。ボットがチャンネルを作成し管理します。'
+  desc: 'サーバーの統計情報を表示する、ロックされたボイスチャンネルを新規作成します。ボットがチャンネルを作成して管理します。'
   params:
-    - desc: '表示する統計タイプ。'
+    - desc: '表示する統計の種類です。'
       name: type
       optional: false
       type: StatChannelType
-    - desc: '表示テンプレート。値には %count% を使用してください。'
+    - desc: '表示テンプレートです。値には %count% を使用します。'
       name: template
       optional: true
       type: string
 statchanneladd:
   args:
     - '#voice-channel TotalMembers [template]'
-  desc: 'ボイスチャンネルを統計チャンネルとして追加します。タイプ：TotalMembers、HumanMembers、BotCount、OnlineMembers、ChannelCount、RoleCount、BoostCount、BoostLevel、EmojiCount。'
+  desc: 'ボイスチャンネルを統計チャンネルとして追加します。種類: TotalMembers、HumanMembers、BotCount、OnlineMembers、ChannelCount、RoleCount、BoostCount、BoostLevel、EmojiCount。'
   params:
-    - desc: '使用するボイスチャンネル。'
+    - desc: '使用するボイスチャンネルです。'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: '表示する統計タイプ。'
+    - desc: '表示する統計の種類です。'
       name: type
       optional: false
       type: StatChannelType
-    - desc: '表示テンプレート。値には %count% を使用してください。'
+    - desc: '表示テンプレートです。値には %count% を使用します。'
       name: template
       optional: true
       type: string
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: '特定のロールを持つメンバー数を表示する統計チャンネルを追加します。'
+  desc: '特定のロールを持つメンバーの数を表示する統計チャンネルを追加します。'
   params:
-    - desc: '使用するボイスチャンネル。'
+    - desc: '使用するボイスチャンネルです。'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'メンバー数を数えるロール。'
+    - desc: 'メンバー数を数える対象のロールです。'
       name: role
       optional: false
       type: IRole
-    - desc: '表示テンプレート。%count% と %role.name% を使用してください。'
+    - desc: '表示テンプレートです。%count% と %role.name% を使用します。'
       name: template
       optional: true
       type: string
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'カウントダウン統計チャンネルを追加します。%days% と %hours% プレースホルダーを使用してください。'
+  desc: 'カウントダウンの統計チャンネルを追加します。%days% と %hours% のプレースホルダーを使用します。'
   params:
-    - desc: '使用するボイスチャンネル。'
+    - desc: '使用するボイスチャンネルです。'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'カウントダウンの対象日付。'
+    - desc: 'カウントダウンの目標日です。'
       name: date
       optional: false
       type: DateTime
-    - desc: '表示テンプレート。%days% と %hours% を使用してください。'
+    - desc: '表示テンプレートです。%days% と %hours% を使用します。'
       name: template
       optional: true
       type: string
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'メンバー目標統計チャンネルを追加します。%count%、%goal%、%goal.percent% を使用してください。'
+  desc: 'メンバー目標の統計チャンネルを追加します。%count%、%goal%、%goal.percent% を使用します。'
   params:
-    - desc: '使用するボイスチャンネル。'
+    - desc: '使用するボイスチャンネルです。'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: '目標メンバー数。'
+    - desc: '目標とするメンバー数です。'
       name: goal
       optional: false
       type: int
-    - desc: '表示テンプレート。%count%、%goal%、%goal.percent% を使用してください。'
+    - desc: '表示テンプレートです。%count%、%goal%、%goal.percent% を使用します。'
       name: template
       optional: true
       type: string
@@ -84,7 +84,7 @@ statchannelremove:
     - '#voice-channel'
   desc: '統計チャンネルを削除します。'
   params:
-    - desc: '削除するボイスチャンネル。'
+    - desc: '削除するボイスチャンネルです。'
       name: channel
       optional: false
       type: IVoiceChannel
@@ -93,3 +93,23 @@ statchannellist:
     - ''
   desc: 'このサーバーのすべての統計チャンネルを一覧表示します。'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: '統計チャンネルに Twitch のカウンターを表示するように設定します。'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: '統計チャンネルの更新方法を設定します。'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: '統計チャンネルの表示スタイルを設定します。'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: '統計チャンネルの既定の設定を表示します。'
+statchanneltypes:
+  args:
+    - ''
+  desc: '利用可能な統計チャンネルの種類を一覧表示します。'

@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie d''Acrophobia.'
+  params:
+    - &ref_3
+      desc: 'Arguments transmis à la commande.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie d''Acrophobia.'
+  params:
+    - desc: 'Arguments transmis à la commande.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie d''Acrophobia.'
+  params:
+    - desc: 'Arguments transmis à la commande.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie d''Acrophobia.'
+  params:
+    - desc: 'Arguments transmis à la commande.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: 'Commande pour choisir au hasard dans une liste d''options.'
+  params:
+    - desc: 'La liste des options, séparées par des points-virgules.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'Commande pour basculer le statut dragon de l''utilisateur. Généralement utilisée pour les commandes bêta.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'Commande pour consulter la boule magique 8 pour obtenir une réponse.'
+  params:
+    - desc: 'La question à poser.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: 'Lance une partie de pendu du type indiqué.'
+  params:
+    - &ref_244
+      desc: 'Lance une partie de pendu du type indiqué.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: 'Lance une partie de pendu du type indiqué.'
+  params:
+    - desc: 'Lance une partie de pendu du type indiqué.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: 'Lance une partie de pendu du type indiqué.'
+  params:
+    - desc: 'Lance une partie de pendu du type indiqué.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: 'Lance une partie de pendu du type indiqué.'
+  params:
+    - desc: 'Lance une partie de pendu du type indiqué.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: 'Liste les types de pendu disponibles sur le serveur actuel.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: 'Arrête la partie de pendu en cours dans le salon actuel.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie de Kaladont.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Commande pour lancer une partie de Kaladont.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie de Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie de Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Commande pour lancer une partie de Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: 'Commande pour arrêter la partie de Kaladont en cours.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: 'Configure un salon Kaladont permanent.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Configure un salon Kaladont permanent.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: 'Configure un salon Kaladont permanent.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: 'Configure un salon Kaladont permanent.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: 'Configure un salon Kaladont permanent.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: 'Désactive le salon Kaladont permanent.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: 'Commande Linux humoristique qui s''invite dans la conversation'
+  params:
+    - &ref_275
+      desc: 'Le nom qui remplacera "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: 'Le nom qui remplacera "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: 'Commande Linux humoristique qui s''invite dans la conversation'
+  params:
+    - desc: 'Le nom qui remplacera "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Le nom qui remplacera "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: 'Commande Linux humoristique qui s''invite dans la conversation'
+  params:
+    - desc: 'Le nom qui remplacera "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Le nom qui remplacera "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: 'Commande Linux humoristique qui s''invite dans la conversation'
+  params:
+    - desc: 'Le nom qui remplacera "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Le nom qui remplacera "Linux".'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Lance ou rejoint une partie de Nunchi.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - &ref_351
+      desc: 'Crée un sondage simple oui/non.'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - &ref_349
+      desc: 'Crée un sondage simple oui/non.'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'Crée un sondage simple oui/non.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - desc: 'Crée un sondage simple oui/non.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Crée un sondage simple oui/non.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - desc: 'Crée un sondage simple oui/non.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Crée un sondage simple oui/non.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - desc: 'Crée un sondage simple oui/non.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Crée un sondage simple oui/non.'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - desc: 'Crée un sondage simple oui/non.'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - desc: 'Crée un sondage simple oui/non.'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'Crée un sondage simple oui/non.'
+  params:
+    - desc: 'Crée un sondage simple oui/non.'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: 'Crée un sondage anonyme dont l''identité des votants est masquée.'
+  params:
+    - desc: 'Question du sondage et options, séparées par des points-virgules.'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: 'Crée un sondage personnalisé avec plusieurs options.'
+  params:
+    - desc: 'Question du sondage et options, séparées par des points-virgules.'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'Crée un sondage à choix multiples où les utilisateurs peuvent sélectionner plusieurs options.'
+  params:
+    - desc: 'Question du sondage et options, séparées par des points-virgules.'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'Crée un sondage à partir d''un modèle.'
+  params:
+    - desc: 'Le nom du modèle à utiliser.'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'Liste tous les modèles de sondage disponibles sur le serveur.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: 'Commande qui n''existe plus. Elle traitait les personnes trans d''insulte dans NadekoBot. Conservée ici en souvenir et comme un bras d''honneur à NadekoBot.'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'Lance une partie de morpion (TicTacToe).'
+  params:
+    - &ref_619
+      desc: 'Options pour ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'Lance une partie de morpion (TicTacToe).'
+  params:
+    - desc: 'Options pour ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'Lance une partie de morpion (TicTacToe).'
+  params:
+    - desc: 'Options pour ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'Lance une partie de morpion (TicTacToe).'
+  params:
+    - desc: 'Options pour ttt'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: 'Affiche le classement actuel du quiz.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: 'Arrête la partie de quiz en cours.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'Lance une partie de quiz.'
+  params:
+    - &ref_629
+      desc: 'Arguments facultatifs pour le quiz'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'Lance une partie de quiz.'
+  params:
+    - desc: 'Arguments facultatifs pour le quiz'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'Lance une partie de quiz.'
+  params:
+    - desc: 'Arguments facultatifs pour le quiz'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'Lance une partie de quiz.'
+  params:
+    - desc: 'Arguments facultatifs pour le quiz'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'Ajoute un nouvel article pour le jeu de frappe.'
+  params:
+    - &ref_630
+      desc: 'Le texte de l''article à ajouter.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'Ajoute un nouvel article pour le jeu de frappe.'
+  params:
+    - desc: 'Le texte de l''article à ajouter.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'Ajoute un nouvel article pour le jeu de frappe.'
+  params:
+    - desc: 'Le texte de l''article à ajouter.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'Ajoute un nouvel article pour le jeu de frappe.'
+  params:
+    - desc: 'Le texte de l''article à ajouter.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'Supprime un article de frappe par son index.'
+  params:
+    - &ref_631
+      desc: 'L''index de l''article à supprimer.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'Supprime un article de frappe par son index.'
+  params:
+    - desc: 'L''index de l''article à supprimer.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'Supprime un article de frappe par son index.'
+  params:
+    - desc: 'L''index de l''article à supprimer.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'Supprime un article de frappe par son index.'
+  params:
+    - desc: 'L''index de l''article à supprimer.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'Liste les articles disponibles pour le jeu de frappe.'
+  params:
+    - desc: 'Liste les articles disponibles pour le jeu de frappe.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'Lance un jeu de frappe rapide.'
+  params:
+    - &ref_632
+      desc: 'Arguments pour configurer la partie.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'Lance un jeu de frappe rapide.'
+  params:
+    - desc: 'Arguments pour configurer la partie.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'Lance un jeu de frappe rapide.'
+  params:
+    - desc: 'Arguments pour configurer la partie.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'Lance un jeu de frappe rapide.'
+  params:
+    - desc: 'Arguments pour configurer la partie.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: 'Arrête le jeu de frappe rapide en cours.'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: 'Commande pour choisir au hasard dans une liste d''options.'
+  params:
+    - desc: 'La liste des options, séparées par des points-virgules.'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: 'Arrête la partie de pendu en cours dans le salon actuel.'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Lance ou rejoint une partie de Nunchi.'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: 'Affiche le classement actuel du quiz.'
+  params: [ ]

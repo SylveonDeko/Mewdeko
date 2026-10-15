@@ -1,0 +1,1475 @@
+allcatmdls:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di una categoria specifica.'
+  params:
+    - &ref_61
+      desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_62
+      desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di una categoria specifica.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_1:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di una categoria specifica.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_2:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di una categoria specifica.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allchnlmdls:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un canale specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_63
+      desc: 'Il canale per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un canale specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il canale per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_1:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un canale specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il canale per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_2:
+  args:
+    - action chnl
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un canale specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il canale per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allcmdcooldowns:
+  args:
+    - ''
+  desc: 'Mostra tutti i comandi con cooldown attivi nella gilda.'
+  params: [ ]
+allrolemdls:
+  args:
+    - action @role
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un ruolo specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_64
+      desc: 'Il ruolo per cui impostare i permessi.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole:
+  args:
+    - action @role
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un ruolo specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il ruolo per cui impostare i permessi.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_1:
+  args:
+    - action @role
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un ruolo specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il ruolo per cui impostare i permessi.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_2:
+  args:
+    - action @role
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un ruolo specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il ruolo per cui impostare i permessi.'
+      name: role
+      optional: false
+      type: IRole
+allsrvrmdls:
+  args:
+    - action
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli dell''intero server.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+allusrmdls:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un utente specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_65
+      desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un utente specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_1:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un utente specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_2:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove i permessi per tutti i moduli di un utente specifico.'
+  params:
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IUser
+autobanword:
+  args:
+    - text
+  desc: 'Attiva o disattiva una parola nella lista di ban automatico della gilda attuale.'
+  params:
+    - &ref_89
+      desc: 'La parola da attivare o disattivare nella lista di ban automatico.'
+      name: word
+      optional: false
+      type: string
+autobanword_string:
+  args:
+    - text
+  desc: 'Attiva o disattiva una parola nella lista di ban automatico della gilda attuale.'
+  params:
+    - desc: 'La parola da attivare o disattivare nella lista di ban automatico.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_1:
+  args:
+    - text
+  desc: 'Attiva o disattiva una parola nella lista di ban automatico della gilda attuale.'
+  params:
+    - desc: 'La parola da attivare o disattivare nella lista di ban automatico.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_2:
+  args:
+    - text
+  desc: 'Attiva o disattiva una parola nella lista di ban automatico della gilda attuale.'
+  params:
+    - desc: 'La parola da attivare o disattivare nella lista di ban automatico.'
+      name: word
+      optional: false
+      type: string
+autobanwordlist:
+  args:
+    - ''
+  desc: 'Mostra un elenco paginato di tutte le parole nella lista di ban automatico della gilda attuale.'
+  params: [ ]
+autobanwordlist_noparams:
+  args:
+    - ''
+  desc: 'Mostra un elenco paginato di tutte le parole nella lista di ban automatico della gilda attuale.'
+  params: [ ]
+autobanwordlist_noparams_1:
+  args:
+    - ''
+  desc: 'Mostra un elenco paginato di tutte le parole nella lista di ban automatico della gilda attuale.'
+  params: [ ]
+autobanwordlist_noparams_2:
+  args:
+    - ''
+  desc: 'Mostra un elenco paginato di tutte le parole nella lista di ban automatico della gilda attuale.'
+  params: [ ]
+catcmd:
+  args:
+    - command action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i comandi di una categoria specifica.'
+  params:
+    - &ref_120
+      desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - command action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i comandi di una categoria specifica.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - command action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i comandi di una categoria specifica.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - command action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i comandi di una categoria specifica.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl:
+  args:
+    - module action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i moduli di una categoria specifica.'
+  params:
+    - &ref_121
+      desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - module action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i moduli di una categoria specifica.'
+  params:
+    - desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - module action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i moduli di una categoria specifica.'
+  params:
+    - desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - module action chnl
+  desc: 'Aggiunge o rimuove permessi specifici per i moduli di una categoria specifica.'
+  params:
+    - desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'La categoria per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+channelblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un canale dalla blacklist tramite il suo ID, con un motivo facoltativo.'
+  params:
+    - &ref_122
+      desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_123
+      desc: 'L''ID del canale.'
+      name: id
+      optional: false
+      type: ulong
+    - &ref_124
+      desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un canale dalla blacklist tramite il suo ID, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''ID del canale.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un canale dalla blacklist tramite il suo ID, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_638
+      desc: 'L''ID del canale.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un canale dalla blacklist tramite il suo ID, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''ID del canale.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+chnlcmd:
+  args:
+    - command action chnl
+  desc: 'Aggiunge o rimuove permessi specifici del canale per un comando specifico.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il canale per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+chnlfilterinv:
+  args:
+    - ''
+  desc: 'Attiva o disattiva il filtro dei link di invito per un canale specifico.'
+  params: [ ]
+chnlfilterlin:
+  args:
+    - ''
+  desc: 'Attiva o disattiva il filtro dei link per un canale specifico.'
+  params: [ ]
+chnlfilterwords:
+  args:
+    - ''
+  desc: 'Attiva o disattiva il filtro delle parole per un canale specifico.'
+  params: [ ]
+chnlmdl:
+  args:
+    - module action chnl
+  desc: 'Aggiunge o rimuove permessi specifici del canale per un modulo specifico.'
+  params:
+    - desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il canale per cui impostare i permessi.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+cmdcooldown:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Imposta o cancella il cooldown per un comando specificato nella gilda.'
+  params:
+    - desc: 'Il comando per cui impostare il cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'La durata del cooldown. Predefinito: 0s, che cancella il cooldown.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Imposta o cancella il cooldown per un comando specificato nella gilda.'
+  params:
+    - desc: 'Il comando per cui impostare il cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'La durata del cooldown. Predefinito: 0s, che cancella il cooldown.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_1:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Imposta o cancella il cooldown per un comando specificato nella gilda.'
+  params:
+    - desc: 'Il comando per cui impostare il cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'La durata del cooldown. Predefinito: 0s, che cancella il cooldown.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_2:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Imposta o cancella il cooldown per un comando specificato nella gilda.'
+  params:
+    - desc: 'Il comando per cui impostare il cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'La durata del cooldown. Predefinito: 0s, che cancella il cooldown.'
+      name: time
+      optional: true
+      type: duration
+filterword:
+  args:
+    - text
+  desc: 'Aggiunge o rimuove una parola dall''elenco delle parole filtrate nella gilda attuale.'
+  params:
+    - &ref_218
+      desc: 'La parola da attivare o disattivare nell''elenco delle parole filtrate.'
+      name: word
+      optional: true
+      type: string
+filterword_string:
+  args:
+    - text
+  desc: 'Aggiunge o rimuove una parola dall''elenco delle parole filtrate nella gilda attuale.'
+  params:
+    - desc: 'La parola da attivare o disattivare nell''elenco delle parole filtrate.'
+      name: word
+      optional: true
+      type: string
+filterword_string_1:
+  args:
+    - text
+  desc: 'Aggiunge o rimuove una parola dall''elenco delle parole filtrate nella gilda attuale.'
+  params:
+    - desc: 'La parola da attivare o disattivare nell''elenco delle parole filtrate.'
+      name: word
+      optional: true
+      type: string
+filterword_string_2:
+  args:
+    - text
+  desc: 'Aggiunge o rimuove una parola dall''elenco delle parole filtrate nella gilda attuale.'
+  params:
+    - desc: 'La parola da attivare o disattivare nell''elenco delle parole filtrate.'
+      name: word
+      optional: true
+      type: string
+fwarn:
+  args:
+    - text
+  desc: 'Attiva o disattiva gli avvisi per le parole filtrate nella gilda attuale.'
+  params:
+    - &ref_219
+      desc: 'Una stringa che indica se attivare ("y") o disattivare ("n") l''avviso.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string:
+  args:
+    - text
+  desc: 'Attiva o disattiva gli avvisi per le parole filtrate nella gilda attuale.'
+  params:
+    - desc: 'Una stringa che indica se attivare ("y") o disattivare ("n") l''avviso.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_1:
+  args:
+    - text
+  desc: 'Attiva o disattiva gli avvisi per le parole filtrate nella gilda attuale.'
+  params:
+    - desc: 'Una stringa che indica se attivare ("y") o disattivare ("n") l''avviso.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_2:
+  args:
+    - text
+  desc: 'Attiva o disattiva gli avvisi per le parole filtrate nella gilda attuale.'
+  params:
+    - desc: 'Una stringa che indica se attivare ("y") o disattivare ("n") l''avviso.'
+      name: yesnt
+      optional: false
+      type: string
+fwclear:
+  args:
+    - ''
+  desc: 'Cancella tutte le parole filtrate della gilda attuale.'
+  params: [ ]
+globalcommand:
+  args:
+    - cmd
+  desc: 'Attiva o disattiva un comando nella lista di blocco globale.'
+  params:
+    - &ref_231
+      desc: 'Il comando da attivare o disattivare.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo:
+  args:
+    - cmd
+  desc: 'Attiva o disattiva un comando nella lista di blocco globale.'
+  params:
+    - desc: 'Il comando da attivare o disattivare.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_1:
+  args:
+    - cmd
+  desc: 'Attiva o disattiva un comando nella lista di blocco globale.'
+  params:
+    - desc: 'Il comando da attivare o disattivare.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_2:
+  args:
+    - cmd
+  desc: 'Attiva o disattiva un comando nella lista di blocco globale.'
+  params:
+    - desc: 'Il comando da attivare o disattivare.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalmodule:
+  args:
+    - module
+  desc: 'Attiva o disattiva un modulo nella lista di blocco globale.'
+  params:
+    - &ref_232
+      desc: 'Il modulo da attivare o disattivare.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo:
+  args:
+    - module
+  desc: 'Attiva o disattiva un modulo nella lista di blocco globale.'
+  params:
+    - desc: 'Il modulo da attivare o disattivare.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_1:
+  args:
+    - module
+  desc: 'Attiva o disattiva un modulo nella lista di blocco globale.'
+  params:
+    - desc: 'Il modulo da attivare o disattivare.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_2:
+  args:
+    - module
+  desc: 'Attiva o disattiva un modulo nella lista di blocco globale.'
+  params:
+    - desc: 'Il modulo da attivare o disattivare.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalpermlist:
+  args:
+    - ''
+  desc: 'Elenca tutti i moduli e i comandi attualmente bloccati globalmente.'
+  params: [ ]
+globalpermlist_noparams:
+  args:
+    - ''
+  desc: 'Elenca tutti i moduli e i comandi attualmente bloccati globalmente.'
+  params: [ ]
+globalpermlist_noparams_1:
+  args:
+    - ''
+  desc: 'Elenca tutti i moduli e i comandi attualmente bloccati globalmente.'
+  params: [ ]
+globalpermlist_noparams_2:
+  args:
+    - ''
+  desc: 'Elenca tutti i moduli e i comandi attualmente bloccati globalmente.'
+  params: [ ]
+invwarn:
+  args:
+    - text
+  desc: 'Attiva o disattiva gli avvisi per i link di invito pubblicati nella gilda attuale.'
+  params:
+    - desc: 'Una stringa che indica se attivare ("y") o disattivare ("n") l''avviso.'
+      name: yesnt
+      optional: false
+      type: string
+listperms:
+  args:
+    - ''
+  desc: 'Elenca i permessi della gilda.'
+  params: [ ]
+lstfilterwords:
+  args:
+    - ''
+  desc: 'Elenca tutte le parole presenti nell''elenco delle parole filtrate della gilda attuale.'
+  params: [ ]
+manualblacklistcheck:
+  args:
+    - ''
+  desc: 'Esegue un controllo manuale delle entità in blacklist nell''ambito del bot.'
+  params: [ ]
+moveperm:
+  args:
+    - number number
+  desc: 'Sposta un permesso più in alto nella gerarchia.'
+  params:
+    - &ref_297
+      desc: 'Indice iniziale'
+      name: from
+      optional: false
+      type: int
+    - &ref_298
+      desc: 'Indice di sostituzione'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int:
+  args:
+    - number number
+  desc: 'Sposta un permesso più in alto nella gerarchia.'
+  params:
+    - desc: 'Indice iniziale'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Indice di sostituzione'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_1:
+  args:
+    - number number
+  desc: 'Sposta un permesso più in alto nella gerarchia.'
+  params:
+    - desc: 'Indice iniziale'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Indice di sostituzione'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_2:
+  args:
+    - number number
+  desc: 'Sposta un permesso più in alto nella gerarchia.'
+  params:
+    - desc: 'Indice iniziale'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Indice di sostituzione'
+      name: to
+      optional: false
+      type: int
+permrole:
+  args:
+    - '[@role]'
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - desc: 'Il ruolo, se presente, da impostare come ruolo dei permessi'
+      name: role
+      optional: true
+      type: role
+permrole_=:
+  args:
+    - '[@role]'
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - desc: 'Il ruolo, se presente, da impostare come ruolo dei permessi'
+      name: role
+      optional: true
+      type: role
+permrole_=_1:
+  args:
+    - '[@role]'
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - desc: 'Il ruolo, se presente, da impostare come ruolo dei permessi'
+      name: role
+      optional: true
+      type: role
+permrole_=_2:
+  args:
+    - '[@role]'
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - desc: 'Il ruolo, se presente, da impostare come ruolo dei permessi'
+      name: role
+      optional: true
+      type: role
+permrole_Reset:
+  args:
+    - reset
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - &ref_342
+      desc: 'Reimposta il ruolo dei permessi.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_1:
+  args:
+    - reset
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - desc: 'Reimposta il ruolo dei permessi.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_2:
+  args:
+    - reset
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - desc: 'Reimposta il ruolo dei permessi.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_3:
+  args:
+    - reset
+  desc: 'Reimposta il ruolo dei permessi.'
+  params:
+    - desc: 'Reimposta il ruolo dei permessi.'
+      name: _
+      optional: false
+      type: Reset
+removeperm:
+  args:
+    - number
+  desc: 'Rimuove un permesso dalla lista in base al suo indice.'
+  params:
+    - &ref_405
+      desc: 'Il permesso da rimuovere'
+      name: index
+      optional: false
+      type: int
+removeperm_int:
+  args:
+    - number
+  desc: 'Rimuove un permesso dalla lista in base al suo indice.'
+  params:
+    - desc: 'Il permesso da rimuovere'
+      name: index
+      optional: false
+      type: int
+removeperm_int_1:
+  args:
+    - number
+  desc: 'Rimuove un permesso dalla lista in base al suo indice.'
+  params:
+    - desc: 'Il permesso da rimuovere'
+      name: index
+      optional: false
+      type: int
+removeperm_int_2:
+  args:
+    - number
+  desc: 'Rimuove un permesso dalla lista in base al suo indice.'
+  params:
+    - desc: 'Il permesso da rimuovere'
+      name: index
+      optional: false
+      type: int
+resetglobalperms:
+  args:
+    - ''
+  desc: 'Reimposta tutti i permessi globali, cancellando tutti i blocchi globali di comandi e moduli.'
+  params: [ ]
+resetperms:
+  args:
+    - ''
+  desc: 'Reimposta i permessi della gilda.'
+  params: [ ]
+rolecmd:
+  args:
+    - command action @role
+  desc: 'Aggiunge o rimuove permessi specifici per i ruoli per un comando specifico.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il ruolo per cui impostare i permessi.'
+      name: role
+      optional: false
+      type: IRole
+rolemdl:
+  args:
+    - module action @role
+  desc: 'Aggiunge o rimuove permessi specifici per i ruoli per un modulo specifico.'
+  params:
+    - desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Il ruolo per cui impostare i permessi.'
+      name: role
+      optional: false
+      type: IRole
+serverblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_485
+      desc: 'L''oggetto gilda.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_1:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''oggetto gilda.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_2:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''oggetto gilda.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_3:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''oggetto gilda.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un server dalla blacklist tramite il suo oggetto gilda, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+srvrcmd:
+  args:
+    - command action
+  desc: 'Attiva o disattiva un comando nel server.'
+  params:
+    - &ref_556
+      desc: 'Il comando su cui eseguire un''azione'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_557
+      desc: 'Se disattivare o attivare il comando'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction:
+  args:
+    - command action
+  desc: 'Attiva o disattiva un comando nel server.'
+  params:
+    - desc: 'Il comando su cui eseguire un''azione'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Se disattivare o attivare il comando'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_1:
+  args:
+    - command action
+  desc: 'Attiva o disattiva un comando nel server.'
+  params:
+    - desc: 'Il comando su cui eseguire un''azione'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Se disattivare o attivare il comando'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_2:
+  args:
+    - command action
+  desc: 'Attiva o disattiva un comando nel server.'
+  params:
+    - desc: 'Il comando su cui eseguire un''azione'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Se disattivare o attivare il comando'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrfilterinv:
+  args:
+    - ''
+  desc: 'Attiva o disattiva per tutto il server il filtro dei link di invito.'
+  params: [ ]
+srvrfilterlin:
+  args:
+    - ''
+  desc: 'Attiva o disattiva per tutto il server il filtro dei link.'
+  params: [ ]
+srvrfilterwords:
+  args:
+    - ''
+  desc: 'Attiva o disattiva per tutto il server il filtro delle parole.'
+  params: [ ]
+srvrmdl:
+  args:
+    - module action
+  desc: 'Aggiunge o rimuove permessi a livello di server per un modulo specifico.'
+  params:
+    - desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+userblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_637
+      desc: 'L''oggetto utente.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_1:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''oggetto utente.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_2:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''oggetto utente.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_3:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''oggetto utente.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+  params:
+    - desc: 'Indica se aggiungere o rimuovere dalla blacklist.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Inserisce o rimuove un utente dalla blacklist tramite il suo oggetto utente, con un motivo facoltativo.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il motivo dell''operazione di blacklist.'
+      name: reason
+      optional: true
+      type: string
+usrcmd:
+  args:
+    - command action @user
+  desc: 'Aggiunge o rimuove permessi specifici per gli utenti per un comando specifico.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_639
+      desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser:
+  args:
+    - command action @user
+  desc: 'Aggiunge o rimuove permessi specifici per gli utenti per un comando specifico.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_1:
+  args:
+    - command action @user
+  desc: 'Aggiunge o rimuove permessi specifici per gli utenti per un comando specifico.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_2:
+  args:
+    - command action @user
+  desc: 'Aggiunge o rimuove permessi specifici per gli utenti per un comando specifico.'
+  params:
+    - desc: 'Il comando per cui impostare i permessi.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrmdl:
+  args:
+    - module action @user
+  desc: 'Aggiunge o rimuove permessi specifici per gli utenti per un modulo specifico.'
+  params:
+    - desc: 'Il modulo per cui impostare i permessi.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'L''azione da eseguire (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'L''utente per cui impostare i permessi.'
+      name: user
+      optional: false
+      type: IGuildUser
+verbose:
+  args:
+    - '[action]'
+  desc: 'Imposta se i comandi devono generare un errore in base al problema riscontrato durante l''uso di un comando.'
+  params:
+    - desc: 'Solo un''opzione vero o falso. Un po'' inutile, dato che è comunque un interruttore.'
+      name: action
+      optional: true
+      type: action

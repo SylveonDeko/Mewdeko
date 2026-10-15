@@ -1,0 +1,3385 @@
+banprune:
+  args:
+    - ''
+  desc: 'Mostra la pulizia che un ban emesso in questo canale userebbe, insieme a tutte le impostazioni configurate.'
+  params:
+    - { }
+banpruneset:
+  args:
+    - '<action> <days> [#channel]'
+  desc: 'Imposta quanti giorni di messaggi elimina un''azione di ban. Usa "all" per tutte le azioni, e indica un canale o una categoria per sovrascrivere solo quell''ambito.'
+  params:
+    - desc: 'La chiave dell''azione, oppure "all" per coprire tutte le azioni'
+      name: action
+      optional: false
+      type: string
+    - desc: 'La pulizia in giorni, da 0 a 7'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Un canale o una categoria a cui limitare l''impostazione, oppure niente per il valore predefinito del server'
+      name: target
+      optional: true
+      type: channel
+banpruneclear:
+  args:
+    - '<action> [#channel]'
+  desc: 'Rimuove un''impostazione di pulizia così che l''azione ricada su un ambito più ampio o sul valore predefinito.'
+  params:
+    - desc: 'La chiave dell''azione, oppure "all" per l''impostazione che copre tutte le azioni'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Il canale o la categoria su cui è impostata l''impostazione, oppure niente per il valore predefinito del server'
+      name: target
+      optional: true
+      type: channel
+banprunereset:
+  args:
+    - ''
+  desc: 'Rimuove tutte le impostazioni di pulizia nel server.'
+  params:
+    - { }
+ban:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+  params:
+    - desc: 'Banna un utente con il motivo indicato e il numero di giorni di messaggi da eliminare.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'La durata per cui eliminare i messaggi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da bannare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del ban'
+      name: msg
+      optional: true
+      type: string
+banmessage:
+  args:
+    - '[message]'
+  desc: 'Imposta il messaggio che gli utenti ricevono in DM quando vengono bannati.'
+  params:
+    - desc: 'Il messaggio da impostare; può anche essere un codice embed'
+      name: message
+      optional: true
+      type: string
+banmessagetest:
+  args:
+    - '<duration> [reason]'
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=:
+  args:
+    - '<duration> [reason]'
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_1:
+  args:
+    - '<duration> [reason]'
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_2:
+  args:
+    - '<duration> [reason]'
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_1:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_2:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_3:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Prova il messaggio di ban. Usalo come scherzo!'
+  params:
+    - desc: 'La durata del ban'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Il motivo del ban'
+      name: reason
+      optional: true
+      type: string
+banmsgreset:
+  args:
+    - ''
+  desc: 'Ripristina il messaggio di ban al messaggio predefinito.'
+  params: [ ]
+banmsgtest:
+  args:
+    - user
+  desc: 'Prova la funzionalità del messaggio di ban.'
+  params:
+    - desc: 'L''utente con cui provare il messaggio di ban.'
+      name: user
+      optional: false
+      type: IUser
+chatmute:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - &ref_127
+      desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - &ref_126
+      desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - &ref_128
+      desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - &ref_129
+      desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+  params:
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in chat, ma non in vocale, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+chatunmute:
+  args:
+    - '@user ""'
+  desc: 'Riattiva un utente silenziato in chat.'
+  params:
+    - desc: 'L''utente da riattivare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Riattiva un utente silenziato in chat.'
+      name: '""'
+      optional: false
+      type: '='
+dehoist:
+  args:
+    - '@user'
+  desc: 'Rimuove l''hoist a un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - &ref_180
+      desc: 'L''utente a cui rimuovere l''hoist'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Rimuove l''hoist a un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - desc: 'L''utente a cui rimuovere l''hoist'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Rimuove l''hoist a un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - desc: 'L''utente a cui rimuovere l''hoist'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Rimuove l''hoist a un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - desc: 'L''utente a cui rimuovere l''hoist'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoistall:
+  args:
+    - false
+  desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+  params:
+    - &ref_181
+      desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=:
+  args:
+    - false
+  desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+  params:
+    - desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_1:
+  args:
+    - false
+  desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+  params:
+    - desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_2:
+  args:
+    - false
+  desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+  params:
+    - desc: 'Rimuove l''hoist a tutti gli utenti del server sostituendo i caratteri speciali nei loro soprannomi.'
+      name: false
+      optional: false
+      type: '='
+kick:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente.'
+  params:
+    - desc: 'Espelle un utente.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione'
+      name: msg
+      optional: true
+      type: string
+masskick:
+  args:
+    - '@user'
+  desc: 'Espelle più utenti.'
+  params:
+    - &ref_289
+      desc: 'Gli utenti da espellere'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]:
+  args:
+    - '@user'
+  desc: 'Espelle più utenti.'
+  params:
+    - desc: 'Gli utenti da espellere'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_1:
+  args:
+    - '@user'
+  desc: 'Espelle più utenti.'
+  params:
+    - desc: 'Gli utenti da espellere'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_2:
+  args:
+    - '@user'
+  desc: 'Espelle più utenti.'
+  params:
+    - desc: 'Gli utenti da espellere'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskill:
+  args:
+    - text
+  desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+  params:
+    - &ref_290
+      desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+      name: people
+      optional: false
+      type: string
+masskill_string:
+  args:
+    - text
+  desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+  params:
+    - desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+      name: people
+      optional: false
+      type: string
+masskill_string_1:
+  args:
+    - text
+  desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+  params:
+    - desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+      name: people
+      optional: false
+      type: string
+masskill_string_2:
+  args:
+    - text
+  desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+  params:
+    - desc: 'Banna in massa gli utenti. Usalo per bannare più utenti contemporaneamente. Li inserisce anche nella blacklist del bot.'
+      name: people
+      optional: false
+      type: string
+massnickprogress:
+  args:
+    - ''
+  desc: 'Mostra il progresso di un''operazione di massa sui soprannomi.'
+  params: [ ]
+massnickstop:
+  args:
+    - ''
+  desc: 'Ferma un''operazione di massa sui soprannomi.'
+  params: [ ]
+mute:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - &ref_313
+      desc: 'Silenzia un utente per una durata specificata.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_1:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_2:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_3:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente per una durata specificata.'
+  params:
+    - desc: 'La durata per cui silenziare l''utente'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+muterole:
+  args:
+    - '[@role]'
+  desc: 'Imposta il ruolo di silenziamento per la gilda.'
+  params:
+    - desc: 'Imposta il ruolo di silenziamento per la gilda.'
+      name: role
+      optional: true
+      type: role
+mwarn:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Applica un mini avviso a un utente.'
+  params:
+    - desc: 'L''utente da avvisare'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Il motivo dell''avviso'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Applica un mini avviso a un utente.'
+  params:
+    - desc: 'L''utente da avvisare'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Il motivo dell''avviso'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_1:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Applica un mini avviso a un utente.'
+  params:
+    - desc: 'L''utente da avvisare'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Il motivo dell''avviso'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_2:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Applica un mini avviso a un utente.'
+  params:
+    - desc: 'L''utente da avvisare'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Il motivo dell''avviso'
+      name: reason
+      optional: true
+      type: string
+mwarnclear:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - &ref_315
+      desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=:
+  args:
+    - userid 0
+    - userid
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - &ref_316
+      desc: 'L''ID dell''utente di cui cancellare gli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_1:
+  args:
+    - userid 0
+    - userid
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'L''ID dell''utente di cui cancellare gli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_2:
+  args:
+    - userid 0
+    - userid
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'L''ID dell''utente di cui cancellare gli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_3:
+  args:
+    - userid 0
+    - userid
+  desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'L''ID dell''utente di cui cancellare gli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Cancella i mini avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+mwarnexpire:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+  params:
+    - &ref_317
+      desc: 'Il numero di giorni da impostare'
+      name: days
+      optional: false
+      type: int
+    - &ref_318
+      desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+  params:
+    - desc: 'Il numero di giorni da impostare'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_1:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+  params:
+    - desc: 'Il numero di giorni da impostare'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_2:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+  params:
+    - desc: 'Il numero di giorni da impostare'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Imposta il tempo di scadenza dei mini avvisi.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnlog:
+  args:
+    - number @user
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - &ref_319
+      desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - &ref_320
+      desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_=:
+  args:
+    - '<page> @user'
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_1:
+  args:
+    - '<page> @user'
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_2:
+  args:
+    - '<page> @user'
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_3:
+  args:
+    - '<page> @user'
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_int_IGuildUser:
+  args:
+    - number @user
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_1:
+  args:
+    - number @user
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_2:
+  args:
+    - number @user
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_ulong:
+  args:
+    - number userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - &ref_321
+      desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_1:
+  args:
+    - number userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_2:
+  args:
+    - number userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_3:
+  args:
+    - number userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'Mostra il registro dei mini avvisi di un utente.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong:
+  args:
+    - userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_1:
+  args:
+    - userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_2:
+  args:
+    - userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_3:
+  args:
+    - userid
+  desc: 'Mostra il registro dei mini avvisi di un utente.'
+  params:
+    - desc: 'L''ID dell''utente di cui mostrare il registro degli avvisi'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlogall:
+  args:
+    - ''
+  desc: 'Mostra il registro dei mini avvisi di tutti gli utenti.'
+  params: [ ]
+mwarnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int:
+  args:
+    - number
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_1:
+  args:
+    - number
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_2:
+  args:
+    - number
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_3:
+  args:
+    - number
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per mini avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per mini avvisi.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunishlist:
+  args:
+    - ''
+  desc: 'Elenca le punizioni per mini avvisi.'
+  params: [ ]
+purge:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_=:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_=_1:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_=_2:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+  params:
+    - desc: 'Elimina i messaggi del canale attuale di un utente specifico, indicando l''ID utente e la quantità.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'La quantità di messaggi da eliminare'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Il parametro da usare'
+      name: parameter
+      optional: true
+      type: string
+purgeuser:
+  args:
+    - '@user number'
+  desc: 'Elimina tutti i messaggi di un utente in tutti i canali accessibili.'
+  params:
+    - &ref_365
+      desc: 'L''utente di cui eliminare i messaggi'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_366
+      desc: 'Il numero di messaggi da cercare'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int:
+  args:
+    - '@user number'
+  desc: 'Elimina tutti i messaggi di un utente in tutti i canali accessibili.'
+  params:
+    - desc: 'L''utente di cui eliminare i messaggi'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il numero di messaggi da cercare'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_1:
+  args:
+    - '@user number'
+  desc: 'Elimina tutti i messaggi di un utente in tutti i canali accessibili.'
+  params:
+    - desc: 'L''utente di cui eliminare i messaggi'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il numero di messaggi da cercare'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_2:
+  args:
+    - '@user number'
+  desc: 'Elimina tutti i messaggi di un utente in tutti i canali accessibili.'
+  params:
+    - desc: 'L''utente di cui eliminare i messaggi'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il numero di messaggi da cercare'
+      name: messageCount
+      optional: false
+      type: int
+removeonmute:
+  args:
+    - text
+  desc: 'Attiva o disattiva la rimozione dei ruoli al silenziamento'
+  params:
+    - &ref_402
+      desc: 'y per attivare, n per disattivare.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string:
+  args:
+    - text
+  desc: 'Attiva o disattiva la rimozione dei ruoli al silenziamento'
+  params:
+    - desc: 'y per attivare, n per disattivare.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_1:
+  args:
+    - text
+  desc: 'Attiva o disattiva la rimozione dei ruoli al silenziamento'
+  params:
+    - desc: 'y per attivare, n per disattivare.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_2:
+  args:
+    - text
+  desc: 'Attiva o disattiva la rimozione dei ruoli al silenziamento'
+  params:
+    - desc: 'y per attivare, n per disattivare.'
+      name: yesnt
+      optional: false
+      type: string
+sanitize:
+  args:
+    - '@user'
+  desc: 'Pulisce un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - &ref_473
+      desc: 'L''utente da pulire'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Pulisce un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - desc: 'L''utente da pulire'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Pulisce un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - desc: 'L''utente da pulire'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Pulisce un utente sostituendo i caratteri speciali nel suo nome utente.'
+  params:
+    - desc: 'L''utente da pulire'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitizeall:
+  args:
+    - ''
+  desc: 'Pulisce tutti gli utenti del server sostituendo i caratteri speciali nei loro nomi utente.'
+  params: [ ]
+setmwarnchannel:
+  args:
+    - channel
+  desc: 'Imposta il canale del registro dei mini avvisi.'
+  params:
+    - &ref_507
+      desc: 'Il canale da impostare'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Imposta il canale del registro dei mini avvisi.'
+  params:
+    - desc: 'Il canale da impostare'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Imposta il canale del registro dei mini avvisi.'
+  params:
+    - desc: 'Il canale da impostare'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Imposta il canale del registro dei mini avvisi.'
+  params:
+    - desc: 'Il canale da impostare'
+      name: channel
+      optional: false
+      type: ITextChannel
+setwarnchannel:
+  args:
+    - channel
+  desc: 'Imposta il canale del registro avvisi per la gilda.'
+  params:
+    - desc: 'Imposta il canale del registro avvisi per la gilda.'
+      name: channel
+      optional: false
+      type: ITextChannel
+softban:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+  params:
+    - desc: 'Espelle un utente eliminando i suoi messaggi. Usalo per espellere un utente e cancellare i suoi messaggi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''espulsione soft'
+      name: msg
+      optional: true
+      type: string
+stfu:
+  args:
+    - time @user
+    - time
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - &ref_569
+      desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_568
+      desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_IGuildUser_=:
+  args:
+    - '<time> [@user]'
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_1:
+  args:
+    - '<time> [@user]'
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_2:
+  args:
+    - '<time> [@user]'
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_3:
+  args:
+    - '<time> [@user]'
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: user
+stfu_StoopidTime_IGuildUser:
+  args:
+    - time @user
+    - time
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_1:
+  args:
+    - time @user
+    - time
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_2:
+  args:
+    - time @user
+    - time
+  desc: 'Cosa c''è da non capire? Fa stare zitto un utente.'
+  params:
+    - desc: 'Per quanto tempo far stare zitto un utente.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da far stare zitto'
+      name: user
+      optional: true
+      type: IGuildUser
+timeout:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Mette in timeout un utente per una durata specificata.'
+  params:
+    - desc: 'Il tempo di timeout dell''utente'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da mettere in timeout'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del timeout'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Mette in timeout un utente per una durata specificata.'
+  params:
+    - desc: 'Il tempo di timeout dell''utente'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da mettere in timeout'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del timeout'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Mette in timeout un utente per una durata specificata.'
+  params:
+    - desc: 'Il tempo di timeout dell''utente'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da mettere in timeout'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del timeout'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Mette in timeout un utente per una durata specificata.'
+  params:
+    - desc: 'Il tempo di timeout dell''utente'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'L''utente da mettere in timeout'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo del timeout'
+      name: reason
+      optional: true
+      type: string
+unban:
+  args:
+    - text
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - &ref_633
+      desc: 'Rimuove il ban a un utente.'
+      name: user
+      optional: false
+      type: string
+unban_string:
+  args:
+    - text
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - desc: 'Rimuove il ban a un utente.'
+      name: user
+      optional: false
+      type: string
+unban_string_1:
+  args:
+    - text
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - desc: 'Rimuove il ban a un utente.'
+      name: user
+      optional: false
+      type: string
+unban_string_2:
+  args:
+    - text
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - desc: 'Rimuove il ban a un utente.'
+      name: user
+      optional: false
+      type: string
+unban_ulong:
+  args:
+    - userid
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - &ref_634
+      desc: 'L''ID dell''utente da sbannare'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_1:
+  args:
+    - userid
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - desc: 'L''ID dell''utente da sbannare'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_2:
+  args:
+    - userid
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - desc: 'L''ID dell''utente da sbannare'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_3:
+  args:
+    - userid
+  desc: 'Rimuove il ban a un utente.'
+  params:
+    - desc: 'L''ID dell''utente da sbannare'
+      name: userId
+      optional: false
+      type: ulong
+unmute:
+  args:
+    - '@user ""'
+  desc: 'Riattiva un utente silenziato.'
+  params:
+    - desc: 'L''utente da riattivare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Riattiva un utente silenziato.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Riattiva un utente silenziato.'
+  params:
+    - desc: 'L''utente da riattivare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Riattiva un utente silenziato.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Riattiva un utente silenziato.'
+  params:
+    - desc: 'L''utente da riattivare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Riattiva un utente silenziato.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Riattiva un utente silenziato.'
+  params:
+    - desc: 'L''utente da riattivare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Riattiva un utente silenziato.'
+      name: '""'
+      optional: false
+      type: '='
+unmuteall:
+  args:
+    - '[reason]'
+  desc: 'Riattiva tutti gli utenti silenziati del server. PERICOLOSO!!!!!!!!!!!!!!!!'
+  params:
+    - desc: 'Il motivo per cui vorresti compiere un''atrocità simile!'
+      name: reason
+      optional: true
+      type: string
+unstfu:
+  args:
+    - '@user'
+  desc: 'Rimuove lo stato di silenzio a un utente nel canale.'
+  params:
+    - &ref_635
+      desc: 'L''utente a cui rimuovere lo stato di silenzio'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Rimuove lo stato di silenzio a un utente nel canale.'
+  params:
+    - desc: 'L''utente a cui rimuovere lo stato di silenzio'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Rimuove lo stato di silenzio a un utente nel canale.'
+  params:
+    - desc: 'L''utente a cui rimuovere lo stato di silenzio'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Rimuove lo stato di silenzio a un utente nel canale.'
+  params:
+    - desc: 'L''utente a cui rimuovere lo stato di silenzio'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout:
+  args:
+    - '@user'
+  desc: 'Rimuove il timeout a un utente.'
+  params:
+    - &ref_636
+      desc: 'L''utente a cui rimuovere il timeout'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Rimuove il timeout a un utente.'
+  params:
+    - desc: 'L''utente a cui rimuovere il timeout'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Rimuove il timeout a un utente.'
+  params:
+    - desc: 'L''utente a cui rimuovere il timeout'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Rimuove il timeout a un utente.'
+  params:
+    - desc: 'L''utente a cui rimuovere il timeout'
+      name: user
+      optional: true
+      type: IGuildUser
+voicemute:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_3:
+  args:
+    - '@user ""'
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+  params:
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'L''utente da silenziare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Silenzia un utente in vocale, ma non in chat, per una durata specificata.'
+      name: '""'
+      optional: false
+      type: '='
+voiceunmute:
+  args:
+    - '@user ""'
+  desc: 'Riattiva un utente silenziato in vocale.'
+  params:
+    - desc: 'L''utente da riattivare'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Riattiva un utente silenziato in vocale.'
+      name: '""'
+      optional: false
+      type: '='
+warn:
+  args:
+    - '[@user] [reason]'
+  desc: 'Avvisa un utente con un motivo facoltativo.'
+  params:
+    - desc: 'L''utente da avvisare'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il motivo dell''avviso'
+      name: reason
+      optional: true
+      type: string
+warnclear:
+  args:
+    - '@user 0'
+  desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - &ref_652
+      desc: 'L''utente di cui cancellare gli avvisi'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+  desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'L''utente di cui cancellare gli avvisi'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+  desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'L''utente di cui cancellare gli avvisi'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+  desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+  params:
+    - desc: 'L''utente di cui cancellare gli avvisi'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Cancella gli avvisi di un utente. Se viene indicato un indice, cancella solo quell''avviso.'
+      name: 0
+      optional: false
+      type: '='
+warnexpire:
+  args:
+    - number options
+  desc: 'Imposta il tempo di scadenza degli avvisi.'
+  params:
+    - &ref_653
+      desc: 'Il numero di giorni prima della scadenza degli avvisi'
+      name: days
+      optional: false
+      type: int
+    - &ref_654
+      desc: 'L''azione da eseguire quando un avviso scade'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction:
+  args:
+    - number options
+  desc: 'Imposta il tempo di scadenza degli avvisi.'
+  params:
+    - desc: 'Il numero di giorni prima della scadenza degli avvisi'
+      name: days
+      optional: false
+      type: int
+    - desc: 'L''azione da eseguire quando un avviso scade'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_1:
+  args:
+    - number options
+  desc: 'Imposta il tempo di scadenza degli avvisi.'
+  params:
+    - desc: 'Il numero di giorni prima della scadenza degli avvisi'
+      name: days
+      optional: false
+      type: int
+    - desc: 'L''azione da eseguire quando un avviso scade'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_2:
+  args:
+    - number options
+  desc: 'Imposta il tempo di scadenza degli avvisi.'
+  params:
+    - desc: 'Il numero di giorni prima della scadenza degli avvisi'
+      name: days
+      optional: false
+      type: int
+    - desc: 'L''azione da eseguire quando un avviso scade'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnlog:
+  args:
+    - '@user'
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_ulong:
+  args:
+    - userid
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - &ref_655
+      desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_1:
+  args:
+    - userid
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_2:
+  args:
+    - userid
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_3:
+  args:
+    - userid
+  desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+  params:
+    - desc: 'Mostra il registro avvisi di un utente tramite il suo ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlogall:
+  args:
+    - ''
+  desc: 'Mostra quanti avvisi ha ciascun utente.'
+  params: [ ]
+warnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int:
+  args:
+    - number
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_1:
+  args:
+    - number
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_2:
+  args:
+    - number
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_3:
+  args:
+    - number
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Rimuove una punizione per un certo numero di avvisi.'
+  params:
+    - desc: 'Il numero di avvisi'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Rimuove una punizione per un certo numero di avvisi.'
+      name: time
+      optional: true
+      type: duration
+warnpunishlist:
+  args:
+    - ''
+  desc: 'Elenca le punizioni per gli avvisi della gilda.'
+  params: [ ]

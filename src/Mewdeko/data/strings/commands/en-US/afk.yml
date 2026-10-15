@@ -239,7 +239,7 @@ afktype:
   desc: 'Sets the type of AFK behavior for the guild.'
   params:
     - &ref_54
-      desc: 'The type of AFK behavior to set. <see cref="AfkTypeEnum" />'
+      desc: 'The type of AFK behavior to set.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -251,7 +251,7 @@ afktype_AfkTypeEnum:
     - ontype
   desc: 'Sets the type of AFK behavior for the guild.'
   params:
-    - desc: 'The type of AFK behavior to set. <see cref="AfkTypeEnum" />'
+    - desc: 'The type of AFK behavior to set.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -263,7 +263,7 @@ afktype_AfkTypeEnum_1:
     - ontype
   desc: 'Sets the type of AFK behavior for the guild.'
   params:
-    - desc: 'The type of AFK behavior to set. <see cref="AfkTypeEnum" />'
+    - desc: 'The type of AFK behavior to set.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -275,7 +275,7 @@ afktype_AfkTypeEnum_2:
     - ontype
   desc: 'Sets the type of AFK behavior for the guild.'
   params:
-    - desc: 'The type of AFK behavior to set. <see cref="AfkTypeEnum" />'
+    - desc: 'The type of AFK behavior to set.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum

@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "Nie ma akcji banowania o nazwie `{0}`. Znane akcje: {1}",
+  "ban_prune_cleared": "Wyczyszczono ustawienie czyszczenia wiadomości dla {0} w {1}.",
+  "ban_prune_cleared_none": "Nie było ustawienia czyszczenia wiadomości dla {0} w {1}.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "Nie skonfigurowano ustawień czyszczenia. Bany używają wbudowanej wartości domyślnej każdej akcji.",
+  "ban_prune_list_title": "Czyszczenie wiadomości przy banach",
+  "ban_prune_reset": "Usunięto {0} ustawień czyszczenia. Każda akcja wróciła do domyślnej.",
+  "ban_prune_scope_category": "kategoria {0}",
+  "ban_prune_scope_channel": "kanał {0}",
+  "ban_prune_scope_guild": "ten serwer",
+  "ban_prune_set": "Bany z {0} będą teraz usuwać **{1}** dla {2}.",
+  "ban_prune_set_all_actions": "każdej akcji banowania",
+  "ban_prune_days": "wiadomości z {0} dni",
+  "ban_prune_days_none": "brak wiadomości",
+  "ban_prune_effective": "Ban tutaj w tej chwili usunie **{0}**.",
+  "ban_prune_defaults_title": "Domyślne",
+  "ban_prune_overrides_title": "Nadpisania"
+}

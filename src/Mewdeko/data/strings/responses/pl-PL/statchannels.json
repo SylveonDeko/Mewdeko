@@ -1,0 +1,15 @@
+{
+  "stat_channel_created": "Utworzono kanał statystyk **{0}** typu **{1}**.",
+  "stat_channel_added": "Dodano kanał statystyk **{0}** typu **{1}**.",
+  "stat_channel_exists": "Ten kanał jest już kanałem statystyk.",
+  "stat_channel_removed": "Usunięto kanał statystyk **{0}**.",
+  "stat_channel_not_found": "Ten kanał nie jest kanałem statystyk.",
+  "stat_channel_none": "Nie skonfigurowano kanałów statystyk.",
+  "stat_channel_list_title": "Kanały statystyk",
+  "stat_channel_types_title": "Dostępne typy statystyk",
+  "stat_channel_unknown_type": "Taki typ statystyki nie istnieje. Użyj komendy types, żeby zobaczyć dostępne.",
+  "stat_channel_mechanism_set": "**{0}** będzie teraz aktualizowany przez **{1}** co **{2}** minut.",
+  "stat_channel_style_set": "**{0}** używa teraz stylu **{1}**, np. `{2}`.",
+  "stat_channel_defaults_set": "Nowe kanały statystyk będą domyślnie używać **{0}** co **{1}** minut w stylu **{2}**.",
+  "stat_channel_invalid_date": "Nie udało się przetworzyć tej daty. Użyj formatu takiego jak 2026-12-31 18:00."
+}

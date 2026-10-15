@@ -1,0 +1,892 @@
+baccarat:
+  args:
+    - number text
+  desc: 'バカラのゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '賭けの種類（player、banker、tie）です。'
+      name: betType
+      optional: true
+      type: string
+bingo:
+  args:
+    - number text
+  desc: '番号を呼び上げるビンゴゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'ビンゴカードの種類（small、large）です。'
+      name: cardType
+      optional: true
+      type: string
+blackjack:
+  args:
+    - number
+  desc: '新しいブラックジャックのゲームを開始するか、既存のゲームに参加します。'
+  params:
+    - &ref_113
+      desc: 'プレイヤーの賭け金です。'
+      name: amount
+      optional: false
+      type: long
+blackjack_long:
+  args:
+    - number
+  desc: '新しいブラックジャックのゲームを開始するか、既存のゲームに参加します。'
+  params:
+    - desc: 'プレイヤーの賭け金です。'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_1:
+  args:
+    - number
+  desc: '新しいブラックジャックのゲームを開始するか、既存のゲームに参加します。'
+  params:
+    - desc: 'プレイヤーの賭け金です。'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_2:
+  args:
+    - number
+  desc: '新しいブラックジャックのゲームを開始するか、既存のゲームに参加します。'
+  params:
+    - desc: 'プレイヤーの賭け金です。'
+      name: amount
+      optional: false
+      type: long
+cash:
+  args:
+    - ''
+  desc: 'ユーザーの現在の残高を確認します。'
+  params: [ ]
+challengeleaderboard:
+  args:
+    - ''
+  desc: 'デイリーチャレンジのリーダーボードを表示します。'
+  params: [ ]
+claimchallenge:
+  args:
+    - ''
+  desc: '完了したデイリーチャレンジの報酬を受け取ります。'
+  params: [ ]
+coinflip:
+  args:
+    - number text
+  desc: '指定した賭け金と予想を使って、コイン投げを行います。'
+  params:
+    - &ref_135
+      desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_136
+      desc: 'ユーザーの予想です（"heads" または "tails"）。'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string:
+  args:
+    - number text
+  desc: '指定した賭け金と予想を使って、コイン投げを行います。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'ユーザーの予想です（"heads" または "tails"）。'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_1:
+  args:
+    - number text
+  desc: '指定した賭け金と予想を使って、コイン投げを行います。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'ユーザーの予想です（"heads" または "tails"）。'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_2:
+  args:
+    - number text
+  desc: '指定した賭け金と予想を使って、コイン投げを行います。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'ユーザーの予想です（"heads" または "tails"）。'
+      name: guess
+      optional: false
+      type: string
+craps:
+  args:
+    - number text
+  desc: 'クラップスのゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '賭けの種類（pass、dontpass、field、any）です。'
+      name: betType
+      optional: true
+      type: string
+crash:
+  args:
+    - number number
+  desc: 'いつでもクラッシュする可能性のある倍率に賭けるクラッシュゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'キャッシュアウトする倍率（1.1x〜10.0x）です。'
+      name: targetMultiplier
+      optional: true
+      type: double
+dailychallenge:
+  args:
+    - ''
+  desc: '現在のデイリーチャレンジを確認します。'
+  params: [ ]
+dailyreward:
+  args:
+    - ''
+  desc: 'ユーザーがデイリー報酬を受け取れるようにします。'
+  params: [ ]
+diceduel:
+  args:
+    - '@user number'
+  desc: '別のプレイヤーにダイスの決闘を挑みます。'
+  params:
+    - desc: '挑戦するユーザーです。'
+      name: opponent
+      optional: false
+      type: IUser
+    - desc: '各プレイヤーの賭け金です。'
+      name: betAmount
+      optional: false
+      type: long
+duckrace:
+  args:
+    - number
+  desc: '競馬に似たアヒルレースを開始します。'
+  params:
+    - desc: 'アヒルレースに賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+highlow:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1から10までの数字を表示し、次の数字が大きいか小さいかを正しく予想できれば配当が出ます。同じ数字の場合は賭け金が返却されます。'
+  params:
+    - &ref_247
+      desc: 'ユーザーの予想です（"higher" または "lower"）。'
+      name: guess
+      optional: false
+      type: string
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: true
+      type: long
+highlow_string:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1から10までの数字を表示し、次の数字が大きいか小さいかを正しく予想できれば配当が出ます。同じ数字の場合は賭け金が返却されます。'
+  params:
+    - desc: 'ユーザーの予想です（"higher" または "lower"）。'
+      name: guess
+      optional: false
+      type: string
+highlow_string_1:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1から10までの数字を表示し、次の数字が大きいか小さいかを正しく予想できれば配当が出ます。同じ数字の場合は賭け金が返却されます。'
+  params:
+    - desc: 'ユーザーの予想です（"higher" または "lower"）。'
+      name: guess
+      optional: false
+      type: string
+highlow_string_2:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1から10までの数字を表示し、次の数字が大きいか小さいかを正しく予想できれば配当が出ます。同じ数字の場合は賭け金が返却されます。'
+  params:
+    - desc: 'ユーザーの予想です（"higher" または "lower"）。'
+      name: guess
+      optional: false
+      type: string
+hit:
+  args:
+    - ''
+  desc: 'プレイヤーのために新しいカードを引きます。'
+  params: [ ]
+horserace:
+  args:
+    - number
+  desc: '指定した賭け金で競馬のレースに参加するか、新しいレースを開始します。'
+  params:
+    - &ref_248
+      desc: 'レースに賭ける通貨の額です。'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int:
+  args:
+    - number
+  desc: '指定した賭け金で競馬のレースに参加するか、新しいレースを開始します。'
+  params:
+    - desc: 'レースに賭ける通貨の額です。'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_1:
+  args:
+    - number
+  desc: '指定した賭け金で競馬のレースに参加するか、新しいレースを開始します。'
+  params:
+    - desc: 'レースに賭ける通貨の額です。'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_2:
+  args:
+    - number
+  desc: '指定した賭け金で競馬のレースに参加するか、新しいレースを開始します。'
+  params:
+    - desc: 'レースに賭ける通貨の額です。'
+      name: betAmount
+      optional: false
+      type: int
+keno:
+  args:
+    - number text
+  desc: '数字を選んで、抽選された数字がいくつ一致するかを確認するキノゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '1〜80の間の数字を最大10個、スペースで区切って指定します。'
+      name: numbers
+      optional: false
+      type: string
+lottery:
+  args:
+    - number
+  desc: '宝くじのチケットを購入します。'
+  params:
+    - desc: '購入するチケットの枚数（1〜10）です。'
+      name: ticketCount
+      optional: true
+      type: int
+memory:
+  args:
+    - number text
+  desc: '順番を覚えるメモリーゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '難易度（easy、medium、hard）です。'
+      name: difficulty
+      optional: true
+      type: string
+minesweeper:
+  args:
+    - number text
+  desc: '簡易版のマインスイーパーゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'グリッドのサイズ（small、medium、large）です。'
+      name: size
+      optional: true
+      type: string
+modifybalance:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'ユーザーの残高にお金を追加します。'
+  params:
+    - desc: 'お金を追加するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '追加する金額です。やりすぎないでくださいね笑。マイナスの値も指定できます。'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'この操作を行う理由です。'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'ユーザーの残高にお金を追加します。'
+  params:
+    - desc: 'お金を追加するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '追加する金額です。やりすぎないでくださいね笑。マイナスの値も指定できます。'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'この操作を行う理由です。'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_1:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'ユーザーの残高にお金を追加します。'
+  params:
+    - desc: 'お金を追加するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '追加する金額です。やりすぎないでくださいね笑。マイナスの値も指定できます。'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'この操作を行う理由です。'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_2:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'ユーザーの残高にお金を追加します。'
+  params:
+    - desc: 'お金を追加するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '追加する金額です。やりすぎないでくださいね笑。マイナスの値も指定できます。'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'この操作を行う理由です。'
+      name: reason
+      optional: true
+      type: string
+plinko:
+  args:
+    - number number
+  desc: 'ピンに当たりながら落ちるボールで、ランダムな倍率を狙うプリンコをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'ピンの行数（5〜10）です。'
+      name: rows
+      optional: true
+      type: int
+roulette:
+  args:
+    - number text
+  desc: '指定した賭け金と種類でルーレットをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_469
+      desc: '賭けの種類です（例: "red"、"black"、"even"、"odd"、または 0〜36 の数字）。'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string:
+  args:
+    - number text
+  desc: '指定した賭け金と種類でルーレットをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '賭けの種類です（例: "red"、"black"、"even"、"odd"、または 0〜36 の数字）。'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_1:
+  args:
+    - number text
+  desc: '指定した賭け金と種類でルーレットをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '賭けの種類です（例: "red"、"black"、"even"、"odd"、または 0〜36 の数字）。'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_2:
+  args:
+    - number text
+  desc: '指定した賭け金と種類でルーレットをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '賭けの種類です（例: "red"、"black"、"even"、"odd"、または 0〜36 の数字）。'
+      name: betType
+      optional: false
+      type: string
+rps:
+  args:
+    - text 0
+    - text
+  desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+  params:
+    - &ref_470
+      desc: 'あなたの選択です（rock、paper、scissors、lizard、spock のいずれか）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=:
+  args:
+    - text 0
+    - text
+  desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+  params:
+    - desc: 'あなたの選択です（rock、paper、scissors、lizard、spock のいずれか）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_1:
+  args:
+    - text 0
+    - text
+  desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+  params:
+    - desc: 'あなたの選択です（rock、paper、scissors、lizard、spock のいずれか）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_2:
+  args:
+    - text 0
+    - text
+  desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+  params:
+    - desc: 'あなたの選択です（rock、paper、scissors、lizard、spock のいずれか）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'ボットとじゃんけん（ロック、ペーパー、シザーズ、リザード、スポック）をプレイします。賭けありでも賭けなしでも可能です。'
+      name: 0
+      optional: false
+      type: '='
+russianroulette:
+  args:
+    - number number
+  desc: 'ロシアンルーレットをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '弾の数（1〜5）です。'
+      name: bullets
+      optional: true
+      type: int
+scratchcard:
+  args:
+    - text
+  desc: 'スクラッチカードのゲームをプレイします。'
+  params:
+    - desc: '購入するカードの種類（bronze、silver、gold、diamond）です。'
+      name: cardType
+      optional: true
+      type: string
+setdaily:
+  args:
+    - number time
+  desc: 'サーバーのデイリー報酬の金額とクールダウン時間を設定します。'
+  params:
+    - &ref_499
+      desc: 'デイリー報酬の金額です。'
+      name: amount
+      optional: false
+      type: int
+    - &ref_500
+      desc: 'デイリー報酬を受け取るためのクールダウン時間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime:
+  args:
+    - number time
+  desc: 'サーバーのデイリー報酬の金額とクールダウン時間を設定します。'
+  params:
+    - desc: 'デイリー報酬の金額です。'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'デイリー報酬を受け取るためのクールダウン時間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'サーバーのデイリー報酬の金額とクールダウン時間を設定します。'
+  params:
+    - desc: 'デイリー報酬の金額です。'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'デイリー報酬を受け取るためのクールダウン時間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'サーバーのデイリー報酬の金額とクールダウン時間を設定します。'
+  params:
+    - desc: 'デイリー報酬の金額です。'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'デイリー報酬を受け取るためのクールダウン時間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+slot:
+  args:
+    - 10
+  desc: '指定した賭け金でスロットマシンをプレイします。'
+  params:
+    - desc: '指定した賭け金でスロットマシンをプレイします。'
+      name: 10
+      optional: false
+      type: '='
+spinwheel:
+  args:
+    - 0
+  desc: 'ユーザーがルーレットを回して、クレジットを増やすか減らすチャンスを得られます。'
+  params:
+    - desc: 'ユーザーがルーレットを回して、クレジットを増やすか減らすチャンスを得られます。'
+      name: 0
+      optional: false
+      type: '='
+stand:
+  args:
+    - ''
+  desc: 'プレイヤーのターンを終了し、ディーラーのターンを進めます。'
+  params: [ ]
+transactions:
+  args:
+    - '@user'
+  desc: '指定したユーザー、または現在のユーザーの取引履歴を取得して表示します。'
+  params:
+    - desc: '取引履歴を表示するユーザーです。デフォルトは現在のユーザーです。'
+      name: user
+      optional: true
+      type: IUser?
+triviachain:
+  args:
+    - number text
+  desc: '質問に次々と答えて、報酬を増やしていくトリビアチェーンをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'トリビアのカテゴリです。'
+      name: category
+      optional: true
+      type: string
+war:
+  args:
+    - number
+  desc: 'ボットと戦争（War）のゲームをプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+wheelfortune:
+  args:
+    - number text
+  desc: 'カスタマイズ可能なセグメントを持つ強化版のルーレット（Wheel of Fortune）をプレイします。'
+  params:
+    - desc: '賭ける金額です。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'ホイールの種類（classic、risky、balanced）です。'
+      name: wheelType
+      optional: true
+      type: string
+work:
+  args:
+    - ''
+  desc: 'ランダムな報酬を得るために仕事をします。クールダウンはサーバーが設定します。'
+  params: [ ]
+crime:
+  args:
+    - ''
+  desc: '仕事より高い報酬を得る犯罪を試みます。ただし、失敗すると罰金が科されることがあります。'
+  params: [ ]
+rob:
+  args:
+    - '@user'
+  desc: '別のユーザーの財布からお金を盗もうとします。銀行に預けた通貨は対象外です。'
+  params:
+    - desc: '強盗の対象となるユーザーです。'
+      name: target
+      optional: false
+      type: user
+pay:
+  args:
+    - '@user <amount>'
+  desc: '別のユーザーに通貨を送信します。サーバーが設定した送金手数料が差し引かれます。'
+  params:
+    - desc: '通貨を送信するユーザーです。'
+      name: target
+      optional: false
+      type: user
+    - desc: '税金を差し引く前の送金額です。'
+      name: amount
+      optional: false
+      type: long
+bank:
+  args:
+    - ''
+    - '@user'
+  desc: '財布と銀行の残高を表示します。発生している利息があれば受け取ります。'
+  params:
+    - desc: '確認するユーザーです。デフォルトは自分です。'
+      name: user
+      optional: true
+      type: user
+deposit:
+  args:
+    - '<amount|all>'
+  desc: '財布の通貨を銀行に預けます。銀行に預けた通貨は強盗に盗まれません。'
+  params:
+    - desc: '預ける金額です。財布の全額を預ける場合は "all" を指定します。'
+      name: amount
+      optional: false
+      type: string
+withdraw:
+  args:
+    - '<amount|all>'
+  desc: '銀行の通貨を財布に戻し、使えるようにします。'
+  params:
+    - desc: '引き出す金額です。すべて引き出す場合は "all" を指定します。'
+      name: amount
+      optional: false
+      type: string
+shop:
+  args:
+    - ''
+  desc: 'サーバーで現在販売しているすべてのアイテムを一覧表示します。'
+  params: [ ]
+buy:
+  args:
+    - '<item name>'
+  desc: 'サーバーショップからアイテムを購入します。'
+  params:
+    - desc: '購入するアイテムの名前です。'
+      name: name
+      optional: false
+      type: string
+inventory:
+  args:
+    - ''
+    - '@user'
+  desc: 'ユーザーが所有しているアイテムを表示します。'
+  params:
+    - desc: 'インベントリを表示するユーザーです。デフォルトは自分です。'
+      name: user
+      optional: true
+      type: user
+use:
+  args:
+    - '<item name>'
+  desc: '所有している消耗品アイテムを1つ使用します。'
+  params:
+    - desc: '使用するアイテムの名前です。'
+      name: name
+      optional: false
+      type: string
+shopaddrole:
+  args:
+    - '<price> @role <name>'
+  desc: 'ユーザーが購入できるように、ショップにロールを追加します。'
+  params:
+    - desc: 'ロールの価格です。'
+      name: price
+      optional: false
+      type: long
+    - desc: '購入時に付与されるロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'ショップの項目に表示される名前です。'
+      name: name
+      optional: false
+      type: string
+shopadditem:
+  args:
+    - '<price> <name>'
+  desc: '自動的な効果がない、通常のコレクションアイテムをショップに追加します。'
+  params:
+    - desc: 'アイテムの価格です。'
+      name: price
+      optional: false
+      type: long
+    - desc: 'ショップの項目に表示される名前です。'
+      name: name
+      optional: false
+      type: string
+shopremove:
+  args:
+    - '<item name>'
+  desc: 'アイテムをショップから削除し、全員が所有しているそのアイテムも削除します。'
+  params:
+    - desc: '削除するアイテムの名前です。'
+      name: name
+      optional: false
+      type: string
+shopprice:
+  args:
+    - '<price> <item name>'
+  desc: '既存のショップアイテムの価格を設定します。'
+  params:
+    - desc: '新しい価格です。'
+      name: price
+      optional: false
+      type: long
+    - desc: '価格を変更するアイテムの名前です。'
+      name: name
+      optional: false
+      type: string
+shopstock:
+  args:
+    - '<stock> <item name>'
+  desc: '販売中のアイテムの残数を設定します。'
+  params:
+    - desc: '残りの在庫数です。無制限の場合は -1 を指定します。'
+      name: stock
+      optional: false
+      type: int
+    - desc: '在庫を補充するアイテムの名前です。'
+      name: name
+      optional: false
+      type: string
+shopdesc:
+  args:
+    - '<item name> | <description>'
+  desc: 'ショップアイテムに表示される説明を設定します。'
+  params:
+    - desc: 'アイテムの名前、パイプ（|）、新しい説明の順に指定します。'
+      name: name
+      optional: false
+      type: string
+shoptoggle:
+  args:
+    - '<item name>'
+  desc: 'ショップアイテムを、削除したり所有者のアイテムに影響を与えたりせずに、表示または非表示にします。'
+  params:
+    - desc: '切り替えるアイテムの名前です。'
+      name: name
+      optional: false
+      type: string
+economyconfig:
+  args:
+    - ''
+  desc: 'すべての経済設定と、その現在の値を表示します。'
+  params: [ ]
+economyset:
+  args:
+    - '<setting> <value>'
+  desc: '経済設定を1つ変更します。利用可能なすべての設定名を確認するには、設定コマンドを実行してください。'
+  params:
+    - desc: '変更する設定です。'
+      name: setting
+      optional: false
+      type: string
+    - desc: '新しい値です。'
+      name: value
+      optional: false
+      type: string
+economyreset:
+  args:
+    - ''
+  desc: 'すべての経済設定をデフォルトに戻します。'
+  params: [ ]
+economystats:
+  args:
+    - ''
+  desc: 'サーバーの通貨供給量の規模と集中度を報告します。'
+  params: [ ]
+economyflow:
+  args:
+    - ''
+    - '<days>'
+  desc: '通貨が流通に入った場所と出ていった場所を表示します。'
+  params:
+    - desc: '何日前までを集計するかです。デフォルトは 7 日です。'
+      name: days
+      optional: true
+      type: int
+gamestats:
+  args:
+    - ''
+    - '<days>'
+  desc: '各ゲームが、受け取った金額に対して実際にいくら払い戻したかを表示します。推測ではなく実際の結果をもとに配当率を調整できます。'
+  params:
+    - desc: '何日前までを集計するかです。デフォルトは 7 日です。'
+      name: days
+      optional: true
+      type: int
+cashleaderboard:
+  args:
+    - ''
+  desc: '純資産が最も多いユーザーのリーダーボードを表示します。'
+  params: [ ]

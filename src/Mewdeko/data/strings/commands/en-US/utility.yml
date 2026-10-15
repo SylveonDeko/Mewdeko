@@ -3173,13 +3173,9 @@ repeattriggermode:
 resetmessagecounts:
   args:
     - '[@user] [@channel]'
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
-    - desc: >-
-        Overload for <see
-        cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+    - desc: 'Resets message counts for a user, a channel, or both.'
       name: user
       optional: true
       type: user
@@ -3190,13 +3186,9 @@ resetmessagecounts:
 resetmessagecounts_=_=:
   args:
     - '[@user] [@channel]'
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
-    - desc: >-
-        Overload for <see
-        cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+    - desc: 'Resets message counts for a user, a channel, or both.'
       name: user
       optional: true
       type: user
@@ -3207,13 +3199,9 @@ resetmessagecounts_=_=:
 resetmessagecounts_=_=_1:
   args:
     - '[@user] [@channel]'
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
-    - desc: >-
-        Overload for <see
-        cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+    - desc: 'Resets message counts for a user, a channel, or both.'
       name: user
       optional: true
       type: user
@@ -3224,13 +3212,9 @@ resetmessagecounts_=_=_1:
 resetmessagecounts_=_=_2:
   args:
     - '[@user] [@channel]'
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
-    - desc: >-
-        Overload for <see
-        cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+    - desc: 'Resets message counts for a user, a channel, or both.'
       name: user
       optional: true
       type: user
@@ -3241,9 +3225,7 @@ resetmessagecounts_=_=_2:
 resetmessagecounts_ITextChannel:
   args:
     - channel
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
     - &ref_439
       desc: 'Optional: The channel to reset message counts in.'
@@ -3253,9 +3235,7 @@ resetmessagecounts_ITextChannel:
 resetmessagecounts_ITextChannel_1:
   args:
     - channel
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
     - desc: 'Optional: The channel to reset message counts in.'
       name: channel
@@ -3264,9 +3244,7 @@ resetmessagecounts_ITextChannel_1:
 resetmessagecounts_ITextChannel_2:
   args:
     - channel
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
     - desc: 'Optional: The channel to reset message counts in.'
       name: channel
@@ -3275,9 +3253,7 @@ resetmessagecounts_ITextChannel_2:
 resetmessagecounts_ITextChannel_3:
   args:
     - channel
-  desc: >-
-    Overload for <see
-    cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+  desc: 'Resets message counts for a user, a channel, or both.'
   params:
     - desc: 'Optional: The channel to reset message counts in.'
       name: channel

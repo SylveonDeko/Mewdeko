@@ -1,75 +1,61 @@
 votechannel:
   args:
     - channel
-  desc: >-
-    Legt den angegebenen Textkanal als Abstimmungskanal fest, in den alle
-    Abstimmungsbestätigungen gesendet werden.
+  desc: 'Legt den angegebenen Textkanal als Vote-Kanal fest, in den alle Vote-Bestätigungen gesendet werden.'
   params:
     - &ref_646
-      desc: 'Der Textkanal, der als Abstimmungskanal festgelegt werden soll.'
+      desc: 'Der Textkanal, der als Vote-Kanal festgelegt wird.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel:
   args:
     - channel
-  desc: >-
-    Legt den angegebenen Textkanal als Abstimmungskanal fest, in den alle
-    Abstimmungsbestätigungen gesendet werden.
+  desc: 'Legt den angegebenen Textkanal als Vote-Kanal fest, in den alle Vote-Bestätigungen gesendet werden.'
   params:
-    - desc: 'Der Textkanal, der als Abstimmungskanal festgelegt werden soll.'
+    - desc: 'Der Textkanal, der als Vote-Kanal festgelegt wird.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_1:
   args:
     - channel
-  desc: >-
-    Legt den angegebenen Textkanal als Abstimmungskanal fest, in den alle
-    Abstimmungsbestätigungen gesendet werden.
+  desc: 'Legt den angegebenen Textkanal als Vote-Kanal fest, in den alle Vote-Bestätigungen gesendet werden.'
   params:
-    - desc: 'Der Textkanal, der als Abstimmungskanal festgelegt werden soll.'
+    - desc: 'Der Textkanal, der als Vote-Kanal festgelegt wird.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_2:
   args:
     - channel
-  desc: >-
-    Legt den angegebenen Textkanal als Abstimmungskanal fest, in den alle
-    Abstimmungsbestätigungen gesendet werden.
+  desc: 'Legt den angegebenen Textkanal als Vote-Kanal fest, in den alle Vote-Bestätigungen gesendet werden.'
   params:
-    - desc: 'Der Textkanal, der als Abstimmungskanal festgelegt werden soll.'
+    - desc: 'Der Textkanal, der als Vote-Kanal festgelegt wird.'
       name: channel
       optional: false
       type: ITextChannel
 votemessage:
   args:
     - '[message]'
-  desc: >-
-    Legt eine benutzerdefinierte Nachricht fest, die gesendet wird, wenn ein
-    Benutzer abstimmt, oder zeigt die aktuelle Abstimmungsnachricht an.
+  desc: 'Legt eine benutzerdefinierte Nachricht fest, die gesendet wird, wenn ein User abstimmt, oder zeigt die aktuelle Vote-Nachricht als Vorschau an.'
   params:
-    - desc: 'Die benutzerdefinierte Nachricht für Abstimmungen. Verwende "-" zum Zurücksetzen auf die Standardnachricht. Wenn null, wird die aktuelle Abstimmungsnachricht angezeigt.'
+    - desc: 'Die benutzerdefinierte Nachricht für Votes. Verwende "-", um auf die Standardnachricht zurückzusetzen. Bei null wird die aktuelle Vote-Nachricht als Vorschau angezeigt.'
       name: message
       optional: true
       type: string
 votepassword:
   args:
     - ''
-  desc: >-
-    Startet einen Bestätigungsprozess zum Festlegen eines neuen
-    Abstimmungspassworts und warnt den Benutzer vor dessen Sicherheit.
+  desc: 'Startet eine Bestätigung zum Festlegen eines neuen Vote-Passworts und weist den User auf die Sicherheit hin.'
   params: [ ]
 voteroleadd:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Fügt eine Rolle hinzu, die Benutzern beim Abstimmen gewährt wird, mit
-    einer optionalen Dauer für die automatische Entfernung der Rolle.
+  desc: 'Fügt eine Rolle hinzu, die Usern bei einem Vote gewährt wird, optional mit einer Dauer, nach der die Rolle automatisch entfernt wird.'
   params:
-    - desc: 'Die Rolle, die als Abstimmungsbelohnung hinzugefügt werden soll.'
+    - desc: 'Die Rolle, die als Vote-Belohnung hinzugefügt wird.'
       name: role
       optional: false
       type: role
@@ -81,11 +67,9 @@ voteroleadd_IRole_=:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Fügt eine Rolle hinzu, die Benutzern beim Abstimmen gewährt wird, mit
-    einer optionalen Dauer für die automatische Entfernung der Rolle.
+  desc: 'Fügt eine Rolle hinzu, die Usern bei einem Vote gewährt wird, optional mit einer Dauer, nach der die Rolle automatisch entfernt wird.'
   params:
-    - desc: 'Die Rolle, die als Abstimmungsbelohnung hinzugefügt werden soll.'
+    - desc: 'Die Rolle, die als Vote-Belohnung hinzugefügt wird.'
       name: role
       optional: false
       type: role
@@ -97,11 +81,9 @@ voteroleadd_IRole_=_1:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Fügt eine Rolle hinzu, die Benutzern beim Abstimmen gewährt wird, mit
-    einer optionalen Dauer für die automatische Entfernung der Rolle.
+  desc: 'Fügt eine Rolle hinzu, die Usern bei einem Vote gewährt wird, optional mit einer Dauer, nach der die Rolle automatisch entfernt wird.'
   params:
-    - desc: 'Die Rolle, die als Abstimmungsbelohnung hinzugefügt werden soll.'
+    - desc: 'Die Rolle, die als Vote-Belohnung hinzugefügt wird.'
       name: role
       optional: false
       type: role
@@ -113,11 +95,9 @@ voteroleadd_IRole_=_2:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Fügt eine Rolle hinzu, die Benutzern beim Abstimmen gewährt wird, mit
-    einer optionalen Dauer für die automatische Entfernung der Rolle.
+  desc: 'Fügt eine Rolle hinzu, die Usern bei einem Vote gewährt wird, optional mit einer Dauer, nach der die Rolle automatisch entfernt wird.'
   params:
-    - desc: 'Die Rolle, die als Abstimmungsbelohnung hinzugefügt werden soll.'
+    - desc: 'Die Rolle, die als Vote-Belohnung hinzugefügt wird.'
       name: role
       optional: false
       type: role
@@ -128,125 +108,119 @@ voteroleadd_IRole_=_2:
 voteroleedit:
   args:
     - '@role time'
-  desc: 'Bearbeitet die Dauer, für die eine Abstimmungsrolle an Benutzer vergeben wird.'
+  desc: 'Bearbeitet die Dauer, für die eine Vote-Rolle an User gewährt wird.'
   params:
     - &ref_648
-      desc: 'Die zu bearbeitende Rolle.'
+      desc: 'Die Rolle, die bearbeitet wird.'
       name: role
       optional: false
       type: IRole
     - &ref_649
-      desc: 'Die neue Dauer, für die die Rolle vergeben wird.'
+      desc: 'Die neue Dauer, für die die Rolle gewährt wird.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime:
   args:
     - '@role time'
-  desc: 'Bearbeitet die Dauer, für die eine Abstimmungsrolle an Benutzer vergeben wird.'
+  desc: 'Bearbeitet die Dauer, für die eine Vote-Rolle an User gewährt wird.'
   params:
-    - desc: 'Die zu bearbeitende Rolle.'
+    - desc: 'Die Rolle, die bearbeitet wird.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Die neue Dauer, für die die Rolle vergeben wird.'
+    - desc: 'Die neue Dauer, für die die Rolle gewährt wird.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_1:
   args:
     - '@role time'
-  desc: 'Bearbeitet die Dauer, für die eine Abstimmungsrolle an Benutzer vergeben wird.'
+  desc: 'Bearbeitet die Dauer, für die eine Vote-Rolle an User gewährt wird.'
   params:
-    - desc: 'Die zu bearbeitende Rolle.'
+    - desc: 'Die Rolle, die bearbeitet wird.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Die neue Dauer, für die die Rolle vergeben wird.'
+    - desc: 'Die neue Dauer, für die die Rolle gewährt wird.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_2:
   args:
     - '@role time'
-  desc: 'Bearbeitet die Dauer, für die eine Abstimmungsrolle an Benutzer vergeben wird.'
+  desc: 'Bearbeitet die Dauer, für die eine Vote-Rolle an User gewährt wird.'
   params:
-    - desc: 'Die zu bearbeitende Rolle.'
+    - desc: 'Die Rolle, die bearbeitet wird.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Die neue Dauer, für die die Rolle vergeben wird.'
+    - desc: 'Die neue Dauer, für die die Rolle gewährt wird.'
       name: time
       optional: false
       type: StoopidTime
 voteroleremove:
   args:
     - '@role'
-  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Benutzern beim Abstimmen gewährt werden.'
+  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Usern bei einem Vote gewährt werden.'
   params:
     - &ref_650
-      desc: 'Die Rolle, die aus den Abstimmungsbelohnungen entfernt werden soll.'
+      desc: 'Die Rolle, die aus den Vote-Belohnungen entfernt wird.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole:
   args:
     - '@role'
-  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Benutzern beim Abstimmen gewährt werden.'
+  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Usern bei einem Vote gewährt werden.'
   params:
-    - desc: 'Die Rolle, die aus den Abstimmungsbelohnungen entfernt werden soll.'
+    - desc: 'Die Rolle, die aus den Vote-Belohnungen entfernt wird.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_1:
   args:
     - '@role'
-  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Benutzern beim Abstimmen gewährt werden.'
+  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Usern bei einem Vote gewährt werden.'
   params:
-    - desc: 'Die Rolle, die aus den Abstimmungsbelohnungen entfernt werden soll.'
+    - desc: 'Die Rolle, die aus den Vote-Belohnungen entfernt wird.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_2:
   args:
     - '@role'
-  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Benutzern beim Abstimmen gewährt werden.'
+  desc: 'Entfernt eine Rolle aus der Liste der Rollen, die Usern bei einem Vote gewährt werden.'
   params:
-    - desc: 'Die Rolle, die aus den Abstimmungsbelohnungen entfernt werden soll.'
+    - desc: 'Die Rolle, die aus den Vote-Belohnungen entfernt wird.'
       name: role
       optional: false
       type: IRole
 voterolesclear:
   args:
     - ''
-  desc: 'Löscht alle Rollen, die Benutzern beim Abstimmen gewährt werden.'
+  desc: 'Entfernt alle Rollen, die Usern bei einem Vote gewährt werden.'
   params: [ ]
 voteroleslist:
   args:
     - ''
-  desc: 'Listet alle Rollen auf, die Benutzern beim Abstimmen gewährt werden.'
+  desc: 'Listet alle Rollen auf, die Usern bei einem Vote gewährt werden.'
   params: [ ]
 votes:
   args:
     - '[@user]'
-  desc: >-
-    Zeigt die Gesamtzahl der Abstimmungen eines bestimmten Benutzers oder des
-    Befehlsaufrufers an.
+  desc: 'Zeigt die Gesamtzahl der Votes eines bestimmten Users oder des Befehlsausführenden an.'
   params:
-    - desc: 'Der Benutzer, dessen Abstimmungen gezählt werden sollen. Wenn null, werden die Abstimmungen des Befehlsaufrufers gezählt.'
+    - desc: 'Der User, dessen Votes gezählt werden. Bei null werden die Votes des Befehlsausführenden gezählt.'
       name: user
       optional: true
       type: user
 votesleaderboard:
   args:
     - false
-  desc: >-
-    Zeigt eine Rangliste der Benutzer basierend auf ihrer Abstimmungsanzahl an,
-    optional gefiltert nach Abstimmungen des aktuellen Monats.
+  desc: 'Zeigt eine Rangliste der User anhand ihrer Vote-Anzahl, optional nur für Votes im aktuellen Monat.'
   params:
-    - desc: >-
-        Zeigt eine Rangliste der Benutzer basierend auf ihrer Abstimmungsanzahl an,
-        optional gefiltert nach Abstimmungen des aktuellen Monats.
+    - desc: 'Zeigt eine Rangliste der User anhand ihrer Vote-Anzahl, optional nur für Votes im aktuellen Monat.'
       name: false
       optional: false
       type: '='

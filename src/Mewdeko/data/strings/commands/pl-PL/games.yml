@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Acrophobia.'
+  params:
+    - &ref_3
+      desc: 'Argumenty przekazywane do polecenia.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Acrophobia.'
+  params:
+    - desc: 'Argumenty przekazywane do polecenia.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Acrophobia.'
+  params:
+    - desc: 'Argumenty przekazywane do polecenia.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Acrophobia.'
+  params:
+    - desc: 'Argumenty przekazywane do polecenia.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: 'Polecenie losowego wyboru z listy opcji.'
+  params:
+    - desc: 'Lista opcji oddzielonych średnikami.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'Polecenie przełączające status smoka użytkownika. Zwykle używane w poleceniach beta.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'Polecenie zapytania magicznej kuli 8 o odpowiedź.'
+  params:
+    - desc: 'Pytanie do zadania.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+  params:
+    - &ref_244
+      desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+  params:
+    - desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+  params:
+    - desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+  params:
+    - desc: 'Rozpoczyna grę w wisielca o podanym typie.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: 'Wyświetla dostępne typy wisielca na bieżącym serwerze.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: 'Zatrzymuje trwającą grę w wisielca na bieżącym kanale.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Kaladont.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Polecenie rozpoczynające grę w Kaladont.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Polecenie rozpoczynające grę w Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: 'Polecenie zatrzymujące bieżącą grę w Kaladont.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: 'Ustawia trwały kanał Kaladont.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Ustawia trwały kanał Kaladont.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: 'Ustawia trwały kanał Kaladont.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: 'Ustawia trwały kanał Kaladont.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: 'Ustawia trwały kanał Kaladont.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: 'Wyłącza trwały kanał Kaladont.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: 'Zabawne polecenie linuksowe wtrącające się do rozmowy.'
+  params:
+    - &ref_275
+      desc: 'Nazwa, która zastąpi „GNU”.'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: 'Nazwa, która zastąpi „Linux”.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: 'Zabawne polecenie linuksowe wtrącające się do rozmowy.'
+  params:
+    - desc: 'Nazwa, która zastąpi „GNU”.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Nazwa, która zastąpi „Linux”.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: 'Zabawne polecenie linuksowe wtrącające się do rozmowy.'
+  params:
+    - desc: 'Nazwa, która zastąpi „GNU”.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Nazwa, która zastąpi „Linux”.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: 'Zabawne polecenie linuksowe wtrącające się do rozmowy.'
+  params:
+    - desc: 'Nazwa, która zastąpi „GNU”.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Nazwa, która zastąpi „Linux”.'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Rozpoczyna lub dołącza do gry w Nunchi.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - &ref_351
+      desc: 'Tworzy proste ankietę tak/nie.'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - &ref_349
+      desc: 'Tworzy proste ankietę tak/nie.'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'Tworzy proste ankietę tak/nie.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'Tworzy proste ankietę tak/nie.'
+  params:
+    - desc: 'Tworzy proste ankietę tak/nie.'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: 'Tworzy anonimową ankietę, w której tożsamość głosujących jest ukryta.'
+  params:
+    - desc: 'Pytanie ankiety i opcje oddzielone średnikami.'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: 'Tworzy niestandardową ankietę z wieloma opcjami.'
+  params:
+    - desc: 'Pytanie ankiety i opcje oddzielone średnikami.'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'Tworzy ankietę wielokrotnego wyboru, w której użytkownicy mogą wybrać kilka opcji.'
+  params:
+    - desc: 'Pytanie ankiety i opcje oddzielone średnikami.'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'Tworzy ankietę na podstawie szablonu.'
+  params:
+    - desc: 'Nazwa szablonu do użycia.'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie szablony ankiet dostępne na serwerze.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: 'Polecenie, które kiedyś istniało. W NadekoBocie obrażało osoby transpłciowe. Zostawione tutaj jako pamiątka i zarazem gest pogardy wobec NadekoBota.'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w kółko i krzyżyk.'
+  params:
+    - &ref_619
+      desc: 'Opcje dla ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w kółko i krzyżyk.'
+  params:
+    - desc: 'Opcje dla ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w kółko i krzyżyk.'
+  params:
+    - desc: 'Opcje dla ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w kółko i krzyżyk.'
+  params:
+    - desc: 'Opcje dla ttt'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: 'Wyświetla aktualny ranking quizu.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: 'Zatrzymuje bieżącą grę w quiz.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w quiz.'
+  params:
+    - &ref_629
+      desc: 'Opcjonalne argumenty dla quizu.'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w quiz.'
+  params:
+    - desc: 'Opcjonalne argumenty dla quizu.'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w quiz.'
+  params:
+    - desc: 'Opcjonalne argumenty dla quizu.'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w quiz.'
+  params:
+    - desc: 'Opcjonalne argumenty dla quizu.'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'Dodaje nowy artykuł do gry w pisanie.'
+  params:
+    - &ref_630
+      desc: 'Tekst artykułu do dodania.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'Dodaje nowy artykuł do gry w pisanie.'
+  params:
+    - desc: 'Tekst artykułu do dodania.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'Dodaje nowy artykuł do gry w pisanie.'
+  params:
+    - desc: 'Tekst artykułu do dodania.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'Dodaje nowy artykuł do gry w pisanie.'
+  params:
+    - desc: 'Tekst artykułu do dodania.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'Usuwa artykuł do pisania po jego indeksie.'
+  params:
+    - &ref_631
+      desc: 'Indeks artykułu do usunięcia.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'Usuwa artykuł do pisania po jego indeksie.'
+  params:
+    - desc: 'Indeks artykułu do usunięcia.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'Usuwa artykuł do pisania po jego indeksie.'
+  params:
+    - desc: 'Indeks artykułu do usunięcia.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'Usuwa artykuł do pisania po jego indeksie.'
+  params:
+    - desc: 'Indeks artykułu do usunięcia.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'Wyświetla artykuły dostępne w grze w pisanie.'
+  params:
+    - desc: 'Wyświetla artykuły dostępne w grze w pisanie.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w szybkie pisanie.'
+  params:
+    - &ref_632
+      desc: 'Argumenty konfiguracji gry.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w szybkie pisanie.'
+  params:
+    - desc: 'Argumenty konfiguracji gry.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w szybkie pisanie.'
+  params:
+    - desc: 'Argumenty konfiguracji gry.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'Rozpoczyna grę w szybkie pisanie.'
+  params:
+    - desc: 'Argumenty konfiguracji gry.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: 'Zatrzymuje bieżącą grę w szybkie pisanie.'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: 'Polecenie losowego wyboru z listy opcji.'
+  params:
+    - desc: 'Lista opcji oddzielonych średnikami.'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: 'Zatrzymuje trwającą grę w wisielca na bieżącym kanale.'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Rozpoczyna lub dołącza do gry w Nunchi.'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: 'Wyświetla aktualny ranking quizu.'
+  params: [ ]

@@ -1,7 +1,7 @@
 confess:
   args:
     - serverid text
-  desc: 'Permette agli utenti di confessarsi anonimamente.'
+  desc: 'Permette agli utenti di confessarsi in forma anonima.'
   params:
     - &ref_139
       desc: 'L''ID del server.'
@@ -16,7 +16,7 @@ confess:
 confess_ulong_string:
   args:
     - serverid text
-  desc: 'Permette agli utenti di confessarsi anonimamente.'
+  desc: 'Permette agli utenti di confessarsi in forma anonima.'
   params:
     - desc: 'L''ID del server.'
       name: serverId
@@ -29,7 +29,7 @@ confess_ulong_string:
 confess_ulong_string_1:
   args:
     - serverid text
-  desc: 'Permette agli utenti di confessarsi anonimamente.'
+  desc: 'Permette agli utenti di confessarsi in forma anonima.'
   params:
     - desc: 'L''ID del server.'
       name: serverId
@@ -42,7 +42,7 @@ confess_ulong_string_1:
 confess_ulong_string_2:
   args:
     - serverid text
-  desc: 'Permette agli utenti di confessarsi anonimamente.'
+  desc: 'Permette agli utenti di confessarsi in forma anonima.'
   params:
     - desc: 'L''ID del server.'
       name: serverId
@@ -111,20 +111,18 @@ confessionblacklist_IUser_2:
 confessionchannel:
   args:
     - '[@channel]'
-  desc: 'Imposta il canale delle confessioni per confessioni anonime.'
+  desc: 'Imposta il canale delle confessioni anonime.'
   params:
-    - desc: 'Il canale delle confessioni (opzionale).'
+    - desc: 'Il canale delle confessioni (facoltativo).'
       name: channel
       optional: true
       type: channel
 confessionlogchannel:
   args:
     - '[@channel]'
-  desc: >-
-    Imposta il canale di log delle confessioni per registrare le confessioni.
-    L''uso improprio di questa funzione finirà con me a 2m da casa tua.
+  desc: 'Imposta il canale di log delle confessioni per registrarle. Un uso improprio di questa funzione mi porterà a 2 minuti da casa tua.'
   params:
-    - desc: 'Il canale di log delle confessioni (opzionale).'
+    - desc: 'Il canale di log delle confessioni (facoltativo).'
       name: channel
       optional: true
       type: channel
@@ -142,7 +140,7 @@ confesslogchannel:
     - channel
   desc: 'Imposta il canale di log delle confessioni.'
   params:
-    - desc: 'Il canale dove registrare le confessioni.'
+    - desc: 'Il canale in cui registrare le confessioni.'
       name: channel
       optional: true
       type: ITextChannel

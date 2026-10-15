@@ -1,0 +1,892 @@
+baccarat:
+  args:
+    - number text
+  desc: 'Baccarat oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Bahis türü (player, banker, tie).'
+      name: betType
+      optional: true
+      type: string
+bingo:
+  args:
+    - number text
+  desc: 'Sayı çağırmalı bir Bingo oyunu oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Bingo kartı türü (small, large).'
+      name: cardType
+      optional: true
+      type: string
+blackjack:
+  args:
+    - number
+  desc: 'Yeni bir Blackjack oyunu başlatır veya mevcut bir oyuna katılır.'
+  params:
+    - &ref_113
+      desc: 'Oyuncunun bahis miktarı.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long:
+  args:
+    - number
+  desc: 'Yeni bir Blackjack oyunu başlatır veya mevcut bir oyuna katılır.'
+  params:
+    - desc: 'Oyuncunun bahis miktarı.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_1:
+  args:
+    - number
+  desc: 'Yeni bir Blackjack oyunu başlatır veya mevcut bir oyuna katılır.'
+  params:
+    - desc: 'Oyuncunun bahis miktarı.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_2:
+  args:
+    - number
+  desc: 'Yeni bir Blackjack oyunu başlatır veya mevcut bir oyuna katılır.'
+  params:
+    - desc: 'Oyuncunun bahis miktarı.'
+      name: amount
+      optional: false
+      type: long
+cash:
+  args:
+    - ''
+  desc: 'Kullanıcının mevcut bakiyesini kontrol eder.'
+  params: [ ]
+challengeleaderboard:
+  args:
+    - ''
+  desc: 'Günlük görev sıralamasını gösterir.'
+  params: [ ]
+claimchallenge:
+  args:
+    - ''
+  desc: 'Tamamlanan günlük görevinin ödülünü al.'
+  params: [ ]
+coinflip:
+  args:
+    - number text
+  desc: 'Kullanıcının belirli bir bahisle yazı tura atmasını ve tahminde bulunmasını sağlar.'
+  params:
+    - &ref_135
+      desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_136
+      desc: 'Kullanıcının tahmini ("heads" veya "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string:
+  args:
+    - number text
+  desc: 'Kullanıcının belirli bir bahisle yazı tura atmasını ve tahminde bulunmasını sağlar.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Kullanıcının tahmini ("heads" veya "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_1:
+  args:
+    - number text
+  desc: 'Kullanıcının belirli bir bahisle yazı tura atmasını ve tahminde bulunmasını sağlar.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Kullanıcının tahmini ("heads" veya "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_2:
+  args:
+    - number text
+  desc: 'Kullanıcının belirli bir bahisle yazı tura atmasını ve tahminde bulunmasını sağlar.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Kullanıcının tahmini ("heads" veya "tails").'
+      name: guess
+      optional: false
+      type: string
+craps:
+  args:
+    - number text
+  desc: 'Craps oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Bahis türü (pass, dontpass, field, any).'
+      name: betType
+      optional: true
+      type: string
+crash:
+  args:
+    - number number
+  desc: 'Her an patlayabilen bir çarpana bahis yaptığın Crash oyunu oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Çekilinecek çarpan (1.1x - 10.0x).'
+      name: targetMultiplier
+      optional: true
+      type: double
+dailychallenge:
+  args:
+    - ''
+  desc: 'Mevcut günlük görevini kontrol et.'
+  params: [ ]
+dailyreward:
+  args:
+    - ''
+  desc: 'Kullanıcının günlük ödülünü almasını sağlar.'
+  params: [ ]
+diceduel:
+  args:
+    - '@user number'
+  desc: 'Başka bir oyuncuya zar düellosu teklif et.'
+  params:
+    - desc: 'Meydan okunacak kullanıcı.'
+      name: opponent
+      optional: false
+      type: IUser
+    - desc: 'Her oyuncunun bahis miktarı.'
+      name: betAmount
+      optional: false
+      type: long
+duckrace:
+  args:
+    - number
+  desc: 'At yarışına benzer bir ördek yarışı başlat.'
+  params:
+    - desc: 'Ördek yarışına yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+highlow:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1 ile 10 arasında bir sayı gösterir; bir sonrakinin daha yüksek mi düşük mü olacağını doğru tahmin edersen ödeme alırsın. Aynı sayılar bahsi geri verir.'
+  params:
+    - &ref_247
+      desc: 'Kullanıcının tahmini ("higher" veya "lower").'
+      name: guess
+      optional: false
+      type: string
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: true
+      type: long
+highlow_string:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1 ile 10 arasında bir sayı gösterir; bir sonrakinin daha yüksek mi düşük mü olacağını doğru tahmin edersen ödeme alırsın. Aynı sayılar bahsi geri verir.'
+  params:
+    - desc: 'Kullanıcının tahmini ("higher" veya "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_1:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1 ile 10 arasında bir sayı gösterir; bir sonrakinin daha yüksek mi düşük mü olacağını doğru tahmin edersen ödeme alırsın. Aynı sayılar bahsi geri verir.'
+  params:
+    - desc: 'Kullanıcının tahmini ("higher" veya "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_2:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1 ile 10 arasında bir sayı gösterir; bir sonrakinin daha yüksek mi düşük mü olacağını doğru tahmin edersen ödeme alırsın. Aynı sayılar bahsi geri verir.'
+  params:
+    - desc: 'Kullanıcının tahmini ("higher" veya "lower").'
+      name: guess
+      optional: false
+      type: string
+hit:
+  args:
+    - ''
+  desc: 'Oyuncu için yeni bir kart çeker.'
+  params: [ ]
+horserace:
+  args:
+    - number
+  desc: 'Belirtilen bahis miktarıyla bir at yarışına katılır veya yeni bir yarış başlatır.'
+  params:
+    - &ref_248
+      desc: 'Yarışa yatırılacak para birimi miktarı.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int:
+  args:
+    - number
+  desc: 'Belirtilen bahis miktarıyla bir at yarışına katılır veya yeni bir yarış başlatır.'
+  params:
+    - desc: 'Yarışa yatırılacak para birimi miktarı.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_1:
+  args:
+    - number
+  desc: 'Belirtilen bahis miktarıyla bir at yarışına katılır veya yeni bir yarış başlatır.'
+  params:
+    - desc: 'Yarışa yatırılacak para birimi miktarı.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_2:
+  args:
+    - number
+  desc: 'Belirtilen bahis miktarıyla bir at yarışına katılır veya yeni bir yarış başlatır.'
+  params:
+    - desc: 'Yarışa yatırılacak para birimi miktarı.'
+      name: betAmount
+      optional: false
+      type: int
+keno:
+  args:
+    - number text
+  desc: 'Sayıları seçip çekilen sayılarla kaç tanesinin eşleştiğini gör: Keno oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '1-80 arasında boşlukla ayrılmış en fazla 10 sayı.'
+      name: numbers
+      optional: false
+      type: string
+lottery:
+  args:
+    - number
+  desc: 'Piyango bileti satın al.'
+  params:
+    - desc: 'Satın alınacak bilet sayısı (1-10).'
+      name: ticketCount
+      optional: true
+      type: int
+memory:
+  args:
+    - number text
+  desc: 'Dizileri hatırlayarak hafıza oyunu oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Zorluk seviyesi (easy, medium, hard).'
+      name: difficulty
+      optional: true
+      type: string
+minesweeper:
+  args:
+    - number text
+  desc: 'Basitleştirilmiş bir Minesweeper oyunu oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Izgara boyutu (small, medium, large).'
+      name: size
+      optional: true
+      type: string
+modifybalance:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Bir kullanıcının bakiyesine para ekler'
+  params:
+    - desc: 'Paranın ekleneceği kullanıcı.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Eklenecek miktar, çok da abartma lol. Negatif olabilir'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Bunu bu kişiye, nesneye, neye olursa yaptığının nedeni'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Bir kullanıcının bakiyesine para ekler'
+  params:
+    - desc: 'Paranın ekleneceği kullanıcı.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Eklenecek miktar, çok da abartma lol. Negatif olabilir'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Bunu bu kişiye, nesneye, neye olursa yaptığının nedeni'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_1:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Bir kullanıcının bakiyesine para ekler'
+  params:
+    - desc: 'Paranın ekleneceği kullanıcı.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Eklenecek miktar, çok da abartma lol. Negatif olabilir'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Bunu bu kişiye, nesneye, neye olursa yaptığının nedeni'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_2:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Bir kullanıcının bakiyesine para ekler'
+  params:
+    - desc: 'Paranın ekleneceği kullanıcı.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Eklenecek miktar, çok da abartma lol. Negatif olabilir'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Bunu bu kişiye, nesneye, neye olursa yaptığının nedeni'
+      name: reason
+      optional: true
+      type: string
+plinko:
+  args:
+    - number number
+  desc: 'Topu rastgele çarpanlar için çivilerin arasından bırakarak Plinko oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Çivi sırası sayısı (5-10).'
+      name: rows
+      optional: true
+      type: int
+roulette:
+  args:
+    - number text
+  desc: 'Belirtilen bahis miktarı ve türüyle rulet oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_469
+      desc: 'Bahis türü (ör. "red", "black", "even", "odd" veya 0-36 arası bir sayı).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string:
+  args:
+    - number text
+  desc: 'Belirtilen bahis miktarı ve türüyle rulet oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Bahis türü (ör. "red", "black", "even", "odd" veya 0-36 arası bir sayı).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_1:
+  args:
+    - number text
+  desc: 'Belirtilen bahis miktarı ve türüyle rulet oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Bahis türü (ör. "red", "black", "even", "odd" veya 0-36 arası bir sayı).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_2:
+  args:
+    - number text
+  desc: 'Belirtilen bahis miktarı ve türüyle rulet oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Bahis türü (ör. "red", "black", "even", "odd" veya 0-36 arası bir sayı).'
+      name: betType
+      optional: false
+      type: string
+rps:
+  args:
+    - text 0
+    - text
+  desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+  params:
+    - &ref_470
+      desc: 'Seçimin (rock, paper, scissors, lizard veya spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=:
+  args:
+    - text 0
+    - text
+  desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+  params:
+    - desc: 'Seçimin (rock, paper, scissors, lizard veya spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_1:
+  args:
+    - text 0
+    - text
+  desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+  params:
+    - desc: 'Seçimin (rock, paper, scissors, lizard veya spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_2:
+  args:
+    - text 0
+    - text
+  desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+  params:
+    - desc: 'Seçimin (rock, paper, scissors, lizard veya spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Botla bahisli veya bahissiz Rock Paper Scissors Lizard Spock oyna.'
+      name: 0
+      optional: false
+      type: '='
+russianroulette:
+  args:
+    - number number
+  desc: 'Rus ruleti oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Mermi sayısı (1-5).'
+      name: bullets
+      optional: true
+      type: int
+scratchcard:
+  args:
+    - text
+  desc: 'Kazı kazan oyunu oyna.'
+  params:
+    - desc: 'Satın alınacak kart türü (bronze, silver, gold, diamond).'
+      name: cardType
+      optional: true
+      type: string
+setdaily:
+  args:
+    - number time
+  desc: 'Sunucunun günlük ödül miktarını ve bekleme süresini ayarlar.'
+  params:
+    - &ref_499
+      desc: 'Günlük ödülün miktarı.'
+      name: amount
+      optional: false
+      type: int
+    - &ref_500
+      desc: 'Günlük ödülü almak için bekleme süresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Sunucunun günlük ödül miktarını ve bekleme süresini ayarlar.'
+  params:
+    - desc: 'Günlük ödülün miktarı.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Günlük ödülü almak için bekleme süresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Sunucunun günlük ödül miktarını ve bekleme süresini ayarlar.'
+  params:
+    - desc: 'Günlük ödülün miktarı.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Günlük ödülü almak için bekleme süresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Sunucunun günlük ödül miktarını ve bekleme süresini ayarlar.'
+  params:
+    - desc: 'Günlük ödülün miktarı.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Günlük ödülü almak için bekleme süresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+slot:
+  args:
+    - 10
+  desc: 'Belirtilen bahisle bir slot makinesi oyna.'
+  params:
+    - desc: 'Belirtilen bahisle bir slot makinesi oyna.'
+      name: 10
+      optional: false
+      type: '='
+spinwheel:
+  args:
+    - 0
+  desc: 'Kazanma veya kaybetme şansı için çarkı çevirmeni sağlar.'
+  params:
+    - desc: 'Kazanma veya kaybetme şansı için çarkı çevirmeni sağlar.'
+      name: 0
+      optional: false
+      type: '='
+stand:
+  args:
+    - ''
+  desc: 'Oyuncunun turunu durdurur ve kurpiyerin turunu yönetir.'
+  params: [ ]
+transactions:
+  args:
+    - '@user'
+  desc: 'Belirtilen kullanıcının veya mevcut kullanıcının işlemlerini getirir ve gösterir.'
+  params:
+    - desc: 'İşlemleri gösterilecek kullanıcı. Varsayılan olarak mevcut kullanıcı.'
+      name: user
+      optional: true
+      type: IUser?
+triviachain:
+  args:
+    - number text
+  desc: 'Art arda soruları yanıtlayarak giderek artan ödüller kazandığın bir bilgi yarışması oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Bilgi yarışması kategorisi.'
+      name: category
+      optional: true
+      type: string
+war:
+  args:
+    - number
+  desc: 'Botla War oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+wheelfortune:
+  args:
+    - number text
+  desc: 'Özelleştirilebilir bölümlerle gelişmiş Şans Çarkı oyna.'
+  params:
+    - desc: 'Yatırılacak miktar.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Çark türü (classic, risky, balanced).'
+      name: wheelType
+      optional: true
+      type: string
+work:
+  args:
+    - ''
+  desc: 'Sunucunun belirlediği bekleme süresinde rastgele bir ödül için vardiya çalış.'
+  params: [ ]
+crime:
+  args:
+    - ''
+  desc: 'Bunun yerine para cezası riski taşıyan, çalışmaktan daha yüksek bir ödül için suç işlemeyi dene.'
+  params: [ ]
+rob:
+  args:
+    - '@user'
+  desc: 'Başka bir kullanıcının cüzdanından para çalmaya çalış. Bankadaki para erişilemez.'
+  params:
+    - desc: 'Soyulacak kullanıcı.'
+      name: target
+      optional: false
+      type: user
+pay:
+  args:
+    - '@user <amount>'
+  desc: 'Başka bir kullanıcıya, sunucunun aldığı transfer vergisi düşülerek para gönder.'
+  params:
+    - desc: 'Para gönderilecek kullanıcı.'
+      name: target
+      optional: false
+      type: user
+    - desc: 'Vergiden önce gönderilecek miktar.'
+      name: amount
+      optional: false
+      type: long
+bank:
+  args:
+    - ''
+    - '@user'
+  desc: 'Cüzdan ve banka bakiyeni gösterir; birikmiş faizi de toplar.'
+  params:
+    - desc: 'İncelenecek kullanıcı. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: user
+deposit:
+  args:
+    - '<amount|all>'
+  desc: 'Parayı cüzdanından bankaya taşır; orada soygundan korunur.'
+  params:
+    - desc: 'Yatırılacak miktar veya tüm cüzdanı yatırmak için "all".'
+      name: amount
+      optional: false
+      type: string
+withdraw:
+  args:
+    - '<amount|all>'
+  desc: 'Parayı bankadan cüzdanına çeker; böylece harcayabilirsin.'
+  params:
+    - desc: 'Çekilecek miktar veya her şeyi çekmek için "all".'
+      name: amount
+      optional: false
+      type: string
+shop:
+  args:
+    - ''
+  desc: 'Sunucunun şu anda sattığı her şeyi listeler.'
+  params: [ ]
+buy:
+  args:
+    - '<item name>'
+  desc: 'Sunucu mağazasından bir ürün satın alır.'
+  params:
+    - desc: 'Satın alınacak ürünün adı.'
+      name: name
+      optional: false
+      type: string
+inventory:
+  args:
+    - ''
+    - '@user'
+  desc: 'Bir kullanıcının sahip olduğu ürünleri gösterir.'
+  params:
+    - desc: 'Envanteri gösterilecek kullanıcı. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: user
+use:
+  args:
+    - '<item name>'
+  desc: 'Sahip olduğun tüketilebilir bir üründen birini kullanır.'
+  params:
+    - desc: 'Kullanılacak ürünün adı.'
+      name: name
+      optional: false
+      type: string
+shopaddrole:
+  args:
+    - '<price> @role <name>'
+  desc: 'Kullanıcıların satın alması için mağazaya bir rol ekler.'
+  params:
+    - desc: 'Rolün fiyatı.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Satın alındığında verilecek rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Mağaza girişinin görünen adı.'
+      name: name
+      optional: false
+      type: string
+shopadditem:
+  args:
+    - '<price> <name>'
+  desc: 'Satın alındığında otomatik etkisi olmayan düz bir koleksiyon ürünü mağazaya ekler.'
+  params:
+    - desc: 'Ürünün fiyatı.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Mağaza girişinin görünen adı.'
+      name: name
+      optional: false
+      type: string
+shopremove:
+  args:
+    - '<item name>'
+  desc: 'Bir ürünü, herkesin sahip olduğu kopyalarıyla birlikte mağazadan kaldırır.'
+  params:
+    - desc: 'Kaldırılacak ürünün adı.'
+      name: name
+      optional: false
+      type: string
+shopprice:
+  args:
+    - '<price> <item name>'
+  desc: 'Mevcut bir mağaza ürününün fiyatını ayarlar.'
+  params:
+    - desc: 'Yeni fiyat.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Fiyatı değiştirilecek ürünün adı.'
+      name: name
+      optional: false
+      type: string
+shopstock:
+  args:
+    - '<stock> <item name>'
+  desc: 'Bir üründen satışta kaç tane kaldığını ayarlar.'
+  params:
+    - desc: 'Kalan stok veya sınırsız için -1.'
+      name: stock
+      optional: false
+      type: int
+    - desc: 'Stoğu yenilenecek ürünün adı.'
+      name: name
+      optional: false
+      type: string
+shopdesc:
+  args:
+    - '<item name> | <description>'
+  desc: 'Bir mağaza ürünü için gösterilen açıklamayı ayarlar.'
+  params:
+    - desc: 'Eşyanın adı, ardından bir boru işareti (|) ve yeni açıklama.'
+      name: name
+      optional: false
+      type: string
+shoptoggle:
+  args:
+    - '<item name>'
+  desc: 'Bir mağaza eşyasını siler ya da kimsenin kopyalarını silmeden gizler/gösterir.'
+  params:
+    - desc: 'Değiştirilecek eşyanın adı.'
+      name: name
+      optional: false
+      type: string
+economyconfig:
+  args:
+    - ''
+  desc: 'Her ekonomi ayarını ve güncel değerini gösterir.'
+  params: [ ]
+economyset:
+  args:
+    - '<setting> <value>'
+  desc: 'Tek bir ekonomi ayarını değiştirir. Mevcut tüm ayar adlarını görmek için config komutunu çalıştır.'
+  params:
+    - desc: 'Değiştirilecek ayar.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'Yeni değer.'
+      name: value
+      optional: false
+      type: string
+economyreset:
+  args:
+    - ''
+  desc: 'Tüm ekonomi ayarlarını varsayılan değerlerine döndürür.'
+  params: [ ]
+economystats:
+  args:
+    - ''
+  desc: 'Sunucunun para arzının büyüklüğünü ve yoğunluğunu raporlar.'
+  params: [ ]
+economyflow:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Para birimlerinin dolaşıma nereden girip nereden çıktığını gösterir.'
+  params:
+    - desc: 'Kaç gün geriye dönük rapor verileceği. Varsayılan 7.'
+      name: days
+      optional: true
+      type: int
+gamestats:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Her oyunun aldığı parayla karşılaştırıldığında gerçekte ne kadar geri ödediğini gösterir; böylece ödeme oranları tahmin yerine gerçek sonuçlara göre ayarlanabilir.'
+  params:
+    - desc: 'Kaç gün geriye dönük rapor verileceği. Varsayılan 7.'
+      name: days
+      optional: true
+      type: int
+cashleaderboard:
+  args:
+    - ''
+  desc: 'En yüksek net değere sahip kullanıcıların sıralamasını gösterir.'
+  params: [ ]

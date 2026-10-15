@@ -1,7 +1,7 @@
 patreonanalytics:
   args:
     - ''
-  desc: 'Affiche les analyses détaillées de Patreon.'
+  desc: 'Affiche les analyses détaillées de Patreon'
   params: [ ]
 patreonannounce:
   args:
@@ -11,27 +11,23 @@ patreonannounce:
 patreonch:
   args:
     - '#channel'
-  desc: Définit ou affiche le canal d'annonces Patreon.
+  desc: 'Définit ou affiche le salon des annonces Patreon.'
   params:
-    - desc: >-
-        Le canal à définir pour les annonces Patreon. Si null, affiche
-        le canal actuel.
+    - desc: 'Le salon à définir pour les annonces Patreon. Si null, affiche le salon actuel.'
       name: channel
       optional: true
       type: ITextChannel?
 patreonconfig:
   args:
     - ''
-  desc: 'Affiche la configuration Patreon actuelle pour ce serveur.'
+  desc: 'Affiche la configuration Patreon actuelle de ce serveur.'
   params: [ ]
 patreonday:
   args:
     - number
   desc: 'Définit le jour du mois pour les annonces Patreon.'
   params:
-    - desc: >-
-        Le jour du mois (1-28) pour les annonces. Si null, affiche le
-        jour actuel.
+    - desc: 'Le jour du mois (1-28) pour les annonces. Si null, affiche le jour actuel.'
       name: day
       optional: true
       type: int?
@@ -43,81 +39,79 @@ patreondisable:
 patreonhelp:
   args:
     - ''
-  desc: 'Affiche les informations du module Patreon et les espaces réservés disponibles.'
+  desc: 'Affiche les informations du module Patreon et les placeholders disponibles.'
   params: [ ]
 patreonlink:
   args:
     - '@user text'
-  desc: 'Lie un utilisateur Discord à un soutien Patreon.'
+  desc: 'Lie un utilisateur Discord à un soutien Patreon'
   params:
-    - desc: L'utilisateur Discord à lier.
+    - desc: 'L''utilisateur Discord à lier.'
       name: user
       optional: false
       type: IGuildUser
-    - desc: L'ID d'utilisateur Patreon à lier.
+    - desc: 'L''ID de l''utilisateur Patreon à lier.'
       name: patreonUserId
       optional: false
       type: string
 patreonmsg:
   args:
     - text
-  desc: Définit un message personnalisé pour les annonces Patreon.
+  desc: 'Définit un message personnalisé pour les annonces Patreon.'
   params:
-    - desc: >-
-        Le message personnalisé. Utilisez des espaces réservés comme %server.name%,
-        %month%, etc. Utilisez "-" pour réinitialiser au défaut.
+    - desc: 'Le message personnalisé. Utilisez des placeholders comme %server.name%, %month%, etc. Utilisez "-" pour revenir au défaut.'
       name: message
       optional: true
       type: string?
 patreonrecognize:
   args:
     - '#channel'
-  desc: 'Envoie des messages de reconnaissance pour les nouveaux soutiens.'
+  desc: 'Envoie des messages de remerciement pour les nouveaux soutiens'
   params:
-    - desc: Le canal où envoyer les messages de reconnaissance.
+    - desc: 'Le salon où envoyer les messages de remerciement.'
       name: channel
       optional: true
       type: ITextChannel?
 patreonroles:
   args:
     - ''
-  desc: 'Liste les correspondances paliers-rôles Patreon.'
+  desc: 'Liste les correspondances entre paliers Patreon et rôles'
   params: [ ]
 patreonrolesync:
   args:
     - ''
-  desc: 'Active ou désactive la synchronisation automatique des rôles.'
+  desc: 'Active ou désactive la synchronisation automatique des rôles'
   params: [ ]
 patreonstats:
   args:
     - ''
-  desc: 'Affiche les statistiques des soutiens Patreon.'
+  desc: 'Affiche les statistiques des soutiens Patreon'
   params: [ ]
 patreonsupporters:
   args:
     - ''
-  desc: 'Liste les soutiens Patreon actifs.'
+  desc: 'Liste les soutiens Patreon actifs'
   params: [ ]
 patreonsync:
   args:
     - ''
-  desc: 'Configure de manière sécurisée l''intégration OAuth Patreon.'
+  desc: 'Configure de manière sécurisée l''intégration OAuth de Patreon'
   params: [ ]
 patreonsyncall:
   args:
     - ''
-  desc: 'Synchronise les rôles pour tous les soutiens liés.'
+  desc: 'Synchronise les rôles de tous les soutiens liés'
   params: [ ]
 patreontiermap:
   args:
     - text @role
-  desc: 'Associe un palier Patreon à un rôle Discord.'
+  desc: 'Associe un palier Patreon à un rôle Discord'
   params:
-    - desc: L'ID du palier Patreon.
+    - desc: 'L''ID du palier Patreon.'
       name: tierId
       optional: false
       type: string
-    - desc: Le rôle Discord à associer au palier.
+    - desc: 'Le rôle Discord à associer au palier.'
       name: role
       optional: false
       type: IRole
@@ -129,9 +123,9 @@ patreontoggle:
 patreontop:
   args:
     - number
-  desc: 'Affiche les meilleurs soutiens Patreon.'
+  desc: 'Affiche les meilleurs soutiens Patreon'
   params:
-    - desc: Nombre de meilleurs soutiens à afficher (1-20).
+    - desc: 'Nombre de meilleurs soutiens à afficher (1-20).'
       name: count
       optional: true
       type: int

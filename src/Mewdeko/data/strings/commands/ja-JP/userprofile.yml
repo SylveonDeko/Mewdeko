@@ -6,50 +6,50 @@ deleteuserstatsdata:
 greetdmoptout:
   args:
     - ''
-  desc: 'ウェルカムDMの受信拒否をユーザーが切り替えられるようにします。参加するサーバーがmewdekoをDM挨拶に使用している場合のみ機能します。'
+  desc: 'ユーザーが挨拶 DM をオプトアウトするかどうかを切り替えられるようにします。参加先のサーバーが DM 挨拶に mewdeko を使用している場合のみ機能します。'
   params: [ ]
 profile:
   args:
     - '[@user]'
-  desc: 'ユーザーのプロフィール、または指定した場合は別のユーザーのプロフィールを表示します。'
+  desc: 'ユーザーのプロフィールを表示します。ユーザーを指定した場合は、そのユーザーのプロフィールを表示します。'
   params:
-    - desc: 'プロフィールを表示するユーザー。nullの場合は呼び出し元のプロフィールを表示します。'
+    - desc: 'プロフィールを表示するユーザーです。null の場合は、コマンド実行者のプロフィールを表示します。'
       name: user
       optional: true
       type: user
 profile_=:
   args:
     - '[@user]'
-  desc: 'ユーザーのプロフィール、または指定した場合は別のユーザーのプロフィールを表示します。'
+  desc: 'ユーザーのプロフィールを表示します。ユーザーを指定した場合は、そのユーザーのプロフィールを表示します。'
   params:
-    - desc: 'プロフィールを表示するユーザー。nullの場合は呼び出し元のプロフィールを表示します。'
+    - desc: 'プロフィールを表示するユーザーです。null の場合は、コマンド実行者のプロフィールを表示します。'
       name: user
       optional: true
       type: user
 profile_=_1:
   args:
     - '[@user]'
-  desc: 'ユーザーのプロフィール、または指定した場合は別のユーザーのプロフィールを表示します。'
+  desc: 'ユーザーのプロフィールを表示します。ユーザーを指定した場合は、そのユーザーのプロフィールを表示します。'
   params:
-    - desc: 'プロフィールを表示するユーザー。nullの場合は呼び出し元のプロフィールを表示します。'
+    - desc: 'プロフィールを表示するユーザーです。null の場合は、コマンド実行者のプロフィールを表示します。'
       name: user
       optional: true
       type: user
 profile_=_2:
   args:
     - '[@user]'
-  desc: 'ユーザーのプロフィール、または指定した場合は別のユーザーのプロフィールを表示します。'
+  desc: 'ユーザーのプロフィールを表示します。ユーザーを指定した場合は、そのユーザーのプロフィールを表示します。'
   params:
-    - desc: 'プロフィールを表示するユーザー。nullの場合は呼び出し元のプロフィールを表示します。'
+    - desc: 'プロフィールを表示するユーザーです。null の場合は、コマンド実行者のプロフィールを表示します。'
       name: user
       optional: true
       type: user
 pronouns:
   args:
     - '[@user]'
-  desc: '指定したユーザー、またはユーザーが指定されない場合はコマンド呼び出し元の代名詞を表示します。'
+  desc: '指定したユーザーの代名詞を表示します。ユーザーを指定しない場合は、コマンド実行者の代名詞を表示します。'
   params:
-    - desc: '省略可能。代名詞を表示するユーザー。'
+    - desc: '省略可能です。代名詞を表示するユーザーです。'
       name: user
       optional: true
       type: user
@@ -57,20 +57,20 @@ pronounsforceclear:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
     - &ref_356
-      desc: '代名詞をクリアするユーザーのユーザーID。'
+      desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: true
       type: IUser
     - &ref_357
-      desc: '悪用により代名詞が無効化されているかどうか。'
+      desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
     - &ref_358
-      desc: 'アクションの理由。'
+      desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
@@ -78,17 +78,17 @@ pronounsforceclear_IUser_bool_string:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
-    - desc: '代名詞をクリアするユーザーのユーザーID。'
+    - desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: true
       type: IUser
-    - desc: '悪用により代名詞が無効化されているかどうか。'
+    - desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'アクションの理由。'
+    - desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
@@ -96,17 +96,17 @@ pronounsforceclear_IUser_bool_string_1:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
-    - desc: '代名詞をクリアするユーザーのユーザーID。'
+    - desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: true
       type: IUser
-    - desc: '悪用により代名詞が無効化されているかどうか。'
+    - desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'アクションの理由。'
+    - desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
@@ -114,368 +114,368 @@ pronounsforceclear_IUser_bool_string_2:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
-    - desc: '代名詞をクリアするユーザーのユーザーID。'
+    - desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: true
       type: IUser
-    - desc: '悪用により代名詞が無効化されているかどうか。'
+    - desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'アクションの理由。'
+    - desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string:
   args:
     - user true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
     - &ref_359
-      desc: '代名詞をクリアするユーザーのユーザーID。'
+      desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: false
       type: ulong
-    - desc: '悪用により代名詞が無効化されているかどうか。'
+    - desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'アクションの理由。'
+    - desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_1:
   args:
     - user true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
-    - desc: '代名詞をクリアするユーザーのユーザーID。'
+    - desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: false
       type: ulong
-    - desc: '悪用により代名詞が無効化されているかどうか。'
+    - desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'アクションの理由。'
+    - desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_2:
   args:
     - user true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
-    - desc: '代名詞をクリアするユーザーのユーザーID。'
+    - desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: false
       type: ulong
-    - desc: '悪用により代名詞が無効化されているかどうか。'
+    - desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'アクションの理由。'
+    - desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_3:
   args:
     - user true|false text
-  desc: 'ユーザーの代名詞をIDで強制的にクリアし、必要に応じて悪用による無効化としてマークします。'
+  desc: 'ID で指定したユーザーの代名詞を強制的に消去します。乱用が原因で無効にする場合は、その旨を設定することもできます。'
   params:
-    - desc: '代名詞をクリアするユーザーのユーザーID。'
+    - desc: '代名詞を消去するユーザーのユーザー ID です。'
       name: user
       optional: false
       type: ulong
-    - desc: '悪用により代名詞が無効化されているかどうか。'
+    - desc: '乱用が原因で代名詞を無効にするかどうかです。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'アクションの理由。'
+    - desc: 'この操作の理由です。'
       name: reason
       optional: false
       type: string
 setbio:
   args:
     - text
-  desc: 'ユーザープロフィールの自己紹介を設定または更新します。'
+  desc: 'ユーザーのプロフィールの自己紹介を設定または更新します。'
   params:
     - &ref_490
-      desc: '自己紹介テキスト。2048文字未満である必要があります。'
+      desc: '自己紹介のテキストです。2048 文字未満にする必要があります。'
       name: bio
       optional: false
       type: string
 setbio_string:
   args:
     - text
-  desc: 'ユーザープロフィールの自己紹介を設定または更新します。'
+  desc: 'ユーザーのプロフィールの自己紹介を設定または更新します。'
   params:
-    - desc: '自己紹介テキスト。2048文字未満である必要があります。'
+    - desc: '自己紹介のテキストです。2048 文字未満にする必要があります。'
       name: bio
       optional: false
       type: string
 setbio_string_1:
   args:
     - text
-  desc: 'ユーザープロフィールの自己紹介を設定または更新します。'
+  desc: 'ユーザーのプロフィールの自己紹介を設定または更新します。'
   params:
-    - desc: '自己紹介テキスト。2048文字未満である必要があります。'
+    - desc: '自己紹介のテキストです。2048 文字未満にする必要があります。'
       name: bio
       optional: false
       type: string
 setbio_string_2:
   args:
     - text
-  desc: 'ユーザープロフィールの自己紹介を設定または更新します。'
+  desc: 'ユーザーのプロフィールの自己紹介を設定または更新します。'
   params:
-    - desc: '自己紹介テキスト。2048文字未満である必要があります。'
+    - desc: '自己紹介のテキストです。2048 文字未満にする必要があります。'
       name: bio
       optional: false
       type: string
 setbirthday:
   args:
     - time
-  desc: 'ユーザープロフィールに誕生日を設定します。'
+  desc: 'ユーザーのプロフィールに誕生日を設定します。'
   params:
     - &ref_491
-      desc: '誕生日の日付。'
+      desc: '誕生日の日付です。'
       name: dateTime
       optional: false
       type: DateTime
 setbirthday_DateTime:
   args:
     - time
-  desc: 'ユーザープロフィールに誕生日を設定します。'
+  desc: 'ユーザーのプロフィールに誕生日を設定します。'
   params:
-    - desc: '誕生日の日付。'
+    - desc: '誕生日の日付です。'
       name: dateTime
       optional: false
       type: DateTime
 setbirthday_DateTime_1:
   args:
     - time
-  desc: 'ユーザープロフィールに誕生日を設定します。'
+  desc: 'ユーザーのプロフィールに誕生日を設定します。'
   params:
-    - desc: '誕生日の日付。'
+    - desc: '誕生日の日付です。'
       name: dateTime
       optional: false
       type: DateTime
 setbirthday_DateTime_2:
   args:
     - time
-  desc: 'ユーザープロフィールに誕生日を設定します。'
+  desc: 'ユーザーのプロフィールに誕生日を設定します。'
   params:
-    - desc: '誕生日の日付。'
+    - desc: '誕生日の日付です。'
       name: dateTime
       optional: false
       type: DateTime
 setbirthdayprivacy:
   args:
     - birthdaydisplaymodeenum
-  desc: 'ユーザープロフィールの誕生日プライバシーモードを設定します。'
+  desc: 'ユーザーのプロフィールで誕生日の公開モードを設定します。'
   params:
     - &ref_492
-      desc: '設定する誕生日表示モード。'
+      desc: '設定する誕生日の表示モードです。'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum:
   args:
     - birthdaydisplaymodeenum
-  desc: 'ユーザープロフィールの誕生日プライバシーモードを設定します。'
+  desc: 'ユーザーのプロフィールで誕生日の公開モードを設定します。'
   params:
-    - desc: '設定する誕生日表示モード。'
+    - desc: '設定する誕生日の表示モードです。'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum_1:
   args:
     - birthdaydisplaymodeenum
-  desc: 'ユーザープロフィールの誕生日プライバシーモードを設定します。'
+  desc: 'ユーザーのプロフィールで誕生日の公開モードを設定します。'
   params:
-    - desc: '設定する誕生日表示モード。'
+    - desc: '設定する誕生日の表示モードです。'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum_2:
   args:
     - birthdaydisplaymodeenum
-  desc: 'ユーザープロフィールの誕生日プライバシーモードを設定します。'
+  desc: 'ユーザーのプロフィールで誕生日の公開モードを設定します。'
   params:
-    - desc: '設定する誕生日表示モード。'
+    - desc: '設定する誕生日の表示モードです。'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setprivacy:
   args:
     - privacyenum
-  desc: 'ユーザープロフィールのプライバシーレベルを設定します。'
+  desc: 'ユーザーのプロフィールの公開レベルを設定します。'
   params:
     - &ref_513
-      desc: '適用するプライバシー設定。'
+      desc: '適用する公開設定です。'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum:
   args:
     - privacyenum
-  desc: 'ユーザープロフィールのプライバシーレベルを設定します。'
+  desc: 'ユーザーのプロフィールの公開レベルを設定します。'
   params:
-    - desc: '適用するプライバシー設定。'
+    - desc: '適用する公開設定です。'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum_1:
   args:
     - privacyenum
-  desc: 'ユーザープロフィールのプライバシーレベルを設定します。'
+  desc: 'ユーザーのプロフィールの公開レベルを設定します。'
   params:
-    - desc: '適用するプライバシー設定。'
+    - desc: '適用する公開設定です。'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum_2:
   args:
     - privacyenum
-  desc: 'ユーザープロフィールのプライバシーレベルを設定します。'
+  desc: 'ユーザーのプロフィールの公開レベルを設定します。'
   params:
-    - desc: '適用するプライバシー設定。'
+    - desc: '適用する公開設定です。'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprofilecolor:
   args:
     - input
-  desc: 'SKColor入力に基づいてプロフィールカラーを設定します。'
+  desc: 'SKColor 入力に基づいてプロフィールの色を設定します。'
   params:
     - &ref_514
-      desc: '希望するプロフィールカラーを表すSKColor。'
+      desc: '希望するプロフィールの色を表す SKColor です。'
       name: input
       optional: false
       type: SKColor
 setprofilecolor_SKColor:
   args:
     - input
-  desc: 'SKColor入力に基づいてプロフィールカラーを設定します。'
+  desc: 'SKColor 入力に基づいてプロフィールの色を設定します。'
   params:
-    - desc: '希望するプロフィールカラーを表すSKColor。'
+    - desc: '希望するプロフィールの色を表す SKColor です。'
       name: input
       optional: false
       type: SKColor
 setprofilecolor_SKColor_1:
   args:
     - input
-  desc: 'SKColor入力に基づいてプロフィールカラーを設定します。'
+  desc: 'SKColor 入力に基づいてプロフィールの色を設定します。'
   params:
-    - desc: '希望するプロフィールカラーを表すSKColor。'
+    - desc: '希望するプロフィールの色を表す SKColor です。'
       name: input
       optional: false
       type: SKColor
 setprofilecolor_SKColor_2:
   args:
     - input
-  desc: 'SKColor入力に基づいてプロフィールカラーを設定します。'
+  desc: 'SKColor 入力に基づいてプロフィールの色を設定します。'
   params:
-    - desc: '希望するプロフィールカラーを表すSKColor。'
+    - desc: '希望するプロフィールの色を表す SKColor です。'
       name: input
       optional: false
       type: SKColor
 setprofileimage:
   args:
     - text
-  desc: 'ユーザープロフィールのプロフィール画像URLを設定します。'
+  desc: 'ユーザーのプロフィールのプロフィール画像の URL を設定します。'
   params:
     - &ref_515
-      desc: 'プロフィール画像として設定する画像のURL。'
+      desc: 'プロフィール画像として設定する画像の URL です。'
       name: url
       optional: false
       type: string
 setprofileimage_string:
   args:
     - text
-  desc: 'ユーザープロフィールのプロフィール画像URLを設定します。'
+  desc: 'ユーザーのプロフィールのプロフィール画像の URL を設定します。'
   params:
-    - desc: 'プロフィール画像として設定する画像のURL。'
+    - desc: 'プロフィール画像として設定する画像の URL です。'
       name: url
       optional: false
       type: string
 setprofileimage_string_1:
   args:
     - text
-  desc: 'ユーザープロフィールのプロフィール画像URLを設定します。'
+  desc: 'ユーザーのプロフィールのプロフィール画像の URL を設定します。'
   params:
-    - desc: 'プロフィール画像として設定する画像のURL。'
+    - desc: 'プロフィール画像として設定する画像の URL です。'
       name: url
       optional: false
       type: string
 setprofileimage_string_2:
   args:
     - text
-  desc: 'ユーザープロフィールのプロフィール画像URLを設定します。'
+  desc: 'ユーザーのプロフィールのプロフィール画像の URL を設定します。'
   params:
-    - desc: 'プロフィール画像として設定する画像のURL。'
+    - desc: 'プロフィール画像として設定する画像の URL です。'
       name: url
       optional: false
       type: string
 setpronouns:
   args:
     - '[pronouns]'
-  desc: 'ユーザーの代名詞を設定またはクリアします。'
+  desc: 'ユーザーの代名詞を設定または消去します。'
   params:
-    - desc: '設定する代名詞。nullまたは空の場合は既存の代名詞をクリアします。'
+    - desc: '設定する代名詞です。null または空の場合は、既存の代名詞を消去します。'
       name: pronouns
       optional: true
       type: string
 setswitchfc:
   args:
     - '""'
-  desc: 'ユーザープロフィールのニンテンドースイッチフレンドコードを設定またはクリアします。'
+  desc: 'ユーザーのプロフィールの Nintendo Switch のフレンドコードを設定または消去します。'
   params:
-    - desc: 'ユーザープロフィールのニンテンドースイッチフレンドコードを設定またはクリアします。'
+    - desc: 'ユーザーのプロフィールの Nintendo Switch のフレンドコードを設定または消去します。'
       name: '""'
       optional: false
       type: '='
 setzodiac:
   args:
     - text
-  desc: 'ユーザープロフィールに星座を設定します。'
+  desc: 'ユーザーのプロフィールの星座を設定します。'
   params:
     - &ref_539
-      desc: '設定する星座。'
+      desc: '設定する星座です。'
       name: zodiac
       optional: false
       type: string
 setzodiac_string:
   args:
     - text
-  desc: 'ユーザープロフィールに星座を設定します。'
+  desc: 'ユーザーのプロフィールの星座を設定します。'
   params:
-    - desc: '設定する星座。'
+    - desc: '設定する星座です。'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_1:
   args:
     - text
-  desc: 'ユーザープロフィールに星座を設定します。'
+  desc: 'ユーザーのプロフィールの星座を設定します。'
   params:
-    - desc: '設定する星座。'
+    - desc: '設定する星座です。'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_2:
   args:
     - text
-  desc: 'ユーザープロフィールに星座を設定します。'
+  desc: 'ユーザーのプロフィールの星座を設定します。'
   params:
-    - desc: '設定する星座。'
+    - desc: '設定する星座です。'
       name: zodiac
       optional: false
       type: string
 userstatsoptout:
   args:
     - ''
-  desc: 'コマンド統計収集に対するユーザーのオプトアウト状態を切り替えます。'
+  desc: 'コマンド統計の収集に対するユーザーのオプトアウト状態を切り替えます。'
   params: [ ]

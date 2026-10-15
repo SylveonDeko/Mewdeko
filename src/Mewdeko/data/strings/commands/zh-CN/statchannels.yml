@@ -1,7 +1,7 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: '创建一个新的锁定语音频道以显示服务器统计。机器人将创建并管理该频道。'
+  desc: '创建一个新的锁定语音频道，用于显示服务器统计数据。机器人会创建并管理该频道。'
   params:
     - desc: '要显示的统计类型。'
       name: type
@@ -31,13 +31,13 @@ statchanneladd:
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: '添加显示拥有特定身份组的成员数量的统计频道。'
+  desc: '添加一个统计频道，显示拥有特定身份组的成员数量。'
   params:
     - desc: '要使用的语音频道。'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: '要计数成员的身份组。'
+    - desc: '要统计成员的身份组。'
       name: role
       optional: false
       type: IRole
@@ -82,7 +82,7 @@ statchannelgoal:
 statchannelremove:
   args:
     - '#voice-channel'
-  desc: '移除统计频道。'
+  desc: '移除一个统计频道。'
   params:
     - desc: '要移除的语音频道。'
       name: channel
@@ -91,5 +91,25 @@ statchannelremove:
 statchannellist:
   args:
     - ''
-  desc: '列出此服务器的所有统计频道。'
+  desc: '列出本服务器的所有统计频道。'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: '将统计频道设置为显示 Twitch 计数器。'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: '设置统计频道的更新机制。'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: '设置统计频道的显示样式。'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: '显示统计频道的默认设置。'
+statchanneltypes:
+  args:
+    - ''
+  desc: '列出可用的统计频道类型。'

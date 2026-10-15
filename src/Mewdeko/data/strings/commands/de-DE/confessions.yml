@@ -1,7 +1,7 @@
 confess:
   args:
     - serverid text
-  desc: 'Erlaubt Benutzern, anonym zu beichten.'
+  desc: 'Erlaubt Nutzern, anonym zu beichten.'
   params:
     - &ref_139
       desc: 'Die ID des Servers.'
@@ -9,120 +9,118 @@ confess:
       optional: false
       type: ulong
     - &ref_140
-      desc: 'Die Beichtnachricht'
+      desc: 'Die Beichtnachricht.'
       name: confession
       optional: false
       type: string
 confess_ulong_string:
   args:
     - serverid text
-  desc: 'Erlaubt Benutzern, anonym zu beichten.'
+  desc: 'Erlaubt Nutzern, anonym zu beichten.'
   params:
     - desc: 'Die ID des Servers.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Die Beichtnachricht'
+    - desc: 'Die Beichtnachricht.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_1:
   args:
     - serverid text
-  desc: 'Erlaubt Benutzern, anonym zu beichten.'
+  desc: 'Erlaubt Nutzern, anonym zu beichten.'
   params:
     - desc: 'Die ID des Servers.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Die Beichtnachricht'
+    - desc: 'Die Beichtnachricht.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_2:
   args:
     - serverid text
-  desc: 'Erlaubt Benutzern, anonym zu beichten.'
+  desc: 'Erlaubt Nutzern, anonym zu beichten.'
   params:
     - desc: 'Die ID des Servers.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Die Beichtnachricht'
+    - desc: 'Die Beichtnachricht.'
       name: confession
       optional: false
       type: string
 confessblacklist:
   args:
     - user
-  desc: 'Fügt einen Benutzer zur Beicht-Blacklist hinzu.'
+  desc: 'Fügt einen Nutzer zur Beicht-Blacklist hinzu.'
   params:
-    - desc: 'Der Benutzer, der von Beichten ausgeschlossen werden soll.'
+    - desc: 'Der Nutzer, der von Beichten ausgeschlossen werden soll.'
       name: user
       optional: false
       type: IUser
 confesschannel:
   args:
     - channel
-  desc: 'Legt den Beichtkanal fest.'
+  desc: 'Legt den Beicht-Kanal fest.'
   params:
-    - desc: 'Der Kanal, der für Beichten festgelegt werden soll.'
+    - desc: 'Der Kanal für Beichten.'
       name: channel
       optional: true
       type: ITextChannel
 confessionblacklist:
   args:
     - '@user'
-  desc: 'Fügt einen Benutzer zur Beicht-Blacklist hinzu oder entfernt ihn.'
+  desc: 'Fügt einen Nutzer zur Beicht-Blacklist hinzu oder entfernt ihn von dieser.'
   params:
     - &ref_141
-      desc: 'Der Benutzer, der zur Blacklist hinzugefügt oder entfernt werden soll.'
+      desc: 'Der Nutzer, der zur Blacklist hinzugefügt oder davon entfernt werden soll.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser:
   args:
     - '@user'
-  desc: 'Fügt einen Benutzer zur Beicht-Blacklist hinzu oder entfernt ihn.'
+  desc: 'Fügt einen Nutzer zur Beicht-Blacklist hinzu oder entfernt ihn von dieser.'
   params:
     - &ref_142
-      desc: 'Der Benutzer, der zur Blacklist hinzugefügt oder entfernt werden soll.'
+      desc: 'Der Nutzer, der zur Blacklist hinzugefügt oder davon entfernt werden soll.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser_1:
   args:
     - '@user'
-  desc: 'Fügt einen Benutzer zur Beicht-Blacklist hinzu oder entfernt ihn.'
+  desc: 'Fügt einen Nutzer zur Beicht-Blacklist hinzu oder entfernt ihn von dieser.'
   params:
-    - desc: 'Der Benutzer, der zur Blacklist hinzugefügt oder entfernt werden soll.'
+    - desc: 'Der Nutzer, der zur Blacklist hinzugefügt oder davon entfernt werden soll.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser_2:
   args:
     - '@user'
-  desc: 'Fügt einen Benutzer zur Beicht-Blacklist hinzu oder entfernt ihn.'
+  desc: 'Fügt einen Nutzer zur Beicht-Blacklist hinzu oder entfernt ihn von dieser.'
   params:
-    - desc: 'Der Benutzer, der zur Blacklist hinzugefügt oder entfernt werden soll.'
+    - desc: 'Der Nutzer, der zur Blacklist hinzugefügt oder davon entfernt werden soll.'
       name: user
       optional: false
       type: IUser
 confessionchannel:
   args:
     - '[@channel]'
-  desc: 'Legt den Beichtkanal für anonyme Beichten fest.'
+  desc: 'Legt den Beicht-Kanal für anonyme Beichten fest.'
   params:
-    - desc: 'Der Beichtkanal (optional).'
+    - desc: 'Der Beicht-Kanal (optional).'
       name: channel
       optional: true
       type: channel
 confessionlogchannel:
   args:
     - '[@channel]'
-  desc: >-
-    Legt den Beicht-Log-Kanal zum Protokollieren von Beichten fest. Missbrauch
-    dieser Funktion endet damit, dass ich 2 m von deinem Haus entfernt bin.
+  desc: 'Legt den Beicht-Log-Kanal fest, um Beichten zu protokollieren. Missbrauch dieser Funktion führt dazu, dass ich zwei Meter von deinem Haus entfernt stehe.'
   params:
     - desc: 'Der Beicht-Log-Kanal (optional).'
       name: channel
@@ -131,9 +129,9 @@ confessionlogchannel:
 confessionunblacklist:
   args:
     - '@user'
-  desc: 'Entfernt einen Benutzer von der Beicht-Blacklist.'
+  desc: 'Entfernt einen Nutzer von der Beicht-Blacklist.'
   params:
-    - desc: 'Der Benutzer, der von der Blacklist entfernt werden soll.'
+    - desc: 'Der Nutzer, der von der Blacklist entfernt werden soll.'
       name: user
       optional: false
       type: IUser
@@ -142,16 +140,16 @@ confesslogchannel:
     - channel
   desc: 'Legt den Beicht-Log-Kanal fest.'
   params:
-    - desc: 'Der Kanal, in dem Beichten protokolliert werden.'
+    - desc: 'Der Kanal, in den Beichten protokolliert werden.'
       name: channel
       optional: true
       type: ITextChannel
 confessunblacklist:
   args:
     - user
-  desc: 'Entfernt einen Benutzer von der Beicht-Blacklist.'
+  desc: 'Entfernt einen Nutzer von der Beicht-Blacklist.'
   params:
-    - desc: 'Der Benutzer, der von der Beicht-Blacklist entfernt werden soll.'
+    - desc: 'Der Nutzer, der von der Beicht-Blacklist entfernt werden soll.'
       name: user
       optional: false
       type: IUser

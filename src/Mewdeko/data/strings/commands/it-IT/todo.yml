@@ -3,9 +3,9 @@ todoadd:
     - listId
     - title
     - description
-  desc: 'Aggiunge un nuovo elemento a una lista di cose da fare specificata'
+  desc: 'Aggiunge un nuovo elemento da fare a un elenco specificato'
   params:
-    - desc: 'L''ID della lista di cose da fare.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
@@ -13,7 +13,7 @@ todoadd:
       name: title
       optional: false
       type: string
-    - desc: 'Descrizione opzionale dell''elemento.'
+    - desc: 'Descrizione facoltativa per l''elemento.'
       name: description
       optional: true
       type: string
@@ -23,13 +23,13 @@ todoaddpriority:
     - priority
     - title
     - description
-  desc: 'Aggiunge un elemento con priorita e scadenza opzionale'
+  desc: 'Aggiunge un elemento da fare con priorità e scadenza facoltativa'
   params:
-    - desc: 'L''ID della lista di cose da fare.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
-    - desc: 'Livello di priorita (1=Basso, 2=Medio, 3=Alto, 4=Critico).'
+    - desc: 'Livello di priorità (1=Bassa, 2=Media, 3=Alta, 4=Critica).'
       name: priority
       optional: false
       type: int
@@ -37,7 +37,7 @@ todoaddpriority:
       name: title
       optional: false
       type: string
-    - desc: 'Descrizione opzionale dell''elemento.'
+    - desc: 'Descrizione facoltativa per l''elemento.'
       name: description
       optional: true
       type: string
@@ -45,40 +45,40 @@ todoaddtag:
   args:
     - itemId
     - tag
-  desc: 'Aggiunge un tag a un elemento'
+  desc: 'Aggiunge un''etichetta a un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Il tag da aggiungere.'
+    - desc: 'L''etichetta da aggiungere.'
       name: tag
       optional: false
       type: string
 todocleardue:
   args:
     - itemId
-  desc: 'Rimuove la scadenza da un elemento'
+  desc: 'Rimuove la scadenza da un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
 todoclearreminder:
   args:
     - itemId
-  desc: 'Rimuove il promemoria da un elemento'
+  desc: 'Rimuove il promemoria da un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
 todocomplete:
   args:
     - itemId
-  desc: 'Segna un elemento come completato'
+  desc: 'Completa un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
@@ -88,11 +88,11 @@ todocreatelist:
     - description
   desc: 'Crea una nuova lista di cose da fare'
   params:
-    - desc: 'Il nome della lista.'
+    - desc: 'Il nome della lista delle cose da fare.'
       name: name
       optional: false
       type: string
-    - desc: 'Descrizione opzionale della lista.'
+    - desc: 'Descrizione facoltativa per la lista.'
       name: description
       optional: true
       type: string
@@ -100,22 +100,22 @@ todocreateserverlist:
   args:
     - name
     - description
-  desc: 'Crea una nuova lista di cose da fare a livello server (solo admin)'
+  desc: 'Crea una nuova lista di cose da fare a livello di server (solo admin)'
   params:
-    - desc: 'Il nome della lista del server.'
+    - desc: 'Il nome della lista di cose da fare del server.'
       name: name
       optional: false
       type: string
-    - desc: 'Descrizione opzionale della lista.'
+    - desc: 'Descrizione facoltativa per la lista.'
       name: description
       optional: true
       type: string
 tododelete:
   args:
     - itemId
-  desc: 'Elimina un elemento'
+  desc: 'Elimina un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
@@ -124,7 +124,7 @@ tododeletelist:
     - listId
   desc: 'Elimina un''intera lista di cose da fare'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
@@ -133,9 +133,9 @@ todoedit:
     - itemId
     - title
     - description
-  desc: 'Modifica il titolo e la descrizione di un elemento'
+  desc: 'Modifica il titolo e la descrizione di un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
@@ -152,17 +152,17 @@ todofilter:
     - listId
     - filter
     - value
-  desc: 'Filtra gli elementi per tag o priorita'
+  desc: 'Filtra gli elementi da fare per etichetta o priorità'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
-    - desc: 'Tipo di filtro (tag o priorita).'
+    - desc: 'Tipo di filtro (tag o priorità).'
       name: filter
       optional: false
       type: string
-    - desc: 'Il valore per cui filtrare.'
+    - desc: 'Il valore con cui filtrare.'
       name: value
       optional: true
       type: string
@@ -171,9 +171,9 @@ todogrant:
     - listId
     - '@user'
     - permissions
-  desc: 'Concede permessi a un utente per una lista (solo proprietario/admin)'
+  desc: 'Concede permessi a un utente per una lista di cose da fare (solo proprietario o admin della lista)'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
@@ -188,18 +188,18 @@ todogrant:
 todolists:
   args:
     - includeServer
-  desc: 'Elenca tutte le liste accessibili all''utente'
+  desc: 'Elenca tutte le liste di cose da fare accessibili all''utente'
   params:
-    - desc: 'Se includere le liste a livello server.'
+    - desc: 'Se includere le liste a livello di server.'
       name: includeServer
       optional: true
       type: bool
 todopermissions:
   args:
     - listId
-  desc: 'Mostra tutti i permessi di una lista'
+  desc: 'Mostra tutti i permessi di una lista di cose da fare'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
@@ -207,13 +207,13 @@ todoremovetag:
   args:
     - itemId
     - tag
-  desc: 'Rimuove un tag da un elemento'
+  desc: 'Rimuove un''etichetta da un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Il tag da rimuovere.'
+    - desc: 'L''etichetta da rimuovere.'
       name: tag
       optional: false
       type: string
@@ -221,13 +221,13 @@ todoreorder:
   args:
     - itemId
     - newPosition
-  desc: 'Riordina un elemento in una nuova posizione'
+  desc: 'Sposta un elemento da fare in una nuova posizione'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
-    - desc: 'La nuova posizione (basata su 1).'
+    - desc: 'La nuova posizione (a partire da 1).'
       name: newPosition
       optional: false
       type: int
@@ -235,9 +235,9 @@ todorevoke:
   args:
     - listId
     - '@user'
-  desc: 'Revoca tutti i permessi di un utente su una lista'
+  desc: 'Revoca tutti i permessi di un utente su una lista di cose da fare'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
@@ -249,9 +249,9 @@ todosearch:
   args:
     - listId
     - query
-  desc: 'Cerca elementi in una lista'
+  desc: 'Cerca elementi da fare all''interno di una lista'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
@@ -263,13 +263,13 @@ todosetcolor:
   args:
     - listId
     - color
-  desc: 'Imposta il colore di una lista'
+  desc: 'Imposta il colore per una lista di cose da fare'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
-    - desc: 'Codice colore esadecimale (es.,'
+    - desc: 'Codice colore esadecimale, ad es. #ff0000.'
       name: color
       optional: false
       type: string
@@ -277,9 +277,9 @@ todosetdue:
   args:
     - itemId
     - dateString
-  desc: 'Imposta la scadenza di un elemento'
+  desc: 'Imposta la scadenza per un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
@@ -291,9 +291,9 @@ todosetreminder:
   args:
     - itemId
     - dateString
-  desc: 'Imposta un promemoria per un elemento'
+  desc: 'Imposta un orario di promemoria per un elemento da fare'
   params:
-    - desc: 'L''ID dell''elemento.'
+    - desc: 'L''ID dell''elemento da fare.'
       name: itemId
       optional: false
       type: int
@@ -305,9 +305,9 @@ todoshow:
   args:
     - listId
     - includeCompleted
-  desc: 'Mostra tutti gli elementi di una lista'
+  desc: 'Mostra tutti gli elementi di una lista di cose da fare'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int
@@ -318,9 +318,9 @@ todoshow:
 todotoggleprivacy:
   args:
     - listId
-  desc: 'Attiva/disattiva l''impostazione di privacy di una lista'
+  desc: 'Attiva o disattiva l''impostazione di privacy per una lista di cose da fare'
   params:
-    - desc: 'L''ID della lista.'
+    - desc: 'L''ID della lista delle cose da fare.'
       name: listId
       optional: false
       type: int

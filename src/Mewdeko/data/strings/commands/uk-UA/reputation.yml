@@ -1,0 +1,605 @@
+anonrep:
+  args:
+    - '@user reptype text'
+  desc: 'Надає анонімну репутацію вказаному користувачеві.'
+  params:
+    - &ref_228
+      desc: 'Користувач, якому надати репутацію.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - &ref_229
+      desc: 'Тип репутації для надання.'
+      name: repType
+      optional: true
+      type: string
+    - &ref_230
+      desc: 'Необов''язкова причина або коментар до надання репутації.'
+      name: reason
+      optional: true
+      type: string
+checkrep:
+  args:
+    - '@user'
+  desc: 'Перевіряє репутацію користувача.'
+  params:
+    - &ref_425
+      desc: 'Користувач, чию репутацію перевірити.'
+      name: target
+      optional: true
+      type: IGuildUser
+giverep:
+  args:
+    - '@user reptype text'
+  desc: 'Надає репутацію вказаному користувачеві.'
+  params:
+    - desc: 'Користувач, якому надати репутацію.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Тип репутації для надання.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Необов''язкова причина або коментар до надання репутації.'
+      name: reason
+      optional: true
+      type: string
+myrep:
+  args:
+    - ''
+  desc: 'Перевіряє репутацію поточного користувача.'
+  params: [ ]
+rep:
+  args:
+    - '@user reptype text'
+  desc: 'Надає репутацію вказаному користувачеві.'
+  params:
+    - desc: 'Користувач, якому надати репутацію.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Тип репутації для надання.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Необов''язкова причина або коментар до надання репутації.'
+      name: reason
+      optional: true
+      type: string
+repanon:
+  args:
+    - '@user reptype text'
+  desc: 'Надає анонімну репутацію вказаному користувачеві.'
+  params:
+    - desc: 'Користувач, якому надати репутацію.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Тип репутації для надання.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Необов''язкова причина або коментар до надання репутації.'
+      name: reason
+      optional: true
+      type: string
+repanonymous:
+  args:
+    - enabled
+  desc: 'Вмикає або вимикає надання анонімної репутації.'
+  params:
+    - desc: 'True, щоб увімкнути анонімну репутацію.'
+      name: enabled
+      optional: false
+      type: bool
+repchannel:
+  args:
+    - '#channel state number'
+  desc: 'Налаштовує репутацію для окремих каналів.'
+  params:
+    - desc: 'Канал для налаштування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Стан для встановлення (enabled/disabled/readonly).'
+      name: state
+      optional: true
+      type: string
+    - desc: 'Множник репутації для цього каналу.'
+      name: multiplier
+      optional: true
+      type: decimal
+repcheck:
+  args:
+    - '@user'
+  desc: 'Перевіряє репутацію користувача.'
+  params:
+    - desc: 'Користувач, чию репутацію перевірити. Якщо значення порожнє, перевіряється репутація того, хто викликав команду.'
+      name: target
+      optional: true
+      type: IGuildUser
+repcommandbypass:
+  args:
+    - commandname '@role'
+  desc: 'Встановлює ролі, які обходять вимогу для команди.'
+  params:
+    - &ref_426
+      desc: 'Назва команди.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: 'Ролі, які можуть обходити вимогу.'
+      name: roles
+      optional: false
+      type: IRole[]
+repcommandinfo:
+  args:
+    - commandname
+  desc: 'Показує вимоги до репутації для конкретної команди.'
+  params:
+    - desc: 'Команда для перевірки.'
+      name: commandName
+      optional: false
+      type: string
+repcommandreq:
+  args:
+    - commandname 50
+    - commandname 50 helper
+    - 'commandname 50 helper #channel1 #channel2'
+  desc: 'Встановлює вимоги до репутації для команди, за бажанням обмежені певними каналами.'
+  params:
+    - desc: 'Назва команди.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: 'Мінімальна необхідна репутація.'
+      name: minReputation
+      optional: false
+      type: int
+    - desc: 'Конкретний тип потрібної репутації (необов''язково, за замовчуванням total).'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Необов''язкові канали, до яких застосовується вимога (якщо не вказано, діє глобально).'
+      name: channels
+      optional: true
+      type: ITextChannel[]
+repcommandreqlist:
+  args:
+    - ''
+  desc: 'Показує всі вимоги до команд на сервері.'
+  params: [ ]
+repcommandreqremove:
+  args:
+    - commandname
+  desc: 'Видаляє вимоги до репутації з команди.'
+  params:
+    - desc: 'Назва команди.'
+      name: commandName
+      optional: false
+      type: string
+repconfig:
+  args:
+    - ''
+  desc: 'Відкриває інтерактивний інтерфейс налаштування репутації.'
+  params: [ ]
+repcooldown:
+  args:
+    - minutes
+  desc: 'Встановлює типовий кулдаун між наданням репутації.'
+  params:
+    - desc: 'Кулдаун у хвилинах (1-1440).'
+      name: minutes
+      optional: false
+      type: int
+repdailylimit:
+  args:
+    - limit
+  desc: 'Встановлює денний ліміт на надання репутації.'
+  params:
+    - desc: 'Денний ліміт (1-100).'
+      name: limit
+      optional: false
+      type: int
+repdecay:
+  args:
+    - enabled
+  desc: 'Вмикає або вимикає згасання репутації для неактивних користувачів.'
+  params:
+    - desc: 'True, щоб увімкнути згасання.'
+      name: enabled
+      optional: false
+      type: bool
+repdecayamount:
+  args:
+    - amount
+  desc: 'Встановлює величину згасання.'
+  params:
+    - desc: 'Величина згасання (1-100).'
+      name: amount
+      optional: false
+      type: int
+repdecayinactive:
+  args:
+    - days
+  desc: 'Встановлює кількість днів неактивності, після яких починається згасання.'
+  params:
+    - desc: 'Днів неактивності (1-365).'
+      name: days
+      optional: false
+      type: int
+repdecaytype:
+  args:
+    - type
+  desc: 'Встановлює тип згасання (daily, weekly, monthly).'
+  params:
+    - desc: 'Тип згасання.'
+      name: type
+      optional: false
+      type: string
+repenable:
+  args:
+    - enabled
+  desc: 'Вмикає або вимикає систему репутації для цього сервера.'
+  params:
+    - desc: 'True, щоб увімкнути, false, щоб вимкнути.'
+      name: enabled
+      optional: true
+      type: bool
+repeventcreate:
+  args:
+    - name multiplier duration
+  desc: 'Створює подію з множником репутації.'
+  params:
+    - desc: 'Назва події.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Множник репутації.'
+      name: multiplier
+      optional: false
+      type: decimal
+    - desc: 'Тривалість у годинах.'
+      name: duration
+      optional: false
+      type: int
+repeventend:
+  args:
+    - name
+  desc: 'Завершує подію репутації достроково.'
+  params:
+    - desc: 'Назва події, яку треба завершити.'
+      name: name
+      optional: false
+      type: string
+repexport:
+  args:
+    - ''
+  desc: 'Експортує поточну конфігурацію репутації у JSON.'
+  params: [ ]
+repfreeze:
+  args:
+    - '@user'
+  desc: 'Заморожує репутацію користувача, не даючи їй зростати або зменшуватися.'
+  params:
+    - &ref_438
+      desc: 'Користувач, якого треба заморозити.'
+      name: user
+      optional: false
+      type: IGuildUser
+repgive:
+  args:
+    - '@user reptype text'
+  desc: 'Надає репутацію вказаному користувачеві.'
+  params:
+    - desc: 'Користувач, якому надати репутацію.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Тип репутації для надання.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Необов''язкова причина або коментар до надання репутації.'
+      name: reason
+      optional: true
+      type: string
+rephistory:
+  args:
+    - '@user'
+  desc: 'Показує історію репутації користувача.'
+  params:
+    - desc: 'Користувач, чию історію показати. Якщо значення порожнє, показується історія того, хто викликав команду.'
+      name: target
+      optional: true
+      type: IGuildUser
+repimport:
+  args:
+    - ''
+  desc: 'Імпортує конфігурацію репутації з завантаженого JSON-файлу.'
+  params: [ ]
+replb:
+  args:
+    - number
+  desc: 'Показує таблицю лідерів репутації сервера.'
+  params:
+    - &ref_436
+      desc: 'Номер сторінки для показу.'
+      name: page
+      optional: true
+      type: int
+repleaderboard:
+  args:
+    - number
+  desc: 'Показує таблицю лідерів репутації сервера.'
+  params:
+    - desc: 'Номер сторінки для показу.'
+      name: page
+      optional: true
+      type: int
+repmilestonelost:
+  args:
+    - user role threshold
+  desc: 'Вручну запускає подію втрати етапу для тестування.'
+  params:
+    - desc: 'Користувач, який втратив етап.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку було втрачено.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Поріг репутації.'
+      name: threshold
+      optional: false
+      type: int
+repminage:
+  args:
+    - days
+  desc: 'Встановлює мінімальний вік облікового запису, необхідний для надання репутації.'
+  params:
+    - desc: 'Мінімальний вік облікового запису в днях (0-365).'
+      name: days
+      optional: false
+      type: int
+repminmembership:
+  args:
+    - hours
+  desc: 'Встановлює мінімальний час перебування на сервері, необхідний для надання репутації.'
+  params:
+    - desc: 'Мінімальний час перебування на сервері в годинах (0-720).'
+      name: hours
+      optional: false
+      type: int
+repminmessages:
+  args:
+    - count
+  desc: 'Встановлює мінімальну кількість повідомлень, необхідну для надання репутації.'
+  params:
+    - desc: 'Мінімальна кількість повідомлень (0-1000).'
+      name: count
+      optional: false
+      type: int
+repnegative:
+  args:
+    - enabled
+  desc: 'Вмикає або вимикає негативну репутацію.'
+  params:
+    - desc: 'True, щоб увімкнути негативну репутацію.'
+      name: enabled
+      optional: false
+      type: bool
+repnotificationchannel:
+  args:
+    - channel
+  desc: 'Встановлює канал для сповіщень про події репутації.'
+  params:
+    - desc: 'Канал, куди надсилати сповіщення (null, щоб вимкнути).'
+      name: channel
+      optional: true
+      type: ITextChannel
+repreaction:
+  args:
+    - emoji number reptype
+  desc: 'Налаштовує видачу репутації через реакції.'
+  params:
+    - desc: 'Емодзі, який використовується для репутації.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Кількість репутації, яку видати.'
+      name: amount
+      optional: true
+      type: int
+    - desc: 'Тип репутації (standard, helper, artist, memer).'
+      name: repType
+      optional: true
+      type: string
+repreactionlist:
+  args:
+    - ''
+  desc: 'Показує всі налаштовані правила репутації через реакції.'
+  params: [ ]
+repreactionremove:
+  args:
+    - emoji
+  desc: 'Видаляє налаштування репутації через реакції.'
+  params:
+    - desc: 'Емодзі, який потрібно видалити.'
+      name: emoji
+      optional: false
+      type: string
+represet:
+  args:
+    - text
+  desc: 'Скидає репутацію для користувача або для всіх користувачів на сервері.'
+  params:
+    - desc: 'Користувач, для якого скинути репутацію, або "all", щоб скинути для всіх.'
+      name: target
+      optional: false
+      type: string
+reprole:
+  args:
+    - ''
+    - detailed
+    - '@role'
+    - '@role 100'
+    - '@role 100 false #channel true 50'
+  desc: 'Керує нагородами-ролями за етапами репутації. Без параметрів показує всі нагороди; вкажіть роль і репутацію, щоб додати або оновити нагороду з додатковими налаштуваннями.'
+  params:
+    - &ref_437
+      desc: 'Роль для видачі (необов''язково для перегляду списку).'
+      name: role
+      optional: true
+      type: IRole
+    - desc: 'Репутація, потрібна для отримання цієї ролі (необов''язково для перегляду списку).'
+      name: reputation
+      optional: true
+      type: int
+    - desc: 'Чи знімати роль, якщо репутація знизилася.'
+      name: removeOnDrop
+      optional: true
+      type: bool
+    - desc: 'Необов''язковий канал для оголошень про видачу ролей.'
+      name: announceChannel
+      optional: true
+      type: ITextChannel
+    - desc: 'Чи надсилати сповіщення в особисті повідомлення.'
+      name: announceDm
+      optional: true
+      type: bool
+    - desc: 'Необов''язкова нагорода XP за досягнення етапу.'
+      name: xpReward
+      optional: true
+      type: int
+    - desc: 'Показувати детальну інформацію під час перегляду списку (використовуйте ''detailed'' як перший параметр).'
+      name: detailed
+      optional: true
+      type: string
+reprolechannel:
+  args:
+    - role channel
+  desc: 'Встановлює канал для оголошень нагороди-ролі.'
+  params:
+    - desc: 'Роль для налаштування.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Канал для оголошень (null, щоб вимкнути).'
+      name: channel
+      optional: true
+      type: ITextChannel
+reproleremove:
+  args:
+    - '@role'
+  desc: 'Видаляє налаштування нагороди-ролі.'
+  params:
+    - desc: 'Роль, яку потрібно прибрати з нагород.'
+      name: role
+      optional: true
+      type: IRole
+repset:
+  args:
+    - '@user number'
+  desc: 'Встановлює певне значення репутації для користувача.'
+  params:
+    - desc: 'Користувач, для якого встановити репутацію.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Значення, до якого встановити репутацію.'
+      name: amount
+      optional: false
+      type: int
+repstats:
+  args:
+    - '@user'
+  desc: 'Показує детальну статистику репутації користувача.'
+  params:
+    - desc: 'Користувач, для якого показати статистику. Якщо null, показується статистика того, хто виконав команду.'
+      name: target
+      optional: true
+      type: IGuildUser
+repstatus:
+  args:
+    - ''
+  desc: 'Показує поточні налаштування репутації в детальному вбудованому повідомленні.'
+  params: [ ]
+reptake:
+  args:
+    - '@user number'
+  desc: 'Знімає репутацію з користувача.'
+  params:
+    - desc: 'Користувач, у якого знімається репутація.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Кількість репутації, яку потрібно зняти.'
+      name: amount
+      optional: true
+      type: int
+reptop:
+  args:
+    - number
+  desc: 'Показує таблицю лідерів репутації сервера.'
+  params:
+    - desc: 'Номер сторінки для показу.'
+      name: page
+      optional: true
+      type: int
+reptypeadd:
+  args:
+    - typeName displayName
+  desc: 'Додає власний тип репутації.'
+  params:
+    - desc: 'Назва типу репутації.'
+      name: typeName
+      optional: false
+      type: string
+    - desc: 'Відображувана назва типу.'
+      name: displayName
+      optional: false
+      type: string
+reptypelist:
+  args:
+    - ''
+  desc: 'Показує всі власні типи репутації на цьому сервері.'
+  params: [ ]
+reptyperemove:
+  args:
+    - typeName
+  desc: 'Видаляє власний тип репутації.'
+  params:
+    - desc: 'Назва типу репутації для видалення.'
+      name: typeName
+      optional: false
+      type: string
+repunfreeze:
+  args:
+    - '@user'
+  desc: 'Розморожує репутацію користувача, дозволяючи знову отримувати й втрачати репутацію.'
+  params:
+    - desc: 'Користувач, якого потрібно розморозити.'
+      name: user
+      optional: false
+      type: IGuildUser
+repweeklylimit:
+  args:
+    - limit
+  desc: 'Встановлює тижневий ліміт на видачу репутації (необов''язково).'
+  params:
+    - desc: 'Тижневий ліміт (null, щоб вимкнути; від 1 до 500).'
+      name: limit
+      optional: true
+      type: int
+toprep:
+  args:
+    - number
+  desc: 'Показує таблицю лідерів репутації сервера.'
+  params:
+    - desc: 'Номер сторінки для показу.'
+      name: page
+      optional: true
+      type: int

@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "Шкода, що я йду!",
+  "leave_feedback_desc": "Мене щойно видалили з **{0}**. Якщо маєш хвилинку, скажи, будь ласка, чому? Це справді допомагає вирішити, над чим працювати далі, і більше тебе про цей сервер не питатимуть.",
+  "leave_feedback_footer": "Відповідати необов'язково.",
+  "leave_feedback_placeholder": "Чому бота видалили?",
+  "leave_feedback_write_button": "Написати щось",
+  "leave_feedback_dismiss_button": "Ні, дякую",
+  "leave_feedback_reason_not_needed": "Вони більше не потрібні",
+  "leave_feedback_reason_confusing": "Занадто заплутано налаштувати",
+  "leave_feedback_reason_missing_features": "Бракує потрібних функцій",
+  "leave_feedback_reason_unreliable": "Він був зламаний або ненадійний",
+  "leave_feedback_reason_other_bot": "Ми перейшли на інший бот",
+  "leave_feedback_reason_temporary": "Тимчасово, я повернуся до нього",
+  "leave_feedback_reason_testing": "Просто щось тестую",
+  "leave_feedback_thanks": "Дякую, враховано: **{0}**. Якщо хочеш додати щось ще, скористайся кнопкою нижче.",
+  "leave_feedback_submitted": "Дякуємо, твій відгук передано!",
+  "leave_feedback_dismissed": "Нема проблем, більше питати не будемо."
+}

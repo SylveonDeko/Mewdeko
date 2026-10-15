@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: '开始 Acrophobia 游戏的命令。'
+  params:
+    - &ref_3
+      desc: '传递给命令的参数。'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: '开始 Acrophobia 游戏的命令。'
+  params:
+    - desc: '传递给命令的参数。'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: '开始 Acrophobia 游戏的命令。'
+  params:
+    - desc: '传递给命令的参数。'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: '开始 Acrophobia 游戏的命令。'
+  params:
+    - desc: '传递给命令的参数。'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: '从选项列表中随机选择的命令。'
+  params:
+    - desc: '以分号分隔的选项列表。'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: '切换用户 dragon 状态的命令。通常用于测试版命令。'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: '向魔法 8 号球求答案的命令。'
+  params:
+    - desc: '要提出的问题。'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: '以指定类型开始一场 hangman 游戏。'
+  params:
+    - &ref_244
+      desc: '以指定类型开始一场 hangman 游戏。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: '以指定类型开始一场 hangman 游戏。'
+  params:
+    - desc: '以指定类型开始一场 hangman 游戏。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: '以指定类型开始一场 hangman 游戏。'
+  params:
+    - desc: '以指定类型开始一场 hangman 游戏。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: '以指定类型开始一场 hangman 游戏。'
+  params:
+    - desc: '以指定类型开始一场 hangman 游戏。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: '列出当前服务器中可用的 hangman 类型。'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: '停止当前频道中正在进行的 hangman 游戏。'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: '开始 Kaladont 游戏的命令。'
+  params:
+    - &ref_kaladont_1
+      desc: '开始 Kaladont 游戏的命令。'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: '开始 Kaladont 游戏的命令。'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: '开始 Kaladont 游戏的命令。'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: '开始 Kaladont 游戏的命令。'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: '停止当前 Kaladont 游戏的命令。'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: '设置一个持久的 Kaladont 频道。'
+  params:
+    - &ref_kaladont_setup_1
+      desc: '设置一个持久的 Kaladont 频道。'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: '设置一个持久的 Kaladont 频道。'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: '设置一个持久的 Kaladont 频道。'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: '设置一个持久的 Kaladont 频道。'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: '禁用持久的 Kaladont 频道。'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: '插入搞笑的 Linux 命令'
+  params:
+    - &ref_275
+      desc: '用于替换 "GNU" 的名称。'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: '用于替换 "Linux" 的名称。'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: '插入搞笑的 Linux 命令'
+  params:
+    - desc: '用于替换 "GNU" 的名称。'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '用于替换 "Linux" 的名称。'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: '插入搞笑的 Linux 命令'
+  params:
+    - desc: '用于替换 "GNU" 的名称。'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '用于替换 "Linux" 的名称。'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: '插入搞笑的 Linux 命令'
+  params:
+    - desc: '用于替换 "GNU" 的名称。'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '用于替换 "Linux" 的名称。'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: '开始或加入一场 Nunchi 游戏。'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - &ref_351
+      desc: '创建一个简单的是/否投票。'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - &ref_349
+      desc: '创建一个简单的是/否投票。'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: '创建一个简单的是/否投票。'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - desc: '创建一个简单的是/否投票。'
+      name: type
+      optional: false
+      type: PollType
+    - desc: '创建一个简单的是/否投票。'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - desc: '创建一个简单的是/否投票。'
+      name: type
+      optional: false
+      type: PollType
+    - desc: '创建一个简单的是/否投票。'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - desc: '创建一个简单的是/否投票。'
+      name: type
+      optional: false
+      type: PollType
+    - desc: '创建一个简单的是/否投票。'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - desc: '创建一个简单的是/否投票。'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - desc: '创建一个简单的是/否投票。'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: '创建一个简单的是/否投票。'
+  params:
+    - desc: '创建一个简单的是/否投票。'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: '创建匿名投票，隐藏投票者身份。'
+  params:
+    - desc: '投票问题和选项，以分号分隔。'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: '创建包含多个选项的自定义投票。'
+  params:
+    - desc: '投票问题和选项，以分号分隔。'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: '创建多选投票，用户可以选择多个选项。'
+  params:
+    - desc: '投票问题和选项，以分号分隔。'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: '使用模板创建投票。'
+  params:
+    - desc: '要使用的模板名称。'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: '列出服务器中所有可用的投票模板。'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: '已不存在的旧命令。在 NadekoBot 中曾辱骂跨性别者。保留于此，作为纪念，也是对 NadekoBot 的嘲讽。'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: '开始一场井字棋游戏。'
+  params:
+    - &ref_619
+      desc: 'ttt 的选项'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: '开始一场井字棋游戏。'
+  params:
+    - desc: 'ttt 的选项'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: '开始一场井字棋游戏。'
+  params:
+    - desc: 'ttt 的选项'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: '开始一场井字棋游戏。'
+  params:
+    - desc: 'ttt 的选项'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: '显示当前问答竞赛排行榜。'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: '停止当前的问答竞赛。'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: '开始一场问答竞赛。'
+  params:
+    - &ref_629
+      desc: '问答竞赛的可选参数'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: '开始一场问答竞赛。'
+  params:
+    - desc: '问答竞赛的可选参数'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: '开始一场问答竞赛。'
+  params:
+    - desc: '问答竞赛的可选参数'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: '开始一场问答竞赛。'
+  params:
+    - desc: '问答竞赛的可选参数'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: '为打字游戏添加一篇新文章。'
+  params:
+    - &ref_630
+      desc: '要添加的文章内容。'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: '为打字游戏添加一篇新文章。'
+  params:
+    - desc: '要添加的文章内容。'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: '为打字游戏添加一篇新文章。'
+  params:
+    - desc: '要添加的文章内容。'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: '为打字游戏添加一篇新文章。'
+  params:
+    - desc: '要添加的文章内容。'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: '通过索引删除一篇打字文章。'
+  params:
+    - &ref_631
+      desc: '要删除的文章索引。'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: '通过索引删除一篇打字文章。'
+  params:
+    - desc: '要删除的文章索引。'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: '通过索引删除一篇打字文章。'
+  params:
+    - desc: '要删除的文章索引。'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: '通过索引删除一篇打字文章。'
+  params:
+    - desc: '要删除的文章索引。'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: '列出打字游戏可用的文章。'
+  params:
+    - desc: '列出打字游戏可用的文章。'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: '开始一场速打游戏。'
+  params:
+    - &ref_632
+      desc: '用于配置游戏的参数。'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: '开始一场速打游戏。'
+  params:
+    - desc: '用于配置游戏的参数。'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: '开始一场速打游戏。'
+  params:
+    - desc: '用于配置游戏的参数。'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: '开始一场速打游戏。'
+  params:
+    - desc: '用于配置游戏的参数。'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: '停止当前的速打游戏。'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: '从选项列表中随机选择的命令。'
+  params:
+    - desc: '以分号分隔的选项列表。'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: '停止当前频道中正在进行的 hangman 游戏。'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: '开始或加入一场 Nunchi 游戏。'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: '显示当前问答竞赛排行榜。'
+  params: [ ]

@@ -47,7 +47,7 @@
   "patreon_no_supporters": "Aucun supporter Patreon actif trouvé. Utilisez la commande de synchronisation pour récupérer les données.",
   "patreon_no_tiers": "Aucun niveau Patreon trouvé. Utilisez la commande de synchronisation pour récupérer les données.",
   "patreon_not_linked": "Non lié",
-  "patreon_oauth_title": "Patreon OAuth",
+  "patreon_oauth_title": "OAuth Patreon",
   "patreon_recognize_invalid_channel": "Impossible d'envoyer des messages de reconnaissance dans ce type de salon.",
   "patreon_recognize_none": "Aucun nouveau supporter à reconnaître dans les 7 derniers jours.",
   "patreon_recognize_success": "{0} messages de reconnaissance de supporters envoyés dans {1} !",

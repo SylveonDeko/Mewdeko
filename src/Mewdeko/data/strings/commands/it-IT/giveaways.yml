@@ -1,37 +1,37 @@
 gbanner:
   args:
     - text
-  desc: 'Imposta il banner predefinito del giveaway.'
+  desc: 'Imposta il banner predefinito per i giveaway.'
   params:
     - &ref_221
-      desc: 'Imposta il banner predefinito del giveaway.'
+      desc: 'Imposta il banner predefinito per i giveaway.'
       name: banner
       optional: false
       type: string
 gbanner_string:
   args:
     - text
-  desc: 'Imposta il banner predefinito del giveaway.'
+  desc: 'Imposta il banner predefinito per i giveaway.'
   params:
-    - desc: 'Imposta il banner predefinito del giveaway.'
+    - desc: 'Imposta il banner predefinito per i giveaway.'
       name: banner
       optional: false
       type: string
 gbanner_string_1:
   args:
     - text
-  desc: 'Imposta il banner predefinito del giveaway.'
+  desc: 'Imposta il banner predefinito per i giveaway.'
   params:
-    - desc: 'Imposta il banner predefinito del giveaway.'
+    - desc: 'Imposta il banner predefinito per i giveaway.'
       name: banner
       optional: false
       type: string
 gbanner_string_2:
   args:
     - text
-  desc: 'Imposta il banner predefinito del giveaway.'
+  desc: 'Imposta il banner predefinito per i giveaway.'
   params:
-    - desc: 'Imposta il banner predefinito del giveaway.'
+    - desc: 'Imposta il banner predefinito per i giveaway.'
       name: banner
       optional: false
       type: string
@@ -52,7 +52,7 @@ gdmmessage:
 gembedcolor:
   args:
     - text
-  desc: 'Imposta il colore dell''embed per i giveaway.'
+  desc: 'Imposta il colore dell''embed dei giveaway.'
   params:
     - &ref_223
       desc: 'Il colore in esadecimale.'
@@ -62,7 +62,7 @@ gembedcolor:
 gembedcolor_string:
   args:
     - text
-  desc: 'Imposta il colore dell''embed per i giveaway.'
+  desc: 'Imposta il colore dell''embed dei giveaway.'
   params:
     - desc: 'Il colore in esadecimale.'
       name: color
@@ -71,7 +71,7 @@ gembedcolor_string:
 gembedcolor_string_1:
   args:
     - text
-  desc: 'Imposta il colore dell''embed per i giveaway.'
+  desc: 'Imposta il colore dell''embed dei giveaway.'
   params:
     - desc: 'Il colore in esadecimale.'
       name: color
@@ -80,7 +80,7 @@ gembedcolor_string_1:
 gembedcolor_string_2:
   args:
     - text
-  desc: 'Imposta il colore dell''embed per i giveaway.'
+  desc: 'Imposta il colore dell''embed dei giveaway.'
   params:
     - desc: 'Il colore in esadecimale.'
       name: color
@@ -89,37 +89,37 @@ gembedcolor_string_2:
 gemote:
   args:
     - emote
-  desc: 'Imposta l''emote usato per i giveaway.'
+  desc: 'Imposta l''emoji usata per i giveaway.'
   params:
     - &ref_224
-      desc: 'L''emote da impostare.'
+      desc: 'L''emoji da impostare.'
       name: emote
       optional: false
       type: IEmote
 gemote_IEmote:
   args:
     - emote
-  desc: 'Imposta l''emote usato per i giveaway.'
+  desc: 'Imposta l''emoji usata per i giveaway.'
   params:
-    - desc: 'L''emote da impostare.'
+    - desc: 'L''emoji da impostare.'
       name: emote
       optional: false
       type: IEmote
 gemote_IEmote_1:
   args:
     - emote
-  desc: 'Imposta l''emote usato per i giveaway.'
+  desc: 'Imposta l''emoji usata per i giveaway.'
   params:
-    - desc: 'L''emote da impostare.'
+    - desc: 'L''emoji da impostare.'
       name: emote
       optional: false
       type: IEmote
 gemote_IEmote_2:
   args:
     - emote
-  desc: 'Imposta l''emote usato per i giveaway.'
+  desc: 'Imposta l''emoji usata per i giveaway.'
   params:
-    - desc: 'L''emote da impostare.'
+    - desc: 'L''emoji da impostare.'
       name: emote
       optional: false
       type: IEmote
@@ -129,7 +129,7 @@ gend:
   desc: 'Termina un giveaway.'
   params:
     - &ref_225
-      desc: 'L''ID del messaggio del giveaway da terminare'
+      desc: 'Il messageid del giveaway da terminare'
       name: messageid
       optional: false
       type: ulong
@@ -138,7 +138,7 @@ gend_ulong:
     - messageid
   desc: 'Termina un giveaway.'
   params:
-    - desc: 'L''ID del messaggio del giveaway da terminare'
+    - desc: 'Il messageid del giveaway da terminare'
       name: messageid
       optional: false
       type: ulong
@@ -147,7 +147,7 @@ gend_ulong_1:
     - messageid
   desc: 'Termina un giveaway.'
   params:
-    - desc: 'L''ID del messaggio del giveaway da terminare'
+    - desc: 'Il messageid del giveaway da terminare'
       name: messageid
       optional: false
       type: ulong
@@ -156,7 +156,7 @@ gend_ulong_2:
     - messageid
   desc: 'Termina un giveaway.'
   params:
-    - desc: 'L''ID del messaggio del giveaway da terminare'
+    - desc: 'Il messageid del giveaway da terminare'
       name: messageid
       optional: false
       type: ulong
@@ -168,44 +168,44 @@ glist:
 greroll:
   args:
     - messageid
-  desc: 'Risorteggia un giveaway.'
+  desc: 'Riestrae il vincitore di un giveaway.'
   params:
     - &ref_237
-      desc: 'L''ID del messaggio di un giveaway'
+      desc: 'Il messageid di un giveaway'
       name: messageid
       optional: false
       type: ulong
 greroll_ulong:
   args:
     - messageid
-  desc: 'Risorteggia un giveaway.'
+  desc: 'Riestrae il vincitore di un giveaway.'
   params:
-    - desc: 'L''ID del messaggio di un giveaway'
+    - desc: 'Il messageid di un giveaway'
       name: messageid
       optional: false
       type: ulong
 greroll_ulong_1:
   args:
     - messageid
-  desc: 'Risorteggia un giveaway.'
+  desc: 'Riestrae il vincitore di un giveaway.'
   params:
-    - desc: 'L''ID del messaggio di un giveaway'
+    - desc: 'Il messageid di un giveaway'
       name: messageid
       optional: false
       type: ulong
 greroll_ulong_2:
   args:
     - messageid
-  desc: 'Risorteggia un giveaway.'
+  desc: 'Riestrae il vincitore di un giveaway.'
   params:
-    - desc: 'L''ID del messaggio di un giveaway'
+    - desc: 'Il messageid di un giveaway'
       name: messageid
       optional: false
       type: ulong
 gstart:
   args:
     - chan time number text
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params:
     - &ref_238
       desc: 'Il canale in cui avviare il giveaway'
@@ -223,14 +223,14 @@ gstart:
       optional: false
       type: int
     - &ref_241
-      desc: 'L''oggetto da mettere in palio'
+      desc: 'L''articolo da mettere in palio'
       name: what
       optional: false
       type: string
 gstart_ITextChannel_StoopidTime_int_string:
   args:
     - chan time number text
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params:
     - desc: 'Il canale in cui avviare il giveaway'
       name: chan
@@ -244,14 +244,14 @@ gstart_ITextChannel_StoopidTime_int_string:
       name: winners
       optional: false
       type: int
-    - desc: 'L''oggetto da mettere in palio'
+    - desc: 'L''articolo da mettere in palio'
       name: what
       optional: false
       type: string
 gstart_ITextChannel_StoopidTime_int_string_1:
   args:
     - chan time number text
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params:
     - desc: 'Il canale in cui avviare il giveaway'
       name: chan
@@ -265,14 +265,14 @@ gstart_ITextChannel_StoopidTime_int_string_1:
       name: winners
       optional: false
       type: int
-    - desc: 'L''oggetto da mettere in palio'
+    - desc: 'L''articolo da mettere in palio'
       name: what
       optional: false
       type: string
 gstart_ITextChannel_StoopidTime_int_string_2:
   args:
     - chan time number text
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params:
     - desc: 'Il canale in cui avviare il giveaway'
       name: chan
@@ -286,29 +286,29 @@ gstart_ITextChannel_StoopidTime_int_string_2:
       name: winners
       optional: false
       type: int
-    - desc: 'L''oggetto da mettere in palio'
+    - desc: 'L''articolo da mettere in palio'
       name: what
       optional: false
       type: string
 gstart_noparams:
   args:
     - ''
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params: [ ]
 gstart_noparams_1:
   args:
     - ''
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params: [ ]
 gstart_noparams_2:
   args:
     - ''
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params: [ ]
 gstart_noparams_3:
   args:
     - ''
-  desc: 'Avvio di giveaway piu dettagliato, consente di impostare un banner, un ruolo di ping e altro.'
+  desc: 'Avvio di giveaway più dettagliato: permette di impostare un banner, un ruolo da menzionare e altro.'
   params: [ ]
 gstats:
   args:
@@ -318,7 +318,7 @@ gstats:
 gwinembedcolor:
   args:
     - text
-  desc: 'Imposta il colore per l''embed del vincitore.'
+  desc: 'Imposta il colore dell''embed del vincitore.'
   params:
     - desc: 'Il colore in esadecimale.'
       name: color

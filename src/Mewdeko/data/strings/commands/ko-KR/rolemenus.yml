@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: '이 서버의 모든 역할 메뉴를 채널, 종류, 옵션 수, 상태와 함께 나열합니다.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: '역할 메뉴 하나의 모든 정보를 표시합니다. 채널, 종류, 선택 규칙, 필요 역할, 확인 여부, 옵션을 포함합니다.'
+  params:
+    - desc: 'rolemenus에서 확인한 메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: '채널에 역할별 옵션이 하나씩 있는 새 역할 메뉴를 게시합니다. 멤버는 드롭다운 또는 버튼으로 해당 역할을 얻거나 해제할 수 있습니다.'
+  params:
+    - desc: '메뉴를 게시할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'dropdown 또는 buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: '역할 1개 이상, 최대 25개입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: '메뉴에 역할을 추가하고, 선택 사항인 이모지와 이름을 설정한 뒤 게시된 메시지를 업데이트합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '새 옵션이 부여할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '선택 사항인 이모지와 메뉴에 표시할 이름입니다. 기본값은 역할 이름입니다.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: '메뉴에서 역할을 제거하고 게시된 메시지를 업데이트합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '메뉴에서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: '메뉴 이름을 변경합니다. 이름은 기본 메시지의 제목으로 쓰이며 목록에도 표시됩니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '새 이름입니다. 최대 100자입니다.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: '메뉴 위에 표시할 텍스트를 설정합니다. 일반 텍스트 또는 임베드 빌더의 임베드 JSON을 사용할 수 있습니다. ID만 입력하면 현재 메시지를 확인하고, "clear"를 입력하면 기본 옵션 목록으로 되돌립니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '메시지 내용, "clear", 또는 확인만 하려면 비워 두세요.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: '메뉴를 드롭다운과 버튼 사이에서 전환합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'dropdown 또는 buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: '멤버가 메뉴에서 역할 하나만 고를 수 있을지(다른 역할을 고르면 교체), 여러 역할을 고를 수 있을지 설정합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '하나만 선택은 exclusive, 여러 개 선택은 multi.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: '멤버가 메뉴에서 유지해야 하고 가질 수 있는 역할의 개수를 설정합니다. 최댓값 0은 제한 없음을 의미합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '멤버가 선택한 뒤 유지해야 하는 역할의 최소 개수입니다.'
+      name: min
+      optional: false
+      type: int
+    - desc: '멤버가 가질 수 있는 역할의 최대 개수입니다. 0이면 제한이 없습니다.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: '특정 역할을 가진 멤버만 메뉴를 사용할 수 있게 합니다. 역할을 비워 두면 누구나 사용할 수 있습니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '메뉴를 사용하는 데 필요한 역할입니다. 제거하려면 비워 두세요.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: '멤버가 얻거나 잃은 역할을 나열하는 비공개 안내를 받을지, 아니면 아무 안내도 받지 않을지 설정합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private 또는 silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: '메뉴를 일시 중지하여 드롭다운이나 버튼을 회색으로 비활성화하거나, 일시 중지된 메뉴를 다시 시작합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: '같은 채널 또는 다른 채널에 메뉴의 새 복사본을 게시하고 기존 메시지는 삭제합니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '게시할 채널입니다. 기본값은 현재 채널입니다.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: '메뉴와 해당 메시지를 삭제합니다. 멤버가 이미 선택한 역할은 유지됩니다.'
+  params:
+    - desc: '메뉴 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: '메시지에 있는 기존 이모지 역할 설정을 같은 채널의 새 역할 메뉴로 옮긴 뒤 기존 설정을 폐기합니다.'
+  params:
+    - desc: '기존 설정이 있는 메시지의 ID입니다.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown 또는 buttons. 기본값은 dropdown입니다.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

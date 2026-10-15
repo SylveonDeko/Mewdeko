@@ -1,0 +1,838 @@
+accept:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Nimmt einen Vorschlag an und markiert ihn als genehmigt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der angenommen wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Annahme des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Nimmt einen Vorschlag an und markiert ihn als genehmigt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der angenommen wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Annahme des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Nimmt einen Vorschlag an und markiert ihn als genehmigt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der angenommen wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Annahme des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Nimmt einen Vorschlag an und markiert ihn als genehmigt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der angenommen wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Annahme des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+acceptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Legt den Kanal fest, in dem angenommene Vorschläge veröffentlicht werden.'
+  params:
+    - desc: 'Der Kanal für angenommene Vorschläge. Bei null wird das Feature deaktiviert.'
+      name: channel
+      optional: true
+      type: channel
+acceptmessage:
+  args:
+    - text
+  desc: 'Legt die Annahme-Nachricht für Vorschläge fest oder aktualisiert sie.'
+  params:
+    - &ref_2
+      desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string:
+  args:
+    - text
+  desc: 'Legt die Annahme-Nachricht für Vorschläge fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_1:
+  args:
+    - text
+  desc: 'Legt die Annahme-Nachricht für Vorschläge fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_2:
+  args:
+    - text
+  desc: 'Legt die Annahme-Nachricht für Vorschläge fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+archiveonaccept:
+  args:
+    - ''
+  desc: 'Schaltet die Archiv-Einstellung für Vorschläge bei Annahme um.'
+  params: [ ]
+archiveonconsider:
+  args:
+    - ''
+  desc: 'Schaltet die Archiv-Einstellung für Vorschläge bei Prüfung um.'
+  params: [ ]
+archiveondeny:
+  args:
+    - ''
+  desc: 'Schaltet die Archiv-Einstellung für Vorschläge bei Ablehnung um.'
+  params: [ ]
+archiveonimplement:
+  args:
+    - ''
+  desc: 'Schaltet die Archiv-Einstellung für Vorschläge bei Umsetzung um.'
+  params: [ ]
+consider:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Markiert einen Vorschlag als in Prüfung.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der als in Prüfung markiert wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Kommentare oder Begründungen zur Prüfung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Markiert einen Vorschlag als in Prüfung.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der als in Prüfung markiert wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Kommentare oder Begründungen zur Prüfung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Markiert einen Vorschlag als in Prüfung.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der als in Prüfung markiert wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Kommentare oder Begründungen zur Prüfung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Markiert einen Vorschlag als in Prüfung.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der als in Prüfung markiert wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Kommentare oder Begründungen zur Prüfung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+considerchannel:
+  args:
+    - '[@channel]'
+  desc: 'Legt den Kanal fest, in dem geprüfte Vorschläge veröffentlicht werden.'
+  params:
+    - desc: 'Der Kanal für geprüfte Vorschläge. Bei null wird das Feature deaktiviert.'
+      name: channel
+      optional: true
+      type: channel
+considermessage:
+  args:
+    - text
+  desc: 'Legt die Prüf-Nachricht für Vorschläge fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+deny:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Lehnt einen Vorschlag ab und markiert ihn als abgelehnt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der abgelehnt wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Ablehnung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Lehnt einen Vorschlag ab und markiert ihn als abgelehnt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der abgelehnt wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Ablehnung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Lehnt einen Vorschlag ab und markiert ihn als abgelehnt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der abgelehnt wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Ablehnung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Lehnt einen Vorschlag ab und markiert ihn als abgelehnt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der abgelehnt wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund für die Ablehnung des Vorschlags.'
+      name: reason
+      optional: true
+      type: string
+denychannel:
+  args:
+    - '[@channel]'
+  desc: 'Legt den Kanal fest, in dem abgelehnte Vorschläge veröffentlicht werden.'
+  params:
+    - desc: 'Der Kanal für abgelehnte Vorschläge. Bei null wird das Feature deaktiviert.'
+      name: channel
+      optional: true
+      type: channel
+denymessage:
+  args:
+    - text
+  desc: 'Legt die Ablehnungs-Nachricht für Vorschläge fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+implementchannel:
+  args:
+    - '[@channel]'
+  desc: 'Legt den Kanal fest, in dem umgesetzte Vorschläge veröffentlicht werden.'
+  params:
+    - desc: 'Der Kanal für umgesetzte Vorschläge. Bei null wird das Feature deaktiviert.'
+      name: channel
+      optional: true
+      type: channel
+implemented:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Markiert einen Vorschlag als umgesetzt.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, der als umgesetzt markiert wird.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Optional. Der Grund oder die Details zur Umsetzung.'
+      name: reason
+      optional: true
+      type: string
+implementmessage:
+  args:
+    - text
+  desc: 'Legt die Umsetzungs-Nachricht für Vorschläge fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+maxsuggestionlength:
+  args:
+    - number
+  desc: 'Legt die maximale Länge für Vorschläge fest.'
+  params:
+    - &ref_291
+      desc: 'Die maximale Anzahl an Zeichen, die ein Vorschlag haben darf.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int:
+  args:
+    - number
+  desc: 'Legt die maximale Länge für Vorschläge fest.'
+  params:
+    - desc: 'Die maximale Anzahl an Zeichen, die ein Vorschlag haben darf.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Legt die maximale Länge für Vorschläge fest.'
+  params:
+    - desc: 'Die maximale Anzahl an Zeichen, die ein Vorschlag haben darf.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Legt die maximale Länge für Vorschläge fest.'
+  params:
+    - desc: 'Die maximale Anzahl an Zeichen, die ein Vorschlag haben darf.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength:
+  args:
+    - number
+  desc: 'Legt die minimale Länge für Vorschläge fest.'
+  params:
+    - &ref_294
+      desc: 'Die minimale Anzahl an Zeichen, die ein Vorschlag haben muss.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int:
+  args:
+    - number
+  desc: 'Legt die minimale Länge für Vorschläge fest.'
+  params:
+    - desc: 'Die minimale Anzahl an Zeichen, die ein Vorschlag haben muss.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Legt die minimale Länge für Vorschläge fest.'
+  params:
+    - desc: 'Die minimale Anzahl an Zeichen, die ein Vorschlag haben muss.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Legt die minimale Länge für Vorschläge fest.'
+  params:
+    - desc: 'Die minimale Anzahl an Zeichen, die ein Vorschlag haben muss.'
+      name: length
+      optional: false
+      type: int
+setsuggestchannel:
+  args:
+    - '[@channel]'
+  desc: 'Legt den Vorschlags-Kanal des Servers fest oder deaktiviert ihn.'
+  params:
+    - desc: 'Der Textkanal, der als Vorschlags-Kanal festgelegt wird. Bei null werden Vorschläge deaktiviert.'
+      name: channel
+      optional: true
+      type: channel
+suggest:
+  args:
+    - text
+  desc: 'Reicht einen neuen Vorschlag im vorgesehenen Vorschlags-Kanal ein.'
+  params:
+    - &ref_582
+      desc: 'Der Inhalt des einzureichenden Vorschlags.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string:
+  args:
+    - text
+  desc: 'Reicht einen neuen Vorschlag im vorgesehenen Vorschlags-Kanal ein.'
+  params:
+    - desc: 'Der Inhalt des einzureichenden Vorschlags.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_1:
+  args:
+    - text
+  desc: 'Reicht einen neuen Vorschlag im vorgesehenen Vorschlags-Kanal ein.'
+  params:
+    - desc: 'Der Inhalt des einzureichenden Vorschlags.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_2:
+  args:
+    - text
+  desc: 'Reicht einen neuen Vorschlag im vorgesehenen Vorschlags-Kanal ein.'
+  params:
+    - desc: 'Der Inhalt des einzureichenden Vorschlags.'
+      name: suggestion
+      optional: false
+      type: string
+suggestbuttonchannel:
+  args:
+    - channel
+  desc: 'Legt den Kanal für den Vorschlags-Button fest.'
+  params:
+    - &ref_583
+      desc: 'Der Kanal, der als Kanal für den Vorschlags-Button festgelegt wird.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Legt den Kanal für den Vorschlags-Button fest.'
+  params:
+    - desc: 'Der Kanal, der als Kanal für den Vorschlags-Button festgelegt wird.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Legt den Kanal für den Vorschlags-Button fest.'
+  params:
+    - desc: 'Der Kanal, der als Kanal für den Vorschlags-Button festgelegt wird.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Legt den Kanal für den Vorschlags-Button fest.'
+  params:
+    - desc: 'Der Kanal, der als Kanal für den Vorschlags-Button festgelegt wird.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttoncolor:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe des Vorschlags-Buttons fest.'
+  params:
+    - &ref_584
+      desc: 'Der Farbtyp für den Vorschlags-Button.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe des Vorschlags-Buttons fest.'
+  params:
+    - &ref_585
+      desc: 'Der Farbtyp für den Vorschlags-Button.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_1:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe des Vorschlags-Buttons fest.'
+  params:
+    - desc: 'Der Farbtyp für den Vorschlags-Button.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_2:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe des Vorschlags-Buttons fest.'
+  params:
+    - desc: 'Der Farbtyp für den Vorschlags-Button.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttonemote:
+  args:
+    - '[emote]'
+  desc: 'Legt das Emote für den Vorschlags-Button fest.'
+  params:
+    - desc: 'Das Emote für den Vorschlags-Button. Bei null wird auf den Standard zurückgesetzt.'
+      name: emote
+      optional: true
+      type: emote
+suggestbuttonlabel:
+  args:
+    - text
+  desc: 'Legt die Beschriftung für den Vorschlags-Button fest.'
+  params:
+    - &ref_586
+      desc: 'Der Beschriftungstext für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string:
+  args:
+    - text
+  desc: 'Legt die Beschriftung für den Vorschlags-Button fest.'
+  params:
+    - desc: 'Der Beschriftungstext für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_1:
+  args:
+    - text
+  desc: 'Legt die Beschriftung für den Vorschlags-Button fest.'
+  params:
+    - desc: 'Der Beschriftungstext für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_2:
+  args:
+    - text
+  desc: 'Legt die Beschriftung für den Vorschlags-Button fest.'
+  params:
+    - desc: 'Der Beschriftungstext für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonmessage:
+  args:
+    - text
+  desc: 'Legt die Nachricht des Vorschlags-Buttons fest oder aktualisiert sie.'
+  params:
+    - &ref_587
+      desc: 'Die Nachricht für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string:
+  args:
+    - text
+  desc: 'Legt die Nachricht des Vorschlags-Buttons fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_1:
+  args:
+    - text
+  desc: 'Legt die Nachricht des Vorschlags-Buttons fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_2:
+  args:
+    - text
+  desc: 'Legt die Nachricht des Vorschlags-Buttons fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht für den Vorschlags-Button. Verwende "-", um auf den Standard zurückzusetzen.'
+      name: toSet
+      optional: true
+      type: string
+suggestclear:
+  args:
+    - ''
+  desc: 'Löscht alle Vorschläge auf dem Server.'
+  params: [ ]
+suggestinfo:
+  args:
+    - num
+  desc: 'Zeigt detaillierte Informationen zu einem bestimmten Vorschlag an.'
+  params:
+    - &ref_588
+      desc: 'Die eindeutige Nummer (ID) des Vorschlags, zu dem Informationen abgerufen werden.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong:
+  args:
+    - num
+  desc: 'Zeigt detaillierte Informationen zu einem bestimmten Vorschlag an.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, zu dem Informationen abgerufen werden.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_1:
+  args:
+    - num
+  desc: 'Zeigt detaillierte Informationen zu einem bestimmten Vorschlag an.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, zu dem Informationen abgerufen werden.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_2:
+  args:
+    - num
+  desc: 'Zeigt detaillierte Informationen zu einem bestimmten Vorschlag an.'
+  params:
+    - desc: 'Die eindeutige Nummer (ID) des Vorschlags, zu dem Informationen abgerufen werden.'
+      name: num
+      optional: false
+      type: ulong
+suggestmessage:
+  args:
+    - text
+  desc: 'Legt die Vorschlags-Nachricht fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string:
+  args:
+    - text
+  desc: 'Legt die Vorschlags-Nachricht fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_1:
+  args:
+    - text
+  desc: 'Legt die Vorschlags-Nachricht fest oder aktualisiert sie.'
+  params:
+    - desc: ''
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_2:
+  args:
+    - text
+  desc: 'Legt die Vorschlags-Nachricht fest oder aktualisiert sie.'
+  params:
+    - desc: 'Die Nachricht oder der Embed-Code. Verwende "-", um auf die Standardnachricht zurückzusetzen.'
+      name: embed
+      optional: false
+      type: string
+suggestmotecolor:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe bestimmter Emote-Buttons bei Vorschlägen fest.'
+  params:
+    - &ref_589
+      desc: 'Die Button-Nummer, die geändert wird.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Der Farbtyp, der auf den Button angewendet wird.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe bestimmter Emote-Buttons bei Vorschlägen fest.'
+  params:
+    - desc: 'Die Button-Nummer, die geändert wird.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Der Farbtyp, der auf den Button angewendet wird.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_1:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe bestimmter Emote-Buttons bei Vorschlägen fest.'
+  params:
+    - desc: 'Die Button-Nummer, die geändert wird.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Der Farbtyp, der auf den Button angewendet wird.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_2:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Legt die Farbe bestimmter Emote-Buttons bei Vorschlägen fest.'
+  params:
+    - desc: 'Die Button-Nummer, die geändert wird.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Der Farbtyp, der auf den Button angewendet wird.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotes:
+  args:
+    - '[_]'
+  desc: 'Konfiguriert die benutzerdefinierten Emotes, die für Vorschläge verwendet werden.'
+  params:
+    - desc: 'Eine durch Kommas getrennte Liste von Emote-Zeichenketten oder "disable", um die Standard-Reaktionen zu verwenden.'
+      name: _
+      optional: true
+      type: string
+suggestmotesmode:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Legt den Modus für Vorschlags-Emotes fest, entweder als Reaktionen oder als Buttons.'
+  params:
+    - &ref_590
+      desc: 'Der Modus, der für Vorschlags-Emotes verwendet wird.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Legt den Modus für Vorschlags-Emotes fest, entweder als Reaktionen oder als Buttons.'
+  params:
+    - desc: 'Der Modus, der für Vorschlags-Emotes verwendet wird.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_1:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Legt den Modus für Vorschlags-Emotes fest, entweder als Reaktionen oder als Buttons.'
+  params:
+    - desc: 'Der Modus, der für Vorschlags-Emotes verwendet wird.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_2:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Legt den Modus für Vorschlags-Emotes fest, entweder als Reaktionen oder als Buttons.'
+  params:
+    - desc: 'Der Modus, der für Vorschlags-Emotes verwendet wird.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestthreadstype:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Legt den Typ der Threads fest, die bei Vorschlägen verwendet werden.'
+  params:
+    - &ref_591
+      desc: 'Der Thread-Typ, der für neue Vorschläge verwendet wird.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Legt den Typ der Threads fest, die bei Vorschlägen verwendet werden.'
+  params:
+    - desc: 'Der Thread-Typ, der für neue Vorschläge verwendet wird.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_1:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Legt den Typ der Threads fest, die bei Vorschlägen verwendet werden.'
+  params:
+    - desc: 'Der Thread-Typ, der für neue Vorschläge verwendet wird.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_2:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Legt den Typ der Threads fest, die bei Vorschlägen verwendet werden.'
+  params:
+    - desc: 'Der Thread-Typ, der für neue Vorschläge verwendet wird.'
+      name: type
+      optional: false
+      type: SuggestThreadType

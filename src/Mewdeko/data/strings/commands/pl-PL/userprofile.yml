@@ -6,50 +6,50 @@ deleteuserstatsdata:
 greetdmoptout:
   args:
     - ''
-  desc: 'Pozwala użytkownikowi przełączyć rezygnację z powitalnych wiadomości DM. Działa tylko wtedy, gdy serwer, do którego dołącza, używa mewdeko do powitań przez DM.'
+  desc: 'Pozwala użytkownikowi przełączać rezygnację z wiadomości powitalnych w PW. Działa tylko wtedy, gdy serwer, do którego dołącza, używa mewdeko do powitań w PW.'
   params: [ ]
 profile:
   args:
     - '[@user]'
-  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  desc: 'Wyświetla profil użytkownika lub profil innego użytkownika, jeśli został wskazany.'
   params:
-    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, pokazuje profil wywołującego.'
       name: user
       optional: true
       type: user
 profile_=:
   args:
     - '[@user]'
-  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  desc: 'Wyświetla profil użytkownika lub profil innego użytkownika, jeśli został wskazany.'
   params:
-    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, pokazuje profil wywołującego.'
       name: user
       optional: true
       type: user
 profile_=_1:
   args:
     - '[@user]'
-  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  desc: 'Wyświetla profil użytkownika lub profil innego użytkownika, jeśli został wskazany.'
   params:
-    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, pokazuje profil wywołującego.'
       name: user
       optional: true
       type: user
 profile_=_2:
   args:
     - '[@user]'
-  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  desc: 'Wyświetla profil użytkownika lub profil innego użytkownika, jeśli został wskazany.'
   params:
-    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, pokazuje profil wywołującego.'
       name: user
       optional: true
       type: user
 pronouns:
   args:
     - '[@user]'
-  desc: 'Wyświetla zaimki wskazanego użytkownika lub wywołującego polecenie, jeśli nie podano użytkownika.'
+  desc: 'Wyświetla zaimki wskazanego użytkownika lub osoby wywołującej komendę, jeśli nie podano użytkownika.'
   params:
-    - desc: 'Opcjonalnie. Użytkownik, którego zaimki mają zostać wyświetlone.'
+    - desc: 'Opcjonalne. Użytkownik, którego zaimki mają zostać wyświetlone.'
       name: user
       optional: true
       type: user
@@ -57,7 +57,7 @@ pronounsforceclear:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - &ref_356
       desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
@@ -70,7 +70,7 @@ pronounsforceclear:
       optional: false
       type: bool
     - &ref_358
-      desc: 'Powód akcji.'
+      desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
@@ -78,7 +78,7 @@ pronounsforceclear_IUser_bool_string:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
       name: user
@@ -88,7 +88,7 @@ pronounsforceclear_IUser_bool_string:
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Powód akcji.'
+    - desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
@@ -96,7 +96,7 @@ pronounsforceclear_IUser_bool_string_1:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
       name: user
@@ -106,7 +106,7 @@ pronounsforceclear_IUser_bool_string_1:
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Powód akcji.'
+    - desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
@@ -114,7 +114,7 @@ pronounsforceclear_IUser_bool_string_2:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
       name: user
@@ -124,14 +124,14 @@ pronounsforceclear_IUser_bool_string_2:
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Powód akcji.'
+    - desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string:
   args:
     - user true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - &ref_359
       desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
@@ -142,14 +142,14 @@ pronounsforceclear_ulong_bool_string:
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Powód akcji.'
+    - desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_1:
   args:
     - user true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
       name: user
@@ -159,14 +159,14 @@ pronounsforceclear_ulong_bool_string_1:
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Powód akcji.'
+    - desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_2:
   args:
     - user true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
       name: user
@@ -176,14 +176,14 @@ pronounsforceclear_ulong_bool_string_2:
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Powód akcji.'
+    - desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_3:
   args:
     - user true|false text
-  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  desc: 'Wymusza wyczyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
   params:
     - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
       name: user
@@ -193,7 +193,7 @@ pronounsforceclear_ulong_bool_string_3:
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Powód akcji.'
+    - desc: 'Powód tej akcji.'
       name: reason
       optional: false
       type: string
@@ -237,7 +237,7 @@ setbio_string_2:
 setbirthday:
   args:
     - time
-  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  desc: 'Ustawia urodziny w profilu użytkownika.'
   params:
     - &ref_491
       desc: 'Data urodzin.'
@@ -247,7 +247,7 @@ setbirthday:
 setbirthday_DateTime:
   args:
     - time
-  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  desc: 'Ustawia urodziny w profilu użytkownika.'
   params:
     - desc: 'Data urodzin.'
       name: dateTime
@@ -256,7 +256,7 @@ setbirthday_DateTime:
 setbirthday_DateTime_1:
   args:
     - time
-  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  desc: 'Ustawia urodziny w profilu użytkownika.'
   params:
     - desc: 'Data urodzin.'
       name: dateTime
@@ -265,7 +265,7 @@ setbirthday_DateTime_1:
 setbirthday_DateTime_2:
   args:
     - time
-  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  desc: 'Ustawia urodziny w profilu użytkownika.'
   params:
     - desc: 'Data urodzin.'
       name: dateTime
@@ -388,7 +388,7 @@ setprofileimage:
   desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
   params:
     - &ref_515
-      desc: 'URL obrazu do ustawienia jako obraz profilu.'
+      desc: 'URL obrazu, który ma zostać ustawiony jako obraz profilu.'
       name: url
       optional: false
       type: string
@@ -397,7 +397,7 @@ setprofileimage_string:
     - text
   desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
   params:
-    - desc: 'URL obrazu do ustawienia jako obraz profilu.'
+    - desc: 'URL obrazu, który ma zostać ustawiony jako obraz profilu.'
       name: url
       optional: false
       type: string
@@ -406,7 +406,7 @@ setprofileimage_string_1:
     - text
   desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
   params:
-    - desc: 'URL obrazu do ustawienia jako obraz profilu.'
+    - desc: 'URL obrazu, który ma zostać ustawiony jako obraz profilu.'
       name: url
       optional: false
       type: string
@@ -415,7 +415,7 @@ setprofileimage_string_2:
     - text
   desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
   params:
-    - desc: 'URL obrazu do ustawienia jako obraz profilu.'
+    - desc: 'URL obrazu, który ma zostać ustawiony jako obraz profilu.'
       name: url
       optional: false
       type: string
@@ -477,5 +477,5 @@ setzodiac_string_2:
 userstatsoptout:
   args:
     - ''
-  desc: 'Przełącza status rezygnacji użytkownika z gromadzenia statystyk poleceń.'
+  desc: 'Przełącza status rezygnacji użytkownika ze zbierania statystyk poleceń.'
   params: [ ]

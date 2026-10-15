@@ -1,0 +1,247 @@
+wotd:
+  args:
+    - ''
+  desc: 'Bugünün kelimesini gösterir; henüz paylaşılmadıysa önizlemesini gösterir.'
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: 'Günlük kelime paylaşımını açar veya kapatır. Önce bir kanal ayarlanmalıdır.'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: 'Günlük kelimelerin paylaşılacağı kanalı ayarlar ve paylaşımı etkinleştirir. Kanalı temizleyip devre dışı bırakmak için boş bırakın.'
+  params:
+    - desc: 'Paylaşılacak kanal. Temizlemek için boş bırakın.'
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: 'Günlük kelimenin paylaşılacağı yerel saati (0 ile 23 arası) ayarlar.'
+  params:
+    - desc: '24 saat formatında günün saati.'
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: 'Günlük paylaşım saati için ve yeni günün ne zaman başlayacağını belirlemek için kullanılan saat dilimini ayarlar.'
+  params:
+    - desc: 'Bir IANA saat dilimi adı.'
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: 'Her günlük kelimede etiketlenecek rolü ayarlar. Temizlemek için boş bırakın.'
+  params:
+    - desc: 'Etiketlenecek rol. Temizlemek için boş bırakın.'
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: 'Günlük kelimeler için özel mesaj şablonu ayarlar; embed JSON''unu ve yer tutucuları destekler. Mevcut şablonu görmek için metin göndermeden çalıştırın veya varsayılan embed''e dönmek için "clear" yazın.'
+  params:
+    - desc: 'Şablon metni. Görüntülemek için boş bırakın, sıfırlamak için "clear" yazın.'
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: 'Sözlük kelimelerinin yönelmesi gereken konuyu ayarlar; en fazla beş kelime. Kaldırmak için boş bırakın veya "clear" gönderin.'
+  params:
+    - desc: '"space" veya "medieval history" gibi tema kelimeleri. Temizlemek için boş bırakın.'
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: 'Sözlük kelimelerini bir sözcük türüyle sınırlar: any, noun, verb, adjective veya adverb.'
+  params:
+    - desc: 'İzin verilecek sözcük türü.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: 'Sözlük kelimelerinin ne kadar nadir olabileceğini ayarlar: any, common, moderate veya rare.'
+  params:
+    - desc: 'Zorluk seviyesi.'
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: 'Kelimelerin nereden geleceğini seçer. Dictionary filtrelerinizle Datamuse''u kullanır, custom yalnızca wotdadd ile eklenen kelimeleri kullanır, mixed ise özel kelimeler bitene kadar onları kullanır.'
+  params:
+    - desc: 'Kelime kaynağı.'
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: 'Bu sunucunun özel kelime listesine bir kelime ekler. Tanım verilmezse otomatik olarak aranır.'
+  params:
+    - desc: 'Eklenecek kelime.'
+      name: word
+      optional: false
+      type: string
+    - desc: 'Kelime için tanım. Boş bırakılırsa aranır.'
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: 'Bu sunucunun özel kelime listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Kaldırılacak kelime.'
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: 'Bu sunucunun özel kelimelerini ve her birinin kaç kez paylaşıldığını listeler.'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: 'En son paylaşılan kelimeleri gösterir.'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: 'Mevcut günün kelimesi yapılandırmasını gösterir.'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: 'Zamanlamaya bakmaksızın hemen yeni bir kelime paylaşır.'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: 'Bu sunucunun tüm günün kelimesi ayarlarını, özel kelimelerini ve geçmişini sıfırlar.'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: 'Belirli bir haftanın gününe özel konu ayarlar; o gündeki temel konunun yerine geçer. Bu gün için kuralı kaldırmak üzere konu vermeyin.'
+  params:
+    - desc: 'Haftanın günü.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'O gün için konu kelimeleri. Kuralı kaldırmak için boş bırakın.'
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: 'Belirli bir haftanın günü için sözcük türü ve isteğe bağlı zorluk ayarlar. Temel ayarı devralmak için "any" kullanın.'
+  params:
+    - desc: 'Haftanın günü.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'O gün için sözcük türü veya any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'O gün için zorluk veya any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: 'Belirli bir aya özel konu ayarlar; o ay boyunca temel konunun yerine geçer. Haftanın günü kuralları ay kurallarından önceliklidir. Kuralı kaldırmak için konu vermeyin.'
+  params:
+    - desc: 'Ay numarası veya adı.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'O ay için konu kelimeleri. Kuralı kaldırmak için boş bırakın.'
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: 'Belirli bir ay için sözcük türü ve isteğe bağlı zorluk ayarlar. Temel ayarı devralmak için "any" kullanın.'
+  params:
+    - desc: 'Ay numarası veya adı.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'O ay için sözcük türü veya any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'O ay için zorluk veya any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: 'Tüm haftanın günü ve ay kurallarını, ayrıca bugün geçerli olan filtreleri gösterir.'
+  params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: 'Her günlük kelime paylaşımının altında, insanlardan kelimeyi bir cümlede kullanmasını isteyen başlangıç mesajıyla herkese açık bir tartışma dizisi oluşturmayı açar veya kapatır.'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: 'Tartışma dizisinin adı için şablon ayarlar. %wotd.word%, %wotd.date%, %wotd.pos% ve sunucu yer tutucularını destekler. Mevcut şablonu görmek için metin göndermeden çalıştırın veya sıfırlamak için "clear" yazın.'
+  params:
+    - desc: 'Dizi adı şablonu. Görüntülemek için boş bırakın, sıfırlamak için "clear" yazın.'
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: 'Discord''un etkinlik olmadığında tartışma dizisini arşivlemeden önce ne kadar açık kalacağını ayarlar: 1h, 24h, 3d veya 7d.'
+  params:
+    - desc: '1h, 24h, 3d veya 7d değerlerinden biri.'
+      name: duration
+      optional: false
+      type: string

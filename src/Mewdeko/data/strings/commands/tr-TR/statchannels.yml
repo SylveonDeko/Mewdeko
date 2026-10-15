@@ -1,13 +1,13 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: 'Sunucu istatistiği gösteren yeni bir kilitli ses kanalı oluşturur. Bot kanalı oluşturup yönetecektir.'
+  desc: 'Bir sunucu istatistiğini gösteren yeni bir kilitli ses kanalı oluşturur. Kanalı bot oluşturur ve yönetir.'
   params:
-    - desc: 'Görüntülenecek istatistik türü.'
+    - desc: 'Gösterilecek istatistik türü.'
       name: type
       optional: false
       type: StatChannelType
-    - desc: 'Görüntü şablonu. Değer için %count% kullanın.'
+    - desc: 'Görüntüleme şablonu. Değer için %count% kullan.'
       name: template
       optional: true
       type: string
@@ -20,52 +20,52 @@ statchanneladd:
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Görüntülenecek istatistik türü.'
+    - desc: 'Gösterilecek istatistik türü.'
       name: type
       optional: false
       type: StatChannelType
-    - desc: 'Görüntü şablonu. Değer için %count% kullanın.'
+    - desc: 'Görüntüleme şablonu. Değer için %count% kullan.'
       name: template
       optional: true
       type: string
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Belirli bir role sahip kaç üye olduğunu gösteren bir istatistik kanalı ekler.'
+  desc: 'Belirli bir role sahip üye sayısını gösteren bir istatistik kanalı ekler.'
   params:
     - desc: 'Kullanılacak ses kanalı.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Üyeleri sayılacak rol.'
+    - desc: 'Üye sayısı hesaplanacak rol.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Görüntü şablonu. %count% ve %role.name% kullanın.'
+    - desc: 'Görüntüleme şablonu. %count% ve %role.name% kullan.'
       name: template
       optional: true
       type: string
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Bir geri sayım istatistik kanalı ekler. %days% ve %hours% yer tutucularını kullanın.'
+  desc: 'Geri sayım istatistik kanalı ekler. %days% ve %hours% yer tutucularını kullan.'
   params:
     - desc: 'Kullanılacak ses kanalı.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Geri sayım için hedef tarih.'
+    - desc: 'Geri sayımın hedef tarihi.'
       name: date
       optional: false
       type: DateTime
-    - desc: 'Görüntü şablonu. %days% ve %hours% kullanın.'
+    - desc: 'Görüntüleme şablonu. %days% ve %hours% kullan.'
       name: template
       optional: true
       type: string
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'Bir üye hedef istatistik kanalı ekler. %count%, %goal% ve %goal.percent% kullanın.'
+  desc: 'Üye hedefi istatistik kanalı ekler. %count%, %goal% ve %goal.percent% kullan.'
   params:
     - desc: 'Kullanılacak ses kanalı.'
       name: channel
@@ -75,7 +75,7 @@ statchannelgoal:
       name: goal
       optional: false
       type: int
-    - desc: 'Görüntü şablonu. %count%, %goal%, %goal.percent% kullanın.'
+    - desc: 'Görüntüleme şablonu. %count%, %goal%, %goal.percent% kullan.'
       name: template
       optional: true
       type: string
@@ -91,5 +91,25 @@ statchannelremove:
 statchannellist:
   args:
     - ''
-  desc: 'Bu sunucu için tüm istatistik kanallarını listeler.'
+  desc: 'Bu sunucudaki tüm istatistik kanallarını listeler.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Bir istatistik kanalını Twitch sayacı gösterecek şekilde ayarlar.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Bir istatistik kanalı için güncelleme mekanizmasını ayarlar.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Bir istatistik kanalı için görüntü stilini ayarlar.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'İstatistik kanalları için varsayılan ayarları gösterir.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Kullanılabilir istatistik kanalı türlerini listeler.'

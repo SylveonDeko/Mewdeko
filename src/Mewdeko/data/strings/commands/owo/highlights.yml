@@ -7,7 +7,7 @@ highlight:
     - delete
   desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'The action to perform: add, list, delete or match.'
       name: action
       optional: false
       type: highlightactions
@@ -24,7 +24,7 @@ highlight_HighlightActions_=:
     - delete
   desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'The action to perform: add, list, delete or match.'
       name: action
       optional: false
       type: highlightactions
@@ -41,7 +41,7 @@ highlight_HighlightActions_=_1:
     - delete
   desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'The action to perform: add, list, delete or match.'
       name: action
       optional: false
       type: highlightactions
@@ -58,7 +58,7 @@ highlight_HighlightActions_=_2:
     - delete
   desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'The action to perform: add, list, delete or match.'
       name: action
       optional: false
       type: highlightactions

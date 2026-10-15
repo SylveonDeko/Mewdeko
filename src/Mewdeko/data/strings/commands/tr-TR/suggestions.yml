@@ -1,0 +1,838 @@
+accept:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi kabul eder ve onaylanmış olarak işaretler.'
+  params:
+    - desc: 'Kabul edilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi kabul etme nedeni.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi kabul eder ve onaylanmış olarak işaretler.'
+  params:
+    - desc: 'Kabul edilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi kabul etme nedeni.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi kabul eder ve onaylanmış olarak işaretler.'
+  params:
+    - desc: 'Kabul edilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi kabul etme nedeni.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi kabul eder ve onaylanmış olarak işaretler.'
+  params:
+    - desc: 'Kabul edilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi kabul etme nedeni.'
+      name: reason
+      optional: true
+      type: string
+acceptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Kabul edilen önerilerin gönderileceği kanalı ayarlar.'
+  params:
+    - desc: 'Kabul edilen önerilerin gönderileceği kanal. Null ise özellik devre dışı kalır.'
+      name: channel
+      optional: true
+      type: channel
+acceptmessage:
+  args:
+    - text
+  desc: 'Öneriler için kabul mesajını ayarlar veya günceller.'
+  params:
+    - &ref_2
+      desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string:
+  args:
+    - text
+  desc: 'Öneriler için kabul mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_1:
+  args:
+    - text
+  desc: 'Öneriler için kabul mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_2:
+  args:
+    - text
+  desc: 'Öneriler için kabul mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+archiveonaccept:
+  args:
+    - ''
+  desc: 'Kabul edildiğinde önerilerin arşivlenip arşivlenmeyeceğini değiştirir.'
+  params: [ ]
+archiveonconsider:
+  args:
+    - ''
+  desc: 'Dikkate alındığında önerilerin arşivlenip arşivlenmeyeceğini değiştirir.'
+  params: [ ]
+archiveondeny:
+  args:
+    - ''
+  desc: 'Reddedildiğinde önerilerin arşivlenip arşivlenmeyeceğini değiştirir.'
+  params: [ ]
+archiveonimplement:
+  args:
+    - ''
+  desc: 'Uygulandığında önerilerin arşivlenip arşivlenmeyeceğini değiştirir.'
+  params: [ ]
+consider:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi dikkate alınmış olarak işaretler.'
+  params:
+    - desc: 'Dikkate alınmış olarak işaretlenecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi dikkate almanın yorumları veya gerekçesi.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi dikkate alınmış olarak işaretler.'
+  params:
+    - desc: 'Dikkate alınmış olarak işaretlenecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi dikkate almanın yorumları veya gerekçesi.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi dikkate alınmış olarak işaretler.'
+  params:
+    - desc: 'Dikkate alınmış olarak işaretlenecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi dikkate almanın yorumları veya gerekçesi.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi dikkate alınmış olarak işaretler.'
+  params:
+    - desc: 'Dikkate alınmış olarak işaretlenecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi dikkate almanın yorumları veya gerekçesi.'
+      name: reason
+      optional: true
+      type: string
+considerchannel:
+  args:
+    - '[@channel]'
+  desc: 'Dikkate alınan önerilerin gönderileceği kanalı ayarlar.'
+  params:
+    - desc: 'Dikkate alınan önerilerin gönderileceği kanal. Null ise özellik devre dışı kalır.'
+      name: channel
+      optional: true
+      type: channel
+considermessage:
+  args:
+    - text
+  desc: 'Öneriler için dikkate alma mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+deny:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi reddeder ve reddedilmiş olarak işaretler.'
+  params:
+    - desc: 'Reddedilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi reddetme nedeni.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi reddeder ve reddedilmiş olarak işaretler.'
+  params:
+    - desc: 'Reddedilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi reddetme nedeni.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi reddeder ve reddedilmiş olarak işaretler.'
+  params:
+    - desc: 'Reddedilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi reddetme nedeni.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi reddeder ve reddedilmiş olarak işaretler.'
+  params:
+    - desc: 'Reddedilecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Öneriyi reddetme nedeni.'
+      name: reason
+      optional: true
+      type: string
+denychannel:
+  args:
+    - '[@channel]'
+  desc: 'Reddedilen önerilerin gönderileceği kanalı ayarlar.'
+  params:
+    - desc: 'Reddedilen önerilerin gönderileceği kanal. Null ise özellik devre dışı kalır.'
+      name: channel
+      optional: true
+      type: channel
+denymessage:
+  args:
+    - text
+  desc: 'Öneriler için red mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+implementchannel:
+  args:
+    - '[@channel]'
+  desc: 'Uygulanan önerilerin gönderileceği kanalı ayarlar.'
+  params:
+    - desc: 'Uygulanan önerilerin gönderileceği kanal. Null ise özellik devre dışı kalır.'
+      name: channel
+      optional: true
+      type: channel
+implemented:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Bir öneriyi uygulanmış olarak işaretler.'
+  params:
+    - desc: 'Uygulanmış olarak işaretlenecek önerinin benzersiz numarası (ID''si).'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'İsteğe bağlı. Uygulamayla ilgili neden veya ayrıntılar.'
+      name: reason
+      optional: true
+      type: string
+implementmessage:
+  args:
+    - text
+  desc: 'Öneriler için uygulama mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+maxsuggestionlength:
+  args:
+    - number
+  desc: 'Öneriler için en fazla uzunluğu ayarlar.'
+  params:
+    - &ref_291
+      desc: 'Bir önerinin sahip olabileceği en fazla karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int:
+  args:
+    - number
+  desc: 'Öneriler için en fazla uzunluğu ayarlar.'
+  params:
+    - desc: 'Bir önerinin sahip olabileceği en fazla karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Öneriler için en fazla uzunluğu ayarlar.'
+  params:
+    - desc: 'Bir önerinin sahip olabileceği en fazla karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Öneriler için en fazla uzunluğu ayarlar.'
+  params:
+    - desc: 'Bir önerinin sahip olabileceği en fazla karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength:
+  args:
+    - number
+  desc: 'Öneriler için en az uzunluğu ayarlar.'
+  params:
+    - &ref_294
+      desc: 'Bir önerinin sahip olması gereken en az karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int:
+  args:
+    - number
+  desc: 'Öneriler için en az uzunluğu ayarlar.'
+  params:
+    - desc: 'Bir önerinin sahip olması gereken en az karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Öneriler için en az uzunluğu ayarlar.'
+  params:
+    - desc: 'Bir önerinin sahip olması gereken en az karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Öneriler için en az uzunluğu ayarlar.'
+  params:
+    - desc: 'Bir önerinin sahip olması gereken en az karakter sayısı.'
+      name: length
+      optional: false
+      type: int
+setsuggestchannel:
+  args:
+    - '[@channel]'
+  desc: 'Sunucu için öneri kanalını ayarlar veya devre dışı bırakır.'
+  params:
+    - desc: 'Öneri kanalı olarak ayarlanacak metin kanalı. Null ise öneriler devre dışı kalır.'
+      name: channel
+      optional: true
+      type: channel
+suggest:
+  args:
+    - text
+  desc: 'Yeni bir öneriyi belirlenen öneri kanalına gönderir.'
+  params:
+    - &ref_582
+      desc: 'Gönderilecek önerinin içeriği.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string:
+  args:
+    - text
+  desc: 'Yeni bir öneriyi belirlenen öneri kanalına gönderir.'
+  params:
+    - desc: 'Gönderilecek önerinin içeriği.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_1:
+  args:
+    - text
+  desc: 'Yeni bir öneriyi belirlenen öneri kanalına gönderir.'
+  params:
+    - desc: 'Gönderilecek önerinin içeriği.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_2:
+  args:
+    - text
+  desc: 'Yeni bir öneriyi belirlenen öneri kanalına gönderir.'
+  params:
+    - desc: 'Gönderilecek önerinin içeriği.'
+      name: suggestion
+      optional: false
+      type: string
+suggestbuttonchannel:
+  args:
+    - channel
+  desc: 'Öneri düğmesi kanalını ayarlar.'
+  params:
+    - &ref_583
+      desc: 'Öneri düğmesi kanalı olarak ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Öneri düğmesi kanalını ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi kanalı olarak ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Öneri düğmesi kanalını ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi kanalı olarak ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Öneri düğmesi kanalını ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi kanalı olarak ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttoncolor:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Öneri düğmesinin rengini ayarlar.'
+  params:
+    - &ref_584
+      desc: 'Öneri düğmesi için renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Öneri düğmesinin rengini ayarlar.'
+  params:
+    - &ref_585
+      desc: 'Öneri düğmesi için renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_1:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Öneri düğmesinin rengini ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi için renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_2:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Öneri düğmesinin rengini ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi için renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttonemote:
+  args:
+    - '[emote]'
+  desc: 'Öneri düğmesi için emote''u ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi için kullanılacak emote. Null ise varsayılana döner.'
+      name: emote
+      optional: true
+      type: emote
+suggestbuttonlabel:
+  args:
+    - text
+  desc: 'Öneri düğmesinin etiketini ayarlar.'
+  params:
+    - &ref_586
+      desc: 'Öneri düğmesi için etiket metni. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string:
+  args:
+    - text
+  desc: 'Öneri düğmesinin etiketini ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi için etiket metni. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_1:
+  args:
+    - text
+  desc: 'Öneri düğmesinin etiketini ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi için etiket metni. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_2:
+  args:
+    - text
+  desc: 'Öneri düğmesinin etiketini ayarlar.'
+  params:
+    - desc: 'Öneri düğmesi için etiket metni. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonmessage:
+  args:
+    - text
+  desc: 'Öneri düğmesi mesajını ayarlar veya günceller.'
+  params:
+    - &ref_587
+      desc: 'Öneri düğmesi için ayarlanacak mesaj. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string:
+  args:
+    - text
+  desc: 'Öneri düğmesi mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Öneri düğmesi için ayarlanacak mesaj. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_1:
+  args:
+    - text
+  desc: 'Öneri düğmesi mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Öneri düğmesi için ayarlanacak mesaj. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_2:
+  args:
+    - text
+  desc: 'Öneri düğmesi mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Öneri düğmesi için ayarlanacak mesaj. Varsayılana dönmek için "-" kullan.'
+      name: toSet
+      optional: true
+      type: string
+suggestclear:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm önerileri temizler.'
+  params: [ ]
+suggestinfo:
+  args:
+    - num
+  desc: 'Belirli bir öneri hakkında ayrıntılı bilgi verir.'
+  params:
+    - &ref_588
+      desc: 'Bilgisi alınacak önerinin benzersiz numarası (ID''si).'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong:
+  args:
+    - num
+  desc: 'Belirli bir öneri hakkında ayrıntılı bilgi verir.'
+  params:
+    - desc: 'Bilgisi alınacak önerinin benzersiz numarası (ID''si).'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_1:
+  args:
+    - num
+  desc: 'Belirli bir öneri hakkında ayrıntılı bilgi verir.'
+  params:
+    - desc: 'Bilgisi alınacak önerinin benzersiz numarası (ID''si).'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_2:
+  args:
+    - num
+  desc: 'Belirli bir öneri hakkında ayrıntılı bilgi verir.'
+  params:
+    - desc: 'Bilgisi alınacak önerinin benzersiz numarası (ID''si).'
+      name: num
+      optional: false
+      type: ulong
+suggestmessage:
+  args:
+    - text
+  desc: 'Öneri mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string:
+  args:
+    - text
+  desc: 'Öneri mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_1:
+  args:
+    - text
+  desc: 'Öneri mesajını ayarlar veya günceller.'
+  params:
+    - desc: ''
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_2:
+  args:
+    - text
+  desc: 'Öneri mesajını ayarlar veya günceller.'
+  params:
+    - desc: 'Mesaj veya embed kodu. Varsayılan mesaja dönmek için "-" kullan.'
+      name: embed
+      optional: false
+      type: string
+suggestmotecolor:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Önerilerdeki belirli emote düğmelerinin rengini ayarlar.'
+  params:
+    - &ref_589
+      desc: 'Değiştirilecek düğme numarası.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Düğmeye uygulanacak renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Önerilerdeki belirli emote düğmelerinin rengini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğme numarası.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Düğmeye uygulanacak renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_1:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Önerilerdeki belirli emote düğmelerinin rengini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğme numarası.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Düğmeye uygulanacak renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_2:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Önerilerdeki belirli emote düğmelerinin rengini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğme numarası.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Düğmeye uygulanacak renk türü.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotes:
+  args:
+    - '[_]'
+  desc: 'Önerilerde kullanılan özel emote''ları yapılandırır.'
+  params:
+    - desc: 'Virgülle ayrılmış emote listesi veya varsayılan tepkileri kullanmak için "disable".'
+      name: _
+      optional: true
+      type: string
+suggestmotesmode:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Öneri emote''larının mod''unu ayarlar: tepki veya düğme.'
+  params:
+    - &ref_590
+      desc: 'Öneri emote''ları için kullanılacak mod.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Öneri emote''larının mod''unu ayarlar: tepki veya düğme.'
+  params:
+    - desc: 'Öneri emote''ları için kullanılacak mod.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_1:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Öneri emote''larının mod''unu ayarlar: tepki veya düğme.'
+  params:
+    - desc: 'Öneri emote''ları için kullanılacak mod.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_2:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Öneri emote''larının mod''unu ayarlar: tepki veya düğme.'
+  params:
+    - desc: 'Öneri emote''ları için kullanılacak mod.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestthreadstype:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Önerilerde kullanılan konu (thread) türünü ayarlar.'
+  params:
+    - &ref_591
+      desc: 'Yeni öneriler için kullanılacak konu türü.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Önerilerde kullanılan konu (thread) türünü ayarlar.'
+  params:
+    - desc: 'Yeni öneriler için kullanılacak konu türü.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_1:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Önerilerde kullanılan konu (thread) türünü ayarlar.'
+  params:
+    - desc: 'Yeni öneriler için kullanılacak konu türü.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_2:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Önerilerde kullanılan konu (thread) türünü ayarlar.'
+  params:
+    - desc: 'Yeni öneriler için kullanılacak konu türü.'
+      name: type
+      optional: false
+      type: SuggestThreadType

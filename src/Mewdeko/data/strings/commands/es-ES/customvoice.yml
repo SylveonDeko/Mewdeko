@@ -1,19 +1,19 @@
 setupvoicehub:
   args:
     - ''
-  desc: 'Configura un canal de voz como hub para crear canales de voz personalizados.'
+  desc: 'Configura un canal de voz como punto de partida para crear canales de voz personalizados.'
   params: [ ]
 setvoicehub:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+  desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
   params:
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: category
       optional: true
       type: category
@@ -21,13 +21,13 @@ setvoicehub_IVoiceChannel_=:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+  desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
   params:
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: category
       optional: true
       type: category
@@ -35,13 +35,13 @@ setvoicehub_IVoiceChannel_=_1:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+  desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
   params:
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: category
       optional: true
       type: category
@@ -49,87 +49,87 @@ setvoicehub_IVoiceChannel_=_2:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+  desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
   params:
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Establece un canal de voz específico como hub para crear canales de voz personalizados.'
+    - desc: 'Define un canal de voz concreto como punto de partida para crear canales de voz personalizados.'
       name: category
       optional: true
       type: category
 voiceallow:
   args:
     - '@user'
-  desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+  desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
   params:
     - &ref_642
-      desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+      desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser:
   args:
     - '@user'
-  desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+  desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
   params:
-    - desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+    - desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_1:
   args:
     - '@user'
-  desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+  desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
   params:
-    - desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+    - desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_2:
   args:
     - '@user'
-  desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+  desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
   params:
-    - desc: 'Permite a un usuario específico unirse a tu canal de voz bloqueado.'
+    - desc: 'Permite a un usuario concreto unirse a tu canal de voz bloqueado.'
       name: target
       optional: false
       type: IGuildUser
 voicebitrate:
   args:
     - number
-  desc: 'Establece el bitrate para tu canal de voz personalizado.'
+  desc: 'Define el bitrate de tu canal de voz personalizado.'
   params:
     - &ref_643
-      desc: 'Establece el bitrate para tu canal de voz personalizado.'
+      desc: 'Define el bitrate de tu canal de voz personalizado.'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int:
   args:
     - number
-  desc: 'Establece el bitrate para tu canal de voz personalizado.'
+  desc: 'Define el bitrate de tu canal de voz personalizado.'
   params:
-    - desc: 'Establece el bitrate para tu canal de voz personalizado.'
+    - desc: 'Define el bitrate de tu canal de voz personalizado.'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int_1:
   args:
     - number
-  desc: 'Establece el bitrate para tu canal de voz personalizado.'
+  desc: 'Define el bitrate de tu canal de voz personalizado.'
   params:
-    - desc: 'Establece el bitrate para tu canal de voz personalizado.'
+    - desc: 'Define el bitrate de tu canal de voz personalizado.'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int_2:
   args:
     - number
-  desc: 'Establece el bitrate para tu canal de voz personalizado.'
+  desc: 'Define el bitrate de tu canal de voz personalizado.'
   params:
-    - desc: 'Establece el bitrate para tu canal de voz personalizado.'
+    - desc: 'Define el bitrate de tu canal de voz personalizado.'
       name: bitrate
       optional: false
       type: int
@@ -164,55 +164,55 @@ voicecontrols:
 voicedeny:
   args:
     - '@user'
-  desc: 'Deniega el acceso de un usuario específico a tu canal de voz.'
+  desc: 'Impide que un usuario concreto se una a tu canal de voz.'
   params:
-    - desc: 'Deniega el acceso de un usuario específico a tu canal de voz.'
+    - desc: 'Impide que un usuario concreto se una a tu canal de voz.'
       name: target
       optional: false
       type: IGuildUser
 voicekeepalive:
   args:
     - true
-  desc: 'Mantiene el canal activo incluso cuando está vacío.'
+  desc: 'Define el canal que se mantendrá activo aunque esté vacío.'
   params:
-    - desc: 'Mantiene el canal activo incluso cuando está vacío.'
+    - desc: 'Define el canal que se mantendrá activo aunque esté vacío.'
       name: true
       optional: false
       type: '='
 voicelimit:
   args:
     - number
-  desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+  desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
   params:
     - &ref_644
-      desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+      desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
       name: limit
       optional: false
       type: int
 voicelimit_int:
   args:
     - number
-  desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+  desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
   params:
-    - desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+    - desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
       name: limit
       optional: false
       type: int
 voicelimit_int_1:
   args:
     - number
-  desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+  desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
   params:
-    - desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+    - desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
       name: limit
       optional: false
       type: int
 voicelimit_int_2:
   args:
     - number
-  desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+  desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
   params:
-    - desc: 'Establece el límite de usuarios para tu canal de voz personalizado.'
+    - desc: 'Define el límite de usuarios de tu canal de voz personalizado.'
       name: limit
       optional: false
       type: int
@@ -228,50 +228,50 @@ voicelock:
 voicepreferences:
   args:
     - ''
-  desc: 'Establece tus preferencias de canal de voz.'
+  desc: 'Define tus preferencias de canal de voz.'
   params: [ ]
 voiceprefsbitrate:
   args:
     - '[bitrate]'
-  desc: 'Establece tu bitrate preferido para los canales de voz personalizados.'
+  desc: 'Define tu bitrate preferido para los canales de voz personalizados.'
   params:
-    - desc: 'Establece tu bitrate preferido para los canales de voz personalizados.'
+    - desc: 'Define tu bitrate preferido para los canales de voz personalizados.'
       name: bitrate
       optional: true
       type: int
 voiceprefskeepalive:
   args:
     - '[keepAlive]'
-  desc: 'Establece tu preferencia de keep-alive para los canales de voz personalizados.'
+  desc: 'Define tu preferencia de mantener activo el canal para los canales de voz personalizados.'
   params:
-    - desc: 'Establece tu preferencia de keep-alive para los canales de voz personalizados.'
+    - desc: 'Define tu preferencia de mantener activo el canal para los canales de voz personalizados.'
       name: keepAlive
       optional: true
       type: bool
 voiceprefslimit:
   args:
     - '[limit]'
-  desc: 'Establece tu límite de usuarios preferido para los canales de voz personalizados.'
+  desc: 'Define tu límite de usuarios preferido para los canales de voz personalizados.'
   params:
-    - desc: 'Establece tu límite de usuarios preferido para los canales de voz personalizados.'
+    - desc: 'Define tu límite de usuarios preferido para los canales de voz personalizados.'
       name: limit
       optional: true
       type: int
 voiceprefslock:
   args:
     - '[locked]'
-  desc: 'Establece tu preferencia de bloqueo para los canales de voz personalizados.'
+  desc: 'Define tu preferencia de bloqueo para los canales de voz personalizados.'
   params:
-    - desc: 'Establece tu preferencia de bloqueo para los canales de voz personalizados.'
+    - desc: 'Define tu preferencia de bloqueo para los canales de voz personalizados.'
       name: locked
       optional: true
       type: bool
 voiceprefsname:
   args:
     - '[format]'
-  desc: 'Establece tu formato de nombre preferido para los canales de voz personalizados.'
+  desc: 'Define tu formato de nombre preferido para los canales de voz personalizados.'
   params:
-    - desc: 'Establece tu formato de nombre preferido para los canales de voz personalizados.'
+    - desc: 'Define tu formato de nombre preferido para los canales de voz personalizados.'
       name: format
       optional: true
       type: string

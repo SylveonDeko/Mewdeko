@@ -1,0 +1,226 @@
+votechannel:
+  args:
+    - channel
+  desc: 'Встановлює вказаний текстовий канал як канал голосування, куди надсилатимуться всі підтвердження голосів.'
+  params:
+    - &ref_646
+      desc: 'Текстовий канал, який потрібно встановити як канал голосування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Встановлює вказаний текстовий канал як канал голосування, куди надсилатимуться всі підтвердження голосів.'
+  params:
+    - desc: 'Текстовий канал, який потрібно встановити як канал голосування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Встановлює вказаний текстовий канал як канал голосування, куди надсилатимуться всі підтвердження голосів.'
+  params:
+    - desc: 'Текстовий канал, який потрібно встановити як канал голосування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Встановлює вказаний текстовий канал як канал голосування, куди надсилатимуться всі підтвердження голосів.'
+  params:
+    - desc: 'Текстовий канал, який потрібно встановити як канал голосування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: 'Встановлює власне повідомлення, яке надсилатиметься, коли користувач голосує, або показує попередній перегляд поточного повідомлення для голосування.'
+  params:
+    - desc: 'Власне повідомлення для голосувань. Використовуйте "-", щоб повернути повідомлення за замовчуванням. Якщо не вказано (null), показується попередній перегляд поточного повідомлення.'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: 'Запускає процес підтвердження для встановлення нового пароля голосування з попередженням користувача про його безпеку.'
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: 'Додає роль, яка надаватиметься користувачам після голосування, з необов''язковою тривалістю, після якої роль буде автоматично знята.'
+  params:
+    - desc: 'Роль, яку потрібно додати як нагороду за голосування.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Тривалість, протягом якої надаватиметься роль. Null — безстроково.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: 'Додає роль, яка надаватиметься користувачам після голосування, з необов''язковою тривалістю, після якої роль буде автоматично знята.'
+  params:
+    - desc: 'Роль, яку потрібно додати як нагороду за голосування.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Тривалість, протягом якої надаватиметься роль. Null — безстроково.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: 'Додає роль, яка надаватиметься користувачам після голосування, з необов''язковою тривалістю, після якої роль буде автоматично знята.'
+  params:
+    - desc: 'Роль, яку потрібно додати як нагороду за голосування.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Тривалість, протягом якої надаватиметься роль. Null — безстроково.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: 'Додає роль, яка надаватиметься користувачам після голосування, з необов''язковою тривалістю, після якої роль буде автоматично знята.'
+  params:
+    - desc: 'Роль, яку потрібно додати як нагороду за голосування.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Тривалість, протягом якої надаватиметься роль. Null — безстроково.'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: 'Змінює тривалість, протягом якої користувачам надається роль за голосування.'
+  params:
+    - &ref_648
+      desc: 'Роль для зміни.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: 'Нова тривалість надання ролі.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: 'Змінює тривалість, протягом якої користувачам надається роль за голосування.'
+  params:
+    - desc: 'Роль для зміни.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Нова тривалість надання ролі.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: 'Змінює тривалість, протягом якої користувачам надається роль за голосування.'
+  params:
+    - desc: 'Роль для зміни.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Нова тривалість надання ролі.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: 'Змінює тривалість, протягом якої користувачам надається роль за голосування.'
+  params:
+    - desc: 'Роль для зміни.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Нова тривалість надання ролі.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: 'Видаляє роль зі списку ролей, які надаються користувачам після голосування.'
+  params:
+    - &ref_650
+      desc: 'Роль, яку потрібно видалити з нагород за голосування.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: 'Видаляє роль зі списку ролей, які надаються користувачам після голосування.'
+  params:
+    - desc: 'Роль, яку потрібно видалити з нагород за голосування.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видаляє роль зі списку ролей, які надаються користувачам після голосування.'
+  params:
+    - desc: 'Роль, яку потрібно видалити з нагород за голосування.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видаляє роль зі списку ролей, які надаються користувачам після голосування.'
+  params:
+    - desc: 'Роль, яку потрібно видалити з нагород за голосування.'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: 'Очищає всі ролі, які надаються користувачам після голосування.'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: 'Показує всі ролі, які надаються користувачам після голосування.'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: 'Показує загальну кількість голосів, відданих конкретним користувачем або викликачем команди.'
+  params:
+    - desc: 'Користувач, чиї голоси потрібно порахувати. Якщо не вказано (null), рахуються голоси викликача команди.'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: 'Показує рейтинг користувачів за кількістю голосів; за бажанням фільтрує голоси за поточний місяць.'
+  params:
+    - desc: 'Показує рейтинг користувачів за кількістю голосів; за бажанням фільтрує голоси за поточний місяць.'
+      name: false
+      optional: false
+      type: '='

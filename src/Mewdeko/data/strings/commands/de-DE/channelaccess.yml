@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Postet den Bewerben-Button für einen geschützten Kanal, damit du das Bewerbungsformular ausfüllen kannst.'
+  params:
+    - desc: 'Der Kanal, für den du dich bewerben möchtest.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Erzwingt eine Bewerbung unabhängig von der Stimmenzahl.'
+  params:
+    - desc: 'Die Bewerbungs-ID.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Eine optionale Notiz, die bei der geschlossenen Bewerbung angezeigt wird.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Listet alle, die sich auf diesem Server nicht bewerben dürfen.'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Sperrt einen Nutzer von Bewerbungen, entweder für einen Kanal oder für alle geschützten Kanäle.'
+  params:
+    - desc: 'Der zu sperrende Nutzer.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Der geschützte Kanal, oder leer lassen, um überall zu sperren.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Hebt eine Sperre auf, damit ein Nutzer sich wieder bewerben kann.'
+  params:
+    - desc: 'Der gesperrte Nutzer.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Der geschützte Kanal, für den die Sperre gesetzt wurde, falls sie kanalspezifisch war.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Ändert eine Einstellung eines Gates. Ohne Einstellung ausführen, um alles zu sehen, was du ändern kannst.'
+  params:
+    - desc: 'Der geschützte Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Der Name der Einstellung.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Der neue Wert.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Lehnt eine Bewerbung ab, unabhängig von der Stimmenzahl.'
+  params:
+    - desc: 'Die Bewerbungs-ID.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Eine optionale Notiz, die bei der geschlossenen Bewerbung angezeigt wird.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Zeigt die Bewerbungshistorie eines Nutzers oder deine eigene, wenn kein Nutzer angegeben ist.'
+  params:
+    - desc: 'Der Nutzer, der nachgeschlagen werden soll.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Listet alle Gates des Servers mit ihren aktuellen Schwellenwerten.'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Postet einen Button, über den Leute sich für einen geschützten Kanal bewerben können.'
+  params:
+    - desc: 'Der geschützte Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Wo das Panel gepostet wird. Standard ist der aktuelle Kanal.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Listet die Bewerbungen, die noch auf eine Entscheidung warten.'
+  params:
+    - desc: 'Optional die Liste auf einen geschützten Kanal beschränken.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Fügt dem Bewerbungsformular eines Gates eine Frage hinzu. Ein Gate kann bis zu fünf Fragen haben.'
+  params:
+    - desc: 'Der geschützte Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Der Fragetext, bis zu 45 Zeichen.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Zeigt die Bewerbungsfragen eines Gates in der Reihenfolge, in der Bewerber sie sehen.'
+  params:
+    - desc: 'Der geschützte Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Entfernt eine Frage aus dem Bewerbungsformular eines Gates anhand ihrer angezeigten Position.'
+  params:
+    - desc: 'Der geschützte Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Die Position, beginnend bei 1, wie in der Fragenliste angezeigt.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Entfernt das Gate eines Kanals samt Fragen und Bewerbungshistorie.'
+  params:
+    - desc: 'Der geschützte Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Öffnet Bewerbungen für einen gesperrten Kanal und gewährt genehmigten Bewerbern die angegebene Rolle.'
+  params:
+    - desc: 'Der gesperrte Kanal, der geschützt werden soll.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Die Rolle, die bei bestandener Bewerbung gewährt wird. Lass sie weg, um Bewerber direkt zum Kanal hinzuzufügen.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Zieht eine deiner eigenen offenen Bewerbungen zurück.'
+  params:
+    - desc: 'Die Bewerbungs-ID, die in der Prüfnachricht angezeigt wird.'
+      name: applicationId
+      optional: false
+      type: int

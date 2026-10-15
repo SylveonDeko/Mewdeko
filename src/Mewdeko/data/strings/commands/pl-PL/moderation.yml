@@ -1,0 +1,3385 @@
+banprune:
+  args:
+    - ''
+  desc: 'Pokazuje czyszczenie wiadomości (purge), jakie użyłaby kara banem wydana na tym kanale, wraz z wszystkimi skonfigurowanymi ustawieniami.'
+  params:
+    - { }
+banpruneset:
+  args:
+    - '<action> <days> [#channel]'
+  desc: 'Określa, z ilu dni wiadomości usuwa jedno działanie banem. Użyj „all” dla wszystkich działań, a kanał lub kategorię podaj, aby nadpisać tylko ten zakres.'
+  params:
+    - desc: 'Klucz działania lub „all”, aby objąć wszystkie działania.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Czyszczenie w dniach, od 0 do 7.'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Kanał lub kategoria, do której zawęzić ustawienie, albo nic dla domyślnego ustawienia serwera.'
+      name: target
+      optional: true
+      type: channel
+banpruneclear:
+  args:
+    - '<action> [#channel]'
+  desc: 'Usuwa ustawienie czyszczenia, tak aby działanie wróciło do szerszego zakresu lub domyślnego.'
+  params:
+    - desc: 'Klucz działania lub „all” dla ustawienia obejmującego wszystkie działania.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Kanał lub kategoria, której dotyczy ustawienie, albo nic dla domyślnego ustawienia serwera.'
+      name: target
+      optional: true
+      type: channel
+banprunereset:
+  args:
+    - ''
+  desc: 'Usuwa wszystkie ustawienia czyszczenia na serwerze.'
+  params:
+    - { }
+ban:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+  params:
+    - desc: 'Banuje użytkownika z podanym powodem i liczbą dni wiadomości do usunięcia.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Czas, z którego usunąć wiadomości'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do zbanowania'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód bana'
+      name: msg
+      optional: true
+      type: string
+banmessage:
+  args:
+    - '[message]'
+  desc: 'Ustawia wiadomość, którą użytkownicy otrzymują w wiadomości prywatnej po zbanowaniu.'
+  params:
+    - desc: 'Wiadomość do ustawienia; może to być także kod embeda.'
+      name: message
+      optional: true
+      type: string
+banmessagetest:
+  args:
+    - '<duration> [reason]'
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=:
+  args:
+    - '<duration> [reason]'
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_1:
+  args:
+    - '<duration> [reason]'
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_2:
+  args:
+    - '<duration> [reason]'
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_1:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_2:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_3:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Testuje wiadomość o banie. Użyj jej jako żartu!'
+  params:
+    - desc: 'Czas trwania bana'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Powód bana'
+      name: reason
+      optional: true
+      type: string
+banmsgreset:
+  args:
+    - ''
+  desc: 'Przywraca domyślną wiadomość o banie.'
+  params: [ ]
+banmsgtest:
+  args:
+    - user
+  desc: 'Testuje działanie wiadomości o banie.'
+  params:
+    - desc: 'Użytkownik, na którym przetestować wiadomość o banie.'
+      name: user
+      optional: false
+      type: IUser
+chatmute:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - &ref_127
+      desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - &ref_126
+      desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - &ref_128
+      desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - &ref_129
+      desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na czacie, a nie na głosie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+chatunmute:
+  args:
+    - '@user ""'
+  desc: 'Odcisza użytkownika na czacie.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Odcisza użytkownika na czacie.'
+      name: '""'
+      optional: false
+      type: '='
+dehoist:
+  args:
+    - '@user'
+  desc: 'Dehoistuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - &ref_180
+      desc: 'Użytkownik do dehoistowania'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Dehoistuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - desc: 'Użytkownik do dehoistowania'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Dehoistuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - desc: 'Użytkownik do dehoistowania'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Dehoistuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - desc: 'Użytkownik do dehoistowania'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoistall:
+  args:
+    - false
+  desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+  params:
+    - &ref_181
+      desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=:
+  args:
+    - false
+  desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+  params:
+    - desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_1:
+  args:
+    - false
+  desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+  params:
+    - desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_2:
+  args:
+    - false
+  desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+  params:
+    - desc: 'Dehoistuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich pseudonimach.'
+      name: false
+      optional: false
+      type: '='
+kick:
+  args:
+    - '[@user] [msg]'
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Wyrzuca użytkownika.'
+  params:
+    - desc: 'Wyrzuca użytkownika.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyrzucenia'
+      name: msg
+      optional: true
+      type: string
+masskick:
+  args:
+    - '@user'
+  desc: 'Wyrzuca wielu użytkowników.'
+  params:
+    - &ref_289
+      desc: 'Użytkownicy do wyrzucenia'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]:
+  args:
+    - '@user'
+  desc: 'Wyrzuca wielu użytkowników.'
+  params:
+    - desc: 'Użytkownicy do wyrzucenia'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_1:
+  args:
+    - '@user'
+  desc: 'Wyrzuca wielu użytkowników.'
+  params:
+    - desc: 'Użytkownicy do wyrzucenia'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_2:
+  args:
+    - '@user'
+  desc: 'Wyrzuca wielu użytkowników.'
+  params:
+    - desc: 'Użytkownicy do wyrzucenia'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskill:
+  args:
+    - text
+  desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+  params:
+    - &ref_290
+      desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+      name: people
+      optional: false
+      type: string
+masskill_string:
+  args:
+    - text
+  desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+  params:
+    - desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+      name: people
+      optional: false
+      type: string
+masskill_string_1:
+  args:
+    - text
+  desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+  params:
+    - desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+      name: people
+      optional: false
+      type: string
+masskill_string_2:
+  args:
+    - text
+  desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+  params:
+    - desc: 'Masowo banuje użytkowników. Użyj tego, aby zbanować wielu użytkowników naraz. Dodaje ich także do czarnej listy bota.'
+      name: people
+      optional: false
+      type: string
+massnickprogress:
+  args:
+    - ''
+  desc: 'Pokazuje postęp masowej operacji zmiany pseudonimów.'
+  params: [ ]
+massnickstop:
+  args:
+    - ''
+  desc: 'Zatrzymuje masową operację zmiany pseudonimów.'
+  params: [ ]
+mute:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - &ref_313
+      desc: 'Wycisza użytkownika na podany czas.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_1:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_2:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_3:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na podany czas.'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na podany czas.'
+      name: '""'
+      optional: false
+      type: '='
+muterole:
+  args:
+    - '[@role]'
+  desc: 'Ustawia rolę wyciszenia dla serwera.'
+  params:
+    - desc: 'Ustawia rolę wyciszenia dla serwera.'
+      name: role
+      optional: true
+      type: role
+mwarn:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Wystawia użytkownikowi mini ostrzeżenie.'
+  params:
+    - desc: 'Użytkownik do ostrzeżenia'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Powód ostrzeżenia'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Wystawia użytkownikowi mini ostrzeżenie.'
+  params:
+    - desc: 'Użytkownik do ostrzeżenia'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Powód ostrzeżenia'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_1:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Wystawia użytkownikowi mini ostrzeżenie.'
+  params:
+    - desc: 'Użytkownik do ostrzeżenia'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Powód ostrzeżenia'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_2:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Wystawia użytkownikowi mini ostrzeżenie.'
+  params:
+    - desc: 'Użytkownik do ostrzeżenia'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Powód ostrzeżenia'
+      name: reason
+      optional: true
+      type: string
+mwarnclear:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - &ref_315
+      desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=:
+  args:
+    - userid 0
+    - userid
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - &ref_316
+      desc: 'ID użytkownika, którego ostrzeżenia wyczyścić'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_1:
+  args:
+    - userid 0
+    - userid
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'ID użytkownika, którego ostrzeżenia wyczyścić'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_2:
+  args:
+    - userid 0
+    - userid
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'ID użytkownika, którego ostrzeżenia wyczyścić'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_3:
+  args:
+    - userid 0
+    - userid
+  desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'ID użytkownika, którego ostrzeżenia wyczyścić'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Czyści mini ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+mwarnexpire:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+  params:
+    - &ref_317
+      desc: 'Liczba dni do ustawienia'
+      name: days
+      optional: false
+      type: int
+    - &ref_318
+      desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+  params:
+    - desc: 'Liczba dni do ustawienia'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_1:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+  params:
+    - desc: 'Liczba dni do ustawienia'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_2:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+  params:
+    - desc: 'Liczba dni do ustawienia'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Ustawia czas wygaśnięcia mini ostrzeżeń.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnlog:
+  args:
+    - number @user
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - &ref_319
+      desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - &ref_320
+      desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_=:
+  args:
+    - '<page> @user'
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_1:
+  args:
+    - '<page> @user'
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_2:
+  args:
+    - '<page> @user'
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_3:
+  args:
+    - '<page> @user'
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_int_IGuildUser:
+  args:
+    - number @user
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_1:
+  args:
+    - number @user
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_2:
+  args:
+    - number @user
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_ulong:
+  args:
+    - number userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - &ref_321
+      desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_1:
+  args:
+    - number userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_2:
+  args:
+    - number userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_3:
+  args:
+    - number userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong:
+  args:
+    - userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_1:
+  args:
+    - userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_2:
+  args:
+    - userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_3:
+  args:
+    - userid
+  desc: 'Pobiera mini dziennik ostrzeżeń użytkownika.'
+  params:
+    - desc: 'ID użytkownika, dla którego pobrać dziennik ostrzeżeń'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlogall:
+  args:
+    - ''
+  desc: 'Pobiera mini dziennik ostrzeżeń wszystkich użytkowników.'
+  params: [ ]
+mwarnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int:
+  args:
+    - number
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_1:
+  args:
+    - number
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_2:
+  args:
+    - number
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_3:
+  args:
+    - number
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za mini ostrzeżenia.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za mini ostrzeżenia.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunishlist:
+  args:
+    - ''
+  desc: 'Wyświetla kary za mini ostrzeżenia.'
+  params: [ ]
+purge:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_=:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_=_1:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_=_2:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+  params:
+    - desc: 'Usuwa wiadomości z bieżącego kanału od wskazanego ID użytkownika, w podanej liczbie.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Liczba wiadomości do usunięcia'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Parametr do użycia'
+      name: parameter
+      optional: true
+      type: string
+purgeuser:
+  args:
+    - '@user number'
+  desc: 'Usuwa wszystkie wiadomości użytkownika ze wszystkich dostępnych kanałów.'
+  params:
+    - &ref_365
+      desc: 'Użytkownik, którego wiadomości usunąć'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_366
+      desc: 'Liczba wiadomości do przeszukania'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int:
+  args:
+    - '@user number'
+  desc: 'Usuwa wszystkie wiadomości użytkownika ze wszystkich dostępnych kanałów.'
+  params:
+    - desc: 'Użytkownik, którego wiadomości usunąć'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Liczba wiadomości do przeszukania'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_1:
+  args:
+    - '@user number'
+  desc: 'Usuwa wszystkie wiadomości użytkownika ze wszystkich dostępnych kanałów.'
+  params:
+    - desc: 'Użytkownik, którego wiadomości usunąć'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Liczba wiadomości do przeszukania'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_2:
+  args:
+    - '@user number'
+  desc: 'Usuwa wszystkie wiadomości użytkownika ze wszystkich dostępnych kanałów.'
+  params:
+    - desc: 'Użytkownik, którego wiadomości usunąć'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Liczba wiadomości do przeszukania'
+      name: messageCount
+      optional: false
+      type: int
+removeonmute:
+  args:
+    - text
+  desc: 'Przełącza usuwanie ról przy wyciszeniu'
+  params:
+    - &ref_402
+      desc: 'y, aby włączyć, n, aby wyłączyć.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string:
+  args:
+    - text
+  desc: 'Przełącza usuwanie ról przy wyciszeniu'
+  params:
+    - desc: 'y, aby włączyć, n, aby wyłączyć.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_1:
+  args:
+    - text
+  desc: 'Przełącza usuwanie ról przy wyciszeniu'
+  params:
+    - desc: 'y, aby włączyć, n, aby wyłączyć.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_2:
+  args:
+    - text
+  desc: 'Przełącza usuwanie ról przy wyciszeniu'
+  params:
+    - desc: 'y, aby włączyć, n, aby wyłączyć.'
+      name: yesnt
+      optional: false
+      type: string
+sanitize:
+  args:
+    - '@user'
+  desc: 'Sanityzuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - &ref_473
+      desc: 'Użytkownik do sanityzacji'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Sanityzuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - desc: 'Użytkownik do sanityzacji'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Sanityzuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - desc: 'Użytkownik do sanityzacji'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Sanityzuje użytkownika, zastępując znaki specjalne w jego nazwie.'
+  params:
+    - desc: 'Użytkownik do sanityzacji'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitizeall:
+  args:
+    - ''
+  desc: 'Sanityzuje wszystkich użytkowników na serwerze, zastępując znaki specjalne w ich nazwach.'
+  params: [ ]
+setmwarnchannel:
+  args:
+    - channel
+  desc: 'Ustawia kanał mini dziennika ostrzeżeń.'
+  params:
+    - &ref_507
+      desc: 'Kanał do ustawienia'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Ustawia kanał mini dziennika ostrzeżeń.'
+  params:
+    - desc: 'Kanał do ustawienia'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Ustawia kanał mini dziennika ostrzeżeń.'
+  params:
+    - desc: 'Kanał do ustawienia'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Ustawia kanał mini dziennika ostrzeżeń.'
+  params:
+    - desc: 'Kanał do ustawienia'
+      name: channel
+      optional: false
+      type: ITextChannel
+setwarnchannel:
+  args:
+    - channel
+  desc: 'Ustawia kanał dziennika ostrzeżeń dla serwera.'
+  params:
+    - desc: 'Ustawia kanał dziennika ostrzeżeń dla serwera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+softban:
+  args:
+    - '[@user] [msg]'
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+  params:
+    - desc: 'Softbanuje użytkownika. Użyj tego, aby wyrzucić użytkownika i usunąć jego wiadomości.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód softbana'
+      name: msg
+      optional: true
+      type: string
+stfu:
+  args:
+    - time @user
+    - time
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - &ref_569
+      desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_568
+      desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_IGuildUser_=:
+  args:
+    - '<time> [@user]'
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_1:
+  args:
+    - '<time> [@user]'
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_2:
+  args:
+    - '<time> [@user]'
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_3:
+  args:
+    - '<time> [@user]'
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: user
+stfu_StoopidTime_IGuildUser:
+  args:
+    - time @user
+    - time
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_1:
+  args:
+    - time @user
+    - time
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_2:
+  args:
+    - time @user
+    - time
+  desc: 'Co tu nie rozumieć? Ucisza użytkownika, i to porządnie.'
+  params:
+    - desc: 'Na jak długo uciszyć użytkownika.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do uciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+timeout:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Wycisza użytkownika na podany czas (timeout).'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyciszenia'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Wycisza użytkownika na podany czas (timeout).'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyciszenia'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Wycisza użytkownika na podany czas (timeout).'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyciszenia'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Wycisza użytkownika na podany czas (timeout).'
+  params:
+    - desc: 'Czas wyciszenia użytkownika'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód wyciszenia'
+      name: reason
+      optional: true
+      type: string
+unban:
+  args:
+    - text
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - &ref_633
+      desc: 'Odbanowuje użytkownika.'
+      name: user
+      optional: false
+      type: string
+unban_string:
+  args:
+    - text
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - desc: 'Odbanowuje użytkownika.'
+      name: user
+      optional: false
+      type: string
+unban_string_1:
+  args:
+    - text
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - desc: 'Odbanowuje użytkownika.'
+      name: user
+      optional: false
+      type: string
+unban_string_2:
+  args:
+    - text
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - desc: 'Odbanowuje użytkownika.'
+      name: user
+      optional: false
+      type: string
+unban_ulong:
+  args:
+    - userid
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - &ref_634
+      desc: 'ID użytkownika do odbanowania'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_1:
+  args:
+    - userid
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - desc: 'ID użytkownika do odbanowania'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_2:
+  args:
+    - userid
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - desc: 'ID użytkownika do odbanowania'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_3:
+  args:
+    - userid
+  desc: 'Odbanowuje użytkownika.'
+  params:
+    - desc: 'ID użytkownika do odbanowania'
+      name: userId
+      optional: false
+      type: ulong
+unmute:
+  args:
+    - '@user ""'
+  desc: 'Odcisza użytkownika.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Odcisza użytkownika.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Odcisza użytkownika.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Odcisza użytkownika.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Odcisza użytkownika.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Odcisza użytkownika.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Odcisza użytkownika.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Odcisza użytkownika.'
+      name: '""'
+      optional: false
+      type: '='
+unmuteall:
+  args:
+    - '[reason]'
+  desc: 'Odcisza wszystkich użytkowników na serwerze. NIEBEZPIECZNE!!!!!!!!!!!!!!!!'
+  params:
+    - desc: 'Powód, dla którego chcesz popełnić taki czyn!'
+      name: reason
+      optional: true
+      type: string
+unstfu:
+  args:
+    - '@user'
+  desc: 'Odcisza użytkownika na kanale.'
+  params:
+    - &ref_635
+      desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Odcisza użytkownika na kanale.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Odcisza użytkownika na kanale.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Odcisza użytkownika na kanale.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout:
+  args:
+    - '@user'
+  desc: 'Usuwa wyciszenie (timeout) użytkownika.'
+  params:
+    - &ref_636
+      desc: 'Użytkownik, któremu usunąć wyciszenie'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Usuwa wyciszenie (timeout) użytkownika.'
+  params:
+    - desc: 'Użytkownik, któremu usunąć wyciszenie'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Usuwa wyciszenie (timeout) użytkownika.'
+  params:
+    - desc: 'Użytkownik, któremu usunąć wyciszenie'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Usuwa wyciszenie (timeout) użytkownika.'
+  params:
+    - desc: 'Użytkownik, któremu usunąć wyciszenie'
+      name: user
+      optional: true
+      type: IGuildUser
+voicemute:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_3:
+  args:
+    - '@user ""'
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+  params:
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Użytkownik do wyciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Wycisza użytkownika na głosie, a nie na czacie, na określony czas.'
+      name: '""'
+      optional: false
+      type: '='
+voiceunmute:
+  args:
+    - '@user ""'
+  desc: 'Odcisza użytkownika na głosie.'
+  params:
+    - desc: 'Użytkownik do odciszenia'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Odcisza użytkownika na głosie.'
+      name: '""'
+      optional: false
+      type: '='
+warn:
+  args:
+    - '[@user] [reason]'
+  desc: 'Ostrzega użytkownika z opcjonalnym powodem.'
+  params:
+    - desc: 'Użytkownik do ostrzeżenia'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Powód ostrzeżenia'
+      name: reason
+      optional: true
+      type: string
+warnclear:
+  args:
+    - '@user 0'
+  desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - &ref_652
+      desc: 'Użytkownik, którego ostrzeżenia wyczyścić'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+  desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'Użytkownik, którego ostrzeżenia wyczyścić'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+  desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'Użytkownik, którego ostrzeżenia wyczyścić'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+  desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+  params:
+    - desc: 'Użytkownik, którego ostrzeżenia wyczyścić'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Czyści ostrzeżenia użytkownika. Jeśli podano indeks, czyści tylko to ostrzeżenie.'
+      name: 0
+      optional: false
+      type: '='
+warnexpire:
+  args:
+    - number options
+  desc: 'Ustawia czas wygaśnięcia ostrzeżeń.'
+  params:
+    - &ref_653
+      desc: 'Liczba dni, po których ostrzeżenia wygasną'
+      name: days
+      optional: false
+      type: int
+    - &ref_654
+      desc: 'Działanie do podjęcia, gdy ostrzeżenie wygaśnie'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction:
+  args:
+    - number options
+  desc: 'Ustawia czas wygaśnięcia ostrzeżeń.'
+  params:
+    - desc: 'Liczba dni, po których ostrzeżenia wygasną'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Działanie do podjęcia, gdy ostrzeżenie wygaśnie'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_1:
+  args:
+    - number options
+  desc: 'Ustawia czas wygaśnięcia ostrzeżeń.'
+  params:
+    - desc: 'Liczba dni, po których ostrzeżenia wygasną'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Działanie do podjęcia, gdy ostrzeżenie wygaśnie'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_2:
+  args:
+    - number options
+  desc: 'Ustawia czas wygaśnięcia ostrzeżeń.'
+  params:
+    - desc: 'Liczba dni, po których ostrzeżenia wygasną'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Działanie do podjęcia, gdy ostrzeżenie wygaśnie'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnlog:
+  args:
+    - '@user'
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_ulong:
+  args:
+    - userid
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - &ref_655
+      desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_1:
+  args:
+    - userid
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_2:
+  args:
+    - userid
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_3:
+  args:
+    - userid
+  desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+  params:
+    - desc: 'Pobiera dziennik ostrzeżeń użytkownika po jego ID.'
+      name: userId
+      optional: false
+      type: ulong
+warnlogall:
+  args:
+    - ''
+  desc: 'Pokazuje, ile ostrzeżeń ma każdy użytkownik.'
+  params: [ ]
+warnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int:
+  args:
+    - number
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_1:
+  args:
+    - number
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_2:
+  args:
+    - number
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_3:
+  args:
+    - number
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+  params:
+    - desc: 'Liczba ostrzeżeń'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Usuwa karę za określoną liczbę ostrzeżeń.'
+      name: time
+      optional: true
+      type: duration
+warnpunishlist:
+  args:
+    - ''
+  desc: 'Wyświetla kary za ostrzeżenia na serwerze.'
+  params: [ ]

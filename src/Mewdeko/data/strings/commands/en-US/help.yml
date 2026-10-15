@@ -54,26 +54,22 @@ donate:
 exportcommandsjson:
   args:
     - ''
-  desc: >-
-    Exports all commands to a json file. Used mainly for
+  desc: 'Exports all commands to a JSON file. Used mainly for https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams:
   args:
     - ''
-  desc: >-
-    Exports all commands to a json file. Used mainly for
+  desc: 'Exports all commands to a JSON file. Used mainly for https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams_1:
   args:
     - ''
-  desc: >-
-    Exports all commands to a json file. Used mainly for
+  desc: 'Exports all commands to a JSON file. Used mainly for https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams_2:
   args:
     - ''
-  desc: >-
-    Exports all commands to a json file. Used mainly for
+  desc: 'Exports all commands to a JSON file. Used mainly for https://mewdeko.tech/commands.'
   params: [ ]
 guide:
   args:

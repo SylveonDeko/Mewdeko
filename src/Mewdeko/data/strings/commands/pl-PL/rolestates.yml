@@ -4,7 +4,7 @@ addrolestorolestate:
   desc: 'Dodaje role do stanu ról użytkownika.'
   params:
     - &ref_26
-      desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+      desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -19,7 +19,7 @@ addrolestorolestate_IUser_IRole[]:
   desc: 'Dodaje role do stanu ról użytkownika.'
   params:
     - &ref_27
-      desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+      desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -32,7 +32,7 @@ addrolestorolestate_IUser_IRole[]_1:
     - '@user @role'
   desc: 'Dodaje role do stanu ról użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+    - desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -45,7 +45,7 @@ addrolestorolestate_IUser_IRole[]_2:
     - '@user @role'
   desc: 'Dodaje role do stanu ról użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+    - desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -59,7 +59,7 @@ deleteuserrolestate:
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
     - &ref_191
-      desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+      desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IGuildUser
@@ -68,7 +68,7 @@ deleteuserrolestate_IGuildUser:
     - '@user'
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+    - desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IGuildUser
@@ -77,7 +77,7 @@ deleteuserrolestate_IGuildUser_1:
     - '@user'
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+    - desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IGuildUser
@@ -86,7 +86,7 @@ deleteuserrolestate_IGuildUser_2:
     - '@user'
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+    - desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IGuildUser
@@ -95,7 +95,7 @@ deleteuserrolestate_IUser:
     - '@user'
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+    - desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IUser
@@ -104,7 +104,7 @@ deleteuserrolestate_IUser_1:
     - '@user'
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+    - desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IUser
@@ -113,7 +113,7 @@ deleteuserrolestate_IUser_2:
     - '@user'
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+    - desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IUser
@@ -122,7 +122,7 @@ deleteuserrolestate_IUser_3:
     - '@user'
   desc: 'Usuwa stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać usunięty.'
+    - desc: 'Użytkownik, którego stan ról ma zostać usunięty.'
       name: user
       optional: false
       type: IUser
@@ -131,7 +131,7 @@ removerolesfromrolestate:
     - '@user @role'
   desc: 'Usuwa role ze stanu ról użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+    - desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -145,7 +145,7 @@ removerolesfromrolestate_IUser_IRole[]:
     - '@user @role'
   desc: 'Usuwa role ze stanu ról użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+    - desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -158,7 +158,7 @@ removerolesfromrolestate_IUser_IRole[]_1:
     - '@user @role'
   desc: 'Usuwa role ze stanu ról użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+    - desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -171,7 +171,7 @@ removerolesfromrolestate_IUser_IRole[]_2:
     - '@user @role'
   desc: 'Usuwa role ze stanu ról użytkownika.'
   params:
-    - desc: 'Użytkownik, którego stan ról powinien zostać zmodyfikowany.'
+    - desc: 'Użytkownik, którego stan ról ma zostać zmodyfikowany.'
       name: user
       optional: false
       type: IUser
@@ -182,157 +182,157 @@ removerolesfromrolestate_IUser_IRole[]_2:
 rolestatesadddenyrole:
   args:
     - '@role'
-  desc: 'Dodaje role do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje role na listę odmów dla funkcji stanów ról.'
   params:
     - &ref_463
-      desc: 'Role do dodania do listy odmowy.'
+      desc: 'Role do dodania na listę odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyrole_IRole[]:
   args:
     - '@role'
-  desc: 'Dodaje role do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje role na listę odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Role do dodania do listy odmowy.'
+    - desc: 'Role do dodania na listę odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyrole_IRole[]_1:
   args:
     - '@role'
-  desc: 'Dodaje role do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje role na listę odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Role do dodania do listy odmowy.'
+    - desc: 'Role do dodania na listę odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyrole_IRole[]_2:
   args:
     - '@role'
-  desc: 'Dodaje role do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje role na listę odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Role do dodania do listy odmowy.'
+    - desc: 'Role do dodania na listę odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyuser:
   args:
     - '@user'
-  desc: 'Dodaje użytkowników do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje użytkowników na listę odmów dla funkcji stanów ról.'
   params:
     - &ref_464
-      desc: 'Użytkownicy do dodania do listy odmowy.'
+      desc: 'Użytkownicy do dodania na listę odmów.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesadddenyuser_IGuildUser[]:
   args:
     - '@user'
-  desc: 'Dodaje użytkowników do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje użytkowników na listę odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Użytkownicy do dodania do listy odmowy.'
+    - desc: 'Użytkownicy do dodania na listę odmów.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesadddenyuser_IGuildUser[]_1:
   args:
     - '@user'
-  desc: 'Dodaje użytkowników do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje użytkowników na listę odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Użytkownicy do dodania do listy odmowy.'
+    - desc: 'Użytkownicy do dodania na listę odmów.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesadddenyuser_IGuildUser[]_2:
   args:
     - '@user'
-  desc: 'Dodaje użytkowników do listy odmowy funkcji stanów ról.'
+  desc: 'Dodaje użytkowników na listę odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Użytkownicy do dodania do listy odmowy.'
+    - desc: 'Użytkownicy do dodania na listę odmów.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremoveadduser:
   args:
     - user
-  desc: 'Usuwa lub odmawia użytkownikowi dostępu do stanów ról.'
+  desc: 'Usuwa użytkownika ze stanów ról lub odmawia mu do nich dostępu.'
   params:
-    - desc: 'Użytkownik do usunięcia/odmowy ze stanów ról.'
+    - desc: 'Użytkownik do usunięcia lub zablokowania w stanach ról.'
       name: user
       optional: false
       type: IUser
 rolestatesremovedenyrole:
   args:
     - '@role'
-  desc: 'Usuwa role z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa role z listy odmów dla funkcji stanów ról.'
   params:
     - &ref_465
-      desc: 'Role do usunięcia z listy odmowy.'
+      desc: 'Role do usunięcia z listy odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyrole_IRole[]:
   args:
     - '@role'
-  desc: 'Usuwa role z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa role z listy odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Role do usunięcia z listy odmowy.'
+    - desc: 'Role do usunięcia z listy odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyrole_IRole[]_1:
   args:
     - '@role'
-  desc: 'Usuwa role z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa role z listy odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Role do usunięcia z listy odmowy.'
+    - desc: 'Role do usunięcia z listy odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyrole_IRole[]_2:
   args:
     - '@role'
-  desc: 'Usuwa role z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa role z listy odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Role do usunięcia z listy odmowy.'
+    - desc: 'Role do usunięcia z listy odmów.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyuser:
   args:
     - '@user'
-  desc: 'Usuwa użytkowników z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa użytkowników z listy odmów dla funkcji stanów ról.'
   params:
     - &ref_466
-      desc: 'Użytkownicy do usunięcia z listy odmowy.'
+      desc: 'Użytkownicy do usunięcia z listy odmów.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremovedenyuser_IGuildUser[]:
   args:
     - '@user'
-  desc: 'Usuwa użytkowników z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa użytkowników z listy odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Użytkownicy do usunięcia z listy odmowy.'
+    - desc: 'Użytkownicy do usunięcia z listy odmów.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremovedenyuser_IGuildUser[]_1:
   args:
     - '@user'
-  desc: 'Usuwa użytkowników z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa użytkowników z listy odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Użytkownicy do usunięcia z listy odmowy.'
+    - desc: 'Użytkownicy do usunięcia z listy odmów.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremovedenyuser_IGuildUser[]_2:
   args:
     - '@user'
-  desc: 'Usuwa użytkowników z listy odmowy funkcji stanów ról.'
+  desc: 'Usuwa użytkowników z listy odmów dla funkcji stanów ról.'
   params:
-    - desc: 'Użytkownicy do usunięcia z listy odmowy.'
+    - desc: 'Użytkownicy do usunięcia z listy odmów.'
       name: users
       optional: false
       type: IGuildUser[]
@@ -347,12 +347,12 @@ setuserrolestate:
   desc: 'Ustawia stan ról dla określonego użytkownika.'
   params:
     - &ref_529
-      desc: 'Użytkownik, dla którego należy ustawić stan ról.'
+      desc: 'Użytkownik, którego stan ról ma zostać ustawiony.'
       name: user
       optional: false
       type: IGuildUser
     - &ref_530
-      desc: 'Role do uwzględnienia w stanie ról użytkownika.'
+      desc: 'Role, które mają zostać uwzględnione w stanie ról użytkownika.'
       name: roles
       optional: false
       type: IRole[]
@@ -362,11 +362,11 @@ setuserrolestate_IGuildUser_IRole[]:
   desc: 'Ustawia stan ról dla określonego użytkownika.'
   params:
     - &ref_531
-      desc: 'Użytkownik, dla którego należy ustawić stan ról.'
+      desc: 'Użytkownik, którego stan ról ma zostać ustawiony.'
       name: user
       optional: false
       type: IGuildUser
-    - desc: 'Role do uwzględnienia w stanie ról użytkownika.'
+    - desc: 'Role, które mają zostać uwzględnione w stanie ról użytkownika.'
       name: roles
       optional: false
       type: IRole[]
@@ -375,11 +375,11 @@ setuserrolestate_IGuildUser_IRole[]_1:
     - '@user @role'
   desc: 'Ustawia stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, dla którego należy ustawić stan ról.'
+    - desc: 'Użytkownik, którego stan ról ma zostać ustawiony.'
       name: user
       optional: false
       type: IGuildUser
-    - desc: 'Role do uwzględnienia w stanie ról użytkownika.'
+    - desc: 'Role, które mają zostać uwzględnione w stanie ról użytkownika.'
       name: roles
       optional: false
       type: IRole[]
@@ -388,11 +388,11 @@ setuserrolestate_IGuildUser_IRole[]_2:
     - '@user @role'
   desc: 'Ustawia stan ról dla określonego użytkownika.'
   params:
-    - desc: 'Użytkownik, dla którego należy ustawić stan ról.'
+    - desc: 'Użytkownik, którego stan ról ma zostać ustawiony.'
       name: user
       optional: false
       type: IGuildUser
-    - desc: 'Role do uwzględnienia w stanie ról użytkownika.'
+    - desc: 'Role, które mają zostać uwzględnione w stanie ról użytkownika.'
       name: roles
       optional: false
       type: IRole[]
@@ -404,64 +404,64 @@ togglerolestates:
 togglerolestatesclearonban:
   args:
     - ''
-  desc: 'Przełącza, czy stany ról powinny być czyszczone po zbanowaniu użytkownika.'
+  desc: 'Przełącza, czy stany ról mają być czyszczone po zbanowaniu użytkownika.'
   params: [ ]
 togglerolestatesignorebots:
   args:
     - ''
-  desc: 'Przełącza, czy boty powinny być ignorowane przez funkcję stanów ról.'
+  desc: 'Przełącza, czy boty mają być ignorowane przez funkcję stanów ról.'
   params: [ ]
 togglerolestatesskipautoassign:
   args:
     - ''
-  desc: 'Przełącza, czy automatycznie przydzielane role powinny być pomijane dla użytkowników z zapisanymi stanami ról.'
+  desc: 'Przełącza, czy automatyczne przydzielanie ról ma być pomijane dla użytkowników z zapisanymi stanami ról.'
   params: [ ]
 transferrolestates:
   args:
     - serverid
-  desc: 'Przenosi stany ról z bieżącego serwera na inny serwer.'
+  desc: 'Przenosi stany ról z obecnego serwera na inny serwer.'
   params:
     - &ref_627
-      desc: 'Identyfikator serwera docelowego.'
+      desc: 'ID docelowego serwera.'
       name: serverId
       optional: false
       type: ulong
 transferrolestates_ulong:
   args:
     - serverid
-  desc: 'Przenosi stany ról z bieżącego serwera na inny serwer.'
+  desc: 'Przenosi stany ról z obecnego serwera na inny serwer.'
   params:
-    - desc: 'Identyfikator serwera docelowego.'
+    - desc: 'ID docelowego serwera.'
       name: serverId
       optional: false
       type: ulong
 transferrolestates_ulong_1:
   args:
     - serverid
-  desc: 'Przenosi stany ról z bieżącego serwera na inny serwer.'
+  desc: 'Przenosi stany ról z obecnego serwera na inny serwer.'
   params:
-    - desc: 'Identyfikator serwera docelowego.'
+    - desc: 'ID docelowego serwera.'
       name: serverId
       optional: false
       type: ulong
 transferrolestates_ulong_2:
   args:
     - serverid
-  desc: 'Przenosi stany ról z bieżącego serwera na inny serwer.'
+  desc: 'Przenosi stany ról z obecnego serwera na inny serwer.'
   params:
-    - desc: 'Identyfikator serwera docelowego.'
+    - desc: 'ID docelowego serwera.'
       name: serverId
       optional: false
       type: ulong
 viewrolestates:
   args:
     - ''
-  desc: 'Wyświetla wszystkie stany ról użytkowników na serwerze.'
+  desc: 'Wyświetla stany ról wszystkich użytkowników na serwerze.'
   params: [ ]
 viewrolestatessettings:
   args:
     - ''
-  desc: 'Wyświetla bieżące ustawienia funkcji stanów ról.'
+  desc: 'Wyświetla aktualne ustawienia funkcji stanów ról.'
   params: [ ]
 viewuserrolestates:
   args:

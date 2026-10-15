@@ -1,7 +1,7 @@
 mcstatus:
   args:
     - '[server name or address]'
-  desc: '检查 Minecraft 服务器状态。可使用已注册的服务器名称、直接地址，或留空使用默认服务器。'
+  desc: '检查 Minecraft 服务器的状态。可使用已注册的服务器名称、直接地址，或留空以使用默认服务器。'
   params:
     - desc: '已注册的服务器名称或直接地址（例如 play.example.com:25565）。'
       name: serverName
@@ -10,29 +10,29 @@ mcstatus:
 mcadd:
   args:
     - name address
-  desc: '将 Minecraft 服务器添加到此公会。基岩版服务器请在地址前加 bedrock: 前缀。'
+  desc: '向服务器添加 Minecraft 服务器。地址前加 bedrock: 表示基岩版服务器。'
   params:
-    - desc: '服务器标签。'
+    - desc: '服务器的标签。'
       name: name
       optional: false
       type: string
-    - desc: '服务器地址，可选含端口（例如 play.example.com:25565 或 bedrock:play.example.com）。'
+    - desc: '服务器地址，可选择包含端口（例如 play.example.com:25565 或 bedrock:play.example.com）。'
       name: address
       optional: false
       type: string
 mcremove:
   args:
     - name
-  desc: '从此公会移除 Minecraft 服务器。'
+  desc: '从服务器中删除 Minecraft 服务器。'
   params:
-    - desc: '要移除的服务器名称。'
+    - desc: '要删除的服务器名称。'
       name: name
       optional: false
       type: string
 mclist:
   args:
     - ''
-  desc: '列出此公会所有已注册的 Minecraft 服务器。'
+  desc: '列出此服务器已注册的所有 Minecraft 服务器。'
   params: [ ]
 mcdefault:
   args:
@@ -46,7 +46,7 @@ mcdefault:
 mcwatch:
   args:
     - name '#channel'
-  desc: '设置一个频道接收服务器的定期状态更新。省略频道则禁用。'
+  desc: '设置一个频道以接收服务器的定期状态更新。省略频道即可禁用。'
   params:
     - desc: '要监视的服务器名称。'
       name: serverName
@@ -59,7 +59,7 @@ mcwatch:
 mcwatchmode:
   args:
     - name embed|topic|both
-  desc: '设置服务器状态的显示方式：embed（原地编辑）、频道主题或两者。'
+  desc: '设置服务器状态的显示方式：嵌入（原地编辑）、频道主题，或两者兼用。'
   params:
     - desc: '服务器名称。'
       name: serverName
@@ -72,20 +72,20 @@ mcwatchmode:
 mcembed:
   args:
     - name template
-  desc: '为监视的服务器设置自定义 embed 模板。使用 "-" 重置。占位符：%mc.server.name%、%mc.players.online%、%mc.players.max%、%mc.motd%、%mc.version%、%mc.latency%、%mc.online%、%mc.favicon%。'
+  desc: '为受监视的服务器设置自定义嵌入模板。使用 "-" 可重置。占位符：%mc.server.name%、%mc.players.online%、%mc.players.max%、%mc.motd%、%mc.version%、%mc.latency%、%mc.online%、%mc.favicon%。'
   params:
     - desc: '服务器名称。'
       name: serverName
       optional: false
       type: string
-    - desc: 'embed 模板 JSON，或 "-" 重置为默认值。'
+    - desc: '嵌入模板 JSON，或使用 "-" 重置为默认值。'
       name: template
       optional: true
       type: string
 mcplayer:
   args:
     - username
-  desc: '通过用户名查找 Minecraft 玩家并显示其个人资料和皮肤。'
+  desc: '按用户名查找 Minecraft 玩家，并显示其个人资料和皮肤。'
   params:
     - desc: '要查找的 Minecraft 用户名。'
       name: username
@@ -116,7 +116,7 @@ mcrcon:
 mcwhitelist:
   args:
     - name add|remove|list|on|off|reload [player]
-  desc: '通过 RCON 管理 Minecraft 服务器的白名单。需要先配置 RCON。'
+  desc: '通过 RCON 管理 Minecraft 服务器的白名单。需要配置 RCON。'
   params:
     - desc: '服务器名称。'
       name: serverName

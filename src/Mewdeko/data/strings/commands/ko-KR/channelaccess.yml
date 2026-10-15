@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: '잠긴 채널의 지원 버튼을 게시해서 지원서 양식을 작성할 수 있게 해요.'
+  params:
+    - desc: '지원할 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: '투표 수와 관계없이 지원서를 강제로 통과시켜요.'
+  params:
+    - desc: '지원서 ID예요.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: '마감된 지원서에 표시할 선택 메모예요.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: '이 서버에서 지원이 차단된 모든 사용자를 보여줘요.'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: '사용자의 지원을 차단해요. 한 채널 또는 모든 잠긴 채널에 적용할 수 있어요.'
+  params:
+    - desc: '차단할 사용자예요.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '잠긴 채널이에요. 비워두면 모든 곳에서 차단해요.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: '차단을 해제해서 사용자가 다시 지원할 수 있게 해요.'
+  params:
+    - desc: '차단된 사용자예요.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '차단이 설정된 잠긴 채널이에요. 채널별 차단이었을 때만 해당해요.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: '잠금 설정 하나를 변경해요. 설정 항목 없이 실행하면 변경할 수 있는 모든 항목을 보여줘요.'
+  params:
+    - desc: '잠긴 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '설정 이름이에요.'
+      name: setting
+      optional: true
+      type: string
+    - desc: '새 값이에요.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: '투표 수와 관계없이 지원서를 거절해요.'
+  params:
+    - desc: '지원서 ID예요.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: '마감된 지원서에 표시할 선택 메모예요.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: '사용자의 지원 기록을 보여줘요. 사용자를 지정하지 않으면 본인의 기록을 보여줘요.'
+  params:
+    - desc: '조회할 사용자예요.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: '서버의 모든 잠금 설정과 현재 기준치를 보여줘요.'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: '잠긴 채널에 지원할 수 있는 버튼을 게시해요.'
+  params:
+    - desc: '잠긴 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '패널을 게시할 위치예요. 기본값은 현재 채널이에요.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: '아직 결정되지 않은 지원서 목록을 보여줘요.'
+  params:
+    - desc: '목록을 특정 잠긴 채널로 제한할 수 있어요. 선택 사항이에요.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: '잠금 채널의 지원서 양식에 질문을 추가해요. 한 잠금 채널에는 최대 5개까지 추가할 수 있어요.'
+  params:
+    - desc: '잠긴 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '질문 내용이에요. 최대 45자예요.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: '지원자가 보는 순서대로 잠금 채널의 지원서 질문을 보여줘요.'
+  params:
+    - desc: '잠긴 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: '질문 목록에 표시된 위치로 지원서 양식의 질문을 제거해요.'
+  params:
+    - desc: '잠긴 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '질문 목록에 표시된 1부터 시작하는 번호예요.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: '잠금 채널 설정을 질문과 지원 기록까지 함께 제거해요.'
+  params:
+    - desc: '잠긴 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: '잠긴 채널의 지원을 열고, 승인된 지원자에게 지정한 역할을 부여해요.'
+  params:
+    - desc: '잠글 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '지원이 통과되면 부여할 역할이에요. 입력하지 않으면 지원자를 바로 채널에 추가해요.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: '직접 제출한 진행 중 지원서를 철회해요.'
+  params:
+    - desc: '검토 메시지에 표시된 지원서 ID예요.'
+      name: applicationId
+      optional: false
+      type: int

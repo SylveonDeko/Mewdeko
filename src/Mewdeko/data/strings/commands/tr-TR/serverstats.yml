@@ -1,0 +1,298 @@
+serveractivity:
+  args:
+    - '[days]'
+    - '7'
+    - '0'
+  desc: 'Sunucunun bir zaman aralığındaki etkinlik özetini gösterir: mesajlar, ses süresi, katkıda bulunanlar, katılmalar ve ayrılmalar, en aktif üye ve kanallar. Tüm zamanlar için 0 kullan.'
+  params:
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0, sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+useractivity:
+  args:
+    - '[@user] [days]'
+    - '@user 30'
+  desc: 'Bir üyenin bir zaman aralığındaki etkinlik özetini gösterir: sıralamalarıyla birlikte mesajlar ve ses süresi, toplam ömür boyu değerler ve en çok kullandığı kanallar.'
+  params:
+    - desc: 'Üye; kendin için boş bırak.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0, sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+channelactivity:
+  args:
+    - '[#channel] [days]'
+  desc: 'Bir kanalın bir zaman aralığındaki etkinlik özetini gösterir: mesajlar, ses süresi, katkıda bulunanlar ve en aktif üyeler.'
+  params:
+    - desc: 'Kanal; mevcut kanal için boş bırak.'
+      name: channel
+      optional: true
+      type: IGuildChannel
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0, sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+activitytop:
+  args:
+    - '[Messages|Voice] [days] [@role]'
+    - 'Voice 7'
+  desc: 'Bir zaman aralığında üyeleri mesajlara veya ses süresine göre sıralar; isteğe bağlı olarak yalnızca belirli bir role sahip üyeleri gösterir.'
+  params:
+    - desc: 'Messages veya Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0, sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+    - desc: 'Yalnızca bu role sahip üyeleri dahil et.'
+      name: role
+      optional: true
+      type: IRole
+activitytopchannels:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Bir zaman aralığında kanalları mesajlara veya ses süresine göre sıralar.'
+  params:
+    - desc: 'Messages veya Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0, sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+activitychart:
+  args:
+    - '[Messages|Voice|Members|Status|Joins|Leaves|Growth|InVoice] [days]'
+    - 'Members 30'
+  desc: 'Bir zaman aralığında mesajları, ses saatlerini, üye sayısını, üye durumunu, katılmaları, ayrılmaları, büyümeyi veya sesteki üyeleri gösteren bir grafik çizer.'
+  params:
+    - desc: 'Grafiğe neyin ekleneceği.'
+      name: kind
+      optional: true
+      type: StatChartKind
+    - desc: 'Gün cinsinden zaman aralığı, 1 ila 90; sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+activityexport:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Mesajlara veya ses süresine göre üye sıralamasını CSV dosyası olarak dışa aktarır.'
+  params:
+    - desc: 'Messages veya Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0, sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+statssettings:
+  args:
+    - ''
+  desc: 'Etkinlik istatistiği takip ayarlarını gösterir.'
+  params: [ ]
+statslookback:
+  args:
+    - '14'
+  desc: 'Süre belirtilmediğinde istatistik komutlarının kullandığı varsayılan gün cinsinden zaman aralığını ayarlar.'
+  params:
+    - desc: 'Gün cinsinden zaman aralığı, 1 ila 90.'
+      name: days
+      optional: false
+      type: int
+statscooldown:
+  args:
+    - '30'
+  desc: 'Aynı üyeden iki sayılan mesaj arasında kaç saniye geçmesi gerektiğini ayarlar. 0 her mesajı sayar.'
+  params:
+    - desc: 'Saniye cinsinden bekleme süresi, 0 ila 300.'
+      name: seconds
+      optional: false
+      type: int
+statstrackvoice:
+  args:
+    - ''
+  desc: 'Etkinlik istatistikleri için ses süresi takibini açar veya kapatır.'
+  params: [ ]
+statstracksnapshots:
+  args:
+    - ''
+  desc: 'Üye ve durum grafikleri için kullanılan saatlik üye ve durum anlık görüntülerini açar veya kapatır.'
+  params: [ ]
+statscountbots:
+  args:
+    - ''
+  desc: 'Botların etkinlik istatistiklerinde sayılıp sayılmayacağını açar veya kapatır.'
+  params: [ ]
+statsignorevoicestate:
+  args:
+    - 'SelfMuted'
+    - 'Afk'
+  desc: 'Bir ses durumunda (SelfMuted, SelfDeafened, ServerMuted, ServerDeafened, Afk, Alone, Streaming, Video) geçen sürenin ses istatistiklerine sayılıp sayılmayacağını açar veya kapatır.'
+  params:
+    - desc: 'Değiştirilecek durum.'
+      name: state
+      optional: false
+      type: VoiceStateFlags
+statsignore:
+  args:
+    - '#channel'
+    - '@role'
+    - '@user'
+  desc: 'Bir kanalın, bir rolün her sahibinin veya bir üyenin etkinlik istatistiklerinin dışında tutulup tutulmayacağını değiştirir.'
+  params:
+    - desc: 'Değiştirilecek kanal.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Açılıp kapatılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Değiştirilecek üye.'
+      name: user
+      optional: false
+      type: IGuildUser
+statsignored:
+  args:
+    - ''
+  desc: 'Etkinlik istatistiklerinin dışında tutulan kanalları, rolleri ve üyeleri listeler.'
+  params: [ ]
+statsprivacy:
+  args:
+    - ''
+  desc: 'Tüm sunucularda etkinlik istatistiklerinden çıkarır; kayıtlı mesaj ve ses istatistiklerini kalıcı olarak siler veya tekrar dahil eder.'
+  params: [ ]
+topgames:
+  args:
+    - '[days]'
+    - '30'
+  desc: 'Bir zaman aralığında üyelerin en çok zaman geçirdiği oyunları ve uygulamaları oyuncu sayılarıyla sıralar. Oyun takibinin açık olması gerekir.'
+  params:
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0, sunucu varsayılanı için boş bırak.'
+      name: days
+      optional: true
+      type: int
+whoplays:
+  args:
+    - 'Minecraft'
+  desc: 'Bir oyunu oynayanları veya bir uygulamayı kullananları gösterir: şu anda kaç üye bunu kullanıyor ve bunda en çok süre geçiren üyeler.'
+  params:
+    - desc: 'Oyunun veya uygulamanın adı.'
+      name: game
+      optional: false
+      type: string
+statstrackactivities:
+  args:
+    - ''
+  desc: 'Üyelerin kullandığı oyun ve uygulamaların takibini açar veya kapatır (oynuyor, yayın yapıyor, dinliyor, izliyor, yarışıyor). Varsayılan olarak kapalıdır.'
+  params: [ ]
+statsverifyactivities:
+  args:
+    - ''
+  desc: 'Yalnızca bir Discord uygulaması, Spotify veya yayınla desteklenen etkinliklerin sayılıp sayılmayacağını açar veya kapatır; böylece özel istemciler tarafından sahte gösterilen durumlar engellenir.'
+  params: [ ]
+statsactivityfiltermode:
+  args:
+    - 'Whitelist'
+    - 'Blacklist'
+  desc: 'Etkinlik filtre listesinin yalnızca listelenen oyunlara izin verip vermeyeceğini (Whitelist) veya bunları yok sayıp saymayacağını (Blacklist) ayarlar.'
+  params:
+    - desc: 'Whitelist veya Blacklist.'
+      name: mode
+      optional: false
+      type: ActivityFilterMode
+statsactivityfilter:
+  args:
+    - 'Spotify'
+  desc: 'Bir oyun veya uygulama adını etkinlik filtre listesine ekler ya da listeden çıkarır.'
+  params:
+    - desc: 'Etkinliğin adı.'
+      name: name
+      optional: false
+      type: string
+statsactivityfilters:
+  args:
+    - ''
+  desc: 'Etkinlik filtresini ve bunun beyaz liste mi kara liste mi olduğunu listeler.'
+  params: [ ]
+liveboardadd:
+  args:
+    - '#channel InviteLeaderboard [Weekly] [entries] [intervalMinutes]'
+    - '#stats GrowthChart Monthly'
+  desc: 'Bot tarafından sürekli yenilenen ve sabitlenen bir sıralama tablosu, grafik veya genel bakış gönderir. Türler: InviteLeaderboard, MessageLeaderboard, VoiceLeaderboard, JoinsChart, LeavesChart, GrowthChart, MembersChart, MessagesChart, ServerOverview, InviteStats.'
+  params:
+    - desc: 'Gönderilecek kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Gösterilecek içerik.'
+      name: kind
+      optional: false
+      type: LiveBoardKind
+    - desc: 'Zaman aralığı: AllTime, Daily, Weekly veya Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Sıralama tablosu satırları, 3 ila 25.'
+      name: entries
+      optional: true
+      type: int
+    - desc: 'Ne sıklıkla yenileneceği, en az 5 dakika.'
+      name: intervalMinutes
+      optional: true
+      type: int
+liveboardlist:
+  args:
+    - ''
+  desc: 'Canlı panoları listeler.'
+  params: [ ]
+liveboardremove:
+  args:
+    - '3'
+  desc: 'Bir canlı panoyu ve mesajını siler.'
+  params:
+    - desc: 'Listeden pano ID''si.'
+      name: id
+      optional: false
+      type: int
+liveboardrefresh:
+  args:
+    - ''
+  desc: 'Tüm canlı panoları hemen yeniler.'
+  params: [ ]
+serverreportchannel:
+  args:
+    - '[#channel]'
+  desc: 'Zamanlanmış sunucu raporlarını alacak kanalı ayarlar ve raporları etkinleştirir. Raporları devre dışı bırakmak için kanalı boş bırak.'
+  params:
+    - desc: 'Kanal; devre dışı bırakmak için boş bırak.'
+      name: channel
+      optional: true
+      type: ITextChannel
+serverreportfrequency:
+  args:
+    - 'Weekly'
+  desc: 'Sunucu raporlarının ne sıklıkla gönderileceğini ayarlar: Daily, Weekly veya Monthly.'
+  params:
+    - desc: 'Daily, Weekly veya Monthly.'
+      name: frequency
+      optional: false
+      type: ReportFrequency
+serverreportnow:
+  args:
+    - '[Weekly]'
+  desc: 'Verilen veya yapılandırılmış dönemi kapsayan bir sunucu raporunu hemen mevcut kanalda gönderir.'
+  params:
+    - desc: 'Kapsanacak dönem; yapılandırılmış dönem için boş bırak.'
+      name: frequency
+      optional: true
+      type: ReportFrequency

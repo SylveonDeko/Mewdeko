@@ -1,0 +1,2501 @@
+addblacklistedpermission:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Додає дозвіл до чорного списку.'
+  params:
+    - desc: 'Дозвіл для занесення до чорного списку.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Необов''язкова дія покарання, специфічна для цього дозволу.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Додає дозвіл до чорного списку.'
+  params:
+    - desc: 'Дозвіл для занесення до чорного списку.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Необов''язкова дія покарання, специфічна для цього дозволу.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_1:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Додає дозвіл до чорного списку.'
+  params:
+    - desc: 'Дозвіл для занесення до чорного списку.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Необов''язкова дія покарання, специфічна для цього дозволу.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_2:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Додає дозвіл до чорного списку.'
+  params:
+    - desc: 'Дозвіл для занесення до чорного списку.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Необов''язкова дія покарання, специфічна для цього дозволу.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Додає роль до чорного списку.'
+  params:
+    - desc: 'Роль для чорного списку.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Необов''язкова дія покарання, специфічна для цієї ролі.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Додає роль до чорного списку.'
+  params:
+    - desc: 'Роль для чорного списку.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Необов''язкова дія покарання, специфічна для цієї ролі.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_1:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Додає роль до чорного списку.'
+  params:
+    - desc: 'Роль для чорного списку.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Необов''язкова дія покарання, специфічна для цієї ролі.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_2:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Додає роль до чорного списку.'
+  params:
+    - desc: 'Роль для чорного списку.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Необов''язкова дія покарання, специфічна для цієї ролі.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addemote:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'Додає новий емодзі на сервер.'
+  params:
+    - desc: 'Назва емодзі.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'URL зображення емодзі. Якщо не вказано, зображення буде взято з вкладень повідомлення.'
+      name: url
+      optional: true
+      type: string
+addemote_string_=:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'Додає новий емодзі на сервер.'
+  params:
+    - desc: 'Назва емодзі.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'URL зображення емодзі. Якщо не вказано, зображення буде взято з вкладень повідомлення.'
+      name: url
+      optional: true
+      type: string
+addroletolist:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку користувачів, визначених у прикріпленому файлі.'
+  params:
+    - &ref_28
+      desc: 'Роль, яку додати користувачам зі списку у прикріпленому файлі.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку користувачів, визначених у прикріпленому файлі.'
+  params:
+    - desc: 'Роль, яку додати користувачам зі списку у прикріпленому файлі.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_1:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку користувачів, визначених у прикріпленому файлі.'
+  params:
+    - desc: 'Роль, яку додати користувачам зі списку у прикріпленому файлі.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_2:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку користувачів, визначених у прикріпленому файлі.'
+  params:
+    - desc: 'Роль, яку додати користувачам зі списку у прикріпленому файлі.'
+      name: role
+      optional: false
+      type: IRole
+addroletorole:
+  args:
+    - '@role @role'
+  desc: 'Додає вказану роль усім користувачам, які зараз мають іншу вказану роль.'
+  params:
+    - &ref_29
+      desc: 'Роль, яку додати.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_30
+      desc: 'Роль, учасники якої отримають нову роль.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Додає вказану роль усім користувачам, які зараз мають іншу вказану роль.'
+  params:
+    - desc: 'Роль, яку додати.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, учасники якої отримають нову роль.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Додає вказану роль усім користувачам, які зараз мають іншу вказану роль.'
+  params:
+    - desc: 'Роль, яку додати.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, учасники якої отримають нову роль.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Додає вказану роль усім користувачам, які зараз мають іншу вказану роль.'
+  params:
+    - desc: 'Роль, яку додати.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, учасники якої отримають нову роль.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove:
+  args:
+    - '@role @role'
+  desc: 'Додає роль користувачам, а потім в одній операції знімає з них іншу роль.'
+  params:
+    - &ref_33
+      desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_34
+      desc: 'Роль, яку зняти з тих самих користувачів.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Додає роль користувачам, а потім в одній операції знімає з них іншу роль.'
+  params:
+    - desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, яку зняти з тих самих користувачів.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Додає роль користувачам, а потім в одній операції знімає з них іншу роль.'
+  params:
+    - desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, яку зняти з тих самих користувачів.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Додає роль користувачам, а потім в одній операції знімає з них іншу роль.'
+  params:
+    - desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, яку зняти з тих самих користувачів.'
+      name: role2
+      optional: false
+      type: IRole
+addtoall:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім учасникам сервера.'
+  params:
+    - &ref_35
+      desc: 'Роль, яку додати всім учасникам сервера.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім учасникам сервера.'
+  params:
+    - desc: 'Роль, яку додати всім учасникам сервера.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім учасникам сервера.'
+  params:
+    - desc: 'Роль, яку додати всім учасникам сервера.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім учасникам сервера.'
+  params:
+    - desc: 'Роль, яку додати всім учасникам сервера.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім ботам на сервері.'
+  params:
+    - &ref_36
+      desc: 'Роль, яку додати всім ботам.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім ботам на сервері.'
+  params:
+    - desc: 'Роль, яку додати всім ботам.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім ботам на сервері.'
+  params:
+    - desc: 'Роль, яку додати всім ботам.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім ботам на сервері.'
+  params:
+    - desc: 'Роль, яку додати всім ботам.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім людям-користувачам на сервері, крім ботів.'
+  params:
+    - &ref_37
+      desc: 'Роль, яку додати всім людям-користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім людям-користувачам на сервері, крім ботів.'
+  params:
+    - desc: 'Роль, яку додати всім людям-користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім людям-користувачам на сервері, крім ботів.'
+  params:
+    - desc: 'Роль, яку додати всім людям-користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль усім людям-користувачам на сервері, крім ботів.'
+  params:
+    - desc: 'Роль, яку додати всім людям-користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера довше за вказаний проміжок часу.'
+  params:
+    - &ref_38
+      desc: 'Мінімальний термін, протягом якого користувач має бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_39
+      desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера довше за вказаний проміжок часу.'
+  params:
+    - desc: 'Мінімальний термін, протягом якого користувач має бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера довше за вказаний проміжок часу.'
+  params:
+    - desc: 'Мінімальний термін, протягом якого користувач має бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера довше за вказаний проміжок часу.'
+  params:
+    - desc: 'Мінімальний термін, протягом якого користувач має бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера менше за вказаний проміжок часу.'
+  params:
+    - &ref_40
+      desc: 'Максимальний термін, протягом якого користувач може бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера менше за вказаний проміжок часу.'
+  params:
+    - desc: 'Максимальний термін, протягом якого користувач може бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера менше за вказаний проміжок часу.'
+  params:
+    - desc: 'Максимальний термін, протягом якого користувач може бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: 'Додає вказану роль усім користувачам, які є учасниками сервера менше за вказаний проміжок часу.'
+  params:
+    - desc: 'Максимальний термін, протягом якого користувач може бути учасником сервера, щоб отримати роль.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Роль, яку додати відповідним користувачам.'
+      name: role
+      optional: false
+      type: IRole
+adduserstorole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Призначає конкретну роль списку користувачів, додаючи її тим, хто її ще не має.'
+  params:
+    - &ref_41
+      desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_42
+      desc: 'Користувачі, яким буде додано роль.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Призначає конкретну роль списку користувачів, додаючи її тим, хто її ще не має.'
+  params:
+    - desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Користувачі, яким буде додано роль.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Призначає конкретну роль списку користувачів, додаючи її тим, хто її ще не має.'
+  params:
+    - desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Користувачі, яким буде додано роль.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Призначає конкретну роль списку користувачів, додаючи її тим, хто її ще не має.'
+  params:
+    - desc: 'Роль, яку додати користувачам.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Користувачі, яким буде додано роль.'
+      name: users
+      optional: false
+      type: IUser[]
+addwhitelistedrole:
+  args:
+    - '@role'
+  desc: 'Додає роль до білого списку.'
+  params:
+    - &ref_43
+      desc: 'Роль для білого списку.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole:
+  args:
+    - '@role'
+  desc: 'Додає роль до білого списку.'
+  params:
+    - desc: 'Роль для білого списку.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Додає роль до білого списку.'
+  params:
+    - desc: 'Роль для білого списку.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Додає роль до білого списку.'
+  params:
+    - desc: 'Роль для білого списку.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelisteduser:
+  args:
+    - '@user'
+  desc: 'Додає користувача до білого списку.'
+  params:
+    - &ref_44
+      desc: 'Користувач для білого списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Додає користувача до білого списку.'
+  params:
+    - desc: 'Користувач для білого списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Додає користувача до білого списку.'
+  params:
+    - desc: 'Користувач для білого списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Додає користувача до білого списку.'
+  params:
+    - desc: 'Користувач для білого списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+atuo:
+  args:
+    - role threshold
+  desc: 'Додає роль користувачам, які перевищили поріг.'
+  params:
+    - desc: 'Роль, яку додати.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Значення порогу.'
+      name: threshold
+      optional: false
+      type: int
+atuu:
+  args:
+    - role threshold
+  desc: 'Додає роль користувачам, які не досягли порогу.'
+  params:
+    - desc: 'Роль, яку додати.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Значення порогу.'
+      name: threshold
+      optional: false
+      type: int
+ccatc:
+  args:
+    - name count
+  desc: 'Створює категорію і текстові канали.'
+  params:
+    - desc: 'Назва категорії.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Кількість текстових каналів для створення.'
+      name: count
+      optional: false
+      type: int
+ccavc:
+  args:
+    - name count
+  desc: 'Створює категорію і голосові канали.'
+  params:
+    - desc: 'Назва категорії.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Кількість голосових каналів для створення.'
+      name: count
+      optional: false
+      type: int
+cctc:
+  args:
+    - category count
+  desc: 'Створює текстові канали в категорії.'
+  params:
+    - desc: 'Категорія, до якої додати канали.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Кількість текстових каналів для створення.'
+      name: count
+      optional: false
+      type: int
+ccvc:
+  args:
+    - category count
+  desc: 'Створює голосові канали в категорії.'
+  params:
+    - desc: 'Категорія, до якої додати канали.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Кількість голосових каналів для створення.'
+      name: count
+      optional: false
+      type: int
+createcatandtxtchannels:
+  args:
+    - text text
+  desc: 'Створює категорію і вказані канали на сервері.'
+  params:
+    - &ref_148
+      desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - &ref_149
+      desc: 'Назви каналів для створення.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]:
+  args:
+    - text text
+  desc: 'Створює категорію і вказані канали на сервері.'
+  params:
+    - desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Назви каналів для створення.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_1:
+  args:
+    - text text
+  desc: 'Створює категорію і вказані канали на сервері.'
+  params:
+    - desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Назви каналів для створення.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_2:
+  args:
+    - text text
+  desc: 'Створює категорію і вказані канали на сервері.'
+  params:
+    - desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Назви каналів для створення.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels:
+  args:
+    - text text
+  desc: 'Створює категорію з кількома голосовими каналами всередині.'
+  params:
+    - &ref_150
+      desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - &ref_151
+      desc: 'Назви голосових каналів, які створити в категорії.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]:
+  args:
+    - text text
+  desc: 'Створює категорію з кількома голосовими каналами всередині.'
+  params:
+    - desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Назви голосових каналів, які створити в категорії.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_1:
+  args:
+    - text text
+  desc: 'Створює категорію з кількома голосовими каналами всередині.'
+  params:
+    - desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Назви голосових каналів, які створити в категорії.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_2:
+  args:
+    - text text
+  desc: 'Створює категорію з кількома голосовими каналами всередині.'
+  params:
+    - desc: 'Назва категорії для створення.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Назви голосових каналів, які створити в категорії.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans:
+  args:
+    - chan text
+  desc: 'Додає кілька текстових каналів до існуючої категорії.'
+  params:
+    - &ref_152
+      desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_153
+      desc: 'Назви текстових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: 'Додає кілька текстових каналів до існуючої категорії.'
+  params:
+    - desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Назви текстових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: 'Додає кілька текстових каналів до існуючої категорії.'
+  params:
+    - desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Назви текстових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: 'Додає кілька текстових каналів до існуючої категорії.'
+  params:
+    - desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Назви текстових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans:
+  args:
+    - chan text
+  desc: 'Додає кілька голосових каналів до існуючої категорії.'
+  params:
+    - desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_154
+      desc: 'Назви голосових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: 'Додає кілька голосових каналів до існуючої категорії.'
+  params:
+    - desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Назви голосових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: 'Додає кілька голосових каналів до існуючої категорії.'
+  params:
+    - desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Назви голосових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: 'Додає кілька голосових каналів до існуючої категорії.'
+  params:
+    - desc: 'Цільова категорія.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Назви голосових каналів для додавання.'
+      name: channels
+      optional: false
+      type: string[]
+createroles:
+  args:
+    - text
+  desc: 'Створює кілька ролей на сервері за списком назв ролей.'
+  params:
+    - &ref_155
+      desc: 'Список назв ролей для створення, розділених пробілами.'
+      name: roles
+      optional: false
+      type: string
+createroles_string:
+  args:
+    - text
+  desc: 'Створює кілька ролей на сервері за списком назв ролей.'
+  params:
+    - desc: 'Список назв ролей для створення, розділених пробілами.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_1:
+  args:
+    - text
+  desc: 'Створює кілька ролей на сервері за списком назв ролей.'
+  params:
+    - desc: 'Список назв ролей для створення, розділених пробілами.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_2:
+  args:
+    - text
+  desc: 'Створює кілька ролей на сервері за списком назв ролей.'
+  params:
+    - desc: 'Список назв ролей для створення, розділених пробілами.'
+      name: roles
+      optional: false
+      type: string
+createwebhook:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+  params:
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+  params:
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_1:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+  params:
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_2:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+  params:
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює вебхук у текстовому каналі з необов''язковим власним аватаром.'
+      name: avatar
+      optional: true
+      type: string
+deleteroles:
+  args:
+    - '@role'
+  desc: 'Видаляє список ролей із сервера.'
+  params:
+    - &ref_189
+      desc: 'Масив ролей для видалення.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]:
+  args:
+    - '@role'
+  desc: 'Видаляє список ролей із сервера.'
+  params:
+    - desc: 'Масив ролей для видалення.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Видаляє список ролей із сервера.'
+  params:
+    - desc: 'Масив ролей для видалення.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Видаляє список ролей із сервера.'
+  params:
+    - desc: 'Масив ролей для видалення.'
+      name: roles
+      optional: false
+      type: IRole[]
+exportrolelist:
+  args:
+    - ''
+  desc: 'Експортує список ролей і пов''язаних з ними користувачів у текстовий файл для зручного резервного копіювання та перенесення.'
+  params: [ ]
+grab:
+  args:
+    - '@user'
+  desc: 'Переміщує користувача до поточного голосового каналу того, хто виконав команду.'
+  params:
+    - &ref_233
+      desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Переміщує користувача до поточного голосового каналу того, хто виконав команду.'
+  params:
+    - desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Переміщує користувача до поточного голосового каналу того, хто виконав команду.'
+  params:
+    - desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Переміщує користувача до поточного голосового каналу того, хто виконав команду.'
+  params:
+    - desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+importrolelist:
+  args:
+    - false
+  desc: 'Імпортує ролі та зв''язки з користувачами з текстового файлу, застосовуючи вказані ролі до згаданих користувачів.'
+  params:
+    - desc: 'Імпортує ролі та зв''язки з користувачами з текстового файлу, застосовуючи вказані ролі до згаданих користувачів.'
+      name: false
+      optional: false
+      type: '='
+liftlockdown:
+  args:
+    - lockdowntype.readonly
+  desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - &ref_274
+      desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=:
+  args:
+    - lockdowntype.readonly
+  desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_1:
+  args:
+    - lockdowntype.readonly
+  desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_2:
+  args:
+    - lockdowntype.readonly
+  desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - desc: 'Знімає блокування за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+listblacklists:
+  args:
+    - ''
+  desc: 'Показує всі ролі та дозволи, що є в чорному та білому списках.'
+  params: [ ]
+lock:
+  args:
+    - '[channel]'
+  desc: 'Вмикає або вимикає повільний режим у каналі з налаштовуваною тривалістю.'
+  params:
+    - desc: 'Необов''язковий параметр для вказання каналу, до якого застосувати повільний режим.'
+      name: channel
+      optional: true
+      type: sockettextchannel
+lockdown:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - &ref_281
+      desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_1:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_2:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+  params:
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Блокує сервер за вказаним типом (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+moveto:
+  args:
+    - channel
+  desc: 'Переміщує того, хто виконав команду, до вказаного голосового каналу.'
+  params:
+    - &ref_301
+      desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel:
+  args:
+    - channel
+  desc: 'Переміщує того, хто виконав команду, до вказаного голосового каналу.'
+  params:
+    - desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_1:
+  args:
+    - channel
+  desc: 'Переміщує того, хто виконав команду, до вказаного голосового каналу.'
+  params:
+    - desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_2:
+  args:
+    - channel
+  desc: 'Переміщує того, хто виконав команду, до вказаного голосового каналу.'
+  params:
+    - desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto:
+  args:
+    - '@user channel'
+  desc: 'Переміщує вказаного користувача до заданого голосового каналу.'
+  params:
+    - &ref_302
+      desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel:
+  args:
+    - '@user channel'
+  desc: 'Переміщує вказаного користувача до заданого голосового каналу.'
+  params:
+    - desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Переміщує вказаного користувача до заданого голосового каналу.'
+  params:
+    - desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Переміщує вказаного користувача до заданого голосового каналу.'
+  params:
+    - desc: 'Користувач, якого потрібно перемістити.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Цільовий голосовий канал, до якого перемістити користувача.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+nuke:
+  args:
+    - '[@chan3]'
+  desc: 'Видаляє і створює текстовий канал заново, фактично "знищуючи" його вміст.'
+  params:
+    - desc: 'Необов''язковий параметр для вказання каналу, який потрібно знищити.'
+      name: chan3
+      optional: true
+      type: channel
+permcontrol:
+  args:
+    - channel perm @role perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - &ref_337
+      desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - &ref_338
+      desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_339
+      desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_340
+      desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]:
+  args:
+    - channel perm @role perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_1:
+  args:
+    - channel perm @role perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_2:
+  args:
+    - channel perm @role perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]:
+  args:
+    - channel perm @user perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_341
+      desc: 'Користувач, до якого застосовуються зміни дозволів.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_1:
+  args:
+    - channel perm @user perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Користувач, до якого застосовуються зміни дозволів.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_2:
+  args:
+    - channel perm @user perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Користувач, до якого застосовуються зміни дозволів.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_3:
+  args:
+    - channel perm @user perms
+  desc: 'Змінює дозволи каналу для вказаного користувача відповідно до наданих дозволів і дії.'
+  params:
+    - desc: 'Канал, для якого змінюються дозволи.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Дія (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Користувач, до якого застосовуються зміни дозволів.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Набір дозволів для зміни.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permview:
+  args:
+    - ''
+  desc: 'Показує список дозволених дозволів для вказаної ролі.'
+  params: [ ]
+permview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Показує список дозволених дозволів для вказаної ролі.'
+  params:
+    - &ref_343
+      desc: 'Роль, дозволи якої буде показано.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Показує список дозволених дозволів для вказаної ролі.'
+  params:
+    - desc: 'Роль, дозволи якої буде показано.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IRole:
+  args:
+    - '@role'
+  desc: 'Показує список дозволених дозволів для вказаної ролі.'
+  params:
+    - &ref_344
+      desc: 'Роль, дозволи якої буде показано.'
+      name: user
+      optional: false
+      type: IRole
+permview_IRole_1:
+  args:
+    - '@role'
+  desc: 'Показує список дозволених дозволів для вказаної ролі.'
+  params:
+    - desc: 'Роль, дозволи якої буде показано.'
+      name: user
+      optional: false
+      type: IRole
+permview_noparams:
+  args:
+    - ''
+  desc: 'Показує список дозволених дозволів для вказаної ролі.'
+  params: [ ]
+removeblacklistedpermission:
+  args:
+    - permission
+  desc: 'Видаляє дозвіл із чорного списку.'
+  params:
+    - desc: 'Дозвіл для видалення з чорного списку.'
+      name: permission
+      optional: false
+      type: GuildPermission
+removeblacklistedrole:
+  args:
+    - '@role'
+  desc: 'Видаляє роль із чорного списку.'
+  params:
+    - desc: 'Роль для видалення з чорного списку.'
+      name: role
+      optional: false
+      type: IRole
+removeemote:
+  args:
+    - text
+  desc: 'Видаляє емодзі з сервера.'
+  params:
+    - &ref_394
+      desc: 'Заповнювач параметра, потрібний для відповідності сигнатурі команди.'
+      name: _
+      optional: false
+      type: string
+removeemote_string:
+  args:
+    - text
+  desc: 'Видаляє емодзі з сервера.'
+  params:
+    - desc: 'Заповнювач параметра, потрібний для відповідності сигнатурі команди.'
+      name: _
+      optional: false
+      type: string
+removefromall:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх учасників сервера.'
+  params:
+    - &ref_395
+      desc: 'Роль, яку потрібно зняти з усіх учасників сервера.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх учасників сервера.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх учасників сервера.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх учасників сервера.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх учасників сервера.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх учасників сервера.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх учасників сервера.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх ботів на сервері.'
+  params:
+    - &ref_396
+      desc: 'Роль, яку потрібно зняти з усіх ботів.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх ботів на сервері.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх ботів.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх ботів на сервері.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх ботів.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх ботів на сервері.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх ботів.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх людей-користувачів, крім ботів.'
+  params:
+    - &ref_397
+      desc: 'Роль, яку потрібно зняти з усіх людей-учасників.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх людей-користувачів, крім ботів.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх людей-учасників.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх людей-користувачів, крім ботів.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх людей-учасників.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль у всіх людей-користувачів, крім ботів.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з усіх людей-учасників.'
+      name: role
+      optional: false
+      type: IRole
+removefromrole:
+  args:
+    - '@role @role'
+  desc: 'Видаляє вказану роль у всіх користувачів, які зараз мають іншу вказану роль.'
+  params:
+    - &ref_398
+      desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_399
+      desc: 'Роль, учасники якої втратять першу роль.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Видаляє вказану роль у всіх користувачів, які зараз мають іншу вказану роль.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, учасники якої втратять першу роль.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Видаляє вказану роль у всіх користувачів, які зараз мають іншу вказану роль.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, учасники якої втратять першу роль.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Видаляє вказану роль у всіх користувачів, які зараз мають іншу вказану роль.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Роль, учасники якої втратять першу роль.'
+      name: role2
+      optional: false
+      type: IRole
+removeroles:
+  args:
+    - '@user @role'
+  desc: 'Видаляє вказані ролі у користувача.'
+  params:
+    - &ref_412
+      desc: 'Користувач, у якого будуть зняті ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_413
+      desc: 'Ролі, які потрібно зняти з користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Видаляє вказані ролі у користувача.'
+  params:
+    - desc: 'Користувач, у якого будуть зняті ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які потрібно зняти з користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Видаляє вказані ролі у користувача.'
+  params:
+    - desc: 'Користувач, у якого будуть зняті ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які потрібно зняти з користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Видаляє вказані ролі у користувача.'
+  params:
+    - desc: 'Користувач, у якого будуть зняті ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які потрібно зняти з користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeusersfromrole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Знімає конкретну роль зі списку користувачів, якщо вона у них є.'
+  params:
+    - &ref_416
+      desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_417
+      desc: 'Користувачі, у яких буде знято роль.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Знімає конкретну роль зі списку користувачів, якщо вона у них є.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Користувачі, у яких буде знято роль.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Знімає конкретну роль зі списку користувачів, якщо вона у них є.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Користувачі, у яких буде знято роль.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Знімає конкретну роль зі списку користувачів, якщо вона у них є.'
+  params:
+    - desc: 'Роль, яку потрібно зняти з користувачів.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Користувачі, у яких буде знято роль.'
+      name: users
+      optional: false
+      type: IUser[]
+removewhitelistedrole:
+  args:
+    - '@role'
+  desc: 'Видаляє роль із білого списку.'
+  params:
+    - desc: 'Роль для видалення з білого списку.'
+      name: role
+      optional: false
+      type: IRole
+removewhitelisteduser:
+  args:
+    - '@user'
+  desc: 'Видаляє користувача з білого списку.'
+  params:
+    - desc: 'Користувач для видалення з білого списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+renameemote:
+  args:
+    - text text
+  desc: 'Перейменовує наявний емодзі на сервері.'
+  params:
+    - &ref_421
+      desc: 'Наявний емодзі для перейменування.'
+      name: emote
+      optional: false
+      type: string
+    - &ref_422
+      desc: 'Нова назва для емодзі.'
+      name: name
+      optional: false
+      type: string
+renameemote_string_string:
+  args:
+    - text text
+  desc: 'Перейменовує наявний емодзі на сервері.'
+  params:
+    - desc: 'Наявний емодзі для перейменування.'
+      name: emote
+      optional: false
+      type: string
+    - desc: 'Нова назва для емодзі.'
+      name: name
+      optional: false
+      type: string
+rj:
+  args:
+    - action
+  desc: 'Керує масовими операціями з ролями.'
+  params:
+    - desc: 'Дія, яку виконати з масовими операціями з ролями.'
+      name: action
+      optional: false
+      type: string
+rolejobs:
+  args:
+    - ''
+  desc: 'Показує всі поточні масові операції з ролями на сервері з детальною інформацією про кожну.'
+  params: [ ]
+setbanner:
+  args:
+    - text
+  desc: 'Встановлює банер сервера.'
+  params:
+    - &ref_489
+      desc: 'URL нового банера сервера.'
+      name: img
+      optional: false
+      type: string
+setbanner_string:
+  args:
+    - text
+  desc: 'Встановлює банер сервера.'
+  params:
+    - desc: 'URL нового банера сервера.'
+      name: img
+      optional: false
+      type: string
+setdefaultpunishment:
+  args:
+    - punishmentaction
+  desc: 'Встановлює стандартну дію покарання для сервера.'
+  params:
+    - &ref_501
+      desc: 'Стандартна дія покарання для встановлення.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction:
+  args:
+    - punishmentaction
+  desc: 'Встановлює стандартну дію покарання для сервера.'
+  params:
+    - desc: 'Стандартна дія покарання для встановлення.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_1:
+  args:
+    - punishmentaction
+  desc: 'Встановлює стандартну дію покарання для сервера.'
+  params:
+    - &ref_502
+      desc: 'Стандартна дія покарання для встановлення.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_2:
+  args:
+    - punishmentaction
+  desc: 'Встановлює стандартну дію покарання для сервера.'
+  params:
+    - desc: 'Стандартна дія покарання для встановлення.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+seticon:
+  args:
+    - text
+  desc: 'Встановлює іконку сервера.'
+  params:
+    - &ref_525
+      desc: 'URL нової іконки сервера.'
+      name: img
+      optional: false
+      type: string
+seticon_string:
+  args:
+    - text
+  desc: 'Встановлює іконку сервера.'
+  params:
+    - desc: 'URL нової іконки сервера.'
+      name: img
+      optional: false
+      type: string
+setroles:
+  args:
+    - '@user @role'
+  desc: 'Змінює ролі користувача, додаючи нові ролі з необов''язковим часовим обмеженням.'
+  params:
+    - &ref_521
+      desc: 'Користувач, ролі якого будуть змінені.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_522
+      desc: 'Ролі, які потрібно додати користувачу.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Змінює ролі користувача, додаючи нові ролі з необов''язковим часовим обмеженням.'
+  params:
+    - desc: 'Користувач, ролі якого будуть змінені.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які потрібно додати користувачу.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Змінює ролі користувача, додаючи нові ролі з необов''язковим часовим обмеженням.'
+  params:
+    - desc: 'Користувач, ролі якого будуть змінені.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які потрібно додати користувачу.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Змінює ролі користувача, додаючи нові ролі з необов''язковим часовим обмеженням.'
+  params:
+    - desc: 'Користувач, ролі якого будуть змінені.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які потрібно додати користувачу.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_StoopidTime_IRole[]:
+  args:
+    - '@user time @role'
+  desc: 'Змінює ролі користувача, додаючи нові ролі з необов''язковим часовим обмеженням.'
+  params:
+    - desc: 'Користувач, ролі якого будуть змінені.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_524
+      desc: 'Термін, протягом якого ролі будуть активними.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Ролі, які потрібно додати користувачу.'
+      name: roles
+      optional: false
+      type: IRole[]
+setservername:
+  args:
+    - text
+  desc: 'Встановлює назву сервера.'
+  params:
+    - desc: 'Нова назва сервера.'
+      name: name
+      optional: false
+      type: string
+setsplash:
+  args:
+    - text
+  desc: 'Встановлює фонове зображення сервера (splash).'
+  params:
+    - desc: 'URL нового фонового зображення (splash).'
+      name: img
+      optional: false
+      type: string
+setsplash_string:
+  args:
+    - text
+  desc: 'Встановлює фонове зображення сервера (splash).'
+  params:
+    - desc: 'Встановлює фонове зображення сервера (splash).'
+      name: time
+      optional: false
+      type: StoopidTime
+sfr:
+  args:
+    - role emotes
+  desc: 'Краде емодзі для конкретної ролі.'
+  params:
+    - desc: 'Роль, для якої красти емодзі.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Список URL або назв емодзі, розділених пробілами.'
+      name: e
+      optional: false
+      type: string
+sj:
+  args:
+    - job
+  desc: 'Зупиняє запущене завдання.'
+  params:
+    - desc: 'Завдання для зупинки.'
+      name: job
+      optional: false
+      type: string
+slowmode:
+  args:
+    - time channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - &ref_550
+      desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_549
+      desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel:
+  args:
+    - channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - &ref_547
+      desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime:
+  args:
+    - time
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - &ref_548
+      desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_1:
+  args:
+    - time
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_2:
+  args:
+    - time
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_3:
+  args:
+    - time
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_ITextChannel:
+  args:
+    - time channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_1:
+  args:
+    - time channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_2:
+  args:
+    - time channel
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params:
+    - desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Текстовий канал, до якого застосувати налаштування повільного режиму.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_noparams:
+  args:
+    - ''
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params: [ ]
+slowmode_noparams_1:
+  args:
+    - ''
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params: [ ]
+slowmode_noparams_2:
+  args:
+    - ''
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params: [ ]
+slowmode_noparams_3:
+  args:
+    - ''
+  desc: 'Перемикає інтервал повільного режиму для поточного текстового каналу між вимкненим станом і стандартним інтервалом.'
+  params: [ ]
+steal:
+  args:
+    - emotes
+  desc: 'Краде емодзі з інших серверів.'
+  params:
+    - desc: 'Список URL або назв емодзі, розділених пробілами.'
+      name: e
+      optional: false
+      type: string
+stealemotes:
+  args:
+    - text
+  desc: 'Краде емодзі з повідомлення і додає їх на сервер.'
+  params:
+    - &ref_565
+      desc: 'Повідомлення з емодзі, які потрібно вкрасти.'
+      name: e
+      optional: false
+      type: string
+stealemotes_string:
+  args:
+    - text
+  desc: 'Краде емодзі з повідомлення і додає їх на сервер.'
+  params:
+    - desc: 'Повідомлення з емодзі, які потрібно вкрасти.'
+      name: e
+      optional: false
+      type: string
+stealforrole:
+  args:
+    - '@role text'
+  desc: 'Краде емодзі з повідомлення і прив''язує їх до вказаної ролі.'
+  params:
+    - &ref_566
+      desc: 'Роль, до якої додати емодзі.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Повідомлення з емодзі, які потрібно вкрасти.'
+      name: e
+      optional: false
+      type: string
+stealforrole_IRole_string:
+  args:
+    - '@role text'
+  desc: 'Краде емодзі з повідомлення і прив''язує їх до вказаної ролі.'
+  params:
+    - desc: 'Роль, до якої додати емодзі.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Повідомлення з емодзі, які потрібно вкрасти.'
+      name: e
+      optional: false
+      type: string
+stopjob:
+  args:
+    - number
+  desc: 'Зупиняє завдання масової операції з ролями за його номером.'
+  params:
+    - &ref_570
+      desc: 'Номер завдання масової операції з ролями для зупинки.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int:
+  args:
+    - number
+  desc: 'Зупиняє завдання масової операції з ролями за його номером.'
+  params:
+    - desc: 'Номер завдання масової операції з ролями для зупинки.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_1:
+  args:
+    - number
+  desc: 'Зупиняє завдання масової операції з ролями за його номером.'
+  params:
+    - desc: 'Номер завдання масової операції з ролями для зупинки.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_2:
+  args:
+    - number
+  desc: 'Зупиняє завдання масової операції з ролями за його номером.'
+  params:
+    - desc: 'Номер завдання масової операції з ролями для зупинки.'
+      name: jobnum
+      optional: false
+      type: int
+syncroletoall:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах і категоріях на сервері.'
+  params:
+    - &ref_593
+      desc: 'Роль, яку синхронізувати на всьому сервері.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах і категоріях на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати на всьому сервері.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах і категоріях на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати на всьому сервері.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах і категоріях на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати на всьому сервері.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх категоріях на сервері.'
+  params:
+    - &ref_594
+      desc: 'Роль, яку синхронізувати в категоріях.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх категоріях на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати в категоріях.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_1:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх категоріях на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати в категоріях.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_2:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх категоріях на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати в категоріях.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах на сервері.'
+  params:
+    - &ref_595
+      desc: 'Роль, яку синхронізувати в текстових каналах.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати в текстових каналах.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_1:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати в текстових каналах.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_2:
+  args:
+    - '@role'
+  desc: 'Синхронізує дозволи ролі у всіх текстових каналах на сервері.'
+  params:
+    - desc: 'Роль, яку синхронізувати в текстових каналах.'
+      name: role
+      optional: false
+      type: IRole
+unlock:
+  args:
+    - '[channel]'
+  desc: 'Знімає блокування з конкретного каналу, знову дозволяючи всім писати повідомлення.'
+  params:
+    - desc: 'Канал, з якого знімається блокування. Якщо null, знімається блокування з поточного каналу.'
+      name: channel
+      optional: true
+      type: sockettextchannel
+unlockdown:
+  args:
+    - ''
+  desc: 'Знімає блокування з сервера, знову дозволяючи @everyone писати повідомлення.'
+  params: [ ]

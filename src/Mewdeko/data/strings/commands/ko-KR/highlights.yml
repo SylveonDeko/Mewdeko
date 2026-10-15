@@ -5,13 +5,13 @@ highlight:
     - add
     - list
     - delete
-  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  desc: '하이라이트를 추가, 목록 확인, 삭제 또는 매칭합니다.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '수행할 작업: add, list, delete 또는 match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: '선택한 작업의 매개변수'
+    - desc: '선택한 작업에 전달할 매개변수입니다.'
       name: words
       optional: true
       type: string
@@ -22,13 +22,13 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  desc: '하이라이트를 추가, 목록 확인, 삭제 또는 매칭합니다.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '수행할 작업: add, list, delete 또는 match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: '선택한 작업의 매개변수'
+    - desc: '선택한 작업에 전달할 매개변수입니다.'
       name: words
       optional: true
       type: string
@@ -39,13 +39,13 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  desc: '하이라이트를 추가, 목록 확인, 삭제 또는 매칭합니다.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '수행할 작업: add, list, delete 또는 match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: '선택한 작업의 매개변수'
+    - desc: '선택한 작업에 전달할 매개변수입니다.'
       name: words
       optional: true
       type: string
@@ -56,26 +56,26 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  desc: '하이라이트를 추가, 목록 확인, 삭제 또는 매칭합니다.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '수행할 작업: add, list, delete 또는 match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: '선택한 작업의 매개변수'
+    - desc: '선택한 작업에 전달할 매개변수입니다.'
       name: words
       optional: true
       type: string
 highlights:
   args:
     - action word
-  desc: 사용자 하이라이트를 관리합니다.
+  desc: '사용자 하이라이트를 관리합니다.'
   params:
-    - desc: 하이라이트로 수행할 작업.
+    - desc: '하이라이트에 대해 수행할 작업입니다.'
       name: action
       optional: false
       type: string
-    - desc: 하이라이트할 단어.
+    - desc: '하이라이트할 단어입니다.'
       name: word
       optional: true
       type: string

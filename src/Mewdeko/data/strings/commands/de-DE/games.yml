@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Acrophobia-Spiels.'
+  params:
+    - &ref_3
+      desc: 'Argumente, die an den Befehl übergeben werden.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Acrophobia-Spiels.'
+  params:
+    - desc: 'Argumente, die an den Befehl übergeben werden.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Acrophobia-Spiels.'
+  params:
+    - desc: 'Argumente, die an den Befehl übergeben werden.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Acrophobia-Spiels.'
+  params:
+    - desc: 'Argumente, die an den Befehl übergeben werden.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: 'Befehl, um zufällig aus einer Liste von Optionen zu wählen.'
+  params:
+    - desc: 'Die Liste der Optionen, durch Semikolons getrennt.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'Befehl, um den Drachenstatus des Nutzers umzuschalten. Wird meist für Beta-Befehle verwendet.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'Befehl, um die Magic 8-Ball nach einer Antwort zu fragen.'
+  params:
+    - desc: 'Die Frage, die gestellt werden soll.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+  params:
+    - &ref_244
+      desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+  params:
+    - desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+  params:
+    - desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+  params:
+    - desc: 'Startet ein Galgenmännchen-Spiel mit dem angegebenen Typ.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: 'Listet die verfügbaren Galgenmännchen-Typen auf dem aktuellen Server auf.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: 'Stoppt das laufende Galgenmännchen-Spiel im aktuellen Kanal.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Kaladont-Spiels.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Befehl zum Starten eines Kaladont-Spiels.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Kaladont-Spiels.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Kaladont-Spiels.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Befehl zum Starten eines Kaladont-Spiels.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: 'Befehl zum Beenden des aktuellen Kaladont-Spiels.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: 'Richtet einen dauerhaften Kaladont-Kanal ein.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Richtet einen dauerhaften Kaladont-Kanal ein.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: 'Richtet einen dauerhaften Kaladont-Kanal ein.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: 'Richtet einen dauerhaften Kaladont-Kanal ein.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: 'Richtet einen dauerhaften Kaladont-Kanal ein.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: 'Deaktiviert den dauerhaften Kaladont-Kanal.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: 'Witziger Linux-Befehl, der sich einmischt.'
+  params:
+    - &ref_275
+      desc: 'Der Name, der „GNU“ ersetzt.'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: 'Der Name, der „Linux“ ersetzt.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: 'Witziger Linux-Befehl, der sich einmischt.'
+  params:
+    - desc: 'Der Name, der „GNU“ ersetzt.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Der Name, der „Linux“ ersetzt.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: 'Witziger Linux-Befehl, der sich einmischt.'
+  params:
+    - desc: 'Der Name, der „GNU“ ersetzt.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Der Name, der „Linux“ ersetzt.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: 'Witziger Linux-Befehl, der sich einmischt.'
+  params:
+    - desc: 'Der Name, der „GNU“ ersetzt.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Der Name, der „Linux“ ersetzt.'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Startet oder tritt einem Nunchi-Spiel bei.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - &ref_351
+      desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - &ref_349
+      desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+  params:
+    - desc: 'Erstellt eine einfache Ja/Nein-Umfrage.'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: 'Erstellt eine anonyme Umfrage, bei der die Identität der Wähler verborgen bleibt.'
+  params:
+    - desc: 'Umfragefrage und Optionen, durch Semikolons getrennt.'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: 'Erstellt eine eigene Umfrage mit mehreren Optionen.'
+  params:
+    - desc: 'Umfragefrage und Optionen, durch Semikolons getrennt.'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'Erstellt eine Mehrfachauswahl-Umfrage, bei der Nutzer mehrere Optionen wählen können.'
+  params:
+    - desc: 'Umfragefrage und Optionen, durch Semikolons getrennt.'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'Erstellt eine Umfrage aus einer Vorlage.'
+  params:
+    - desc: 'Der Name der zu verwendenden Vorlage.'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'Listet alle auf dem Server verfügbaren Umfragevorlagen auf.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: 'Befehl, den es früher gab. In NadekoBot wurden trans Personen beschimpft. Hier bleibt er als Erinnerung und als Ansage an NadekoBot erhalten.'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'Startet ein TicTacToe-Spiel.'
+  params:
+    - &ref_619
+      desc: 'Optionen für ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'Startet ein TicTacToe-Spiel.'
+  params:
+    - desc: 'Optionen für ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'Startet ein TicTacToe-Spiel.'
+  params:
+    - desc: 'Optionen für ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'Startet ein TicTacToe-Spiel.'
+  params:
+    - desc: 'Optionen für ttt'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: 'Zeigt die aktuelle Trivia-Rangliste.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: 'Stoppt das aktuelle Trivia-Spiel.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'Startet ein Trivia-Spiel.'
+  params:
+    - &ref_629
+      desc: 'Optionale Argumente für Trivia'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'Startet ein Trivia-Spiel.'
+  params:
+    - desc: 'Optionale Argumente für Trivia'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'Startet ein Trivia-Spiel.'
+  params:
+    - desc: 'Optionale Argumente für Trivia'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'Startet ein Trivia-Spiel.'
+  params:
+    - desc: 'Optionale Argumente für Trivia'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'Fügt einen neuen Artikel für das Tippspiel hinzu.'
+  params:
+    - &ref_630
+      desc: 'Der Text des hinzuzufügenden Artikels.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'Fügt einen neuen Artikel für das Tippspiel hinzu.'
+  params:
+    - desc: 'Der Text des hinzuzufügenden Artikels.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'Fügt einen neuen Artikel für das Tippspiel hinzu.'
+  params:
+    - desc: 'Der Text des hinzuzufügenden Artikels.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'Fügt einen neuen Artikel für das Tippspiel hinzu.'
+  params:
+    - desc: 'Der Text des hinzuzufügenden Artikels.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'Löscht einen Tippartikel anhand seines Index.'
+  params:
+    - &ref_631
+      desc: 'Der Index des zu löschenden Artikels.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'Löscht einen Tippartikel anhand seines Index.'
+  params:
+    - desc: 'Der Index des zu löschenden Artikels.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'Löscht einen Tippartikel anhand seines Index.'
+  params:
+    - desc: 'Der Index des zu löschenden Artikels.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'Löscht einen Tippartikel anhand seines Index.'
+  params:
+    - desc: 'Der Index des zu löschenden Artikels.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'Listet die verfügbaren Artikel für das Tippspiel auf.'
+  params:
+    - desc: 'Listet die verfügbaren Artikel für das Tippspiel auf.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'Startet ein Schnelltipp-Spiel.'
+  params:
+    - &ref_632
+      desc: 'Argumente zum Konfigurieren des Spiels.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'Startet ein Schnelltipp-Spiel.'
+  params:
+    - desc: 'Argumente zum Konfigurieren des Spiels.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'Startet ein Schnelltipp-Spiel.'
+  params:
+    - desc: 'Argumente zum Konfigurieren des Spiels.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'Startet ein Schnelltipp-Spiel.'
+  params:
+    - desc: 'Argumente zum Konfigurieren des Spiels.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: 'Stoppt das aktuelle Schnelltipp-Spiel.'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: 'Befehl, um zufällig aus einer Liste von Optionen zu wählen.'
+  params:
+    - desc: 'Die Liste der Optionen, durch Semikolons getrennt.'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: 'Stoppt das laufende Galgenmännchen-Spiel im aktuellen Kanal.'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Startet oder tritt einem Nunchi-Spiel bei.'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: 'Zeigt die aktuelle Trivia-Rangliste.'
+  params: [ ]

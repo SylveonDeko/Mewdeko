@@ -5,5 +5,11 @@
   "stat_channel_removed": "Salon de statistiques **{0}** supprimé.",
   "stat_channel_not_found": "Ce salon n'est pas un salon de statistiques.",
   "stat_channel_none": "Aucun salon de statistiques configuré.",
-  "stat_channel_list_title": "Salons de statistiques"
+  "stat_channel_list_title": "Salons de statistiques",
+  "stat_channel_types_title": "Types de statistiques disponibles",
+  "stat_channel_unknown_type": "Ce type de statistique n'existe pas. Utilisez la commande types pour consulter les types disponibles.",
+  "stat_channel_mechanism_set": "**{0}** se met maintenant à jour par **{1}** toutes les **{2}** minutes.",
+  "stat_channel_style_set": "**{0}** utilise maintenant le style **{1}**, par exemple `{2}`.",
+  "stat_channel_defaults_set": "Les nouveaux salons de statistiques utiliseront par défaut **{0}** toutes les **{1}** minutes avec le style **{2}**.",
+  "stat_channel_invalid_date": "Impossible d'analyser cette date. Utilisez un format comme 2026-12-31 18:00."
 }

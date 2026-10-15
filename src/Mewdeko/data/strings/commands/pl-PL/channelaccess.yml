@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Wysyła przycisk zgłoszenia dla kanału z bramką, abyś mógł wypełnić formularz zgłoszenia.'
+  params:
+    - desc: 'Kanał, na który chcesz się zgłosić.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Wymusza przepuszczenie zgłoszenia niezależnie od liczby głosów.'
+  params:
+    - desc: 'ID zgłoszenia.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Opcjonalna notatka wyświetlana przy zamkniętym zgłoszeniu.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Wyświetla wszystkich, którzy są zablokowani przed składaniem zgłoszeń na tym serwerze.'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Blokuje użytkownikowi możliwość składania zgłoszeń, dla jednego kanału lub dla wszystkich kanałów z bramką.'
+  params:
+    - desc: 'Użytkownik do zablokowania.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kanał z bramką lub pozostaw puste, aby zablokować wszędzie.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Zdejmuje blokadę, aby użytkownik mógł znów składać zgłoszenia.'
+  params:
+    - desc: 'Zablokowany użytkownik.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kanał z bramką, na którym ustawiono blokadę, jeśli była przypisana do konkretnego kanału.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Zmienia jedno ustawienie bramki. Uruchom bez ustawienia, aby zobaczyć wszystko, co możesz zmienić.'
+  params:
+    - desc: 'Kanał z bramką.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Nazwa ustawienia.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Nowa wartość.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Odrzuca zgłoszenie niezależnie od liczby głosów.'
+  params:
+    - desc: 'ID zgłoszenia.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Opcjonalna notatka wyświetlana przy zamkniętym zgłoszeniu.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Pokazuje historię zgłoszeń użytkownika lub twoją, jeśli nie podano użytkownika.'
+  params:
+    - desc: 'Użytkownik do sprawdzenia.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Wyświetla wszystkie bramki na serwerze wraz z ich aktualnymi progami.'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Wysyła przycisk, który ludzie mogą kliknąć, aby złożyć zgłoszenie na kanał z bramką.'
+  params:
+    - desc: 'Kanał z bramką.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Gdzie wysłać panel. Domyślnie bieżący kanał.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Wyświetla zgłoszenia, które wciąż czekają na decyzję.'
+  params:
+    - desc: 'Opcjonalnie ogranicz listę do jednego kanału z bramką.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Dodaje pytanie do formularza zgłoszenia bramki. Bramka może mieć maksymalnie pięć pytań.'
+  params:
+    - desc: 'Kanał z bramką.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Treść pytania, maksymalnie 45 znaków.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Pokazuje pytania zgłoszeniowe bramki w kolejności, w jakiej widzą je kandydaci.'
+  params:
+    - desc: 'Kanał z bramką.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Usuwa pytanie z formularza zgłoszenia bramki po jego numerze na liście.'
+  params:
+    - desc: 'Kanał z bramką.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Numer pytania od 1, zgodny z listą pytań.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Usuwa bramkę kanału wraz z jej pytaniami i historią zgłoszeń.'
+  params:
+    - desc: 'Kanał z bramką.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Otwiera zgłoszenia dla zablokowanego kanału, nadając podaną rolę zaakceptowanym kandydatom.'
+  params:
+    - desc: 'Zablokowany kanał do objęcia bramką.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Rola nadawana po zaakceptowaniu zgłoszenia. Pomiń, aby dodać kandydatów bezpośrednio do kanału.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Wycofuje jedno z twoich otwartych zgłoszeń.'
+  params:
+    - desc: 'ID zgłoszenia widoczne w wiadomości do rozpatrzenia.'
+      name: applicationId
+      optional: false
+      type: int

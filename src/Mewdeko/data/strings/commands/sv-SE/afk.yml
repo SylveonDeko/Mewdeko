@@ -239,7 +239,7 @@ afktype:
   desc: 'Anger typen av AFK-beteende for servern.'
   params:
     - &ref_54
-      desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+      desc: 'Typen av AFK-beteende att ange.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -251,7 +251,7 @@ afktype_AfkTypeEnum:
     - ontype
   desc: 'Anger typen av AFK-beteende for servern.'
   params:
-    - desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+    - desc: 'Typen av AFK-beteende att ange.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -263,7 +263,7 @@ afktype_AfkTypeEnum_1:
     - ontype
   desc: 'Anger typen av AFK-beteende for servern.'
   params:
-    - desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+    - desc: 'Typen av AFK-beteende att ange.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -275,7 +275,7 @@ afktype_AfkTypeEnum_2:
     - ontype
   desc: 'Anger typen av AFK-beteende for servern.'
   params:
-    - desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+    - desc: 'Typen av AFK-beteende att ange.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum

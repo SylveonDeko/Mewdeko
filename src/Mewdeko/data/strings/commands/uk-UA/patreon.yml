@@ -1,7 +1,7 @@
 patreonanalytics:
   args:
     - ''
-  desc: 'Показує детальну аналітику Patreon.'
+  desc: 'Показує детальну аналітику Patreon'
   params: [ ]
 patreonannounce:
   args:
@@ -11,11 +11,9 @@ patreonannounce:
 patreonch:
   args:
     - '#channel'
-  desc: Встановлює або показує канал оголошень Patreon.
+  desc: 'Встановлює або показує канал для оголошень Patreon.'
   params:
-    - desc: >-
-        Канал для встановлення як канал оголошень Patreon. Якщо null,
-        показує поточний канал.
+    - desc: 'Канал для оголошень Patreon. Якщо значення порожнє, показується поточний канал.'
       name: channel
       optional: true
       type: ITextChannel?
@@ -29,8 +27,7 @@ patreonday:
     - number
   desc: 'Встановлює день місяця для оголошень Patreon.'
   params:
-    - desc: >-
-        День місяця (1-28) для оголошень. Якщо null, показує поточний день.
+    - desc: 'День місяця (1-28) для оголошень. Якщо значення порожнє, показується поточний день.'
       name: day
       optional: true
       type: int?
@@ -42,81 +39,79 @@ patreondisable:
 patreonhelp:
   args:
     - ''
-  desc: 'Показує інформацію про модуль Patreon та доступні заповнювачі.'
+  desc: 'Показує інформацію про модуль Patreon і доступні заповнювачі.'
   params: [ ]
 patreonlink:
   args:
     - '@user text'
-  desc: 'Зв''язує користувача Discord з прихильником Patreon.'
+  desc: 'Прив''язує користувача Discord до підтримувача Patreon'
   params:
-    - desc: Користувач Discord для зв''язування.
+    - desc: 'Користувач Discord для прив''язки.'
       name: user
       optional: false
       type: IGuildUser
-    - desc: ID користувача Patreon для зв''язування.
+    - desc: 'ID користувача Patreon для прив''язки.'
       name: patreonUserId
       optional: false
       type: string
 patreonmsg:
   args:
     - text
-  desc: Встановлює власне повідомлення для оголошень Patreon.
+  desc: 'Встановлює власне повідомлення для оголошень Patreon.'
   params:
-    - desc: >-
-        Власне повідомлення. Використовуйте заповнювачі, як %server.name%,
-        %month%, тощо. Використовуйте "-" для скидання до стандартного.
+    - desc: 'Власне повідомлення. Використовуй заповнювачі, наприклад %server.name%, %month% тощо. Щоб скинути до стандартного, використай «-».'
       name: message
       optional: true
       type: string?
 patreonrecognize:
   args:
     - '#channel'
-  desc: 'Надсилає повідомлення подяки для нових прихильників.'
+  desc: 'Надсилає повідомлення з подякою для нових підтримувачів'
   params:
-    - desc: Канал для надсилання повідомлень подяки.
+    - desc: 'Канал, куди надсилати повідомлення з подякою.'
       name: channel
       optional: true
       type: ITextChannel?
 patreonroles:
   args:
     - ''
-  desc: 'Перелічує співставлення рівень-роль Patreon.'
+  desc: 'Показує відповідності рівнів Patreon і ролей'
   params: [ ]
 patreonrolesync:
   args:
     - ''
-  desc: 'Перемикає автоматичну синхронізацію ролей.'
+  desc: 'Перемикає автоматичну синхронізацію ролей'
   params: [ ]
 patreonstats:
   args:
     - ''
-  desc: 'Показує статистику прихильників Patreon.'
+  desc: 'Показує статистику підтримувачів Patreon'
   params: [ ]
 patreonsupporters:
   args:
     - ''
-  desc: 'Перелічує активних прихильників Patreon.'
+  desc: 'Показує активних підтримувачів Patreon'
   params: [ ]
 patreonsync:
   args:
     - ''
-  desc: 'Безпечно налаштовує інтеграцію OAuth Patreon.'
+  desc: 'Безпечно налаштовує інтеграцію OAuth з Patreon'
   params: [ ]
 patreonsyncall:
   args:
     - ''
-  desc: 'Синхронізує ролі для всіх пов''язаних прихильників.'
+  desc: 'Синхронізує ролі для всіх прив''язаних підтримувачів'
   params: [ ]
 patreontiermap:
   args:
     - text @role
-  desc: 'Зіставляє рівень Patreon з роллю Discord.'
+  desc: 'Призначає рівень Patreon певній ролі Discord'
   params:
-    - desc: ID рівня Patreon.
+    - desc: 'ID рівня Patreon.'
       name: tierId
       optional: false
       type: string
-    - desc: Роль Discord для зіставлення з рівнем.
+    - desc: 'Роль Discord, яку призначити рівню.'
       name: role
       optional: false
       type: IRole
@@ -128,9 +123,9 @@ patreontoggle:
 patreontop:
   args:
     - number
-  desc: 'Показує топ прихильників Patreon.'
+  desc: 'Показує найактивніших підтримувачів Patreon'
   params:
-    - desc: Кількість топ прихильників для показу (1-20).
+    - desc: 'Кількість найактивніших підтримувачів для показу (1-20).'
       name: count
       optional: true
       type: int

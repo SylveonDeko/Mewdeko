@@ -1,0 +1,247 @@
+wotd:
+  args:
+    - ''
+  desc: 'Показує слово дня на сьогодні або попередній перегляд, якщо його ще не опубліковано.'
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: 'Вмикає або вимикає щоденну публікацію слів. Спершу потрібно встановити канал.'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: 'Встановлює канал для щоденних слів і вмикає публікацію. Залиште порожнім, щоб очистити канал і вимкнути публікацію.'
+  params:
+    - desc: 'Канал для публікації. Якщо не вказано, канал очищується.'
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: 'Встановлює локальну годину (від 0 до 23), о якій публікується слово дня.'
+  params:
+    - desc: 'Година доби у 24-годинному форматі.'
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: 'Встановлює часовий пояс, який використовується для часу щоденної публікації та визначення початку нового дня.'
+  params:
+    - desc: 'Назва часового поясу IANA.'
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: 'Встановлює роль, яку згадувати з кожним щоденним словом. Залиште порожнім, щоб очистити.'
+  params:
+    - desc: 'Роль для згадування. Якщо не вказано, очищається.'
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: 'Встановлює власний шаблон повідомлення для щоденних слів із підтримкою JSON embed і плейсхолдерів. Надішліть без тексту, щоб переглянути поточний шаблон, або "clear", щоб використати embed за замовчуванням.'
+  params:
+    - desc: 'Текст шаблону. Якщо не вказано, показується поточний шаблон; "clear" скидає його.'
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: 'Встановлює тему, до якої мають тяжіти слова зі словника, до п''яти слів. Залиште порожнім або надішліть "clear", щоб видалити.'
+  params:
+    - desc: 'Тематичні слова, наприклад "space" або "medieval history". Якщо не вказано, очищається.'
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: 'Обмежує слова зі словника однією частиною мови: any, noun, verb, adjective або adverb.'
+  params:
+    - desc: 'Частина мови, яку потрібно дозволити.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: 'Встановлює, наскільки рідкісними мають бути слова зі словника: any, common, moderate або rare.'
+  params:
+    - desc: 'Рівень складності.'
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: 'Визначає джерело слів. Dictionary використовує Datamuse із вашими фільтрами, custom — лише слова, додані через wotdadd, а mixed — власні слова, доки вони не закінчаться.'
+  params:
+    - desc: 'Джерело слів.'
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: 'Додає слово до власного списку слів цього сервера. Якщо визначення не вказано, його буде знайдено автоматично.'
+  params:
+    - desc: 'Слово для додавання.'
+      name: word
+      optional: false
+      type: string
+    - desc: 'Визначення слова. Якщо не вказано, шукається автоматично.'
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: 'Видаляє слово зі власного списку слів цього сервера.'
+  params:
+    - desc: 'Слово для видалення.'
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: 'Показує власні слова цього сервера та те, як часто кожне з них публікувалося.'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: 'Показує слова, опубліковані нещодавно.'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: 'Показує поточну конфігурацію слова дня.'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: 'Негайно публікує нове слово незалежно від розкладу.'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: 'Скидає всі налаштування слова дня, власні слова та історію для цього сервера.'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: 'Встановлює тему для конкретного дня тижня, замінюючи базову тему цього дня. Без теми правило для цього дня буде видалено.'
+  params:
+    - desc: 'День тижня.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'Тематичні слова для цього дня. Якщо не вказано, правило видаляється.'
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: 'Встановлює частину мови та необов''язкову складність для конкретного дня тижня. Використовуйте "any", щоб успадкувати базове налаштування.'
+  params:
+    - desc: 'День тижня.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'Частина мови для цього дня або any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'Складність для цього дня або any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: 'Встановлює тему для конкретного місяця, замінюючи базову тему протягом цього місяця. Правила для днів тижня мають пріоритет над правилами для місяців. Без теми правило буде видалено.'
+  params:
+    - desc: 'Номер або назва місяця.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'Тематичні слова для цього місяця. Якщо не вказано, правило видаляється.'
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: 'Встановлює частину мови та необов''язкову складність для конкретного місяця. Використовуйте "any", щоб успадкувати базове налаштування.'
+  params:
+    - desc: 'Номер або назва місяця.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'Частина мови для цього місяця або any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'Складність для цього місяця або any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: 'Показує всі правила для днів тижня та місяців, а також фільтри, що діють сьогодні.'
+  params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: 'Перемикає створення публічної гілки обговорення під кожною публікацією слова дня з початковим запитанням, яке просить використати слово в реченні.'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: 'Встановлює шаблон назви для гілки обговорення. Підтримує %wotd.word%, %wotd.date%, %wotd.pos% і плейсхолдери сервера. Надішліть без тексту, щоб переглянути поточний шаблон, або "clear", щоб скинути.'
+  params:
+    - desc: 'Шаблон назви гілки. Якщо не вказано, показується поточний шаблон; "clear" скидає його.'
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: 'Встановлює, скільки часу гілка обговорення залишається відкритою без активності, перш ніж Discord її архівує: 1h, 24h, 3d або 7d.'
+  params:
+    - desc: 'Одне зі значень: 1h, 24h, 3d або 7d.'
+      name: duration
+      optional: false
+      type: string

@@ -1,0 +1,2459 @@
+anime:
+  args:
+    - text
+  desc: 'Pesquisa animes e exibe informações sobre os resultados da pesquisa.'
+  params:
+    - &ref_66
+      desc: 'A consulta a pesquisar.'
+      name: query
+      optional: false
+      type: string
+anime_string:
+  args:
+    - text
+  desc: 'Pesquisa animes e exibe informações sobre os resultados da pesquisa.'
+  params:
+    - desc: 'A consulta a pesquisar.'
+      name: query
+      optional: false
+      type: string
+anime_string_1:
+  args:
+    - text
+  desc: 'Pesquisa animes e exibe informações sobre os resultados da pesquisa.'
+  params:
+    - desc: 'A consulta a pesquisar.'
+      name: query
+      optional: false
+      type: string
+anime_string_2:
+  args:
+    - text
+  desc: 'Pesquisa animes e exibe informações sobre os resultados da pesquisa.'
+  params:
+    - desc: 'A consulta a pesquisar.'
+      name: query
+      optional: false
+      type: string
+autotranslang:
+  args:
+    - '[langs]'
+  desc: 'Define ou remove o par de idiomas preferido para a tradução automática do usuário no canal atual.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para'', ou null para remover a configuração.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=:
+  args:
+    - '[langs]'
+  desc: 'Define ou remove o par de idiomas preferido para a tradução automática do usuário no canal atual.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para'', ou null para remover a configuração.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_1:
+  args:
+    - '[langs]'
+  desc: 'Define ou remove o par de idiomas preferido para a tradução automática do usuário no canal atual.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para'', ou null para remover a configuração.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_2:
+  args:
+    - '[langs]'
+  desc: 'Define ou remove o par de idiomas preferido para a tradução automática do usuário no canal atual.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para'', ou null para remover a configuração.'
+      name: langs
+      optional: true
+      type: string
+autotranslate:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+  params:
+    - &ref_97
+      desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+  params:
+    - desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_1:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+  params:
+    - desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_2:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+  params:
+    - desc: 'Ativa ou desativa a tradução automática no canal atual, com a opção de apagar automaticamente a mensagem original.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+baka:
+  args:
+    - text
+  desc: 'Chama alguém de baka.'
+  params:
+    - &ref_98
+      desc: 'A pessoa a chamar de baka.'
+      name: toShow
+      optional: false
+      type: string
+baka_string:
+  args:
+    - text
+  desc: 'Chama alguém de baka.'
+  params:
+    - &ref_99
+      desc: 'A pessoa a chamar de baka.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_1:
+  args:
+    - text
+  desc: 'Chama alguém de baka.'
+  params:
+    - desc: 'A pessoa a chamar de baka.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_2:
+  args:
+    - text
+  desc: 'Chama alguém de baka.'
+  params:
+    - desc: 'A pessoa a chamar de baka.'
+      name: toShow
+      optional: false
+      type: string
+bible:
+  args:
+    - text text
+  desc: 'Pesquisa e exibe versículos da Bíblia com base no livro, capítulo e versículo informados.'
+  params:
+    - &ref_111
+      desc: 'O livro da Bíblia.'
+      name: book
+      optional: false
+      type: string
+    - &ref_112
+      desc: 'O capítulo e o versículo no formato "Capítulo:Versículo".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string:
+  args:
+    - text text
+  desc: 'Pesquisa e exibe versículos da Bíblia com base no livro, capítulo e versículo informados.'
+  params:
+    - desc: 'O livro da Bíblia.'
+      name: book
+      optional: false
+      type: string
+    - desc: 'O capítulo e o versículo no formato "Capítulo:Versículo".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_1:
+  args:
+    - text text
+  desc: 'Pesquisa e exibe versículos da Bíblia com base no livro, capítulo e versículo informados.'
+  params:
+    - desc: 'O livro da Bíblia.'
+      name: book
+      optional: false
+      type: string
+    - desc: 'O capítulo e o versículo no formato "Capítulo:Versículo".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_2:
+  args:
+    - text text
+  desc: 'Pesquisa e exibe versículos da Bíblia com base no livro, capítulo e versículo informados.'
+  params:
+    - desc: 'O livro da Bíblia.'
+      name: book
+      optional: false
+      type: string
+    - desc: 'O capítulo e o versículo no formato "Capítulo:Versículo".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bite:
+  args:
+    - text
+  desc: 'Morde alguém.'
+  params:
+    - desc: 'A pessoa a morder.'
+      name: toShow
+      optional: false
+      type: string
+blush:
+  args:
+    - '[toShow]'
+  desc: 'Cora de vergonha.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+bored:
+  args:
+    - '[toShow]'
+  desc: 'Demonstra tédio.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+catfact:
+  args:
+    - ''
+  desc: 'Busca e compartilha um fato aleatório sobre gatos.'
+  params: [ ]
+charinfo:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um personagem.'
+  params:
+    - &ref_125
+      desc: 'O nome do personagem a pesquisar.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um personagem.'
+  params:
+    - desc: 'O nome do personagem a pesquisar.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_1:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um personagem.'
+  params:
+    - desc: 'O nome do personagem a pesquisar.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_2:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um personagem.'
+  params:
+    - desc: 'O nome do personagem a pesquisar.'
+      name: chara
+      optional: false
+      type: string
+chucknorris:
+  args:
+    - ''
+  desc: 'Busca uma piada do Chuck Norris.'
+  params: [ ]
+color:
+  args:
+    - colors
+  desc: 'Exibe uma amostra de cor com base nos códigos hexadecimais de cor informados.'
+  params:
+    - &ref_137
+      desc: 'Uma matriz de objetos SKColor representando as cores a exibir.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]:
+  args:
+    - colors
+  desc: 'Exibe uma amostra de cor com base nos códigos hexadecimais de cor informados.'
+  params:
+    - desc: 'Uma matriz de objetos SKColor representando as cores a exibir.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_1:
+  args:
+    - colors
+  desc: 'Exibe uma amostra de cor com base nos códigos hexadecimais de cor informados.'
+  params:
+    - desc: 'Uma matriz de objetos SKColor representando as cores a exibir.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_2:
+  args:
+    - colors
+  desc: 'Exibe uma amostra de cor com base nos códigos hexadecimais de cor informados.'
+  params:
+    - desc: 'Uma matriz de objetos SKColor representando as cores a exibir.'
+      name: colors
+      optional: false
+      type: SKColor[]
+cry:
+  args:
+    - '[toShow]'
+  desc: 'Chora.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+cuddle:
+  args:
+    - text
+  desc: 'Faz carinho em alguém.'
+  params:
+    - &ref_170
+      desc: 'A pessoa com quem fazer carinho.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string:
+  args:
+    - text
+  desc: 'Faz carinho em alguém.'
+  params:
+    - &ref_171
+      desc: 'A pessoa com quem fazer carinho.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_1:
+  args:
+    - text
+  desc: 'Faz carinho em alguém.'
+  params:
+    - desc: 'A pessoa com quem fazer carinho.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_2:
+  args:
+    - text
+  desc: 'Faz carinho em alguém.'
+  params:
+    - desc: 'A pessoa com quem fazer carinho.'
+      name: toShow
+      optional: false
+      type: string
+dance:
+  args:
+    - '[toShow]'
+  desc: 'Dança.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+define:
+  args:
+    - text
+  desc: 'Busca e exibe uma definição do dicionário Pearson.'
+  params:
+    - &ref_179
+      desc: 'A palavra a definir.'
+      name: word
+      optional: false
+      type: string
+define_string:
+  args:
+    - text
+  desc: 'Busca e exibe uma definição do dicionário Pearson.'
+  params:
+    - desc: 'A palavra a definir.'
+      name: word
+      optional: false
+      type: string
+define_string_1:
+  args:
+    - text
+  desc: 'Busca e exibe uma definição do dicionário Pearson.'
+  params:
+    - desc: 'A palavra a definir.'
+      name: word
+      optional: false
+      type: string
+define_string_2:
+  args:
+    - text
+  desc: 'Busca e exibe uma definição do dicionário Pearson.'
+  params:
+    - desc: 'A palavra a definir.'
+      name: word
+      optional: false
+      type: string
+facepalm:
+  args:
+    - '[toShow]'
+  desc: 'Faz facepalm.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+feed:
+  args:
+    - text
+  desc: 'Alimenta alguém.'
+  params:
+    - &ref_213
+      desc: 'A pessoa a alimentar.'
+      name: toShow
+      optional: false
+      type: string
+feed_string:
+  args:
+    - text
+  desc: 'Alimenta alguém.'
+  params:
+    - desc: 'A pessoa a alimentar.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_1:
+  args:
+    - text
+  desc: 'Alimenta alguém.'
+  params:
+    - desc: 'A pessoa a alimentar.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_2:
+  args:
+    - text
+  desc: 'Alimenta alguém.'
+  params:
+    - desc: 'A pessoa a alimentar.'
+      name: toShow
+      optional: false
+      type: string
+feedadd:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Adiciona um novo feed RSS à lista de feeds do servidor.'
+  params:
+    - desc: 'A URL do feed RSS.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'O canal onde as atualizações do feed serão enviadas (opcional, por padrão o canal atual).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Adiciona um novo feed RSS à lista de feeds do servidor.'
+  params:
+    - desc: 'A URL do feed RSS.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'O canal onde as atualizações do feed serão enviadas (opcional, por padrão o canal atual).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_1:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Adiciona um novo feed RSS à lista de feeds do servidor.'
+  params:
+    - desc: 'A URL do feed RSS.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'O canal onde as atualizações do feed serão enviadas (opcional, por padrão o canal atual).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_2:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Adiciona um novo feed RSS à lista de feeds do servidor.'
+  params:
+    - desc: 'A URL do feed RSS.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'O canal onde as atualizações do feed serão enviadas (opcional, por padrão o canal atual).'
+      name: channel
+      optional: true
+      type: channel
+feedlist:
+  args:
+    - ''
+  desc: 'Lista todos os feeds RSS adicionados ao servidor.'
+  params: [ ]
+feedmessage:
+  args:
+    - number text
+  desc: 'Define um formato de mensagem personalizado para as atualizações do feed em um canal específico.'
+  params:
+    - &ref_215
+      desc: 'A posição do feed na lista.'
+      name: index
+      optional: false
+      type: int
+    - &ref_216
+      desc: 'O formato de mensagem personalizado.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string:
+  args:
+    - number text
+  desc: 'Define um formato de mensagem personalizado para as atualizações do feed em um canal específico.'
+  params:
+    - desc: 'A posição do feed na lista.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O formato de mensagem personalizado.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_1:
+  args:
+    - number text
+  desc: 'Define um formato de mensagem personalizado para as atualizações do feed em um canal específico.'
+  params:
+    - desc: 'A posição do feed na lista.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O formato de mensagem personalizado.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_2:
+  args:
+    - number text
+  desc: 'Define um formato de mensagem personalizado para as atualizações do feed em um canal específico.'
+  params:
+    - desc: 'A posição do feed na lista.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O formato de mensagem personalizado.'
+      name: message
+      optional: false
+      type: string
+feedremove:
+  args:
+    - number
+  desc: 'Remove um feed RSS da lista de feeds do servidor.'
+  params:
+    - desc: 'A posição do feed na lista.'
+      name: index
+      optional: false
+      type: int
+findanime:
+  args:
+    - '[e]'
+  desc: 'Encontra informações sobre anime com base em uma imagem.'
+  params:
+    - desc: 'A URL da imagem ou uma imagem anexada para usar na pesquisa.'
+      name: e
+      optional: true
+      type: string
+gatari:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!Gatari.'
+  params:
+    - desc: 'O nome de usuário do osu!Gatari para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!Gatari.'
+  params:
+    - desc: 'O nome de usuário do osu!Gatari para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!Gatari.'
+  params:
+    - desc: 'O nome de usuário do osu!Gatari para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!Gatari.'
+  params:
+    - desc: 'O nome de usuário do osu!Gatari para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+google:
+  args:
+    - '[query]'
+  desc: 'Realiza uma pesquisa geral usando os mecanismos de busca Google ou DuckDuckGo e exibe os resultados.'
+  params:
+    - desc: 'A consulta de pesquisa.'
+      name: query
+      optional: true
+      type: string
+google_=:
+  args:
+    - '[query]'
+  desc: 'Realiza uma pesquisa geral usando os mecanismos de busca Google ou DuckDuckGo e exibe os resultados.'
+  params:
+    - desc: 'A consulta de pesquisa.'
+      name: query
+      optional: true
+      type: string
+google_=_1:
+  args:
+    - '[query]'
+  desc: 'Realiza uma pesquisa geral usando os mecanismos de busca Google ou DuckDuckGo e exibe os resultados.'
+  params:
+    - desc: 'A consulta de pesquisa.'
+      name: query
+      optional: true
+      type: string
+google_=_2:
+  args:
+    - '[query]'
+  desc: 'Realiza uma pesquisa geral usando os mecanismos de busca Google ou DuckDuckGo e exibe os resultados.'
+  params:
+    - desc: 'A consulta de pesquisa.'
+      name: query
+      optional: true
+      type: string
+handhold:
+  args:
+    - text
+  desc: 'Segura a mão de alguém.'
+  params:
+    - &ref_242
+      desc: 'A pessoa com quem dar as mãos.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string:
+  args:
+    - text
+  desc: 'Segura a mão de alguém.'
+  params:
+    - desc: 'A pessoa com quem dar as mãos.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_1:
+  args:
+    - text
+  desc: 'Segura a mão de alguém.'
+  params:
+    - &ref_243
+      desc: 'A pessoa com quem dar as mãos.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_2:
+  args:
+    - text
+  desc: 'Segura a mão de alguém.'
+  params:
+    - desc: 'A pessoa com quem dar as mãos.'
+      name: toShow
+      optional: false
+      type: string
+happy:
+  args:
+    - '[toShow]'
+  desc: 'Expressa felicidade.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+highfive:
+  args:
+    - text
+  desc: 'Dá um high-five em alguém.'
+  params:
+    - desc: 'A pessoa para dar um high-five.'
+      name: toShow
+      optional: false
+      type: string
+hug:
+  args:
+    - text
+  desc: 'Abraça alguém.'
+  params:
+    - desc: 'A pessoa a abraçar.'
+      name: toShow
+      optional: false
+      type: string
+hug_string:
+  args:
+    - text
+  desc: 'Abraça alguém.'
+  params:
+    - desc: 'A pessoa a abraçar.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_1:
+  args:
+    - text
+  desc: 'Abraça alguém.'
+  params:
+    - desc: 'A pessoa a abraçar.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_2:
+  args:
+    - text
+  desc: 'Abraça alguém.'
+  params:
+    - desc: 'A pessoa a abraçar.'
+      name: toShow
+      optional: false
+      type: string
+image:
+  args:
+    - text
+  desc: 'Realiza uma pesquisa de imagens no Google e no DuckDuckGo, e depois filtra os resultados NSFW.'
+  params:
+    - &ref_251
+      desc: 'A consulta de pesquisa da imagem.'
+      name: query
+      optional: false
+      type: string
+image_string:
+  args:
+    - text
+  desc: 'Realiza uma pesquisa de imagens no Google e no DuckDuckGo, e depois filtra os resultados NSFW.'
+  params:
+    - &ref_252
+      desc: 'A consulta de pesquisa da imagem.'
+      name: query
+      optional: false
+      type: string
+image_string_1:
+  args:
+    - text
+  desc: 'Realiza uma pesquisa de imagens no Google e no DuckDuckGo, e depois filtra os resultados NSFW.'
+  params:
+    - desc: 'A consulta de pesquisa da imagem.'
+      name: query
+      optional: false
+      type: string
+image_string_2:
+  args:
+    - text
+  desc: 'Realiza uma pesquisa de imagens no Google e no DuckDuckGo, e depois filtra os resultados NSFW.'
+  params:
+    - desc: 'A consulta de pesquisa da imagem.'
+      name: query
+      optional: false
+      type: string
+kiss:
+  args:
+    - text
+  desc: 'Beija alguém.'
+  params:
+    - desc: 'A pessoa a beijar.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string:
+  args:
+    - text
+  desc: 'Beija alguém.'
+  params:
+    - desc: 'A pessoa a beijar.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_1:
+  args:
+    - text
+  desc: 'Beija alguém.'
+  params:
+    - desc: 'A pessoa a beijar.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_2:
+  args:
+    - text
+  desc: 'Beija alguém.'
+  params:
+    - desc: 'A pessoa a beijar.'
+      name: toShow
+      optional: false
+      type: string
+laugh:
+  args:
+    - '[toShow]'
+  desc: 'Ri.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+magicitem:
+  args:
+    - ''
+  desc: 'Busca a descrição de um item mágico relacionado ao World of Warcraft.'
+  params: [ ]
+mal:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - &ref_288
+      desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+      name: name
+      optional: true
+      type: string
+mal_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - &ref_287
+      desc: 'O usuário para buscar as informações do perfil do MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - desc: 'O usuário para buscar as informações do perfil do MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - desc: 'O usuário para buscar as informações do perfil do MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_3:
+  args:
+    - '@user'
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - desc: 'O usuário para buscar as informações do perfil do MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_string:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+      name: name
+      optional: true
+      type: string
+mal_string_1:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+      name: name
+      optional: true
+      type: string
+mal_string_2:
+  args:
+    - text
+  desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+  params:
+    - desc: 'Busca e exibe informações sobre um perfil do MyAnimeList de um usuário especificado no servidor atual.'
+      name: name
+      optional: true
+      type: string
+manga:
+  args:
+    - text
+  desc: 'Pesquisa mangás e exibe informações sobre os resultados da pesquisa.'
+  params:
+    - desc: 'A consulta a pesquisar.'
+      name: query
+      optional: false
+      type: string
+meme:
+  args:
+    - ''
+  desc: 'Busca e exibe um meme aleatório do Reddit.'
+  params: [ ]
+meme_noparams:
+  args:
+    - ''
+  desc: 'Busca e exibe um meme aleatório do Reddit.'
+  params: [ ]
+meme_noparams_1:
+  args:
+    - ''
+  desc: 'Busca e exibe um meme aleatório do Reddit.'
+  params: [ ]
+meme_noparams_2:
+  args:
+    - ''
+  desc: 'Busca e exibe um meme aleatório do Reddit.'
+  params: [ ]
+memegen:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Gera um meme com o modelo e o texto especificados.'
+  params:
+    - desc: 'O nome do modelo de meme.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'O texto a incluir no meme (opcional).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Gera um meme com o modelo e o texto especificados.'
+  params:
+    - desc: 'O nome do modelo de meme.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'O texto a incluir no meme (opcional).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_1:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Gera um meme com o modelo e o texto especificados.'
+  params:
+    - desc: 'O nome do modelo de meme.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'O texto a incluir no meme (opcional).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_2:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Gera um meme com o modelo e o texto especificados.'
+  params:
+    - desc: 'O nome do modelo de meme.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'O texto a incluir no meme (opcional).'
+      name: memeText
+      optional: true
+      type: string
+memelist:
+  args:
+    - ''
+  desc: 'Lista os modelos de meme disponíveis.'
+  params: [ ]
+movie:
+  args:
+    - '[query]'
+  desc: 'Busca e exibe informações sobre um filme no IMDb com base na consulta informada.'
+  params:
+    - desc: 'O título do filme a pesquisar no IMDb.'
+      name: query
+      optional: true
+      type: string
+movie_=:
+  args:
+    - '[query]'
+  desc: 'Busca e exibe informações sobre um filme no IMDb com base na consulta informada.'
+  params:
+    - desc: 'O título do filme a pesquisar no IMDb.'
+      name: query
+      optional: true
+      type: string
+movie_=_1:
+  args:
+    - '[query]'
+  desc: 'Busca e exibe informações sobre um filme no IMDb com base na consulta informada.'
+  params:
+    - desc: 'O título do filme a pesquisar no IMDb.'
+      name: query
+      optional: true
+      type: string
+movie_=_2:
+  args:
+    - '[query]'
+  desc: 'Busca e exibe informações sobre um filme no IMDb com base na consulta informada.'
+  params:
+    - desc: 'O título do filme a pesquisar no IMDb.'
+      name: query
+      optional: true
+      type: string
+osu:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+osu5:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca as 5 melhores jogadas do osu! de um usuário.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar as jogadas.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar as jogadas (opcional).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca as 5 melhores jogadas do osu! de um usuário.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar as jogadas.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar as jogadas (opcional).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca as 5 melhores jogadas do osu! de um usuário.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar as jogadas.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar as jogadas (opcional).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca as 5 melhores jogadas do osu! de um usuário.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar as jogadas.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar as jogadas (opcional).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Busca informações do perfil de usuário do osu!.'
+  params:
+    - desc: 'O nome de usuário do osu! para buscar informações.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'O modo de jogo (standard, taiko, catch, mania) para buscar informações (opcional).'
+      name: mode
+      optional: true
+      type: string
+pat:
+  args:
+    - text
+  desc: 'Dá tapinhas na cabeça de alguém.'
+  params:
+    - desc: 'A pessoa para dar tapinhas.'
+      name: toShow
+      optional: false
+      type: string
+pat_string:
+  args:
+    - text
+  desc: 'Dá tapinhas na cabeça de alguém.'
+  params:
+    - &ref_336
+      desc: 'A pessoa para dar tapinhas.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_1:
+  args:
+    - text
+  desc: 'Dá tapinhas na cabeça de alguém.'
+  params:
+    - desc: 'A pessoa para dar tapinhas.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_2:
+  args:
+    - text
+  desc: 'Dá tapinhas na cabeça de alguém.'
+  params:
+    - desc: 'A pessoa para dar tapinhas.'
+      name: toShow
+      optional: false
+      type: string
+poke:
+  args:
+    - text
+  desc: 'Cutuca alguém.'
+  params:
+    - desc: 'A pessoa a cutucar.'
+      name: toShow
+      optional: false
+      type: string
+poke_string:
+  args:
+    - text
+  desc: 'Cutuca alguém.'
+  params:
+    - desc: 'A pessoa a cutucar.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_1:
+  args:
+    - text
+  desc: 'Cutuca alguém.'
+  params:
+    - desc: 'A pessoa a cutucar.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_2:
+  args:
+    - text
+  desc: 'Cutuca alguém.'
+  params:
+    - desc: 'A pessoa a cutucar.'
+      name: toShow
+      optional: false
+      type: string
+pokemon:
+  args:
+    - text
+  desc: 'Busca informações sobre um Pokémon.'
+  params:
+    - &ref_348
+      desc: 'O nome do Pokémon.'
+      name: name
+      optional: false
+      type: string
+pokemon_string:
+  args:
+    - text
+  desc: 'Busca informações sobre um Pokémon.'
+  params:
+    - desc: 'O nome do Pokémon.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_1:
+  args:
+    - text
+  desc: 'Busca informações sobre um Pokémon.'
+  params:
+    - desc: 'O nome do Pokémon.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_2:
+  args:
+    - text
+  desc: 'Busca informações sobre um Pokémon.'
+  params:
+    - desc: 'O nome do Pokémon.'
+      name: name
+      optional: false
+      type: string
+pout:
+  args:
+    - '[toShow]'
+  desc: 'Faz bico.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+punch:
+  args:
+    - text
+  desc: 'Dá um soco em alguém.'
+  params:
+    - desc: 'A pessoa a socar.'
+      name: toShow
+      optional: false
+      type: string
+punch_string:
+  args:
+    - text
+  desc: 'Dá um soco em alguém.'
+  params:
+    - desc: 'A pessoa a socar.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_1:
+  args:
+    - text
+  desc: 'Dá um soco em alguém.'
+  params:
+    - desc: 'A pessoa a socar.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_2:
+  args:
+    - text
+  desc: 'Dá um soco em alguém.'
+  params:
+    - desc: 'A pessoa a socar.'
+      name: toShow
+      optional: false
+      type: string
+randjoke:
+  args:
+    - ''
+  desc: 'Busca uma piada aleatória.'
+  params: [ ]
+randombird:
+  args:
+    - ''
+  desc: 'Exibe um birb.'
+  params: [ ]
+randomcat:
+  args:
+    - ''
+  desc: 'Exibe uma imagem aleatória de gato.'
+  params: [ ]
+randomdog:
+  args:
+    - ''
+  desc: 'Exibe uma imagem aleatória de cachorro.'
+  params: [ ]
+randomfood:
+  args:
+    - ''
+  desc: 'Exibe uma imagem aleatória de comida.'
+  params: [ ]
+randomkitsune:
+  args:
+    - ''
+  desc: 'Envia uma imagem aleatória de kitsune.'
+  params: [ ]
+randomneko:
+  args:
+    - ''
+  desc: 'Envia uma imagem aleatória de neko.'
+  params: [ ]
+randomreddit:
+  args:
+    - text
+  desc: 'Busca e exibe uma publicação aleatória de um subreddit especificado.'
+  params:
+    - &ref_374
+      desc: 'O subreddit do qual buscar uma publicação aleatória.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string:
+  args:
+    - text
+  desc: 'Busca e exibe uma publicação aleatória de um subreddit especificado.'
+  params:
+    - desc: 'O subreddit do qual buscar uma publicação aleatória.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_1:
+  args:
+    - text
+  desc: 'Busca e exibe uma publicação aleatória de um subreddit especificado.'
+  params:
+    - desc: 'O subreddit do qual buscar uma publicação aleatória.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_2:
+  args:
+    - text
+  desc: 'Busca e exibe uma publicação aleatória de um subreddit especificado.'
+  params:
+    - desc: 'O subreddit do qual buscar uma publicação aleatória.'
+      name: subreddit
+      optional: false
+      type: string
+randomwaifu:
+  args:
+    - ''
+  desc: 'Envia uma imagem aleatória de waifu.'
+  params: [ ]
+resolvetonetags:
+  args:
+    - text
+  desc: 'Resolve as tags de tom em uma mensagem e fornece explicações para cada tag identificada.'
+  params:
+    - &ref_441
+      desc: 'A mensagem contendo as tags de tom a resolver.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string:
+  args:
+    - text
+  desc: 'Resolve as tags de tom em uma mensagem e fornece explicações para cada tag identificada.'
+  params:
+    - desc: 'A mensagem contendo as tags de tom a resolver.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_1:
+  args:
+    - text
+  desc: 'Resolve as tags de tom em uma mensagem e fornece explicações para cada tag identificada.'
+  params:
+    - desc: 'A mensagem contendo as tags de tom a resolver.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_2:
+  args:
+    - text
+  desc: 'Resolve as tags de tom em uma mensagem e fornece explicações para cada tag identificada.'
+  params:
+    - desc: 'A mensagem contendo as tags de tom a resolver.'
+      name: tag
+      optional: false
+      type: string
+revav:
+  args:
+    - '[@usr]'
+  desc: 'Realiza uma pesquisa reversa de imagem usando o link de um avatar.'
+  params:
+    - desc: 'O usuário cujo avatar será pesquisado de forma reversa'
+      name: usr
+      optional: true
+      type: user
+revimg:
+  args:
+    - '[imageLink]'
+  desc: 'Realiza uma pesquisa reversa de imagem usando o link de imagem informado.'
+  params:
+    - desc: 'A URL direta da imagem a pesquisar.'
+      name: imageLink
+      optional: true
+      type: string
+rip:
+  args:
+    - '@user'
+  desc: 'Exibe uma imagem de RIP com o nome e o avatar do usuário.'
+  params:
+    - &ref_443
+      desc: 'O usuário para gerar a imagem de RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Exibe uma imagem de RIP com o nome e o avatar do usuário.'
+  params:
+    - desc: 'O usuário para gerar a imagem de RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Exibe uma imagem de RIP com o nome e o avatar do usuário.'
+  params:
+    - desc: 'O usuário para gerar a imagem de RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Exibe uma imagem de RIP com o nome e o avatar do usuário.'
+  params:
+    - desc: 'O usuário para gerar a imagem de RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rsstest:
+  args:
+    - number
+  desc: 'Testa a busca de um feed RSS para verificar atualizações.'
+  params:
+    - desc: 'A posição do feed na lista.'
+      name: index
+      optional: false
+      type: int
+safebooru:
+  args:
+    - text
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_=:
+  args:
+    - '<tags>'
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_1:
+  args:
+    - '<tags>'
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_2:
+  args:
+    - '<tags>'
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_3:
+  args:
+    - '<tags>'
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_string[]:
+  args:
+    - text
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_1:
+  args:
+    - text
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_2:
+  args:
+    - text
+  desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+  params:
+    - desc: 'Pesquisa e exibe uma imagem com base na tag informada no Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+ship:
+  args:
+    - '@user @user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - &ref_540
+      desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_541
+      desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser:
+  args:
+    - '@user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_1:
+  args:
+    - '@user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_2:
+  args:
+    - '@user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_3:
+  args:
+    - '@user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_IUser:
+  args:
+    - '@user @user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_1:
+  args:
+    - '@user @user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - &ref_542
+      desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_2:
+  args:
+    - '@user @user'
+  desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+  params:
+    - desc: 'O usuário a ser comparado com o usuário atual.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Envia uma imagem de casal com base na compatibilidade entre o usuário atual e outro usuário.'
+      name: user2
+      optional: false
+      type: IUser
+shoot:
+  args:
+    - text
+  desc: 'Atira em alguém.'
+  params:
+    - desc: 'A pessoa a atirar.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string:
+  args:
+    - text
+  desc: 'Atira em alguém.'
+  params:
+    - desc: 'A pessoa a atirar.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_1:
+  args:
+    - text
+  desc: 'Atira em alguém.'
+  params:
+    - desc: 'A pessoa a atirar.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_2:
+  args:
+    - text
+  desc: 'Atira em alguém.'
+  params:
+    - desc: 'A pessoa a atirar.'
+      name: toShow
+      optional: false
+      type: string
+shorten:
+  args:
+    - text
+  desc: 'Encurta a URL informada usando a API do goolnk.com.'
+  params:
+    - &ref_543
+      desc: 'A URL a ser encurtada.'
+      name: query
+      optional: false
+      type: string
+shorten_string:
+  args:
+    - text
+  desc: 'Encurta a URL informada usando a API do goolnk.com.'
+  params:
+    - desc: 'A URL a ser encurtada.'
+      name: query
+      optional: false
+      type: string
+shorten_string_1:
+  args:
+    - text
+  desc: 'Encurta a URL informada usando a API do goolnk.com.'
+  params:
+    - desc: 'A URL a ser encurtada.'
+      name: query
+      optional: false
+      type: string
+shorten_string_2:
+  args:
+    - text
+  desc: 'Encurta a URL informada usando a API do goolnk.com.'
+  params:
+    - desc: 'A URL a ser encurtada.'
+      name: query
+      optional: false
+      type: string
+shrug:
+  args:
+    - '[toShow]'
+  desc: 'Dá de ombros.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+slap:
+  args:
+    - text
+  desc: 'Dá um tapa em alguém.'
+  params:
+    - &ref_546
+      desc: 'A pessoa a estapear.'
+      name: toShow
+      optional: false
+      type: string
+slap_string:
+  args:
+    - text
+  desc: 'Dá um tapa em alguém.'
+  params:
+    - desc: 'A pessoa a estapear.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_1:
+  args:
+    - text
+  desc: 'Dá um tapa em alguém.'
+  params:
+    - desc: 'A pessoa a estapear.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_2:
+  args:
+    - text
+  desc: 'Dá um tapa em alguém.'
+  params:
+    - desc: 'A pessoa a estapear.'
+      name: toShow
+      optional: false
+      type: string
+sleep:
+  args:
+    - '[toShow]'
+  desc: 'Dorme.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+smile:
+  args:
+    - '[toShow]'
+  desc: 'Sorri.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+smug:
+  args:
+    - '[toShow]'
+  desc: 'Fica convencido.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+stare:
+  args:
+    - '[toShow]'
+  desc: 'Encara.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+steam:
+  args:
+    - text
+  desc: 'Pesquisa um jogo na Steam pelo nome e fornece um link para a sua página na Loja Steam.'
+  params:
+    - &ref_567
+      desc: 'O nome do jogo a pesquisar na Steam.'
+      name: query
+      optional: false
+      type: string
+steam_string:
+  args:
+    - text
+  desc: 'Pesquisa um jogo na Steam pelo nome e fornece um link para a sua página na Loja Steam.'
+  params:
+    - desc: 'O nome do jogo a pesquisar na Steam.'
+      name: query
+      optional: false
+      type: string
+steam_string_1:
+  args:
+    - text
+  desc: 'Pesquisa um jogo na Steam pelo nome e fornece um link para a sua página na Loja Steam.'
+  params:
+    - desc: 'O nome do jogo a pesquisar na Steam.'
+      name: query
+      optional: false
+      type: string
+steam_string_2:
+  args:
+    - text
+  desc: 'Pesquisa um jogo na Steam pelo nome e fornece um link para a sua página na Loja Steam.'
+  params:
+    - desc: 'O nome do jogo a pesquisar na Steam.'
+      name: query
+      optional: false
+      type: string
+streamadd:
+  args:
+    - text
+  desc: 'Adiciona uma nova transmissão à lista de notificações do servidor atual.'
+  params:
+    - &ref_571
+      desc: 'O link da transmissão a ser adicionada.'
+      name: link
+      optional: false
+      type: string
+streamadd_string:
+  args:
+    - text
+  desc: 'Adiciona uma nova transmissão à lista de notificações do servidor atual.'
+  params:
+    - desc: 'O link da transmissão a ser adicionada.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_1:
+  args:
+    - text
+  desc: 'Adiciona uma nova transmissão à lista de notificações do servidor atual.'
+  params:
+    - desc: 'O link da transmissão a ser adicionada.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_2:
+  args:
+    - text
+  desc: 'Adiciona uma nova transmissão à lista de notificações do servidor atual.'
+  params:
+    - desc: 'O link da transmissão a ser adicionada.'
+      name: link
+      optional: false
+      type: string
+streamcheck:
+  args:
+    - text
+  desc: 'Verifica o status ao vivo de uma transmissão pela sua URL.'
+  params:
+    - &ref_572
+      desc: 'A URL da transmissão a verificar.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string:
+  args:
+    - text
+  desc: 'Verifica o status ao vivo de uma transmissão pela sua URL.'
+  params:
+    - desc: 'A URL da transmissão a verificar.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_1:
+  args:
+    - text
+  desc: 'Verifica o status ao vivo de uma transmissão pela sua URL.'
+  params:
+    - desc: 'A URL da transmissão a verificar.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_2:
+  args:
+    - text
+  desc: 'Verifica o status ao vivo de uma transmissão pela sua URL.'
+  params:
+    - desc: 'A URL da transmissão a verificar.'
+      name: url
+      optional: false
+      type: string
+streamlist:
+  args:
+    - ''
+  desc: 'Lista todas as transmissões que o servidor acompanha.'
+  params: [ ]
+streammessage:
+  args:
+    - number text
+  desc: 'Define uma mensagem de notificação personalizada para uma transmissão específica na lista de notificações do servidor.'
+  params:
+    - &ref_573
+      desc: 'A posição da transmissão na lista, começando em 1, para definir a mensagem.'
+      name: index
+      optional: false
+      type: int
+    - &ref_574
+      desc: 'A mensagem personalizada enviada quando a transmissão entrar no ar. Uma mensagem vazia a redefine para o padrão.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string:
+  args:
+    - number text
+  desc: 'Define uma mensagem de notificação personalizada para uma transmissão específica na lista de notificações do servidor.'
+  params:
+    - desc: 'A posição da transmissão na lista, começando em 1, para definir a mensagem.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'A mensagem personalizada enviada quando a transmissão entrar no ar. Uma mensagem vazia a redefine para o padrão.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_1:
+  args:
+    - number text
+  desc: 'Define uma mensagem de notificação personalizada para uma transmissão específica na lista de notificações do servidor.'
+  params:
+    - desc: 'A posição da transmissão na lista, começando em 1, para definir a mensagem.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'A mensagem personalizada enviada quando a transmissão entrar no ar. Uma mensagem vazia a redefine para o padrão.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_2:
+  args:
+    - number text
+  desc: 'Define uma mensagem de notificação personalizada para uma transmissão específica na lista de notificações do servidor.'
+  params:
+    - desc: 'A posição da transmissão na lista, começando em 1, para definir a mensagem.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'A mensagem personalizada enviada quando a transmissão entrar no ar. Uma mensagem vazia a redefine para o padrão.'
+      name: message
+      optional: false
+      type: string
+streamoffline:
+  args:
+    - ''
+  desc: 'Ativa ou desativa a notificação ao servidor quando uma transmissão acompanhada sair do ar.'
+  params: [ ]
+streamofflinemessage:
+  args:
+    - number
+    - text
+  desc: 'Define a mensagem de transmissão encerrada para uma transmissão específica.'
+  params:
+    - desc: 'A posição da transmissão, começando em 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O modelo de mensagem de transmissão encerrada com marcadores.'
+      name: message
+      optional: false
+      type: string
+streamremove:
+  args:
+    - number
+  desc: 'Remove uma transmissão da lista de notificações com base na sua posição.'
+  params:
+    - &ref_575
+      desc: 'A posição, começando em 1, da transmissão na lista de notificações a remover.'
+      name: index
+      optional: false
+      type: int
+streamremove_int:
+  args:
+    - number
+  desc: 'Remove uma transmissão da lista de notificações com base na sua posição.'
+  params:
+    - desc: 'A posição, começando em 1, da transmissão na lista de notificações a remover.'
+      name: index
+      optional: false
+      type: int
+streamremove_int_1:
+  args:
+    - number
+  desc: 'Remove uma transmissão da lista de notificações com base na sua posição.'
+  params:
+    - desc: 'A posição, começando em 1, da transmissão na lista de notificações a remover.'
+      name: index
+      optional: false
+      type: int
+streamremove_int_2:
+  args:
+    - number
+  desc: 'Remove uma transmissão da lista de notificações com base na sua posição.'
+  params:
+    - desc: 'A posição, começando em 1, da transmissão na lista de notificações a remover.'
+      name: index
+      optional: false
+      type: int
+streamsclear:
+  args:
+    - ''
+  desc: 'Remove todas as transmissões da lista de notificações do servidor.'
+  params: [ ]
+streamtemplate:
+  args:
+    - text
+  desc: 'Define ou mostra o modelo de mensagem de notificação de transmissão personalizado para todas as transmissões do servidor.'
+  params:
+    - desc: 'O modelo de mensagem personalizado com marcadores. Deixe vazio para mostrar o modelo atual, use "reset" para desativar as mensagens personalizadas.'
+      name: template
+      optional: true
+      type: string
+think:
+  args:
+    - '[toShow]'
+  desc: 'Pensa.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+thumbsup:
+  args:
+    - '[toShow]'
+  desc: 'Dá um joinha.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+tickle:
+  args:
+    - text
+  desc: 'Faz cócegas em alguém.'
+  params:
+    - desc: 'A pessoa a fazer cócegas.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string:
+  args:
+    - text
+  desc: 'Faz cócegas em alguém.'
+  params:
+    - desc: 'A pessoa a fazer cócegas.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_1:
+  args:
+    - text
+  desc: 'Faz cócegas em alguém.'
+  params:
+    - desc: 'A pessoa a fazer cócegas.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_2:
+  args:
+    - text
+  desc: 'Faz cócegas em alguém.'
+  params:
+    - desc: 'A pessoa a fazer cócegas.'
+      name: toShow
+      optional: false
+      type: string
+time:
+  args:
+    - text
+  desc: 'Exibe a hora atual em um local especificado.'
+  params:
+    - &ref_620
+      desc: 'A consulta de local para pesquisar a hora atual.'
+      name: query
+      optional: false
+      type: string
+time_string:
+  args:
+    - text
+  desc: 'Exibe a hora atual em um local especificado.'
+  params:
+    - desc: 'A consulta de local para pesquisar a hora atual.'
+      name: query
+      optional: false
+      type: string
+time_string_1:
+  args:
+    - text
+  desc: 'Exibe a hora atual em um local especificado.'
+  params:
+    - desc: 'A consulta de local para pesquisar a hora atual.'
+      name: query
+      optional: false
+      type: string
+time_string_2:
+  args:
+    - text
+  desc: 'Exibe a hora atual em um local especificado.'
+  params:
+    - desc: 'A consulta de local para pesquisar a hora atual.'
+      name: query
+      optional: false
+      type: string
+translangs:
+  args:
+    - ''
+  desc: 'Lista todos os idiomas disponíveis para tradução.'
+  params: [ ]
+translate:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Traduz um texto de um idioma para outro especificado pelo usuário.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'O texto a ser traduzido.'
+      name: text
+      optional: true
+      type: string
+translate_string_=:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Traduz um texto de um idioma para outro especificado pelo usuário.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'O texto a ser traduzido.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_1:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Traduz um texto de um idioma para outro especificado pelo usuário.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'O texto a ser traduzido.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_2:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Traduz um texto de um idioma para outro especificado pelo usuário.'
+  params:
+    - desc: 'O par de idiomas no formato ''de>para''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'O texto a ser traduzido.'
+      name: text
+      optional: true
+      type: string
+urbandict:
+  args:
+    - '[query]'
+  desc: 'Pesquisa no Urban Dictionary e exibe as definições de um termo.'
+  params:
+    - desc: 'O termo a pesquisar no Urban Dictionary.'
+      name: query
+      optional: true
+      type: string
+wave:
+  args:
+    - '[toShow]'
+  desc: 'Acena.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+weather:
+  args:
+    - text
+  desc: 'Exibe informações meteorológicas interativas de um local especificado.'
+  params:
+    - &ref_659
+      desc: 'A consulta de local para pesquisar informações meteorológicas.'
+      name: query
+      optional: false
+      type: string
+weather_string:
+  args:
+    - text
+  desc: 'Exibe informações meteorológicas interativas de um local especificado.'
+  params:
+    - desc: 'A consulta de local para pesquisar informações meteorológicas.'
+      name: query
+      optional: false
+      type: string
+weather_string_1:
+  args:
+    - text
+  desc: 'Exibe informações meteorológicas interativas de um local especificado.'
+  params:
+    - desc: 'A consulta de local para pesquisar informações meteorológicas.'
+      name: query
+      optional: false
+      type: string
+weather_string_2:
+  args:
+    - text
+  desc: 'Exibe informações meteorológicas interativas de um local especificado.'
+  params:
+    - desc: 'A consulta de local para pesquisar informações meteorológicas.'
+      name: query
+      optional: false
+      type: string
+wiki:
+  args:
+    - '[query]'
+  desc: 'Pesquisa e exibe informações da Wikipédia com base na consulta informada.'
+  params:
+    - desc: 'O termo de pesquisa para a Wikipédia.'
+      name: query
+      optional: true
+      type: string
+wikia:
+  args:
+    - text text
+  desc: 'Busca e exibe informações detalhadas sobre um tópico específico de uma wiki.'
+  params:
+    - &ref_661
+      desc: 'O site wiki de destino.'
+      name: target
+      optional: false
+      type: string
+    - &ref_662
+      desc: 'O termo de pesquisa para a wiki.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string:
+  args:
+    - text text
+  desc: 'Busca e exibe informações detalhadas sobre um tópico específico de uma wiki.'
+  params:
+    - desc: 'O site wiki de destino.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'O termo de pesquisa para a wiki.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_1:
+  args:
+    - text text
+  desc: 'Busca e exibe informações detalhadas sobre um tópico específico de uma wiki.'
+  params:
+    - desc: 'O site wiki de destino.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'O termo de pesquisa para a wiki.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_2:
+  args:
+    - text text
+  desc: 'Busca e exibe informações detalhadas sobre um tópico específico de uma wiki.'
+  params:
+    - desc: 'O site wiki de destino.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'O termo de pesquisa para a wiki.'
+      name: query
+      optional: false
+      type: string
+wink:
+  args:
+    - '[toShow]'
+  desc: 'Pisca um olho.'
+  params:
+    - desc: 'Texto adicional (opcional).'
+      name: toShow
+      optional: true
+      type: string
+wowjoke:
+  args:
+    - ''
+  desc: 'Busca uma piada relacionada ao World of Warcraft.'
+  params: [ ]
+xkcd:
+  args:
+    - '[arg]'
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=:
+  args:
+    - '[arg]'
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_1:
+  args:
+    - '[arg]'
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_2:
+  args:
+    - '[arg]'
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+      name: arg
+      optional: true
+      type: string
+xkcd_int:
+  args:
+    - number
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - &ref_663
+      desc: 'O número da tirinha do XKCD a buscar.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_1:
+  args:
+    - number
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - desc: 'O número da tirinha do XKCD a buscar.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_2:
+  args:
+    - number
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - desc: 'O número da tirinha do XKCD a buscar.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_3:
+  args:
+    - number
+  desc: 'Busca e exibe uma tirinha do XKCD pelo seu número.'
+  params:
+    - desc: 'O número da tirinha do XKCD a buscar.'
+      name: num
+      optional: false
+      type: int
+yomama:
+  args:
+    - ''
+  desc: 'Busca uma piada de Yo Mama.'
+  params: [ ]
+youtube:
+  args:
+    - text
+  desc: 'Pesquisa vídeos no YouTube com base na consulta informada e exibe os resultados.'
+  params:
+    - &ref_675
+      desc: 'A consulta de pesquisa para encontrar vídeos no YouTube.'
+      name: query
+      optional: false
+      type: string
+youtube_string:
+  args:
+    - text
+  desc: 'Pesquisa vídeos no YouTube com base na consulta informada e exibe os resultados.'
+  params:
+    - desc: 'A consulta de pesquisa para encontrar vídeos no YouTube.'
+      name: query
+      optional: false
+      type: string
+youtube_string_1:
+  args:
+    - text
+  desc: 'Pesquisa vídeos no YouTube com base na consulta informada e exibe os resultados.'
+  params:
+    - desc: 'A consulta de pesquisa para encontrar vídeos no YouTube.'
+      name: query
+      optional: false
+      type: string
+youtube_string_2:
+  args:
+    - text
+  desc: 'Pesquisa vídeos no YouTube com base na consulta informada e exibe os resultados.'
+  params:
+    - desc: 'A consulta de pesquisa para encontrar vídeos no YouTube.'
+      name: query
+      optional: false
+      type: string

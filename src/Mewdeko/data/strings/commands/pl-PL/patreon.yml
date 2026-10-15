@@ -1,36 +1,33 @@
 patreonanalytics:
   args:
     - ''
-  desc: 'Pokazuje szczegółowe analizy Patreon.'
+  desc: 'Pokazuje szczegółową analitykę Patreon'
   params: [ ]
 patreonannounce:
   args:
     - ''
-  desc: 'Ręcznie wyzwala ogłoszenie Patreon.'
+  desc: 'Ręcznie uruchamia ogłoszenie Patreon.'
   params: [ ]
 patreonch:
   args:
     - '#channel'
-  desc: Ustawia lub pokazuje kanał ogłoszeń Patreon.
+  desc: 'Ustawia lub pokazuje kanał ogłoszeń Patreon.'
   params:
-    - desc: >-
-        Kanał do ustawienia dla ogłoszeń Patreon. Jeśli null, pokazuje
-        bieżący kanał.
+    - desc: 'Kanał do ustawienia dla ogłoszeń Patreon. Jeśli null, pokazuje bieżący kanał.'
       name: channel
       optional: true
       type: ITextChannel?
 patreonconfig:
   args:
     - ''
-  desc: 'Pokazuje bieżącą konfigurację Patreon dla tego serwera.'
+  desc: 'Pokazuje aktualną konfigurację Patreon dla tego serwera.'
   params: [ ]
 patreonday:
   args:
     - number
   desc: 'Ustawia dzień miesiąca dla ogłoszeń Patreon.'
   params:
-    - desc: >-
-        Dzień miesiąca (1-28) dla ogłoszeń. Jeśli null, pokazuje bieżący dzień.
+    - desc: 'Dzień miesiąca (1–28) dla ogłoszeń. Jeśli null, pokazuje bieżący dzień.'
       name: day
       optional: true
       type: int?
@@ -47,76 +44,74 @@ patreonhelp:
 patreonlink:
   args:
     - '@user text'
-  desc: 'Łączy użytkownika Discord ze wspierającym Patreon.'
+  desc: 'Łączy użytkownika Discorda z supporterem Patreon'
   params:
-    - desc: Użytkownik Discord do połączenia.
+    - desc: 'Użytkownik Discorda do połączenia.'
       name: user
       optional: false
       type: IGuildUser
-    - desc: ID użytkownika Patreon do połączenia.
+    - desc: 'ID użytkownika Patreon do połączenia.'
       name: patreonUserId
       optional: false
       type: string
 patreonmsg:
   args:
     - text
-  desc: Ustawia niestandardową wiadomość dla ogłoszeń Patreon.
+  desc: 'Ustawia własną wiadomość dla ogłoszeń Patreon.'
   params:
-    - desc: >-
-        Niestandardowa wiadomość. Użyj symboli zastępczych jak %server.name%,
-        %month%, itd. Użyj "-" aby zresetować do domyślnego.
+    - desc: 'Własna wiadomość. Użyj symboli zastępczych, np. %server.name%, %month% itd. Użyj „-”, aby przywrócić domyślną.'
       name: message
       optional: true
       type: string?
 patreonrecognize:
   args:
     - '#channel'
-  desc: 'Wysyła wiadomości uznania dla nowych wspierających.'
+  desc: 'Wysyła wiadomości z podziękowaniem dla nowych supporterów'
   params:
-    - desc: Kanał do wysyłania wiadomości uznania.
+    - desc: 'Kanał, na który wysyłać wiadomości z podziękowaniem.'
       name: channel
       optional: true
       type: ITextChannel?
 patreonroles:
   args:
     - ''
-  desc: 'Wyświetla mapowania poziomów Patreon do ról.'
+  desc: 'Wyświetla mapowania poziomów Patreon na role'
   params: [ ]
 patreonrolesync:
   args:
     - ''
-  desc: 'Przełącza automatyczną synchronizację ról.'
+  desc: 'Przełącza automatyczną synchronizację ról'
   params: [ ]
 patreonstats:
   args:
     - ''
-  desc: 'Pokazuje statystyki wspierających Patreon.'
+  desc: 'Pokazuje statystyki supporterów Patreon'
   params: [ ]
 patreonsupporters:
   args:
     - ''
-  desc: 'Wyświetla aktywnych wspierających Patreon.'
+  desc: 'Wyświetla aktywnych supporterów Patreon'
   params: [ ]
 patreonsync:
   args:
     - ''
-  desc: 'Bezpiecznie konfiguruje integrację OAuth Patreon.'
+  desc: 'Bezpiecznie konfiguruje integrację OAuth z Patreon'
   params: [ ]
 patreonsyncall:
   args:
     - ''
-  desc: 'Synchronizuje role dla wszystkich połączonych wspierających.'
+  desc: 'Synchronizuje role wszystkich połączonych supporterów'
   params: [ ]
 patreontiermap:
   args:
     - text @role
-  desc: 'Mapuje poziom Patreon do roli Discord.'
+  desc: 'Mapuje poziom Patreon na rolę Discorda'
   params:
-    - desc: ID poziomu Patreon.
+    - desc: 'ID poziomu Patreon.'
       name: tierId
       optional: false
       type: string
-    - desc: Rola Discord do mapowania na poziom.
+    - desc: 'Rola Discorda, na którą zmapować poziom.'
       name: role
       optional: false
       type: IRole
@@ -128,9 +123,9 @@ patreontoggle:
 patreontop:
   args:
     - number
-  desc: 'Pokazuje najlepszych wspierających Patreon.'
+  desc: 'Pokazuje najlepszych supporterów Patreon'
   params:
-    - desc: Liczba najlepszych wspierających do pokazania (1-20).
+    - desc: 'Liczba najlepszych supporterów do pokazania (1–20).'
       name: count
       optional: true
       type: int

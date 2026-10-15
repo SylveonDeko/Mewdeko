@@ -1,317 +1,317 @@
 multigreetadd:
   args:
     - '[@channel]'
-  desc: 'Fuegt einen MultiGruss-Kanal hinzu.'
+  desc: 'Fügt einen MultiGreet-Kanal hinzu.'
   params:
-    - desc: 'Der hinzuzufuegende Kanal'
+    - desc: 'Der hinzuzufügende Kanal.'
       name: channel
       optional: true
       type: channel
 multigreetdelete:
   args:
     - number time
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
     - &ref_303
-      desc: 'Die ID des zu aendernden MultiGrusses'
+      desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
     - &ref_305
-      desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+      desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime:
   args:
     - number time
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+    - desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime_1:
   args:
     - number time
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+    - desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime_2:
   args:
     - number time
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+    - desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_int:
   args:
     - number number
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
     - &ref_304
-      desc: 'Die Zeit in Sekunden, nach der die Nachricht geloescht wird'
+      desc: 'Die Zeit in Sekunden, nach der die Nachricht gelöscht wird.'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_1:
   args:
     - number number
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Die Zeit in Sekunden, nach der die Nachricht geloescht wird'
+    - desc: 'Die Zeit in Sekunden, nach der die Nachricht gelöscht wird.'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_2:
   args:
     - number number
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Die Zeit in Sekunden, nach der die Nachricht geloescht wird'
+    - desc: 'Die Zeit in Sekunden, nach der die Nachricht gelöscht wird.'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_3:
   args:
     - number number
-  desc: 'Aendert die Loeschzeit fuer eine MultiGruss-Nachricht in Sekunden.'
+  desc: 'Ändert die Löschzeit einer MultiGreet-Nachricht in Sekunden.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Die Zeit in Sekunden, nach der die Nachricht geloescht wird'
+    - desc: 'Die Zeit in Sekunden, nach der die Nachricht gelöscht wird.'
       name: howlong
       optional: false
       type: int
 multigreetdisable:
   args:
     - number true|false
-  desc: 'Deaktiviert einen MultiGruss.'
+  desc: 'Deaktiviert ein MultiGreet.'
   params:
     - &ref_306
-      desc: 'Die ID des zu deaktivierenden MultiGrusses'
+      desc: 'Die ID des zu deaktivierenden MultiGreet.'
       name: num
       optional: false
       type: int
     - &ref_307
-      desc: 'Ob der MultiGruss deaktiviert werden soll'
+      desc: 'Ob das MultiGreet deaktiviert werden soll.'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool:
   args:
     - number true|false
-  desc: 'Deaktiviert einen MultiGruss.'
+  desc: 'Deaktiviert ein MultiGreet.'
   params:
-    - desc: 'Die ID des zu deaktivierenden MultiGrusses'
+    - desc: 'Die ID des zu deaktivierenden MultiGreet.'
       name: num
       optional: false
       type: int
-    - desc: 'Ob der MultiGruss deaktiviert werden soll'
+    - desc: 'Ob das MultiGreet deaktiviert werden soll.'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool_1:
   args:
     - number true|false
-  desc: 'Deaktiviert einen MultiGruss.'
+  desc: 'Deaktiviert ein MultiGreet.'
   params:
-    - desc: 'Die ID des zu deaktivierenden MultiGrusses'
+    - desc: 'Die ID des zu deaktivierenden MultiGreet.'
       name: num
       optional: false
       type: int
-    - desc: 'Ob der MultiGruss deaktiviert werden soll'
+    - desc: 'Ob das MultiGreet deaktiviert werden soll.'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool_2:
   args:
     - number true|false
-  desc: 'Deaktiviert einen MultiGruss.'
+  desc: 'Deaktiviert ein MultiGreet.'
   params:
-    - desc: 'Die ID des zu deaktivierenden MultiGrusses'
+    - desc: 'Die ID des zu deaktivierenden MultiGreet.'
       name: num
       optional: false
       type: int
-    - desc: 'Ob der MultiGruss deaktiviert werden soll'
+    - desc: 'Ob das MultiGreet deaktiviert werden soll.'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots:
   args:
     - number true|false
-  desc: 'Aendert, ob ein MultiGruss Bots begruesst.'
+  desc: 'Ändert, ob ein MultiGreet Bots begrüßt.'
   params:
     - &ref_308
-      desc: 'Die ID des zu aendernden MultiGrusses'
+      desc: 'Die ID des zu ändernden MultiGreet.'
       name: num
       optional: false
       type: int
     - &ref_309
-      desc: 'Ob Bots begrusst werden sollen'
+      desc: 'Ob Bots begrüßt werden sollen.'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool:
   args:
     - number true|false
-  desc: 'Aendert, ob ein MultiGruss Bots begruesst.'
+  desc: 'Ändert, ob ein MultiGreet Bots begrüßt.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: num
       optional: false
       type: int
-    - desc: 'Ob Bots begrusst werden sollen'
+    - desc: 'Ob Bots begrüßt werden sollen.'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool_1:
   args:
     - number true|false
-  desc: 'Aendert, ob ein MultiGruss Bots begruesst.'
+  desc: 'Ändert, ob ein MultiGreet Bots begrüßt.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: num
       optional: false
       type: int
-    - desc: 'Ob Bots begrusst werden sollen'
+    - desc: 'Ob Bots begrüßt werden sollen.'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool_2:
   args:
     - number true|false
-  desc: 'Aendert, ob ein MultiGruss Bots begruesst.'
+  desc: 'Ändert, ob ein MultiGreet Bots begrüßt.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: num
       optional: false
       type: int
-    - desc: 'Ob Bots begrusst werden sollen'
+    - desc: 'Ob Bots begrüßt werden sollen.'
       name: enabled
       optional: false
       type: bool
 multigreetlist:
   args:
     - ''
-  desc: 'Listet alle MultiGruesse auf.'
+  desc: 'Listet alle MultiGreets auf.'
   params: [ ]
 multigreetmessage:
   args:
     - '<id> [embedTemplate]'
     - number
-  desc: 'Aendert die Nachricht eines MultiGrusses.'
+  desc: 'Ändert die Nachricht eines MultiGreet.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Die einzustellende Nachrichts-/Embed-Vorlage'
+    - desc: 'Die festzulegende Nachrichten- bzw. Embed-Vorlage.'
       name: embedTemplate
       optional: true
       type: embedtemplateresult
 multigreetremove:
   args:
     - number
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
     - &ref_310
-      desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+      desc: 'Entfernt alle MultiGreets aus einem Kanal.'
       name: id
       optional: false
       type: int
 multigreetremove_ITextChannel:
   args:
     - channel
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
     - &ref_311
-      desc: 'Der Kanal, aus dem MultiGruesse entfernt werden sollen'
+      desc: 'Der Kanal, aus dem MultiGreets entfernt werden sollen.'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_1:
   args:
     - channel
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
-    - desc: 'Der Kanal, aus dem MultiGruesse entfernt werden sollen'
+    - desc: 'Der Kanal, aus dem MultiGreets entfernt werden sollen.'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_2:
   args:
     - channel
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
-    - desc: 'Der Kanal, aus dem MultiGruesse entfernt werden sollen'
+    - desc: 'Der Kanal, aus dem MultiGreets entfernt werden sollen.'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_3:
   args:
     - channel
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
-    - desc: 'Der Kanal, aus dem MultiGruesse entfernt werden sollen'
+    - desc: 'Der Kanal, aus dem MultiGreets entfernt werden sollen.'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_int:
   args:
     - number
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
-    - desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+    - desc: 'Entfernt alle MultiGreets aus einem Kanal.'
       name: id
       optional: false
       type: int
 multigreetremove_int_1:
   args:
     - number
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
-    - desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+    - desc: 'Entfernt alle MultiGreets aus einem Kanal.'
       name: id
       optional: false
       type: int
 multigreetremove_int_2:
   args:
     - number
-  desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+  desc: 'Entfernt alle MultiGreets aus einem Kanal.'
   params:
-    - desc: 'Entfernt alle MultiGruesse aus einem Kanal.'
+    - desc: 'Entfernt alle MultiGreets aus einem Kanal.'
       name: id
       optional: false
       type: int
@@ -321,10 +321,10 @@ multigreettype:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Aendert den Typ des MultiGrusses.'
+  desc: 'Ändert den Typ eines MultiGreet.'
   params:
     - &ref_312
-      desc: 'Der einzustellende MultiGruss-Typ'
+      desc: 'Der festzulegende MultiGreet-Typ.'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -334,9 +334,9 @@ multigreettype_MultiGreetTypes:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Aendert den Typ des MultiGrusses.'
+  desc: 'Ändert den Typ eines MultiGreet.'
   params:
-    - desc: 'Der einzustellende MultiGruss-Typ'
+    - desc: 'Der festzulegende MultiGreet-Typ.'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -346,9 +346,9 @@ multigreettype_MultiGreetTypes_1:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Aendert den Typ des MultiGrusses.'
+  desc: 'Ändert den Typ eines MultiGreet.'
   params:
-    - desc: 'Der einzustellende MultiGruss-Typ'
+    - desc: 'Der festzulegende MultiGreet-Typ.'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -358,9 +358,9 @@ multigreettype_MultiGreetTypes_2:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Aendert den Typ des MultiGrusses.'
+  desc: 'Ändert den Typ eines MultiGreet.'
   params:
-    - desc: 'Der einzustellende MultiGruss-Typ'
+    - desc: 'Der festzulegende MultiGreet-Typ.'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -368,17 +368,17 @@ multigreetwebhook:
   args:
     - '<id> [name] [avatar]'
     - number
-  desc: 'Aendert den Webhook eines MultiGrusses.'
+  desc: 'Ändert den Webhook eines MultiGreet.'
   params:
-    - desc: 'Die ID des zu aendernden MultiGrusses'
+    - desc: 'Die ID des zu ändernden MultiGreet.'
       name: id
       optional: false
       type: int
-    - desc: 'Der Name des Webhooks'
+    - desc: 'Der Name des Webhooks.'
       name: name
       optional: true
       type: string
-    - desc: 'Der Avatar des Webhooks'
+    - desc: 'Der Avatar des Webhooks.'
       name: avatar
       optional: true
       type: string

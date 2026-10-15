@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "Jesteś na czarnej liście sugestii na tym serwerze!",
+  "confessions_blacklisted_added": "Dodano {0} do czarnej listy wyznań!!",
+  "confessions_blacklisted_already": "Ten użytkownik jest już na czarnej liście!",
+  "confessions_blacklisted_not": "Ten użytkownik nie jest na czarnej liście!",
+  "confessions_blacklisted_removed": "Usunięto {0} z czarnej listy wyznań!!",
+  "confessions_channel_set": "Ustawiono {0} jako kanał wyznań!",
+  "confessions_disabled": "Wyznania wyłączone",
+  "confessions_invalid_id": "Podane ID jest nieprawidłowe!",
+  "confessions_invalid_perms": "Nie mam tam odpowiednich uprawnień! Włącz mi proszę EmbedLinks i SendMessages na tym kanale!",
+  "confessions_logging_disabled": "Logowanie wyznań wyłączone",
+  "confessions_missing_invite": "Nie udało się uzyskać zaproszenia z powodu braku uprawnień albo dostępnych zaproszeń.",
+  "confessions_none": "Ten serwer nie ma włączonych wyznań!",
+  "confessions_none_any": "Nie jesteś na żadnym serwerze, na którym włączone są wyznania!",
+  "confessions_report": "zgłoś",
+  "confessions_report_received": "Otrzymano zgłoszenie nadużycia wyznań",
+  "confessions_report_sent": "Zgłoszenie wysłane. Jeśli chcesz dołączyć i dopisać coś do niego, skorzystaj z poniższego linku.",
+  "confessions_report_user": "zgłoś użytkownika",
+  "confessions_server_id": "ID serwera",
+  "confessions_server_invite": "Zaproszenie na serwer",
+  "confessions_spleen": "Ustawiono {0} jako kanał logów wyznań. \n***Pamiętaj, że jeśli zauważę, że nadużywasz tej funkcji, dowiem się o tym i zablokuję ten serwer. A swoją śledzionę wykorzystaj do przejęcia świata"
+}

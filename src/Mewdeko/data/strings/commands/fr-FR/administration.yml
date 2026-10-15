@@ -1,0 +1,4851 @@
+adsarm:
+  args:
+    - ''
+  desc: 'Active ou désactive la suppression automatique des messages de publicité du serveur.'
+  params: [ ]
+antialt:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params: [ ]
+antipattern:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Pattern du serveur en définissant l''action de sanction, avec une sanction basée sur un rôle.'
+  params: [ ]
+antipattern_PunishmentAction_=:
+  args:
+    - '<action> [punishTime]'
+    - action
+  desc: 'Configure la protection Anti-Pattern du serveur en définissant l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''action de sanction à appliquer aux correspondances de motifs détectées.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'La durée de la sanction, le cas échéant.'
+      name: punishTime
+      optional: true
+      type: StoopidTime
+antipattern_PunishmentAction_IRole:
+  args:
+    - action @role
+  desc: 'Configure la protection Anti-Pattern du serveur en définissant l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''action de sanction à appliquer aux correspondances de motifs détectées.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Le rôle attribué aux utilisateurs qui correspondent aux motifs.'
+      name: role
+      optional: false
+      type: IRole
+patternadd:
+  args:
+    - '<pattern> [name] [checkUsername] [checkDisplayName]'
+    - pattern
+  desc: 'Ajoute un motif regex à la protection Anti-Pattern.'
+  params:
+    - desc: 'Le motif regex à comparer aux noms d''utilisateur et d''affichage.'
+      name: pattern
+      optional: false
+      type: string
+    - desc: 'Nom facultatif du motif.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Vérifier ou non les noms d''utilisateur avec ce motif (par défaut true).'
+      name: checkUsername
+      optional: true
+      type: bool
+    - desc: 'Vérifier ou non les noms d''affichage avec ce motif (par défaut true).'
+      name: checkDisplayName
+      optional: true
+      type: bool
+patternremove:
+  args:
+    - number
+  desc: 'Supprime un motif de la protection Anti-Pattern.'
+  params:
+    - desc: 'L''ID du motif à supprimer.'
+      name: patternId
+      optional: false
+      type: int
+patternlist:
+  args:
+    - ''
+  desc: 'Liste tous les motifs configurés pour la protection Anti-Pattern.'
+  params: [ ]
+patternconfig:
+  args:
+    - ''
+  desc: 'Affiche la configuration actuelle de l''Anti-Pattern.'
+  params: [ ]
+patternconfig_string_string:
+  args:
+    - setting value
+  desc: 'Affiche la configuration actuelle de l''Anti-Pattern.'
+  params:
+    - desc: 'Le paramètre à configurer.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'La valeur à définir.'
+      name: value
+      optional: false
+      type: string
+antialt_StoopidTime_PunishmentAction_=:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_1:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_2:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_3:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_IRole:
+  args:
+    - minage action @role
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_69
+      desc: 'Le rôle attribué aux alts détectés en guise de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_1:
+  args:
+    - minage action @role
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Le rôle attribué aux alts détectés en guise de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_2:
+  args:
+    - minage action @role
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Le rôle attribué aux alts détectés en guise de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_3:
+  args:
+    - minage action @role
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'L''âge minimum (en minutes) pour qu''un compte soit considéré comme un alt.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'L''action de sanction à appliquer aux alts détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Le rôle attribué aux alts détectés en guise de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antialt_noparams:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params: [ ]
+antialt_noparams_1:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params: [ ]
+antialt_noparams_2:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Alt du serveur en définissant l''âge minimum du compte et l''action de sanction, avec une sanction basée sur un rôle.'
+  params: [ ]
+antimassmention:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params: [ ]
+antimassmention_int_int_int_bool_PunishmentAction_=:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_1:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_2:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_3:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_IRole:
+  args:
+    - number number number true|false action @role
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_75
+      desc: 'Le rôle attribué aux utilisateurs sanctionnés.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_1:
+  args:
+    - number number number true|false action @role
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Le rôle attribué aux utilisateurs sanctionnés.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_2:
+  args:
+    - number number number true|false action @role
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Le rôle attribué aux utilisateurs sanctionnés.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_3:
+  args:
+    - number number number true|false action @role
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params:
+    - desc: 'Le nombre de mentions autorisées dans un seul message avant le déclenchement de la protection.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les mentions.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Le nombre maximum de mentions autorisées dans la fenêtre temporelle indiquée.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Ignorer ou non les comptes de bots lors du suivi des mentions.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'L''action de sanction à appliquer aux utilisateurs qui dépassent les limites de mentions.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Le rôle attribué aux utilisateurs sanctionnés.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_noparams:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params: [ ]
+antimassmention_noparams_1:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params: [ ]
+antimassmention_noparams_2:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Mass-Mention du serveur en définissant le seuil de mentions pour un seul message, la fenêtre temporelle de suivi des mentions, le nombre maximum de mentions autorisées dans cette fenêtre et l''action de sanction avec une sanction basée sur un rôle.'
+  params: [ ]
+antiraid:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params: [ ]
+antiraid_int_int_PunishmentAction:
+  args:
+    - number number action
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - &ref_76
+      desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - &ref_77
+      desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - &ref_78
+      desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_1:
+  args:
+    - number number action
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_2:
+  args:
+    - number number action
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_3:
+  args:
+    - number number action
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_StoopidTime:
+  args:
+    - number number action time
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_79
+      desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number number action time
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number number action time
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number number action time
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params:
+    - desc: 'Le nombre d''utilisateurs qui déclenche la détection d''un raid.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'La fenêtre temporelle (en secondes) pour observer les arrivées.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux raids détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_noparams:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params: [ ]
+antiraid_noparams_1:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params: [ ]
+antiraid_noparams_2:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Raid du serveur en définissant le seuil d''utilisateurs, la fenêtre temporelle de détection et l''action de sanction.'
+  params: [ ]
+antispam:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params: [ ]
+antispam_int_PunishmentAction:
+  args:
+    - number action
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - &ref_80
+      desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_81
+      desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_1:
+  args:
+    - number action
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_82
+      desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_2:
+  args:
+    - number action
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_3:
+  args:
+    - number action
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_IRole:
+  args:
+    - number action @role
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_83
+      desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_1:
+  args:
+    - number action @role
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_2:
+  args:
+    - number action @role
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_3:
+  args:
+    - number action @role
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_StoopidTime:
+  args:
+    - number action time
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_84
+      desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number action time
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number action time
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number action time
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params:
+    - desc: 'Le nombre de messages qui déclenche la détection d''un spam.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'L''action de sanction à appliquer aux spammeurs détectés.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_noparams:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params: [ ]
+antispam_noparams_1:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params: [ ]
+antispam_noparams_2:
+  args:
+    - ''
+  desc: 'Configure la protection Anti-Spam du serveur en définissant le seuil de messages et l''action de sanction.'
+  params: [ ]
+asar:
+  args:
+    - '@role'
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - &ref_85
+      desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole:
+  args:
+    - '@role'
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_1:
+  args:
+    - '@role'
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_2:
+  args:
+    - '@role'
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole:
+  args:
+    - number @role
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - &ref_86
+      desc: 'Le numéro du groupe, pour l''organisation.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - desc: 'Le numéro du groupe, pour l''organisation.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - desc: 'Le numéro du groupe, pour l''organisation.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_3:
+  args:
+    - number @role
+  desc: 'Ajoute le rôle indiqué à la liste des rôles d''auto-attribution du groupe spécifié.'
+  params:
+    - desc: 'Le numéro du groupe, pour l''organisation.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le rôle à ajouter à la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params:
+    - &ref_87
+      desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params:
+    - desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params:
+    - desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params:
+    - desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_noparams:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params: [ ]
+autoassignbotrole_noparams_1:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params: [ ]
+autoassignbotrole_noparams_2:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params: [ ]
+autoassignbotrole_noparams_3:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement aux bots lorsqu''ils rejoignent le serveur.'
+  params: [ ]
+autoassignrole:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params:
+    - desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params:
+    - desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params:
+    - desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params:
+    - desc: 'Le rôle à activer ou désactiver pour l''attribution automatique'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_noparams:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params: [ ]
+autoassignrole_noparams_1:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params: [ ]
+autoassignrole_noparams_2:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params: [ ]
+autoassignrole_noparams_3:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles pouvant être attribués automatiquement lorsque des utilisateurs rejoignent le serveur.'
+  params: [ ]
+autobanroleadd:
+  args:
+    - '@role'
+  desc: 'Ajoute un rôle à la liste AutoBanRoles.'
+  params:
+    - &ref_88
+      desc: 'Le rôle à ajouter'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole:
+  args:
+    - '@role'
+  desc: 'Ajoute un rôle à la liste AutoBanRoles.'
+  params:
+    - desc: 'Le rôle à ajouter'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_1:
+  args:
+    - '@role'
+  desc: 'Ajoute un rôle à la liste AutoBanRoles.'
+  params:
+    - desc: 'Le rôle à ajouter'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_2:
+  args:
+    - '@role'
+  desc: 'Ajoute un rôle à la liste AutoBanRoles.'
+  params:
+    - desc: 'Le rôle à ajouter'
+      name: role
+      optional: false
+      type: IRole
+autobanrolelist:
+  args:
+    - ''
+  desc: 'Liste tous les rôles de la liste AutoBanRole du serveur actuel.'
+  params: [ ]
+autobanroleremove:
+  args:
+    - '@role'
+  desc: 'Retire un rôle de la liste AutoBanRoles.'
+  params:
+    - desc: 'Le rôle à retirer'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason:
+  args:
+    - '@role'
+    - '@role reason text'
+  desc: 'Définit la raison du bannissement pour un AutoBanRole, visible dans le journal d''audit.'
+  params:
+    - desc: 'Le rôle pour lequel définir la raison'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_abreason
+      desc: 'La raison affichée dans le journal d''audit (laisser vide pour la supprimer)'
+      name: reason
+      optional: true
+      type: string
+autobanrolereason_IRole:
+  args:
+    - '@role'
+  desc: 'Définit la raison du bannissement pour un AutoBanRole, visible dans le journal d''audit.'
+  params:
+    - desc: 'Le rôle pour lequel définir la raison'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason_IRole_string:
+  args:
+    - '@role reason text'
+  desc: 'Définit la raison du bannissement pour un AutoBanRole, visible dans le journal d''audit.'
+  params:
+    - desc: 'Le rôle pour lequel définir la raison'
+      name: role
+      optional: false
+      type: IRole
+    - *ref_abreason
+banbyhash:
+  args:
+    - text
+  desc: 'Bannit plusieurs utilisateurs à partir de leur ID d''avatar, c''est-à-dire leur hash d''avatar. Utile contre les userbots gênants.'
+  params:
+    - &ref_106
+      desc: 'Le hash d''avatar à rechercher'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string:
+  args:
+    - text
+  desc: 'Bannit plusieurs utilisateurs à partir de leur ID d''avatar, c''est-à-dire leur hash d''avatar. Utile contre les userbots gênants.'
+  params:
+    - desc: 'Le hash d''avatar à rechercher'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_1:
+  args:
+    - text
+  desc: 'Bannit plusieurs utilisateurs à partir de leur ID d''avatar, c''est-à-dire leur hash d''avatar. Utile contre les userbots gênants.'
+  params:
+    - desc: 'Le hash d''avatar à rechercher'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_2:
+  args:
+    - text
+  desc: 'Bannit plusieurs utilisateurs à partir de leur ID d''avatar, c''est-à-dire leur hash d''avatar. Utile contre les userbots gênants.'
+  params:
+    - desc: 'Le hash d''avatar à rechercher'
+      name: avatarHash
+      optional: false
+      type: string
+baninrole:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Vous permet de bannir les utilisateurs ayant un rôle précis.'
+  params:
+    - desc: 'Le rôle dont les utilisateurs seront bannis'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La raison du bannissement, facultatif'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Vous permet de bannir les utilisateurs ayant un rôle précis.'
+  params:
+    - desc: 'Le rôle dont les utilisateurs seront bannis'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La raison du bannissement, facultatif'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_1:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Vous permet de bannir les utilisateurs ayant un rôle précis.'
+  params:
+    - desc: 'Le rôle dont les utilisateurs seront bannis'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La raison du bannissement, facultatif'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_2:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Vous permet de bannir les utilisateurs ayant un rôle précis.'
+  params:
+    - desc: 'Le rôle dont les utilisateurs seront bannis'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La raison du bannissement, facultatif'
+      name: reason
+      optional: true
+      type: string
+banunder:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Vous permet de bannir les utilisateurs présents sur le serveur depuis une certaine durée.'
+  params:
+    - desc: 'La durée. Format : {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Vous permet d''utiliser -accage pour vérifier l''âge du compte plutôt que l''ancienneté sur le serveur, ou -p pour prévisualiser les utilisateurs à bannir.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Vous permet de spécifier une plage horaire.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Vous permet de bannir les utilisateurs présents sur le serveur depuis une certaine durée.'
+  params:
+    - desc: 'La durée. Format : {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Vous permet d''utiliser -accage pour vérifier l''âge du compte plutôt que l''ancienneté sur le serveur, ou -p pour prévisualiser les utilisateurs à bannir.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Vous permet de spécifier une plage horaire.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_1:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Vous permet de bannir les utilisateurs présents sur le serveur depuis une certaine durée.'
+  params:
+    - desc: 'La durée. Format : {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Vous permet d''utiliser -accage pour vérifier l''âge du compte plutôt que l''ancienneté sur le serveur, ou -p pour prévisualiser les utilisateurs à bannir.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Vous permet de spécifier une plage horaire.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_2:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Vous permet de bannir les utilisateurs présents sur le serveur depuis une certaine durée.'
+  params:
+    - desc: 'La durée. Format : {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Vous permet d''utiliser -accage pour vérifier l''âge du compte plutôt que l''ancienneté sur le serveur, ou -p pour prévisualiser les utilisateurs à bannir.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Vous permet de spécifier une plage horaire.'
+      name: time1
+      optional: true
+      type: duration
+boost:
+  args:
+    - ''
+  desc: 'Active ou désactive les messages de boost.'
+  params: [ ]
+boostdel:
+  args:
+    - 30
+  desc: 'Définit le délai de suppression des messages de boost.'
+  params:
+    - &ref_114
+      desc: 'Définit le délai de suppression des messages de boost.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=:
+  args:
+    - 30
+  desc: 'Définit le délai de suppression des messages de boost.'
+  params:
+    - desc: 'Définit le délai de suppression des messages de boost.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_1:
+  args:
+    - 30
+  desc: 'Définit le délai de suppression des messages de boost.'
+  params:
+    - desc: 'Définit le délai de suppression des messages de boost.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_2:
+  args:
+    - 30
+  desc: 'Définit le délai de suppression des messages de boost.'
+  params:
+    - desc: 'Définit le délai de suppression des messages de boost.'
+      name: 30
+      optional: false
+      type: '='
+boostmsg:
+  args:
+    - ''
+  desc: 'Définit le message de boost du serveur.'
+  params: [ ]
+boostmsg_noparams:
+  args:
+    - ''
+  desc: 'Définit le message de boost du serveur.'
+  params: [ ]
+boostmsg_noparams_1:
+  args:
+    - ''
+  desc: 'Définit le message de boost du serveur.'
+  params: [ ]
+boostmsg_noparams_2:
+  args:
+    - ''
+  desc: 'Définit le message de boost du serveur.'
+  params: [ ]
+boostmsg_string:
+  args:
+    - text
+  desc: 'Définit le message de boost du serveur.'
+  params:
+    - &ref_115
+      desc: 'Le nouveau message de boost.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_1:
+  args:
+    - text
+  desc: 'Définit le message de boost du serveur.'
+  params:
+    - desc: 'Le nouveau message de boost.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_2:
+  args:
+    - text
+  desc: 'Définit le message de boost du serveur.'
+  params:
+    - desc: 'Le nouveau message de boost.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_3:
+  args:
+    - text
+  desc: 'Définit le message de boost du serveur.'
+  params:
+    - desc: 'Le nouveau message de boost.'
+      name: text
+      optional: true
+      type: string
+boosttest:
+  args:
+    - '[@user]'
+  desc: 'Envoie un message de test pour le boost.'
+  params:
+    - desc: 'L''utilisateur à qui envoyer le message de test.'
+      name: user
+      optional: true
+      type: user
+bye:
+  args:
+    - ''
+  desc: 'Active ou désactive l''envoi d''un message d''au revoir.'
+  params: [ ]
+byedel:
+  args:
+    - 30
+  desc: 'Définit le délai de suppression des messages d''au revoir.'
+  params:
+    - desc: 'Définit le délai de suppression des messages d''au revoir.'
+      name: 30
+      optional: false
+      type: '='
+byemsg:
+  args:
+    - ''
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params: [ ]
+byemsg_noparams:
+  args:
+    - ''
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params: [ ]
+byemsg_noparams_1:
+  args:
+    - ''
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params: [ ]
+byemsg_noparams_2:
+  args:
+    - ''
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params: [ ]
+byemsg_string:
+  args:
+    - text
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params:
+    - &ref_117
+      desc: 'Le texte à définir comme message d''au revoir.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_1:
+  args:
+    - text
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à définir comme message d''au revoir.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_2:
+  args:
+    - text
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à définir comme message d''au revoir.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_3:
+  args:
+    - text
+  desc: 'Définit le message d''au revoir avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à définir comme message d''au revoir.'
+      name: text
+      optional: true
+      type: string
+byetest:
+  args:
+    - '[@user]'
+  desc: 'Envoie un message d''au revoir de test.'
+  params:
+    - desc: 'L''utilisateur à qui envoyer le message d''au revoir de test.'
+      name: user
+      optional: true
+      type: user
+commandlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'Définit un salon où journaliser les commandes'
+  params:
+    - desc: 'Le salon où journaliser les commandes'
+      name: channel
+      optional: true
+      type: channel
+createrole:
+  args:
+    - '[roleName]'
+  desc: 'Crée un nouveau rôle avec le nom indiqué.'
+  params:
+    - desc: 'Le nom du rôle à créer.'
+      name: roleName
+      optional: true
+      type: string
+creatvoichanl:
+  args:
+    - text
+  desc: 'Crée un nouveau salon vocal avec le nom indiqué.'
+  params:
+    - &ref_160
+      desc: 'Le nom du salon vocal à créer'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string:
+  args:
+    - text
+  desc: 'Crée un nouveau salon vocal avec le nom indiqué.'
+  params:
+    - desc: 'Le nom du salon vocal à créer'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_1:
+  args:
+    - text
+  desc: 'Crée un nouveau salon vocal avec le nom indiqué.'
+  params:
+    - desc: 'Le nom du salon vocal à créer'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_2:
+  args:
+    - text
+  desc: 'Crée un nouveau salon vocal avec le nom indiqué.'
+  params:
+    - desc: 'Le nom du salon vocal à créer'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl:
+  args:
+    - text
+  desc: 'Crée un nouveau salon textuel avec le nom indiqué.'
+  params:
+    - &ref_161
+      desc: 'Le nom du salon textuel à créer'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string:
+  args:
+    - text
+  desc: 'Crée un nouveau salon textuel avec le nom indiqué.'
+  params:
+    - desc: 'Le nom du salon textuel à créer'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_1:
+  args:
+    - text
+  desc: 'Crée un nouveau salon textuel avec le nom indiqué.'
+  params:
+    - desc: 'Le nom du salon textuel à créer'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_2:
+  args:
+    - text
+  desc: 'Crée un nouveau salon textuel avec le nom indiqué.'
+  params:
+    - desc: 'Le nom du salon textuel à créer'
+      name: channelName
+      optional: false
+      type: string
+deafen:
+  args:
+    - '@user'
+  desc: 'Rend sourds les utilisateurs indiqués sur le serveur.'
+  params:
+    - &ref_177
+      desc: 'Les utilisateurs à rendre sourds'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Rend sourds les utilisateurs indiqués sur le serveur.'
+  params:
+    - desc: 'Les utilisateurs à rendre sourds'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Rend sourds les utilisateurs indiqués sur le serveur.'
+  params:
+    - desc: 'Les utilisateurs à rendre sourds'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Rend sourds les utilisateurs indiqués sur le serveur.'
+  params:
+    - desc: 'Les utilisateurs à rendre sourds'
+      name: users
+      optional: false
+      type: IGuildUser[]
+delete:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_3:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Supprime un message par son ID dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'L''ID du message à supprimer'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Durée facultative après laquelle le message doit être supprimé'
+      name: time
+      optional: true
+      type: duration
+deleteguildstatsdata:
+  args:
+    - ''
+  desc: 'Vous permet de supprimer toutes les données de statistiques du serveur.'
+  params: [ ]
+deleterole:
+  args:
+    - '@role'
+  desc: 'Supprime le rôle indiqué.'
+  params:
+    - &ref_188
+      desc: 'Le rôle à supprimer.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole:
+  args:
+    - '@role'
+  desc: 'Supprime le rôle indiqué.'
+  params:
+    - desc: 'Le rôle à supprimer.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Supprime le rôle indiqué.'
+  params:
+    - desc: 'Le rôle à supprimer.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Supprime le rôle indiqué.'
+  params:
+    - desc: 'Le rôle à supprimer.'
+      name: role
+      optional: false
+      type: IRole
+delmsgoncmd:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - &ref_196
+      desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_=:
+  args:
+    - server.server
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - &ref_192
+      desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_1:
+  args:
+    - server.server
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_2:
+  args:
+    - server.server
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_3:
+  args:
+    - server.server
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_Channel_State_=:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_1:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_2:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_3:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_ITextChannel:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: State
+    - &ref_195
+      desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_1:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: State
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_2:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: State
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_3:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'L''état à définir pour la suppression des messages à l''exécution de la commande'
+      name: s
+      optional: false
+      type: State
+    - desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_List:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_1:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_2:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Définit l''état de suppression des messages à l''exécution de la commande pour un salon précis.'
+  params:
+    - desc: 'Paramètre inutilisé'
+      name: _
+      optional: false
+      type: List
+deltxtchanl:
+  args:
+    - todelete
+  desc: 'Supprime le salon textuel indiqué.'
+  params:
+    - &ref_197
+      desc: 'Le salon textuel à supprimer'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel:
+  args:
+    - todelete
+  desc: 'Supprime le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel à supprimer'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_1:
+  args:
+    - todelete
+  desc: 'Supprime le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel à supprimer'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_2:
+  args:
+    - todelete
+  desc: 'Supprime le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel à supprimer'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+delvoichanl:
+  args:
+    - voicechannel
+  desc: 'Supprime le salon vocal indiqué.'
+  params:
+    - &ref_198
+      desc: 'Le salon vocal à supprimer'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel:
+  args:
+    - voicechannel
+  desc: 'Supprime le salon vocal indiqué.'
+  params:
+    - desc: 'Le salon vocal à supprimer'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_1:
+  args:
+    - voicechannel
+  desc: 'Supprime le salon vocal indiqué.'
+  params:
+    - desc: 'Le salon vocal à supprimer'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_2:
+  args:
+    - voicechannel
+  desc: 'Supprime le salon vocal indiqué.'
+  params:
+    - desc: 'Le salon vocal à supprimer'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+discordpermoverride:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Remplace les permissions requises pour une commande précise sur le serveur actuel.'
+  params:
+    - &ref_201
+      desc: 'La commande dont les permissions seront remplacées'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_202
+      desc: 'Les permissions requises pour exécuter la commande'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Remplace les permissions requises pour une commande précise sur le serveur actuel.'
+  params:
+    - desc: 'La commande dont les permissions seront remplacées'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Les permissions requises pour exécuter la commande'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_1:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Remplace les permissions requises pour une commande précise sur le serveur actuel.'
+  params:
+    - desc: 'La commande dont les permissions seront remplacées'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Les permissions requises pour exécuter la commande'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_2:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Remplace les permissions requises pour une commande précise sur le serveur actuel.'
+  params:
+    - desc: 'La commande dont les permissions seront remplacées'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Les permissions requises pour exécuter la commande'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverridelist:
+  args:
+    - ''
+  desc: 'Liste tous les remplacements de permissions de commandes sur le serveur actuel.'
+  params: [ ]
+discordpermoverridereset:
+  args:
+    - ''
+  desc: 'Réinitialise tous les remplacements de permissions de commandes sur le serveur actuel.'
+  params: [ ]
+dpo:
+  args:
+    - permission action
+  desc: 'Remplace les permissions Discord.'
+  params:
+    - desc: 'La permission à remplacer.'
+      name: permission
+      optional: false
+      type: string
+    - desc: 'L''action à effectuer.'
+      name: action
+      optional: false
+      type: string
+dpol:
+  args:
+    - ''
+  desc: 'Liste les remplacements de permissions Discord.'
+  params: [ ]
+dpor:
+  args:
+    - ''
+  desc: 'Réinitialise les remplacements de permissions Discord.'
+  params: [ ]
+edit:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Modifie un message dans le salon textuel indiqué.'
+  params:
+    - &ref_204
+      desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_205
+      desc: 'L''ID du message à modifier'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_206
+      desc: 'Le nouveau texte du message'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Modifie un message dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''ID du message à modifier'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Le nouveau texte du message'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_1:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Modifie un message dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''ID du message à modifier'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Le nouveau texte du message'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_2:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Modifie un message dans le salon textuel indiqué.'
+  params:
+    - desc: 'Le salon textuel où se trouve le message'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''ID du message à modifier'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Le nouveau texte du message'
+      name: text
+      optional: true
+      type: string
+gamevoicechannel:
+  args:
+    - ''
+  desc: 'Active ou désactive le salon vocal actuel comme salon vocal de jeu du serveur.'
+  params: [ ]
+greetdm:
+  args:
+    - ''
+  desc: 'Active ou désactive l''envoi de messages d''accueil par MP.'
+  params: [ ]
+greetdmmsg:
+  args:
+    - ''
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params: [ ]
+greetdmmsg_=:
+  args:
+    - '[text]'
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à définir comme message d''accueil par MP.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_1:
+  args:
+    - '[text]'
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à définir comme message d''accueil par MP.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_2:
+  args:
+    - '[text]'
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à définir comme message d''accueil par MP.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_3:
+  args:
+    - '[text]'
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à définir comme message d''accueil par MP.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_noparams:
+  args:
+    - ''
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params: [ ]
+greetdmmsg_noparams_1:
+  args:
+    - ''
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params: [ ]
+greetdmmsg_noparams_2:
+  args:
+    - ''
+  desc: 'Définit le message d''accueil par MP avec le texte indiqué.'
+  params: [ ]
+greetdmtest:
+  args:
+    - '[@user]'
+  desc: 'Envoie un message d''accueil par MP de test.'
+  params:
+    - desc: 'L''utilisateur à qui envoyer le message d''accueil de test.'
+      name: user
+      optional: true
+      type: user
+guildstatsoptout:
+  args:
+    - ''
+  desc: 'Vous permet de désactiver le suivi des statistiques pour tout le serveur.'
+  params: [ ]
+iam:
+  args:
+    - '@role'
+  desc: 'Accorde à un utilisateur un rôle en libre-service.'
+  params:
+    - &ref_249
+      desc: 'Le rôle à attribuer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole:
+  args:
+    - '@role'
+  desc: 'Accorde à un utilisateur un rôle en libre-service.'
+  params:
+    - desc: 'Le rôle à attribuer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_1:
+  args:
+    - '@role'
+  desc: 'Accorde à un utilisateur un rôle en libre-service.'
+  params:
+    - desc: 'Le rôle à attribuer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_2:
+  args:
+    - '@role'
+  desc: 'Accorde à un utilisateur un rôle en libre-service.'
+  params:
+    - desc: 'Le rôle à attribuer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+iamnot:
+  args:
+    - '@role'
+  desc: 'Retire à l''utilisateur un rôle en libre-service.'
+  params:
+    - &ref_250
+      desc: 'Le rôle à retirer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole:
+  args:
+    - '@role'
+  desc: 'Retire à l''utilisateur un rôle en libre-service.'
+  params:
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_1:
+  args:
+    - '@role'
+  desc: 'Retire à l''utilisateur un rôle en libre-service.'
+  params:
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_2:
+  args:
+    - '@role'
+  desc: 'Retire à l''utilisateur un rôle en libre-service.'
+  params:
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: role
+      optional: false
+      type: IRole
+kickunder:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Expulse les utilisateurs présents sur le serveur depuis moins de la durée indiquée.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Paramètre facultatif pour prévisualiser les utilisateurs à expulser'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Expulse les utilisateurs présents sur le serveur depuis moins de la durée indiquée.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Paramètre facultatif pour prévisualiser les utilisateurs à expulser'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_1:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Expulse les utilisateurs présents sur le serveur depuis moins de la durée indiquée.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Paramètre facultatif pour prévisualiser les utilisateurs à expulser'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_2:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Expulse les utilisateurs présents sur le serveur depuis moins de la durée indiquée.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Paramètre facultatif pour prévisualiser les utilisateurs à expulser'
+      name: option
+      optional: true
+      type: string
+langsetdefault:
+  args:
+    - language
+  desc: 'Définit la langue par défaut du serveur.'
+  params:
+    - desc: 'Le code de langue à définir par défaut.'
+      name: language
+      optional: false
+      type: string
+languageset:
+  args:
+    - text
+  desc: 'Définit la langue du serveur actuel.'
+  params:
+    - &ref_264
+      desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languageset_string:
+  args:
+    - text
+  desc: 'Définit la langue du serveur actuel.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languageset_string_1:
+  args:
+    - text
+  desc: 'Définit la langue du serveur actuel.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languageset_string_2:
+  args:
+    - text
+  desc: 'Définit la langue du serveur actuel.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault:
+  args:
+    - ''
+  desc: 'Définit la langue par défaut du bot.'
+  params: [ ]
+languagesetdefault_noparams:
+  args:
+    - ''
+  desc: 'Définit la langue par défaut du bot.'
+  params: [ ]
+languagesetdefault_noparams_1:
+  args:
+    - ''
+  desc: 'Définit la langue par défaut du bot.'
+  params: [ ]
+languagesetdefault_noparams_2:
+  args:
+    - ''
+  desc: 'Définit la langue par défaut du bot.'
+  params: [ ]
+languagesetdefault_string:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_1:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_2:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_3:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_4:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - &ref_265
+      desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_5:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_6:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_7:
+  args:
+    - text
+  desc: 'Définit la langue par défaut du bot.'
+  params:
+    - desc: 'Le nom de la langue, ou "default" pour revenir à la langue par défaut.'
+      name: name
+      optional: false
+      type: string
+languageslist:
+  args:
+    - ''
+  desc: 'Liste toutes les langues prises en charge avec leurs codes.'
+  params: [ ]
+leavehook:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_1:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_2:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Configure un message de départ avec le texte indiqué.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: true
+      type: string
+leavehook_string:
+  args:
+    - text
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - &ref_268
+      desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_1:
+  args:
+    - text
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_2:
+  args:
+    - text
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_3:
+  args:
+    - text
+  desc: 'Configure un message de départ avec le texte indiqué.'
+  params:
+    - desc: 'Le texte à inclure dans le message de départ.'
+      name: text
+      optional: false
+      type: string
+log:
+  args:
+    - types
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - &ref_283
+      desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]:
+  args:
+    - types
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_1:
+  args:
+    - types
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_2:
+  args:
+    - types
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType_=:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Le salon à définir comme salon de logs. S''il n''est pas fourni, la commande désactive la journalisation pour ce type d''événement.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_1:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Le salon à définir comme salon de logs. S''il n''est pas fourni, la commande désactive la journalisation pour ce type d''événement.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_2:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Le salon à définir comme salon de logs. S''il n''est pas fourni, la commande désactive la journalisation pour ce type d''événement.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_3:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Le salon à définir comme salon de logs. S''il n''est pas fourni, la commande désactive la journalisation pour ce type d''événement.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_string[]:
+  args:
+    - text
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - &ref_284
+      desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_1:
+  args:
+    - text
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_2:
+  args:
+    - text
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_3:
+  args:
+    - text
+  desc: 'Définit le salon de logs pour un type d''événement précis.'
+  params:
+    - desc: 'Définit le salon de logs pour un type d''événement précis.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+logcategory:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Définit la catégorie de logs pour un type de logs donné.'
+  params:
+    - desc: 'Le type de logs pour lequel définir la catégorie.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Le salon textuel où les logs seront envoyés.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Définit la catégorie de logs pour un type de logs donné.'
+  params:
+    - desc: 'Le type de logs pour lequel définir la catégorie.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Le salon textuel où les logs seront envoyés.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_1:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Définit la catégorie de logs pour un type de logs donné.'
+  params:
+    - desc: 'Le type de logs pour lequel définir la catégorie.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Le salon textuel où les logs seront envoyés.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_2:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Définit la catégorie de logs pour un type de logs donné.'
+  params:
+    - desc: 'Le type de logs pour lequel définir la catégorie.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Le salon textuel où les logs seront envoyés.'
+      name: channel
+      optional: true
+      type: channel
+logevents:
+  args:
+    - ''
+  desc: 'Affiche la configuration actuelle des événements journalisés sur le serveur.'
+  params: [ ]
+logignore:
+  args:
+    - channel
+  desc: 'Ignore ou prend en compte un salon pour la journalisation des événements.'
+  params:
+    - desc: 'Le salon à ignorer ou à reprendre pour la journalisation. S''il n''est pas indiqué, le salon actuel est utilisé.'
+      name: channel
+      optional: true
+      type: ITextChannel
+logignorelist:
+  args:
+    - ''
+  desc: 'Liste tous les salons actuellement ignorés pour la journalisation.'
+  params: [ ]
+lsar:
+  args:
+    - ''
+  desc: 'Liste les rôles d''auto-attribution configurés pour le serveur.'
+  params: [ ]
+memberrole:
+  args:
+    - '@role'
+  desc: 'Définit le rôle membre du serveur. Actuellement inutilisé.'
+  params:
+    - &ref_292
+      desc: 'Le rôle que les membres auront.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole:
+  args:
+    - '@role'
+  desc: 'Définit le rôle membre du serveur. Actuellement inutilisé.'
+  params:
+    - desc: 'Le rôle que les membres auront.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Définit le rôle membre du serveur. Actuellement inutilisé.'
+  params:
+    - desc: 'Le rôle que les membres auront.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Définit le rôle membre du serveur. Actuellement inutilisé.'
+  params:
+    - desc: 'Le rôle que les membres auront.'
+      name: role
+      optional: true
+      type: IRole
+nameban:
+  args:
+    - text
+  desc: 'Vous permet de bannir les utilisateurs portant un nom précis. Cette commande affiche d''abord un aperçu des utilisateurs qui seront bannis. Accepte aussi un motif regex.'
+  params:
+    - &ref_326
+      desc: 'Le nom ou le motif regex à utiliser.'
+      name: name
+      optional: false
+      type: string
+nameban_string:
+  args:
+    - text
+  desc: 'Vous permet de bannir les utilisateurs portant un nom précis. Cette commande affiche d''abord un aperçu des utilisateurs qui seront bannis. Accepte aussi un motif regex.'
+  params:
+    - desc: 'Le nom ou le motif regex à utiliser.'
+      name: name
+      optional: false
+      type: string
+nameban_string_1:
+  args:
+    - text
+  desc: 'Vous permet de bannir les utilisateurs portant un nom précis. Cette commande affiche d''abord un aperçu des utilisateurs qui seront bannis. Accepte aussi un motif regex.'
+  params:
+    - desc: 'Le nom ou le motif regex à utiliser.'
+      name: name
+      optional: false
+      type: string
+nameban_string_2:
+  args:
+    - text
+  desc: 'Vous permet de bannir les utilisateurs portant un nom précis. Cette commande affiche d''abord un aperçu des utilisateurs qui seront bannis. Accepte aussi un motif regex.'
+  params:
+    - desc: 'Le nom ou le motif regex à utiliser.'
+      name: name
+      optional: false
+      type: string
+nsfwtoggle:
+  args:
+    - ''
+  desc: 'Active ou désactive le paramètre NSFW du salon textuel actuel.'
+  params: [ ]
+prefix:
+  args:
+    - prefix
+  desc: 'Gère les préfixes de commandes.'
+  params:
+    - desc: 'Le préfixe à définir.'
+      name: prefix
+      optional: true
+      type: string
+prefixcommand:
+  args:
+    - ''
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params: [ ]
+prefixcommand_Set_string:
+  args:
+    - set text
+    - set
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - &ref_353
+      desc: 'Définit le préfixe de commandes du serveur.'
+      name: _
+      optional: false
+      type: Set
+    - &ref_354
+      desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_1:
+  args:
+    - set text
+    - set
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - desc: 'Définit le préfixe de commandes du serveur.'
+      name: _
+      optional: false
+      type: Set
+    - desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_2:
+  args:
+    - set text
+    - set
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - desc: 'Définit le préfixe de commandes du serveur.'
+      name: _
+      optional: false
+      type: Set
+    - desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_3:
+  args:
+    - set text
+    - set
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - desc: 'Définit le préfixe de commandes du serveur.'
+      name: _
+      optional: false
+      type: Set
+    - desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_noparams:
+  args:
+    - ''
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params: [ ]
+prefixcommand_noparams_1:
+  args:
+    - ''
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params: [ ]
+prefixcommand_noparams_2:
+  args:
+    - ''
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params: [ ]
+prefixcommand_string:
+  args:
+    - text
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_1:
+  args:
+    - text
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_2:
+  args:
+    - text
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_3:
+  args:
+    - text
+  desc: 'Définit le préfixe de commandes du serveur.'
+  params:
+    - desc: 'Le nouveau préfixe de commandes à définir.'
+      name: prefix
+      optional: false
+      type: string
+prunemembers:
+  args:
+    - time "no"
+    - time
+  desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_360
+      desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=:
+  args:
+    - time "no"
+    - time
+  desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_1:
+  args:
+    - time "no"
+    - time
+  desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_2:
+  args:
+    - time "no"
+    - time
+  desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+  params:
+    - desc: 'Durée dans un format personnalisé'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Expulse du serveur les membres selon leur activité ou leur inactivité.'
+      name: '"no"'
+      optional: false
+      type: '='
+reactionroles:
+  args:
+    - messageid text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - &ref_380
+      desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_381
+      desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]:
+  args:
+    - excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - &ref_376
+      desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_375
+      desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_1:
+  args:
+    - excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - &ref_377
+      desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_2:
+  args:
+    - excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_3:
+  args:
+    - excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_378
+      desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_1:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_2:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_3:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]:
+  args:
+    - text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_1:
+  args:
+    - text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_2:
+  args:
+    - text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_3:
+  args:
+    - text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_379
+      desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_1:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_2:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_3:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Le paramètre d''exclusion pour rendre les rôles exclusifs.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]:
+  args:
+    - messageid text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_1:
+  args:
+    - messageid text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_2:
+  args:
+    - messageid text
+  desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+  params:
+    - desc: 'Attribue des rôles par réaction selon les données fournies, en excluant certains rôles.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Les rôles et emojis à associer aux réactions.'
+      name: input
+      optional: false
+      type: string[]
+reactionroleslist:
+  args:
+    - ''
+  desc: 'Affiche la liste des rôles par réaction configurés sur le serveur.'
+  params: [ ]
+reactionrolesremove:
+  args:
+    - number
+  desc: 'Supprime un rôle par réaction selon son index.'
+  params:
+    - &ref_382
+      desc: 'L''index du rôle par réaction à supprimer.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int:
+  args:
+    - number
+  desc: 'Supprime un rôle par réaction selon son index.'
+  params:
+    - desc: 'L''index du rôle par réaction à supprimer.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_1:
+  args:
+    - number
+  desc: 'Supprime un rôle par réaction selon son index.'
+  params:
+    - desc: 'L''index du rôle par réaction à supprimer.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_2:
+  args:
+    - number
+  desc: 'Supprime un rôle par réaction selon son index.'
+  params:
+    - desc: 'L''index du rôle par réaction à supprimer.'
+      name: index
+      optional: false
+      type: int
+removeallroles:
+  args:
+    - '@user'
+  desc: 'Retire tous les rôles d''un utilisateur, sauf les rôles gérés et le rôle everyone.'
+  params:
+    - &ref_392
+      desc: 'L''utilisateur dont retirer tous les rôles.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Retire tous les rôles d''un utilisateur, sauf les rôles gérés et le rôle everyone.'
+  params:
+    - desc: 'L''utilisateur dont retirer tous les rôles.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Retire tous les rôles d''un utilisateur, sauf les rôles gérés et le rôle everyone.'
+  params:
+    - desc: 'L''utilisateur dont retirer tous les rôles.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Retire tous les rôles d''un utilisateur, sauf les rôles gérés et le rôle everyone.'
+  params:
+    - desc: 'L''utilisateur dont retirer tous les rôles.'
+      name: user
+      optional: false
+      type: IGuildUser
+removerole:
+  args:
+    - '@role @user'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - &ref_411
+      desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - &ref_410
+      desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: 'Retire un rôle à un utilisateur.'
+  params:
+    - desc: 'Le rôle à retirer à l''utilisateur.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'L''utilisateur à qui retirer le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+renamechannel:
+  args:
+    - channel text
+  desc: 'Renomme le salon indiqué.'
+  params:
+    - &ref_418
+      desc: 'Le salon à renommer'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Le nouveau nom du salon'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string:
+  args:
+    - channel text
+  desc: 'Renomme le salon indiqué.'
+  params:
+    - &ref_419
+      desc: 'Le salon à renommer'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - &ref_420
+      desc: 'Le nouveau nom du salon'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_1:
+  args:
+    - channel text
+  desc: 'Renomme le salon indiqué.'
+  params:
+    - desc: 'Le salon à renommer'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Le nouveau nom du salon'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_2:
+  args:
+    - channel text
+  desc: 'Renomme le salon indiqué.'
+  params:
+    - desc: 'Le salon à renommer'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Le nouveau nom du salon'
+      name: name
+      optional: false
+      type: string
+renamerole:
+  args:
+    - '@role text'
+  desc: 'Renomme un rôle.'
+  params:
+    - &ref_423
+      desc: 'Le rôle à renommer.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - &ref_424
+      desc: 'Le nouveau nom du rôle.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string:
+  args:
+    - '@role text'
+  desc: 'Renomme un rôle.'
+  params:
+    - desc: 'Le rôle à renommer.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'Le nouveau nom du rôle.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_1:
+  args:
+    - '@role text'
+  desc: 'Renomme un rôle.'
+  params:
+    - desc: 'Le rôle à renommer.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'Le nouveau nom du rôle.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_2:
+  args:
+    - '@role text'
+  desc: 'Renomme un rôle.'
+  params:
+    - desc: 'Le rôle à renommer.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'Le nouveau nom du rôle.'
+      name: newname
+      optional: false
+      type: string
+rolecolor:
+  args:
+    - '@role'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - &ref_444
+      desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole:
+  args:
+    - '@role'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - &ref_445
+      desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_1:
+  args:
+    - '@role'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_2:
+  args:
+    - '@role'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_SKColor:
+  args:
+    - '@role color'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_446
+      desc: 'La nouvelle couleur du rôle.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_1:
+  args:
+    - '@role color'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'La nouvelle couleur du rôle.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_2:
+  args:
+    - '@role color'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'La nouvelle couleur du rôle.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_3:
+  args:
+    - '@role color'
+  desc: 'Change la couleur du rôle indiqué.'
+  params:
+    - desc: 'Le rôle dont changer la couleur.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'La nouvelle couleur du rôle.'
+      name: color
+      optional: false
+      type: SKColor
+rolehoist:
+  args:
+    - '@role'
+  desc: 'Active ou désactive l''affichage séparé du rôle indiqué dans la liste des membres.'
+  params:
+    - &ref_456
+      desc: 'Le rôle dont basculer l''affichage séparé.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole:
+  args:
+    - '@role'
+  desc: 'Active ou désactive l''affichage séparé du rôle indiqué dans la liste des membres.'
+  params:
+    - desc: 'Le rôle dont basculer l''affichage séparé.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_1:
+  args:
+    - '@role'
+  desc: 'Active ou désactive l''affichage séparé du rôle indiqué dans la liste des membres.'
+  params:
+    - desc: 'Le rôle dont basculer l''affichage séparé.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_2:
+  args:
+    - '@role'
+  desc: 'Active ou désactive l''affichage séparé du rôle indiqué dans la liste des membres.'
+  params:
+    - desc: 'Le rôle dont basculer l''affichage séparé.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq:
+  args:
+    - number @role
+  desc: 'Définit le niveau requis pour un rôle d''auto-attribution.'
+  params:
+    - &ref_458
+      desc: 'Le niveau requis pour obtenir le rôle.'
+      name: level
+      optional: false
+      type: int
+    - &ref_459
+      desc: 'Le rôle pour lequel définir le niveau requis.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole:
+  args:
+    - number @role
+  desc: 'Définit le niveau requis pour un rôle d''auto-attribution.'
+  params:
+    - desc: 'Le niveau requis pour obtenir le rôle.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Le rôle pour lequel définir le niveau requis.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Définit le niveau requis pour un rôle d''auto-attribution.'
+  params:
+    - desc: 'Le niveau requis pour obtenir le rôle.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Le rôle pour lequel définir le niveau requis.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Définit le niveau requis pour un rôle d''auto-attribution.'
+  params:
+    - desc: 'Le niveau requis pour obtenir le rôle.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Le rôle pour lequel définir le niveau requis.'
+      name: role
+      optional: false
+      type: IRole
+rsar:
+  args:
+    - '@role'
+  desc: 'Retire le rôle indiqué de la liste des rôles d''auto-attribution.'
+  params:
+    - &ref_471
+      desc: 'Le rôle à retirer de la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole:
+  args:
+    - '@role'
+  desc: 'Retire le rôle indiqué de la liste des rôles d''auto-attribution.'
+  params:
+    - desc: 'Le rôle à retirer de la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_1:
+  args:
+    - '@role'
+  desc: 'Retire le rôle indiqué de la liste des rôles d''auto-attribution.'
+  params:
+    - desc: 'Le rôle à retirer de la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_2:
+  args:
+    - '@role'
+  desc: 'Retire le rôle indiqué de la liste des rôles d''auto-attribution.'
+  params:
+    - desc: 'Le rôle à retirer de la liste des rôles d''auto-attribution.'
+      name: role
+      optional: false
+      type: IRole
+sargn:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Définit ou supprime le nom du groupe indiqué de rôles d''auto-attribution.'
+  params:
+    - desc: 'Le numéro du groupe dont définir ou supprimer le nom.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le nom à définir pour le groupe. S''il n''est pas indiqué, le nom du groupe sera supprimé.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Définit ou supprime le nom du groupe indiqué de rôles d''auto-attribution.'
+  params:
+    - desc: 'Le numéro du groupe dont définir ou supprimer le nom.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le nom à définir pour le groupe. S''il n''est pas indiqué, le nom du groupe sera supprimé.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_1:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Définit ou supprime le nom du groupe indiqué de rôles d''auto-attribution.'
+  params:
+    - desc: 'Le numéro du groupe dont définir ou supprimer le nom.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le nom à définir pour le groupe. S''il n''est pas indiqué, le nom du groupe sera supprimé.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_2:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Définit ou supprime le nom du groupe indiqué de rôles d''auto-attribution.'
+  params:
+    - desc: 'Le numéro du groupe dont définir ou supprimer le nom.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Le nom à définir pour le groupe. S''il n''est pas indiqué, le nom du groupe sera supprimé.'
+      name: name
+      optional: true
+      type: string
+setguildavatar:
+  args:
+    - text
+  desc: 'Définit l''avatar du bot propre à ce serveur.'
+  params:
+    - &ref_676
+      desc: 'URL de l''image d''avatar (facultatif si une pièce jointe est fournie)'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildavatar_string:
+  args:
+    - text
+  desc: 'Définit l''avatar du bot propre à ce serveur.'
+  params:
+    - desc: 'URL de l''image d''avatar (facultatif si une pièce jointe est fournie)'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildbanner:
+  args:
+    - text
+  desc: 'Définit la bannière du bot propre à ce serveur.'
+  params:
+    - &ref_677
+      desc: 'URL de l''image de bannière (facultatif si une pièce jointe est fournie)'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbanner_string:
+  args:
+    - text
+  desc: 'Définit la bannière du bot propre à ce serveur.'
+  params:
+    - desc: 'URL de l''image de bannière (facultatif si une pièce jointe est fournie)'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbio:
+  args:
+    - text
+  desc: 'Définit la bio du bot propre à ce serveur.'
+  params:
+    - &ref_678
+      desc: 'Texte de la bio'
+      name: bio
+      optional: false
+      type: string
+setguildbio_string:
+  args:
+    - text
+  desc: 'Définit la bio du bot propre à ce serveur.'
+  params:
+    - desc: 'Texte de la bio'
+      name: bio
+      optional: false
+      type: string
+setchanlname:
+  args:
+    - text
+  desc: 'Définit le nom du salon textuel actuel.'
+  params:
+    - &ref_493
+      desc: 'Le nom à donner au salon textuel'
+      name: name
+      optional: false
+      type: string
+setchanlname_string:
+  args:
+    - text
+  desc: 'Définit le nom du salon textuel actuel.'
+  params:
+    - desc: 'Le nom à donner au salon textuel'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_1:
+  args:
+    - text
+  desc: 'Définit le nom du salon textuel actuel.'
+  params:
+    - desc: 'Le nom à donner au salon textuel'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_2:
+  args:
+    - text
+  desc: 'Définit le nom du salon textuel actuel.'
+  params:
+    - desc: 'Le nom à donner au salon textuel'
+      name: name
+      optional: false
+      type: string
+setnick:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=:
+  args:
+    - '@gu [newNick]'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_1:
+  args:
+    - '@gu [newNick]'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_2:
+  args:
+    - '@gu [newNick]'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_3:
+  args:
+    - '@gu [newNick]'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_1:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_2:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Variante permettant de définir le pseudo du bot.'
+  params:
+    - desc: 'Variante permettant de définir le pseudo du bot.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Le nouveau pseudo à définir.'
+      name: newNick
+      optional: true
+      type: string
+setrole:
+  args:
+    - '@role @user'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - &ref_520
+      desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - &ref_519
+      desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_StoopidTime:
+  args:
+    - '@role @user time'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - &ref_525
+      desc: 'La durée pendant laquelle le rôle sera actif.'
+      name: time
+      optional: false
+      type: StoopidTime
+setrole_IGuildUser_IRole_StoopidTime:
+  args:
+    - '@user @role time'
+  desc: 'Ajoute un rôle à un utilisateur pendant une durée donnée.'
+  params:
+    - desc: 'L''utilisateur à qui ajouter le rôle.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Le rôle à ajouter à l''utilisateur.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'La durée pendant laquelle le rôle sera actif.'
+      name: time
+      optional: false
+      type: StoopidTime
+settopic:
+  args:
+    - '[topic]'
+  desc: 'Définit le sujet du salon textuel actuel.'
+  params:
+    - desc: 'Le sujet à définir pour le salon textuel'
+      name: topic
+      optional: true
+      type: string
+staffrole:
+  args:
+    - '[@role]'
+  desc: 'Définit ou met à jour le rôle attribué aux membres du staff.'
+  params:
+    - desc: 'Le rôle à attribuer aux membres du staff'
+      name: role
+      optional: true
+      type: role
+staffroledisable:
+  args:
+    - ''
+  desc: 'Désactive le rôle attribué aux membres du staff.'
+  params: [ ]
+timezone:
+  args:
+    - ''
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params: [ ]
+timezone_noparams:
+  args:
+    - ''
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params: [ ]
+timezone_noparams_1:
+  args:
+    - ''
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params: [ ]
+timezone_noparams_2:
+  args:
+    - ''
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params: [ ]
+timezone_string:
+  args:
+    - text
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params:
+    - &ref_625
+      desc: 'L''identifiant du fuseau horaire.'
+      name: id
+      optional: false
+      type: string
+timezone_string_1:
+  args:
+    - text
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params:
+    - desc: 'L''identifiant du fuseau horaire.'
+      name: id
+      optional: false
+      type: string
+timezone_string_2:
+  args:
+    - text
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params:
+    - desc: 'L''identifiant du fuseau horaire.'
+      name: id
+      optional: false
+      type: string
+timezone_string_3:
+  args:
+    - text
+  desc: 'Affiche des informations sur un fuseau horaire.'
+  params:
+    - desc: 'L''identifiant du fuseau horaire.'
+      name: id
+      optional: false
+      type: string
+timezones_noparams_1:
+  args:
+    - ''
+  desc: 'Liste tous les fuseaux horaires disponibles.'
+  params: [ ]
+togglexclsar:
+  args:
+    - ''
+  desc: 'Active ou désactive l''exclusivité des rôles d''auto-attribution.'
+  params: [ ]
+undeafen:
+  args:
+    - '@user'
+  desc: 'Rend à nouveau audibles les utilisateurs indiqués sur le serveur.'
+  params:
+    - desc: 'Les utilisateurs à rendre à nouveau audibles'
+      name: users
+      optional: false
+      type: IGuildUser[]
+vcrole:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrole_=:
+  args:
+    - '@vchan [@role]'
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_1:
+  args:
+    - '@vchan [@role]'
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_2:
+  args:
+    - '@vchan [@role]'
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_3:
+  args:
+    - '@vchan [@role]'
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_1:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_2:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+  params:
+    - desc: 'Lie ou délie un rôle à un salon vocal, pendant que l''on est dans ce salon vocal.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Le rôle à lier au salon vocal.'
+      name: role
+      optional: true
+      type: role
+vcrolelist:
+  args:
+    - ''
+  desc: 'Liste tous les rôles de salon vocal de ce serveur.'
+  params: [ ]
+vcrolerm:
+  args:
+    - vcid
+  desc: 'Délie un rôle d''un salon vocal.'
+  params:
+    - &ref_641
+      desc: 'L''ID du salon vocal'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong:
+  args:
+    - vcid
+  desc: 'Délie un rôle d''un salon vocal.'
+  params:
+    - desc: 'L''ID du salon vocal'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_1:
+  args:
+    - vcid
+  desc: 'Délie un rôle d''un salon vocal.'
+  params:
+    - desc: 'L''ID du salon vocal'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_2:
+  args:
+    - vcid
+  desc: 'Délie un rôle d''un salon vocal.'
+  params:
+    - desc: 'L''ID du salon vocal'
+      name: vcId
+      optional: false
+      type: ulong
+timezones:
+  args:
+    - ''
+  desc: 'Liste tous les fuseaux horaires disponibles.'
+  params: [ ]
+antimasspost:
+  args:
+    - ''
+  desc: 'Désactive la protection Anti-Mass-Post du serveur, ou la configure si des arguments sont fournis.'
+  params: [ ]
+antipostchannel:
+  args:
+    - ''
+  desc: 'Désactive la protection Anti-Post-Channel du serveur, ou la configure si des arguments sont fournis.'
+  params: [ ]
+antipostchanneladd:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Ajoute un salon piège à la protection Anti-Post-Channel.'
+  params:
+    - desc: 'Le salon textuel à ajouter comme piège.'
+      name: channel
+      optional: false
+      type: ITextChannel
+antipostchannelremove:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Retire un salon piège de la protection Anti-Post-Channel.'
+  params:
+    - desc: 'Le salon textuel à retirer du suivi des pièges.'
+      name: channel
+      optional: false
+      type: ITextChannel
+antiimagehash:
+  args:
+    - ''
+    - 'Ban'
+    - 'Delete 31'
+    - 'Timeout 31 1d'
+  desc: 'Active la protection Anti-Image-Hash, qui sanctionne quiconque republie une image de la liste des images bloquées, y compris les copies redimensionnées, retournées, réimportées en qualité inférieure ou entourées d''une bordure. Exécutez la commande sans argument pour la désactiver. La tolérance facultative (de 0 à 64, par défaut 31) définit à quel point une image publiée peut différer tout en restant considérée comme bloquée.'
+  params: [ ]
+antiimagehashignore:
+  args:
+    - '<role>'
+    - '<channel>'
+  desc: 'Active ou désactive l''exemption d''un rôle ou d''un salon de la protection Anti-Image-Hash.'
+  params: [ ]
+antiexternalapp:
+  args:
+    - ''
+    - 'Timeout'
+    - 'Timeout 5 5 1h'
+    - 'Kick 3 0'
+  desc: 'Active la protection Anti-External-App, qui surveille les messages envoyés par les membres via des applications ajoutées à leur propre compte. Un message est supprimé et le membre ayant utilisé l''application est sanctionné lorsqu''il mentionne trop de personnes ou de rôles (par défaut 5, 0 désactive cette option), mentionne everyone, contient un lien d''invitation, ou lorsque le membre utilise des applications plus souvent que le nombre autorisé en 10 secondes (par défaut 5, 0 désactive cette option). Les applications ajoutées au serveur lui-même ne sont pas vérifiées. Exécutez la commande sans argument pour la désactiver.'
+  params: [ ]
+blockimage:
+  args:
+    - ''
+    - 'mrbeast crypto scam'
+    - 'Delete nsfw meme'
+    - 'https://example.com/scam.png mrbeast crypto scam'
+  desc: 'Bloque une image afin que quiconque la republie soit sanctionné, y compris les copies redimensionnées, recompressées, miroir ou bordées. Joignez l''image, répondez à un message la contenant ou indiquez son URL. Une action indiquée avant le libellé remplace la valeur par défaut du serveur uniquement pour cette image.'
+  params: [ ]
+unblockimage:
+  args:
+    - '<id>'
+  desc: 'Retire une image de la liste des images bloquées par son ID, tel qu''affiché par blockedimages.'
+  params: [ ]
+blockedimages:
+  args:
+    - ''
+  desc: 'Liste les images bloquées ainsi que le nombre de fois où chacune a été détectée.'
+  params: [ ]
+imagehash:
+  args:
+    - ''
+    - 'https://example.com/scam.png'
+  desc: 'Affiche le hash perceptuel d''une image sans la bloquer.'
+  params: [ ]
+antiimagehashpreset:
+  args:
+    - ''
+  desc: 'Active ou désactive la liste des images d''arnaque connues fournie avec Mewdeko : les fausses images de casinos crypto et de giveaways actuellement diffusées sur Discord. Elles sont bloquées en plus de votre propre liste. Activé par défaut lorsque Anti-Image-Hash est activé.'
+  params: [ ]

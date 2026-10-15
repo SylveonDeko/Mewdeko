@@ -20,6 +20,7 @@
   "giveaway_entry_successful": "Participation au giveaway réussie !",
   "giveaway_guild_not_found": "Le serveur de ce giveaway est introuvable.",
   "giveaway_host_message_removed": "Le message de l'hôte du giveaway a été supprimé.",
+  "giveaway_host_message_set": "Le message de l'organisateur du concours a bien été défini.",
   "giveaway_invalid_color": "Ce n'est pas une couleur valide ! Utilisez un code hexadécimal (commençant par #) ou un nom de couleur HTML !",
   "giveaway_invalid_emote": "Je ne peux pas utiliser cet émoji pour les giveaways ! Probablement parce que je ne suis pas dans un serveur qui le possède.",
   "giveaway_invalid_emote_current": "L'émoji actuel du giveaway est invalide ou inaccessible ! Veuillez le redéfinir et démarrer un nouveau giveaway.",

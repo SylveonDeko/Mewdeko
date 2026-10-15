@@ -1,0 +1,247 @@
+wotd:
+  args:
+    - ''
+  desc: '오늘의 단어를 보여줘요. 아직 게시되지 않았다면 미리 보기를 보여줘요.'
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: '일일 단어 게시를 켜거나 꺼요. 먼저 채널을 설정해야 해요.'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: '일일 단어를 게시할 채널을 설정하고 게시를 켜요. 비워 두면 채널을 지우고 기능을 꺼요.'
+  params:
+    - desc: '게시할 채널이에요. 생략하면 지워요.'
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: '일일 단어를 게시할 현지 시각(0~23시)을 설정해요.'
+  params:
+    - desc: '24시간제 기준 시간이에요.'
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: '일일 게시 시간과 새 날이 시작되는 시점을 판단할 때 사용할 시간대를 설정해요.'
+  params:
+    - desc: 'IANA 시간대 이름이에요.'
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: '일일 단어마다 멘션할 역할을 설정해요. 비워 두면 지워요.'
+  params:
+    - desc: '멘션할 역할이에요. 생략하면 지워요.'
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: '일일 단어의 사용자 지정 메시지 템플릿을 설정해요. 임베드 JSON과 자리표시자를 지원해요. 텍스트 없이 보내면 현재 템플릿을 보여주고, "clear"를 보내면 기본 임베드를 사용해요.'
+  params:
+    - desc: '템플릿 텍스트예요. 생략하면 보여주고, "clear"이면 초기화해요.'
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: '사전 단어가 가까워야 할 주제를 최대 5개 단어로 설정해요. 비워 두거나 "clear"를 보내면 지워요.'
+  params:
+    - desc: '"space" 또는 "medieval history"처럼 주제를 나타내는 단어예요. 생략하면 지워요.'
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: '사전 단어의 품사를 any, noun, verb, adjective, adverb 중 하나로 제한해요.'
+  params:
+    - desc: '허용할 품사예요.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: '사전 단어의 희귀도를 any, common, moderate, rare 중 하나로 설정해요.'
+  params:
+    - desc: '난이도예요.'
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: '단어 출처를 선택해요. Dictionary는 필터를 적용한 Datamuse를 사용하고, custom은 wotdadd로 추가한 단어만 사용하며, mixed는 사용자 지정 단어를 다 쓸 때까지 사용해요.'
+  params:
+    - desc: '단어 출처예요.'
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: '서버의 사용자 지정 단어 목록에 단어를 추가해요. 뜻을 입력하지 않으면 자동으로 찾아요.'
+  params:
+    - desc: '추가할 단어예요.'
+      name: word
+      optional: false
+      type: string
+    - desc: '단어의 뜻이에요. 생략하면 자동으로 찾아요.'
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: '서버의 사용자 지정 단어 목록에서 단어를 제거해요.'
+  params:
+    - desc: '제거할 단어예요.'
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: '서버의 사용자 지정 단어와 각 단어가 게시된 횟수를 나열해요.'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: '가장 최근에 게시된 단어를 보여줘요.'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: '현재 오늘의 단어 설정을 보여줘요.'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: '일정과 관계없이 새 단어를 바로 게시해요.'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: '이 서버의 오늘의 단어 설정, 사용자 지정 단어, 기록을 모두 초기화해요.'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: '특정 요일의 주제를 설정해요. 그 요일에는 기본 주제보다 우선해요. 주제를 입력하지 않으면 그 요일의 규칙을 삭제해요.'
+  params:
+    - desc: '요일이에요.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: '그 요일에 사용할 주제 단어예요. 생략하면 규칙을 삭제해요.'
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: '특정 요일의 품사와 선택적 난이도를 설정해요. "any"를 사용하면 기본 설정을 따라요.'
+  params:
+    - desc: '요일이에요.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: '그 요일의 품사 또는 any예요.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: '그 요일의 난이도 또는 any예요.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: '특정 월의 주제를 설정해요. 그 달에는 기본 주제보다 우선해요. 요일 규칙이 월 규칙보다 우선해요. 주제를 입력하지 않으면 규칙을 삭제해요.'
+  params:
+    - desc: '월 번호 또는 이름이에요.'
+      name: month
+      optional: false
+      type: string
+    - desc: '그 달에 사용할 주제 단어예요. 생략하면 규칙을 삭제해요.'
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: '특정 월의 품사와 선택적 난이도를 설정해요. "any"를 사용하면 기본 설정을 따라요.'
+  params:
+    - desc: '월 번호 또는 이름이에요.'
+      name: month
+      optional: false
+      type: string
+    - desc: '그 달의 품사 또는 any예요.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: '그 달의 난이도 또는 any예요.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: '모든 요일 및 월 규칙과 오늘 적용 중인 필터를 보여줘요.'
+  params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: '일일 단어 게시물마다 공개 토론 스레드를 만들지 전환해요. 스레드 시작 메시지에서 사람들에게 단어를 사용한 문장을 쓰도록 안내해요.'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: '토론 스레드 이름 템플릿을 설정해요. %wotd.word%, %wotd.date%, %wotd.pos% 및 서버 자리표시자를 지원해요. 텍스트 없이 보내면 현재 템플릿을 보여주고, "clear"를 보내면 초기화해요.'
+  params:
+    - desc: '스레드 이름 템플릿이에요. 생략하면 보여주고, "clear"이면 초기화해요.'
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: '활동이 없을 때 Discord가 토론 스레드를 보관하기 전까지 열어 둘 기간을 설정해요: 1h, 24h, 3d, 7d.'
+  params:
+    - desc: '1h, 24h, 3d, 7d 중 하나예요.'
+      name: duration
+      optional: false
+      type: string

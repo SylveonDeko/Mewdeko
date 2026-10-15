@@ -1,9 +1,9 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: 'Erstellt einen neuen gesperrten Sprachkanal, der eine Server-Statistik anzeigt. Der Bot erstellt und verwaltet den Kanal.'
+  desc: 'Erstellt einen neuen gesperrten Sprach-Kanal, der eine Server-Statistik anzeigt. Der Bot erstellt den Kanal und verwaltet ihn.'
   params:
-    - desc: 'Der anzuzeigende Statistiktyp.'
+    - desc: 'Der Statistiktyp, der angezeigt wird.'
       name: type
       optional: false
       type: StatChannelType
@@ -14,13 +14,13 @@ statchannelcreate:
 statchanneladd:
   args:
     - '#voice-channel TotalMembers [template]'
-  desc: 'Fügt einen Sprachkanal als Statistikkanal hinzu. Typen: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  desc: 'Fügt einen Sprach-Kanal als Statistik-Kanal hinzu. Typen: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
   params:
-    - desc: 'Der zu verwendende Sprachkanal.'
+    - desc: 'Der Sprach-Kanal, der verwendet wird.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Der anzuzeigende Statistiktyp.'
+    - desc: 'Der Statistiktyp, der angezeigt wird.'
       name: type
       optional: false
       type: StatChannelType
@@ -31,13 +31,13 @@ statchanneladd:
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Fügt einen Statistikkanal hinzu, der zeigt, wie viele Mitglieder eine bestimmte Rolle haben.'
+  desc: 'Fügt einen Statistik-Kanal hinzu, der zeigt, wie viele Mitglieder eine bestimmte Rolle haben.'
   params:
-    - desc: 'Der zu verwendende Sprachkanal.'
+    - desc: 'Der Sprach-Kanal, der verwendet wird.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Die Rolle, deren Mitglieder gezählt werden.'
+    - desc: 'Die Rolle, für die Mitglieder gezählt werden.'
       name: role
       optional: false
       type: IRole
@@ -48,9 +48,9 @@ statchannelrole:
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Fügt einen Countdown-Statistikkanal hinzu. Verwende %days%- und %hours%-Platzhalter.'
+  desc: 'Fügt einen Countdown-Statistik-Kanal hinzu. Verwende die Platzhalter %days% und %hours%.'
   params:
-    - desc: 'Der zu verwendende Sprachkanal.'
+    - desc: 'Der Sprach-Kanal, der verwendet wird.'
       name: channel
       optional: false
       type: IVoiceChannel
@@ -65,13 +65,13 @@ statchannelcountdown:
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'Fügt einen Mitgliederziel-Statistikkanal hinzu. Verwende %count%, %goal% und %goal.percent%.'
+  desc: 'Fügt einen Statistik-Kanal für ein Mitgliederziel hinzu. Verwende %count%, %goal% und %goal.percent%.'
   params:
-    - desc: 'Der zu verwendende Sprachkanal.'
+    - desc: 'Der Sprach-Kanal, der verwendet wird.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Die Zielanzahl an Mitgliedern.'
+    - desc: 'Die Ziel-Mitgliederzahl.'
       name: goal
       optional: false
       type: int
@@ -82,14 +82,34 @@ statchannelgoal:
 statchannelremove:
   args:
     - '#voice-channel'
-  desc: 'Entfernt einen Statistikkanal.'
+  desc: 'Entfernt einen Statistik-Kanal.'
   params:
-    - desc: 'Der zu entfernende Sprachkanal.'
+    - desc: 'Der Sprach-Kanal, der entfernt wird.'
       name: channel
       optional: false
       type: IVoiceChannel
 statchannellist:
   args:
     - ''
-  desc: 'Listet alle Statistikkanäle für diesen Server auf.'
+  desc: 'Listet alle Statistik-Kanäle dieses Servers auf.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Legt einen Statistik-Kanal fest, der einen Twitch-Zähler anzeigt.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Legt den Aktualisierungsmechanismus für einen Statistik-Kanal fest.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Legt den Anzeigestil für einen Statistik-Kanal fest.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Zeigt die Standardeinstellungen für Statistik-Kanäle an.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Listet die verfügbaren Typen von Statistik-Kanälen auf.'

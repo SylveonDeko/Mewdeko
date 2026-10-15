@@ -1,0 +1,605 @@
+anonrep:
+  args:
+    - '@user reptype text'
+  desc: '지정한 사용자에게 익명 평판을 줍니다.'
+  params:
+    - &ref_228
+      desc: '평판을 줄 사용자입니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - &ref_229
+      desc: '줄 평판의 유형입니다.'
+      name: repType
+      optional: true
+      type: string
+    - &ref_230
+      desc: '평판을 줄 때의 선택 사유 또는 댓글입니다.'
+      name: reason
+      optional: true
+      type: string
+checkrep:
+  args:
+    - '@user'
+  desc: '사용자의 평판을 확인합니다.'
+  params:
+    - &ref_425
+      desc: '평판을 확인할 사용자입니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+giverep:
+  args:
+    - '@user reptype text'
+  desc: '지정한 사용자에게 평판을 줍니다.'
+  params:
+    - desc: '평판을 줄 사용자입니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '줄 평판의 유형입니다.'
+      name: repType
+      optional: true
+      type: string
+    - desc: '평판을 줄 때의 선택 사유 또는 댓글입니다.'
+      name: reason
+      optional: true
+      type: string
+myrep:
+  args:
+    - ''
+  desc: '현재 사용자의 평판을 확인합니다.'
+  params: [ ]
+rep:
+  args:
+    - '@user reptype text'
+  desc: '지정한 사용자에게 평판을 줍니다.'
+  params:
+    - desc: '평판을 줄 사용자입니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '줄 평판의 유형입니다.'
+      name: repType
+      optional: true
+      type: string
+    - desc: '평판을 줄 때의 선택 사유 또는 댓글입니다.'
+      name: reason
+      optional: true
+      type: string
+repanon:
+  args:
+    - '@user reptype text'
+  desc: '지정한 사용자에게 익명 평판을 줍니다.'
+  params:
+    - desc: '평판을 줄 사용자입니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '줄 평판의 유형입니다.'
+      name: repType
+      optional: true
+      type: string
+    - desc: '평판을 줄 때의 선택 사유 또는 댓글입니다.'
+      name: reason
+      optional: true
+      type: string
+repanonymous:
+  args:
+    - enabled
+  desc: '익명 평판 주기를 켜거나 끕니다.'
+  params:
+    - desc: '익명 평판을 켜려면 true입니다.'
+      name: enabled
+      optional: false
+      type: bool
+repchannel:
+  args:
+    - '#channel state number'
+  desc: '채널별 평판 설정을 구성합니다.'
+  params:
+    - desc: '설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '설정할 상태입니다(enabled/disabled/readonly).'
+      name: state
+      optional: true
+      type: string
+    - desc: '이 채널의 평판 배율입니다.'
+      name: multiplier
+      optional: true
+      type: decimal
+repcheck:
+  args:
+    - '@user'
+  desc: '사용자의 평판을 확인합니다.'
+  params:
+    - desc: '평판을 확인할 사용자입니다. 값이 없으면 명령어를 실행한 사용자의 평판을 확인합니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+repcommandbypass:
+  args:
+    - commandname '@role'
+  desc: '명령어 요구 사항에 대한 우회 역할을 설정합니다.'
+  params:
+    - &ref_426
+      desc: '명령어 이름입니다.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: '요구 사항을 우회할 수 있는 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+repcommandinfo:
+  args:
+    - commandname
+  desc: '특정 명령어의 평판 요구 사항을 보여줍니다.'
+  params:
+    - desc: '확인할 명령어입니다.'
+      name: commandName
+      optional: false
+      type: string
+repcommandreq:
+  args:
+    - commandname 50
+    - commandname 50 helper
+    - 'commandname 50 helper #channel1 #channel2'
+  desc: '명령어의 평판 요구 사항을 설정하며, 필요하면 특정 채널로 제한할 수 있습니다.'
+  params:
+    - desc: '명령어 이름입니다.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: '필요한 최소 평판입니다.'
+      name: minReputation
+      optional: false
+      type: int
+    - desc: '필요한 특정 평판 유형입니다(선택 사항, 기본값은 total).'
+      name: repType
+      optional: true
+      type: string
+    - desc: '이 요구 사항이 적용될 채널입니다(지정하지 않으면 전역으로 적용).'
+      name: channels
+      optional: true
+      type: ITextChannel[]
+repcommandreqlist:
+  args:
+    - ''
+  desc: '서버의 모든 명령어 요구 사항을 보여줍니다.'
+  params: [ ]
+repcommandreqremove:
+  args:
+    - commandname
+  desc: '명령어에서 평판 요구 사항을 제거합니다.'
+  params:
+    - desc: '명령어 이름입니다.'
+      name: commandName
+      optional: false
+      type: string
+repconfig:
+  args:
+    - ''
+  desc: '대화형 평판 설정 화면을 엽니다.'
+  params: [ ]
+repcooldown:
+  args:
+    - minutes
+  desc: '평판을 주는 사이의 기본 쿨다운을 설정합니다.'
+  params:
+    - desc: '쿨다운(분, 1~1440).'
+      name: minutes
+      optional: false
+      type: int
+repdailylimit:
+  args:
+    - limit
+  desc: '평판을 줄 수 있는 일일 한도를 설정합니다.'
+  params:
+    - desc: '일일 한도(1~100).'
+      name: limit
+      optional: false
+      type: int
+repdecay:
+  args:
+    - enabled
+  desc: '비활성 사용자의 평판 감소를 켜거나 끕니다.'
+  params:
+    - desc: '감소를 켜려면 true입니다.'
+      name: enabled
+      optional: false
+      type: bool
+repdecayamount:
+  args:
+    - amount
+  desc: '감소량을 설정합니다.'
+  params:
+    - desc: '감소량(1~100).'
+      name: amount
+      optional: false
+      type: int
+repdecayinactive:
+  args:
+    - days
+  desc: '감소가 시작되기 전까지의 비활성 일수를 설정합니다.'
+  params:
+    - desc: '비활성 일수(1~365).'
+      name: days
+      optional: false
+      type: int
+repdecaytype:
+  args:
+    - type
+  desc: '감소 유형을 설정합니다(daily, weekly, monthly).'
+  params:
+    - desc: '감소 유형입니다.'
+      name: type
+      optional: false
+      type: string
+repenable:
+  args:
+    - enabled
+  desc: '이 서버의 평판 시스템을 켜거나 끕니다.'
+  params:
+    - desc: '켜려면 true, 끄려면 false입니다.'
+      name: enabled
+      optional: true
+      type: bool
+repeventcreate:
+  args:
+    - name multiplier duration
+  desc: '평판 배율 이벤트를 만듭니다.'
+  params:
+    - desc: '이벤트 이름입니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '평판 배율입니다.'
+      name: multiplier
+      optional: false
+      type: decimal
+    - desc: '지속 시간(시간)입니다.'
+      name: duration
+      optional: false
+      type: int
+repeventend:
+  args:
+    - name
+  desc: '평판 이벤트를 조기에 종료합니다.'
+  params:
+    - desc: '종료할 이벤트의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+repexport:
+  args:
+    - ''
+  desc: '현재 평판 설정을 JSON으로 내보냅니다.'
+  params: [ ]
+repfreeze:
+  args:
+    - '@user'
+  desc: '사용자의 평판을 동결하여 평판을 얻거나 잃지 않도록 합니다.'
+  params:
+    - &ref_438
+      desc: '동결할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+repgive:
+  args:
+    - '@user reptype text'
+  desc: '지정한 사용자에게 평판을 줍니다.'
+  params:
+    - desc: '평판을 줄 사용자입니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '줄 평판의 유형입니다.'
+      name: repType
+      optional: true
+      type: string
+    - desc: '평판을 줄 때의 선택 사유 또는 댓글입니다.'
+      name: reason
+      optional: true
+      type: string
+rephistory:
+  args:
+    - '@user'
+  desc: '사용자의 평판 기록을 보여줍니다.'
+  params:
+    - desc: '기록을 확인할 사용자입니다. 값이 없으면 명령어를 실행한 사용자의 기록을 보여줍니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+repimport:
+  args:
+    - ''
+  desc: '업로드한 JSON 파일에서 평판 설정을 가져옵니다.'
+  params: [ ]
+replb:
+  args:
+    - number
+  desc: '서버의 평판 순위표를 보여줍니다.'
+  params:
+    - &ref_436
+      desc: '보여줄 페이지 번호입니다.'
+      name: page
+      optional: true
+      type: int
+repleaderboard:
+  args:
+    - number
+  desc: '서버의 평판 순위표를 보여줍니다.'
+  params:
+    - desc: '보여줄 페이지 번호입니다.'
+      name: page
+      optional: true
+      type: int
+repmilestonelost:
+  args:
+    - user role threshold
+  desc: '테스트를 위해 마일스톤 손실 이벤트를 수동으로 실행합니다.'
+  params:
+    - desc: '마일스톤을 잃은 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '잃은 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '평판 기준값입니다.'
+      name: threshold
+      optional: false
+      type: int
+repminage:
+  args:
+    - days
+  desc: '평판을 주는 데 필요한 최소 계정 나이를 설정합니다.'
+  params:
+    - desc: '최소 계정 나이(일, 0~365).'
+      name: days
+      optional: false
+      type: int
+repminmembership:
+  args:
+    - hours
+  desc: '평판을 주는 데 필요한 최소 서버 가입 기간을 설정합니다.'
+  params:
+    - desc: '최소 가입 기간(시간, 0~720).'
+      name: hours
+      optional: false
+      type: int
+repminmessages:
+  args:
+    - count
+  desc: '평판을 주는 데 필요한 최소 메시지 수를 설정합니다.'
+  params:
+    - desc: '최소 메시지 수(0~1000).'
+      name: count
+      optional: false
+      type: int
+repnegative:
+  args:
+    - enabled
+  desc: '음수 평판을 켜거나 끕니다.'
+  params:
+    - desc: '음수 평판을 켜려면 true입니다.'
+      name: enabled
+      optional: false
+      type: bool
+repnotificationchannel:
+  args:
+    - channel
+  desc: '평판 이벤트 알림을 받을 채널을 설정합니다.'
+  params:
+    - desc: '알림을 보낼 채널입니다 (비활성화하려면 null).'
+      name: channel
+      optional: true
+      type: ITextChannel
+repreaction:
+  args:
+    - emoji number reptype
+  desc: '반응 기반 평판 지급을 설정합니다.'
+  params:
+    - desc: '평판에 사용할 이모지입니다.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '지급할 평판 양입니다.'
+      name: amount
+      optional: true
+      type: int
+    - desc: '평판 종류입니다 (standard, helper, artist, memer).'
+      name: repType
+      optional: true
+      type: string
+repreactionlist:
+  args:
+    - ''
+  desc: '설정된 모든 반응 기반 평판 설정을 나열합니다.'
+  params: [ ]
+repreactionremove:
+  args:
+    - emoji
+  desc: '반응 기반 평판 설정을 삭제합니다.'
+  params:
+    - desc: '삭제할 이모지입니다.'
+      name: emoji
+      optional: false
+      type: string
+represet:
+  args:
+    - text
+  desc: '사용자 또는 서버 내 모든 사용자의 평판을 초기화합니다.'
+  params:
+    - desc: '초기화할 사용자입니다. 모든 사용자를 초기화하려면 "all"을 입력하세요.'
+      name: target
+      optional: false
+      type: string
+reprole:
+  args:
+    - ''
+    - detailed
+    - '@role'
+    - '@role 100'
+    - '@role 100 false #channel true 50'
+  desc: '평판 마일스톤 역할 보상을 관리합니다. 매개변수 없이 사용하면 모든 보상을 나열하고, 역할과 평판을 입력하면 고급 설정과 함께 보상을 추가하거나 수정합니다.'
+  params:
+    - &ref_437
+      desc: '지급할 역할입니다 (목록 조회 시 선택 사항).'
+      name: role
+      optional: true
+      type: IRole
+    - desc: '이 역할을 받는 데 필요한 평판입니다 (목록 조회 시 선택 사항).'
+      name: reputation
+      optional: true
+      type: int
+    - desc: '평판이 떨어지면 역할을 제거할지 여부입니다.'
+      name: removeOnDrop
+      optional: true
+      type: bool
+    - desc: '역할 지급을 알릴 채널입니다 (선택 사항).'
+      name: announceChannel
+      optional: true
+      type: ITextChannel
+    - desc: 'DM 알림을 보낼지 여부입니다.'
+      name: announceDm
+      optional: true
+      type: bool
+    - desc: '마일스톤 달성 시 지급할 XP 보상입니다 (선택 사항).'
+      name: xpReward
+      optional: true
+      type: int
+    - desc: '목록 조회 시 자세한 정보를 표시합니다 (첫 번째 매개변수로 ''detailed'' 입력).'
+      name: detailed
+      optional: true
+      type: string
+reprolechannel:
+  args:
+    - role channel
+  desc: '역할 보상의 알림 채널을 설정합니다.'
+  params:
+    - desc: '설정할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '알림을 받을 채널입니다 (비활성화하려면 null).'
+      name: channel
+      optional: true
+      type: ITextChannel
+reproleremove:
+  args:
+    - '@role'
+  desc: '역할 보상 설정을 삭제합니다.'
+  params:
+    - desc: '보상 목록에서 제거할 역할입니다.'
+      name: role
+      optional: true
+      type: IRole
+repset:
+  args:
+    - '@user number'
+  desc: '사용자의 평판을 특정 값으로 설정합니다.'
+  params:
+    - desc: '평판을 설정할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '설정할 평판 값입니다.'
+      name: amount
+      optional: false
+      type: int
+repstats:
+  args:
+    - '@user'
+  desc: '사용자의 자세한 평판 통계를 표시합니다.'
+  params:
+    - desc: '통계를 확인할 사용자입니다. 비워 두면 명령어를 입력한 사용자의 통계를 표시합니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+repstatus:
+  args:
+    - ''
+  desc: '현재 평판 설정을 자세한 임베드로 표시합니다.'
+  params: [ ]
+reptake:
+  args:
+    - '@user number'
+  desc: '사용자의 평판을 차감합니다.'
+  params:
+    - desc: '평판을 차감할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '차감할 평판 양입니다.'
+      name: amount
+      optional: true
+      type: int
+reptop:
+  args:
+    - number
+  desc: '서버의 평판 순위표를 보여줍니다.'
+  params:
+    - desc: '보여줄 페이지 번호입니다.'
+      name: page
+      optional: true
+      type: int
+reptypeadd:
+  args:
+    - typeName displayName
+  desc: '사용자 지정 평판 종류를 추가합니다.'
+  params:
+    - desc: '평판 종류의 이름입니다.'
+      name: typeName
+      optional: false
+      type: string
+    - desc: '평판 종류의 표시 이름입니다.'
+      name: displayName
+      optional: false
+      type: string
+reptypelist:
+  args:
+    - ''
+  desc: '이 서버의 모든 사용자 지정 평판 종류를 나열합니다.'
+  params: [ ]
+reptyperemove:
+  args:
+    - typeName
+  desc: '사용자 지정 평판 종류를 삭제합니다.'
+  params:
+    - desc: '삭제할 평판 종류의 이름입니다.'
+      name: typeName
+      optional: false
+      type: string
+repunfreeze:
+  args:
+    - '@user'
+  desc: '사용자의 평판 동결을 해제하여 다시 평판을 얻고 잃을 수 있게 합니다.'
+  params:
+    - desc: '동결을 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+repweeklylimit:
+  args:
+    - limit
+  desc: '평판을 지급할 수 있는 주간 한도를 설정합니다 (선택 사항).'
+  params:
+    - desc: '주간 한도입니다 (비활성화하려면 null, 1~500).'
+      name: limit
+      optional: true
+      type: int
+toprep:
+  args:
+    - number
+  desc: '서버의 평판 순위표를 보여줍니다.'
+  params:
+    - desc: '보여줄 페이지 번호입니다.'
+      name: page
+      optional: true
+      type: int

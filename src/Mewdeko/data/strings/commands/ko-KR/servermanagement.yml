@@ -1,0 +1,2501 @@
+addblacklistedpermission:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '권한을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 권한입니다.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '이 권한에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '권한을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 권한입니다.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '이 권한에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_1:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '권한을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 권한입니다.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '이 권한에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_2:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '권한을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 권한입니다.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '이 권한에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '역할을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '이 역할에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '역할을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '이 역할에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_1:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '역할을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '이 역할에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_2:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '역할을 차단 목록에 추가합니다.'
+  params:
+    - desc: '차단 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '이 역할에만 적용되는 처벌 작업입니다 (선택 사항).'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addemote:
+  args:
+    - '<name> [url]'
+    - text
+  desc: '서버에 새 이모지를 추가합니다.'
+  params:
+    - desc: '이모지의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '이모지 이미지의 URL입니다. 입력하지 않으면 메시지 첨부 파일에서 이미지를 가져옵니다.'
+      name: url
+      optional: true
+      type: string
+addemote_string_=:
+  args:
+    - '<name> [url]'
+    - text
+  desc: '서버에 새 이모지를 추가합니다.'
+  params:
+    - desc: '이모지의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '이모지 이미지의 URL입니다. 입력하지 않으면 메시지 첨부 파일에서 이미지를 가져옵니다.'
+      name: url
+      optional: true
+      type: string
+addroletolist:
+  args:
+    - '@role'
+  desc: '첨부 파일에 나열된 사용자들에게 지정한 역할을 추가합니다.'
+  params:
+    - &ref_28
+      desc: '첨부 파일에 나열된 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole:
+  args:
+    - '@role'
+  desc: '첨부 파일에 나열된 사용자들에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '첨부 파일에 나열된 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_1:
+  args:
+    - '@role'
+  desc: '첨부 파일에 나열된 사용자들에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '첨부 파일에 나열된 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_2:
+  args:
+    - '@role'
+  desc: '첨부 파일에 나열된 사용자들에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '첨부 파일에 나열된 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addroletorole:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - &ref_29
+      desc: '추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_30
+      desc: '새 역할을 받을 멤버가 가진 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '새 역할을 받을 멤버가 가진 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '새 역할을 받을 멤버가 가진 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '새 역할을 받을 멤버가 가진 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove:
+  args:
+    - '@role @role'
+  desc: '한 번의 작업으로 사용자에게 역할을 추가하고 다른 역할을 제거합니다.'
+  params:
+    - &ref_33
+      desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_34
+      desc: '같은 사용자에게서 제거할 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '한 번의 작업으로 사용자에게 역할을 추가하고 다른 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '같은 사용자에게서 제거할 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '한 번의 작업으로 사용자에게 역할을 추가하고 다른 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '같은 사용자에게서 제거할 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '한 번의 작업으로 사용자에게 역할을 추가하고 다른 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '같은 사용자에게서 제거할 역할입니다.'
+      name: role2
+      optional: false
+      type: IRole
+addtoall:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게 지정한 역할을 추가합니다.'
+  params:
+    - &ref_35
+      desc: '서버의 모든 멤버에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '서버의 모든 멤버에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_1:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '서버의 모든 멤버에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_2:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '서버의 모든 멤버에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게 지정한 역할을 추가합니다.'
+  params:
+    - &ref_36
+      desc: '모든 봇에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '모든 봇에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_1:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '모든 봇에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_2:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '모든 봇에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers:
+  args:
+    - '@role'
+  desc: '봇을 제외한 서버의 모든 사람 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - &ref_37
+      desc: '모든 사람 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole:
+  args:
+    - '@role'
+  desc: '봇을 제외한 서버의 모든 사람 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '모든 사람 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_1:
+  args:
+    - '@role'
+  desc: '봇을 제외한 서버의 모든 사람 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '모든 사람 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_2:
+  args:
+    - '@role'
+  desc: '봇을 제외한 서버의 모든 사람 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '모든 사람 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover:
+  args:
+    - time @role
+  desc: '지정한 기간보다 오래 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - &ref_38
+      desc: '역할을 받기 위해 서버 멤버로 있어야 하는 최소 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_39
+      desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: '지정한 기간보다 오래 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '역할을 받기 위해 서버 멤버로 있어야 하는 최소 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: '지정한 기간보다 오래 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '역할을 받기 위해 서버 멤버로 있어야 하는 최소 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: '지정한 기간보다 오래 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '역할을 받기 위해 서버 멤버로 있어야 하는 최소 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder:
+  args:
+    - time @role
+  desc: '지정한 기간보다 짧게 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - &ref_40
+      desc: '역할을 받기 위해 서버에 있었던 최대 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: '지정한 기간보다 짧게 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '역할을 받기 위해 서버에 있었던 최대 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: '지정한 기간보다 짧게 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '역할을 받기 위해 서버에 있었던 최대 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: '지정한 기간보다 짧게 서버에 있었던 모든 사용자에게 지정한 역할을 추가합니다.'
+  params:
+    - desc: '역할을 받기 위해 서버에 있었던 최대 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조건을 충족한 사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+adduserstorole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에 역할을 추가합니다. 이미 가지고 있지 않은 경우에만 추가합니다.'
+  params:
+    - &ref_41
+      desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_42
+      desc: '역할을 추가할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에 역할을 추가합니다. 이미 가지고 있지 않은 경우에만 추가합니다.'
+  params:
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할을 추가할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에 역할을 추가합니다. 이미 가지고 있지 않은 경우에만 추가합니다.'
+  params:
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할을 추가할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에 역할을 추가합니다. 이미 가지고 있지 않은 경우에만 추가합니다.'
+  params:
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할을 추가할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+addwhitelistedrole:
+  args:
+    - '@role'
+  desc: '역할을 허용 목록에 추가합니다.'
+  params:
+    - &ref_43
+      desc: '허용 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole:
+  args:
+    - '@role'
+  desc: '역할을 허용 목록에 추가합니다.'
+  params:
+    - desc: '허용 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_1:
+  args:
+    - '@role'
+  desc: '역할을 허용 목록에 추가합니다.'
+  params:
+    - desc: '허용 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_2:
+  args:
+    - '@role'
+  desc: '역할을 허용 목록에 추가합니다.'
+  params:
+    - desc: '허용 목록에 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelisteduser:
+  args:
+    - '@user'
+  desc: '사용자를 허용 목록에 추가합니다.'
+  params:
+    - &ref_44
+      desc: '허용 목록에 추가할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser:
+  args:
+    - '@user'
+  desc: '사용자를 허용 목록에 추가합니다.'
+  params:
+    - desc: '허용 목록에 추가할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '사용자를 허용 목록에 추가합니다.'
+  params:
+    - desc: '허용 목록에 추가할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '사용자를 허용 목록에 추가합니다.'
+  params:
+    - desc: '허용 목록에 추가할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+atuo:
+  args:
+    - role threshold
+  desc: '기준치 이상인 사용자에게 역할을 추가합니다.'
+  params:
+    - desc: '추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '기준값입니다.'
+      name: threshold
+      optional: false
+      type: int
+atuu:
+  args:
+    - role threshold
+  desc: '기준치 미만인 사용자에게 역할을 추가합니다.'
+  params:
+    - desc: '추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '기준값입니다.'
+      name: threshold
+      optional: false
+      type: int
+ccatc:
+  args:
+    - name count
+  desc: '카테고리와 텍스트 채널을 만듭니다.'
+  params:
+    - desc: '카테고리 이름입니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '만들 텍스트 채널의 개수입니다.'
+      name: count
+      optional: false
+      type: int
+ccavc:
+  args:
+    - name count
+  desc: '카테고리와 음성 채널을 만듭니다.'
+  params:
+    - desc: '카테고리 이름입니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '만들 음성 채널의 개수입니다.'
+      name: count
+      optional: false
+      type: int
+cctc:
+  args:
+    - category count
+  desc: '카테고리 텍스트 채널을 만듭니다.'
+  params:
+    - desc: '채널을 추가할 카테고리입니다.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: '만들 텍스트 채널의 개수입니다.'
+      name: count
+      optional: false
+      type: int
+ccvc:
+  args:
+    - category count
+  desc: '카테고리 음성 채널을 만듭니다.'
+  params:
+    - desc: '채널을 추가할 카테고리입니다.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: '만들 음성 채널의 개수입니다.'
+      name: count
+      optional: false
+      type: int
+createcatandtxtchannels:
+  args:
+    - text text
+  desc: '서버에 카테고리와 지정한 채널을 만듭니다.'
+  params:
+    - &ref_148
+      desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - &ref_149
+      desc: '만들 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]:
+  args:
+    - text text
+  desc: '서버에 카테고리와 지정한 채널을 만듭니다.'
+  params:
+    - desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - desc: '만들 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_1:
+  args:
+    - text text
+  desc: '서버에 카테고리와 지정한 채널을 만듭니다.'
+  params:
+    - desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - desc: '만들 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_2:
+  args:
+    - text text
+  desc: '서버에 카테고리와 지정한 채널을 만듭니다.'
+  params:
+    - desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - desc: '만들 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels:
+  args:
+    - text text
+  desc: '여러 음성 채널이 들어 있는 카테고리를 만듭니다.'
+  params:
+    - &ref_150
+      desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - &ref_151
+      desc: '카테고리 안에 만들 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]:
+  args:
+    - text text
+  desc: '여러 음성 채널이 들어 있는 카테고리를 만듭니다.'
+  params:
+    - desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - desc: '카테고리 안에 만들 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_1:
+  args:
+    - text text
+  desc: '여러 음성 채널이 들어 있는 카테고리를 만듭니다.'
+  params:
+    - desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - desc: '카테고리 안에 만들 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_2:
+  args:
+    - text text
+  desc: '여러 음성 채널이 들어 있는 카테고리를 만듭니다.'
+  params:
+    - desc: '만들 카테고리의 이름입니다.'
+      name: catName
+      optional: false
+      type: string
+    - desc: '카테고리 안에 만들 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 텍스트 채널을 추가합니다.'
+  params:
+    - &ref_152
+      desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_153
+      desc: '추가할 텍스트 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 텍스트 채널을 추가합니다.'
+  params:
+    - desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '추가할 텍스트 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 텍스트 채널을 추가합니다.'
+  params:
+    - desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '추가할 텍스트 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 텍스트 채널을 추가합니다.'
+  params:
+    - desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '추가할 텍스트 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 음성 채널을 추가합니다.'
+  params:
+    - desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_154
+      desc: '추가할 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 음성 채널을 추가합니다.'
+  params:
+    - desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '추가할 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 음성 채널을 추가합니다.'
+  params:
+    - desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '추가할 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: '기존 카테고리에 여러 음성 채널을 추가합니다.'
+  params:
+    - desc: '대상 카테고리 채널입니다.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '추가할 음성 채널의 이름입니다.'
+      name: channels
+      optional: false
+      type: string[]
+createroles:
+  args:
+    - text
+  desc: '입력한 역할 이름 목록을 바탕으로 서버에 여러 역할을 만듭니다.'
+  params:
+    - &ref_155
+      desc: '만들 역할 이름을 공백으로 구분하여 입력합니다.'
+      name: roles
+      optional: false
+      type: string
+createroles_string:
+  args:
+    - text
+  desc: '입력한 역할 이름 목록을 바탕으로 서버에 여러 역할을 만듭니다.'
+  params:
+    - desc: '만들 역할 이름을 공백으로 구분하여 입력합니다.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_1:
+  args:
+    - text
+  desc: '입력한 역할 이름 목록을 바탕으로 서버에 여러 역할을 만듭니다.'
+  params:
+    - desc: '만들 역할 이름을 공백으로 구분하여 입력합니다.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_2:
+  args:
+    - text
+  desc: '입력한 역할 이름 목록을 바탕으로 서버에 여러 역할을 만듭니다.'
+  params:
+    - desc: '만들 역할 이름을 공백으로 구분하여 입력합니다.'
+      name: roles
+      optional: false
+      type: string
+createwebhook:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+  params:
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+  params:
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_1:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+  params:
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_2:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+  params:
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '텍스트 채널에 선택적으로 사용자 지정 아바타를 설정한 웹후크를 만듭니다.'
+      name: avatar
+      optional: true
+      type: string
+deleteroles:
+  args:
+    - '@role'
+  desc: '서버에서 역할 목록을 삭제합니다.'
+  params:
+    - &ref_189
+      desc: '삭제할 역할의 배열입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]:
+  args:
+    - '@role'
+  desc: '서버에서 역할 목록을 삭제합니다.'
+  params:
+    - desc: '삭제할 역할의 배열입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_1:
+  args:
+    - '@role'
+  desc: '서버에서 역할 목록을 삭제합니다.'
+  params:
+    - desc: '삭제할 역할의 배열입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_2:
+  args:
+    - '@role'
+  desc: '서버에서 역할 목록을 삭제합니다.'
+  params:
+    - desc: '삭제할 역할의 배열입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+exportrolelist:
+  args:
+    - ''
+  desc: '역할과 해당 역할을 가진 사용자를 텍스트 파일로 내보냅니다. 백업과 이전에 편리합니다.'
+  params: [ ]
+grab:
+  args:
+    - '@user'
+  desc: '사용자를 명령어 입력자의 현재 음성 채널로 데려옵니다.'
+  params:
+    - &ref_233
+      desc: '데려와 이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser:
+  args:
+    - '@user'
+  desc: '사용자를 명령어 입력자의 현재 음성 채널로 데려옵니다.'
+  params:
+    - desc: '데려와 이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '사용자를 명령어 입력자의 현재 음성 채널로 데려옵니다.'
+  params:
+    - desc: '데려와 이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '사용자를 명령어 입력자의 현재 음성 채널로 데려옵니다.'
+  params:
+    - desc: '데려와 이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+importrolelist:
+  args:
+    - false
+  desc: '텍스트 파일의 역할과 사용자 연결 정보를 가져와 언급된 사용자에게 지정한 역할을 적용합니다.'
+  params:
+    - desc: '텍스트 파일의 역할과 사용자 연결 정보를 가져와 언급된 사용자에게 지정한 역할을 적용합니다.'
+      name: false
+      optional: false
+      type: '='
+liftlockdown:
+  args:
+    - lockdowntype.readonly
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+  params:
+    - &ref_274
+      desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=:
+  args:
+    - lockdowntype.readonly
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+  params:
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_1:
+  args:
+    - lockdowntype.readonly
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+  params:
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_2:
+  args:
+    - lockdowntype.readonly
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+  params:
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 잠금을 해제합니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+listblacklists:
+  args:
+    - ''
+  desc: '차단 및 허용된 모든 역할과 권한을 나열합니다.'
+  params: [ ]
+lock:
+  args:
+    - '[channel]'
+  desc: '채널의 저속 모드를 켜거나 끄며, 지속 시간을 설정할 수 있습니다.'
+  params:
+    - desc: '저속 모드를 적용할 채널입니다 (선택 사항).'
+      name: channel
+      optional: true
+      type: sockettextchannel
+lockdown:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+  params:
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - &ref_281
+      desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+  params:
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_1:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+  params:
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_2:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+  params:
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '지정한 잠금 종류(Joins, Readonly, Full)에 따라 서버를 잠급니다.'
+      name: false
+      optional: false
+      type: '='
+moveto:
+  args:
+    - channel
+  desc: '명령어 입력자를 지정한 음성 채널로 이동시킵니다.'
+  params:
+    - &ref_301
+      desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel:
+  args:
+    - channel
+  desc: '명령어 입력자를 지정한 음성 채널로 이동시킵니다.'
+  params:
+    - desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_1:
+  args:
+    - channel
+  desc: '명령어 입력자를 지정한 음성 채널로 이동시킵니다.'
+  params:
+    - desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_2:
+  args:
+    - channel
+  desc: '명령어 입력자를 지정한 음성 채널로 이동시킵니다.'
+  params:
+    - desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto:
+  args:
+    - '@user channel'
+  desc: '지정한 사용자를 주어진 음성 채널로 이동시킵니다.'
+  params:
+    - &ref_302
+      desc: '이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel:
+  args:
+    - '@user channel'
+  desc: '지정한 사용자를 주어진 음성 채널로 이동시킵니다.'
+  params:
+    - desc: '이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_1:
+  args:
+    - '@user channel'
+  desc: '지정한 사용자를 주어진 음성 채널로 이동시킵니다.'
+  params:
+    - desc: '이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_2:
+  args:
+    - '@user channel'
+  desc: '지정한 사용자를 주어진 음성 채널로 이동시킵니다.'
+  params:
+    - desc: '이동시킬 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자를 이동시킬 대상 음성 채널입니다.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+nuke:
+  args:
+    - '[@chan3]'
+  desc: '텍스트 채널을 삭제한 뒤 다시 만들어 "초기화"합니다.'
+  params:
+    - desc: '초기화할 채널입니다 (선택 사항).'
+      name: chan3
+      optional: true
+      type: channel
+permcontrol:
+  args:
+    - channel perm @role perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - &ref_337
+      desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - &ref_338
+      desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_339
+      desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_340
+      desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]:
+  args:
+    - channel perm @role perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_1:
+  args:
+    - channel perm @role perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_2:
+  args:
+    - channel perm @role perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]:
+  args:
+    - channel perm @user perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_341
+      desc: '권한 수정을 적용할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_1:
+  args:
+    - channel perm @user perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '권한 수정을 적용할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_2:
+  args:
+    - channel perm @user perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '권한 수정을 적용할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_3:
+  args:
+    - channel perm @user perms
+  desc: '지정한 권한과 작업에 따라 특정 사용자의 채널 권한을 수정합니다.'
+  params:
+    - desc: '권한을 수정할 채널입니다.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '수행할 작업입니다 (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '권한 수정을 적용할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '수정할 권한 목록입니다.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permview:
+  args:
+    - ''
+  desc: '지정한 역할에 허용된 권한 목록을 표시합니다.'
+  params: [ ]
+permview_IGuildUser:
+  args:
+    - '@user'
+  desc: '지정한 역할에 허용된 권한 목록을 표시합니다.'
+  params:
+    - &ref_343
+      desc: '권한을 표시할 역할입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '지정한 역할에 허용된 권한 목록을 표시합니다.'
+  params:
+    - desc: '권한을 표시할 역할입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IRole:
+  args:
+    - '@role'
+  desc: '지정한 역할에 허용된 권한 목록을 표시합니다.'
+  params:
+    - &ref_344
+      desc: '권한을 표시할 역할입니다.'
+      name: user
+      optional: false
+      type: IRole
+permview_IRole_1:
+  args:
+    - '@role'
+  desc: '지정한 역할에 허용된 권한 목록을 표시합니다.'
+  params:
+    - desc: '권한을 표시할 역할입니다.'
+      name: user
+      optional: false
+      type: IRole
+permview_noparams:
+  args:
+    - ''
+  desc: '지정한 역할에 허용된 권한 목록을 표시합니다.'
+  params: [ ]
+removeblacklistedpermission:
+  args:
+    - permission
+  desc: '차단 목록에서 권한을 제거합니다.'
+  params:
+    - desc: '차단 목록에서 제거할 권한입니다.'
+      name: permission
+      optional: false
+      type: GuildPermission
+removeblacklistedrole:
+  args:
+    - '@role'
+  desc: '차단 목록에서 역할을 제거합니다.'
+  params:
+    - desc: '차단 목록에서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removeemote:
+  args:
+    - text
+  desc: '서버에서 이모지를 제거합니다.'
+  params:
+    - &ref_394
+      desc: '명령어 형식을 맞추기 위한 자리표시자 매개변수입니다.'
+      name: _
+      optional: false
+      type: string
+removeemote_string:
+  args:
+    - text
+  desc: '서버에서 이모지를 제거합니다.'
+  params:
+    - desc: '명령어 형식을 맞추기 위한 자리표시자 매개변수입니다.'
+      name: _
+      optional: false
+      type: string
+removefromall:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게서 지정한 역할을 제거합니다.'
+  params:
+    - &ref_395
+      desc: '서버의 모든 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '서버의 모든 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_1:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '서버의 모든 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_2:
+  args:
+    - '@role'
+  desc: '서버의 모든 멤버에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '서버의 모든 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게서 지정한 역할을 제거합니다.'
+  params:
+    - &ref_396
+      desc: '모든 봇에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '모든 봇에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_1:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '모든 봇에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_2:
+  args:
+    - '@role'
+  desc: '서버의 모든 봇에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '모든 봇에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers:
+  args:
+    - '@role'
+  desc: '봇을 제외한 모든 사람 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - &ref_397
+      desc: '모든 사람 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole:
+  args:
+    - '@role'
+  desc: '봇을 제외한 모든 사람 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '모든 사람 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_1:
+  args:
+    - '@role'
+  desc: '봇을 제외한 모든 사람 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '모든 사람 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_2:
+  args:
+    - '@role'
+  desc: '봇을 제외한 모든 사람 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '모든 사람 멤버에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removefromrole:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - &ref_398
+      desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_399
+      desc: '첫 번째 역할을 제거할 대상 역할의 멤버입니다.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '첫 번째 역할을 제거할 대상 역할의 멤버입니다.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '첫 번째 역할을 제거할 대상 역할의 멤버입니다.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '지정한 다른 역할을 가진 모든 사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '첫 번째 역할을 제거할 대상 역할의 멤버입니다.'
+      name: role2
+      optional: false
+      type: IRole
+removeroles:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - &ref_412
+      desc: '역할을 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_413
+      desc: '사용자에게서 제거할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '역할을 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '역할을 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 지정한 역할을 제거합니다.'
+  params:
+    - desc: '역할을 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeusersfromrole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에서 해당 역할을 가지고 있는 경우 역할을 제거합니다.'
+  params:
+    - &ref_416
+      desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_417
+      desc: '역할을 제거할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에서 해당 역할을 가지고 있는 경우 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할을 제거할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에서 해당 역할을 가지고 있는 경우 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할을 제거할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '지정한 사용자 목록에서 해당 역할을 가지고 있는 경우 역할을 제거합니다.'
+  params:
+    - desc: '사용자에게서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할을 제거할 사용자입니다.'
+      name: users
+      optional: false
+      type: IUser[]
+removewhitelistedrole:
+  args:
+    - '@role'
+  desc: '역할을 허용 목록에서 제거합니다.'
+  params:
+    - desc: '허용 목록에서 제거할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+removewhitelisteduser:
+  args:
+    - '@user'
+  desc: '사용자를 허용 목록에서 제거합니다.'
+  params:
+    - desc: '허용 목록에서 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+renameemote:
+  args:
+    - text text
+  desc: '서버에 있는 기존 이모지의 이름을 변경합니다.'
+  params:
+    - &ref_421
+      desc: '이름을 변경할 기존 이모지입니다.'
+      name: emote
+      optional: false
+      type: string
+    - &ref_422
+      desc: '이모지의 새 이름입니다.'
+      name: name
+      optional: false
+      type: string
+renameemote_string_string:
+  args:
+    - text text
+  desc: '서버에 있는 기존 이모지의 이름을 변경합니다.'
+  params:
+    - desc: '이름을 변경할 기존 이모지입니다.'
+      name: emote
+      optional: false
+      type: string
+    - desc: '이모지의 새 이름입니다.'
+      name: name
+      optional: false
+      type: string
+rj:
+  args:
+    - action
+  desc: '역할 작업을 관리합니다.'
+  params:
+    - desc: '역할 작업에 대해 수행할 작업입니다.'
+      name: action
+      optional: false
+      type: string
+rolejobs:
+  args:
+    - ''
+  desc: '서버에서 진행 중인 모든 대량 역할 작업을 나열하고 각 작업의 세부 정보를 표시합니다.'
+  params: [ ]
+setbanner:
+  args:
+    - text
+  desc: '서버 배너를 설정합니다.'
+  params:
+    - &ref_489
+      desc: '새 서버 배너의 URL입니다.'
+      name: img
+      optional: false
+      type: string
+setbanner_string:
+  args:
+    - text
+  desc: '서버 배너를 설정합니다.'
+  params:
+    - desc: '새 서버 배너의 URL입니다.'
+      name: img
+      optional: false
+      type: string
+setdefaultpunishment:
+  args:
+    - punishmentaction
+  desc: '서버의 기본 처벌 작업을 설정합니다.'
+  params:
+    - &ref_501
+      desc: '설정할 기본 처벌 작업입니다.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction:
+  args:
+    - punishmentaction
+  desc: '서버의 기본 처벌 작업을 설정합니다.'
+  params:
+    - desc: '설정할 기본 처벌 작업입니다.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_1:
+  args:
+    - punishmentaction
+  desc: '서버의 기본 처벌 작업을 설정합니다.'
+  params:
+    - &ref_502
+      desc: '설정할 기본 처벌 작업입니다.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_2:
+  args:
+    - punishmentaction
+  desc: '서버의 기본 처벌 작업을 설정합니다.'
+  params:
+    - desc: '설정할 기본 처벌 작업입니다.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+seticon:
+  args:
+    - text
+  desc: '서버 아이콘을 설정합니다.'
+  params:
+    - &ref_525
+      desc: '새 서버 아이콘의 URL입니다.'
+      name: img
+      optional: false
+      type: string
+seticon_string:
+  args:
+    - text
+  desc: '서버 아이콘을 설정합니다.'
+  params:
+    - desc: '새 서버 아이콘의 URL입니다.'
+      name: img
+      optional: false
+      type: string
+setroles:
+  args:
+    - '@user @role'
+  desc: '사용자에게 역할을 추가하여 사용자의 역할을 수정합니다. 선택적으로 기간을 제한할 수 있습니다.'
+  params:
+    - &ref_521
+      desc: '역할을 수정할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_522
+      desc: '사용자에게 추가할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '사용자에게 역할을 추가하여 사용자의 역할을 수정합니다. 선택적으로 기간을 제한할 수 있습니다.'
+  params:
+    - desc: '역할을 수정할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '사용자에게 역할을 추가하여 사용자의 역할을 수정합니다. 선택적으로 기간을 제한할 수 있습니다.'
+  params:
+    - desc: '역할을 수정할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '사용자에게 역할을 추가하여 사용자의 역할을 수정합니다. 선택적으로 기간을 제한할 수 있습니다.'
+  params:
+    - desc: '역할을 수정할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_StoopidTime_IRole[]:
+  args:
+    - '@user time @role'
+  desc: '사용자에게 역할을 추가하여 사용자의 역할을 수정합니다. 선택적으로 기간을 제한할 수 있습니다.'
+  params:
+    - desc: '역할을 수정할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_524
+      desc: '역할이 활성 상태를 유지할 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '사용자에게 추가할 역할입니다.'
+      name: roles
+      optional: false
+      type: IRole[]
+setservername:
+  args:
+    - text
+  desc: '서버 이름을 설정합니다.'
+  params:
+    - desc: '서버의 새 이름입니다.'
+      name: name
+      optional: false
+      type: string
+setsplash:
+  args:
+    - text
+  desc: '서버 스플래시 이미지를 설정합니다.'
+  params:
+    - desc: '새 스플래시 이미지의 URL입니다.'
+      name: img
+      optional: false
+      type: string
+setsplash_string:
+  args:
+    - text
+  desc: '서버 스플래시 이미지를 설정합니다.'
+  params:
+    - desc: '서버 스플래시 이미지를 설정합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+sfr:
+  args:
+    - role emotes
+  desc: '지정한 역할을 위해 이모지를 가져옵니다.'
+  params:
+    - desc: '이모지를 가져올 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '공백으로 구분된 이모지 URL 또는 이모지 이름 목록입니다.'
+      name: e
+      optional: false
+      type: string
+sj:
+  args:
+    - job
+  desc: '실행 중인 작업을 중지합니다.'
+  params:
+    - desc: '중지할 작업입니다.'
+      name: job
+      optional: false
+      type: string
+slowmode:
+  args:
+    - time channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - &ref_550
+      desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_549
+      desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel:
+  args:
+    - channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - &ref_547
+      desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_1:
+  args:
+    - channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_2:
+  args:
+    - channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_3:
+  args:
+    - channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime:
+  args:
+    - time
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - &ref_548
+      desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_1:
+  args:
+    - time
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_2:
+  args:
+    - time
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_3:
+  args:
+    - time
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_ITextChannel:
+  args:
+    - time channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_1:
+  args:
+    - time channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_2:
+  args:
+    - time channel
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params:
+    - desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '저속 모드 설정을 적용할 텍스트 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_noparams:
+  args:
+    - ''
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params: [ ]
+slowmode_noparams_1:
+  args:
+    - ''
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params: [ ]
+slowmode_noparams_2:
+  args:
+    - ''
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params: [ ]
+slowmode_noparams_3:
+  args:
+    - ''
+  desc: '현재 텍스트 채널의 저속 모드 간격을 끄기와 기본 간격 사이에서 전환합니다.'
+  params: [ ]
+steal:
+  args:
+    - emotes
+  desc: '다른 서버의 이모지를 가져옵니다.'
+  params:
+    - desc: '공백으로 구분된 이모지 URL 또는 이모지 이름 목록입니다.'
+      name: e
+      optional: false
+      type: string
+stealemotes:
+  args:
+    - text
+  desc: '메시지에 있는 이모지를 가져와 서버에 추가합니다.'
+  params:
+    - &ref_565
+      desc: '가져올 이모지가 들어 있는 메시지입니다.'
+      name: e
+      optional: false
+      type: string
+stealemotes_string:
+  args:
+    - text
+  desc: '메시지에 있는 이모지를 가져와 서버에 추가합니다.'
+  params:
+    - desc: '가져올 이모지가 들어 있는 메시지입니다.'
+      name: e
+      optional: false
+      type: string
+stealforrole:
+  args:
+    - '@role text'
+  desc: '메시지에 있는 이모지를 가져와 지정한 역할에만 사용되도록 잠급니다.'
+  params:
+    - &ref_566
+      desc: '이모지를 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '가져올 이모지가 들어 있는 메시지입니다.'
+      name: e
+      optional: false
+      type: string
+stealforrole_IRole_string:
+  args:
+    - '@role text'
+  desc: '메시지에 있는 이모지를 가져와 지정한 역할에만 사용되도록 잠급니다.'
+  params:
+    - desc: '이모지를 추가할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '가져올 이모지가 들어 있는 메시지입니다.'
+      name: e
+      optional: false
+      type: string
+stopjob:
+  args:
+    - number
+  desc: '작업 번호로 대량 역할 작업을 중지합니다.'
+  params:
+    - &ref_570
+      desc: '중지할 대량 역할 작업의 작업 번호입니다.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int:
+  args:
+    - number
+  desc: '작업 번호로 대량 역할 작업을 중지합니다.'
+  params:
+    - desc: '중지할 대량 역할 작업의 작업 번호입니다.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_1:
+  args:
+    - number
+  desc: '작업 번호로 대량 역할 작업을 중지합니다.'
+  params:
+    - desc: '중지할 대량 역할 작업의 작업 번호입니다.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_2:
+  args:
+    - number
+  desc: '작업 번호로 대량 역할 작업을 중지합니다.'
+  params:
+    - desc: '중지할 대량 역할 작업의 작업 번호입니다.'
+      name: jobnum
+      optional: false
+      type: int
+syncroletoall:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널과 카테고리에 동기화합니다.'
+  params:
+    - &ref_593
+      desc: '서버 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널과 카테고리에 동기화합니다.'
+  params:
+    - desc: '서버 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_1:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널과 카테고리에 동기화합니다.'
+  params:
+    - desc: '서버 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_2:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널과 카테고리에 동기화합니다.'
+  params:
+    - desc: '서버 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 카테고리에 동기화합니다.'
+  params:
+    - &ref_594
+      desc: '카테고리 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 카테고리에 동기화합니다.'
+  params:
+    - desc: '카테고리 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_1:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 카테고리에 동기화합니다.'
+  params:
+    - desc: '카테고리 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_2:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 카테고리에 동기화합니다.'
+  params:
+    - desc: '카테고리 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널에 동기화합니다.'
+  params:
+    - &ref_595
+      desc: '텍스트 채널 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널에 동기화합니다.'
+  params:
+    - desc: '텍스트 채널 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_1:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널에 동기화합니다.'
+  params:
+    - desc: '텍스트 채널 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_2:
+  args:
+    - '@role'
+  desc: '역할의 권한을 서버의 모든 텍스트 채널에 동기화합니다.'
+  params:
+    - desc: '텍스트 채널 전체에 권한을 동기화할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+unlock:
+  args:
+    - '[channel]'
+  desc: '특정 채널의 잠금을 해제하여 모든 사람이 다시 메시지를 보낼 수 있게 합니다.'
+  params:
+    - desc: '잠금을 해제할 채널입니다. null이면 현재 채널의 잠금을 해제합니다.'
+      name: channel
+      optional: true
+      type: sockettextchannel
+unlockdown:
+  args:
+    - ''
+  desc: '@everyone이 다시 메시지를 보낼 수 있도록 서버 잠금을 해제합니다.'
+  params: [ ]

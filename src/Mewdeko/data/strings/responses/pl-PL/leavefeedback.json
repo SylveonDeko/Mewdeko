@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "Szkoda, że odchodzę!",
+  "leave_feedback_desc": "Właśnie zostałem usunięty z **{0}**. Jeśli masz chwilę, powiedz mi, dlaczego? To naprawdę pomaga zdecydować, nad czym pracować dalej, a o ten serwer nie zapytamy Cię ponownie.",
+  "leave_feedback_footer": "Odpowiedź jest całkowicie opcjonalna.",
+  "leave_feedback_placeholder": "Dlaczego bot został usunięty?",
+  "leave_feedback_write_button": "Napisz coś",
+  "leave_feedback_dismiss_button": "Nie, dzięki",
+  "leave_feedback_reason_not_needed": "Już nie był nam potrzebny",
+  "leave_feedback_reason_confusing": "Zbyt skomplikowana konfiguracja",
+  "leave_feedback_reason_missing_features": "Brakowało funkcji, których potrzebowaliśmy",
+  "leave_feedback_reason_unreliable": "Był zepsuty albo niestabilny",
+  "leave_feedback_reason_other_bot": "Przeszliśmy na innego bota",
+  "leave_feedback_reason_temporary": "Tymczasowo, dodam go z powrotem",
+  "leave_feedback_reason_testing": "Tylko coś testowałem",
+  "leave_feedback_thanks": "Dzięki, zapisane: **{0}**. Jeśli chcesz dopisać coś jeszcze, użyj przycisku poniżej.",
+  "leave_feedback_submitted": "Dzięki, Twoja opinia została przekazana dalej!",
+  "leave_feedback_dismissed": "Spoko, nie będziemy już pytać."
+}

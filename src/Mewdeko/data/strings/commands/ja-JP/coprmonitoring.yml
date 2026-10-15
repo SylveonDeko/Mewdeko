@@ -3,17 +3,17 @@ coprmonitoradd:
     - '<ownerProject> [channel] [packages]'
     - '<ownerProject> [channel] [packages]'
     - ownerProject
-  desc: 'サーバーにCOPRプロジェクトモニターを追加します。'
+  desc: 'サーバーに COPR プロジェクトの監視を追加します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト（例：linux4switch/l4s）。'
+    - desc: 'owner/project 形式の COPR プロジェクトです（例: linux4switch/l4s）。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '通知用のオプションチャンネル。デフォルトは現在のチャンネルです。'
+    - desc: '通知に使う任意のチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: ITextChannel
-    - desc: '監視するパッケージのオプションのカンマ区切りリスト（例：mesa,kernel）。'
+    - desc: '監視するパッケージのカンマ区切りの一覧です（任意。例: mesa,kernel）。'
       name: packages
       optional: true
       type: string
@@ -21,148 +21,148 @@ coprmonitorremove:
   args:
     - '<ownerProject> [channel]'
     - ownerProject
-  desc: 'サーバーからCOPRプロジェクトモニターを削除します。'
+  desc: 'サーバーから COPR プロジェクトの監視を削除します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '特定のモニターを削除するためのオプションチャンネル。'
+    - desc: '特定の監視を削除する任意のチャンネルです。'
       name: channel
       optional: true
       type: ITextChannel
 coprmonitorlist:
   args:
     - ''
-  desc: 'サーバーで設定されているすべてのCOPRモニターを一覧表示します。'
+  desc: 'サーバーに設定されているすべての COPR 監視を一覧表示します。'
   params: [ ]
 coprmonitortoggle:
   args:
     - ownerProject
-  desc: 'COPRモニターをオンまたはオフにします。'
+  desc: 'COPR 監視を有効または無効にします。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
 coprnotify:
   args:
     - ownerProject status enabled
-  desc: 'モニターの通知をトリガーするビルドステータスを設定します。'
+  desc: '監視でどのビルドステータスが通知をトリガーするかを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '設定するビルドステータス。'
+    - desc: '設定するビルドステータスです。'
       name: status
       optional: false
       type: CoprBuildStatus
-    - desc: 'このステータスの通知を有効または無効にするか。'
+    - desc: 'このステータスの通知を有効にするか無効にするかです。'
       name: enabled
       optional: false
       type: bool
 coprfilter:
   args:
     - ownerProject text
-  desc: 'COPRモニターのパッケージフィルターを設定します。'
+  desc: 'COPR 監視のパッケージフィルターを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'カンマ区切りのパッケージリスト、またはすべてを監視する場合は"all"。'
+    - desc: 'カンマ区切りのパッケージ一覧です。すべてを監視する場合は "all" を指定します。'
       name: packages
       optional: false
       type: string
 coprsucceededmessage:
   args:
     - ownerProject text
-  desc: 'COPRビルドが成功したときに表示されるメッセージを設定します。'
+  desc: 'COPR のビルドが成功したときに表示するメッセージを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージまたは埋め込みのコードです。デフォルトに戻す場合は "-" を指定します。'
       name: message
       optional: false
       type: string
 coprfailedmessage:
   args:
     - ownerProject text
-  desc: 'COPRビルドが失敗したときに表示されるメッセージを設定します。'
+  desc: 'COPR のビルドが失敗したときに表示するメッセージを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージまたは埋め込みのコードです。デフォルトに戻す場合は "-" を指定します。'
       name: message
       optional: false
       type: string
 coprcanceledmessage:
   args:
     - ownerProject text
-  desc: 'COPRビルドがキャンセルされたときに表示されるメッセージを設定します。'
+  desc: 'COPR のビルドがキャンセルされたときに表示するメッセージを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージまたは埋め込みのコードです。デフォルトに戻す場合は "-" を指定します。'
       name: message
       optional: false
       type: string
 coprpendingmessage:
   args:
     - ownerProject text
-  desc: 'COPRビルドが保留中のときに表示されるメッセージを設定します。'
+  desc: 'COPR のビルドが保留中のときに表示するメッセージを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージまたは埋め込みのコードです。デフォルトに戻す場合は "-" を指定します。'
       name: message
       optional: false
       type: string
 coprrunningmessage:
   args:
     - ownerProject text
-  desc: 'COPRビルドが実行中のときに表示されるメッセージを設定します。'
+  desc: 'COPR のビルドが実行中のときに表示するメッセージを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージまたは埋め込みのコードです。デフォルトに戻す場合は "-" を指定します。'
       name: message
       optional: false
       type: string
 coprskippedmessage:
   args:
     - ownerProject text
-  desc: 'COPRビルドがスキップされたときに表示されるメッセージを設定します。'
+  desc: 'COPR のビルドがスキップされたときに表示するメッセージを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージまたは埋め込みのコードです。デフォルトに戻す場合は "-" を指定します。'
       name: message
       optional: false
       type: string
 coprdefaultmessage:
   args:
     - ownerProject text
-  desc: '他のすべてのビルドステータスのデフォルトメッセージを設定します。'
+  desc: 'それ以外のすべてのビルドステータスに対するデフォルトのメッセージを設定します。'
   params:
-    - desc: 'owner/project形式のCOPRプロジェクト。'
+    - desc: 'owner/project 形式の COPR プロジェクトです。'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージまたは埋め込みのコードです。デフォルトに戻す場合は "-" を指定します。'
       name: message
       optional: false
       type: string

@@ -24,6 +24,10 @@
   "copr_skipped_message_default": "Los mensajes de compilación omitida usarán el formato predeterminado.",
   "copr_default_message_updated": "¡Mensaje de compilación predeterminado actualizado!",
   "copr_default_message_default": "Los mensajes de compilación predeterminados usarán el formato predeterminado.",
+  "copr_template_updated": "¡Plantilla de compilación de {0} actualizada!",
+  "copr_template_reset": "Los mensajes de compilación de {0} usarán el formato predeterminado.",
+  "copr_template_none": "No hay una plantilla personalizada de {0}, se usará el formato predeterminado.",
+  "copr_template_show_title": "Plantilla de {2} de {0}/{1}",
   "copr_build_title": "Compilación COPR {0}",
   "copr_build_default_desc": "**Proyecto:** {0}/{1}\n**Paquete:** {2}\n**ID de Compilación:** {3}\n**Chroot:** {4}"
 }

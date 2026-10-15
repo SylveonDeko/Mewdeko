@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Publica el botón de solicitud de un canal con filtro para que puedas rellenar el formulario'
+  params:
+    - desc: 'El canal al que solicitar acceso.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Aprueba una solicitud a la fuerza, sin importar el número de votos'
+  params:
+    - desc: 'El ID de la solicitud.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Una nota opcional que se muestra en la solicitud cerrada.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Lista a todos los que tienen bloqueado solicitar en este servidor'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Bloquea a un usuario para que no pueda solicitar, en un solo canal o en todos los canales con filtro'
+  params:
+    - desc: 'El usuario a bloquear.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'El canal con filtro, o déjalo vacío para bloquearlo en todos.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Levanta un bloqueo para que un usuario pueda volver a solicitar'
+  params:
+    - desc: 'El usuario bloqueado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'El canal con filtro donde se aplicó el bloqueo, si era específico de un canal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Cambia un ajuste de un filtro. Ejecútalo sin ajuste para ver todo lo que puedes cambiar'
+  params:
+    - desc: 'El canal con filtro.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'El nombre del ajuste.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'El nuevo valor.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Rechaza una solicitud sin importar el número de votos'
+  params:
+    - desc: 'El ID de la solicitud.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Una nota opcional que se muestra en la solicitud cerrada.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Muestra el historial de solicitudes de un usuario, o el tuyo si no indicas ninguno'
+  params:
+    - desc: 'El usuario a consultar.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Lista todos los filtros del servidor con sus umbrales actuales'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Publica un botón en el que la gente puede pulsar para solicitar acceso a un canal con filtro'
+  params:
+    - desc: 'El canal con filtro.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Dónde publicar el panel. Por defecto, el canal actual.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Lista las solicitudes que aún esperan una decisión'
+  params:
+    - desc: 'Opcionalmente, limita la lista a un solo canal con filtro.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Añade una pregunta al formulario de solicitud de un filtro. Un filtro puede tener hasta cinco'
+  params:
+    - desc: 'El canal con filtro.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'El texto de la pregunta, hasta 45 caracteres.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Muestra las preguntas de solicitud de un filtro en el orden en que las ven los solicitantes'
+  params:
+    - desc: 'El canal con filtro.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Elimina una pregunta del formulario de solicitud de un filtro según su posición en la lista'
+  params:
+    - desc: 'El canal con filtro.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La posición, empezando en 1, que muestra la lista de preguntas.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Elimina el filtro de un canal junto con sus preguntas e historial de solicitudes'
+  params:
+    - desc: 'El canal con filtro.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Abre las solicitudes para un canal bloqueado, dando el rol indicado a los solicitantes aprobados'
+  params:
+    - desc: 'El canal bloqueado que se va a filtrar.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'El rol que se concede cuando una solicitud se aprueba. Omítelo para añadir a los solicitantes directamente al canal.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Retira una de tus solicitudes abiertas'
+  params:
+    - desc: 'El ID de la solicitud que aparece en el mensaje de revisión.'
+      name: applicationId
+      optional: false
+      type: int

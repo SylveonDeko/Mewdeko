@@ -1,0 +1,452 @@
+afk:
+  args:
+    - message
+  desc: 'Встановлює твій статус AFK.'
+  params:
+    - desc: 'Повідомлення AFK, яке буде показано.'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params:
+    - &ref_49
+      desc: 'Тривалість у секундах. Встанови 0, щоб вимкнути автовидалення.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params:
+    - desc: 'Тривалість у секундах. Встанови 0, щоб вимкнути автовидалення.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params:
+    - desc: 'Тривалість у секундах. Встанови 0, щоб вимкнути автовидалення.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params:
+    - desc: 'Тривалість у секундах. Встанови 0, щоб вимкнути автовидалення.'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює тривалість автовидалення повідомлень AFK.'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: 'Встановлює канали, де повідомлення AFK не відображатиметься.'
+  params:
+    - &ref_50
+      desc: 'Канали, які треба додати до чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Встановлює канали, де повідомлення AFK не відображатиметься.'
+  params:
+    - desc: 'Канали, які треба додати до чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Встановлює канали, де повідомлення AFK не відображатиметься.'
+  params:
+    - desc: 'Канали, які треба додати до чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Встановлює канали, де повідомлення AFK не відображатиметься.'
+  params:
+    - desc: 'Канали, які треба додати до чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: 'Показує текстові канали, де повідомлення AFK не відображається.'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину всіх повідомлень AFK.'
+  params:
+    - &ref_51
+      desc: 'Максимальна довжина, яку ти хочеш встановити.'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину всіх повідомлень AFK.'
+  params:
+    - desc: 'Максимальна довжина, яку ти хочеш встановити.'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину всіх повідомлень AFK.'
+  params:
+    - desc: 'Максимальна довжина, яку ти хочеш встановити.'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: 'Встановлює максимальну довжину всіх повідомлень AFK.'
+  params:
+    - desc: 'Максимальна довжина, яку ти хочеш встановити.'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: 'Знімає статус AFK з одного або кількох користувачів.'
+  params:
+    - &ref_52
+      desc: 'Користувачі, у яких треба зняти AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Знімає статус AFK з одного або кількох користувачів.'
+  params:
+    - desc: 'Користувачі, у яких треба зняти AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Знімає статус AFK з одного або кількох користувачів.'
+  params:
+    - desc: 'Користувачі, у яких треба зняти AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Знімає статус AFK з одного або кількох користувачів.'
+  params:
+    - desc: 'Користувачі, у яких треба зняти AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: 'Знімає твій статус AFK.'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: 'Встановлює час очікування, після якого користувач більше не вважається AFK. Спрацьовує, коли користувач надсилає повідомлення або пише в каналі.'
+  params:
+    - &ref_53
+      desc: 'Час очікування для статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: 'Встановлює час очікування, після якого користувач більше не вважається AFK. Спрацьовує, коли користувач надсилає повідомлення або пише в каналі.'
+  params:
+    - desc: 'Час очікування для статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: 'Встановлює час очікування, після якого користувач більше не вважається AFK. Спрацьовує, коли користувач надсилає повідомлення або пише в каналі.'
+  params:
+    - desc: 'Час очікування для статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: 'Встановлює час очікування, після якого користувач більше не вважається AFK. Спрацьовує, коли користувач надсилає повідомлення або пише в каналі.'
+  params:
+    - desc: 'Час очікування для статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Встановлює тип поведінки AFK для сервера.'
+  params:
+    - &ref_54
+      desc: 'Тип поведінки AFK, який треба встановити.'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Встановлює тип поведінки AFK для сервера.'
+  params:
+    - desc: 'Тип поведінки AFK, який треба встановити.'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Встановлює тип поведінки AFK для сервера.'
+  params:
+    - desc: 'Тип поведінки AFK, який треба встановити.'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Встановлює тип поведінки AFK для сервера.'
+  params:
+    - desc: 'Тип поведінки AFK, який треба встановити.'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: 'Видаляє вказані канали з чорного списку повідомлень AFK.'
+  params:
+    - &ref_55
+      desc: 'Текстові канали, які треба видалити з чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Видаляє вказані канали з чорного списку повідомлень AFK.'
+  params:
+    - desc: 'Текстові канали, які треба видалити з чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Видаляє вказані канали з чорного списку повідомлень AFK.'
+  params:
+    - desc: 'Текстові канали, які треба видалити з чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Видаляє вказані канали з чорного списку повідомлень AFK.'
+  params:
+    - desc: 'Текстові канали, які треба видалити з чорного списку повідомлень AFK.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: 'Показує статус AFK для конкретного користувача.'
+  params:
+    - &ref_56
+      desc: 'Користувач, для якого треба перевірити статус AFK.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Показує статус AFK для конкретного користувача.'
+  params:
+    - desc: 'Користувач, для якого треба перевірити статус AFK.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Показує статус AFK для конкретного користувача.'
+  params:
+    - desc: 'Користувач, для якого треба перевірити статус AFK.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Показує статус AFK для конкретного користувача.'
+  params:
+    - desc: 'Користувач, для якого треба перевірити статус AFK.'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: 'Встановлює власне embed AFK, який показуватиметься, коли користувач перебуває в статусі AFK. Використай "-", щоб повернути стандартний embed. Конструктор embed — на https://eb.mewdeko.tech, а заповнювачі — на http://mewdeko.tech/placeholders.'
+  params:
+    - &ref_175
+      desc: 'Власне повідомлення для встановлення. Використай "-", щоб повернути стандартне повідомлення.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: 'Встановлює власне embed AFK, який показуватиметься, коли користувач перебуває в статусі AFK. Використай "-", щоб повернути стандартний embed. Конструктор embed — на https://eb.mewdeko.tech, а заповнювачі — на http://mewdeko.tech/placeholders.'
+  params:
+    - desc: 'Власне повідомлення для встановлення. Використай "-", щоб повернути стандартне повідомлення.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: 'Встановлює власне embed AFK, який показуватиметься, коли користувач перебуває в статусі AFK. Використай "-", щоб повернути стандартний embed. Конструктор embed — на https://eb.mewdeko.tech, а заповнювачі — на http://mewdeko.tech/placeholders.'
+  params:
+    - desc: 'Власне повідомлення для встановлення. Використай "-", щоб повернути стандартне повідомлення.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: 'Встановлює власне embed AFK, який показуватиметься, коли користувач перебуває в статусі AFK. Використай "-", щоб повернути стандартний embed. Конструктор embed — на https://eb.mewdeko.tech, а заповнювачі — на http://mewdeko.tech/placeholders.'
+  params:
+    - desc: 'Власне повідомлення для встановлення. Використай "-", щоб повернути стандартне повідомлення.'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: 'Показує список активних користувачів, які зараз перебувають в статусі AFK.'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: 'Встановлює статус AFK для користувача з необов''язковим повідомленням.'
+  params:
+    - desc: 'Повідомлення AFK. Якщо не вказано, статус AFK користувача буде перемкнуто.'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: 'Встановлює статус AFK на певний час із власним повідомленням.'
+  params:
+    - &ref_621
+      desc: 'Тривалість статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'Власне повідомлення для статусу AFK.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: 'Встановлює статус AFK на певний час із власним повідомленням.'
+  params:
+    - desc: 'Тривалість статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Власне повідомлення для статусу AFK.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: 'Встановлює статус AFK на певний час із власним повідомленням.'
+  params:
+    - desc: 'Тривалість статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Власне повідомлення для статусу AFK.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: 'Встановлює статус AFK на певний час із власним повідомленням.'
+  params:
+    - desc: 'Тривалість статусу AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Власне повідомлення для статусу AFK.'
+      name: message
+      optional: false
+      type: string

@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Pubblica il pulsante di candidatura per un canale con accesso limitato, così puoi compilare il modulo.'
+  params:
+    - desc: 'Il canale per cui candidarsi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Forza l''approvazione di una candidatura indipendentemente dal numero di voti.'
+  params:
+    - desc: 'L''ID della candidatura.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Una nota facoltativa mostrata sulla candidatura chiusa.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Elenca tutti coloro che sono bloccati dal candidarsi in questo server.'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Blocca un utente dal candidarsi, per un solo canale o per tutti i canali con accesso limitato.'
+  params:
+    - desc: 'L''utente da bloccare.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale con accesso limitato, oppure lascia vuoto per bloccarlo ovunque.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Rimuove un blocco così che un utente possa di nuovo candidarsi.'
+  params:
+    - desc: 'L''utente bloccato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale con accesso limitato su cui era impostato il blocco, se il blocco era specifico per canale.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Modifica un''impostazione di un gate. Eseguilo senza impostazione per vedere tutto ciò che puoi cambiare.'
+  params:
+    - desc: 'Il canale con accesso limitato.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il nome dell''impostazione.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Il nuovo valore.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Respinge una candidatura indipendentemente dal numero di voti.'
+  params:
+    - desc: 'L''ID della candidatura.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Una nota facoltativa mostrata sulla candidatura chiusa.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Mostra lo storico delle candidature di un utente, oppure le tue se non viene indicato alcun utente.'
+  params:
+    - desc: 'L''utente da cercare.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Elenca tutti i gate del server con le soglie attuali.'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Pubblica un pulsante su cui le persone possono cliccare per candidarsi a un canale con accesso limitato.'
+  params:
+    - desc: 'Il canale con accesso limitato.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Dove pubblicare il pannello. Predefinito: il canale attuale.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Elenca le candidature ancora in attesa di una decisione.'
+  params:
+    - desc: 'Facoltativo: limita l''elenco a un solo canale con accesso limitato.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Aggiunge una domanda al modulo di candidatura di un gate. Un gate può avere fino a cinque domande.'
+  params:
+    - desc: 'Il canale con accesso limitato.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il testo della domanda, fino a 45 caratteri.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Mostra le domande di candidatura di un gate nell''ordine in cui le vedono i candidati.'
+  params:
+    - desc: 'Il canale con accesso limitato.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Rimuove una domanda dal modulo di candidatura di un gate in base alla sua posizione nell''elenco.'
+  params:
+    - desc: 'Il canale con accesso limitato.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La posizione (a partire da 1) mostrata dall''elenco delle domande.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Rimuove il gate di un canale insieme alle sue domande e allo storico delle candidature.'
+  params:
+    - desc: 'Il canale con accesso limitato.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Apre le candidature per un canale bloccato, assegnando il ruolo indicato ai candidati approvati.'
+  params:
+    - desc: 'Il canale bloccato da proteggere con un gate.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il ruolo assegnato quando una candidatura viene approvata. Ometti per aggiungere direttamente i candidati al canale.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Ritira una delle tue candidature aperte.'
+  params:
+    - desc: 'L''ID della candidatura mostrato nel messaggio di revisione.'
+      name: applicationId
+      optional: false
+      type: int

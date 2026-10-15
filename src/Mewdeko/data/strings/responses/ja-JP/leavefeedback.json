@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "お別れですね！",
+  "leave_feedback_desc": "**{0}** から削除されたばかりです。もしお時間があれば、理由を教えていただけますか？ 次に何に取り組むかを決める大きな助けになります。このサーバーについて再度お尋ねすることはありません。",
+  "leave_feedback_footer": "回答は完全に任意です。",
+  "leave_feedback_placeholder": "なぜ Bot は削除されたのですか？",
+  "leave_feedback_write_button": "書く",
+  "leave_feedback_dismiss_button": "いいえ、結構です",
+  "leave_feedback_reason_not_needed": "もう必要なくなりました",
+  "leave_feedback_reason_confusing": "設定が分かりにくすぎました",
+  "leave_feedback_reason_missing_features": "欲しかった機能がありませんでした",
+  "leave_feedback_reason_unreliable": "壊れていたか、信頼できませんでした",
+  "leave_feedback_reason_other_bot": "別の Bot に乗り換えました",
+  "leave_feedback_reason_temporary": "一時的なもので、また追加するつもりです",
+  "leave_feedback_reason_testing": "何かのテストをしていただけです",
+  "leave_feedback_thanks": "ありがとうございます。記録しました: **{0}**。他にも何か追加したい場合は、下のボタンを使ってください。",
+  "leave_feedback_submitted": "ありがとうございます。フィードバックは届けられました！",
+  "leave_feedback_dismissed": "了解です。今後はお尋ねしません。"
+}

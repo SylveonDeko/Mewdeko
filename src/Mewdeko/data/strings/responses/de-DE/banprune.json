@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "Es gibt keine Ban-Aktion namens `{0}`. Bekannte Aktionen: {1}",
+  "ban_prune_cleared": "Löscheinstellung für {0} in {1} entfernt.",
+  "ban_prune_cleared_none": "Für {0} in {1} gab es keine Löscheinstellung.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "Keine Löscheinstellungen konfiguriert. Bans verwenden den eingebauten Standard jeder Aktion.",
+  "ban_prune_list_title": "Nachrichtenlöschung bei Bans",
+  "ban_prune_reset": "{0} Löscheinstellungen entfernt. Jede Aktion ist wieder auf dem Standard.",
+  "ban_prune_scope_category": "Kategorie {0}",
+  "ban_prune_scope_channel": "Kanal {0}",
+  "ban_prune_scope_guild": "diesem Server",
+  "ban_prune_set": "Bans von {0} löschen jetzt **{1}** für {2}.",
+  "ban_prune_set_all_actions": "jede Ban-Aktion",
+  "ban_prune_days": "Nachrichten der letzten {0} Tag(e)",
+  "ban_prune_days_none": "keine Nachrichten",
+  "ban_prune_effective": "Ein Ban hier löscht gerade **{0}**.",
+  "ban_prune_defaults_title": "Standardwerte",
+  "ban_prune_overrides_title": "Überschreibungen"
+}

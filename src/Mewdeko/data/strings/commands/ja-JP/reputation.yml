@@ -1,0 +1,605 @@
+anonrep:
+  args:
+    - '@user reptype text'
+  desc: '指定したユーザーに匿名で評判を与えます。'
+  params:
+    - &ref_228
+      desc: '評判を与えるユーザーです。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - &ref_229
+      desc: '与える評判の種類です。'
+      name: repType
+      optional: true
+      type: string
+    - &ref_230
+      desc: '評判を与える理由またはコメント（任意）です。'
+      name: reason
+      optional: true
+      type: string
+checkrep:
+  args:
+    - '@user'
+  desc: 'ユーザーの評判を確認します。'
+  params:
+    - &ref_425
+      desc: '評判を確認するユーザーです。'
+      name: target
+      optional: true
+      type: IGuildUser
+giverep:
+  args:
+    - '@user reptype text'
+  desc: '指定したユーザーに評判を与えます。'
+  params:
+    - desc: '評判を与えるユーザーです。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '与える評判の種類です。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '評判を与える理由またはコメント（任意）です。'
+      name: reason
+      optional: true
+      type: string
+myrep:
+  args:
+    - ''
+  desc: '現在のユーザーの評判を確認します。'
+  params: [ ]
+rep:
+  args:
+    - '@user reptype text'
+  desc: '指定したユーザーに評判を与えます。'
+  params:
+    - desc: '評判を与えるユーザーです。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '与える評判の種類です。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '評判を与える理由またはコメント（任意）です。'
+      name: reason
+      optional: true
+      type: string
+repanon:
+  args:
+    - '@user reptype text'
+  desc: '指定したユーザーに匿名で評判を与えます。'
+  params:
+    - desc: '評判を与えるユーザーです。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '与える評判の種類です。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '評判を与える理由またはコメント（任意）です。'
+      name: reason
+      optional: true
+      type: string
+repanonymous:
+  args:
+    - enabled
+  desc: '匿名での評判付与を有効または無効にします。'
+  params:
+    - desc: '匿名の評判を有効にする場合は true です。'
+      name: enabled
+      optional: false
+      type: bool
+repchannel:
+  args:
+    - '#channel state number'
+  desc: 'チャンネル単位の評判設定を行います。'
+  params:
+    - desc: '設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '設定する状態です（enabled/disabled/readonly）。'
+      name: state
+      optional: true
+      type: string
+    - desc: 'このチャンネルの評判の倍率です。'
+      name: multiplier
+      optional: true
+      type: decimal
+repcheck:
+  args:
+    - '@user'
+  desc: 'ユーザーの評判を確認します。'
+  params:
+    - desc: '評判を確認するユーザーです。null の場合は、コマンドを実行したユーザーの評判を確認します。'
+      name: target
+      optional: true
+      type: IGuildUser
+repcommandbypass:
+  args:
+    - commandname '@role'
+  desc: 'コマンドの要件に対するバイパスロールを設定します。'
+  params:
+    - &ref_426
+      desc: 'コマンド名です。'
+      name: commandName
+      optional: false
+      type: string
+    - desc: '要件をバイパスできるロールです。'
+      name: roles
+      optional: false
+      type: IRole[]
+repcommandinfo:
+  args:
+    - commandname
+  desc: '特定のコマンドの評判の要件を表示します。'
+  params:
+    - desc: '確認するコマンドです。'
+      name: commandName
+      optional: false
+      type: string
+repcommandreq:
+  args:
+    - commandname 50
+    - commandname 50 helper
+    - 'commandname 50 helper #channel1 #channel2'
+  desc: 'コマンドの評判要件を設定します。必要に応じて特定のチャンネルに限定できます。'
+  params:
+    - desc: 'コマンド名です。'
+      name: commandName
+      optional: false
+      type: string
+    - desc: '必要な最低評判です。'
+      name: minReputation
+      optional: false
+      type: int
+    - desc: '必要な特定の評判の種類です（任意。デフォルトは total）。'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'この要件が適用されるチャンネル（任意。指定しない場合はグローバルに適用されます）。'
+      name: channels
+      optional: true
+      type: ITextChannel[]
+repcommandreqlist:
+  args:
+    - ''
+  desc: 'サーバーのすべてのコマンド要件を一覧表示します。'
+  params: [ ]
+repcommandreqremove:
+  args:
+    - commandname
+  desc: 'コマンドから評判の要件を削除します。'
+  params:
+    - desc: 'コマンド名です。'
+      name: commandName
+      optional: false
+      type: string
+repconfig:
+  args:
+    - ''
+  desc: 'インタラクティブな評判の設定画面を開きます。'
+  params: [ ]
+repcooldown:
+  args:
+    - minutes
+  desc: '評判を与えるまでのデフォルトのクールダウンを設定します。'
+  params:
+    - desc: 'クールダウン（分、1〜1440）です。'
+      name: minutes
+      optional: false
+      type: int
+repdailylimit:
+  args:
+    - limit
+  desc: '評判を与えられる1日あたりの上限を設定します。'
+  params:
+    - desc: '1日の上限（1〜100）です。'
+      name: limit
+      optional: false
+      type: int
+repdecay:
+  args:
+    - enabled
+  desc: '非アクティブなユーザーの評判の減少を有効または無効にします。'
+  params:
+    - desc: '減少を有効にする場合は true です。'
+      name: enabled
+      optional: false
+      type: bool
+repdecayamount:
+  args:
+    - amount
+  desc: '減少量を設定します。'
+  params:
+    - desc: '減少量（1〜100）です。'
+      name: amount
+      optional: false
+      type: int
+repdecayinactive:
+  args:
+    - days
+  desc: '減少が始まるまでの非アクティブ日数を設定します。'
+  params:
+    - desc: '非アクティブな日数（1〜365）です。'
+      name: days
+      optional: false
+      type: int
+repdecaytype:
+  args:
+    - type
+  desc: '減少の種類を設定します（daily、weekly、monthly）。'
+  params:
+    - desc: '減少の種類です。'
+      name: type
+      optional: false
+      type: string
+repenable:
+  args:
+    - enabled
+  desc: 'このサーバーの評判システムを有効または無効にします。'
+  params:
+    - desc: '有効にする場合は true、無効にする場合は false です。'
+      name: enabled
+      optional: true
+      type: bool
+repeventcreate:
+  args:
+    - name multiplier duration
+  desc: '評判の倍率イベントを作成します。'
+  params:
+    - desc: 'イベントの名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '評判の倍率です。'
+      name: multiplier
+      optional: false
+      type: decimal
+    - desc: '期間（時間）です。'
+      name: duration
+      optional: false
+      type: int
+repeventend:
+  args:
+    - name
+  desc: '評判イベントを早期に終了します。'
+  params:
+    - desc: '終了するイベントの名前です。'
+      name: name
+      optional: false
+      type: string
+repexport:
+  args:
+    - ''
+  desc: '現在の評判の設定を JSON にエクスポートします。'
+  params: [ ]
+repfreeze:
+  args:
+    - '@user'
+  desc: 'ユーザーの評判を凍結し、評判の獲得や減少を防ぎます。'
+  params:
+    - &ref_438
+      desc: '凍結するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+repgive:
+  args:
+    - '@user reptype text'
+  desc: '指定したユーザーに評判を与えます。'
+  params:
+    - desc: '評判を与えるユーザーです。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '与える評判の種類です。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '評判を与える理由またはコメント（任意）です。'
+      name: reason
+      optional: true
+      type: string
+rephistory:
+  args:
+    - '@user'
+  desc: 'ユーザーの評判の履歴を表示します。'
+  params:
+    - desc: '履歴を表示するユーザーです。null の場合は、コマンドを実行したユーザーの履歴を表示します。'
+      name: target
+      optional: true
+      type: IGuildUser
+repimport:
+  args:
+    - ''
+  desc: 'アップロードされた JSON ファイルから評判の設定をインポートします。'
+  params: [ ]
+replb:
+  args:
+    - number
+  desc: 'サーバーの評判のリーダーボードを表示します。'
+  params:
+    - &ref_436
+      desc: '表示するページ番号です。'
+      name: page
+      optional: true
+      type: int
+repleaderboard:
+  args:
+    - number
+  desc: 'サーバーの評判のリーダーボードを表示します。'
+  params:
+    - desc: '表示するページ番号です。'
+      name: page
+      optional: true
+      type: int
+repmilestonelost:
+  args:
+    - user role threshold
+  desc: 'テスト用に、マイルストーン喪失イベントを手動で発生させます。'
+  params:
+    - desc: 'マイルストーンを失ったユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '失われたロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '評判のしきい値です。'
+      name: threshold
+      optional: false
+      type: int
+repminage:
+  args:
+    - days
+  desc: '評判を与えるために必要な最低アカウント年齢を設定します。'
+  params:
+    - desc: '最低アカウント年齢（日、0〜365）です。'
+      name: days
+      optional: false
+      type: int
+repminmembership:
+  args:
+    - hours
+  desc: '評判を与えるために必要な最低サーバー在籍時間を設定します。'
+  params:
+    - desc: '最低在籍時間（時間、0〜720）です。'
+      name: hours
+      optional: false
+      type: int
+repminmessages:
+  args:
+    - count
+  desc: '評判を与えるために必要な最低メッセージ数を設定します。'
+  params:
+    - desc: '最低メッセージ数（0〜1000）です。'
+      name: count
+      optional: false
+      type: int
+repnegative:
+  args:
+    - enabled
+  desc: 'マイナスの評判を有効または無効にします。'
+  params:
+    - desc: 'マイナスの評判を有効にする場合は true です。'
+      name: enabled
+      optional: false
+      type: bool
+repnotificationchannel:
+  args:
+    - channel
+  desc: '評価イベントの通知チャンネルを設定します。'
+  params:
+    - desc: '通知を送信するチャンネルです（無効にする場合は null）。'
+      name: channel
+      optional: true
+      type: ITextChannel
+repreaction:
+  args:
+    - emoji number reptype
+  desc: 'リアクションによる評価の付与を設定します。'
+  params:
+    - desc: '評価に使用する絵文字です。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '付与する評価の量です。'
+      name: amount
+      optional: true
+      type: int
+    - desc: '評価の種類です（standard、helper、artist、memer）。'
+      name: repType
+      optional: true
+      type: string
+repreactionlist:
+  args:
+    - ''
+  desc: 'リアクションによる評価の設定をすべて一覧表示します。'
+  params: [ ]
+repreactionremove:
+  args:
+    - emoji
+  desc: 'リアクションによる評価の設定を削除します。'
+  params:
+    - desc: '削除する絵文字です。'
+      name: emoji
+      optional: false
+      type: string
+represet:
+  args:
+    - text
+  desc: 'ユーザーまたはサーバー内の全ユーザーの評価をリセットします。'
+  params:
+    - desc: 'リセットするユーザーです。全員をリセットする場合は "all" を指定します。'
+      name: target
+      optional: false
+      type: string
+reprole:
+  args:
+    - ''
+    - detailed
+    - '@role'
+    - '@role 100'
+    - '@role 100 false #channel true 50'
+  desc: '評価のマイルストーンに対するロール報酬を管理します。パラメーターなしで使用するとすべての報酬を一覧表示します。ロールと評価を指定すると、詳細設定付きで報酬を追加または更新します。'
+  params:
+    - &ref_437
+      desc: '付与するロールです（一覧表示の場合は省略可能）。'
+      name: role
+      optional: true
+      type: IRole
+    - desc: 'このロールを獲得するために必要な評価です（一覧表示の場合は省略可能）。'
+      name: reputation
+      optional: true
+      type: int
+    - desc: '評価が下がった場合にロールを削除するかどうかです。'
+      name: removeOnDrop
+      optional: true
+      type: bool
+    - desc: 'ロール付与をお知らせするチャンネルです（省略可能）。'
+      name: announceChannel
+      optional: true
+      type: ITextChannel
+    - desc: 'DM で通知を送信するかどうかです。'
+      name: announceDm
+      optional: true
+      type: bool
+    - desc: 'マイルストーン到達時に付与する XP 報酬です（省略可能）。'
+      name: xpReward
+      optional: true
+      type: int
+    - desc: '一覧表示時に詳細情報を表示します（最初のパラメーターに ''detailed'' を指定します）。'
+      name: detailed
+      optional: true
+      type: string
+reprolechannel:
+  args:
+    - role channel
+  desc: 'ロール報酬のお知らせチャンネルを設定します。'
+  params:
+    - desc: '設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'お知らせを送信するチャンネルです（無効にする場合は null）。'
+      name: channel
+      optional: true
+      type: ITextChannel
+reproleremove:
+  args:
+    - '@role'
+  desc: 'ロール報酬の設定を削除します。'
+  params:
+    - desc: '報酬から削除するロールです。'
+      name: role
+      optional: true
+      type: IRole
+repset:
+  args:
+    - '@user number'
+  desc: 'ユーザーの評価を指定した値に設定します。'
+  params:
+    - desc: '評価を設定するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '評価を設定する値です。'
+      name: amount
+      optional: false
+      type: int
+repstats:
+  args:
+    - '@user'
+  desc: 'ユーザーの評価に関する詳細な統計を表示します。'
+  params:
+    - desc: '統計を表示するユーザーです。null の場合は、コマンド実行者の統計を表示します。'
+      name: target
+      optional: true
+      type: IGuildUser
+repstatus:
+  args:
+    - ''
+  desc: '現在の評価設定を詳細な埋め込みで表示します。'
+  params: [ ]
+reptake:
+  args:
+    - '@user number'
+  desc: 'ユーザーの評価を削除します。'
+  params:
+    - desc: '評価を削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '削除する評価の量です。'
+      name: amount
+      optional: true
+      type: int
+reptop:
+  args:
+    - number
+  desc: 'サーバーの評判のリーダーボードを表示します。'
+  params:
+    - desc: '表示するページ番号です。'
+      name: page
+      optional: true
+      type: int
+reptypeadd:
+  args:
+    - typeName displayName
+  desc: 'カスタムの評価の種類を追加します。'
+  params:
+    - desc: '評価の種類の名前です。'
+      name: typeName
+      optional: false
+      type: string
+    - desc: 'この種類の表示名です。'
+      name: displayName
+      optional: false
+      type: string
+reptypelist:
+  args:
+    - ''
+  desc: 'このサーバーのカスタム評価の種類をすべて一覧表示します。'
+  params: [ ]
+reptyperemove:
+  args:
+    - typeName
+  desc: 'カスタムの評価の種類を削除します。'
+  params:
+    - desc: '削除する評価の種類の名前です。'
+      name: typeName
+      optional: false
+      type: string
+repunfreeze:
+  args:
+    - '@user'
+  desc: 'ユーザーの評価の凍結を解除し、再び評価を獲得・減少できるようにします。'
+  params:
+    - desc: '凍結を解除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+repweeklylimit:
+  args:
+    - limit
+  desc: '評価を付与できる週間上限を設定します（省略可能）。'
+  params:
+    - desc: '週間上限です（無効にする場合は null、1〜500）。'
+      name: limit
+      optional: true
+      type: int
+toprep:
+  args:
+    - number
+  desc: 'サーバーの評判のリーダーボードを表示します。'
+  params:
+    - desc: '表示するページ番号です。'
+      name: page
+      optional: true
+      type: int

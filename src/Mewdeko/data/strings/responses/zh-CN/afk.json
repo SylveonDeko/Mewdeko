@@ -2,6 +2,7 @@
   "afk_already_in_list": "没有添加任何频道，因为您指定的频道已在列表中。",
   "afk_channels_updated": "已将 {0} 添加到 AFK 忽略的频道列表中",
   "afk_deletion_disabled": "AFK 消息的自动删除已禁用！",
+  "afk_deletion_invalid": "删除时间必须为 0 或正的秒数。",
   "afk_deletion_set": "AFK 消息将在 {0} 秒后自动删除。",
   "afk_disabled": "AFK 已禁用。",
   "afk_disabled_channels_none": "您没有任何已禁用的频道！",

@@ -1,21 +1,21 @@
 countingban:
   args:
     - user channel duration reason
-  desc: 'Proíbe um usuário de contar em um canal específico.'
+  desc: 'Bane um usuário de contar em um canal específico.'
   params:
-    - desc: 'O usuário a ser proibido de contar.'
+    - desc: 'O usuário a banir da contagem.'
       name: user
       optional: false
       type: guild user
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'Duração da proibição (ex.: 1h, 1d). Deixe vazio para permanente.'
+    - desc: 'Duração do banimento (ex.: 1h, 1d). Deixe vazio para permanente.'
       name: duration
       optional: true
       type: stoopid time
-    - desc: 'O motivo da proibição.'
+    - desc: 'O motivo do banimento.'
       name: reason
       optional: true
       type: string
@@ -24,16 +24,16 @@ countingconfig:
     - channel
   desc: 'Configura as definições de um canal de contagem.'
   params:
-    - desc: 'O canal para exibir a configuração. Padrão é o canal atual.'
+    - desc: 'O canal cuja configuração será exibida. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countingcooldown:
   args:
     - channel seconds
-  desc: 'Define o tempo de espera entre contagens dos usuários.'
+  desc: 'Define o tempo de espera (cooldown) entre as contagens dos usuários.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
@@ -44,13 +44,13 @@ countingcooldown:
 countingdisable:
   args:
     - channel purgeData reason
-  desc: 'Desativa a contagem em um canal e opcionalmente exclui todos os dados.'
+  desc: 'Desativa a contagem em um canal e, opcionalmente, apaga todos os dados.'
   params:
-    - desc: 'O canal onde desativar a contagem. Padrão é o canal atual.'
+    - desc: 'O canal onde a contagem será desativada. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'Se todos os dados de contagem deste canal devem ser excluídos. Padrão é falso.'
+    - desc: 'Se todos os dados de contagem deste canal devem ser excluídos. Padrão: false.'
       name: purgeData
       optional: true
       type: bool
@@ -67,20 +67,20 @@ countingfailurechannel:
       name: countingChannel
       optional: true
       type: text channel
-    - desc: 'O canal para os registros de falha. Use null para desativar.'
+    - desc: 'O canal para os logs de falhas. Use null para desativar.'
       name: failureChannel
       optional: true
       type: text channel
 countingfailuremessage:
   args:
     - channel embed
-  desc: 'Define uma mensagem personalizada para contagens com falha.'
+  desc: 'Define uma mensagem personalizada para contagens erradas.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'O modelo de mensagem. Use "-" para redefinir ao padrão.'
+    - desc: 'O modelo da mensagem. Use "-" para voltar ao padrão.'
       name: embed
       optional: true
       type: string
@@ -89,24 +89,24 @@ countingfailurethreshold:
     - channel threshold
   desc: 'Define o limite de falhas antes das consequências.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'Número de falhas antes de agir (1-10).'
+    - desc: 'Número de falhas antes da ação (1-10).'
       name: threshold
       optional: true
       type: int
 countingleaderboard:
   args:
     - type channel
-  desc: 'Exibe o placar de líderes de um canal de contagem.'
+  desc: 'Mostra o ranking de um canal de contagem.'
   params:
-    - desc: 'O tipo de placar (contributions, streak, accuracy, totalnumbers).'
+    - desc: 'O tipo de ranking (contributions, streak, accuracy, totalnumbers).'
       name: type
       optional: true
       type: string
-    - desc: 'O canal para exibir o placar. Padrão é o canal atual.'
+    - desc: 'O canal cujo ranking será exibido. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
@@ -124,20 +124,20 @@ countingmilestonechannel:
       name: countingChannel
       optional: true
       type: text channel
-    - desc: 'O canal para anúncios de marcos. Use null para desativar.'
+    - desc: 'O canal para os anúncios de marcos. Use null para desativar.'
       name: milestoneChannel
       optional: true
       type: text channel
 countingmilestonemessage:
   args:
     - channel embed
-  desc: 'Define uma mensagem personalizada para conquistas de marcos.'
+  desc: 'Define uma mensagem personalizada para as conquistas de marcos.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'O modelo de mensagem. Use "-" para redefinir ao padrão.'
+    - desc: 'O modelo da mensagem. Use "-" para voltar ao padrão.'
       name: embed
       optional: true
       type: string
@@ -146,7 +146,7 @@ countingmilestones:
     - channel milestones
   desc: 'Define números de marcos personalizados.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
@@ -157,13 +157,13 @@ countingmilestones:
 countingreset:
   args:
     - channel newNumber reason
-  desc: 'Redefine a contagem em um canal para um número específico.'
+  desc: 'Redefine a contagem de um canal para um número específico.'
   params:
-    - desc: 'O canal a ser redefinido. Padrão é o canal atual.'
+    - desc: 'O canal a redefinir. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'O número para redefinir. Padrão é 0.'
+    - desc: 'O número para o qual redefinir. Padrão: 0.'
       name: newNumber
       optional: true
       type: long
@@ -176,20 +176,20 @@ countingrestore:
     - saveId channel
   desc: 'Restaura a contagem a partir de um ponto de salvamento anterior.'
   params:
-    - desc: 'O ID do ponto de salvamento a ser restaurado.'
+    - desc: 'O ID do ponto de salvamento a restaurar.'
       name: saveId
       optional: false
       type: int
-    - desc: 'O canal a ser restaurado. Padrão é o canal atual.'
+    - desc: 'O canal a restaurar. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countingsave:
   args:
     - channel reason
-  desc: 'Cria um ponto de salvamento para o progresso de contagem atual.'
+  desc: 'Cria um ponto de salvamento do progresso atual da contagem.'
   params:
-    - desc: 'O canal a ser salvo. Padrão é o canal atual.'
+    - desc: 'O canal a salvar. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
@@ -202,101 +202,101 @@ countingsetup:
     - channel startNumber increment
   desc: 'Configura a contagem no canal atual ou em um canal especificado.'
   params:
-    - desc: 'O canal onde configurar a contagem. Padrão é o canal atual.'
+    - desc: 'O canal onde configurar a contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'O número a partir do qual começar a contar. Padrão é 1.'
+    - desc: 'O número inicial da contagem. Padrão: 1.'
       name: startNumber
       optional: true
       type: long
-    - desc: 'O incremento para cada contagem. Padrão é 1.'
+    - desc: 'O incremento de cada contagem. Padrão: 1.'
       name: increment
       optional: true
       type: int
 countingstats:
   args:
     - user channel
-  desc: 'Exibe estatísticas de contagem para um usuário ou canal.'
+  desc: 'Mostra estatísticas de contagem de um usuário ou canal.'
   params:
-    - desc: 'O usuário para exibir estatísticas. Padrão é você.'
+    - desc: 'O usuário cujas estatísticas serão exibidas. Padrão: você.'
       name: user
       optional: true
       type: user
-    - desc: 'O canal onde verificar as estatísticas. Padrão é o canal atual.'
+    - desc: 'O canal onde verificar as estatísticas. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countingstatus:
   args:
     - channel
-  desc: 'Exibe o status atual da contagem em um canal.'
+  desc: 'Mostra o status atual da contagem em um canal.'
   params:
-    - desc: 'O canal a verificar. Padrão é o canal atual.'
+    - desc: 'O canal a verificar. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countingsuccessmessage:
   args:
     - channel embed
-  desc: 'Define uma mensagem personalizada para contagens bem-sucedidas.'
+  desc: 'Define uma mensagem personalizada para contagens corretas.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'O modelo de mensagem. Use "-" para redefinir ao padrão.'
+    - desc: 'O modelo da mensagem. Use "-" para voltar ao padrão.'
       name: embed
       optional: true
       type: string
 countingtimeout:
   args:
     - user duration channel reason
-  desc: 'Silencia temporariamente um usuário da contagem.'
+  desc: 'Aplica temporariamente um timeout a um usuário na contagem.'
   params:
-    - desc: 'O usuário a ser silenciado da contagem.'
+    - desc: 'O usuário a receber o timeout na contagem.'
       name: user
       optional: false
       type: guild user
-    - desc: 'Duração do silêncio (ex.: 30m, 2h).'
+    - desc: 'Duração do timeout (ex.: 30m, 2h).'
       name: duration
       optional: false
       type: stoopid time
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'O motivo do silêncio.'
+    - desc: 'O motivo do timeout.'
       name: reason
       optional: true
       type: string
 countingunban:
   args:
     - user channel reason
-  desc: 'Remove a proibição de contagem de um usuário em um canal específico.'
+  desc: 'Remove o banimento de um usuário da contagem em um canal específico.'
   params:
-    - desc: 'O usuário ao qual remover a proibição de contar.'
+    - desc: 'O usuário a desbanir da contagem.'
       name: user
       optional: false
       type: guild user
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'O motivo da remoção da proibição.'
+    - desc: 'O motivo do desbanimento.'
       name: reason
       optional: true
       type: string
 countmodbanned:
   args:
     - channel roles...
-  desc: 'Define os cargos proibidos de contar.'
+  desc: 'Define os cargos banidos da contagem.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'Cargos proibidos de contar.'
+    - desc: 'Cargos banidos da contagem.'
       name: roles
       optional: true
       type: role
@@ -309,7 +309,7 @@ countmodclear:
       name: user
       optional: false
       type: user
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
@@ -318,14 +318,14 @@ countmodclearall:
     - channel
   desc: 'Limpa as contagens erradas de todos os usuários em um canal de contagem.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countmoddefaults:
   args:
     - enabled threshold windowHours punishment durationMinutes punishmentRole
-  desc: 'Define as configurações de moderação padrão para todo o servidor.'
+  desc: 'Define as configurações padrão de moderação do servidor.'
   params:
     - desc: 'Se a moderação está ativada por padrão.'
       name: enabled
@@ -335,104 +335,104 @@ countmoddefaults:
       name: threshold
       optional: true
       type: int
-    - desc: 'Janela de tempo padrão em horas para rastrear contagens erradas.'
+    - desc: 'Janela de tempo padrão, em horas, para contar contagens erradas.'
       name: windowHours
       optional: true
       type: int
-    - desc: 'Ação de punição padrão a ser aplicada.'
+    - desc: 'Ação de punição padrão a aplicar.'
       name: punishment
       optional: true
       type: punishment action
-    - desc: 'Duração padrão para punições temporárias em minutos.'
+    - desc: 'Duração padrão das punições temporizadas, em minutos.'
       name: durationMinutes
       optional: true
       type: int
-    - desc: 'Cargo padrão para o tipo de punição AdicionarCargo.'
+    - desc: 'Cargo padrão para o tipo de punição AddRole.'
       name: punishmentRole
       optional: true
       type: role
 countmodedits:
   args:
     - punish delete channel
-  desc: 'Configura a proteção de edição de mensagens para um canal de contagem.'
+  desc: 'Configura a proteção contra edição de mensagens em um canal de contagem.'
   params:
-    - desc: 'Se edições de mensagens devem ser punidas como infrações.'
+    - desc: 'Se as edições de mensagens devem ser punidas como infrações.'
       name: punish
       optional: false
       type: bool
-    - desc: 'Se mensagens editadas devem ser excluídas.'
+    - desc: 'Se as mensagens editadas devem ser excluídas.'
       name: delete
       optional: true
       type: bool
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countmodenable:
   args:
     - enabled channel
-  desc: 'Ativa ou desativa a moderação para um canal de contagem específico.'
+  desc: 'Ativa ou desativa a moderação de um canal de contagem específico.'
   params:
-    - desc: 'Se ativar ou desativar a moderação.'
+    - desc: 'Se a moderação deve ser ativada ou desativada.'
       name: enabled
       optional: false
       type: bool
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countmodignore:
   args:
     - deleteMessages channel roles...
-  desc: 'Define os cargos a ignorar da contagem.'
+  desc: 'Define os cargos a ignorar na contagem.'
   params:
-    - desc: 'Se excluir mensagens dos cargos ignorados.'
+    - desc: 'Se as mensagens dos cargos ignorados devem ser excluídas.'
       name: deleteMessages
       optional: false
       type: bool
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
-    - desc: 'Cargos a ignorar da contagem.'
+    - desc: 'Cargos a ignorar na contagem.'
       name: roles
       optional: true
       type: role
 countmodnonnumbers:
   args:
     - punish delete channel
-  desc: 'Configura o tratamento de mensagens não numéricas em um canal de contagem.'
+  desc: 'Configura o tratamento de mensagens que não são números em um canal de contagem.'
   params:
-    - desc: 'Se mensagens não numéricas devem ser punidas como infrações.'
+    - desc: 'Se as mensagens que não são números devem ser punidas como infrações.'
       name: punish
       optional: false
       type: bool
-    - desc: 'Se mensagens não numéricas devem ser excluídas.'
+    - desc: 'Se as mensagens que não são números devem ser excluídas.'
       name: delete
       optional: true
       type: bool
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countmodpunish:
   args:
     - count punishment durationMinutes role channel
-  desc: 'Define uma punição escalonada para um número específico de contagens erradas.'
+  desc: 'Define uma punição em níveis para um número de contagem errada específico.'
   params:
-    - desc: 'O número de contagens erradas que aciona esta punição.'
+    - desc: 'O número de contagem errada que aciona esta punição.'
       name: count
       optional: false
       type: int
-    - desc: 'A ação de punição a ser aplicada.'
+    - desc: 'A ação de punição a aplicar.'
       name: punishment
       optional: false
       type: punishment action
-    - desc: 'Duração para punições temporárias em minutos.'
+    - desc: 'Duração das punições temporizadas, em minutos.'
       name: durationMinutes
       optional: true
       type: int
-    - desc: 'Cargo para o tipo de punição AdicionarCargo.'
+    - desc: 'Cargo para o tipo de punição AddRole.'
       name: role
       optional: true
       type: role
@@ -443,7 +443,7 @@ countmodpunish:
 countmodpunishlist:
   args:
     - channel
-  desc: 'Lista todas as punições escalonadas do servidor ou canal específico.'
+  desc: 'Lista todas as punições em níveis do servidor ou de um canal específico.'
   params:
     - desc: 'O canal de contagem (NULL para os padrões do servidor).'
       name: channel
@@ -454,19 +454,19 @@ countmodpunishment:
     - punishment durationMinutes role channel
   desc: 'Define a punição para contagens erradas.'
   params:
-    - desc: 'A ação de punição a ser aplicada.'
+    - desc: 'A ação de punição a aplicar.'
       name: punishment
       optional: false
       type: punishment action
-    - desc: 'Duração para punições temporárias em minutos.'
+    - desc: 'Duração das punições temporizadas, em minutos.'
       name: durationMinutes
       optional: true
       type: int
-    - desc: 'Cargo para o tipo de punição AdicionarCargo.'
+    - desc: 'Cargo para o tipo de punição AddRole.'
       name: role
       optional: true
       type: role
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
@@ -475,7 +475,7 @@ countmodrequired:
     - channel roles...
   desc: 'Define os cargos necessários para contar.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
@@ -488,38 +488,38 @@ countmodreset:
     - channel
   desc: 'Redefine um canal para usar os padrões do servidor.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countmodshow:
   args:
     - channel
-  desc: 'Exibe a configuração de moderação atual para o canal de contagem ou os padrões do servidor.'
+  desc: 'Mostra a configuração atual de moderação do canal de contagem ou os padrões do servidor.'
   params:
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countmodthreshold:
   args:
     - threshold channel
-  desc: 'Define o limite de contagens erradas para um canal de contagem.'
+  desc: 'Define o limite de contagens erradas de um canal de contagem.'
   params:
     - desc: 'Número de contagens erradas antes da punição (1-100).'
       name: threshold
       optional: false
       type: int
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel
 countmodunpunish:
   args:
     - count channel
-  desc: 'Remove uma punição escalonada para um número específico de contagens erradas.'
+  desc: 'Remove uma punição em níveis para um número de contagem errada específico.'
   params:
-    - desc: 'O número de contagens erradas do qual remover a punição.'
+    - desc: 'O número de contagem errada cuja punição será removida.'
       name: count
       optional: false
       type: int
@@ -530,13 +530,13 @@ countmodunpunish:
 countmodwindow:
   args:
     - hours channel
-  desc: 'Define a janela de tempo para rastrear contagens erradas.'
+  desc: 'Define a janela de tempo para contar contagens erradas.'
   params:
     - desc: 'Janela de tempo em horas (1-168).'
       name: hours
       optional: false
       type: int
-    - desc: 'O canal de contagem. Padrão é o canal atual.'
+    - desc: 'O canal de contagem. Padrão: o canal atual.'
       name: channel
       optional: true
       type: text channel

@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Zeigt deine Erfolgsübersicht: Rang, Punkte, Fortschritt in jeder Kategorie und die letzten Freischaltungen. Erwähne jemanden, um dessen Übersicht zu sehen.'
+  params:
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: 'Zeigt alle Erfolge einer Kategorie mit dem Fortschritt zu den noch gesperrten.'
+  params:
+    - desc: 'Der Kategorie-Schlüssel oder -Name, z. B. messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige oder custom.'
+      name: category
+      optional: false
+      type: string
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Zeigt alle Erfolge des Servers mit Fortschritt, seitenweise.'
+  params:
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Zeigt die fünf neuesten Freischaltungen.'
+  params:
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Zeigt die fünf besten Freischaltungen nach Stufe und Punkten.'
+  params:
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: 'Findet Erfolge anhand von Name oder Beschreibung und zeigt deinen Fortschritt bei jedem.'
+  params:
+    - desc: 'Wonach gesucht werden soll.'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Zeigt Erfolge aus allen Servern: Gesamtpunkte, Server und globale Erfolge.'
+  params:
+    - desc: 'Der Nutzer, der angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'Zeigt, wer auf dem Server die meisten Erfolge hat. Mitglieder, die sich ausgeblendet haben, werden ausgelassen.'
+  params:
+    - desc: 'Points, Unlocked oder Recent. Standard ist Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'Zeigt, wer über alle Server hinweg die meisten Erfolge hat.'
+  params:
+    - desc: 'Points, Unlocked oder Recent. Standard ist Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Erstellt eine Erfolgs-Profilkarte mit Rang, Punkten, Fortschritt zum nächsten Rang und angelegten Abzeichen.'
+  params:
+    - desc: 'Das Mitglied, für das die Karte erstellt wird. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Zeigt alle Zahlen, die Erfolge verfolgen: Nachrichten, Sprachzeit, Reaktionen, Einladungen, Befehle, Zeit auf dem Server, Boosts, Level und Reputation.'
+  params:
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: 'Zeichnet einen Erfolg als Bild: freigeschaltet oder gesperrt, mit dem Fortschritt von dir oder einer anderen Person.'
+  params:
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: 'Legt das Symbol fest, das ein Erfolg in seinem Bild, im Dashboard und in den Apps zeigt: ein Symbolname wie trophy, ein Server-Emoji oder ein https-Bildlink. Lass das Symbol weg, um wieder das Symbol seiner Kategorie zu verwenden.'
+  params:
+    - desc: 'Der Name oder Schlüssel des Erfolgs, in Anführungszeichen, wenn Leerzeichen enthalten sind.'
+      name: achievement
+      optional: false
+      type: string
+    - desc: 'Das Symbol oder nichts, um es zu entfernen.'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Zeigt alle Abzeichen, die du oder jemand anderes besitzt, mit den vier belegbaren Plätzen oben.'
+  params:
+    - desc: 'Das Mitglied, das angezeigt werden soll. Standard ist du.'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: 'Legt ein Abzeichen, das du besitzt, auf einen deiner vier Profilplätze. Die Abzeichen-Schlüssel zeigt badges.'
+  params:
+    - desc: 'Der Platz, 1 bis 4.'
+      name: slot
+      optional: false
+      type: int
+    - desc: 'Der Abzeichen-Schlüssel.'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'Leert einen deiner vier Profilplätze.'
+  params:
+    - desc: 'Der Platz, 1 bis 4.'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'Zeigt, was ein Abzeichen ist und wie man es verdient.'
+  params:
+    - desc: 'Der Abzeichen-Schlüssel.'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: 'Legt fest, wer dein Erfolgsprofil, deine Erfolge, Abzeichen und deinen Platz in der Rangliste sehen kann.'
+  params:
+    - desc: 'Profile, Achievements, Badges oder Leaderboard.'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone oder OnlyMe.'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: 'Schaltet Freischalt-DMs, Freischalt-Nachrichten auf dem Server oder Erwähnungen darin für dich ein oder aus.'
+  params:
+    - desc: 'Dm, Message oder Mention.'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: 'True für an, false für aus.'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'Listet alle Erfolge des Servers mit Schlüssel, Aktivstatus und der Anzahl der Mitglieder, die sie freigeschaltet haben.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'Startet oder pausiert das Verdienen von Erfolgen auf dem Server. Der Start schaltet auch die Nachrichtenzählung ein, und Mitglieder, die schon qualifiziert sind, erhalten ihre Erfolge still.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: 'Legt den Kanal fest, in dem Freischaltungen angekündigt werden. Lass ihn weg, um keinen Log-Kanal mehr zu verwenden.'
+  params:
+    - desc: 'Der Kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: 'Legt fest, wo Freischaltungen angekündigt werden: Auto nutzt den Log-Kanal, falls gesetzt, sonst den Kanal, in dem es passiert ist; Here nutzt den Kanal des Geschehens; LogChannel nur den Log-Kanal; DmOnly sendet nur DMs; Silent kündigt nichts an.'
+  params:
+    - desc: 'Auto, Here, LogChannel, DmOnly oder Silent.'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'Legt fest, ob Mitglieder ihre Freischaltungen per DM erhalten, sofern sie das nicht selbst abschalten.'
+  params:
+    - desc: 'True für an, false für aus.'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: 'Legt die Freischalt-Nachricht fest. Einfacher Text und Embed-JSON funktionieren beide, mit Platzhaltern wie %achievement.name%, %achievement.points%, %achievement.list% und %achievements.tier%. Lass sie weg, um zum Standard zurückzukehren.'
+  params:
+    - desc: 'Die Nachricht oder nichts zum Leeren.'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'Gibt Mitgliedern XP für jeden Erfolgspunkt, den sie verdienen. 0 schaltet es aus.'
+  params:
+    - desc: 'XP pro Punkt, 0 bis 1000.'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'Aktiviert einen Erfolg, damit Mitglieder ihn verdienen können.'
+  params:
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: 'Deaktiviert einen Erfolg. Mitglieder, die ihn schon freigeschaltet haben, behalten ihn.'
+  params:
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'Aktiviert oder deaktiviert eine ganze Kategorie.'
+  params:
+    - desc: 'Der Kategorie-Schlüssel oder -Name.'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Überreicht einem Mitglied einen Erfolg und kündigt ihn wie jede andere Freischaltung an.'
+  params:
+    - desc: 'Das Mitglied.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Entzieht einem Mitglied einen Erfolg.'
+  params:
+    - desc: 'Das Mitglied.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: 'Entfernt nach Bestätigung alle Erfolge, die ein Mitglied auf dem Server hat.'
+  params:
+    - desc: 'Das Mitglied.'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: 'Macht einen Erfolg freischaltbar, sobald eine Zahl erreicht wird. Messgrößen sind u. a. MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation und NetWorth.'
+  params:
+    - desc: 'Was gezählt werden soll.'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: 'Die Zahl, die erreicht werden muss.'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst oder Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Der Name.'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'Macht einen Erfolg freischaltbar, indem man irgendwo auf dem Server eine bestimmte Phrase sagt.'
+  params:
+    - desc: 'Die Phrase, in Anführungszeichen, wenn Leerzeichen enthalten sind.'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst oder Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Der Name.'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: 'Macht einen Erfolg freischaltbar, indem man mit einem Emoji reagiert.'
+  params:
+    - desc: 'Das Emoji.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst oder Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Der Name.'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'Macht einen Erfolg nur für das Team vergebbar, mit achgrant.'
+  params:
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst oder Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Der Name.'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: 'Löscht einen vom Server erstellten Erfolg nach Bestätigung. Alle, die ihn freigeschaltet haben, verlieren ihn.'
+  params:
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: 'Gibt Mitgliedern eine Rolle, wenn sie einen Erfolg freischalten.'
+  params:
+    - desc: 'Die Rolle.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: 'Gibt Mitgliedern Währung, wenn sie einen Erfolg freischalten. 0 entfernt sie.'
+  params:
+    - desc: 'Der Betrag.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: 'Gibt Mitgliedern XP, wenn sie einen Erfolg freischalten. 0 entfernt sie.'
+  params:
+    - desc: 'Der Betrag.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: 'Entfernt alle Belohnungen eines Erfolgs.'
+  params:
+    - desc: 'Der Name oder Schlüssel des Erfolgs.'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: 'Verhindert, dass Mitglieder mit einer bestimmten Rolle Erfolge verdienen. Führe es erneut aus, damit sie wieder verdienen können.'
+  params:
+    - desc: 'Die Rolle.'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'Verhindert, dass Aktivität in einem Kanal zu Erfolgen zählt. Führe es erneut aus, damit wieder gezählt wird.'
+  params:
+    - desc: 'Der Kanal.'
+      name: channel
+      optional: false
+      type: IGuildChannel

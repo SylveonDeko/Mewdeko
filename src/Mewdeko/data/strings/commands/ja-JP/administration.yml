@@ -1,0 +1,4851 @@
+adsarm:
+  args:
+    - ''
+  desc: 'サーバー広告メッセージの自動削除を切り替えます。'
+  params: [ ]
+antialt:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antipattern:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Pattern 保護を設定します。ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antipattern_PunishmentAction_=:
+  args:
+    - '<action> [punishTime]'
+    - action
+  desc: 'サーバーの Anti-Pattern 保護を設定します。ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '検出されたパターンに一致したユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '処罰の期間です（該当する場合）。'
+      name: punishTime
+      optional: true
+      type: StoopidTime
+antipattern_PunishmentAction_IRole:
+  args:
+    - action @role
+  desc: 'サーバーの Anti-Pattern 保護を設定します。ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '検出されたパターンに一致したユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'パターンに一致したユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+patternadd:
+  args:
+    - '<pattern> [name] [checkUsername] [checkDisplayName]'
+    - pattern
+  desc: 'Anti-Pattern 保護に正規表現パターンを追加します。'
+  params:
+    - desc: 'ユーザー名や表示名と照合する正規表現パターンです。'
+      name: pattern
+      optional: false
+      type: string
+    - desc: 'パターンの任意の名前です。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'ユーザー名をこのパターンで確認するかどうかです（デフォルトは true）。'
+      name: checkUsername
+      optional: true
+      type: bool
+    - desc: '表示名をこのパターンで確認するかどうかです（デフォルトは true）。'
+      name: checkDisplayName
+      optional: true
+      type: bool
+patternremove:
+  args:
+    - number
+  desc: 'Anti-Pattern 保護からパターンを削除します。'
+  params:
+    - desc: '削除するパターンの ID です。'
+      name: patternId
+      optional: false
+      type: int
+patternlist:
+  args:
+    - ''
+  desc: 'Anti-Pattern 保護に設定されているすべてのパターンを一覧表示します。'
+  params: [ ]
+patternconfig:
+  args:
+    - ''
+  desc: '現在の Anti-Pattern の設定を表示します。'
+  params: [ ]
+patternconfig_string_string:
+  args:
+    - setting value
+  desc: '現在の Anti-Pattern の設定を表示します。'
+  params:
+    - desc: '設定する項目です。'
+      name: setting
+      optional: false
+      type: string
+    - desc: '設定する値です。'
+      name: value
+      optional: false
+      type: string
+antialt_StoopidTime_PunishmentAction_=:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_1:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_2:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_3:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_IRole:
+  args:
+    - minage action @role
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_69
+      desc: '検出された Alt に処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_1:
+  args:
+    - minage action @role
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '検出された Alt に処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_2:
+  args:
+    - minage action @role
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '検出された Alt に処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_3:
+  args:
+    - minage action @role
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: 'アカウントを Alt とみなすための最低年齢（分）です。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '検出された Alt に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '検出された Alt に処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antialt_noparams:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antialt_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antialt_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Alt 保護を設定します。アカウントの最低年齢と、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antimassmention:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antimassmention_int_int_int_bool_PunishmentAction_=:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_1:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_2:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_3:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_IRole:
+  args:
+    - number number number true|false action @role
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_75
+      desc: '処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_1:
+  args:
+    - number number number true|false action @role
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_2:
+  args:
+    - number number number true|false action @role
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_3:
+  args:
+    - number number number true|false action @role
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params:
+    - desc: '保護が発動するまでに、1件のメッセージで許可されるメンション数です。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'メンションを監視する時間枠（秒）です。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定した時間枠内で許可するメンションの最大数です。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'メンションを追跡する際にボットアカウントを無視するかどうかです。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'メンション制限を超えたユーザーに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '処罰として付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_noparams:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antimassmention_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antimassmention_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Mass-Mention 保護を設定します。1件のメッセージで許可するメンション数のしきい値、メンションを追跡する時間枠、その時間枠内で許可するメンションの最大数、ロールを使った処罰アクションを指定します。'
+  params: [ ]
+antiraid:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params: [ ]
+antiraid_int_int_PunishmentAction:
+  args:
+    - number number action
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - &ref_76
+      desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - &ref_77
+      desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - &ref_78
+      desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_1:
+  args:
+    - number number action
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_2:
+  args:
+    - number number action
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_3:
+  args:
+    - number number action
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_StoopidTime:
+  args:
+    - number number action time
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_79
+      desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number number action time
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number number action time
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number number action time
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params:
+    - desc: 'レイドを検出するためのユーザー数のしきい値です。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'ユーザーの参加を監視する時間枠（秒）です。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '検出されたレイドに対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_noparams:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params: [ ]
+antiraid_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params: [ ]
+antiraid_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Raid 保護を設定します。ユーザー数のしきい値、検出時間枠、処罰アクションを指定します。'
+  params: [ ]
+antispam:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params: [ ]
+antispam_int_PunishmentAction:
+  args:
+    - number action
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - &ref_80
+      desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_81
+      desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_1:
+  args:
+    - number action
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_82
+      desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_2:
+  args:
+    - number action
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_3:
+  args:
+    - number action
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_IRole:
+  args:
+    - number action @role
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_83
+      desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_1:
+  args:
+    - number action @role
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_2:
+  args:
+    - number action @role
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_3:
+  args:
+    - number action @role
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_StoopidTime:
+  args:
+    - number action time
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_84
+      desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number action time
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number action time
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number action time
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params:
+    - desc: 'スパムを検出するためのメッセージ数のしきい値です。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '検出されたスパム送信者に対して実行する処罰アクションです。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_noparams:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params: [ ]
+antispam_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params: [ ]
+antispam_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Spam 保護を設定します。メッセージ数のしきい値と処罰アクションを指定します。'
+  params: [ ]
+asar:
+  args:
+    - '@role'
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - &ref_85
+      desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole:
+  args:
+    - '@role'
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_2:
+  args:
+    - '@role'
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole:
+  args:
+    - number @role
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - &ref_86
+      desc: '整理用のグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_1:
+  args:
+    - number @role
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - desc: '整理用のグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_2:
+  args:
+    - number @role
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - desc: '整理用のグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_3:
+  args:
+    - number @role
+  desc: '指定したグループの自動セルフアサインロール一覧に、指定したロールを追加します。'
+  params:
+    - desc: '整理用のグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: '自動セルフアサインロール一覧に追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole:
+  args:
+    - '@role'
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - &ref_87
+      desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole:
+  args:
+    - '@role'
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_noparams:
+  args:
+    - ''
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autoassignbotrole_noparams_1:
+  args:
+    - ''
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autoassignbotrole_noparams_2:
+  args:
+    - ''
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autoassignbotrole_noparams_3:
+  args:
+    - ''
+  desc: 'ボットがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autoassignrole:
+  args:
+    - '@role'
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole:
+  args:
+    - '@role'
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params:
+    - desc: '自動付与を有効または無効にするロールです。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_noparams:
+  args:
+    - ''
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autoassignrole_noparams_1:
+  args:
+    - ''
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autoassignrole_noparams_2:
+  args:
+    - ''
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autoassignrole_noparams_3:
+  args:
+    - ''
+  desc: 'ユーザーがサーバーに参加したときに自動付与の対象となるロールの一覧を表示します。'
+  params: [ ]
+autobanroleadd:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles にロールを追加します。'
+  params:
+    - &ref_88
+      desc: '追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles にロールを追加します。'
+  params:
+    - desc: '追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_1:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles にロールを追加します。'
+  params:
+    - desc: '追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_2:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles にロールを追加します。'
+  params:
+    - desc: '追加するロールです。'
+      name: role
+      optional: false
+      type: IRole
+autobanrolelist:
+  args:
+    - ''
+  desc: '現在のサーバーの AutoBanRole 一覧にあるすべてのロールを表示します。'
+  params: [ ]
+autobanroleremove:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles からロールを削除します。'
+  params:
+    - desc: '削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason:
+  args:
+    - '@role'
+    - '@role reason text'
+  desc: '監査ログに表示される、AutoBanRole の BAN 理由を設定します。'
+  params:
+    - desc: '理由を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_abreason
+      desc: '監査ログに表示する理由です（空にすると削除されます）。'
+      name: reason
+      optional: true
+      type: string
+autobanrolereason_IRole:
+  args:
+    - '@role'
+  desc: '監査ログに表示される、AutoBanRole の BAN 理由を設定します。'
+  params:
+    - desc: '理由を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason_IRole_string:
+  args:
+    - '@role reason text'
+  desc: '監査ログに表示される、AutoBanRole の BAN 理由を設定します。'
+  params:
+    - desc: '理由を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - *ref_abreason
+banbyhash:
+  args:
+    - text
+  desc: 'アバターID（アバターハッシュ）でユーザーをまとめて BAN します。ユーザーボットへの対策に便利です。'
+  params:
+    - &ref_106
+      desc: '検索するアバターハッシュです。'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string:
+  args:
+    - text
+  desc: 'アバターID（アバターハッシュ）でユーザーをまとめて BAN します。ユーザーボットへの対策に便利です。'
+  params:
+    - desc: '検索するアバターハッシュです。'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_1:
+  args:
+    - text
+  desc: 'アバターID（アバターハッシュ）でユーザーをまとめて BAN します。ユーザーボットへの対策に便利です。'
+  params:
+    - desc: '検索するアバターハッシュです。'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_2:
+  args:
+    - text
+  desc: 'アバターID（アバターハッシュ）でユーザーをまとめて BAN します。ユーザーボットへの対策に便利です。'
+  params:
+    - desc: '検索するアバターハッシュです。'
+      name: avatarHash
+      optional: false
+      type: string
+baninrole:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '特定のロールを持つユーザーを BAN できます。'
+  params:
+    - desc: 'BAN の対象とするロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'BAN の理由です（任意）。'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '特定のロールを持つユーザーを BAN できます。'
+  params:
+    - desc: 'BAN の対象とするロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'BAN の理由です（任意）。'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_1:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '特定のロールを持つユーザーを BAN できます。'
+  params:
+    - desc: 'BAN の対象とするロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'BAN の理由です（任意）。'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_2:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '特定のロールを持つユーザーを BAN できます。'
+  params:
+    - desc: 'BAN の対象とするロールです。'
+      name: role
+      optional: false
+      type: role
+    - desc: 'BAN の理由です（任意）。'
+      name: reason
+      optional: true
+      type: string
+banunder:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'サーバーに一定期間以上参加しているユーザーを BAN できます。'
+  params:
+    - desc: '期間です。{0}mo{1}d{2}h{3}m{4}s の形式で指定します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage を指定すると、サーバー参加期間ではなくアカウント作成からの期間を確認できます。-p を指定すると、BAN 対象となるユーザーをプレビューできます。'
+      name: option
+      optional: true
+      type: string
+    - desc: '時間の範囲を指定できます。'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'サーバーに一定期間以上参加しているユーザーを BAN できます。'
+  params:
+    - desc: '期間です。{0}mo{1}d{2}h{3}m{4}s の形式で指定します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage を指定すると、サーバー参加期間ではなくアカウント作成からの期間を確認できます。-p を指定すると、BAN 対象となるユーザーをプレビューできます。'
+      name: option
+      optional: true
+      type: string
+    - desc: '時間の範囲を指定できます。'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_1:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'サーバーに一定期間以上参加しているユーザーを BAN できます。'
+  params:
+    - desc: '期間です。{0}mo{1}d{2}h{3}m{4}s の形式で指定します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage を指定すると、サーバー参加期間ではなくアカウント作成からの期間を確認できます。-p を指定すると、BAN 対象となるユーザーをプレビューできます。'
+      name: option
+      optional: true
+      type: string
+    - desc: '時間の範囲を指定できます。'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_2:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'サーバーに一定期間以上参加しているユーザーを BAN できます。'
+  params:
+    - desc: '期間です。{0}mo{1}d{2}h{3}m{4}s の形式で指定します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage を指定すると、サーバー参加期間ではなくアカウント作成からの期間を確認できます。-p を指定すると、BAN 対象となるユーザーをプレビューできます。'
+      name: option
+      optional: true
+      type: string
+    - desc: '時間の範囲を指定できます。'
+      name: time1
+      optional: true
+      type: duration
+boost:
+  args:
+    - ''
+  desc: 'ブーストメッセージの有効または無効を切り替えます。'
+  params: [ ]
+boostdel:
+  args:
+    - 30
+  desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+  params:
+    - &ref_114
+      desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=:
+  args:
+    - 30
+  desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+  params:
+    - desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_1:
+  args:
+    - 30
+  desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+  params:
+    - desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_2:
+  args:
+    - 30
+  desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+  params:
+    - desc: 'ブーストメッセージを削除するまでの時間を設定します。'
+      name: 30
+      optional: false
+      type: '='
+boostmsg:
+  args:
+    - ''
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params: [ ]
+boostmsg_noparams:
+  args:
+    - ''
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params: [ ]
+boostmsg_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params: [ ]
+boostmsg_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params: [ ]
+boostmsg_string:
+  args:
+    - text
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params:
+    - &ref_115
+      desc: '新しいブーストメッセージです。'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_1:
+  args:
+    - text
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params:
+    - desc: '新しいブーストメッセージです。'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_2:
+  args:
+    - text
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params:
+    - desc: '新しいブーストメッセージです。'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_3:
+  args:
+    - text
+  desc: 'サーバーのブーストメッセージを設定します。'
+  params:
+    - desc: '新しいブーストメッセージです。'
+      name: text
+      optional: true
+      type: string
+boosttest:
+  args:
+    - '[@user]'
+  desc: 'ブーストのテストメッセージを送信します。'
+  params:
+    - desc: 'テストメッセージを送信するユーザーです。'
+      name: user
+      optional: true
+      type: user
+bye:
+  args:
+    - ''
+  desc: '退出メッセージの送信を切り替えます。'
+  params: [ ]
+byedel:
+  args:
+    - 30
+  desc: '退出メッセージを削除するまでの時間を設定します。'
+  params:
+    - desc: '退出メッセージを削除するまでの時間を設定します。'
+      name: 30
+      optional: false
+      type: '='
+byemsg:
+  args:
+    - ''
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params: [ ]
+byemsg_noparams:
+  args:
+    - ''
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params: [ ]
+byemsg_noparams_1:
+  args:
+    - ''
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params: [ ]
+byemsg_noparams_2:
+  args:
+    - ''
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params: [ ]
+byemsg_string:
+  args:
+    - text
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params:
+    - &ref_117
+      desc: '退出メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+byemsg_string_1:
+  args:
+    - text
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params:
+    - desc: '退出メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+byemsg_string_2:
+  args:
+    - text
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params:
+    - desc: '退出メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+byemsg_string_3:
+  args:
+    - text
+  desc: '退出メッセージを指定したテキストに設定します。'
+  params:
+    - desc: '退出メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+byetest:
+  args:
+    - '[@user]'
+  desc: '退出メッセージのテストを送信します。'
+  params:
+    - desc: '退出メッセージのテストを送信するユーザーです。'
+      name: user
+      optional: true
+      type: user
+commandlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'コマンドのログを記録するチャンネルを設定します。'
+  params:
+    - desc: 'コマンドのログを記録するチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+createrole:
+  args:
+    - '[roleName]'
+  desc: '指定した名前で新しいロールを作成します。'
+  params:
+    - desc: '作成するロールの名前です。'
+      name: roleName
+      optional: true
+      type: string
+creatvoichanl:
+  args:
+    - text
+  desc: '指定した名前で新しいボイスチャンネルを作成します。'
+  params:
+    - &ref_160
+      desc: '作成するボイスチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string:
+  args:
+    - text
+  desc: '指定した名前で新しいボイスチャンネルを作成します。'
+  params:
+    - desc: '作成するボイスチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_1:
+  args:
+    - text
+  desc: '指定した名前で新しいボイスチャンネルを作成します。'
+  params:
+    - desc: '作成するボイスチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_2:
+  args:
+    - text
+  desc: '指定した名前で新しいボイスチャンネルを作成します。'
+  params:
+    - desc: '作成するボイスチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl:
+  args:
+    - text
+  desc: '指定した名前で新しいテキストチャンネルを作成します。'
+  params:
+    - &ref_161
+      desc: '作成するテキストチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string:
+  args:
+    - text
+  desc: '指定した名前で新しいテキストチャンネルを作成します。'
+  params:
+    - desc: '作成するテキストチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_1:
+  args:
+    - text
+  desc: '指定した名前で新しいテキストチャンネルを作成します。'
+  params:
+    - desc: '作成するテキストチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_2:
+  args:
+    - text
+  desc: '指定した名前で新しいテキストチャンネルを作成します。'
+  params:
+    - desc: '作成するテキストチャンネルの名前です。'
+      name: channelName
+      optional: false
+      type: string
+deafen:
+  args:
+    - '@user'
+  desc: 'サーバー内の指定したユーザーをスピーカーミュートします。'
+  params:
+    - &ref_177
+      desc: 'スピーカーミュートするユーザーです。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'サーバー内の指定したユーザーをスピーカーミュートします。'
+  params:
+    - desc: 'スピーカーミュートするユーザーです。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'サーバー内の指定したユーザーをスピーカーミュートします。'
+  params:
+    - desc: 'スピーカーミュートするユーザーです。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'サーバー内の指定したユーザーをスピーカーミュートします。'
+  params:
+    - desc: 'スピーカーミュートするユーザーです。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+delete:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_3:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '指定したテキストチャンネル内のメッセージを、ID を指定して削除します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '削除するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '任意で、メッセージを削除するまでの時間を指定します。'
+      name: time
+      optional: true
+      type: duration
+deleteguildstatsdata:
+  args:
+    - ''
+  desc: 'サーバーのすべての統計データを削除します。'
+  params: [ ]
+deleterole:
+  args:
+    - '@role'
+  desc: '指定したロールを削除します。'
+  params:
+    - &ref_188
+      desc: '削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole:
+  args:
+    - '@role'
+  desc: '指定したロールを削除します。'
+  params:
+    - desc: '削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したロールを削除します。'
+  params:
+    - desc: '削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_2:
+  args:
+    - '@role'
+  desc: '指定したロールを削除します。'
+  params:
+    - desc: '削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+delmsgoncmd:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - &ref_196
+      desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_=:
+  args:
+    - server.server
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - &ref_192
+      desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_1:
+  args:
+    - server.server
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_2:
+  args:
+    - server.server
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_3:
+  args:
+    - server.server
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_Channel_State_=:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: state
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_1:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: state
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_2:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: state
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_3:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: state
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_ITextChannel:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: State
+    - &ref_195
+      desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_1:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: State
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_2:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: State
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_3:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'コマンド実行時にメッセージを削除するかどうかの設定です。'
+      name: s
+      optional: false
+      type: State
+    - desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_List:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_1:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_2:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '特定のチャンネルで、コマンド実行時にメッセージを削除するかどうかを設定します。'
+  params:
+    - desc: '未使用のパラメーターです。'
+      name: _
+      optional: false
+      type: List
+deltxtchanl:
+  args:
+    - todelete
+  desc: '指定したテキストチャンネルを削除します。'
+  params:
+    - &ref_197
+      desc: '削除するテキストチャンネルです。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel:
+  args:
+    - todelete
+  desc: '指定したテキストチャンネルを削除します。'
+  params:
+    - desc: '削除するテキストチャンネルです。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_1:
+  args:
+    - todelete
+  desc: '指定したテキストチャンネルを削除します。'
+  params:
+    - desc: '削除するテキストチャンネルです。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_2:
+  args:
+    - todelete
+  desc: '指定したテキストチャンネルを削除します。'
+  params:
+    - desc: '削除するテキストチャンネルです。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+delvoichanl:
+  args:
+    - voicechannel
+  desc: '指定したボイスチャンネルを削除します。'
+  params:
+    - &ref_198
+      desc: '削除するボイスチャンネルです。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel:
+  args:
+    - voicechannel
+  desc: '指定したボイスチャンネルを削除します。'
+  params:
+    - desc: '削除するボイスチャンネルです。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_1:
+  args:
+    - voicechannel
+  desc: '指定したボイスチャンネルを削除します。'
+  params:
+    - desc: '削除するボイスチャンネルです。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_2:
+  args:
+    - voicechannel
+  desc: '指定したボイスチャンネルを削除します。'
+  params:
+    - desc: '削除するボイスチャンネルです。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+discordpermoverride:
+  args:
+    - cmd perms
+    - cmd
+  desc: '現在のサーバーで、特定のコマンドに必要な権限を上書きします。'
+  params:
+    - &ref_201
+      desc: '権限を上書きするコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_202
+      desc: 'コマンドの実行に必要な権限です。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]:
+  args:
+    - cmd perms
+    - cmd
+  desc: '現在のサーバーで、特定のコマンドに必要な権限を上書きします。'
+  params:
+    - desc: '権限を上書きするコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'コマンドの実行に必要な権限です。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_1:
+  args:
+    - cmd perms
+    - cmd
+  desc: '現在のサーバーで、特定のコマンドに必要な権限を上書きします。'
+  params:
+    - desc: '権限を上書きするコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'コマンドの実行に必要な権限です。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_2:
+  args:
+    - cmd perms
+    - cmd
+  desc: '現在のサーバーで、特定のコマンドに必要な権限を上書きします。'
+  params:
+    - desc: '権限を上書きするコマンドです。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'コマンドの実行に必要な権限です。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverridelist:
+  args:
+    - ''
+  desc: '現在のサーバーのすべてのコマンド権限の上書き設定を一覧表示します。'
+  params: [ ]
+discordpermoverridereset:
+  args:
+    - ''
+  desc: '現在のサーバーのすべてのコマンド権限の上書き設定をリセットします。'
+  params: [ ]
+dpo:
+  args:
+    - permission action
+  desc: 'Discord の権限を上書きします。'
+  params:
+    - desc: '上書きする権限です。'
+      name: permission
+      optional: false
+      type: string
+    - desc: '実行する操作です。'
+      name: action
+      optional: false
+      type: string
+dpol:
+  args:
+    - ''
+  desc: 'Discord の権限の上書き設定を一覧表示します。'
+  params: [ ]
+dpor:
+  args:
+    - ''
+  desc: 'Discord の権限の上書き設定をリセットします。'
+  params: [ ]
+edit:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを編集します。'
+  params:
+    - &ref_204
+      desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_205
+      desc: '編集するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_206
+      desc: 'メッセージの新しいテキストです。'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを編集します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '編集するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'メッセージの新しいテキストです。'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_1:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを編集します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '編集するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'メッセージの新しいテキストです。'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_2:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '指定したテキストチャンネル内のメッセージを編集します。'
+  params:
+    - desc: 'メッセージがあるテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '編集するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'メッセージの新しいテキストです。'
+      name: text
+      optional: true
+      type: string
+gamevoicechannel:
+  args:
+    - ''
+  desc: '現在のボイスチャンネルを、サーバーのゲーム用ボイスチャンネルとして切り替えます。'
+  params: [ ]
+greetdm:
+  args:
+    - ''
+  desc: 'DMでの挨拶メッセージの送信を切り替えます。'
+  params: [ ]
+greetdmmsg:
+  args:
+    - ''
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params: [ ]
+greetdmmsg_=:
+  args:
+    - '[text]'
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params:
+    - desc: 'DMの挨拶メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_1:
+  args:
+    - '[text]'
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params:
+    - desc: 'DMの挨拶メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_2:
+  args:
+    - '[text]'
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params:
+    - desc: 'DMの挨拶メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_3:
+  args:
+    - '[text]'
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params:
+    - desc: 'DMの挨拶メッセージとして設定するテキストです。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_noparams:
+  args:
+    - ''
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params: [ ]
+greetdmmsg_noparams_1:
+  args:
+    - ''
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params: [ ]
+greetdmmsg_noparams_2:
+  args:
+    - ''
+  desc: 'DMの挨拶メッセージを指定したテキストに設定します。'
+  params: [ ]
+greetdmtest:
+  args:
+    - '[@user]'
+  desc: 'DMの挨拶のテストメッセージを送信します。'
+  params:
+    - desc: 'DMの挨拶のテストを送信するユーザーです。'
+      name: user
+      optional: true
+      type: user
+guildstatsoptout:
+  args:
+    - ''
+  desc: 'サーバー全体の統計データの追跡を除外します。'
+  params: [ ]
+iam:
+  args:
+    - '@role'
+  desc: 'ユーザーに自己割り当て可能なロールを付与します。'
+  params:
+    - &ref_249
+      desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole:
+  args:
+    - '@role'
+  desc: 'ユーザーに自己割り当て可能なロールを付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_1:
+  args:
+    - '@role'
+  desc: 'ユーザーに自己割り当て可能なロールを付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_2:
+  args:
+    - '@role'
+  desc: 'ユーザーに自己割り当て可能なロールを付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+iamnot:
+  args:
+    - '@role'
+  desc: 'ユーザーから自己割り当てロールを削除します。'
+  params:
+    - &ref_250
+      desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole:
+  args:
+    - '@role'
+  desc: 'ユーザーから自己割り当てロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_1:
+  args:
+    - '@role'
+  desc: 'ユーザーから自己割り当てロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_2:
+  args:
+    - '@role'
+  desc: 'ユーザーから自己割り当てロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+kickunder:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'サーバーに指定した期間より短い期間在籍しているユーザーをキックします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'キック対象のユーザーをプレビューするための任意のパラメーターです。'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'サーバーに指定した期間より短い期間在籍しているユーザーをキックします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'キック対象のユーザーをプレビューするための任意のパラメーターです。'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_1:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'サーバーに指定した期間より短い期間在籍しているユーザーをキックします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'キック対象のユーザーをプレビューするための任意のパラメーターです。'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_2:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'サーバーに指定した期間より短い期間在籍しているユーザーをキックします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'キック対象のユーザーをプレビューするための任意のパラメーターです。'
+      name: option
+      optional: true
+      type: string
+langsetdefault:
+  args:
+    - language
+  desc: 'サーバーのデフォルト言語を設定します。'
+  params:
+    - desc: 'デフォルトに設定する言語コードです。'
+      name: language
+      optional: false
+      type: string
+languageset:
+  args:
+    - text
+  desc: '現在のサーバーの言語を設定します。'
+  params:
+    - &ref_264
+      desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languageset_string:
+  args:
+    - text
+  desc: '現在のサーバーの言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languageset_string_1:
+  args:
+    - text
+  desc: '現在のサーバーの言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languageset_string_2:
+  args:
+    - text
+  desc: '現在のサーバーの言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault:
+  args:
+    - ''
+  desc: 'ボットのデフォルト言語を設定します。'
+  params: [ ]
+languagesetdefault_noparams:
+  args:
+    - ''
+  desc: 'ボットのデフォルト言語を設定します。'
+  params: [ ]
+languagesetdefault_noparams_1:
+  args:
+    - ''
+  desc: 'ボットのデフォルト言語を設定します。'
+  params: [ ]
+languagesetdefault_noparams_2:
+  args:
+    - ''
+  desc: 'ボットのデフォルト言語を設定します。'
+  params: [ ]
+languagesetdefault_string:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_1:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_2:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_3:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_4:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - &ref_265
+      desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_5:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_6:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_7:
+  args:
+    - text
+  desc: 'ボットのデフォルト言語を設定します。'
+  params:
+    - desc: '言語名、またはデフォルト言語に戻す "default" を指定します。'
+      name: name
+      optional: false
+      type: string
+languageslist:
+  args:
+    - ''
+  desc: 'サポートされているすべての言語とそのコードを一覧表示します。'
+  params: [ ]
+leavehook:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: name
+      optional: true
+      type: string
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: image
+      optional: true
+      type: string
+    - desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: name
+      optional: true
+      type: string
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: image
+      optional: true
+      type: string
+    - desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_1:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: name
+      optional: true
+      type: string
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: image
+      optional: true
+      type: string
+    - desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_2:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: name
+      optional: true
+      type: string
+    - desc: '指定したテキストで退出メッセージを設定します。'
+      name: image
+      optional: true
+      type: string
+    - desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: true
+      type: string
+leavehook_string:
+  args:
+    - text
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - &ref_268
+      desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: false
+      type: string
+leavehook_string_1:
+  args:
+    - text
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: false
+      type: string
+leavehook_string_2:
+  args:
+    - text
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: false
+      type: string
+leavehook_string_3:
+  args:
+    - text
+  desc: '指定したテキストで退出メッセージを設定します。'
+  params:
+    - desc: '退出メッセージに含めるテキストです。'
+      name: text
+      optional: false
+      type: string
+log:
+  args:
+    - types
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - &ref_283
+      desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]:
+  args:
+    - types
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_1:
+  args:
+    - types
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_2:
+  args:
+    - types
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType_=:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: 'ログチャンネルとして設定するチャンネルです。指定しない場合は、そのイベントの種類のログを無効にします。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_1:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: 'ログチャンネルとして設定するチャンネルです。指定しない場合は、そのイベントの種類のログを無効にします。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_2:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: 'ログチャンネルとして設定するチャンネルです。指定しない場合は、そのイベントの種類のログを無効にします。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_3:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: 'ログチャンネルとして設定するチャンネルです。指定しない場合は、そのイベントの種類のログを無効にします。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_string[]:
+  args:
+    - text
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - &ref_284
+      desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_1:
+  args:
+    - text
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_2:
+  args:
+    - text
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_3:
+  args:
+    - text
+  desc: '特定のイベントの種類のログチャンネルを設定します。'
+  params:
+    - desc: '特定のイベントの種類のログチャンネルを設定します。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+logcategory:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '指定した種類のログのカテゴリを設定します。'
+  params:
+    - desc: 'カテゴリを設定するログの種類です。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'ログを送信するテキストチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '指定した種類のログのカテゴリを設定します。'
+  params:
+    - desc: 'カテゴリを設定するログの種類です。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'ログを送信するテキストチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_1:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '指定した種類のログのカテゴリを設定します。'
+  params:
+    - desc: 'カテゴリを設定するログの種類です。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'ログを送信するテキストチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_2:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '指定した種類のログのカテゴリを設定します。'
+  params:
+    - desc: 'カテゴリを設定するログの種類です。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'ログを送信するテキストチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+logevents:
+  args:
+    - ''
+  desc: 'サーバーの現在のログイベント設定を表示します。'
+  params: [ ]
+logignore:
+  args:
+    - channel
+  desc: 'チャンネルをログイベントの無視対象に切り替えます。'
+  params:
+    - desc: 'ログの無視対象にするチャンネルです。指定しない場合は現在のチャンネルを使います。'
+      name: channel
+      optional: true
+      type: ITextChannel
+logignorelist:
+  args:
+    - ''
+  desc: '現在ログの無視対象になっているすべてのチャンネルを一覧表示します。'
+  params: [ ]
+lsar:
+  args:
+    - ''
+  desc: 'サーバーで設定されている自動セルフアサインロールを一覧表示します。'
+  params: [ ]
+memberrole:
+  args:
+    - '@role'
+  desc: 'サーバーのメンバーロールを設定します。現在は使用されていません。'
+  params:
+    - &ref_292
+      desc: 'メンバーに付与されるロールです。'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole:
+  args:
+    - '@role'
+  desc: 'サーバーのメンバーロールを設定します。現在は使用されていません。'
+  params:
+    - desc: 'メンバーに付与されるロールです。'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'サーバーのメンバーロールを設定します。現在は使用されていません。'
+  params:
+    - desc: 'メンバーに付与されるロールです。'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'サーバーのメンバーロールを設定します。現在は使用されていません。'
+  params:
+    - desc: 'メンバーに付与されるロールです。'
+      name: role
+      optional: true
+      type: IRole
+nameban:
+  args:
+    - text
+  desc: '特定の名前のユーザーを BAN できます。このコマンドは、BAN 対象となるユーザーのプレビューを表示します。正規表現パターンも指定できます。'
+  params:
+    - &ref_326
+      desc: '使用する名前または正規表現パターンです。'
+      name: name
+      optional: false
+      type: string
+nameban_string:
+  args:
+    - text
+  desc: '特定の名前のユーザーを BAN できます。このコマンドは、BAN 対象となるユーザーのプレビューを表示します。正規表現パターンも指定できます。'
+  params:
+    - desc: '使用する名前または正規表現パターンです。'
+      name: name
+      optional: false
+      type: string
+nameban_string_1:
+  args:
+    - text
+  desc: '特定の名前のユーザーを BAN できます。このコマンドは、BAN 対象となるユーザーのプレビューを表示します。正規表現パターンも指定できます。'
+  params:
+    - desc: '使用する名前または正規表現パターンです。'
+      name: name
+      optional: false
+      type: string
+nameban_string_2:
+  args:
+    - text
+  desc: '特定の名前のユーザーを BAN できます。このコマンドは、BAN 対象となるユーザーのプレビューを表示します。正規表現パターンも指定できます。'
+  params:
+    - desc: '使用する名前または正規表現パターンです。'
+      name: name
+      optional: false
+      type: string
+nsfwtoggle:
+  args:
+    - ''
+  desc: '現在のテキストチャンネルの NSFW 設定を切り替えます。'
+  params: [ ]
+prefix:
+  args:
+    - prefix
+  desc: 'コマンドのプレフィックスを管理します。'
+  params:
+    - desc: '設定するプレフィックスです。'
+      name: prefix
+      optional: true
+      type: string
+prefixcommand:
+  args:
+    - ''
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params: [ ]
+prefixcommand_Set_string:
+  args:
+    - set text
+    - set
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - &ref_353
+      desc: 'サーバーのコマンドプレフィックスを設定します。'
+      name: _
+      optional: false
+      type: Set
+    - &ref_354
+      desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_1:
+  args:
+    - set text
+    - set
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - desc: 'サーバーのコマンドプレフィックスを設定します。'
+      name: _
+      optional: false
+      type: Set
+    - desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_2:
+  args:
+    - set text
+    - set
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - desc: 'サーバーのコマンドプレフィックスを設定します。'
+      name: _
+      optional: false
+      type: Set
+    - desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_3:
+  args:
+    - set text
+    - set
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - desc: 'サーバーのコマンドプレフィックスを設定します。'
+      name: _
+      optional: false
+      type: Set
+    - desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_noparams:
+  args:
+    - ''
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params: [ ]
+prefixcommand_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params: [ ]
+prefixcommand_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params: [ ]
+prefixcommand_string:
+  args:
+    - text
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_1:
+  args:
+    - text
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_2:
+  args:
+    - text
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_3:
+  args:
+    - text
+  desc: 'サーバーのコマンドプレフィックスを設定します。'
+  params:
+    - desc: '新しく設定するコマンドプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+prunemembers:
+  args:
+    - time "no"
+    - time
+  desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_360
+      desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=:
+  args:
+    - time "no"
+    - time
+  desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_1:
+  args:
+    - time "no"
+    - time
+  desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_2:
+  args:
+    - time "no"
+    - time
+  desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+  params:
+    - desc: 'カスタム形式の期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'アクティビティまたは非アクティビティに基づいて、サーバーからメンバーをプルーンします。'
+      name: '"no"'
+      optional: false
+      type: '='
+reactionroles:
+  args:
+    - messageid text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - &ref_380
+      desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_381
+      desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]:
+  args:
+    - excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - &ref_376
+      desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_375
+      desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_1:
+  args:
+    - excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - &ref_377
+      desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_2:
+  args:
+    - excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_3:
+  args:
+    - excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]:
+  args:
+    - excl messageid text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_378
+      desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_1:
+  args:
+    - excl messageid text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_2:
+  args:
+    - excl messageid text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_3:
+  args:
+    - excl messageid text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]:
+  args:
+    - text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_1:
+  args:
+    - text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_2:
+  args:
+    - text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_3:
+  args:
+    - text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]:
+  args:
+    - messageid excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_379
+      desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_1:
+  args:
+    - messageid excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_2:
+  args:
+    - messageid excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_3:
+  args:
+    - messageid excl text
+    - excl
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'ロールを排他的にするための除外パラメーターです。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]:
+  args:
+    - messageid text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_1:
+  args:
+    - messageid text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_2:
+  args:
+    - messageid text
+  desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+  params:
+    - desc: '指定した入力に基づいてリアクションロールを割り当てます。除外するロールも指定できます。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'リアクションに関連付けるロールと絵文字です。'
+      name: input
+      optional: false
+      type: string[]
+reactionroleslist:
+  args:
+    - ''
+  desc: 'サーバーに設定されているリアクションロールの一覧を表示します。'
+  params: [ ]
+reactionrolesremove:
+  args:
+    - number
+  desc: 'インデックスを指定して、リアクションロールを削除します。'
+  params:
+    - &ref_382
+      desc: '削除するリアクションロールのインデックスです。'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int:
+  args:
+    - number
+  desc: 'インデックスを指定して、リアクションロールを削除します。'
+  params:
+    - desc: '削除するリアクションロールのインデックスです。'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_1:
+  args:
+    - number
+  desc: 'インデックスを指定して、リアクションロールを削除します。'
+  params:
+    - desc: '削除するリアクションロールのインデックスです。'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_2:
+  args:
+    - number
+  desc: 'インデックスを指定して、リアクションロールを削除します。'
+  params:
+    - desc: '削除するリアクションロールのインデックスです。'
+      name: index
+      optional: false
+      type: int
+removeallroles:
+  args:
+    - '@user'
+  desc: '管理ロールと @everyone ロール以外のすべてのロールを、ユーザーから削除します。'
+  params:
+    - &ref_392
+      desc: 'すべてのロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser:
+  args:
+    - '@user'
+  desc: '管理ロールと @everyone ロール以外のすべてのロールを、ユーザーから削除します。'
+  params:
+    - desc: 'すべてのロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '管理ロールと @everyone ロール以外のすべてのロールを、ユーザーから削除します。'
+  params:
+    - desc: 'すべてのロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '管理ロールと @everyone ロール以外のすべてのロールを、ユーザーから削除します。'
+  params:
+    - desc: 'すべてのロールを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+removerole:
+  args:
+    - '@role @user'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - &ref_411
+      desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - &ref_410
+      desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: 'ユーザーからロールを削除します。'
+  params:
+    - desc: 'ユーザーから削除するロールです。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'ロールを削除するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+renamechannel:
+  args:
+    - channel text
+  desc: '指定したチャンネルの名前を変更します。'
+  params:
+    - &ref_418
+      desc: '名前を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'チャンネルの新しい名前です。'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string:
+  args:
+    - channel text
+  desc: '指定したチャンネルの名前を変更します。'
+  params:
+    - &ref_419
+      desc: '名前を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - &ref_420
+      desc: 'チャンネルの新しい名前です。'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_1:
+  args:
+    - channel text
+  desc: '指定したチャンネルの名前を変更します。'
+  params:
+    - desc: '名前を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'チャンネルの新しい名前です。'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_2:
+  args:
+    - channel text
+  desc: '指定したチャンネルの名前を変更します。'
+  params:
+    - desc: '名前を変更するチャンネルです。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'チャンネルの新しい名前です。'
+      name: name
+      optional: false
+      type: string
+renamerole:
+  args:
+    - '@role text'
+  desc: 'ロールの名前を変更します。'
+  params:
+    - &ref_423
+      desc: '名前を変更するロールです。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - &ref_424
+      desc: 'ロールの新しい名前です。'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string:
+  args:
+    - '@role text'
+  desc: 'ロールの名前を変更します。'
+  params:
+    - desc: '名前を変更するロールです。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'ロールの新しい名前です。'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_1:
+  args:
+    - '@role text'
+  desc: 'ロールの名前を変更します。'
+  params:
+    - desc: '名前を変更するロールです。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'ロールの新しい名前です。'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_2:
+  args:
+    - '@role text'
+  desc: 'ロールの名前を変更します。'
+  params:
+    - desc: '名前を変更するロールです。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'ロールの新しい名前です。'
+      name: newname
+      optional: false
+      type: string
+rolecolor:
+  args:
+    - '@role'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - &ref_444
+      desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole:
+  args:
+    - '@role'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - &ref_445
+      desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_2:
+  args:
+    - '@role'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_SKColor:
+  args:
+    - '@role color'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_446
+      desc: 'ロールの新しい色です。'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_1:
+  args:
+    - '@role color'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールの新しい色です。'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_2:
+  args:
+    - '@role color'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールの新しい色です。'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_3:
+  args:
+    - '@role color'
+  desc: '指定したロールの色を変更します。'
+  params:
+    - desc: '色を変更するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'ロールの新しい色です。'
+      name: color
+      optional: false
+      type: SKColor
+rolehoist:
+  args:
+    - '@role'
+  desc: '指定したロールのメンバーリストでの分離表示を切り替えます。'
+  params:
+    - &ref_456
+      desc: '分離表示を切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole:
+  args:
+    - '@role'
+  desc: '指定したロールのメンバーリストでの分離表示を切り替えます。'
+  params:
+    - desc: '分離表示を切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したロールのメンバーリストでの分離表示を切り替えます。'
+  params:
+    - desc: '分離表示を切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_2:
+  args:
+    - '@role'
+  desc: '指定したロールのメンバーリストでの分離表示を切り替えます。'
+  params:
+    - desc: '分離表示を切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq:
+  args:
+    - number @role
+  desc: '自動セルフアサインロールのレベル条件を設定します。'
+  params:
+    - &ref_458
+      desc: 'ロールを取得するために必要なレベルです。'
+      name: level
+      optional: false
+      type: int
+    - &ref_459
+      desc: 'レベル条件を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole:
+  args:
+    - number @role
+  desc: '自動セルフアサインロールのレベル条件を設定します。'
+  params:
+    - desc: 'ロールを取得するために必要なレベルです。'
+      name: level
+      optional: false
+      type: int
+    - desc: 'レベル条件を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_1:
+  args:
+    - number @role
+  desc: '自動セルフアサインロールのレベル条件を設定します。'
+  params:
+    - desc: 'ロールを取得するために必要なレベルです。'
+      name: level
+      optional: false
+      type: int
+    - desc: 'レベル条件を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_2:
+  args:
+    - number @role
+  desc: '自動セルフアサインロールのレベル条件を設定します。'
+  params:
+    - desc: 'ロールを取得するために必要なレベルです。'
+      name: level
+      optional: false
+      type: int
+    - desc: 'レベル条件を設定するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rsar:
+  args:
+    - '@role'
+  desc: '指定したロールを自動セルフアサインロールの一覧から削除します。'
+  params:
+    - &ref_471
+      desc: '自動セルフアサインロールの一覧から削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole:
+  args:
+    - '@role'
+  desc: '指定したロールを自動セルフアサインロールの一覧から削除します。'
+  params:
+    - desc: '自動セルフアサインロールの一覧から削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したロールを自動セルフアサインロールの一覧から削除します。'
+  params:
+    - desc: '自動セルフアサインロールの一覧から削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_2:
+  args:
+    - '@role'
+  desc: '指定したロールを自動セルフアサインロールの一覧から削除します。'
+  params:
+    - desc: '自動セルフアサインロールの一覧から削除するロールです。'
+      name: role
+      optional: false
+      type: IRole
+sargn:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '指定した自動セルフアサインロールのグループ名を設定または削除します。'
+  params:
+    - desc: '名前を設定または削除するグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: 'グループに設定する名前です。指定しない場合は、グループの名前が削除されます。'
+      name: name
+      optional: true
+      type: string
+sargn_int_=:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '指定した自動セルフアサインロールのグループ名を設定または削除します。'
+  params:
+    - desc: '名前を設定または削除するグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: 'グループに設定する名前です。指定しない場合は、グループの名前が削除されます。'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_1:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '指定した自動セルフアサインロールのグループ名を設定または削除します。'
+  params:
+    - desc: '名前を設定または削除するグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: 'グループに設定する名前です。指定しない場合は、グループの名前が削除されます。'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_2:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '指定した自動セルフアサインロールのグループ名を設定または削除します。'
+  params:
+    - desc: '名前を設定または削除するグループ番号です。'
+      name: group
+      optional: false
+      type: int
+    - desc: 'グループに設定する名前です。指定しない場合は、グループの名前が削除されます。'
+      name: name
+      optional: true
+      type: string
+setguildavatar:
+  args:
+    - text
+  desc: 'ボットのサーバー専用アバターを設定します。'
+  params:
+    - &ref_676
+      desc: 'アバター画像の URL です（添付ファイルを指定する場合は省略可能）。'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildavatar_string:
+  args:
+    - text
+  desc: 'ボットのサーバー専用アバターを設定します。'
+  params:
+    - desc: 'アバター画像の URL です（添付ファイルを指定する場合は省略可能）。'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildbanner:
+  args:
+    - text
+  desc: 'ボットのサーバー専用バナーを設定します。'
+  params:
+    - &ref_677
+      desc: 'バナー画像の URL です（添付ファイルを指定する場合は省略可能）。'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbanner_string:
+  args:
+    - text
+  desc: 'ボットのサーバー専用バナーを設定します。'
+  params:
+    - desc: 'バナー画像の URL です（添付ファイルを指定する場合は省略可能）。'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbio:
+  args:
+    - text
+  desc: 'ボットのサーバー専用の自己紹介文を設定します。'
+  params:
+    - &ref_678
+      desc: '自己紹介文です。'
+      name: bio
+      optional: false
+      type: string
+setguildbio_string:
+  args:
+    - text
+  desc: 'ボットのサーバー専用の自己紹介文を設定します。'
+  params:
+    - desc: '自己紹介文です。'
+      name: bio
+      optional: false
+      type: string
+setchanlname:
+  args:
+    - text
+  desc: '現在のテキストチャンネルの名前を設定します。'
+  params:
+    - &ref_493
+      desc: 'テキストチャンネルに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setchanlname_string:
+  args:
+    - text
+  desc: '現在のテキストチャンネルの名前を設定します。'
+  params:
+    - desc: 'テキストチャンネルに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_1:
+  args:
+    - text
+  desc: '現在のテキストチャンネルの名前を設定します。'
+  params:
+    - desc: 'テキストチャンネルに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_2:
+  args:
+    - text
+  desc: '現在のテキストチャンネルの名前を設定します。'
+  params:
+    - desc: 'テキストチャンネルに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setnick:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=:
+  args:
+    - '@gu [newNick]'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_1:
+  args:
+    - '@gu [newNick]'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_2:
+  args:
+    - '@gu [newNick]'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_3:
+  args:
+    - '@gu [newNick]'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_1:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_2:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'ボットのニックネームを設定するオーバーロードです。'
+  params:
+    - desc: 'ボットのニックネームを設定するオーバーロードです。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '設定する新しいニックネームです。'
+      name: newNick
+      optional: true
+      type: string
+setrole:
+  args:
+    - '@role @user'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - &ref_520
+      desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - &ref_519
+      desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_StoopidTime:
+  args:
+    - '@role @user time'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - &ref_525
+      desc: 'ロールが有効になる期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+setrole_IGuildUser_IRole_StoopidTime:
+  args:
+    - '@user @role time'
+  desc: '指定した期間、ユーザーにロールを付与します。'
+  params:
+    - desc: 'ロールを付与するユーザーです。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーに付与するロールです。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'ロールが有効になる期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+settopic:
+  args:
+    - '[topic]'
+  desc: '現在のテキストチャンネルのトピックを設定します。'
+  params:
+    - desc: 'テキストチャンネルに設定するトピックです。'
+      name: topic
+      optional: true
+      type: string
+staffrole:
+  args:
+    - '[@role]'
+  desc: 'スタッフメンバーに付与するロールを設定または更新します。'
+  params:
+    - desc: 'スタッフメンバーに付与するロールです。'
+      name: role
+      optional: true
+      type: role
+staffroledisable:
+  args:
+    - ''
+  desc: 'スタッフメンバーに付与するロールを無効にします。'
+  params: [ ]
+timezone:
+  args:
+    - ''
+  desc: 'タイムゾーンの情報を表示します。'
+  params: [ ]
+timezone_noparams:
+  args:
+    - ''
+  desc: 'タイムゾーンの情報を表示します。'
+  params: [ ]
+timezone_noparams_1:
+  args:
+    - ''
+  desc: 'タイムゾーンの情報を表示します。'
+  params: [ ]
+timezone_noparams_2:
+  args:
+    - ''
+  desc: 'タイムゾーンの情報を表示します。'
+  params: [ ]
+timezone_string:
+  args:
+    - text
+  desc: 'タイムゾーンの情報を表示します。'
+  params:
+    - &ref_625
+      desc: 'タイムゾーンの ID です。'
+      name: id
+      optional: false
+      type: string
+timezone_string_1:
+  args:
+    - text
+  desc: 'タイムゾーンの情報を表示します。'
+  params:
+    - desc: 'タイムゾーンの ID です。'
+      name: id
+      optional: false
+      type: string
+timezone_string_2:
+  args:
+    - text
+  desc: 'タイムゾーンの情報を表示します。'
+  params:
+    - desc: 'タイムゾーンの ID です。'
+      name: id
+      optional: false
+      type: string
+timezone_string_3:
+  args:
+    - text
+  desc: 'タイムゾーンの情報を表示します。'
+  params:
+    - desc: 'タイムゾーンの ID です。'
+      name: id
+      optional: false
+      type: string
+timezones_noparams_1:
+  args:
+    - ''
+  desc: '利用可能なすべてのタイムゾーンを一覧表示します。'
+  params: [ ]
+togglexclsar:
+  args:
+    - ''
+  desc: '自動セルフアサインロールの排他設定を切り替えます。'
+  params: [ ]
+undeafen:
+  args:
+    - '@user'
+  desc: 'サーバー内の指定したユーザーのスピーカーミュートを解除します。'
+  params:
+    - desc: 'スピーカーミュートを解除するユーザーです。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+vcrole:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrole_=:
+  args:
+    - '@vchan [@role]'
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrole_=_1:
+  args:
+    - '@vchan [@role]'
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrole_=_2:
+  args:
+    - '@vchan [@role]'
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrole_=_3:
+  args:
+    - '@vchan [@role]'
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_1:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_2:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルに参加中に、ロールをボイスチャンネルに紐付けるか、紐付けを解除します。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'ボイスチャンネルに紐付けるロールです。'
+      name: role
+      optional: true
+      type: role
+vcrolelist:
+  args:
+    - ''
+  desc: 'このサーバーのすべてのボイスチャンネルロールを一覧表示します。'
+  params: [ ]
+vcrolerm:
+  args:
+    - vcid
+  desc: 'ボイスチャンネルからロールの紐付けを解除します。'
+  params:
+    - &ref_641
+      desc: 'ボイスチャンネルの ID です。'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong:
+  args:
+    - vcid
+  desc: 'ボイスチャンネルからロールの紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルの ID です。'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_1:
+  args:
+    - vcid
+  desc: 'ボイスチャンネルからロールの紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルの ID です。'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_2:
+  args:
+    - vcid
+  desc: 'ボイスチャンネルからロールの紐付けを解除します。'
+  params:
+    - desc: 'ボイスチャンネルの ID です。'
+      name: vcId
+      optional: false
+      type: ulong
+timezones:
+  args:
+    - ''
+  desc: '利用可能なすべてのタイムゾーンを一覧表示します。'
+  params: [ ]
+antimasspost:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Mass-Post 保護を無効にします。引数を指定すると設定を変更します。'
+  params: [ ]
+antipostchannel:
+  args:
+    - ''
+  desc: 'サーバーの Anti-Post-Channel 保護を無効にします。引数を指定すると設定を変更します。'
+  params: [ ]
+antipostchanneladd:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Anti-Post-Channel 保護にハニーポットチャンネルを追加します。'
+  params:
+    - desc: 'ハニーポットとして追加するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+antipostchannelremove:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Anti-Post-Channel 保護からハニーポットチャンネルを削除します。'
+  params:
+    - desc: 'ハニーポットの監視から削除するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+antiimagehash:
+  args:
+    - ''
+    - 'Ban'
+    - 'Delete 31'
+    - 'Timeout 31 1d'
+  desc: 'Anti-Image-Hash 保護を有効にします。ブロックされた画像リストに含まれる画像を再投稿した人に対して処置を行います。リサイズ、反転、画質を下げて再アップロードされた画像、枠付きの画像も対象です。引数なしで実行すると無効になります。任意の許容度（0〜64、デフォルトは31）で、投稿された画像がどの程度異なっていてもブロック対象とみなすかを設定します。'
+  params: [ ]
+antiimagehashignore:
+  args:
+    - '<role>'
+    - '<channel>'
+  desc: 'ロールまたはチャンネルを Anti-Image-Hash 保護の対象外に設定、または解除します。'
+  params: [ ]
+antiexternalapp:
+  args:
+    - ''
+    - 'Timeout'
+    - 'Timeout 5 5 1h'
+    - 'Kick 3 0'
+  desc: 'Anti-External-App 保護を有効にします。メンバーが自分のアカウントに追加したアプリから送信されたメッセージを監視します。メンションするユーザーやロールが多すぎる場合（デフォルトは5、0で無効）、@everyone を含む場合、招待リンクを含む場合、または10秒以内にアプリの実行回数が許可数（デフォルトは5、0で無効）を超えた場合、そのメッセージは削除され、アプリを実行したメンバーは処罰されます。サーバーに追加されたアプリはチェックされません。引数なしで実行すると無効になります。'
+  params: [ ]
+blockimage:
+  args:
+    - ''
+    - 'mrbeast crypto scam'
+    - 'Delete nsfw meme'
+    - 'https://example.com/scam.png mrbeast crypto scam'
+  desc: '画像をブロックし、再投稿された場合に処置を行います。リサイズ、再圧縮、反転、枠付きのコピーも対象です。画像を添付するか、画像を含むメッセージに返信するか、URL を指定してください。ラベルの前に指定した処置は、この画像に限りサーバーのデフォルトより優先されます。'
+  params: [ ]
+unblockimage:
+  args:
+    - '<id>'
+  desc: 'blockedimages で表示される ID を指定して、画像をブロックリストから削除します。'
+  params: [ ]
+blockedimages:
+  args:
+    - ''
+  desc: 'ブロックされた画像を、それぞれが検出された回数とともに一覧表示します。'
+  params: [ ]
+imagehash:
+  args:
+    - ''
+    - 'https://example.com/scam.png'
+  desc: '画像をブロックせずに、その知覚ハッシュを表示します。'
+  params: [ ]
+antiimagehashpreset:
+  args:
+    - ''
+  desc: 'Mewdeko に同梱されている既知の詐欺画像リストの有効または無効を切り替えます。現在 Discord で拡散されている偽の暗号資産カジノや賞品プレゼントの画像が含まれます。これらは独自のリストと合わせてブロックされます。Anti-Image-Hash の有効時はデフォルトで有効です。'
+  params: [ ]

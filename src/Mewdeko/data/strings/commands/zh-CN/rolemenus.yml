@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: '列出本服务器中的每个身份组菜单，包括其频道、类型、选项数量和状态。'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: '显示单个身份组菜单的全部信息：频道、类型、选择规则、所需身份组、确认方式和选项。'
+  params:
+    - desc: '来自 rolemenus 的菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: '在频道中发布新的身份组菜单，每个身份组对应一个选项。成员可通过下拉菜单或按钮获得或放弃这些身份组。'
+  params:
+    - desc: '发布菜单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '下拉菜单或按钮。'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: '一个或多个身份组，最多 25 个。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: '向菜单添加身份组，可选表情和名称，并更新已发布的消息。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '新选项授予的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '可选表情，后跟菜单上显示的名称。默认为身份组名称。'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: '从菜单中移除身份组，并更新已发布的消息。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '要从菜单中移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: '重命名菜单。该名称会作为默认消息的标题，并显示在列表中。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '新名称，最多 100 个字符。'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: '设置菜单上方的文字，可以是纯文本或嵌入构建器生成的嵌入 JSON。仅发送 ID 可查看当前消息，发送 "clear" 则恢复为默认的选项列表。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '消息内容、"clear"，或留空以查看。'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: '在下拉菜单和按钮之间切换菜单样式。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '下拉菜单或按钮。'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: '设置成员从菜单中只能选择一个身份组（选择其他身份组会替换），还是可以选择任意数量的身份组。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'exclusive 表示单选，multi 表示多选。'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: '设置成员必须保留并可持有的菜单身份组数量范围。最大值为 0 表示不限。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '成员选择后必须保留的最少身份组数量。'
+      name: min
+      optional: false
+      type: int
+    - desc: '成员可持有的最多身份组数量，0 表示不限。'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: '仅允许拥有某身份组的成员使用该菜单。省略该身份组则所有人都可使用。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '使用该菜单所需的身份组。省略则清除。'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: '设置成员是否收到一条私密提示，列出其获得和失去的身份组，或完全不发提示。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private 或 silent。'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: '暂停菜单，使其下拉菜单或按钮变灰；若已暂停则恢复。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: '在同一或其他频道中重新发布菜单的新副本，并删除旧消息。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '发布位置。默认为当前频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: '删除菜单及其消息。成员保留已选择的身份组。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: '将消息上较早的表情身份组设置迁移到同一频道的新身份组菜单中，然后停用旧设置。'
+  params:
+    - desc: '带有旧设置的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '下拉菜单或按钮。默认为下拉菜单。'
+      name: style
+      optional: true
+      type: RoleMenuStyle

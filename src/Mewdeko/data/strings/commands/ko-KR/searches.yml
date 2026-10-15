@@ -1,0 +1,2459 @@
+anime:
+  args:
+    - text
+  desc: '애니메이션을 검색하고 검색 결과의 정보를 표시합니다.'
+  params:
+    - &ref_66
+      desc: '검색할 내용입니다.'
+      name: query
+      optional: false
+      type: string
+anime_string:
+  args:
+    - text
+  desc: '애니메이션을 검색하고 검색 결과의 정보를 표시합니다.'
+  params:
+    - desc: '검색할 내용입니다.'
+      name: query
+      optional: false
+      type: string
+anime_string_1:
+  args:
+    - text
+  desc: '애니메이션을 검색하고 검색 결과의 정보를 표시합니다.'
+  params:
+    - desc: '검색할 내용입니다.'
+      name: query
+      optional: false
+      type: string
+anime_string_2:
+  args:
+    - text
+  desc: '애니메이션을 검색하고 검색 결과의 정보를 표시합니다.'
+  params:
+    - desc: '검색할 내용입니다.'
+      name: query
+      optional: false
+      type: string
+autotranslang:
+  args:
+    - '[langs]'
+  desc: '현재 채널에서 사용자의 자동 번역 기본 언어 쌍을 설정하거나 제거합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다. 설정을 제거하려면 null을 입력하세요.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=:
+  args:
+    - '[langs]'
+  desc: '현재 채널에서 사용자의 자동 번역 기본 언어 쌍을 설정하거나 제거합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다. 설정을 제거하려면 null을 입력하세요.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_1:
+  args:
+    - '[langs]'
+  desc: '현재 채널에서 사용자의 자동 번역 기본 언어 쌍을 설정하거나 제거합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다. 설정을 제거하려면 null을 입력하세요.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_2:
+  args:
+    - '[langs]'
+  desc: '현재 채널에서 사용자의 자동 번역 기본 언어 쌍을 설정하거나 제거합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다. 설정을 제거하려면 null을 입력하세요.'
+      name: langs
+      optional: true
+      type: string
+autotranslate:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+  params:
+    - &ref_97
+      desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+  params:
+    - desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_1:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+  params:
+    - desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_2:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+  params:
+    - desc: '현재 채널의 자동 번역을 켜거나 끕니다. 원본 메시지 자동 삭제를 함께 설정할 수 있습니다.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+baka:
+  args:
+    - text
+  desc: '누군가를 바보라고 부릅니다.'
+  params:
+    - &ref_98
+      desc: '바보라고 부를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+baka_string:
+  args:
+    - text
+  desc: '누군가를 바보라고 부릅니다.'
+  params:
+    - &ref_99
+      desc: '바보라고 부를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_1:
+  args:
+    - text
+  desc: '누군가를 바보라고 부릅니다.'
+  params:
+    - desc: '바보라고 부를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_2:
+  args:
+    - text
+  desc: '누군가를 바보라고 부릅니다.'
+  params:
+    - desc: '바보라고 부를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+bible:
+  args:
+    - text text
+  desc: '책, 장, 절을 기준으로 성경 구절을 검색하여 표시합니다.'
+  params:
+    - &ref_111
+      desc: '성경의 책 이름입니다.'
+      name: book
+      optional: false
+      type: string
+    - &ref_112
+      desc: '"장:절" 형식의 장과 절입니다.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string:
+  args:
+    - text text
+  desc: '책, 장, 절을 기준으로 성경 구절을 검색하여 표시합니다.'
+  params:
+    - desc: '성경의 책 이름입니다.'
+      name: book
+      optional: false
+      type: string
+    - desc: '"장:절" 형식의 장과 절입니다.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_1:
+  args:
+    - text text
+  desc: '책, 장, 절을 기준으로 성경 구절을 검색하여 표시합니다.'
+  params:
+    - desc: '성경의 책 이름입니다.'
+      name: book
+      optional: false
+      type: string
+    - desc: '"장:절" 형식의 장과 절입니다.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_2:
+  args:
+    - text text
+  desc: '책, 장, 절을 기준으로 성경 구절을 검색하여 표시합니다.'
+  params:
+    - desc: '성경의 책 이름입니다.'
+      name: book
+      optional: false
+      type: string
+    - desc: '"장:절" 형식의 장과 절입니다.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bite:
+  args:
+    - text
+  desc: '누군가를 뭅니다.'
+  params:
+    - desc: '깨물 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+blush:
+  args:
+    - '[toShow]'
+  desc: '얼굴을 붉힙니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+bored:
+  args:
+    - '[toShow]'
+  desc: '지루함을 표현합니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+catfact:
+  args:
+    - ''
+  desc: '무작위 고양이 사실을 가져와 공유합니다.'
+  params: [ ]
+charinfo:
+  args:
+    - text
+  desc: '캐릭터 정보를 검색하여 표시합니다.'
+  params:
+    - &ref_125
+      desc: '검색할 캐릭터의 이름입니다.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string:
+  args:
+    - text
+  desc: '캐릭터 정보를 검색하여 표시합니다.'
+  params:
+    - desc: '검색할 캐릭터의 이름입니다.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_1:
+  args:
+    - text
+  desc: '캐릭터 정보를 검색하여 표시합니다.'
+  params:
+    - desc: '검색할 캐릭터의 이름입니다.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_2:
+  args:
+    - text
+  desc: '캐릭터 정보를 검색하여 표시합니다.'
+  params:
+    - desc: '검색할 캐릭터의 이름입니다.'
+      name: chara
+      optional: false
+      type: string
+chucknorris:
+  args:
+    - ''
+  desc: '척 노리스 농담을 가져옵니다.'
+  params: [ ]
+color:
+  args:
+    - colors
+  desc: '입력한 16진수 색상 코드의 색상 견본을 표시합니다.'
+  params:
+    - &ref_137
+      desc: '표시할 색상을 나타내는 SKColor 객체 배열입니다.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]:
+  args:
+    - colors
+  desc: '입력한 16진수 색상 코드의 색상 견본을 표시합니다.'
+  params:
+    - desc: '표시할 색상을 나타내는 SKColor 객체 배열입니다.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_1:
+  args:
+    - colors
+  desc: '입력한 16진수 색상 코드의 색상 견본을 표시합니다.'
+  params:
+    - desc: '표시할 색상을 나타내는 SKColor 객체 배열입니다.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_2:
+  args:
+    - colors
+  desc: '입력한 16진수 색상 코드의 색상 견본을 표시합니다.'
+  params:
+    - desc: '표시할 색상을 나타내는 SKColor 객체 배열입니다.'
+      name: colors
+      optional: false
+      type: SKColor[]
+cry:
+  args:
+    - '[toShow]'
+  desc: '웁니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+cuddle:
+  args:
+    - text
+  desc: '누군가와 껴안고 애교를 부립니다.'
+  params:
+    - &ref_170
+      desc: '함께 껴안을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string:
+  args:
+    - text
+  desc: '누군가와 껴안고 애교를 부립니다.'
+  params:
+    - &ref_171
+      desc: '함께 껴안을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_1:
+  args:
+    - text
+  desc: '누군가와 껴안고 애교를 부립니다.'
+  params:
+    - desc: '함께 껴안을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_2:
+  args:
+    - text
+  desc: '누군가와 껴안고 애교를 부립니다.'
+  params:
+    - desc: '함께 껴안을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+dance:
+  args:
+    - '[toShow]'
+  desc: '춤을 춥니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+define:
+  args:
+    - text
+  desc: 'Pearson 사전에서 뜻을 가져와 표시합니다.'
+  params:
+    - &ref_179
+      desc: '뜻을 찾을 단어입니다.'
+      name: word
+      optional: false
+      type: string
+define_string:
+  args:
+    - text
+  desc: 'Pearson 사전에서 뜻을 가져와 표시합니다.'
+  params:
+    - desc: '뜻을 찾을 단어입니다.'
+      name: word
+      optional: false
+      type: string
+define_string_1:
+  args:
+    - text
+  desc: 'Pearson 사전에서 뜻을 가져와 표시합니다.'
+  params:
+    - desc: '뜻을 찾을 단어입니다.'
+      name: word
+      optional: false
+      type: string
+define_string_2:
+  args:
+    - text
+  desc: 'Pearson 사전에서 뜻을 가져와 표시합니다.'
+  params:
+    - desc: '뜻을 찾을 단어입니다.'
+      name: word
+      optional: false
+      type: string
+facepalm:
+  args:
+    - '[toShow]'
+  desc: '손으로 이마를 칩니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+feed:
+  args:
+    - text
+  desc: '누군가에게 먹이를 줍니다.'
+  params:
+    - &ref_213
+      desc: '먹이를 줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+feed_string:
+  args:
+    - text
+  desc: '누군가에게 먹이를 줍니다.'
+  params:
+    - desc: '먹이를 줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_1:
+  args:
+    - text
+  desc: '누군가에게 먹이를 줍니다.'
+  params:
+    - desc: '먹이를 줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_2:
+  args:
+    - text
+  desc: '누군가에게 먹이를 줍니다.'
+  params:
+    - desc: '먹이를 줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+feedadd:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '서버의 피드 목록에 새 RSS 피드를 추가합니다.'
+  params:
+    - desc: 'RSS 피드의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+    - desc: '피드 업데이트를 보낼 채널입니다 (선택 사항, 기본값은 현재 채널).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '서버의 피드 목록에 새 RSS 피드를 추가합니다.'
+  params:
+    - desc: 'RSS 피드의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+    - desc: '피드 업데이트를 보낼 채널입니다 (선택 사항, 기본값은 현재 채널).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_1:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '서버의 피드 목록에 새 RSS 피드를 추가합니다.'
+  params:
+    - desc: 'RSS 피드의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+    - desc: '피드 업데이트를 보낼 채널입니다 (선택 사항, 기본값은 현재 채널).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_2:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '서버의 피드 목록에 새 RSS 피드를 추가합니다.'
+  params:
+    - desc: 'RSS 피드의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+    - desc: '피드 업데이트를 보낼 채널입니다 (선택 사항, 기본값은 현재 채널).'
+      name: channel
+      optional: true
+      type: channel
+feedlist:
+  args:
+    - ''
+  desc: '서버에 추가된 모든 RSS 피드를 나열합니다.'
+  params: [ ]
+feedmessage:
+  args:
+    - number text
+  desc: '특정 채널의 피드 업데이트에 사용자 지정 메시지 형식을 설정합니다.'
+  params:
+    - &ref_215
+      desc: '목록에 있는 피드의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+    - &ref_216
+      desc: '사용자 지정 메시지 형식입니다.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string:
+  args:
+    - number text
+  desc: '특정 채널의 피드 업데이트에 사용자 지정 메시지 형식을 설정합니다.'
+  params:
+    - desc: '목록에 있는 피드의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+    - desc: '사용자 지정 메시지 형식입니다.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_1:
+  args:
+    - number text
+  desc: '특정 채널의 피드 업데이트에 사용자 지정 메시지 형식을 설정합니다.'
+  params:
+    - desc: '목록에 있는 피드의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+    - desc: '사용자 지정 메시지 형식입니다.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_2:
+  args:
+    - number text
+  desc: '특정 채널의 피드 업데이트에 사용자 지정 메시지 형식을 설정합니다.'
+  params:
+    - desc: '목록에 있는 피드의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+    - desc: '사용자 지정 메시지 형식입니다.'
+      name: message
+      optional: false
+      type: string
+feedremove:
+  args:
+    - number
+  desc: '서버의 피드 목록에서 RSS 피드를 삭제합니다.'
+  params:
+    - desc: '목록에 있는 피드의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+findanime:
+  args:
+    - '[e]'
+  desc: '이미지를 기준으로 애니메이션 정보를 찾습니다.'
+  params:
+    - desc: '검색에 사용할 이미지 URL 또는 첨부 이미지입니다.'
+      name: e
+      optional: true
+      type: string
+gatari:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu!Gatari 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu!Gatari 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu!Gatari 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu!Gatari 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+google:
+  args:
+    - '[query]'
+  desc: 'Google 또는 DuckDuckGo 검색 엔진으로 일반 검색을 수행하고 결과를 표시합니다.'
+  params:
+    - desc: '검색어입니다.'
+      name: query
+      optional: true
+      type: string
+google_=:
+  args:
+    - '[query]'
+  desc: 'Google 또는 DuckDuckGo 검색 엔진으로 일반 검색을 수행하고 결과를 표시합니다.'
+  params:
+    - desc: '검색어입니다.'
+      name: query
+      optional: true
+      type: string
+google_=_1:
+  args:
+    - '[query]'
+  desc: 'Google 또는 DuckDuckGo 검색 엔진으로 일반 검색을 수행하고 결과를 표시합니다.'
+  params:
+    - desc: '검색어입니다.'
+      name: query
+      optional: true
+      type: string
+google_=_2:
+  args:
+    - '[query]'
+  desc: 'Google 또는 DuckDuckGo 검색 엔진으로 일반 검색을 수행하고 결과를 표시합니다.'
+  params:
+    - desc: '검색어입니다.'
+      name: query
+      optional: true
+      type: string
+handhold:
+  args:
+    - text
+  desc: '누군가의 손을 잡습니다.'
+  params:
+    - &ref_242
+      desc: '손을 잡을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string:
+  args:
+    - text
+  desc: '누군가의 손을 잡습니다.'
+  params:
+    - desc: '손을 잡을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_1:
+  args:
+    - text
+  desc: '누군가의 손을 잡습니다.'
+  params:
+    - &ref_243
+      desc: '손을 잡을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_2:
+  args:
+    - text
+  desc: '누군가의 손을 잡습니다.'
+  params:
+    - desc: '손을 잡을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+happy:
+  args:
+    - '[toShow]'
+  desc: '행복함을 표현합니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+highfive:
+  args:
+    - text
+  desc: '누군가와 하이파이브를 합니다.'
+  params:
+    - desc: '하이파이브를 할 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+hug:
+  args:
+    - text
+  desc: '누군가를 안아줍니다.'
+  params:
+    - desc: '안아줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+hug_string:
+  args:
+    - text
+  desc: '누군가를 안아줍니다.'
+  params:
+    - desc: '안아줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_1:
+  args:
+    - text
+  desc: '누군가를 안아줍니다.'
+  params:
+    - desc: '안아줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_2:
+  args:
+    - text
+  desc: '누군가를 안아줍니다.'
+  params:
+    - desc: '안아줄 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+image:
+  args:
+    - text
+  desc: 'Google과 DuckDuckGo에서 이미지를 검색한 뒤 NSFW 결과를 걸러냅니다.'
+  params:
+    - &ref_251
+      desc: '이미지 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+image_string:
+  args:
+    - text
+  desc: 'Google과 DuckDuckGo에서 이미지를 검색한 뒤 NSFW 결과를 걸러냅니다.'
+  params:
+    - &ref_252
+      desc: '이미지 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+image_string_1:
+  args:
+    - text
+  desc: 'Google과 DuckDuckGo에서 이미지를 검색한 뒤 NSFW 결과를 걸러냅니다.'
+  params:
+    - desc: '이미지 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+image_string_2:
+  args:
+    - text
+  desc: 'Google과 DuckDuckGo에서 이미지를 검색한 뒤 NSFW 결과를 걸러냅니다.'
+  params:
+    - desc: '이미지 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+kiss:
+  args:
+    - text
+  desc: '누군가에게 입맞춤합니다.'
+  params:
+    - desc: '입맞춤할 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string:
+  args:
+    - text
+  desc: '누군가에게 입맞춤합니다.'
+  params:
+    - desc: '입맞춤할 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_1:
+  args:
+    - text
+  desc: '누군가에게 입맞춤합니다.'
+  params:
+    - desc: '입맞춤할 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_2:
+  args:
+    - text
+  desc: '누군가에게 입맞춤합니다.'
+  params:
+    - desc: '입맞춤할 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+laugh:
+  args:
+    - '[toShow]'
+  desc: '웃습니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+magicitem:
+  args:
+    - ''
+  desc: 'World of Warcraft의 마법 아이템 설명을 가져옵니다.'
+  params: [ ]
+mal:
+  args:
+    - text
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - &ref_288
+      desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+      name: name
+      optional: true
+      type: string
+mal_IGuildUser:
+  args:
+    - '@user'
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - &ref_287
+      desc: 'MyAnimeList 프로필 정보를 가져올 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - desc: 'MyAnimeList 프로필 정보를 가져올 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - desc: 'MyAnimeList 프로필 정보를 가져올 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_3:
+  args:
+    - '@user'
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - desc: 'MyAnimeList 프로필 정보를 가져올 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_string:
+  args:
+    - text
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+      name: name
+      optional: true
+      type: string
+mal_string_1:
+  args:
+    - text
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+      name: name
+      optional: true
+      type: string
+mal_string_2:
+  args:
+    - text
+  desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+  params:
+    - desc: '현재 서버에서 지정한 사용자의 MyAnimeList 프로필 정보를 가져와 표시합니다.'
+      name: name
+      optional: true
+      type: string
+manga:
+  args:
+    - text
+  desc: '만화를 검색하고 검색 결과의 정보를 표시합니다.'
+  params:
+    - desc: '검색할 내용입니다.'
+      name: query
+      optional: false
+      type: string
+meme:
+  args:
+    - ''
+  desc: 'Reddit에서 무작위 밈을 가져와 표시합니다.'
+  params: [ ]
+meme_noparams:
+  args:
+    - ''
+  desc: 'Reddit에서 무작위 밈을 가져와 표시합니다.'
+  params: [ ]
+meme_noparams_1:
+  args:
+    - ''
+  desc: 'Reddit에서 무작위 밈을 가져와 표시합니다.'
+  params: [ ]
+meme_noparams_2:
+  args:
+    - ''
+  desc: 'Reddit에서 무작위 밈을 가져와 표시합니다.'
+  params: [ ]
+memegen:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '지정한 템플릿과 텍스트로 밈을 만듭니다.'
+  params:
+    - desc: '밈 템플릿의 이름입니다.'
+      name: meme
+      optional: false
+      type: string
+    - desc: '밈에 넣을 텍스트입니다 (선택 사항).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '지정한 템플릿과 텍스트로 밈을 만듭니다.'
+  params:
+    - desc: '밈 템플릿의 이름입니다.'
+      name: meme
+      optional: false
+      type: string
+    - desc: '밈에 넣을 텍스트입니다 (선택 사항).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_1:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '지정한 템플릿과 텍스트로 밈을 만듭니다.'
+  params:
+    - desc: '밈 템플릿의 이름입니다.'
+      name: meme
+      optional: false
+      type: string
+    - desc: '밈에 넣을 텍스트입니다 (선택 사항).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_2:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '지정한 템플릿과 텍스트로 밈을 만듭니다.'
+  params:
+    - desc: '밈 템플릿의 이름입니다.'
+      name: meme
+      optional: false
+      type: string
+    - desc: '밈에 넣을 텍스트입니다 (선택 사항).'
+      name: memeText
+      optional: true
+      type: string
+memelist:
+  args:
+    - ''
+  desc: '사용 가능한 밈 템플릿을 나열합니다.'
+  params: [ ]
+movie:
+  args:
+    - '[query]'
+  desc: '입력한 검색어로 IMDb에서 영화 정보를 가져와 표시합니다.'
+  params:
+    - desc: 'IMDb에서 검색할 영화 제목입니다.'
+      name: query
+      optional: true
+      type: string
+movie_=:
+  args:
+    - '[query]'
+  desc: '입력한 검색어로 IMDb에서 영화 정보를 가져와 표시합니다.'
+  params:
+    - desc: 'IMDb에서 검색할 영화 제목입니다.'
+      name: query
+      optional: true
+      type: string
+movie_=_1:
+  args:
+    - '[query]'
+  desc: '입력한 검색어로 IMDb에서 영화 정보를 가져와 표시합니다.'
+  params:
+    - desc: 'IMDb에서 검색할 영화 제목입니다.'
+      name: query
+      optional: true
+      type: string
+movie_=_2:
+  args:
+    - '[query]'
+  desc: '입력한 검색어로 IMDb에서 영화 정보를 가져와 표시합니다.'
+  params:
+    - desc: 'IMDb에서 검색할 영화 제목입니다.'
+      name: query
+      optional: true
+      type: string
+osu:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+osu5:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '사용자의 osu! 상위 5개 플레이 기록을 가져옵니다.'
+  params:
+    - desc: '플레이 기록을 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '플레이 기록을 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '사용자의 osu! 상위 5개 플레이 기록을 가져옵니다.'
+  params:
+    - desc: '플레이 기록을 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '플레이 기록을 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '사용자의 osu! 상위 5개 플레이 기록을 가져옵니다.'
+  params:
+    - desc: '플레이 기록을 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '플레이 기록을 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '사용자의 osu! 상위 5개 플레이 기록을 가져옵니다.'
+  params:
+    - desc: '플레이 기록을 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '플레이 기록을 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! 사용자 프로필 정보를 가져옵니다.'
+  params:
+    - desc: '정보를 가져올 osu! 사용자 이름입니다.'
+      name: user
+      optional: false
+      type: string
+    - desc: '정보를 가져올 게임 모드입니다 (standard, taiko, catch, mania) (선택 사항).'
+      name: mode
+      optional: true
+      type: string
+pat:
+  args:
+    - text
+  desc: '누군가의 머리를 쓰다듬습니다.'
+  params:
+    - desc: '쓰다듬을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+pat_string:
+  args:
+    - text
+  desc: '누군가의 머리를 쓰다듬습니다.'
+  params:
+    - &ref_336
+      desc: '쓰다듬을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_1:
+  args:
+    - text
+  desc: '누군가의 머리를 쓰다듬습니다.'
+  params:
+    - desc: '쓰다듬을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_2:
+  args:
+    - text
+  desc: '누군가의 머리를 쓰다듬습니다.'
+  params:
+    - desc: '쓰다듬을 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+poke:
+  args:
+    - text
+  desc: '누군가를 콕 찌릅니다.'
+  params:
+    - desc: '찌를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+poke_string:
+  args:
+    - text
+  desc: '누군가를 콕 찌릅니다.'
+  params:
+    - desc: '찌를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_1:
+  args:
+    - text
+  desc: '누군가를 콕 찌릅니다.'
+  params:
+    - desc: '찌를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_2:
+  args:
+    - text
+  desc: '누군가를 콕 찌릅니다.'
+  params:
+    - desc: '찌를 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+pokemon:
+  args:
+    - text
+  desc: '포켓몬 정보를 가져옵니다.'
+  params:
+    - &ref_348
+      desc: '포켓몬의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+pokemon_string:
+  args:
+    - text
+  desc: '포켓몬 정보를 가져옵니다.'
+  params:
+    - desc: '포켓몬의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_1:
+  args:
+    - text
+  desc: '포켓몬 정보를 가져옵니다.'
+  params:
+    - desc: '포켓몬의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_2:
+  args:
+    - text
+  desc: '포켓몬 정보를 가져옵니다.'
+  params:
+    - desc: '포켓몬의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+pout:
+  args:
+    - '[toShow]'
+  desc: '입을 삐죽거립니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+punch:
+  args:
+    - text
+  desc: '누군가를 때립니다.'
+  params:
+    - desc: '때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+punch_string:
+  args:
+    - text
+  desc: '누군가를 때립니다.'
+  params:
+    - desc: '때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_1:
+  args:
+    - text
+  desc: '누군가를 때립니다.'
+  params:
+    - desc: '때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_2:
+  args:
+    - text
+  desc: '누군가를 때립니다.'
+  params:
+    - desc: '때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+randjoke:
+  args:
+    - ''
+  desc: '무작위 농담을 가져옵니다.'
+  params: [ ]
+randombird:
+  args:
+    - ''
+  desc: '새 이미지를 표시합니다.'
+  params: [ ]
+randomcat:
+  args:
+    - ''
+  desc: '무작위 고양이 이미지를 표시합니다.'
+  params: [ ]
+randomdog:
+  args:
+    - ''
+  desc: '무작위 개 이미지를 표시합니다.'
+  params: [ ]
+randomfood:
+  args:
+    - ''
+  desc: '무작위 음식 이미지를 표시합니다.'
+  params: [ ]
+randomkitsune:
+  args:
+    - ''
+  desc: '무작위 키츠네 이미지를 보냅니다.'
+  params: [ ]
+randomneko:
+  args:
+    - ''
+  desc: '무작위 네코 이미지를 보냅니다.'
+  params: [ ]
+randomreddit:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 무작위 게시물을 가져와 표시합니다.'
+  params:
+    - &ref_374
+      desc: '무작위 게시물을 가져올 서브레딧입니다.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 무작위 게시물을 가져와 표시합니다.'
+  params:
+    - desc: '무작위 게시물을 가져올 서브레딧입니다.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_1:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 무작위 게시물을 가져와 표시합니다.'
+  params:
+    - desc: '무작위 게시물을 가져올 서브레딧입니다.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_2:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 무작위 게시물을 가져와 표시합니다.'
+  params:
+    - desc: '무작위 게시물을 가져올 서브레딧입니다.'
+      name: subreddit
+      optional: false
+      type: string
+randomwaifu:
+  args:
+    - ''
+  desc: '무작위 와이푸 이미지를 보냅니다.'
+  params: [ ]
+resolvetonetags:
+  args:
+    - text
+  desc: '메시지의 톤 태그를 해석하고 각 태그에 대한 설명을 제공합니다.'
+  params:
+    - &ref_441
+      desc: '해석할 톤 태그가 들어 있는 메시지입니다.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string:
+  args:
+    - text
+  desc: '메시지의 톤 태그를 해석하고 각 태그에 대한 설명을 제공합니다.'
+  params:
+    - desc: '해석할 톤 태그가 들어 있는 메시지입니다.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_1:
+  args:
+    - text
+  desc: '메시지의 톤 태그를 해석하고 각 태그에 대한 설명을 제공합니다.'
+  params:
+    - desc: '해석할 톤 태그가 들어 있는 메시지입니다.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_2:
+  args:
+    - text
+  desc: '메시지의 톤 태그를 해석하고 각 태그에 대한 설명을 제공합니다.'
+  params:
+    - desc: '해석할 톤 태그가 들어 있는 메시지입니다.'
+      name: tag
+      optional: false
+      type: string
+revav:
+  args:
+    - '[@usr]'
+  desc: '아바타 링크로 역방향 이미지 검색을 수행합니다.'
+  params:
+    - desc: '역방향 검색할 사용자의 아바타입니다.'
+      name: usr
+      optional: true
+      type: user
+revimg:
+  args:
+    - '[imageLink]'
+  desc: '입력한 이미지 링크로 역방향 이미지 검색을 수행합니다.'
+  params:
+    - desc: '검색할 이미지의 직접 URL입니다.'
+      name: imageLink
+      optional: true
+      type: string
+rip:
+  args:
+    - '@user'
+  desc: '사용자 이름과 아바타가 들어간 RIP 이미지를 표시합니다.'
+  params:
+    - &ref_443
+      desc: 'RIP 이미지를 만들 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser:
+  args:
+    - '@user'
+  desc: '사용자 이름과 아바타가 들어간 RIP 이미지를 표시합니다.'
+  params:
+    - desc: 'RIP 이미지를 만들 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '사용자 이름과 아바타가 들어간 RIP 이미지를 표시합니다.'
+  params:
+    - desc: 'RIP 이미지를 만들 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '사용자 이름과 아바타가 들어간 RIP 이미지를 표시합니다.'
+  params:
+    - desc: 'RIP 이미지를 만들 사용자입니다.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rsstest:
+  args:
+    - number
+  desc: 'RSS 피드를 가져와 업데이트가 있는지 테스트합니다.'
+  params:
+    - desc: '목록에 있는 피드의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+safebooru:
+  args:
+    - text
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_=:
+  args:
+    - '<tags>'
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_1:
+  args:
+    - '<tags>'
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_2:
+  args:
+    - '<tags>'
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_3:
+  args:
+    - '<tags>'
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_string[]:
+  args:
+    - text
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_1:
+  args:
+    - text
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_2:
+  args:
+    - text
+  desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+  params:
+    - desc: 'Safebooru에서 입력한 태그에 맞는 이미지를 검색하여 표시합니다.'
+      name: tags
+      optional: false
+      type: string[]
+ship:
+  args:
+    - '@user @user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - &ref_540
+      desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_541
+      desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser:
+  args:
+    - '@user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_1:
+  args:
+    - '@user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_2:
+  args:
+    - '@user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_3:
+  args:
+    - '@user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_IUser:
+  args:
+    - '@user @user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_1:
+  args:
+    - '@user @user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - &ref_542
+      desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_2:
+  args:
+    - '@user @user'
+  desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+  params:
+    - desc: '현재 사용자와 비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '현재 사용자와 다른 사용자의 궁합을 바탕으로 궁합 이미지를 보냅니다.'
+      name: user2
+      optional: false
+      type: IUser
+shoot:
+  args:
+    - text
+  desc: '누군가를 쏩니다.'
+  params:
+    - desc: '쏠 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string:
+  args:
+    - text
+  desc: '누군가를 쏩니다.'
+  params:
+    - desc: '쏠 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_1:
+  args:
+    - text
+  desc: '누군가를 쏩니다.'
+  params:
+    - desc: '쏠 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_2:
+  args:
+    - text
+  desc: '누군가를 쏩니다.'
+  params:
+    - desc: '쏠 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+shorten:
+  args:
+    - text
+  desc: 'goolnk.com API를 사용하여 URL을 줄입니다.'
+  params:
+    - &ref_543
+      desc: '줄일 URL입니다.'
+      name: query
+      optional: false
+      type: string
+shorten_string:
+  args:
+    - text
+  desc: 'goolnk.com API를 사용하여 URL을 줄입니다.'
+  params:
+    - desc: '줄일 URL입니다.'
+      name: query
+      optional: false
+      type: string
+shorten_string_1:
+  args:
+    - text
+  desc: 'goolnk.com API를 사용하여 URL을 줄입니다.'
+  params:
+    - desc: '줄일 URL입니다.'
+      name: query
+      optional: false
+      type: string
+shorten_string_2:
+  args:
+    - text
+  desc: 'goolnk.com API를 사용하여 URL을 줄입니다.'
+  params:
+    - desc: '줄일 URL입니다.'
+      name: query
+      optional: false
+      type: string
+shrug:
+  args:
+    - '[toShow]'
+  desc: '어깨를 으쓱합니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+slap:
+  args:
+    - text
+  desc: '누군가를 찰싹 때립니다.'
+  params:
+    - &ref_546
+      desc: '찰싹 때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+slap_string:
+  args:
+    - text
+  desc: '누군가를 찰싹 때립니다.'
+  params:
+    - desc: '찰싹 때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_1:
+  args:
+    - text
+  desc: '누군가를 찰싹 때립니다.'
+  params:
+    - desc: '찰싹 때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_2:
+  args:
+    - text
+  desc: '누군가를 찰싹 때립니다.'
+  params:
+    - desc: '찰싹 때릴 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+sleep:
+  args:
+    - '[toShow]'
+  desc: '잠을 잡니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+smile:
+  args:
+    - '[toShow]'
+  desc: '미소 짓습니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+smug:
+  args:
+    - '[toShow]'
+  desc: '거만한 태도를 보입니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+stare:
+  args:
+    - '[toShow]'
+  desc: '빤히 쳐다봅니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+steam:
+  args:
+    - text
+  desc: '이름으로 Steam 게임을 검색하고 Steam 스토어 페이지 링크를 제공합니다.'
+  params:
+    - &ref_567
+      desc: 'Steam에서 검색할 게임 이름입니다.'
+      name: query
+      optional: false
+      type: string
+steam_string:
+  args:
+    - text
+  desc: '이름으로 Steam 게임을 검색하고 Steam 스토어 페이지 링크를 제공합니다.'
+  params:
+    - desc: 'Steam에서 검색할 게임 이름입니다.'
+      name: query
+      optional: false
+      type: string
+steam_string_1:
+  args:
+    - text
+  desc: '이름으로 Steam 게임을 검색하고 Steam 스토어 페이지 링크를 제공합니다.'
+  params:
+    - desc: 'Steam에서 검색할 게임 이름입니다.'
+      name: query
+      optional: false
+      type: string
+steam_string_2:
+  args:
+    - text
+  desc: '이름으로 Steam 게임을 검색하고 Steam 스토어 페이지 링크를 제공합니다.'
+  params:
+    - desc: 'Steam에서 검색할 게임 이름입니다.'
+      name: query
+      optional: false
+      type: string
+streamadd:
+  args:
+    - text
+  desc: '현재 서버의 알림 목록에 새 스트림을 추가합니다.'
+  params:
+    - &ref_571
+      desc: '추가할 스트림의 링크입니다.'
+      name: link
+      optional: false
+      type: string
+streamadd_string:
+  args:
+    - text
+  desc: '현재 서버의 알림 목록에 새 스트림을 추가합니다.'
+  params:
+    - desc: '추가할 스트림의 링크입니다.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_1:
+  args:
+    - text
+  desc: '현재 서버의 알림 목록에 새 스트림을 추가합니다.'
+  params:
+    - desc: '추가할 스트림의 링크입니다.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_2:
+  args:
+    - text
+  desc: '현재 서버의 알림 목록에 새 스트림을 추가합니다.'
+  params:
+    - desc: '추가할 스트림의 링크입니다.'
+      name: link
+      optional: false
+      type: string
+streamcheck:
+  args:
+    - text
+  desc: 'URL로 스트림의 라이브 상태를 확인합니다.'
+  params:
+    - &ref_572
+      desc: '확인할 스트림의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string:
+  args:
+    - text
+  desc: 'URL로 스트림의 라이브 상태를 확인합니다.'
+  params:
+    - desc: '확인할 스트림의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_1:
+  args:
+    - text
+  desc: 'URL로 스트림의 라이브 상태를 확인합니다.'
+  params:
+    - desc: '확인할 스트림의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_2:
+  args:
+    - text
+  desc: 'URL로 스트림의 라이브 상태를 확인합니다.'
+  params:
+    - desc: '확인할 스트림의 URL입니다.'
+      name: url
+      optional: false
+      type: string
+streamlist:
+  args:
+    - ''
+  desc: '서버가 팔로우 중인 모든 스트림을 나열합니다.'
+  params: [ ]
+streammessage:
+  args:
+    - number text
+  desc: '서버 알림 목록의 특정 스트림에 사용자 지정 알림 메시지를 설정합니다.'
+  params:
+    - &ref_573
+      desc: '메시지를 설정할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+    - &ref_574
+      desc: '스트림이 라이브 상태가 되었을 때 보낼 사용자 지정 메시지입니다. 빈 메시지를 입력하면 기본값으로 재설정됩니다.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string:
+  args:
+    - number text
+  desc: '서버 알림 목록의 특정 스트림에 사용자 지정 알림 메시지를 설정합니다.'
+  params:
+    - desc: '메시지를 설정할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+    - desc: '스트림이 라이브 상태가 되었을 때 보낼 사용자 지정 메시지입니다. 빈 메시지를 입력하면 기본값으로 재설정됩니다.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_1:
+  args:
+    - number text
+  desc: '서버 알림 목록의 특정 스트림에 사용자 지정 알림 메시지를 설정합니다.'
+  params:
+    - desc: '메시지를 설정할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+    - desc: '스트림이 라이브 상태가 되었을 때 보낼 사용자 지정 메시지입니다. 빈 메시지를 입력하면 기본값으로 재설정됩니다.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_2:
+  args:
+    - number text
+  desc: '서버 알림 목록의 특정 스트림에 사용자 지정 알림 메시지를 설정합니다.'
+  params:
+    - desc: '메시지를 설정할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+    - desc: '스트림이 라이브 상태가 되었을 때 보낼 사용자 지정 메시지입니다. 빈 메시지를 입력하면 기본값으로 재설정됩니다.'
+      name: message
+      optional: false
+      type: string
+streamoffline:
+  args:
+    - ''
+  desc: '팔로우 중인 스트림이 오프라인이 되었을 때 서버에 알릴지 설정을 전환합니다.'
+  params: [ ]
+streamofflinemessage:
+  args:
+    - number
+    - text
+  desc: '특정 스트림의 오프라인 메시지를 설정합니다.'
+  params:
+    - desc: '스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+    - desc: '자리표시자가 포함된 오프라인 메시지 템플릿입니다.'
+      name: message
+      optional: false
+      type: string
+streamremove:
+  args:
+    - number
+  desc: '번호를 기준으로 알림 목록에서 스트림을 삭제합니다.'
+  params:
+    - &ref_575
+      desc: '알림 목록에서 삭제할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+streamremove_int:
+  args:
+    - number
+  desc: '번호를 기준으로 알림 목록에서 스트림을 삭제합니다.'
+  params:
+    - desc: '알림 목록에서 삭제할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+streamremove_int_1:
+  args:
+    - number
+  desc: '번호를 기준으로 알림 목록에서 스트림을 삭제합니다.'
+  params:
+    - desc: '알림 목록에서 삭제할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+streamremove_int_2:
+  args:
+    - number
+  desc: '번호를 기준으로 알림 목록에서 스트림을 삭제합니다.'
+  params:
+    - desc: '알림 목록에서 삭제할 스트림의 번호입니다 (1부터 시작).'
+      name: index
+      optional: false
+      type: int
+streamsclear:
+  args:
+    - ''
+  desc: '서버 알림 목록의 모든 스트림을 삭제합니다.'
+  params: [ ]
+streamtemplate:
+  args:
+    - text
+  desc: '서버의 모든 스트림에 사용되는 사용자 지정 스트림 알림 메시지 템플릿을 설정하거나 표시합니다.'
+  params:
+    - desc: '자리표시자가 포함된 사용자 지정 메시지 템플릿입니다. 비워 두면 현재 템플릿을 표시하고, "reset"을 입력하면 사용자 지정 메시지를 비활성화합니다.'
+      name: template
+      optional: true
+      type: string
+think:
+  args:
+    - '[toShow]'
+  desc: '생각합니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+thumbsup:
+  args:
+    - '[toShow]'
+  desc: '엄지를 치켜세웁니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+tickle:
+  args:
+    - text
+  desc: '누군가를 간지럽힙니다.'
+  params:
+    - desc: '간지럽힐 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string:
+  args:
+    - text
+  desc: '누군가를 간지럽힙니다.'
+  params:
+    - desc: '간지럽힐 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_1:
+  args:
+    - text
+  desc: '누군가를 간지럽힙니다.'
+  params:
+    - desc: '간지럽힐 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_2:
+  args:
+    - text
+  desc: '누군가를 간지럽힙니다.'
+  params:
+    - desc: '간지럽힐 사람입니다.'
+      name: toShow
+      optional: false
+      type: string
+time:
+  args:
+    - text
+  desc: '지정한 위치의 현재 시각을 표시합니다.'
+  params:
+    - &ref_620
+      desc: '현재 시각을 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+time_string:
+  args:
+    - text
+  desc: '지정한 위치의 현재 시각을 표시합니다.'
+  params:
+    - desc: '현재 시각을 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+time_string_1:
+  args:
+    - text
+  desc: '지정한 위치의 현재 시각을 표시합니다.'
+  params:
+    - desc: '현재 시각을 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+time_string_2:
+  args:
+    - text
+  desc: '지정한 위치의 현재 시각을 표시합니다.'
+  params:
+    - desc: '현재 시각을 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+translangs:
+  args:
+    - ''
+  desc: '번역할 수 있는 모든 언어를 나열합니다.'
+  params: [ ]
+translate:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '텍스트를 사용자가 지정한 언어로 번역합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다.'
+      name: langs
+      optional: false
+      type: string
+    - desc: '번역할 텍스트입니다.'
+      name: text
+      optional: true
+      type: string
+translate_string_=:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '텍스트를 사용자가 지정한 언어로 번역합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다.'
+      name: langs
+      optional: false
+      type: string
+    - desc: '번역할 텍스트입니다.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_1:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '텍스트를 사용자가 지정한 언어로 번역합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다.'
+      name: langs
+      optional: false
+      type: string
+    - desc: '번역할 텍스트입니다.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_2:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '텍스트를 사용자가 지정한 언어로 번역합니다.'
+  params:
+    - desc: '''from>to'' 형식의 언어 쌍입니다.'
+      name: langs
+      optional: false
+      type: string
+    - desc: '번역할 텍스트입니다.'
+      name: text
+      optional: true
+      type: string
+urbandict:
+  args:
+    - '[query]'
+  desc: 'Urban Dictionary에서 용어를 검색하고 뜻을 표시합니다.'
+  params:
+    - desc: 'Urban Dictionary에서 검색할 용어입니다.'
+      name: query
+      optional: true
+      type: string
+wave:
+  args:
+    - '[toShow]'
+  desc: '손을 흔듭니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+weather:
+  args:
+    - text
+  desc: '지정한 위치의 날씨 정보를 대화형으로 표시합니다.'
+  params:
+    - &ref_659
+      desc: '날씨 정보를 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+weather_string:
+  args:
+    - text
+  desc: '지정한 위치의 날씨 정보를 대화형으로 표시합니다.'
+  params:
+    - desc: '날씨 정보를 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+weather_string_1:
+  args:
+    - text
+  desc: '지정한 위치의 날씨 정보를 대화형으로 표시합니다.'
+  params:
+    - desc: '날씨 정보를 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+weather_string_2:
+  args:
+    - text
+  desc: '지정한 위치의 날씨 정보를 대화형으로 표시합니다.'
+  params:
+    - desc: '날씨 정보를 찾을 위치 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+wiki:
+  args:
+    - '[query]'
+  desc: '입력한 검색어로 Wikipedia 정보를 검색하여 표시합니다.'
+  params:
+    - desc: 'Wikipedia 검색어입니다.'
+      name: query
+      optional: true
+      type: string
+wikia:
+  args:
+    - text text
+  desc: 'wikia의 특정 주제에 대한 자세한 정보를 가져와 표시합니다.'
+  params:
+    - &ref_661
+      desc: '검색할 wikia 사이트입니다.'
+      name: target
+      optional: false
+      type: string
+    - &ref_662
+      desc: 'wikia 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string:
+  args:
+    - text text
+  desc: 'wikia의 특정 주제에 대한 자세한 정보를 가져와 표시합니다.'
+  params:
+    - desc: '검색할 wikia 사이트입니다.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_1:
+  args:
+    - text text
+  desc: 'wikia의 특정 주제에 대한 자세한 정보를 가져와 표시합니다.'
+  params:
+    - desc: '검색할 wikia 사이트입니다.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_2:
+  args:
+    - text text
+  desc: 'wikia의 특정 주제에 대한 자세한 정보를 가져와 표시합니다.'
+  params:
+    - desc: '검색할 wikia 사이트입니다.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+wink:
+  args:
+    - '[toShow]'
+  desc: '윙크합니다.'
+  params:
+    - desc: '추가 텍스트입니다 (선택 사항).'
+      name: toShow
+      optional: true
+      type: string
+wowjoke:
+  args:
+    - ''
+  desc: 'World of Warcraft 관련 농담을 가져옵니다.'
+  params: [ ]
+xkcd:
+  args:
+    - '[arg]'
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=:
+  args:
+    - '[arg]'
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_1:
+  args:
+    - '[arg]'
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_2:
+  args:
+    - '[arg]'
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+      name: arg
+      optional: true
+      type: string
+xkcd_int:
+  args:
+    - number
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - &ref_663
+      desc: '가져올 XKCD 만화의 번호입니다.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_1:
+  args:
+    - number
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - desc: '가져올 XKCD 만화의 번호입니다.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_2:
+  args:
+    - number
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - desc: '가져올 XKCD 만화의 번호입니다.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_3:
+  args:
+    - number
+  desc: '번호로 XKCD 만화를 가져와 표시합니다.'
+  params:
+    - desc: '가져올 XKCD 만화의 번호입니다.'
+      name: num
+      optional: false
+      type: int
+yomama:
+  args:
+    - ''
+  desc: 'Yo Mama 농담을 가져옵니다.'
+  params: [ ]
+youtube:
+  args:
+    - text
+  desc: '입력한 검색어로 YouTube 동영상을 검색하고 결과를 표시합니다.'
+  params:
+    - &ref_675
+      desc: 'YouTube 동영상을 찾을 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+youtube_string:
+  args:
+    - text
+  desc: '입력한 검색어로 YouTube 동영상을 검색하고 결과를 표시합니다.'
+  params:
+    - desc: 'YouTube 동영상을 찾을 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+youtube_string_1:
+  args:
+    - text
+  desc: '입력한 검색어로 YouTube 동영상을 검색하고 결과를 표시합니다.'
+  params:
+    - desc: 'YouTube 동영상을 찾을 검색어입니다.'
+      name: query
+      optional: false
+      type: string
+youtube_string_2:
+  args:
+    - text
+  desc: '입력한 검색어로 YouTube 동영상을 검색하고 결과를 표시합니다.'
+  params:
+    - desc: 'YouTube 동영상을 찾을 검색어입니다.'
+      name: query
+      optional: false
+      type: string

@@ -1,0 +1,23 @@
+{
+  "highlight_added": "{0} vurgularına eklendi!",
+  "highlight_already_exists": "Bu zaten vurgularında!",
+  "highlight_cannot_delete": "Hiç vurgun ayarlanmadığı için silinemiyor!",
+  "highlight_disabled": "Vurgular devre dışı.",
+  "highlight_empty_delete": "Boş bir vurgu silinemez.",
+  "highlight_empty_match": "Boş bir vurgu eşleştirilemez.",
+  "highlight_enabled": "Vurgular etkinleştirildi!",
+  "highlight_ignored_channel_added": "{0} yok sayılan kanallara eklendi!",
+  "highlight_ignored_channel_removed": "{0} yok sayılan kanallardan çıkarıldı!",
+  "highlight_ignored_user_added": "{0} yok sayılan kullanıcılara eklendi!",
+  "highlight_ignored_user_removed": "{0} yok sayılan kullanıcılardan çıkarıldı!",
+  "highlight_list_title": "{0} Vurgu",
+  "highlight_no_highlights": "Hiç vurgun ayarlanmamış!",
+  "highlight_no_match_found": "Eşleşme bulunamadı.",
+  "highlight_no_matches": "Eşleştirilecek vurgu yok.",
+  "highlight_not_exist": "Bu vurgu mevcut değil!",
+  "highlight_not_found": "Bu vurgularında yok!",
+  "highlight_phrase_required": "Vurgulamak için bir ifade belirtmelisin.",
+  "highlight_removed": "{0} vurgularından başarıyla çıkarıldı.",
+  "highlight_toggle_invalid": "Bu ya doğru ya da yanlış olmalı, başka bir şey değil.",
+  "highlight_user_channel_not_found": "Bu kullanıcı veya kanal bulunamadı!"
+}

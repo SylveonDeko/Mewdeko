@@ -1,0 +1,2313 @@
+addmodalfield:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '티켓 생성 모달에 필드를 추가합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '필드의 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '선택 사항인 설정 옵션입니다.'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '티켓 생성 모달에 필드를 추가합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '필드의 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '선택 사항인 설정 옵션입니다.'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_1:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '티켓 생성 모달에 필드를 추가합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '필드의 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '선택 사항인 설정 옵션입니다.'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_2:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '티켓 생성 모달에 필드를 추가합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '필드의 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '선택 사항인 설정 옵션입니다.'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_3:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '티켓 생성 모달에 필드를 추가합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '필드의 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '선택 사항인 설정 옵션입니다.'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_4:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '티켓 생성 모달에 필드를 추가합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '필드의 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '선택 사항인 설정 옵션입니다.'
+      name: fieldConfig
+      optional: true
+      type: string
+addoption:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '기존 선택 메뉴에 옵션을 추가합니다.'
+  params:
+    - desc: '옵션을 추가할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '사용자에게 표시되는 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '라벨 아래에 표시되는 선택 사항인 설명입니다.'
+      name: description
+      optional: true
+      type: string
+    - desc: '라벨 옆에 표시되는 선택 사항인 이모지입니다.'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '기존 선택 메뉴에 옵션을 추가합니다.'
+  params:
+    - desc: '옵션을 추가할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '사용자에게 표시되는 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '라벨 아래에 표시되는 선택 사항인 설명입니다.'
+      name: description
+      optional: true
+      type: string
+    - desc: '라벨 옆에 표시되는 선택 사항인 이모지입니다.'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_1:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '기존 선택 메뉴에 옵션을 추가합니다.'
+  params:
+    - desc: '옵션을 추가할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '사용자에게 표시되는 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '라벨 아래에 표시되는 선택 사항인 설명입니다.'
+      name: description
+      optional: true
+      type: string
+    - desc: '라벨 옆에 표시되는 선택 사항인 이모지입니다.'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_2:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '기존 선택 메뉴에 옵션을 추가합니다.'
+  params:
+    - desc: '옵션을 추가할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '사용자에게 표시되는 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '라벨 아래에 표시되는 선택 사항인 설명입니다.'
+      name: description
+      optional: true
+      type: string
+    - desc: '라벨 옆에 표시되는 선택 사항인 이모지입니다.'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_3:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '기존 선택 메뉴에 옵션을 추가합니다.'
+  params:
+    - desc: '옵션을 추가할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '사용자에게 표시되는 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '라벨 아래에 표시되는 선택 사항인 설명입니다.'
+      name: description
+      optional: true
+      type: string
+    - desc: '라벨 옆에 표시되는 선택 사항인 이모지입니다.'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_4:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '기존 선택 메뉴에 옵션을 추가합니다.'
+  params:
+    - desc: '옵션을 추가할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '사용자에게 표시되는 라벨입니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '라벨 아래에 표시되는 선택 사항인 설명입니다.'
+      name: description
+      optional: true
+      type: string
+    - desc: '라벨 옆에 표시되는 선택 사항인 이모지입니다.'
+      name: emoji
+      optional: true
+      type: string
+addselectmenu:
+  args:
+    - panelid
+  desc: '티켓 패널에 선택 메뉴를 추가합니다.'
+  params:
+    - &ref_31
+      desc: '메뉴를 추가할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong:
+  args:
+    - panelid
+  desc: '티켓 패널에 선택 메뉴를 추가합니다.'
+  params:
+    - desc: '메뉴를 추가할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_1:
+  args:
+    - panelid
+  desc: '티켓 패널에 선택 메뉴를 추가합니다.'
+  params:
+    - desc: '메뉴를 추가할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_2:
+  args:
+    - panelid
+  desc: '티켓 패널에 선택 메뉴를 추가합니다.'
+  params:
+    - desc: '메뉴를 추가할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_3:
+  args:
+    - panelid
+  desc: '티켓 패널에 선택 메뉴를 추가합니다.'
+  params:
+    - desc: '메뉴를 추가할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_4:
+  args:
+    - panelid
+  desc: '티켓 패널에 선택 메뉴를 추가합니다.'
+  params:
+    - desc: '메뉴를 추가할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+buttoninfo:
+  args:
+    - number
+  desc: '버튼의 자세한 정보를 표시합니다.'
+  params:
+    - &ref_116
+      desc: '확인할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int:
+  args:
+    - number
+  desc: '버튼의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_1:
+  args:
+    - number
+  desc: '버튼의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_2:
+  args:
+    - number
+  desc: '버튼의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_3:
+  args:
+    - number
+  desc: '버튼의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_4:
+  args:
+    - number
+  desc: '버튼의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+checkpanels:
+  args:
+    - ''
+  desc: '서버의 모든 패널에서 누락된 메시지를 확인합니다.'
+  params: [ ]
+deletebutton:
+  args:
+    - number
+  desc: '패널에서 버튼을 삭제합니다.'
+  params:
+    - &ref_186
+      desc: '삭제할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int:
+  args:
+    - number
+  desc: '패널에서 버튼을 삭제합니다.'
+  params:
+    - desc: '삭제할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_1:
+  args:
+    - number
+  desc: '패널에서 버튼을 삭제합니다.'
+  params:
+    - desc: '삭제할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_2:
+  args:
+    - number
+  desc: '패널에서 버튼을 삭제합니다.'
+  params:
+    - desc: '삭제할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_3:
+  args:
+    - number
+  desc: '패널에서 버튼을 삭제합니다.'
+  params:
+    - desc: '삭제할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_4:
+  args:
+    - number
+  desc: '패널에서 버튼을 삭제합니다.'
+  params:
+    - desc: '삭제할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+deleteselectmenu:
+  args:
+    - number
+  desc: '패널에서 선택 메뉴를 삭제합니다.'
+  params:
+    - desc: '삭제할 선택 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: int
+deleteselectoption:
+  args:
+    - number
+  desc: '선택 메뉴에서 특정 옵션을 삭제합니다.'
+  params:
+    - desc: '삭제할 선택 메뉴 옵션의 ID입니다.'
+      name: optionId
+      optional: false
+      type: int
+listmodalfields:
+  args:
+    - number
+  desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+  params:
+    - &ref_277
+      desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int:
+  args:
+    - number
+  desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+  params:
+    - desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_1:
+  args:
+    - number
+  desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+  params:
+    - desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_2:
+  args:
+    - number
+  desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+  params:
+    - desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_3:
+  args:
+    - number
+  desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+  params:
+    - desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_4:
+  args:
+    - number
+  desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+  params:
+    - desc: '티켓 생성 모달의 모든 필드를 나열합니다.'
+      name: buttonId
+      optional: false
+      type: int
+listoptions:
+  args:
+    - text
+  desc: '선택 메뉴의 모든 옵션을 나열합니다.'
+  params:
+    - &ref_278
+      desc: '확인할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string:
+  args:
+    - text
+  desc: '선택 메뉴의 모든 옵션을 나열합니다.'
+  params:
+    - desc: '확인할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_1:
+  args:
+    - text
+  desc: '선택 메뉴의 모든 옵션을 나열합니다.'
+  params:
+    - desc: '확인할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_2:
+  args:
+    - text
+  desc: '선택 메뉴의 모든 옵션을 나열합니다.'
+  params:
+    - desc: '확인할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_3:
+  args:
+    - text
+  desc: '선택 메뉴의 모든 옵션을 나열합니다.'
+  params:
+    - desc: '확인할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_4:
+  args:
+    - text
+  desc: '선택 메뉴의 모든 옵션을 나열합니다.'
+  params:
+    - desc: '확인할 메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+panelinfo:
+  args:
+    - panelid
+  desc: '티켓 패널의 자세한 정보를 표시합니다.'
+  params:
+    - &ref_335
+      desc: '확인할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong:
+  args:
+    - panelid
+  desc: '티켓 패널의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_1:
+  args:
+    - panelid
+  desc: '티켓 패널의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_2:
+  args:
+    - panelid
+  desc: '티켓 패널의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_3:
+  args:
+    - panelid
+  desc: '티켓 패널의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_4:
+  args:
+    - panelid
+  desc: '티켓 패널의 자세한 정보를 표시합니다.'
+  params:
+    - desc: '확인할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+panellist:
+  args:
+    - ''
+  desc: '서버의 모든 티켓 패널을 나열합니다.'
+  params: [ ]
+panellist_noparams:
+  args:
+    - ''
+  desc: '서버의 모든 티켓 패널을 나열합니다.'
+  params: [ ]
+panellist_noparams_1:
+  args:
+    - ''
+  desc: '서버의 모든 티켓 패널을 나열합니다.'
+  params: [ ]
+panellist_noparams_2:
+  args:
+    - ''
+  desc: '서버의 모든 티켓 패널을 나열합니다.'
+  params: [ ]
+panellist_noparams_3:
+  args:
+    - ''
+  desc: '서버의 모든 티켓 패널을 나열합니다.'
+  params: [ ]
+panellist_noparams_4:
+  args:
+    - ''
+  desc: '서버의 모든 티켓 패널을 나열합니다.'
+  params: [ ]
+recreateallpanels:
+  args:
+    - ''
+  desc: '누락된 메시지가 있는 모든 패널을 다시 만듭니다.'
+  params: [ ]
+recreatepanel:
+  args:
+    - number
+  desc: '삭제된 티켓 패널을 원래 채널에 다시 만듭니다.'
+  params:
+    - desc: '다시 만들 패널의 메시지 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+removemodalfield:
+  args:
+    - number text
+  desc: '티켓 생성 모달에서 필드를 제거합니다.'
+  params:
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_401
+      desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string:
+  args:
+    - number text
+  desc: '티켓 생성 모달에서 필드를 제거합니다.'
+  params:
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_1:
+  args:
+    - number text
+  desc: '티켓 생성 모달에서 필드를 제거합니다.'
+  params:
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_2:
+  args:
+    - number text
+  desc: '티켓 생성 모달에서 필드를 제거합니다.'
+  params:
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_3:
+  args:
+    - number text
+  desc: '티켓 생성 모달에서 필드를 제거합니다.'
+  params:
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_4:
+  args:
+    - number text
+  desc: '티켓 생성 모달에서 필드를 제거합니다.'
+  params:
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓 생성 모달에서 필드를 제거합니다.'
+      name: fieldId
+      optional: false
+      type: string
+removeoption:
+  args:
+    - text text
+  desc: '선택 메뉴에서 옵션을 제거합니다.'
+  params:
+    - &ref_403
+      desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_404
+      desc: '제거할 옵션의 값입니다.'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string:
+  args:
+    - text text
+  desc: '선택 메뉴에서 옵션을 제거합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '제거할 옵션의 값입니다.'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_1:
+  args:
+    - text text
+  desc: '선택 메뉴에서 옵션을 제거합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '제거할 옵션의 값입니다.'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_2:
+  args:
+    - text text
+  desc: '선택 메뉴에서 옵션을 제거합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '제거할 옵션의 값입니다.'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_3:
+  args:
+    - text text
+  desc: '선택 메뉴에서 옵션을 제거합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '제거할 옵션의 값입니다.'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_4:
+  args:
+    - text text
+  desc: '선택 메뉴에서 옵션을 제거합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '제거할 옵션의 값입니다.'
+      name: optionValue
+      optional: false
+      type: string
+setautoclose:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 자동 닫기 시간을 설정합니다.'
+  params:
+    - &ref_487
+      desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_488
+      desc: '자동으로 닫히기 전까지의 비활성 시간(시간 단위)입니다. null이면 비활성화합니다.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 자동 닫기 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '자동으로 닫히기 전까지의 비활성 시간(시간 단위)입니다. null이면 비활성화합니다.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_1:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 자동 닫기 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '자동으로 닫히기 전까지의 비활성 시간(시간 단위)입니다. null이면 비활성화합니다.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_2:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 자동 닫기 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '자동으로 닫히기 전까지의 비활성 시간(시간 단위)입니다. null이면 비활성화합니다.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_3:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 자동 닫기 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '자동으로 닫히기 전까지의 비활성 시간(시간 단위)입니다. null이면 비활성화합니다.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_4:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 자동 닫기 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '자동으로 닫히기 전까지의 비활성 시간(시간 단위)입니다. null이면 비활성화합니다.'
+      name: hours
+      optional: true
+      type: int
+setmodaltitle:
+  args:
+    - number text
+  desc: '티켓 생성 모달의 제목을 설정합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_506
+      desc: '모달에 표시할 제목입니다.'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string:
+  args:
+    - number text
+  desc: '티켓 생성 모달의 제목을 설정합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '모달에 표시할 제목입니다.'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_1:
+  args:
+    - number text
+  desc: '티켓 생성 모달의 제목을 설정합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '모달에 표시할 제목입니다.'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_2:
+  args:
+    - number text
+  desc: '티켓 생성 모달의 제목을 설정합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '모달에 표시할 제목입니다.'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_3:
+  args:
+    - number text
+  desc: '티켓 생성 모달의 제목을 설정합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '모달에 표시할 제목입니다.'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_4:
+  args:
+    - number text
+  desc: '티켓 생성 모달의 제목을 설정합니다.'
+  params:
+    - desc: '설정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '모달에 표시할 제목입니다.'
+      name: title
+      optional: false
+      type: string
+setpaneltranscripts:
+  args:
+    - panelid true|false
+  desc: '패널의 대화 기록 저장을 켜거나 끕니다.'
+  params:
+    - &ref_510
+      desc: '수정할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_511
+      desc: '대화 기록 저장을 켤지 끌지 여부입니다.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool:
+  args:
+    - panelid true|false
+  desc: '패널의 대화 기록 저장을 켜거나 끕니다.'
+  params:
+    - desc: '수정할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '대화 기록 저장을 켤지 끌지 여부입니다.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_1:
+  args:
+    - panelid true|false
+  desc: '패널의 대화 기록 저장을 켜거나 끕니다.'
+  params:
+    - desc: '수정할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '대화 기록 저장을 켤지 끌지 여부입니다.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_2:
+  args:
+    - panelid true|false
+  desc: '패널의 대화 기록 저장을 켜거나 끕니다.'
+  params:
+    - desc: '수정할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '대화 기록 저장을 켤지 끌지 여부입니다.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_3:
+  args:
+    - panelid true|false
+  desc: '패널의 대화 기록 저장을 켜거나 끕니다.'
+  params:
+    - desc: '수정할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '대화 기록 저장을 켤지 끌지 여부입니다.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_4:
+  args:
+    - panelid true|false
+  desc: '패널의 대화 기록 저장을 켜거나 끕니다.'
+  params:
+    - desc: '수정할 패널의 ID입니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '대화 기록 저장을 켤지 끌지 여부입니다.'
+      name: enable
+      optional: false
+      type: bool
+setplaceholder:
+  args:
+    - text text
+  desc: '선택 메뉴의 자리표시자 텍스트를 수정합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_512
+      desc: '새 자리표시자 텍스트입니다.'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string:
+  args:
+    - text text
+  desc: '선택 메뉴의 자리표시자 텍스트를 수정합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '새 자리표시자 텍스트입니다.'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_1:
+  args:
+    - text text
+  desc: '선택 메뉴의 자리표시자 텍스트를 수정합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '새 자리표시자 텍스트입니다.'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_2:
+  args:
+    - text text
+  desc: '선택 메뉴의 자리표시자 텍스트를 수정합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '새 자리표시자 텍스트입니다.'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_3:
+  args:
+    - text text
+  desc: '선택 메뉴의 자리표시자 텍스트를 수정합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '새 자리표시자 텍스트입니다.'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_4:
+  args:
+    - text text
+  desc: '선택 메뉴의 자리표시자 텍스트를 수정합니다.'
+  params:
+    - desc: '메뉴의 ID입니다.'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '새 자리표시자 텍스트입니다.'
+      name: placeholder
+      optional: false
+      type: string
+setresponsetime:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 필요 응답 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_518
+      desc: '분 단위 시간입니다. null이면 비활성화합니다.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 필요 응답 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '분 단위 시간입니다. null이면 비활성화합니다.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_1:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 필요 응답 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '분 단위 시간입니다. null이면 비활성화합니다.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_2:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 필요 응답 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '분 단위 시간입니다. null이면 비활성화합니다.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_3:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 필요 응답 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '분 단위 시간입니다. null이면 비활성화합니다.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_4:
+  args:
+    - number number
+    - number
+  desc: '버튼으로 만든 티켓의 필요 응답 시간을 설정합니다.'
+  params:
+    - desc: '수정할 버튼의 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '분 단위 시간입니다. null이면 비활성화합니다.'
+      name: minutes
+      optional: true
+      type: int
+ticketaddbutton:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '기존 티켓 패널에 버튼을 추가합니다.'
+  params:
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '기존 티켓 패널에 버튼을 추가합니다.'
+  params:
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_1:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '기존 티켓 패널에 버튼을 추가합니다.'
+  params:
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_2:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '기존 티켓 패널에 버튼을 추가합니다.'
+  params:
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: label
+      optional: false
+      type: string
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '기존 티켓 패널에 버튼을 추가합니다.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddpriority:
+  args:
+    - text text text number true|false time text
+  desc: '티켓의 새 우선순위 수준을 만듭니다.'
+  params:
+    - &ref_599
+      desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - &ref_600
+      desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: emoji
+      optional: false
+      type: string
+    - &ref_601
+      desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: level
+      optional: false
+      type: int
+    - &ref_602
+      desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - &ref_603
+      desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - &ref_604
+      desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string:
+  args:
+    - text text text number true|false time text
+  desc: '티켓의 새 우선순위 수준을 만듭니다.'
+  params:
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: level
+      optional: false
+      type: int
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_1:
+  args:
+    - text text text number true|false time text
+  desc: '티켓의 새 우선순위 수준을 만듭니다.'
+  params:
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: level
+      optional: false
+      type: int
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_2:
+  args:
+    - text text text number true|false time text
+  desc: '티켓의 새 우선순위 수준을 만듭니다.'
+  params:
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: level
+      optional: false
+      type: int
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: '티켓의 새 우선순위 수준을 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag:
+  args:
+    - text text text text
+  desc: '티켓의 새 태그를 만듭니다.'
+  params:
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - &ref_605
+      desc: '티켓의 새 태그를 만듭니다.'
+      name: description
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string:
+  args:
+    - text text text text
+  desc: '티켓의 새 태그를 만듭니다.'
+  params:
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: description
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_1:
+  args:
+    - text text text text
+  desc: '티켓의 새 태그를 만듭니다.'
+  params:
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: description
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_2:
+  args:
+    - text text text text
+  desc: '티켓의 새 태그를 만듭니다.'
+  params:
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: id
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: description
+      optional: false
+      type: string
+    - desc: '티켓의 새 태그를 만듭니다.'
+      name: color
+      optional: false
+      type: string
+ticketaddtags:
+  args:
+    - text
+  desc: '현재 티켓에 태그를 추가합니다.'
+  params:
+    - &ref_606
+      desc: '현재 티켓에 태그를 추가합니다.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]:
+  args:
+    - text
+  desc: '현재 티켓에 태그를 추가합니다.'
+  params:
+    - desc: '현재 티켓에 태그를 추가합니다.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_1:
+  args:
+    - text
+  desc: '현재 티켓에 태그를 추가합니다.'
+  params:
+    - desc: '현재 티켓에 태그를 추가합니다.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_2:
+  args:
+    - text
+  desc: '현재 티켓에 태그를 추가합니다.'
+  params:
+    - desc: '현재 티켓에 태그를 추가합니다.'
+      name: tags
+      optional: false
+      type: string[]
+ticketarchive:
+  args:
+    - ''
+  desc: '티켓을 보관하며, 보관 카테고리가 설정되어 있으면 해당 카테고리로 옮깁니다.'
+  params: [ ]
+ticketarchivecategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: '닫힌 티켓을 보관할 카테고리를 설정합니다.'
+  params:
+    - desc: '닫힌 티켓을 보관할 카테고리를 설정합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '닫힌 티켓을 보관할 카테고리를 설정합니다.'
+      name: category
+      optional: true
+      type: category
+ticketautoarchive:
+  args:
+    - number boolean
+  desc: '버튼의 자동 보관 동작을 설정합니다.'
+  params:
+    - desc: '자동 보관을 설정할 버튼 ID입니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '닫을 때 자동 보관을 켤지 여부입니다.'
+      name: enabled
+      optional: true
+      type: bool
+ticketautoclose:
+  args:
+    - '<buttonId> [hours]'
+    - number
+  desc: '티켓 유형의 자동 닫기 시간을 설정합니다.'
+  params:
+    - desc: '티켓 유형의 자동 닫기 시간을 설정합니다.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓 유형의 자동 닫기 시간을 설정합니다.'
+      name: hours
+      optional: true
+      type: int
+ticketblock:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '사용자가 티켓을 만들지 못하도록 차단합니다.'
+  params:
+    - desc: '사용자가 티켓을 만들지 못하도록 차단합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '사용자가 티켓을 만들지 못하도록 차단합니다.'
+      name: reason
+      optional: true
+      type: string
+ticketcategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: '티켓이 생성될 카테고리를 설정해요.'
+  params:
+    - desc: '티켓이 생성될 카테고리를 설정해요.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓이 생성될 카테고리를 설정해요.'
+      name: category
+      optional: true
+      type: category
+ticketclaim:
+  args:
+    - ''
+  desc: '스태프로서 현재 티켓을 담당해요.'
+  params: [ ]
+ticketclose:
+  args:
+    - ''
+  desc: '현재 티켓을 닫아요.'
+  params: [ ]
+ticketclosebehavior:
+  args:
+    - number bool bool bool bool number
+  desc: '버튼의 닫기 동작을 여러 개 한 번에 설정해요'
+  params:
+    - desc: '닫기 동작을 설정할 버튼 ID'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '닫을 때 자동 보관할지 여부'
+      name: autoArchive
+      optional: true
+      type: bool?
+    - desc: '닫을 때 티켓을 삭제할지 여부'
+      name: deleteOnClose
+      optional: true
+      type: bool?
+    - desc: '닫을 때 티켓을 잠글지 여부'
+      name: lockOnClose
+      optional: true
+      type: bool?
+    - desc: '닫을 때 티켓 이름을 바꿀지 여부'
+      name: renameOnClose
+      optional: true
+      type: bool?
+    - desc: '삭제 전 대기 시간(분)'
+      name: deleteDelayMinutes
+      optional: true
+      type: int?
+ticketcloseinactive:
+  args:
+    - number
+  desc: '비활성 티켓을 닫아요.'
+  params:
+    - &ref_607
+      desc: '비활성 티켓을 닫아요.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int:
+  args:
+    - number
+  desc: '비활성 티켓을 닫아요.'
+  params:
+    - desc: '비활성 티켓을 닫아요.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_1:
+  args:
+    - number
+  desc: '비활성 티켓을 닫아요.'
+  params:
+    - desc: '비활성 티켓을 닫아요.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_2:
+  args:
+    - number
+  desc: '비활성 티켓을 닫아요.'
+  params:
+    - desc: '비활성 티켓을 닫아요.'
+      name: hours
+      optional: false
+      type: int
+ticketcreatecase:
+  args:
+    - text text
+  desc: '새 티켓 케이스를 만들어요.'
+  params:
+    - &ref_608
+      desc: '새 티켓 케이스를 만들어요.'
+      name: title
+      optional: false
+      type: string
+    - desc: '새 티켓 케이스를 만들어요.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string:
+  args:
+    - text text
+  desc: '새 티켓 케이스를 만들어요.'
+  params:
+    - desc: '새 티켓 케이스를 만들어요.'
+      name: title
+      optional: false
+      type: string
+    - desc: '새 티켓 케이스를 만들어요.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_1:
+  args:
+    - text text
+  desc: '새 티켓 케이스를 만들어요.'
+  params:
+    - desc: '새 티켓 케이스를 만들어요.'
+      name: title
+      optional: false
+      type: string
+    - desc: '새 티켓 케이스를 만들어요.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_2:
+  args:
+    - text text
+  desc: '새 티켓 케이스를 만들어요.'
+  params:
+    - desc: '새 티켓 케이스를 만들어요.'
+      name: title
+      optional: false
+      type: string
+    - desc: '새 티켓 케이스를 만들어요.'
+      name: description
+      optional: false
+      type: string
+ticketduplicatepanel:
+  args:
+    - panelid targetchannel
+  desc: '티켓 패널을 복제해요.'
+  params:
+    - desc: '티켓 패널을 복제해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_609
+      desc: '티켓 패널을 복제해요.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel:
+  args:
+    - panelid targetchannel
+  desc: '티켓 패널을 복제해요.'
+  params:
+    - desc: '티켓 패널을 복제해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '티켓 패널을 복제해요.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_1:
+  args:
+    - panelid targetchannel
+  desc: '티켓 패널을 복제해요.'
+  params:
+    - desc: '티켓 패널을 복제해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '티켓 패널을 복제해요.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_2:
+  args:
+    - panelid targetchannel
+  desc: '티켓 패널을 복제해요.'
+  params:
+    - desc: '티켓 패널을 복제해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '티켓 패널을 복제해요.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketlinkcase:
+  args:
+    - number
+  desc: '현재 티켓을 케이스에 연결해요.'
+  params:
+    - &ref_610
+      desc: '현재 티켓을 케이스에 연결해요.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int:
+  args:
+    - number
+  desc: '현재 티켓을 케이스에 연결해요.'
+  params:
+    - desc: '현재 티켓을 케이스에 연결해요.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_1:
+  args:
+    - number
+  desc: '현재 티켓을 케이스에 연결해요.'
+  params:
+    - desc: '현재 티켓을 케이스에 연결해요.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_2:
+  args:
+    - number
+  desc: '현재 티켓을 케이스에 연결해요.'
+  params:
+    - desc: '현재 티켓을 케이스에 연결해요.'
+      name: caseId
+      optional: false
+      type: int
+ticketlistpanel:
+  args:
+    - panelid
+  desc: '특정 티켓 패널의 모든 구성 요소를 나열해요'
+  params:
+    - &ref_611
+      desc: '확인할 패널의 메시지 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong:
+  args:
+    - panelid
+  desc: '특정 티켓 패널의 모든 구성 요소를 나열해요'
+  params:
+    - desc: '확인할 패널의 메시지 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_1:
+  args:
+    - panelid
+  desc: '특정 티켓 패널의 모든 구성 요소를 나열해요'
+  params:
+    - desc: '확인할 패널의 메시지 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_2:
+  args:
+    - panelid
+  desc: '특정 티켓 패널의 모든 구성 요소를 나열해요'
+  params:
+    - desc: '확인할 패널의 메시지 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_3:
+  args:
+    - panelid
+  desc: '특정 티켓 패널의 모든 구성 요소를 나열해요'
+  params:
+    - desc: '확인할 패널의 메시지 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_4:
+  args:
+    - panelid
+  desc: '특정 티켓 패널의 모든 구성 요소를 나열해요'
+  params:
+    - desc: '확인할 패널의 메시지 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanels:
+  args:
+    - ''
+  desc: '서버의 모든 티켓 패널을 나열해요.'
+  params: [ ]
+ticketlogchannel:
+  args:
+    - '[@channel]'
+  desc: '티켓 로그 채널을 설정해요.'
+  params:
+    - desc: '티켓 로그 채널을 설정해요.'
+      name: channel
+      optional: true
+      type: channel
+ticketmoveall:
+  args:
+    - sourcecategory targetcategory
+  desc: '모든 티켓을 카테고리 간에 이동해요.'
+  params:
+    - &ref_612
+      desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - &ref_613
+      desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel:
+  args:
+    - sourcecategory targetcategory
+  desc: '모든 티켓을 카테고리 간에 이동해요.'
+  params:
+    - desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_1:
+  args:
+    - sourcecategory targetcategory
+  desc: '모든 티켓을 카테고리 간에 이동해요.'
+  params:
+    - desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_2:
+  args:
+    - sourcecategory targetcategory
+  desc: '모든 티켓을 카테고리 간에 이동해요.'
+  params:
+    - desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: '모든 티켓을 카테고리 간에 이동해요.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmovepanel:
+  args:
+    - panelid targetchannel
+  desc: '티켓 패널을 다른 채널로 이동해요.'
+  params:
+    - desc: '티켓 패널을 다른 채널로 이동해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '티켓 패널을 다른 채널로 이동해요.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketnote:
+  args:
+    - text
+  desc: '현재 티켓에 메모를 추가해요.'
+  params:
+    - &ref_614
+      desc: '현재 티켓에 메모를 추가해요.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string:
+  args:
+    - text
+  desc: '현재 티켓에 메모를 추가해요.'
+  params:
+    - desc: '현재 티켓에 메모를 추가해요.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_1:
+  args:
+    - text
+  desc: '현재 티켓에 메모를 추가해요.'
+  params:
+    - desc: '현재 티켓에 메모를 추가해요.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_2:
+  args:
+    - text
+  desc: '현재 티켓에 메모를 추가해요.'
+  params:
+    - desc: '현재 티켓에 메모를 추가해요.'
+      name: content
+      optional: false
+      type: string
+ticketpanel:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '티켓 패널을 만들어요'
+  params:
+    - desc: '티켓 패널을 만들어요'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '티켓 패널을 만들어요'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '티켓 패널을 만들어요'
+  params:
+    - desc: '티켓 패널을 만들어요'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '티켓 패널을 만들어요'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_1:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '티켓 패널을 만들어요'
+  params:
+    - desc: '티켓 패널을 만들어요'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '티켓 패널을 만들어요'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_2:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '티켓 패널을 만들어요'
+  params:
+    - desc: '티켓 패널을 만들어요'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '티켓 패널을 만들어요'
+      name: embedJson
+      optional: true
+      type: string
+ticketpaneldelete:
+  args:
+    - panelid
+  desc: '기존 티켓 패널을 삭제해요.'
+  params:
+    - desc: '삭제할 패널의 ID예요.'
+      name: panelId
+      optional: false
+      type: ulong
+ticketpriority:
+  args:
+    - text
+  desc: '현재 티켓의 우선순위를 설정해요.'
+  params:
+    - &ref_615
+      desc: '현재 티켓의 우선순위를 설정해요.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string:
+  args:
+    - text
+  desc: '현재 티켓의 우선순위를 설정해요.'
+  params:
+    - desc: '현재 티켓의 우선순위를 설정해요.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_1:
+  args:
+    - text
+  desc: '현재 티켓의 우선순위를 설정해요.'
+  params:
+    - desc: '현재 티켓의 우선순위를 설정해요.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_2:
+  args:
+    - text
+  desc: '현재 티켓의 우선순위를 설정해요.'
+  params:
+    - desc: '현재 티켓의 우선순위를 설정해요.'
+      name: priority
+      optional: false
+      type: string
+ticketremovepriority:
+  args:
+    - text
+  desc: '우선순위 단계를 삭제해요.'
+  params:
+    - &ref_616
+      desc: '우선순위 단계를 삭제해요.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string:
+  args:
+    - text
+  desc: '우선순위 단계를 삭제해요.'
+  params:
+    - desc: '우선순위 단계를 삭제해요.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_1:
+  args:
+    - text
+  desc: '우선순위 단계를 삭제해요.'
+  params:
+    - desc: '우선순위 단계를 삭제해요.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_2:
+  args:
+    - text
+  desc: '우선순위 단계를 삭제해요.'
+  params:
+    - desc: '우선순위 단계를 삭제해요.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovetag:
+  args:
+    - text
+  desc: '태그를 삭제해요.'
+  params:
+    - &ref_617
+      desc: '태그를 삭제해요.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string:
+  args:
+    - text
+  desc: '태그를 삭제해요.'
+  params:
+    - desc: '태그를 삭제해요.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_1:
+  args:
+    - text
+  desc: '태그를 삭제해요.'
+  params:
+    - desc: '태그를 삭제해요.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_2:
+  args:
+    - text
+  desc: '태그를 삭제해요.'
+  params:
+    - desc: '태그를 삭제해요.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetags:
+  args:
+    - text
+  desc: '현재 티켓에서 태그를 제거해요.'
+  params:
+    - desc: '현재 티켓에서 태그를 제거해요.'
+      name: tags
+      optional: false
+      type: string[]
+ticketresponsetime:
+  args:
+    - '<buttonId> [minutes]'
+    - number
+  desc: '티켓 유형별 필요 응답 시간을 설정해요.'
+  params:
+    - desc: '티켓 유형별 필요 응답 시간을 설정해요.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '티켓 유형별 필요 응답 시간을 설정해요.'
+      name: minutes
+      optional: true
+      type: int
+ticketstats:
+  args:
+    - ''
+  desc: '서버의 티켓 통계를 보여줘요.'
+  params: [ ]
+tickettranscriptchannel:
+  args:
+    - '[@channel]'
+  desc: '티켓 기록 채널을 설정해요.'
+  params:
+    - desc: '티켓 기록 채널을 설정해요.'
+      name: channel
+      optional: true
+      type: channel
+ticketunblock:
+  args:
+    - '@user'
+  desc: '사용자의 티켓 생성 차단을 해제해요.'
+  params:
+    - desc: '사용자의 티켓 생성 차단을 해제해요.'
+      name: user
+      optional: false
+      type: IGuildUser
+ticketunclaim:
+  args:
+    - ''
+  desc: '현재 티켓의 담당을 해제해요.'
+  params: [ ]
+ticketunlinkcase:
+  args:
+    - ''
+  desc: '현재 티켓을 케이스에서 연결 해제해요.'
+  params: [ ]
+ticketupdatepanel:
+  args:
+    - panelid text
+  desc: '티켓 패널의 임베드를 업데이트해요.'
+  params:
+    - desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_618
+      desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string:
+  args:
+    - panelid text
+  desc: '티켓 패널의 임베드를 업데이트해요.'
+  params:
+    - desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_1:
+  args:
+    - panelid text
+  desc: '티켓 패널의 임베드를 업데이트해요.'
+  params:
+    - desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_2:
+  args:
+    - panelid text
+  desc: '티켓 패널의 임베드를 업데이트해요.'
+  params:
+    - desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '티켓 패널의 임베드를 업데이트해요.'
+      name: embedJson
+      optional: false
+      type: string
+ticketuserstats:
+  args:
+    - '[@user]'
+  desc: '사용자의 티켓 통계를 보여줘요.'
+  params:
+    - desc: '사용자의 티켓 통계를 보여줘요.'
+      name: user
+      optional: true
+      type: user

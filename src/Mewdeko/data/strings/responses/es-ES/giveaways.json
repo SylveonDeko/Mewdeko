@@ -20,6 +20,7 @@
   "giveaway_entry_successful": "¡Participación en el sorteo exitosa!",
   "giveaway_guild_not_found": "No se pudo encontrar el servidor para este sorteo.",
   "giveaway_host_message_removed": "El mensaje del anfitrión del sorteo ha sido eliminado.",
+  "giveaway_host_message_set": "El mensaje del anfitrión del sorteo se ha configurado.",
   "giveaway_invalid_color": "¡Ese no es un color válido! Por favor, usa el formato hexadecimal correcto (comienza con #) o usa nombres de colores html.",
   "giveaway_invalid_emote": "¡No puedo usar ese emote para sorteos! Lo más probable es que no esté en un servidor con él.",
   "giveaway_invalid_emote_current": "¡El emote del sorteo actual no es válido o no puedo acceder a él! Por favor, configúralo de nuevo e inicia un nuevo sorteo.",

@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Видаляє дані статистики використання команд користувача.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: 'Дозволяє користувачеві перемикати відмову від привітальних особистих повідомлень. Працює лише на серверах, які використовують Mewdeko для привітань у ПП.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Показує профіль користувача або профіль іншого користувача, якщо його вказано.'
+  params:
+    - desc: 'Користувач, чий профіль потрібно показати. Якщо не вказано, показується ваш профіль.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Показує профіль користувача або профіль іншого користувача, якщо його вказано.'
+  params:
+    - desc: 'Користувач, чий профіль потрібно показати. Якщо не вказано, показується ваш профіль.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Показує профіль користувача або профіль іншого користувача, якщо його вказано.'
+  params:
+    - desc: 'Користувач, чий профіль потрібно показати. Якщо не вказано, показується ваш профіль.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Показує профіль користувача або профіль іншого користувача, якщо його вказано.'
+  params:
+    - desc: 'Користувач, чий профіль потрібно показати. Якщо не вказано, показується ваш профіль.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: 'Показує займенники вказаного користувача або викликача команди, якщо користувача не вказано.'
+  params:
+    - desc: 'Необов''язково. Користувач, чиї займенники потрібно показати.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - &ref_356
+      desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - &ref_359
+      desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: 'Примусово очищає займенники користувача за ID, за бажанням позначаючи їх як вимкнені через зловживання.'
+  params:
+    - desc: 'ID користувача, чиї займенники потрібно очистити.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Чи вимикаються займенники через зловживання.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина дії.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Встановлює або оновлює біографію в профілі користувача.'
+  params:
+    - &ref_490
+      desc: 'Текст біографії. Має містити менше 2048 символів.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Встановлює або оновлює біографію в профілі користувача.'
+  params:
+    - desc: 'Текст біографії. Має містити менше 2048 символів.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Встановлює або оновлює біографію в профілі користувача.'
+  params:
+    - desc: 'Текст біографії. Має містити менше 2048 символів.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Встановлює або оновлює біографію в профілі користувача.'
+  params:
+    - desc: 'Текст біографії. Має містити менше 2048 символів.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Встановлює день народження в профілі користувача.'
+  params:
+    - &ref_491
+      desc: 'Дата дня народження.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Встановлює день народження в профілі користувача.'
+  params:
+    - desc: 'Дата дня народження.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Встановлює день народження в профілі користувача.'
+  params:
+    - desc: 'Дата дня народження.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Встановлює день народження в профілі користувача.'
+  params:
+    - desc: 'Дата дня народження.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Встановлює режим приватності дня народження в профілі користувача.'
+  params:
+    - &ref_492
+      desc: 'Режим відображення дня народження, який потрібно встановити.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Встановлює режим приватності дня народження в профілі користувача.'
+  params:
+    - desc: 'Режим відображення дня народження, який потрібно встановити.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Встановлює режим приватності дня народження в профілі користувача.'
+  params:
+    - desc: 'Режим відображення дня народження, який потрібно встановити.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Встановлює режим приватності дня народження в профілі користувача.'
+  params:
+    - desc: 'Режим відображення дня народження, який потрібно встановити.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Встановлює рівень приватності профілю користувача.'
+  params:
+    - &ref_513
+      desc: 'Налаштування приватності, які потрібно застосувати.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Встановлює рівень приватності профілю користувача.'
+  params:
+    - desc: 'Налаштування приватності, які потрібно застосувати.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Встановлює рівень приватності профілю користувача.'
+  params:
+    - desc: 'Налаштування приватності, які потрібно застосувати.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Встановлює рівень приватності профілю користувача.'
+  params:
+    - desc: 'Налаштування приватності, які потрібно застосувати.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Встановлює колір профілю на основі значення SKColor.'
+  params:
+    - &ref_514
+      desc: 'SKColor, що представляє бажаний колір профілю.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Встановлює колір профілю на основі значення SKColor.'
+  params:
+    - desc: 'SKColor, що представляє бажаний колір профілю.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Встановлює колір профілю на основі значення SKColor.'
+  params:
+    - desc: 'SKColor, що представляє бажаний колір профілю.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Встановлює колір профілю на основі значення SKColor.'
+  params:
+    - desc: 'SKColor, що представляє бажаний колір профілю.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: 'Встановлює URL зображення профілю в профілі користувача.'
+  params:
+    - &ref_515
+      desc: 'URL зображення, яке потрібно встановити як зображення профілю.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: 'Встановлює URL зображення профілю в профілі користувача.'
+  params:
+    - desc: 'URL зображення, яке потрібно встановити як зображення профілю.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: 'Встановлює URL зображення профілю в профілі користувача.'
+  params:
+    - desc: 'URL зображення, яке потрібно встановити як зображення профілю.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: 'Встановлює URL зображення профілю в профілі користувача.'
+  params:
+    - desc: 'URL зображення, яке потрібно встановити як зображення профілю.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Встановлює або очищає займенники користувача.'
+  params:
+    - desc: 'Займенники для встановлення. Якщо значення null або порожнє, наявні займенники буде очищено.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Встановлює або очищає код друга Nintendo Switch у профілі користувача.'
+  params:
+    - desc: 'Встановлює або очищає код друга Nintendo Switch у профілі користувача.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Встановлює знак зодіаку в профілі користувача.'
+  params:
+    - &ref_539
+      desc: 'Знак зодіаку, який потрібно встановити.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Встановлює знак зодіаку в профілі користувача.'
+  params:
+    - desc: 'Знак зодіаку, який потрібно встановити.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Встановлює знак зодіаку в профілі користувача.'
+  params:
+    - desc: 'Знак зодіаку, який потрібно встановити.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Встановлює знак зодіаку в профілі користувача.'
+  params:
+    - desc: 'Знак зодіаку, який потрібно встановити.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Перемикає статус відмови користувача від збору статистики використання команд.'
+  params: [ ]

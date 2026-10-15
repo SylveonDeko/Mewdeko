@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Показує всі меню ролей на цьому сервері з каналом, типом, кількістю варіантів і статусом.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Показує всю інформацію про одне меню ролей: канал, тип, правила вибору, потрібну роль, підтвердження та варіанти.'
+  params:
+    - desc: 'ID меню з rolemenus.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Публікує нове меню ролей у каналі з одним варіантом для кожної ролі. Учасники обирають ролі зі списку або кнопок, щоб отримати чи зняти їх.'
+  params:
+    - desc: 'Канал, куди опублікувати меню.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'dropdown або buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: 'Одна або кілька ролей, до 25.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Додає роль до меню з необов''язковим емодзі та назвою і оновлює опубліковане повідомлення.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Роль, яку видає новий варіант.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Необов''язкове емодзі, а далі назва, що відображається в меню. За замовчуванням — назва ролі.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Видаляє роль з меню і оновлює опубліковане повідомлення.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Роль, яку потрібно прибрати з меню.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Перейменовує меню. Назва використовується як заголовок стандартного повідомлення і відображається у списках.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Нова назва, до 100 символів.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Встановлює текст над меню у вигляді звичайного тексту або JSON вбудованого повідомлення з конструктора. Надішліть лише ID, щоб побачити поточне повідомлення, або "clear", щоб повернутися до стандартного списку варіантів.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Повідомлення, "clear" або нічого, щоб переглянути.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Перемикає меню між випадаючим списком і кнопками.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'dropdown або buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Визначає, чи може учасник обрати одну роль (вибір іншої замінює попередню), чи будь-яку кількість ролей з меню.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'exclusive для вибору однієї ролі, multi для вибору будь-якої кількості.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Встановлює, скільки ролей із меню учасник має тримати і може мати. Максимум 0 означає без обмежень.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Найменша кількість ролей, яку учасник має тримати після вибору.'
+      name: min
+      optional: false
+      type: int
+    - desc: 'Найбільша кількість ролей, яку може мати учасник; 0 — без обмежень.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Дозволяє користуватися меню лише учасникам із певною роллю. Не вказуйте роль, щоб дозволити всім.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Роль, потрібна для використання меню. Не вказуйте, щоб очистити.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Визначає, чи отримуватимуть учасники приватну примітку зі списком отриманих і знятих ролей, чи не отримуватимуть її взагалі.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private або silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Призупиняє меню, вимикаючи його випадаючий список або кнопки, або відновлює його, якщо воно призупинене.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Публікує нову копію меню в тому самому або іншому каналі та видаляє старе повідомлення.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Куди опублікувати. За замовчуванням — поточний канал.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Видаляє меню та його повідомлення. Учасники зберігають ролі, які вже обрали.'
+  params:
+    - desc: 'ID меню.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Переносить старе налаштування ролей-емодзі з повідомлення в нове меню ролей у тому самому каналі, а потім вимикає старе налаштування.'
+  params:
+    - desc: 'ID повідомлення зі старим налаштуванням.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown або buttons. За замовчуванням — dropdown.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

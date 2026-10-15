@@ -1,6 +1,18 @@
 {
+  "autohentai_started": "Otomatik hentai başladı. Her {0} saniyede bir aşağıdaki etiketlerden biriyle yeniden yayınlanıyor:\n{1}",
   "autohentai_stopped": "Autohentai durduruldu.",
-  "nsfw_set_true": "",
+  "nsfw_api_fetch_error": "NSFW subreddit'i getirilemedi. Lütfen konsolu kontrol et veya sorunu https://discord.gg/mewdeko adresinde bildir",
+  "nsfw_auto_interval_too_short": "Aralık en az 20 saniye olmalı.",
+  "nsfw_auto_not_running": "Bu kanalda çalışan bir otomatik paylaşım yok.",
+  "nsfw_autohentai_started": "Otomatik NSFW paylaşımı başladı. Aralık: {0}sn | Etiketler: {1}",
+  "nsfw_autohentai_stopped": "Otomatik NSFW paylaşımı durduruldu",
+  "nsfw_blacklist_title": "Engellenmiş NSFW Etiketleri",
+  "nsfw_bomb_already_running": "Burada zaten bir bomba çalışıyor, bitmesini bekle.",
+  "nsfw_file_too_large": "Dosya Çok Büyük",
+  "nsfw_loading_subreddit": "`{0}` üzerinden bir gönderi almaya çalışılıyor...",
+  "nsfw_loli_shota_content": "Bu manga loli/shota içeriği barındırıyor ve Discord hizmet şartlarına aykırı!",
+  "nsfw_search_no_results": "Arama sonuç döndürmedi. Farklı bir sorguyla tekrar dene!",
   "nsfw_set_false": "",
-  "autohentai_started": "Otomatik hentai başladı. Her {0} saniyede bir aşağıdaki etiketlerden biriyle yeniden yayınlanıyor:\n{1}"
+  "nsfw_set_true": "",
+  "nsfw_title_format": "{0} - {1} sayfa"
 }

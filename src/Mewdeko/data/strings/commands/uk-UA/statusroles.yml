@@ -1,0 +1,269 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Додає конфігурацію ролі статусу.'
+  params:
+    - &ref_32
+      desc: 'Статус для додавання.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Додає конфігурацію ролі статусу.'
+  params:
+    - desc: 'Статус для додавання.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Додає конфігурацію ролі статусу.'
+  params:
+    - desc: 'Статус для додавання.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Додає конфігурацію ролі статусу.'
+  params:
+    - desc: 'Статус для додавання.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Показує всі поточні ролі статусу з їхніми деталями.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно зняти, коли користувач має обраний статус.'
+  params:
+    - &ref_390
+      desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'Ролі для зняття.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно зняти, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для зняття.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно зняти, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для зняття.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно зняти, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для зняття.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: 'Знімає одну або кілька ролей з тих, що додаються, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для зняття.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Видаляє конфігурацію ролі статусу.'
+  params:
+    - desc: 'Номер ролі статусу для видалення.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно додати, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'Ролі для додавання.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно додати, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для додавання.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно додати, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для додавання.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно додати, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для додавання.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Встановлює ролі, які потрібно зняти, коли користувач має обраний статус.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ролі для зняття.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Встановлює канал для конкретної ролі статусу.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'Канал для встановлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Встановлює канал для конкретної ролі статусу.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Канал для встановлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Встановлює канал для конкретної ролі статусу.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Канал для встановлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Встановлює канал для конкретної ролі статусу.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Канал для встановлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Встановлює або переглядає текст вбудованого повідомлення для конкретної ролі статусу.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Текст вбудованого повідомлення для встановлення.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Перемикає, чи знімаються додані ролі, коли статус видаляється.'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: 'Перемикає, чи знімаються додані ролі, коли користувач більше не має статусу з вказаним номером'
+  params:
+    - desc: 'Номер ролі статусу.'
+      name: index
+      optional: false
+      type: int

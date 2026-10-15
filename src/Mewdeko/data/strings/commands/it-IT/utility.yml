@@ -1,0 +1,4732 @@
+activitygraph:
+  args:
+    - graphtype.days
+  desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+  params:
+    - &ref_4
+      desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=:
+  args:
+    - graphtype.days
+  desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+  params:
+    - desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_1:
+  args:
+    - graphtype.days
+  desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+  params:
+    - desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_2:
+  args:
+    - graphtype.days
+  desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+  params:
+    - desc: 'Mostra un grafico delle ore e dei giorni più affollati nel server.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+addautopublish:
+  args:
+    - channel
+  desc: 'Attiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - &ref_5
+      desc: 'Il canale notizie per cui attivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel:
+  args:
+    - channel
+  desc: 'Attiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - desc: 'Il canale notizie per cui attivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Attiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - desc: 'Il canale notizie per cui attivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Attiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - desc: 'Il canale notizie per cui attivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist:
+  args:
+    - '@user channel'
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - &ref_24
+      desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_23
+      desc: 'La parola da mettere nella lista nera.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La parola da mettere nella lista nera.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La parola da mettere nella lista nera.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La parola da mettere nella lista nera.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Aggiunge una parola alla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale per cui applicare la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+aichannel:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Configura il servizio AI per un canale'
+  params:
+    - desc: 'Canale per cui configurare l''AI'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Se attivare o disattivare l''AI'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Configura il servizio AI per un canale'
+  params:
+    - desc: 'Canale per cui configurare l''AI'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Se attivare o disattivare l''AI'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_1:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Configura il servizio AI per un canale'
+  params:
+    - desc: 'Canale per cui configurare l''AI'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Se attivare o disattivare l''AI'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_2:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Configura il servizio AI per un canale'
+  params:
+    - desc: 'Canale per cui configurare l''AI'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Se attivare o disattivare l''AI'
+      name: enabled
+      optional: true
+      type: bool
+aiconfig:
+  args:
+    - ''
+  desc: 'Mostra la configurazione AI attuale'
+  params: [ ]
+aicustomembed:
+  args:
+    - '[embedTemplate]'
+  desc: 'Imposta o visualizza il modello di embed personalizzato per le risposte AI. Usa %airesponse% per indicare dove deve comparire la risposta AI nell''embed.'
+  params:
+    - desc: 'Modello di embed facoltativo. Se non indicato, mostra il modello attuale.'
+      name: embedTemplate
+      optional: true
+      type: string
+aikey:
+  args:
+    - ''
+  desc: 'Imposta la chiave API per il servizio AI'
+  params: [ ]
+aimodel:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Imposta il provider e il modello AI'
+  params:
+    - desc: 'Provider AI da usare'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Nome del modello'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Imposta il provider e il modello AI'
+  params:
+    - desc: 'Provider AI da usare'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Nome del modello'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_1:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Imposta il provider e il modello AI'
+  params:
+    - desc: 'Provider AI da usare'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Nome del modello'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_2:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Imposta il provider e il modello AI'
+  params:
+    - desc: 'Provider AI da usare'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Nome del modello'
+      name: model
+      optional: true
+      type: string
+aiprompt:
+  args:
+    - text
+  desc: 'Imposta il prompt di sistema per l''AI'
+  params:
+    - &ref_59
+      desc: 'Prompt di sistema da usare'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string:
+  args:
+    - text
+  desc: 'Imposta il prompt di sistema per l''AI'
+  params:
+    - desc: 'Prompt di sistema da usare'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_1:
+  args:
+    - text
+  desc: 'Imposta il prompt di sistema per l''AI'
+  params:
+    - desc: 'Prompt di sistema da usare'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_2:
+  args:
+    - text
+  desc: 'Imposta il prompt di sistema per l''AI'
+  params:
+    - desc: 'Prompt di sistema da usare'
+      name: prompt
+      optional: false
+      type: string
+aiwebhook:
+  args:
+    - '[name] [avatar]'
+  desc: 'Imposta il webhook per le risposte AI in questo server.'
+  params:
+    - desc: 'Il nome del webhook. Se null, disattiva il webhook.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'URL facoltativo per l''avatar del webhook.'
+      name: avatar
+      optional: true
+      type: string
+aiwebsearch:
+  args:
+    - 'true'
+    - 'false'
+  desc: 'Attiva o disattiva la ricerca web per l''AI (solo Claude)'
+  params:
+    - desc: 'Se attivare o disattivare la ricerca web'
+      name: enabled
+      optional: false
+      type: bool
+alias:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Aggiunge un nuovo alias per un comando, oppure rimuove un alias esistente se non viene indicata alcuna corrispondenza.'
+  params:
+    - desc: 'La parola di attivazione per l''alias.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Il comando a cui associare l''alias. Se null, l''alias verrà rimosso.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Aggiunge un nuovo alias per un comando, oppure rimuove un alias esistente se non viene indicata alcuna corrispondenza.'
+  params:
+    - desc: 'La parola di attivazione per l''alias.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Il comando a cui associare l''alias. Se null, l''alias verrà rimosso.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_1:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Aggiunge un nuovo alias per un comando, oppure rimuove un alias esistente se non viene indicata alcuna corrispondenza.'
+  params:
+    - desc: 'La parola di attivazione per l''alias.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Il comando a cui associare l''alias. Se null, l''alias verrà rimosso.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_2:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Aggiunge un nuovo alias per un comando, oppure rimuove un alias esistente se non viene indicata alcuna corrispondenza.'
+  params:
+    - desc: 'La parola di attivazione per l''alias.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Il comando a cui associare l''alias. Se null, l''alias verrà rimosso.'
+      name: mapping
+      optional: true
+      type: string
+aliasesclear:
+  args:
+    - ''
+  desc: 'Cancella tutti gli alias dei comandi del server.'
+  params: [ ]
+aliaslist:
+  args:
+    - ''
+  desc: 'Elenca tutti gli alias dei comandi attualmente impostati nel server.'
+  params: [ ]
+avatar:
+  args:
+    - '[@usr]'
+  desc: 'Mostra l''avatar di un utente specificato o di chi esegue il comando. Ha un pulsante per visualizzare l''avatar del server, se disponibile.'
+  params:
+    - desc: 'Facoltativo. L''utente di cui mostrare l''avatar.'
+      name: usr
+      optional: true
+      type: user
+banner:
+  args:
+    - '[@usr]'
+  desc: 'Mostra il banner di un utente specificato o di chi esegue il comando.'
+  params:
+    - desc: 'Facoltativo. L''utente di cui mostrare il banner.'
+      name: usr
+      optional: true
+      type: user
+calcops:
+  args:
+    - ''
+  desc: 'Elenca le operazioni matematiche disponibili da usare nelle espressioni.'
+  params: [ ]
+calculate:
+  args:
+    - text
+  desc: 'Valuta un''espressione matematica e restituisce il risultato.'
+  params:
+    - &ref_118
+      desc: 'L''espressione da valutare.'
+      name: expression
+      optional: false
+      type: string
+calculate_string:
+  args:
+    - text
+  desc: 'Valuta un''espressione matematica e restituisce il risultato.'
+  params:
+    - desc: 'L''espressione da valutare.'
+      name: expression
+      optional: false
+      type: string
+calculate_string_1:
+  args:
+    - text
+  desc: 'Valuta un''espressione matematica e restituisce il risultato.'
+  params:
+    - desc: 'L''espressione da valutare.'
+      name: expression
+      optional: false
+      type: string
+calculate_string_2:
+  args:
+    - text
+  desc: 'Valuta un''espressione matematica e restituisce il risultato.'
+  params:
+    - desc: 'L''espressione da valutare.'
+      name: expression
+      optional: false
+      type: string
+channelid:
+  args:
+    - ''
+  desc: 'Mostra l''ID del canale attuale.'
+  params: [ ]
+channelinfo:
+  args:
+    - '[@channel]'
+  desc: 'Mostra informazioni su un canale di testo specificato o sul canale attuale.'
+  params:
+    - desc: 'Facoltativo. Il canale di testo di cui raccogliere le informazioni.'
+      name: channel
+      optional: true
+      type: channel
+channelmessages:
+  args:
+    - '[@channel]'
+  desc: 'Mostra le statistiche dei messaggi per un canale specifico.'
+  params:
+    - desc: 'Il canale di cui mostrare le statistiche dei messaggi. Se null, usa il canale attuale.'
+      name: channel
+      optional: true
+      type: channel
+channeltopic:
+  args:
+    - '[@channel]'
+  desc: 'Mostra l''argomento del canale attuale. Mostra l''argomento di un canale specificato, se indicato.'
+  params:
+    - desc: 'Il canale di cui mostrare l''argomento.'
+      name: channel
+      optional: true
+      type: channel
+convert:
+  args:
+    - text
+  desc: 'Converte file multimediali in formati diversi. Uso: .convert formato_di_conversione (con file allegato)'
+  params:
+    - &ref_144
+      desc: 'Il formato in cui convertire (es. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string:
+  args:
+    - text
+  desc: 'Converte file multimediali in formati diversi. Uso: .convert formato_di_conversione (con file allegato)'
+  params:
+    - desc: 'Il formato in cui convertire (es. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_1:
+  args:
+    - text
+  desc: 'Converte file multimediali in formati diversi. Uso: .convert formato_di_conversione (con file allegato)'
+  params:
+    - desc: 'Il formato in cui convertire (es. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_2:
+  args:
+    - text
+  desc: 'Converte file multimediali in formati diversi. Uso: .convert formato_di_conversione (con file allegato)'
+  params:
+    - desc: 'Il formato in cui convertire (es. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convertlist:
+  args:
+    - ''
+  desc: 'Elenca tutte le unità disponibili per la conversione.'
+  params: [ ]
+convertunits:
+  args:
+    - text text number
+  desc: 'Converte un valore specificato da un''unità a un''altra.'
+  params:
+    - &ref_145
+      desc: 'L''unità originale del valore.'
+      name: origin
+      optional: false
+      type: string
+    - &ref_146
+      desc: 'L''unità di destinazione in cui convertire.'
+      name: target
+      optional: false
+      type: string
+    - &ref_147
+      desc: 'Il valore da convertire.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal:
+  args:
+    - text text number
+  desc: 'Converte un valore specificato da un''unità a un''altra.'
+  params:
+    - desc: 'L''unità originale del valore.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'L''unità di destinazione in cui convertire.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Il valore da convertire.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_1:
+  args:
+    - text text number
+  desc: 'Converte un valore specificato da un''unità a un''altra.'
+  params:
+    - desc: 'L''unità originale del valore.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'L''unità di destinazione in cui convertire.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Il valore da convertire.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_2:
+  args:
+    - text text number
+  desc: 'Converte un valore specificato da un''unità a un''altra.'
+  params:
+    - desc: 'L''unità originale del valore.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'L''unità di destinazione in cui convertire.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Il valore da convertire.'
+      name: value
+      optional: false
+      type: decimal
+debugembed:
+  args:
+    - text
+  desc: 'Comando di debug per testare l''analisi degli embed.'
+  params:
+    - &ref_178
+      desc: 'Il testo da analizzare come embed.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string:
+  args:
+    - text
+  desc: 'Comando di debug per testare l''analisi degli embed.'
+  params:
+    - desc: 'Il testo da analizzare come embed.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_1:
+  args:
+    - text
+  desc: 'Comando di debug per testare l''analisi degli embed.'
+  params:
+    - desc: 'Il testo da analizzare come embed.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_2:
+  args:
+    - text
+  desc: 'Comando di debug per testare l''analisi degli embed.'
+  params:
+    - desc: 'Il testo da analizzare come embed.'
+      name: embedText
+      optional: false
+      type: string
+delallquotes:
+  args:
+    - text
+  desc: 'Elimina tutte le citazioni associate alla parola chiave indicata.'
+  params:
+    - &ref_182
+      desc: 'La parola chiave di cui eliminare le citazioni associate.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string:
+  args:
+    - text
+  desc: 'Elimina tutte le citazioni associate alla parola chiave indicata.'
+  params:
+    - desc: 'La parola chiave di cui eliminare le citazioni associate.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_1:
+  args:
+    - text
+  desc: 'Elimina tutte le citazioni associate alla parola chiave indicata.'
+  params:
+    - desc: 'La parola chiave di cui eliminare le citazioni associate.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_2:
+  args:
+    - text
+  desc: 'Elimina tutte le citazioni associate alla parola chiave indicata.'
+  params:
+    - desc: 'La parola chiave di cui eliminare le citazioni associate.'
+      name: keyword
+      optional: false
+      type: string
+editsnipe:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params: [ ]
+editsnipe_ITextChannel:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - &ref_207
+      desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_1:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_2:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_3:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_208
+      desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_1:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_2:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_3:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_noparams:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params: [ ]
+editsnipe_noparams_1:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params: [ ]
+editsnipe_noparams_2:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio modificato di un utente in un canale specificato.'
+  params: [ ]
+editsnipelist:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - &ref_209
+      desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_1:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_2:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - &ref_210
+      desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_211
+      desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi modificati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+embeddelete:
+  args:
+    - name
+  desc: 'Elimina un modello di embed personale.'
+  params:
+    - desc: 'Il nome del modello di embed da eliminare.'
+      name: name
+      optional: false
+      type: string
+embedlist:
+  args:
+    - ''
+  desc: 'Elenca tutti i modelli di embed personali.'
+  params: [ ]
+embedpreview:
+  args:
+    - name
+  desc: 'Mostra l''anteprima di un modello di embed.'
+  params:
+    - desc: 'Il nome del modello di embed di cui mostrare l''anteprima.'
+      name: name
+      optional: false
+      type: string
+embedsave:
+  args:
+    - name
+    - embedJson
+  desc: 'Salva un modello di embed per uso personale.'
+  params:
+    - desc: 'Il nome del modello di embed.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'La rappresentazione JSON dell''embed.'
+      name: embedJson
+      optional: false
+      type: string
+emotelist:
+  args:
+    - '[emotetype]'
+  desc: 'Recupera le emote di un server. Se viene indicato un tipo di emote, verranno elencate solo le emote di quel tipo.'
+  params:
+    - desc: 'Il tipo di emote da elencare (animate o non animate).'
+      name: emotetype
+      optional: true
+      type: string
+fetch:
+  args:
+    - id
+  desc: 'Recupera e mostra informazioni su un utente tramite il suo ID Discord.'
+  params:
+    - &ref_217
+      desc: 'L''ID Discord dell''utente.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong:
+  args:
+    - id
+  desc: 'Recupera e mostra informazioni su un utente tramite il suo ID Discord.'
+  params:
+    - desc: 'L''ID Discord dell''utente.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_1:
+  args:
+    - id
+  desc: 'Recupera e mostra informazioni su un utente tramite il suo ID Discord.'
+  params:
+    - desc: 'L''ID Discord dell''utente.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_2:
+  args:
+    - id
+  desc: 'Recupera e mostra informazioni su un utente tramite il suo ID Discord.'
+  params:
+    - desc: 'L''ID Discord dell''utente.'
+      name: id
+      optional: false
+      type: ulong
+getautopublishes:
+  args:
+    - ''
+  desc: 'Mostra un elenco dei canali con la pubblicazione automatica attiva e delle relative liste nere.'
+  params: [ ]
+getjson:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ITextChannel_ulong:
+  args:
+    - channel messageid
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_226
+      desc: 'L''ID del messaggio di cui recuperare il JSON.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_1:
+  args:
+    - channel messageid
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''ID del messaggio di cui recuperare il JSON.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_2:
+  args:
+    - channel messageid
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''ID del messaggio di cui recuperare il JSON.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_3:
+  args:
+    - channel messageid
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''ID del messaggio di cui recuperare il JSON.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ulong_=:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_1:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_2:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+  params:
+    - desc: 'Recupera il JSON specifico di Mewdeko di un messaggio.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Il canale del messaggio.'
+      name: channel
+      optional: true
+      type: channel
+graph:
+  args:
+    - text -10 10
+    - text
+  desc: 'Disegna il grafico di una funzione matematica.'
+  params:
+    - &ref_234
+      desc: 'La funzione da disegnare.'
+      name: function
+      optional: false
+      type: string
+    - &ref_235
+      desc: 'Disegna il grafico di una funzione matematica.'
+      name: -10
+      optional: false
+      type: '='
+    - &ref_236
+      desc: 'Disegna il grafico di una funzione matematica.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=:
+  args:
+    - text -10 10
+    - text
+  desc: 'Disegna il grafico di una funzione matematica.'
+  params:
+    - desc: 'La funzione da disegnare.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Disegna il grafico di una funzione matematica.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Disegna il grafico di una funzione matematica.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_1:
+  args:
+    - text -10 10
+    - text
+  desc: 'Disegna il grafico di una funzione matematica.'
+  params:
+    - desc: 'La funzione da disegnare.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Disegna il grafico di una funzione matematica.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Disegna il grafico di una funzione matematica.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_2:
+  args:
+    - text -10 10
+    - text
+  desc: 'Disegna il grafico di una funzione matematica.'
+  params:
+    - desc: 'La funzione da disegnare.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Disegna il grafico di una funzione matematica.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Disegna il grafico di una funzione matematica.'
+      name: 10
+      optional: false
+      type: '='
+guildembeddelete:
+  args:
+    - name
+  desc: 'Elimina un modello di embed del server (richiede il permesso ManageMessages).'
+  params:
+    - desc: 'Il nome del modello di embed da eliminare.'
+      name: name
+      optional: false
+      type: string
+guildembedlist:
+  args:
+    - ''
+  desc: 'Elenca tutti i modelli di embed del server.'
+  params: [ ]
+guildembedsave:
+  args:
+    - name
+    - embedJson
+  desc: 'Salva un modello di embed per uso nel server (richiede il permesso ManageMessages).'
+  params:
+    - desc: 'Il nome del modello di embed.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'La rappresentazione JSON dell''embed.'
+      name: embedJson
+      optional: false
+      type: string
+inrole:
+  args:
+    - '@role'
+  desc: 'Mostra un elenco degli utenti con un ruolo specificato.'
+  params:
+    - &ref_253
+      desc: 'Il ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole:
+  args:
+    - '@role'
+  desc: 'Mostra un elenco degli utenti con un ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Mostra un elenco degli utenti con un ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Mostra un elenco degli utenti con un ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+inroles:
+  args:
+    - '@role @role'
+  desc: 'Mostra un elenco degli utenti con i ruoli specificati.'
+  params:
+    - &ref_254
+      desc: 'Il primo ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_255
+      desc: 'Il secondo ruolo da cercare.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Mostra un elenco degli utenti con i ruoli specificati.'
+  params:
+    - desc: 'Il primo ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il secondo ruolo da cercare.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Mostra un elenco degli utenti con i ruoli specificati.'
+  params:
+    - desc: 'Il primo ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il secondo ruolo da cercare.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Mostra un elenco degli utenti con i ruoli specificati.'
+  params:
+    - desc: 'Il primo ruolo da cercare.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il secondo ruolo da cercare.'
+      name: role2
+      optional: false
+      type: IRole
+invite:
+  args:
+    - ''
+  desc: 'Recupera il link di invito del bot. Mostra anche il sito web, la documentazione e il server di supporto.'
+  params: [ ]
+invitedusers:
+  args:
+    - '[@user]'
+  desc: 'Mostra un elenco degli utenti invitati da un utente specifico.'
+  params:
+    - desc: 'L''utente di cui controllare gli inviti. Se null, controlla per l''utente che esegue il comando.'
+      name: user
+      optional: true
+      type: user
+inviteleaderboard:
+  args:
+    - '[AllTime] [@role]'
+    - 'Weekly'
+  desc: 'Mostra una classifica degli utenti con più inviti, con dettaglio di regolari/usciti/falsi/bonus. Facoltativamente limitata a un periodo o a un ruolo.'
+  params:
+    - desc: 'Il periodo: AllTime, Daily, Weekly o Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Includi solo chi invita con questo ruolo.'
+      name: role
+      optional: true
+      type: IRole
+invites_=:
+  args:
+    - '[@user]'
+  desc: 'Mostra il numero di inviti di un utente.'
+  params:
+    - desc: 'L''utente di cui controllare gli inviti. Se null, controlla per l''utente che esegue il comando.'
+      name: user
+      optional: true
+      type: user
+invitesettings:
+  args:
+    - ''
+  desc: 'Mostra le impostazioni attuali degli inviti del server.'
+  params: [ ]
+joinstats:
+  args:
+    - ''
+  desc: 'Genera e invia un grafico che mostra le statistiche di ingresso nel server.'
+  params: [ ]
+joinstatscolor:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - &ref_257
+      desc: 'Componente rosso del colore.'
+      name: r
+      optional: false
+      type: int
+    - &ref_258
+      desc: 'Componente verde del colore.'
+      name: g
+      optional: false
+      type: int
+    - &ref_259
+      desc: 'Componente blu del colore.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - desc: 'Componente rosso del colore.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Componente verde del colore.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Componente blu del colore.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - desc: 'Componente rosso del colore.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Componente verde del colore.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Componente blu del colore.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - desc: 'Componente rosso del colore.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Componente verde del colore.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Componente blu del colore.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_noparams:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+joinstatscolor_noparams_1:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+joinstatscolor_noparams_2:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+joinstatscolor_noparams_3:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di ingresso. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+leavestats:
+  args:
+    - ''
+  desc: 'Genera e invia un grafico che mostra le statistiche di uscita dal server.'
+  params: [ ]
+leavestatscolor:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - &ref_270
+      desc: 'Componente rosso del colore, tra 0 e 255.'
+      name: r
+      optional: false
+      type: int
+    - &ref_271
+      desc: 'Componente verde del colore, tra 0 e 255.'
+      name: g
+      optional: false
+      type: int
+    - &ref_272
+      desc: 'Componente blu del colore, tra 0 e 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - desc: 'Componente rosso del colore, tra 0 e 255.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Componente verde del colore, tra 0 e 255.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Componente blu del colore, tra 0 e 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - desc: 'Componente rosso del colore, tra 0 e 255.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Componente verde del colore, tra 0 e 255.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Componente blu del colore, tra 0 e 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params:
+    - desc: 'Componente rosso del colore, tra 0 e 255.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Componente verde del colore, tra 0 e 255.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Componente blu del colore, tra 0 e 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_noparams:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+leavestatscolor_noparams_1:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+leavestatscolor_noparams_2:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+leavestatscolor_noparams_3:
+  args:
+    - ''
+  desc: 'Imposta il colore predefinito oro per il grafico delle statistiche di uscita. Questo metodo è un comando di comodità che applica un colore predefinito senza bisogno di valori RGB.'
+  params: [ ]
+listquotes:
+  args:
+    - ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - &ref_279
+      desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=:
+  args:
+    - ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_1:
+  args:
+    - ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_2:
+  args:
+    - ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_1:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_2:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_3:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+  params:
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Elenca le citazioni del server in una pagina specifica. Le citazioni possono essere ordinate per parola chiave o data di aggiunta.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+minmessagecountlength:
+  args:
+    - 0
+  desc: 'Imposta la lunghezza minima di un messaggio per essere conteggiato'
+  params:
+    - desc: 'Imposta la lunghezza minima di un messaggio per essere conteggiato'
+      name: 0
+      optional: false
+      type: '='
+minmsglength:
+  args:
+    - length
+  desc: 'Imposta la lunghezza minima del messaggio per il conteggio.'
+  params:
+    - desc: 'La lunghezza minima del messaggio.'
+      name: length
+      optional: false
+      type: int
+owoify:
+  args:
+    - text
+  desc: 'O-OwoIfy trasforma il testo specificato in stile owo.'
+  params:
+    - &ref_334
+      desc: 'Il testo da trasformare in stile owo.'
+      name: input
+      optional: false
+      type: string
+owoify_string:
+  args:
+    - text
+  desc: 'O-OwoIfy trasforma il testo specificato in stile owo.'
+  params:
+    - desc: 'Il testo da trasformare in stile owo.'
+      name: input
+      optional: false
+      type: string
+owoify_string_1:
+  args:
+    - text
+  desc: 'O-OwoIfy trasforma il testo specificato in stile owo.'
+  params:
+    - desc: 'Il testo da trasformare in stile owo.'
+      name: input
+      optional: false
+      type: string
+owoify_string_2:
+  args:
+    - text
+  desc: 'O-OwoIfy trasforma il testo specificato in stile owo.'
+  params:
+    - desc: 'Il testo da trasformare in stile owo.'
+      name: input
+      optional: false
+      type: string
+ping:
+  args:
+    - ''
+  desc: 'Mostra il ping del bot.'
+  params: [ ]
+pingip:
+  args:
+    - text 1
+    - text
+  desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+  params:
+    - &ref_345
+      desc: 'L''indirizzo IP da pingare.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=:
+  args:
+    - text 1
+    - text
+  desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+  params:
+    - desc: 'L''indirizzo IP da pingare.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_1:
+  args:
+    - text 1
+    - text
+  desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+  params:
+    - desc: ''
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_2:
+  args:
+    - text 1
+    - text
+  desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+  params:
+    - desc: 'L''indirizzo IP da pingare.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Esegue un ping a un indirizzo IP. Massimo 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+plot:
+  args:
+    - expression
+  desc: 'Crea un grafico.'
+  params:
+    - desc: 'L''espressione matematica da rappresentare graficamente.'
+      name: expression
+      optional: false
+      type: string
+previewlinks:
+  args:
+    - text
+  desc: 'Attiva o disattiva le anteprime dei link nel server.'
+  params:
+    - &ref_355
+      desc: '"yes" per attivare le anteprime dei link, qualsiasi altra cosa per disattivarle.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string:
+  args:
+    - text
+  desc: 'Attiva o disattiva le anteprime dei link nel server.'
+  params:
+    - desc: '"yes" per attivare le anteprime dei link, qualsiasi altra cosa per disattivarle.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_1:
+  args:
+    - text
+  desc: 'Attiva o disattiva le anteprime dei link nel server.'
+  params:
+    - desc: '"yes" per attivare le anteprime dei link, qualsiasi altra cosa per disattivarle.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_2:
+  args:
+    - text
+  desc: 'Attiva o disattiva le anteprime dei link nel server.'
+  params:
+    - desc: '"yes" per attivare le anteprime dei link, qualsiasi altra cosa per disattivarle.'
+      name: yesnt
+      optional: false
+      type: string
+quoteadd:
+  args:
+    - text text
+  desc: 'Aggiunge una nuova citazione con la parola chiave e il testo indicati.'
+  params:
+    - &ref_367
+      desc: 'La parola chiave associata alla citazione.'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_368
+      desc: 'Il testo della citazione.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string:
+  args:
+    - text text
+  desc: 'Aggiunge una nuova citazione con la parola chiave e il testo indicati.'
+  params:
+    - desc: 'La parola chiave associata alla citazione.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Il testo della citazione.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_1:
+  args:
+    - text text
+  desc: 'Aggiunge una nuova citazione con la parola chiave e il testo indicati.'
+  params:
+    - desc: 'La parola chiave associata alla citazione.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Il testo della citazione.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_2:
+  args:
+    - text text
+  desc: 'Aggiunge una nuova citazione con la parola chiave e il testo indicati.'
+  params:
+    - desc: 'La parola chiave associata alla citazione.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Il testo della citazione.'
+      name: text
+      optional: false
+      type: string
+quotedelete:
+  args:
+    - number
+  desc: 'Elimina una citazione con l''ID specificato.'
+  params:
+    - &ref_369
+      desc: 'L''ID della citazione da eliminare.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int:
+  args:
+    - number
+  desc: 'Elimina una citazione con l''ID specificato.'
+  params:
+    - desc: 'L''ID della citazione da eliminare.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_1:
+  args:
+    - number
+  desc: 'Elimina una citazione con l''ID specificato.'
+  params:
+    - desc: 'L''ID della citazione da eliminare.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_2:
+  args:
+    - number
+  desc: 'Elimina una citazione con l''ID specificato.'
+  params:
+    - desc: 'L''ID della citazione da eliminare.'
+      name: id
+      optional: false
+      type: int
+quoteexport:
+  args: [ ]
+  desc: 'Esporta tutte le citazioni del server in formato JSON.'
+  params: [ ]
+quoteid:
+  args:
+    - number
+  desc: 'Mostra chi ha aggiunto una citazione con l''ID specificato.'
+  params:
+    - &ref_370
+      desc: 'L''ID della citazione da mostrare.'
+      name: id
+      optional: false
+      type: int
+quoteid_int:
+  args:
+    - number
+  desc: 'Mostra chi ha aggiunto una citazione con l''ID specificato.'
+  params:
+    - desc: 'L''ID della citazione da mostrare.'
+      name: id
+      optional: false
+      type: int
+quoteid_int_1:
+  args:
+    - number
+  desc: 'Mostra chi ha aggiunto una citazione con l''ID specificato.'
+  params:
+    - desc: 'L''ID della citazione da mostrare.'
+      name: id
+      optional: false
+      type: int
+quoteid_int_2:
+  args:
+    - number
+  desc: 'Mostra chi ha aggiunto una citazione con l''ID specificato.'
+  params:
+    - desc: 'L''ID della citazione da mostrare.'
+      name: id
+      optional: false
+      type: int
+quoteimport:
+  args: [ ]
+  desc: 'Importa citazioni da un file JSON allegato. Le citazioni duplicate sono consentite.'
+  params: [ ]
+quoteprint:
+  args:
+    - text
+  desc: 'Mostra una citazione casuale che corrisponde alla parola chiave indicata.'
+  params:
+    - &ref_371
+      desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string:
+  args:
+    - text
+  desc: 'Mostra una citazione casuale che corrisponde alla parola chiave indicata.'
+  params:
+    - desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_1:
+  args:
+    - text
+  desc: 'Mostra una citazione casuale che corrisponde alla parola chiave indicata.'
+  params:
+    - desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_2:
+  args:
+    - text
+  desc: 'Mostra una citazione casuale che corrisponde alla parola chiave indicata.'
+  params:
+    - desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+quotesearch:
+  args:
+    - text text
+  desc: 'Cerca e mostra una citazione che corrisponde sia a una parola chiave sia a un testo di ricerca.'
+  params:
+    - &ref_372
+      desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_373
+      desc: 'Il testo da cercare nelle citazioni.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string:
+  args:
+    - text text
+  desc: 'Cerca e mostra una citazione che corrisponde sia a una parola chiave sia a un testo di ricerca.'
+  params:
+    - desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Il testo da cercare nelle citazioni.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_1:
+  args:
+    - text text
+  desc: 'Cerca e mostra una citazione che corrisponde sia a una parola chiave sia a un testo di ricerca.'
+  params:
+    - desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Il testo da cercare nelle citazioni.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_2:
+  args:
+    - text text
+  desc: 'Cerca e mostra una citazione che corrisponde sia a una parola chiave sia a un testo di ricerca.'
+  params:
+    - desc: 'La parola chiave da cercare nelle citazioni.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Il testo da cercare nelle citazioni.'
+      name: text
+      optional: false
+      type: string
+quoteshow:
+  args:
+    - number
+  desc: 'Mostra la citazione con l''ID specificato.'
+  params:
+    - desc: 'L''ID della citazione da mostrare.'
+      name: id
+      optional: false
+      type: int
+remind:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - &ref_388
+      desc: 'Crea un promemoria per un canale di testo specifico.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - &ref_386
+      desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - &ref_387
+      desc: 'Il canale di testo a cui inviare il promemoria.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - desc: 'Il canale di testo a cui inviare il promemoria.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - desc: 'Il canale di testo a cui inviare il promemoria.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - desc: 'Il canale di testo a cui inviare il promemoria.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - desc: 'Crea un promemoria per un canale di testo specifico.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_1:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - desc: 'Crea un promemoria per un canale di testo specifico.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_2:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Crea un promemoria per un canale di testo specifico.'
+  params:
+    - desc: 'Crea un promemoria per un canale di testo specifico.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Il messaggio del promemoria e le informazioni sui tempi.'
+      name: remindString
+      optional: false
+      type: string
+reminddelete:
+  args:
+    - number
+  desc: 'Elimina un promemoria specifico.'
+  params:
+    - &ref_389
+      desc: 'L''indice del promemoria da eliminare.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int:
+  args:
+    - number
+  desc: 'Elimina un promemoria specifico.'
+  params:
+    - desc: 'L''indice del promemoria da eliminare.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_1:
+  args:
+    - number
+  desc: 'Elimina un promemoria specifico.'
+  params:
+    - desc: 'L''indice del promemoria da eliminare.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_2:
+  args:
+    - number
+  desc: 'Elimina un promemoria specifico.'
+  params:
+    - desc: 'L''indice del promemoria da eliminare.'
+      name: index
+      optional: false
+      type: int
+remindlist:
+  args:
+    - ''
+  desc: 'Elenca tutti i promemoria dell''utente attuale.'
+  params: [ ]
+removeautopublish:
+  args:
+    - channel
+  desc: 'Disattiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - &ref_393
+      desc: 'Il canale notizie per cui disattivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel:
+  args:
+    - channel
+  desc: 'Disattiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - desc: 'Il canale notizie per cui disattivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Disattiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - desc: 'Il canale notizie per cui disattivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Disattiva la pubblicazione automatica per un canale notizie specificato nel server.'
+  params:
+    - desc: 'Il canale notizie per cui disattivare la pubblicazione automatica.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist:
+  args:
+    - '@user channel'
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - &ref_409
+      desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_407
+      desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_408
+      desc: 'La parola da rimuovere dalla lista nera.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La parola da rimuovere dalla lista nera.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La parola da rimuovere dalla lista nera.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La parola da rimuovere dalla lista nera.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+  params:
+    - desc: 'Rimuove una parola dalla lista nera di pubblicazione automatica per un canale specificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Il canale per cui rimuovere la lista nera.'
+      name: channel
+      optional: false
+      type: ITextChannel
+repeat:
+  args:
+    - text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - &ref_427
+      desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string:
+  args:
+    - dt interval text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - &ref_428
+      desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - &ref_429
+      desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_1:
+  args:
+    - dt interval text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_2:
+  args:
+    - dt interval text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_3:
+  args:
+    - dt interval text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string:
+  args:
+    - dt text
+    - dt
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - &ref_430
+      desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_1:
+  args:
+    - dt text
+    - dt
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_2:
+  args:
+    - dt text
+    - dt
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_3:
+  args:
+    - dt text
+    - dt
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Orario facoltativo del giorno in cui avviare il ripetitore.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string:
+  args:
+    - interval text
+    - interval
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - &ref_431
+      desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_1:
+  args:
+    - interval text
+    - interval
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_2:
+  args:
+    - interval text
+    - interval
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_3:
+  args:
+    - interval text
+    - interval
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Intervallo facoltativo tra le ripetizioni.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_string:
+  args:
+    - text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_string_1:
+  args:
+    - text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeat_string_2:
+  args:
+    - text
+  desc: 'Crea un ripetitore con orario di inizio e intervallo facoltativi.'
+  params:
+    - desc: 'Il messaggio da ripetere.'
+      name: message
+      optional: true
+      type: string
+repeatactivity:
+  args:
+    - index threshold timeWindow
+  desc: 'Imposta la soglia di attività per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Numero di messaggi necessari per attivarlo.'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Finestra temporale per il rilevamento dell''attività (es. 5m, 10s).'
+      name: timeWindow
+      optional: false
+      type: stoopid time
+repeatchannel:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Cambia il canale in cui un ripetitore invia i suoi messaggi.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il nuovo canale per il ripetitore. Se non indicato, usa il canale attuale.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Cambia il canale in cui un ripetitore invia i suoi messaggi.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il nuovo canale per il ripetitore. Se non indicato, usa il canale attuale.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_1:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Cambia il canale in cui un ripetitore invia i suoi messaggi.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il nuovo canale per il ripetitore. Se non indicato, usa il canale attuale.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_2:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Cambia il canale in cui un ripetitore invia i suoi messaggi.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il nuovo canale per il ripetitore. Se non indicato, usa il canale attuale.'
+      name: channel
+      optional: true
+      type: channel
+repeatconversation:
+  args:
+    - index
+  desc: 'Attiva o disattiva il rilevamento delle conversazioni per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatforumtags:
+  args:
+    - index action tagType tags
+  desc: 'Imposta le condizioni dei tag del forum per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Azione da eseguire (add, remove, clear, list).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Tipo di regola sui tag (required o excluded).'
+      name: tagType
+      optional: true
+      type: string
+    - desc: 'Elenco di nomi o ID di tag separati da virgole.'
+      name: tags
+      optional: true
+      type: string
+repeatinvoke:
+  args:
+    - number
+  desc: 'Attiva subito un ripetitore tramite il suo numero di indice.'
+  params:
+    - desc: 'L''indice del ripetitore da attivare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int:
+  args:
+    - number
+  desc: 'Attiva subito un ripetitore tramite il suo numero di indice.'
+  params:
+    - desc: 'L''indice del ripetitore da attivare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_1:
+  args:
+    - number
+  desc: 'Attiva subito un ripetitore tramite il suo numero di indice.'
+  params:
+    - &ref_433
+      desc: 'L''indice del ripetitore da attivare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_2:
+  args:
+    - number
+  desc: 'Attiva subito un ripetitore tramite il suo numero di indice.'
+  params:
+    - desc: 'L''indice del ripetitore da attivare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatlist:
+  args:
+    - ''
+  desc: 'Elenca tutti i ripetitori attivi nel server.'
+  params: [ ]
+repeatmessage:
+  args:
+    - number text
+    - number
+  desc: 'Aggiorna il messaggio di un ripetitore esistente.'
+  params:
+    - &ref_434
+      desc: 'L''indice del ripetitore da aggiornare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - &ref_435
+      desc: 'Il nuovo messaggio per il ripetitore.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string:
+  args:
+    - number text
+    - number
+  desc: 'Aggiorna il messaggio di un ripetitore esistente.'
+  params:
+    - desc: 'L''indice del ripetitore da aggiornare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il nuovo messaggio per il ripetitore.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_1:
+  args:
+    - number text
+    - number
+  desc: 'Aggiorna il messaggio di un ripetitore esistente.'
+  params:
+    - desc: 'L''indice del ripetitore da aggiornare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il nuovo messaggio per il ripetitore.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_2:
+  args:
+    - number text
+    - number
+  desc: 'Aggiorna il messaggio di un ripetitore esistente.'
+  params:
+    - desc: 'L''indice del ripetitore da aggiornare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il nuovo messaggio per il ripetitore.'
+      name: message
+      optional: true
+      type: string
+repeatpriority:
+  args:
+    - index priority
+  desc: 'Imposta la priorità per un ripetitore (0-100, più alto = più importante).'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Livello di priorità (0-100).'
+      name: priority
+      optional: false
+      type: int
+repeatredun:
+  args:
+    - action
+  desc: 'Gestisce la ridondanza dei ripetitori.'
+  params:
+    - desc: 'L''azione da eseguire.'
+      name: action
+      optional: false
+      type: string
+repeatredundant:
+  args:
+    - number
+  desc: 'Attiva o disattiva il controllo di ridondanza per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatremove:
+  args:
+    - number
+  desc: 'Rimuove un ripetitore tramite il suo numero di indice.'
+  params:
+    - desc: 'L''indice del ripetitore da rimuovere, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatremove_int:
+  args:
+    - number
+  desc: 'Rimuove un ripetitore tramite il suo numero di indice.'
+  params:
+    - desc: 'L''indice del ripetitore da rimuovere, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_1:
+  args:
+    - number
+  desc: 'Rimuove un ripetitore tramite il suo numero di indice.'
+  params:
+    - desc: 'L''indice del ripetitore da rimuovere, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_2:
+  args:
+    - number
+  desc: 'Rimuove un ripetitore tramite il suo numero di indice.'
+  params:
+    - desc: 'L''indice del ripetitore da rimuovere, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatschedule:
+  args:
+    - index preset
+  desc: 'Imposta una pianificazione basata sugli orari per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Condizione oraria predefinita (business, evening, weekend, none, disable).'
+      name: preset
+      optional: false
+      type: string
+repeatthreadautosticky:
+  args:
+    - index
+  desc: 'Attiva o disattiva la funzione di fissaggio automatico dei thread per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatthreadonly:
+  args:
+    - index
+  desc: 'Attiva o disattiva la modalità solo thread per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeatsuppressnotifications:
+  args:
+    - index
+  desc: 'Attiva o disattiva la soppressione delle notifiche per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeattoggle:
+  args:
+    - index
+  desc: 'Attiva o disattiva lo stato abilitato di un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da attivare o disattivare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+repeattriggermode:
+  args:
+    - index mode
+  desc: 'Imposta la modalità di attivazione per un ripetitore.'
+  params:
+    - desc: 'L''indice del ripetitore da modificare, a partire da 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'La modalità di attivazione da impostare.'
+      name: mode
+      optional: false
+      type: string
+resetmessagecounts:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_1:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_2:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_ITextChannel:
+  args:
+    - channel
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - &ref_439
+      desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Azzera il conteggio dei messaggi di un utente, di un canale o di entrambi.'
+  params:
+    - desc: 'Facoltativo: il canale in cui azzerare i conteggi dei messaggi.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rinfo:
+  args:
+    - '@role'
+  desc: 'Mostra informazioni su un ruolo specificato nel server.'
+  params:
+    - &ref_442
+      desc: 'Il ruolo di cui raccogliere le informazioni.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole:
+  args:
+    - '@role'
+  desc: 'Mostra informazioni su un ruolo specificato nel server.'
+  params:
+    - desc: 'Il ruolo di cui raccogliere le informazioni.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_1:
+  args:
+    - '@role'
+  desc: 'Mostra informazioni su un ruolo specificato nel server.'
+  params:
+    - desc: 'Il ruolo di cui raccogliere le informazioni.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_2:
+  args:
+    - '@role'
+  desc: 'Mostra informazioni su un ruolo specificato nel server.'
+  params:
+    - desc: 'Il ruolo di cui raccogliere le informazioni.'
+      name: role
+      optional: false
+      type: IRole
+roleid:
+  args:
+    - '@role'
+  desc: 'Mostra l''ID di un ruolo specificato.'
+  params:
+    - &ref_457
+      desc: 'Il ruolo di cui mostrare l''ID.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole:
+  args:
+    - '@role'
+  desc: 'Mostra l''ID di un ruolo specificato.'
+  params:
+    - desc: 'Il ruolo di cui mostrare l''ID.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_1:
+  args:
+    - '@role'
+  desc: 'Mostra l''ID di un ruolo specificato.'
+  params:
+    - desc: 'Il ruolo di cui mostrare l''ID.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_2:
+  args:
+    - '@role'
+  desc: 'Mostra l''ID di un ruolo specificato.'
+  params:
+    - desc: 'Il ruolo di cui mostrare l''ID.'
+      name: role
+      optional: false
+      type: IRole
+rolepermlist:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - &ref_460
+      desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - &ref_461
+      desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_1:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_2:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]:
+  args:
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_1:
+  args:
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_2:
+  args:
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_3:
+  args:
+    - perms
+  desc: 'Elenca tutti i ruoli che hanno i permessi specificati. Il tipo di ricerca predefinito è And.'
+  params:
+    - desc: 'I permessi da cercare.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+roles:
+  args:
+    - '[@target]'
+  desc: 'Mostra un elenco dei ruoli nel server attuale. Mostra i ruoli di un utente se ne viene indicato uno.'
+  params:
+    - desc: 'L''utente di cui mostrare i ruoli.'
+      name: target
+      optional: true
+      type: user
+roll:
+  args:
+    - number @user
+    - number
+    - '@user number'
+  desc: 'Tira un dado con il numero di facce specificato. Sono supportati i dadi di D&D.'
+  params:
+    - desc: 'Tira un dado con il numero di facce specificato. Sono supportati i dadi di D&D.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_467
+      default: null
+      desc: 'Tira un dado con il numero di facce specificato. Sono supportati i dadi di D&D.'
+      name: user
+      optional: true
+      type: Transactions(IUser
+roll_string:
+  args:
+    - text
+  desc: 'Tira un dado con il numero di facce specificato. Sono supportati i dadi di D&D.'
+  params:
+    - &ref_468
+      desc: 'Il tiro da fare.'
+      name: roll
+      optional: false
+      type: string
+roll_string_1:
+  args:
+    - text
+  desc: 'Tira un dado con il numero di facce specificato. Sono supportati i dadi di D&D.'
+  params:
+    - desc: 'Il tiro da fare.'
+      name: roll
+      optional: false
+      type: string
+roll_string_2:
+  args:
+    - text
+  desc: 'Tira un dado con il numero di facce specificato. Sono supportati i dadi di D&D.'
+  params:
+    - desc: 'Il tiro da fare.'
+      name: roll
+      optional: false
+      type: string
+roll_string_3:
+  args:
+    - text
+  desc: 'Tira un dado con il numero di facce specificato. Sono supportati i dadi di D&D.'
+  params:
+    - desc: 'Il tiro da fare.'
+      name: roll
+      optional: false
+      type: string
+savechat:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+  params:
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+  params:
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_1:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+  params:
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_2:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+  params:
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Salva il registro chat di un canale. Mewdeko pubblico salva il file sul cdn nginx e ti invia un link per visualizzarlo sul cdn.'
+      name: channel
+      optional: true
+      type: channel
+say:
+  args:
+    - channel text
+    - channel
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - &ref_478
+      desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_479
+      desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+say_=:
+  args:
+    - '@channel [message]'
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+say_=_1:
+  args:
+    - '@channel [message]'
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+say_=_2:
+  args:
+    - '@channel [message]'
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+say_=_3:
+  args:
+    - '@channel [message]'
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string:
+  args:
+    - channel text
+    - channel
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_1:
+  args:
+    - channel text
+    - channel
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_2:
+  args:
+    - channel text
+    - channel
+  desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+  params:
+    - desc: 'Serve a far dire o inviare un embed come messaggio del bot.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Il messaggio da inviare.'
+      name: message
+      optional: true
+      type: string
+serverid_noparams:
+  args:
+    - ''
+  desc: 'Mostra l''ID del server attuale.'
+  params: [ ]
+serverinfo:
+  args:
+    - '[guildName]'
+  desc: 'Mostra informazioni dettagliate sul server.'
+  params:
+    - desc: 'Facoltativo. Il nome del server di cui mostrare le informazioni.'
+      name: guildName
+      optional: true
+      type: string
+servermessages:
+  args:
+    - ''
+  desc: 'Mostra le statistiche dei messaggi per l''intero server.'
+  params: [ ]
+setminaccountage:
+  args:
+    - number
+  desc: 'Imposta l''età minima dell''account richiesta perché un invito venga conteggiato.'
+  params:
+    - &ref_505
+      desc: 'L''età minima in giorni.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int:
+  args:
+    - number
+  desc: 'Imposta l''età minima dell''account richiesta perché un invito venga conteggiato.'
+  params:
+    - desc: 'L''età minima in giorni.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_1:
+  args:
+    - number
+  desc: 'Imposta l''età minima dell''account richiesta perché un invito venga conteggiato.'
+  params:
+    - desc: 'L''età minima in giorni.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_2:
+  args:
+    - number
+  desc: 'Imposta l''età minima dell''account richiesta perché un invito venga conteggiato.'
+  params:
+    - desc: 'L''età minima in giorni.'
+      name: days
+      optional: false
+      type: int
+showemojis:
+  args:
+    - text
+  desc: 'Ingrandisce una o più emoji specificate.'
+  params:
+    - &ref_545
+      desc: 'Ingrandisce una o più emoji specificate.'
+      name: _
+      optional: false
+      type: string
+showemojis_string:
+  args:
+    - text
+  desc: 'Ingrandisce una o più emoji specificate.'
+  params:
+    - desc: 'Ingrandisce una o più emoji specificate.'
+      name: _
+      optional: false
+      type: string
+showemojis_string_1:
+  args:
+    - text
+  desc: 'Ingrandisce una o più emoji specificate.'
+  params:
+    - desc: 'Ingrandisce una o più emoji specificate.'
+      name: _
+      optional: false
+      type: string
+showemojis_string_2:
+  args:
+    - text
+  desc: 'Ingrandisce una o più emoji specificate.'
+  params:
+    - desc: 'Ingrandisce una o più emoji specificate.'
+      name: _
+      optional: false
+      type: string
+snipe:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params: [ ]
+snipe_ITextChannel:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_1:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_2:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_3:
+  args:
+    - chan
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare il messaggio.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_1:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_2:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_3:
+  args:
+    - '@user'
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare il messaggio.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_noparams:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params: [ ]
+snipe_noparams_1:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params: [ ]
+snipe_noparams_2:
+  args:
+    - ''
+  desc: 'Recupera l''ultimo messaggio eliminato di un utente in un canale specificato.'
+  params: [ ]
+snipelist:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_1:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_2:
+  args:
+    - 5
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'Il canale da cui recuperare i messaggi.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+  params:
+    - desc: 'L''utente di cui recuperare i messaggi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Recupera gli ultimi x messaggi eliminati di un utente in un canale specificato.'
+      name: 5
+      optional: false
+      type: '='
+snipeset:
+  args:
+    - value
+  desc: 'Attiva o disattiva la cattura dei messaggi eliminati. Predefinito: disattivato.'
+  params:
+    - &ref_551
+      desc: 'Il valore da impostare.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction:
+  args:
+    - value
+  desc: 'Attiva o disattiva la cattura dei messaggi eliminati. Predefinito: disattivato.'
+  params:
+    - desc: 'Il valore da impostare.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_1:
+  args:
+    - value
+  desc: 'Attiva o disattiva la cattura dei messaggi eliminati. Predefinito: disattivato.'
+  params:
+    - desc: 'Il valore da impostare.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_2:
+  args:
+    - value
+  desc: 'Attiva o disattiva la cattura dei messaggi eliminati. Predefinito: disattivato.'
+  params:
+    - desc: 'Il valore da impostare.'
+      name: value
+      optional: false
+      type: PermissionAction
+stats:
+  args:
+    - ''
+  desc: 'Mostra le statistiche del bot.'
+  params: [ ]
+streamrole:
+  args:
+    - '@role @role'
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params:
+    - &ref_576
+      desc: 'Il ruolo da monitorare per l''attività di streaming.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - &ref_577
+      desc: 'Il ruolo da assegnare agli utenti che iniziano uno streaming.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params:
+    - desc: 'Il ruolo da monitorare per l''attività di streaming.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo da assegnare agli utenti che iniziano uno streaming.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params:
+    - desc: 'Il ruolo da monitorare per l''attività di streaming.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo da assegnare agli utenti che iniziano uno streaming.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params:
+    - desc: 'Il ruolo da monitorare per l''attività di streaming.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo da assegnare agli utenti che iniziano uno streaming.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_noparams:
+  args:
+    - ''
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params: [ ]
+streamrole_noparams_1:
+  args:
+    - ''
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params: [ ]
+streamrole_noparams_2:
+  args:
+    - ''
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params: [ ]
+streamrole_noparams_3:
+  args:
+    - ''
+  desc: 'Disattiva la funzione dei ruoli streaming nel server.'
+  params: [ ]
+streamroleblacklist:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove un utente dalla lista nera della funzione ruolo streaming.'
+  params:
+    - &ref_578
+      desc: 'L''azione da eseguire (add o remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_579
+      desc: 'L''utente da aggiungere o rimuovere dalla lista.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove un utente dalla lista nera della funzione ruolo streaming.'
+  params:
+    - desc: 'L''azione da eseguire (add o remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''utente da aggiungere o rimuovere dalla lista.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_1:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove un utente dalla lista nera della funzione ruolo streaming.'
+  params:
+    - desc: 'L''azione da eseguire (add o remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''utente da aggiungere o rimuovere dalla lista.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_2:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove un utente dalla lista nera della funzione ruolo streaming.'
+  params:
+    - desc: 'L''azione da eseguire (add o remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''utente da aggiungere o rimuovere dalla lista.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamrolekeyword:
+  args:
+    - '[keyword]'
+  desc: 'Imposta una parola chiave per la funzione ruolo streaming. Riceveranno il ruolo streaming solo gli utenti con stream che contengono questa parola chiave.'
+  params:
+    - desc: 'La parola chiave da impostare per la funzione ruolo streaming.'
+      name: keyword
+      optional: true
+      type: string
+streamrolewhitelist:
+  args:
+    - action @user
+  desc: 'Aggiunge o rimuove un utente dalla lista bianca della funzione ruolo streaming.'
+  params:
+    - desc: 'L''azione da eseguire (add o remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'L''utente da aggiungere o rimuovere dalla lista.'
+      name: user
+      optional: false
+      type: IGuildUser
+sym:
+  args:
+    - expression
+  desc: 'Esegue calcoli simbolici.'
+  params:
+    - desc: 'L''espressione da calcolare simbolicamente.'
+      name: expression
+      optional: false
+      type: string
+symbolic:
+  args:
+    - text
+  desc: 'Esegue operazioni matematiche simboliche.'
+  params:
+    - &ref_592
+      desc: 'L''espressione simbolica da valutare o manipolare.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string:
+  args:
+    - text
+  desc: 'Esegue operazioni matematiche simboliche.'
+  params:
+    - desc: 'L''espressione simbolica da valutare o manipolare.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_1:
+  args:
+    - text
+  desc: 'Esegue operazioni matematiche simboliche.'
+  params:
+    - desc: 'L''espressione simbolica da valutare o manipolare.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_2:
+  args:
+    - text
+  desc: 'Esegue operazioni matematiche simboliche.'
+  params:
+    - desc: 'L''espressione simbolica da valutare o manipolare.'
+      name: expression
+      optional: false
+      type: string
+toggleinvitetracking:
+  args:
+    - ''
+  desc: 'Attiva o disattiva il monitoraggio degli inviti per il server.'
+  params: [ ]
+togglemessagecount:
+  args:
+    - ''
+  desc: 'Attiva o disattiva il conteggio dei messaggi nel server'
+  params: [ ]
+togglemsgcount:
+  args:
+    - ''
+  desc: 'Attiva o disattiva il monitoraggio del conteggio dei messaggi.'
+  params: [ ]
+toggleremoveinviteonleave:
+  args:
+    - ''
+  desc: 'Attiva o disattiva la rimozione degli inviti quando un utente lascia il server.'
+  params: [ ]
+topusers:
+  args:
+    - ''
+  desc: 'Mostra una classifica dei primi 10 utenti per numero di messaggi.'
+  params: [ ]
+traceroute:
+  args:
+    - text
+  desc: 'Esegue un traceroute verso l''hostname specificato, mostrando il percorso che i pacchetti seguono per raggiungere un indirizzo IP o un dominio.'
+  params:
+    - &ref_626
+      desc: 'L''indirizzo IP o il nome di dominio verso cui tracciare il percorso.'
+      name: hostname
+      optional: false
+      type: string
+traceroute_string:
+  args:
+    - text
+  desc: 'Esegue un traceroute verso l''hostname specificato, mostrando il percorso che i pacchetti seguono per raggiungere un indirizzo IP o un dominio.'
+  params:
+    - desc: 'L''indirizzo IP o il nome di dominio verso cui tracciare il percorso.'
+      name: hostname
+      optional: false
+      type: string
+userid:
+  args:
+    - '[@target]'
+  desc: 'Mostra l''ID di un utente specificato.'
+  params:
+    - desc: 'L''utente di cui mostrare l''ID.'
+      name: target
+      optional: true
+      type: user
+userinfo:
+  args:
+    - '[@usr]'
+  desc: 'Mostra informazioni dettagliate su un utente specificato o su chi esegue il comando.'
+  params:
+    - desc: 'Facoltativo. L''utente di cui raccogliere le informazioni.'
+      name: usr
+      optional: true
+      type: user
+usermessages_=_1:
+  args:
+    - '[@user]'
+  desc: 'Mostra le statistiche dei messaggi per un utente specifico.'
+  params:
+    - desc: 'L''utente di cui mostrare le statistiche dei messaggi. Se null, usa chi esegue il comando.'
+      name: user
+      optional: true
+      type: user
+vcheck:
+  args:
+    - '[url]'
+  desc: 'Controlla un URL alla ricerca di virus tramite l''API di VirusTotal.'
+  params:
+    - desc: 'L''URL da controllare.'
+      name: url
+      optional: true
+      type: string
+verboseerror:
+  args:
+    - '[newstate]'
+  desc: 'Attiva o disattiva i messaggi di errore dettagliati per i comandi.'
+  params:
+    - desc: 'Il nuovo stato degli errori dettagliati. Se null, lo stato verrà invertito.'
+      name: newstate
+      optional: true
+      type: bool
+vinfo:
+  args:
+    - '[channel]'
+  desc: 'Mostra informazioni su un canale vocale specificato o sul canale vocale attuale dell''utente.'
+  params:
+    - desc: 'Il canale vocale di cui raccogliere le informazioni, facoltativo.'
+      name: channel
+      optional: true
+      type: voice channel
+vote_noparams:
+  args:
+    - ''
+  desc: 'Mostra un link per votare Mewdeko.'
+  params: [ ]
+whoinvited:
+  args:
+    - '[@user]'
+  desc: 'Mostra chi ha invitato un utente specifico nel server.'
+  params:
+    - desc: 'L''utente da controllare. Se null, controlla per l''utente che esegue il comando.'
+      name: user
+      optional: true
+      type: user
+whosplaying:
+  args:
+    - text
+  desc: 'Mostra un elenco degli utenti che giocano a un gioco specificato.'
+  params:
+    - &ref_660
+      desc: 'Il gioco da cercare.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string:
+  args:
+    - text
+  desc: 'Mostra un elenco degli utenti che giocano a un gioco specificato.'
+  params:
+    - desc: 'Il gioco da cercare.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_1:
+  args:
+    - text
+  desc: 'Mostra un elenco degli utenti che giocano a un gioco specificato.'
+  params:
+    - desc: 'Il gioco da cercare.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_2:
+  args:
+    - text
+  desc: 'Mostra un elenco degli utenti che giocano a un gioco specificato.'
+  params:
+    - desc: 'Il gioco da cercare.'
+      name: game
+      optional: true
+      type: string
+vote:
+  args:
+    - ''
+  desc: 'Mostra un link per votare Mewdeko.'
+  params: [ ]
+serverid:
+  args:
+    - ''
+  desc: 'Mostra l''ID del server attuale.'
+  params: [ ]
+invites:
+  args:
+    - '[user]'
+    - user
+  desc: 'Mostra il numero di inviti di un utente.'
+  params:
+    - desc: 'L''utente di cui controllare gli inviti. Se null, controlla per l''utente che esegue il comando.'
+      name: user
+      optional: true
+      type: IUser
+usermessages:
+  args:
+    - '[user]'
+    - user
+  desc: 'Mostra le statistiche dei messaggi per un utente specifico.'
+  params:
+    - desc: 'L''utente di cui mostrare le statistiche dei messaggi. Se null, usa chi esegue il comando.'
+      name: user
+      optional: true
+      type: IUser
+togglecountrejoins:
+  args:
+    - ''
+  desc: 'Attiva o disattiva la possibilità che i membri che rientrano facciano ottenere di nuovo a chi li ha invitati un invito regolare, oppure li segnino come invito falso.'
+  params: [ ]
+togglefakenoavatar:
+  args:
+    - ''
+  desc: 'Attiva o disattiva il segnare come inviti falsi i membri che entrano senza avatar.'
+  params: [ ]
+invitelinkchannel:
+  args:
+    - '[#channel]'
+  desc: 'Imposta il canale a cui puntano i link di invito personali (dal comando invitelink). Ometti il canale per usare il canale di sistema.'
+  params:
+    - desc: 'Il canale, oppure omesso per il canale di sistema.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitelogchannel:
+  args:
+    - '[#channel]'
+  desc: 'Imposta un canale che riceve un embed per ogni ingresso e uscita tracciati, mostrando chi ha invitato chi e come. Ometti il canale per disattivarlo.'
+  params:
+    - desc: 'Il canale, oppure omesso per disattivare.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitestats:
+  args:
+    - '[Monthly]'
+    - 'Weekly'
+  desc: 'Mostra le analisi di crescita per un periodo: ingressi, uscite, crescita netta, ritenzione, ingressi falsi, fonti di ingresso, migliori invitanti e migliori codici di invito.'
+  params:
+    - desc: 'Il periodo: AllTime, Daily, Weekly o Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedbycode:
+  args:
+    - 'abc123'
+  desc: 'Elenca i membri entrati tramite un codice di invito specifico.'
+  params:
+    - desc: 'Il codice di invito o l''URL.'
+      name: code
+      optional: false
+      type: string
+invitedbylabel:
+  args:
+    - 'Twitter'
+  desc: 'Elenca i membri entrati tramite un codice di invito qualsiasi con un''etichetta.'
+  params:
+    - desc: 'L''etichetta.'
+      name: label
+      optional: false
+      type: string
+invitecodes:
+  args:
+    - '[user]'
+  desc: 'Elenca i codici di invito creati da un utente, con il numero di utilizzi.'
+  params:
+    - desc: 'L''utente, oppure omesso per te stesso.'
+      name: user
+      optional: true
+      type: IUser
+invitelink:
+  args:
+    - ''
+  desc: 'Mostra il tuo link di invito personale, creandone uno permanente se non ne hai ancora uno. Gli ingressi tramite questo link vengono attribuiti a te.'
+  params: [ ]
+addinvites:
+  args:
+    - '@user 5'
+  desc: 'Aggiunge inviti regolari a un utente.'
+  params:
+    - desc: 'L''utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Quanti aggiungerne.'
+      name: amount
+      optional: false
+      type: int
+removeinvites:
+  args:
+    - '@user 5'
+  desc: 'Rimuove inviti regolari da un utente.'
+  params:
+    - desc: 'L''utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Quanti rimuoverne.'
+      name: amount
+      optional: false
+      type: int
+addbonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Assegna inviti bonus a un utente. I bonus contano nel totale ma vengono tracciati separatamente.'
+  params:
+    - desc: 'L''utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Quanti assegnarne.'
+      name: amount
+      optional: false
+      type: int
+removebonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Toglie inviti bonus a un utente.'
+  params:
+    - desc: 'L''utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Quanti rimuoverne.'
+      name: amount
+      optional: false
+      type: int
+addfakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Segna alcuni inviti di un utente come falsi, abbassando il suo totale.'
+  params:
+    - desc: 'L''utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Quanti segnarne.'
+      name: amount
+      optional: false
+      type: int
+removefakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Rimuove gli inviti falsi di un utente, alzando il suo totale.'
+  params:
+    - desc: 'L''utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Quanti rimuoverne.'
+      name: amount
+      optional: false
+      type: int
+resetinvites:
+  args:
+    - '@user'
+    - 'Server'
+    - 'LeftMembers'
+  desc: 'Azzera gli inviti di un utente, di tutti i membri del server, oppure solo di chi ha invitato e poi è uscito.'
+  params:
+    - desc: 'L''utente da azzerare.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Server per azzerare tutti, oppure LeftMembers per azzerare solo chi ha invitato ed è uscito.'
+      name: scope
+      optional: false
+      type: InviteResetScope
+syncinvites:
+  args:
+    - '[user]'
+  desc: 'Importa da Discord il numero di utilizzi dei codici di invito, portando il totale regolare di ogni invitante alla somma degli utilizzi dei suoi codici. I totali non vengono mai abbassati, quindi è sicuro eseguirlo più volte.'
+  params:
+    - desc: 'Sincronizza solo questo utente, oppure omesso per tutti.'
+      name: user
+      optional: true
+      type: IGuildUser
+deleteinvite:
+  args:
+    - 'abc123'
+  desc: 'Elimina un codice di invito dal server.'
+  params:
+    - desc: 'Il codice di invito o l''URL.'
+      name: code
+      optional: false
+      type: string
+purgeinvites:
+  args:
+    - '[maxUses] [#channel]'
+    - '0 #general'
+  desc: 'Elimina ogni codice di invito senza etichetta che è stato usato al massimo il numero di volte indicato, facoltativamente solo per un canale.'
+  params:
+    - desc: 'I codici usati più di questo numero vengono mantenuti. Predefinito: 0 (solo codici non usati).'
+      name: maxUses
+      optional: true
+      type: int
+    - desc: 'Elimina solo i codici che puntano a questo canale.'
+      name: channel
+      optional: true
+      type: ITextChannel
+inviteblacklist:
+  args:
+    - '@user'
+    - '@role'
+  desc: 'Attiva o disattiva la possibilità per un utente, o per ogni possessore di un ruolo, di guadagnare crediti invito.'
+  params:
+    - desc: 'L''utente da attivare o disattivare.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Il ruolo da attivare o disattivare.'
+      name: role
+      optional: false
+      type: IRole
+invitehide:
+  args:
+    - '@user'
+  desc: 'Attiva o disattiva la possibilità di nascondere un utente dalle classifiche degli inviti. I suoi inviti continuano a essere tracciati.'
+  params:
+    - desc: 'L''utente.'
+      name: user
+      optional: false
+      type: IGuildUser
+inviteexclusions:
+  args:
+    - ''
+  desc: 'Elenca gli invitanti nella lista nera, i ruoli nella lista nera e i membri nascosti dalla classifica.'
+  params: [ ]
+invitelabelset:
+  args:
+    - 'abc123 Twitter campaign'
+  desc: 'Etichetta un codice di invito in modo che compaia con il suo nome nelle statistiche, nelle esportazioni e nei segnaposto dei benvenuti.'
+  params:
+    - desc: 'Il codice di invito o l''URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Il testo dell''etichetta, fino a 64 caratteri.'
+      name: label
+      optional: false
+      type: string
+invitelabelrole:
+  args:
+    - 'abc123 @role'
+    - 'abc123'
+  desc: 'Imposta o cancella un ruolo assegnato a tutti coloro che entrano tramite un codice di invito etichettato.'
+  params:
+    - desc: 'Il codice di invito o l''URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Il ruolo, oppure omesso per cancellarlo.'
+      name: role
+      optional: true
+      type: IRole
+invitelabelremove:
+  args:
+    - 'abc123'
+  desc: 'Rimuove l''etichetta da un codice di invito.'
+  params:
+    - desc: 'Il codice di invito o l''URL.'
+      name: code
+      optional: false
+      type: string
+invitelabels:
+  args:
+    - ''
+  desc: 'Elenca i codici di invito etichettati con i rispettivi ruoli e proprietari.'
+  params: [ ]
+inviteexport:
+  args:
+    - '[AllTime]'
+  desc: 'Esporta la classifica degli inviti come file CSV.'
+  params:
+    - desc: 'Il periodo: AllTime, Daily, Weekly o Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedexport:
+  args:
+    - '[user]'
+  desc: 'Esporta i membri invitati da un utente (o tutti gli ingressi registrati) come file CSV.'
+  params:
+    - desc: 'L''invitante, oppure omesso per tutti gli ingressi.'
+      name: user
+      optional: true
+      type: IUser
+invitemassban:
+  args:
+    - '@user [reason]'
+  desc: 'Banna ogni membro ancora presente nel server che è stato invitato da un utente. Chiede prima conferma.'
+  params:
+    - desc: 'L''invitante.'
+      name: inviter
+      optional: false
+      type: IUser
+    - desc: 'Il motivo del ban.'
+      name: reason
+      optional: true
+      type: string
+invitemassbancode:
+  args:
+    - 'abc123 [reason]'
+  desc: 'Banna ogni membro ancora presente nel server che è entrato tramite un codice di invito. Chiede prima conferma.'
+  params:
+    - desc: 'Il codice di invito o l''URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Il motivo del ban.'
+      name: reason
+      optional: true
+      type: string

@@ -1,0 +1,838 @@
+accept:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Acepta una sugerencia, marcándola como aprobada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a aceptar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para aceptar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Acepta una sugerencia, marcándola como aprobada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a aceptar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para aceptar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Acepta una sugerencia, marcándola como aprobada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a aceptar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para aceptar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Acepta una sugerencia, marcándola como aprobada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a aceptar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para aceptar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+acceptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Establece el canal donde se publicarán las sugerencias aceptadas.'
+  params:
+    - desc: 'El canal para publicar las sugerencias aceptadas. Si es null, la función se desactiva.'
+      name: channel
+      optional: true
+      type: channel
+acceptmessage:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de aceptación de sugerencias.'
+  params:
+    - &ref_2
+      desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de aceptación de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_1:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de aceptación de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_2:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de aceptación de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+archiveonaccept:
+  args:
+    - ''
+  desc: 'Activa o desactiva el archivado de sugerencias al aceptarlas.'
+  params: [ ]
+archiveonconsider:
+  args:
+    - ''
+  desc: 'Activa o desactiva el archivado de sugerencias al tenerlas en consideración.'
+  params: [ ]
+archiveondeny:
+  args:
+    - ''
+  desc: 'Activa o desactiva el archivado de sugerencias al rechazarlas.'
+  params: [ ]
+archiveonimplement:
+  args:
+    - ''
+  desc: 'Activa o desactiva el archivado de sugerencias al implementarlas.'
+  params: [ ]
+consider:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Marca una sugerencia como en consideración.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a marcar como en consideración.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. Comentarios o razonamiento sobre la consideración de la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Marca una sugerencia como en consideración.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a marcar como en consideración.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. Comentarios o razonamiento sobre la consideración de la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Marca una sugerencia como en consideración.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a marcar como en consideración.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. Comentarios o razonamiento sobre la consideración de la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Marca una sugerencia como en consideración.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a marcar como en consideración.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. Comentarios o razonamiento sobre la consideración de la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+considerchannel:
+  args:
+    - '[@channel]'
+  desc: 'Establece el canal donde se publicarán las sugerencias en consideración.'
+  params:
+    - desc: 'El canal para publicar las sugerencias en consideración. Si es null, la función se desactiva.'
+      name: channel
+      optional: true
+      type: channel
+considermessage:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de consideración de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+deny:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Rechaza una sugerencia, marcándola como rechazada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a rechazar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para rechazar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Rechaza una sugerencia, marcándola como rechazada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a rechazar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para rechazar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Rechaza una sugerencia, marcándola como rechazada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a rechazar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para rechazar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Rechaza una sugerencia, marcándola como rechazada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a rechazar.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo para rechazar la sugerencia.'
+      name: reason
+      optional: true
+      type: string
+denychannel:
+  args:
+    - '[@channel]'
+  desc: 'Establece el canal donde se publicarán las sugerencias rechazadas.'
+  params:
+    - desc: 'El canal para publicar las sugerencias rechazadas. Si es null, la función se desactiva.'
+      name: channel
+      optional: true
+      type: channel
+denymessage:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de rechazo de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+implementchannel:
+  args:
+    - '[@channel]'
+  desc: 'Establece el canal donde se publicarán las sugerencias implementadas.'
+  params:
+    - desc: 'El canal para publicar las sugerencias implementadas. Si es null, la función se desactiva.'
+      name: channel
+      optional: true
+      type: channel
+implemented:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: 'Marca una sugerencia como implementada.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia a marcar como implementada.'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: 'Opcional. El motivo o los detalles de la implementación.'
+      name: reason
+      optional: true
+      type: string
+implementmessage:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de implementación de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+maxsuggestionlength:
+  args:
+    - number
+  desc: 'Establece la longitud máxima de las sugerencias.'
+  params:
+    - &ref_291
+      desc: 'El número máximo de caracteres que puede tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int:
+  args:
+    - number
+  desc: 'Establece la longitud máxima de las sugerencias.'
+  params:
+    - desc: 'El número máximo de caracteres que puede tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Establece la longitud máxima de las sugerencias.'
+  params:
+    - desc: 'El número máximo de caracteres que puede tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Establece la longitud máxima de las sugerencias.'
+  params:
+    - desc: 'El número máximo de caracteres que puede tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength:
+  args:
+    - number
+  desc: 'Establece la longitud mínima de las sugerencias.'
+  params:
+    - &ref_294
+      desc: 'El número mínimo de caracteres que debe tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int:
+  args:
+    - number
+  desc: 'Establece la longitud mínima de las sugerencias.'
+  params:
+    - desc: 'El número mínimo de caracteres que debe tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_1:
+  args:
+    - number
+  desc: 'Establece la longitud mínima de las sugerencias.'
+  params:
+    - desc: 'El número mínimo de caracteres que debe tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_2:
+  args:
+    - number
+  desc: 'Establece la longitud mínima de las sugerencias.'
+  params:
+    - desc: 'El número mínimo de caracteres que debe tener una sugerencia.'
+      name: length
+      optional: false
+      type: int
+setsuggestchannel:
+  args:
+    - '[@channel]'
+  desc: 'Establece o desactiva el canal de sugerencias del servidor.'
+  params:
+    - desc: 'El canal de texto que se establecerá como canal de sugerencias. Si es null, desactiva las sugerencias.'
+      name: channel
+      optional: true
+      type: channel
+suggest:
+  args:
+    - text
+  desc: 'Envía una nueva sugerencia al canal de sugerencias designado.'
+  params:
+    - &ref_582
+      desc: 'El contenido de la sugerencia a enviar.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string:
+  args:
+    - text
+  desc: 'Envía una nueva sugerencia al canal de sugerencias designado.'
+  params:
+    - desc: 'El contenido de la sugerencia a enviar.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_1:
+  args:
+    - text
+  desc: 'Envía una nueva sugerencia al canal de sugerencias designado.'
+  params:
+    - desc: 'El contenido de la sugerencia a enviar.'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_2:
+  args:
+    - text
+  desc: 'Envía una nueva sugerencia al canal de sugerencias designado.'
+  params:
+    - desc: 'El contenido de la sugerencia a enviar.'
+      name: suggestion
+      optional: false
+      type: string
+suggestbuttonchannel:
+  args:
+    - channel
+  desc: 'Establece el canal del botón de sugerencias.'
+  params:
+    - &ref_583
+      desc: 'El canal que se establecerá como canal del botón de sugerencias.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Establece el canal del botón de sugerencias.'
+  params:
+    - desc: 'El canal que se establecerá como canal del botón de sugerencias.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Establece el canal del botón de sugerencias.'
+  params:
+    - desc: 'El canal que se establecerá como canal del botón de sugerencias.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Establece el canal del botón de sugerencias.'
+  params:
+    - desc: 'El canal que se establecerá como canal del botón de sugerencias.'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttoncolor:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color del botón de sugerencias.'
+  params:
+    - &ref_584
+      desc: 'El tipo de color para el botón de sugerencias.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color del botón de sugerencias.'
+  params:
+    - &ref_585
+      desc: 'El tipo de color para el botón de sugerencias.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_1:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color del botón de sugerencias.'
+  params:
+    - desc: 'El tipo de color para el botón de sugerencias.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_2:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color del botón de sugerencias.'
+  params:
+    - desc: 'El tipo de color para el botón de sugerencias.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttonemote:
+  args:
+    - '[emote]'
+  desc: 'Establece el emote del botón de sugerencias.'
+  params:
+    - desc: 'El emote que se usará en el botón de sugerencias. Si es null, se restablece al predeterminado.'
+      name: emote
+      optional: true
+      type: emote
+suggestbuttonlabel:
+  args:
+    - text
+  desc: 'Establece la etiqueta del botón de sugerencias.'
+  params:
+    - &ref_586
+      desc: 'El texto de la etiqueta del botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string:
+  args:
+    - text
+  desc: 'Establece la etiqueta del botón de sugerencias.'
+  params:
+    - desc: 'El texto de la etiqueta del botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_1:
+  args:
+    - text
+  desc: 'Establece la etiqueta del botón de sugerencias.'
+  params:
+    - desc: 'El texto de la etiqueta del botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_2:
+  args:
+    - text
+  desc: 'Establece la etiqueta del botón de sugerencias.'
+  params:
+    - desc: 'El texto de la etiqueta del botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonmessage:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje del botón de sugerencias.'
+  params:
+    - &ref_587
+      desc: 'El mensaje para el botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje del botón de sugerencias.'
+  params:
+    - desc: 'El mensaje para el botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_1:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje del botón de sugerencias.'
+  params:
+    - desc: 'El mensaje para el botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_2:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje del botón de sugerencias.'
+  params:
+    - desc: 'El mensaje para el botón de sugerencias. Usa "-" para restablecer el valor predeterminado.'
+      name: toSet
+      optional: true
+      type: string
+suggestclear:
+  args:
+    - ''
+  desc: 'Elimina todas las sugerencias del servidor.'
+  params: [ ]
+suggestinfo:
+  args:
+    - num
+  desc: 'Muestra información detallada sobre una sugerencia concreta.'
+  params:
+    - &ref_588
+      desc: 'El número único (ID) de la sugerencia de la que obtener la información.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong:
+  args:
+    - num
+  desc: 'Muestra información detallada sobre una sugerencia concreta.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia de la que obtener la información.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_1:
+  args:
+    - num
+  desc: 'Muestra información detallada sobre una sugerencia concreta.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia de la que obtener la información.'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_2:
+  args:
+    - num
+  desc: 'Muestra información detallada sobre una sugerencia concreta.'
+  params:
+    - desc: 'El número único (ID) de la sugerencia de la que obtener la información.'
+      name: num
+      optional: false
+      type: ulong
+suggestmessage:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_1:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de sugerencias.'
+  params:
+    - desc: ''
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_2:
+  args:
+    - text
+  desc: 'Establece o actualiza el mensaje de sugerencias.'
+  params:
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer el mensaje predeterminado.'
+      name: embed
+      optional: false
+      type: string
+suggestmotecolor:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color de botones de emote concretos en las sugerencias.'
+  params:
+    - &ref_589
+      desc: 'El número del botón a cambiar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'El tipo de color a aplicar al botón.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color de botones de emote concretos en las sugerencias.'
+  params:
+    - desc: 'El número del botón a cambiar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'El tipo de color a aplicar al botón.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_1:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color de botones de emote concretos en las sugerencias.'
+  params:
+    - desc: 'El número del botón a cambiar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'El tipo de color a aplicar al botón.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_2:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: 'Establece el color de botones de emote concretos en las sugerencias.'
+  params:
+    - desc: 'El número del botón a cambiar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'El tipo de color a aplicar al botón.'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotes:
+  args:
+    - '[_]'
+  desc: 'Configura los emotes personalizados usados en las sugerencias.'
+  params:
+    - desc: 'Una lista de emotes separados por comas, o "disable" para usar las reacciones predeterminadas.'
+      name: _
+      optional: true
+      type: string
+suggestmotesmode:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Establece el modo de los emotes de sugerencias: como reacciones o como botones.'
+  params:
+    - &ref_590
+      desc: 'El modo a usar para los emotes de sugerencias.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Establece el modo de los emotes de sugerencias: como reacciones o como botones.'
+  params:
+    - desc: 'El modo a usar para los emotes de sugerencias.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_1:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Establece el modo de los emotes de sugerencias: como reacciones o como botones.'
+  params:
+    - desc: 'El modo a usar para los emotes de sugerencias.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_2:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: 'Establece el modo de los emotes de sugerencias: como reacciones o como botones.'
+  params:
+    - desc: 'El modo a usar para los emotes de sugerencias.'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestthreadstype:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Establece el tipo de hilos usados en las sugerencias.'
+  params:
+    - &ref_591
+      desc: 'El tipo de hilo a usar para las nuevas sugerencias.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Establece el tipo de hilos usados en las sugerencias.'
+  params:
+    - desc: 'El tipo de hilo a usar para las nuevas sugerencias.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_1:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Establece el tipo de hilos usados en las sugerencias.'
+  params:
+    - desc: 'El tipo de hilo a usar para las nuevas sugerencias.'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_2:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: 'Establece el tipo de hilos usados en las sugerencias.'
+  params:
+    - desc: 'El tipo de hilo a usar para las nuevas sugerencias.'
+      name: type
+      optional: false
+      type: SuggestThreadType

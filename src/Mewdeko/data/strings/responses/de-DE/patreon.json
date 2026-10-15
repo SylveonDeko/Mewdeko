@@ -47,7 +47,7 @@
   "patreon_no_supporters": "Keine aktiven Patreon-Unterstützer gefunden. Verwende den Sync-Befehl, um Unterstützerdaten abzurufen.",
   "patreon_no_tiers": "Keine Patreon-Tiers gefunden. Verwende den Sync-Befehl, um Tier-Daten abzurufen.",
   "patreon_not_linked": "Nicht verknüpft",
-  "patreon_oauth_title": "Patreon OAuth",
+  "patreon_oauth_title": "Patreon-OAuth",
   "patreon_recognize_invalid_channel": "In diesem Kanaltyp können keine Anerkennungsnachrichten gesendet werden.",
   "patreon_recognize_none": "Keine neuen Unterstützer in den letzten 7 Tagen anzuerkennen.",
   "patreon_recognize_success": "{0} Unterstützer-Anerkennungsnachrichten an {1} gesendet!",

@@ -7,14 +7,14 @@ statchannelcreate:
       name: type
       optional: false
       type: StatChannelType
-    - desc: 'Il template di visualizzazione. Usa %count% per il valore.'
+    - desc: 'Il modello di visualizzazione. Usa %count% per il valore.'
       name: template
       optional: true
       type: string
 statchanneladd:
   args:
     - '#voice-channel TotalMembers [template]'
-  desc: 'Aggiunge un canale vocale come canale statistiche. Tipi: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  desc: 'Aggiunge un canale vocale come canale statistica. Tipi: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
   params:
     - desc: 'Il canale vocale da usare.'
       name: channel
@@ -24,14 +24,14 @@ statchanneladd:
       name: type
       optional: false
       type: StatChannelType
-    - desc: 'Il template di visualizzazione. Usa %count% per il valore.'
+    - desc: 'Il modello di visualizzazione. Usa %count% per il valore.'
       name: template
       optional: true
       type: string
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Aggiunge un canale statistiche che mostra quanti membri hanno un ruolo specifico.'
+  desc: 'Aggiunge un canale statistica che mostra quanti membri hanno un ruolo specifico.'
   params:
     - desc: 'Il canale vocale da usare.'
       name: channel
@@ -41,48 +41,48 @@ statchannelrole:
       name: role
       optional: false
       type: IRole
-    - desc: 'Il template di visualizzazione. Usa %count% e %role.name%.'
+    - desc: 'Il modello di visualizzazione. Usa %count% e %role.name%.'
       name: template
       optional: true
       type: string
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Aggiunge un canale conto alla rovescia. Usa i segnaposto %days% e %hours%.'
+  desc: 'Aggiunge un canale statistica per il conto alla rovescia. Usa i segnaposto %days% e %hours%.'
   params:
     - desc: 'Il canale vocale da usare.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'La data di destinazione per il conto alla rovescia.'
+    - desc: 'La data di destinazione del conto alla rovescia.'
       name: date
       optional: false
       type: DateTime
-    - desc: 'Il template di visualizzazione. Usa %days% e %hours%.'
+    - desc: 'Il modello di visualizzazione. Usa %days% e %hours%.'
       name: template
       optional: true
       type: string
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'Aggiunge un canale obiettivo membri. Usa %count%, %goal% e %goal.percent%.'
+  desc: 'Aggiunge un canale statistica per l''obiettivo di membri. Usa %count%, %goal% e %goal.percent%.'
   params:
     - desc: 'Il canale vocale da usare.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Il numero di membri obiettivo.'
+    - desc: 'Il numero di membri da raggiungere.'
       name: goal
       optional: false
       type: int
-    - desc: 'Il template di visualizzazione. Usa %count%, %goal%, %goal.percent%.'
+    - desc: 'Il modello di visualizzazione. Usa %count%, %goal%, %goal.percent%.'
       name: template
       optional: true
       type: string
 statchannelremove:
   args:
     - '#voice-channel'
-  desc: 'Rimuove un canale statistiche.'
+  desc: 'Rimuove un canale statistica.'
   params:
     - desc: 'Il canale vocale da rimuovere.'
       name: channel
@@ -91,5 +91,25 @@ statchannelremove:
 statchannellist:
   args:
     - ''
-  desc: 'Elenca tutti i canali statistiche di questo server.'
+  desc: 'Elenca tutti i canali statistica di questo server.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Imposta un canale statistica che mostra un contatore Twitch.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Imposta il meccanismo di aggiornamento per un canale statistica.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Imposta lo stile di visualizzazione per un canale statistica.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Mostra le impostazioni predefinite dei canali statistica.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Elenca i tipi di canale statistica disponibili.'

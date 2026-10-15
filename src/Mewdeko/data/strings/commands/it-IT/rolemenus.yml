@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Elenca ogni menu dei ruoli di questo server con canale, tipo, numero di opzioni e stato.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Mostra tutti i dettagli di un menu dei ruoli: canale, tipo, regole di selezione, ruolo richiesto, conferma e opzioni.'
+  params:
+    - desc: 'L''ID del menu da rolemenus.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Pubblica un nuovo menu dei ruoli in un canale, con un''opzione per ogni ruolo. I membri scelgono da un menu a tendina o da una riga di pulsanti per ottenere o rimuovere quei ruoli.'
+  params:
+    - desc: 'Il canale in cui pubblicare il menu.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'dropdown o buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: 'Uno o più ruoli, fino a 25.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Aggiunge un ruolo a un menu, con un''emoji e un nome facoltativi, e aggiorna il messaggio pubblicato.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Il ruolo che la nuova opzione assegna.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Un''emoji facoltativa seguita dal nome mostrato nel menu. Per impostazione predefinita è il nome del ruolo.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Rimuove un ruolo da un menu e aggiorna il messaggio pubblicato.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Il ruolo da togliere dal menu.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Rinomina un menu. Il nome fa da titolo al messaggio predefinito e compare negli elenchi.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Il nuovo nome, fino a 100 caratteri.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Imposta il testo sopra un menu, come testo semplice o come JSON di embed dal creatore di embed. Invia solo l''ID per vedere il messaggio attuale, oppure "clear" per tornare all''elenco predefinito delle opzioni.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Il messaggio, "clear", oppure niente per visualizzarlo.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Passa un menu da menu a tendina a pulsanti, o viceversa.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'dropdown o buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Imposta se i membri possono scegliere un solo ruolo (sceglierne un altro lo sostituisce) o un numero qualsiasi di ruoli dal menu.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'exclusive per scegliere uno, multi per sceglierne più di uno.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Imposta quanti ruoli di un menu un membro deve mantenere e può avere. Un massimo di 0 significa nessun limite.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Il numero minimo di ruoli che un membro deve mantenere una volta scelti.'
+      name: min
+      optional: false
+      type: int
+    - desc: 'Il numero massimo di ruoli che un membro può avere, 0 per nessun limite.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Permette di usare il menu solo ai membri con un ruolo specifico. Ometti il ruolo per permetterlo a tutti.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Il ruolo richiesto per usare il menu. Ometti per rimuoverlo.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Sceglie se i membri ricevono una nota privata con l''elenco dei ruoli ottenuti e persi, oppure nessuna nota.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private o silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Mette in pausa un menu, disattivando il suo menu a tendina o i suoi pulsanti, oppure lo riprende se è in pausa.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Pubblica una nuova copia di un menu, nello stesso canale o in un altro, ed elimina il vecchio messaggio.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Dove pubblicarlo. Per impostazione predefinita il canale attuale.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Elimina un menu e il suo messaggio. I membri mantengono i ruoli che hanno già scelto.'
+  params:
+    - desc: 'L''ID del menu.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Sposta una vecchia configurazione di ruoli con emoji su un messaggio in un nuovo menu dei ruoli nello stesso canale, poi ritira la vecchia configurazione.'
+  params:
+    - desc: 'L''ID del messaggio con la vecchia configurazione.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown o buttons. Predefinito: dropdown.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

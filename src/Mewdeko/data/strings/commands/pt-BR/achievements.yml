@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra o seu resumo de conquistas: nível, pontos, progresso em cada categoria e desbloqueios recentes. Mencione alguém para ver o dele.'
+  params:
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: 'Mostra todas as conquistas de uma categoria, com o progresso nas que ainda estão bloqueadas.'
+  params:
+    - desc: 'A chave ou o nome da categoria, como messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige ou custom.'
+      name: category
+      optional: false
+      type: string
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra todas as conquistas do servidor com o progresso, página por página.'
+  params:
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra os cinco desbloqueios mais recentes.'
+  params:
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra os cinco melhores desbloqueios por grau e pontos.'
+  params:
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: 'Encontra conquistas pelo nome ou descrição e mostra seu progresso em cada uma.'
+  params:
+    - desc: 'O que pesquisar.'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra as conquistas obtidas em todos os servidores: pontos totais, servidores e conquistas globais.'
+  params:
+    - desc: 'O usuário a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'Mostra quem conquistou mais conquistas no servidor. Membros que se ocultam ficam de fora.'
+  params:
+    - desc: 'Points, Unlocked ou Recent. Padrão: Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'Mostra quem conquistou mais conquistas em todos os servidores.'
+  params:
+    - desc: 'Points, Unlocked ou Recent. Padrão: Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Gera um cartão de perfil de conquistas com nível, pontos, progresso até o próximo nível e emblemas equipados.'
+  params:
+    - desc: 'O membro a ser desenhado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra todos os números que as conquistas acompanham: mensagens, tempo em canais de voz, reações, convites, comandos, tempo no servidor, boosts, nível e reputação.'
+  params:
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: 'Gera uma imagem de uma conquista: desbloqueada, ou bloqueada com o quanto você ou outra pessoa está perto dela.'
+  params:
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: 'Define o ícone que a conquista mostra na imagem, no painel e nos aplicativos: um nome de ícone como trophy, um emoji do servidor ou um link de imagem https. Deixe o ícone de fora para usar novamente o da sua categoria.'
+  params:
+    - desc: 'O nome ou a chave da conquista, entre aspas quando tiver espaços.'
+      name: achievement
+      optional: false
+      type: string
+    - desc: 'O ícone, ou nada para removê-lo.'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra todos os emblemas que você ou outra pessoa possui, com os quatro espaços equipados no topo.'
+  params:
+    - desc: 'O membro a ser consultado. Padrão: você.'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: 'Coloca um emblema que você possui em um dos seus quatro espaços de perfil. As chaves dos emblemas são mostradas por badges.'
+  params:
+    - desc: 'O espaço, de 1 a 4.'
+      name: slot
+      optional: false
+      type: int
+    - desc: 'A chave do emblema.'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'Esvazia um dos seus quatro espaços de perfil.'
+  params:
+    - desc: 'O espaço, de 1 a 4.'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'Mostra o que é um emblema e como conquistá-lo.'
+  params:
+    - desc: 'A chave do emblema.'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: 'Define quem pode ver seu perfil de conquistas, conquistas, emblemas e posição no ranking.'
+  params:
+    - desc: 'Profile, Achievements, Badges ou Leaderboard.'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone ou OnlyMe.'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: 'Ativa ou desativa para você as DMs de desbloqueio, as mensagens de desbloqueio no servidor ou as menções nelas.'
+  params:
+    - desc: 'Dm, Message ou Mention.'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: 'True para ligar, false para desligar.'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'Lista todas as conquistas do servidor com a chave, se estão ativas e quantos membros as desbloquearam.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'Inicia ou pausa a obtenção de conquistas no servidor. Ao iniciar, também ativa a contagem de mensagens, e os membros que já se qualificam recebem as conquistas silenciosamente.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: 'Define o canal onde os desbloqueios são anunciados. Deixe de fora para parar de usar um canal de logs.'
+  params:
+    - desc: 'O canal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: 'Define onde os desbloqueios são anunciados: Auto usa o canal de logs, se definido, ou o canal onde aconteceu; Here usa o canal onde aconteceu; LogChannel usa apenas o canal de logs; DmOnly envia apenas DMs; e Silent não anuncia nada.'
+  params:
+    - desc: 'Auto, Here, LogChannel, DmOnly ou Silent.'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'Define se os membros recebem seus desbloqueios por DM, a menos que desativem isso sozinhos.'
+  params:
+    - desc: 'True para ligar, false para desligar.'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: 'Define a mensagem de desbloqueio. Texto simples e JSON de embed funcionam, com marcadores como %achievement.name%, %achievement.points%, %achievement.list% e %achievements.tier%. Deixe de fora para voltar ao padrão.'
+  params:
+    - desc: 'A mensagem, ou nada para limpar.'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'Dá XP aos membros por cada ponto de conquista obtido. 0 desativa.'
+  params:
+    - desc: 'XP por ponto, de 0 a 1000.'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'Ativa uma conquista para que os membros possam obtê-la.'
+  params:
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: 'Desativa uma conquista. Os membros que já a desbloquearam a mantêm.'
+  params:
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'Ativa ou desativa uma categoria inteira.'
+  params:
+    - desc: 'A chave ou o nome da categoria.'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Entrega uma conquista a um membro e a anuncia como qualquer outro desbloqueio.'
+  params:
+    - desc: 'O membro.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Tira uma conquista de um membro.'
+  params:
+    - desc: 'O membro.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: 'Remove todas as conquistas que um membro tem no servidor, após pedir confirmação.'
+  params:
+    - desc: 'O membro.'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: 'Cria uma conquista que é desbloqueada ao atingir um número. Métricas incluem MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation e NetWorth.'
+  params:
+    - desc: 'O que contar.'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: 'O número a ser atingido.'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst ou Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'O nome.'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'Cria uma conquista que é desbloqueada ao dizer uma frase em qualquer lugar do servidor.'
+  params:
+    - desc: 'A frase, entre aspas quando tiver espaços.'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst ou Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'O nome.'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: 'Cria uma conquista que é desbloqueada ao reagir com um emoji.'
+  params:
+    - desc: 'O emoji.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst ou Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'O nome.'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'Faz com que uma conquista só possa ser entregue pela equipe, com achgrant.'
+  params:
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst ou Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'O nome.'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: 'Exclui uma conquista criada pelo servidor, após pedir confirmação. Todos que a desbloquearam a perdem.'
+  params:
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: 'Dá um cargo aos membros quando desbloqueiam uma conquista.'
+  params:
+    - desc: 'O cargo.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: 'Dá moeda aos membros quando desbloqueiam uma conquista. 0 remove.'
+  params:
+    - desc: 'A quantidade.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: 'Dá XP aos membros quando desbloqueiam uma conquista. 0 remove.'
+  params:
+    - desc: 'A quantidade.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: 'Remove todas as recompensas de uma conquista.'
+  params:
+    - desc: 'O nome ou a chave da conquista.'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: 'Impede que membros com um cargo obtenham conquistas. Execute novamente para permitir que voltem a obtê-las.'
+  params:
+    - desc: 'O cargo.'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'Impede que a atividade em um canal conte para as conquistas. Execute novamente para voltar a contar.'
+  params:
+    - desc: 'O canal.'
+      name: channel
+      optional: false
+      type: IGuildChannel

@@ -1,0 +1,1243 @@
+acadd:
+  args:
+    - command
+  desc: 'Aggiunge un comando automatico.'
+  params:
+    - desc: 'Il comando da aggiungere come automatico.'
+      name: command
+      optional: false
+      type: string
+topserversupdate:
+  args:
+    - ''
+  desc: 'Aggiorna la lista delle gilde in evidenza. Può essere eseguito solo sull''istanza principale.'
+aclist:
+  args:
+    - ''
+  desc: 'Elenca tutti i comandi automatici.'
+  params: [ ]
+acrm:
+  args:
+    - index
+  desc: 'Rimuove un comando automatico.'
+  params:
+    - desc: 'L''indice del comando da rimuovere.'
+      name: index
+      optional: false
+      type: int
+addinstance:
+  args:
+    - number
+  desc: 'Aggiunge un''istanza del bot da gestire dalla dashboard.'
+  params:
+    - &ref_400
+      desc: 'Il numero di porta su cui è in esecuzione l''istanza'
+      name: instancePort
+      optional: false
+      type: int
+addinstance_int:
+  args:
+    - number
+  desc: 'Aggiunge un''istanza del bot da gestire dalla dashboard.'
+  params:
+    - desc: 'Il numero di porta su cui è in esecuzione l''istanza'
+      name: instancePort
+      optional: false
+      type: int
+addplaying:
+  args:
+    - t text
+  desc: 'Aggiunge un nuovo stato alla rotazione degli stati di gioco del bot.'
+  params:
+    - &ref_21
+      desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - &ref_22
+      desc: 'Il testo dello stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string:
+  args:
+    - t text
+  desc: 'Aggiunge un nuovo stato alla rotazione degli stati di gioco del bot.'
+  params:
+    - desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Il testo dello stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_1:
+  args:
+    - t text
+  desc: 'Aggiunge un nuovo stato alla rotazione degli stati di gioco del bot.'
+  params:
+    - desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Il testo dello stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_2:
+  args:
+    - t text
+  desc: 'Aggiunge un nuovo stato alla rotazione degli stati di gioco del bot.'
+  params:
+    - desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Il testo dello stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+autocommandadd:
+  args:
+    - number text
+  desc: 'Aggiunge un comando automatico da eseguire periodicamente nella gilda indicata.'
+  params:
+    - &ref_91
+      desc: 'L''intervallo in secondi con cui il comando viene eseguito. Deve essere di almeno 5 secondi.'
+      name: interval
+      optional: false
+      type: int
+    - &ref_92
+      desc: 'Il testo del comando da eseguire automaticamente.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string:
+  args:
+    - number text
+  desc: 'Aggiunge un comando automatico da eseguire periodicamente nella gilda indicata.'
+  params:
+    - desc: 'L''intervallo in secondi con cui il comando viene eseguito. Deve essere di almeno 5 secondi.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Il testo del comando da eseguire automaticamente.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_1:
+  args:
+    - number text
+  desc: 'Aggiunge un comando automatico da eseguire periodicamente nella gilda indicata.'
+  params:
+    - desc: 'L''intervallo in secondi con cui il comando viene eseguito. Deve essere di almeno 5 secondi.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Il testo del comando da eseguire automaticamente.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_2:
+  args:
+    - number text
+  desc: 'Aggiunge un comando automatico da eseguire periodicamente nella gilda indicata.'
+  params:
+    - desc: 'L''intervallo in secondi con cui il comando viene eseguito. Deve essere di almeno 5 secondi.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Il testo del comando da eseguire automaticamente.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandremove:
+  args:
+    - number
+  desc: 'Rimuove un comando automatico in base al suo indice.'
+  params:
+    - &ref_93
+      desc: 'L''indice (a partire da 1) del comando automatico da rimuovere.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int:
+  args:
+    - number
+  desc: 'Rimuove un comando automatico in base al suo indice.'
+  params:
+    - &ref_94
+      desc: 'L''indice (a partire da 1) del comando automatico da rimuovere.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_1:
+  args:
+    - number
+  desc: 'Rimuove un comando automatico in base al suo indice.'
+  params:
+    - desc: 'L''indice (a partire da 1) del comando automatico da rimuovere.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_2:
+  args:
+    - number
+  desc: 'Rimuove un comando automatico in base al suo indice.'
+  params:
+    - desc: 'L''indice (a partire da 1) del comando automatico da rimuovere.'
+      name: index
+      optional: false
+      type: int
+autocommandslist:
+  args:
+    - 1
+  desc: 'Elenca i comandi automatici configurati per la gilda.'
+  params:
+    - &ref_95
+      desc: 'Elenca i comandi automatici configurati per la gilda.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=:
+  args:
+    - 1
+  desc: 'Elenca i comandi automatici configurati per la gilda.'
+  params:
+    - desc: 'Elenca i comandi automatici configurati per la gilda.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_1:
+  args:
+    - 1
+  desc: 'Elenca i comandi automatici configurati per la gilda.'
+  params:
+    - desc: 'Elenca i comandi automatici configurati per la gilda.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_2:
+  args:
+    - 1
+  desc: 'Elenca i comandi automatici configurati per la gilda.'
+  params:
+    - desc: 'Elenca i comandi automatici configurati per la gilda.'
+      name: 1
+      optional: false
+      type: '='
+bash:
+  args:
+    - text
+  desc: 'Esegue un comando bash. A seconda della piattaforma, il comando viene eseguito in bash o in PowerShell.'
+  params:
+    - &ref_110
+      desc: 'Il comando da eseguire.'
+      name: message
+      optional: false
+      type: string
+bash_string:
+  args:
+    - text
+  desc: 'Esegue un comando bash. A seconda della piattaforma, il comando viene eseguito in bash o in PowerShell.'
+  params:
+    - desc: 'Il comando da eseguire.'
+      name: message
+      optional: false
+      type: string
+bash_string_1:
+  args:
+    - text
+  desc: 'Esegue un comando bash. A seconda della piattaforma, il comando viene eseguito in bash o in PowerShell.'
+  params:
+    - desc: 'Il comando da eseguire.'
+      name: message
+      optional: false
+      type: string
+bash_string_2:
+  args:
+    - text
+  desc: 'Esegue un comando bash. A seconda della piattaforma, il comando viene eseguito in bash o in PowerShell.'
+  params:
+    - desc: 'Il comando da eseguire.'
+      name: message
+      optional: false
+      type: string
+commandstats:
+  args:
+    - ''
+  desc: 'Recupera e mostra le statistiche sul comando, sul modulo, sulla gilda e sull''utente più usati.'
+  params: [ ]
+commandstats_noparams:
+  args:
+    - ''
+  desc: 'Recupera e mostra le statistiche sul comando, sul modulo, sulla gilda e sull''utente più usati.'
+  params: [ ]
+commandstats_noparams_1:
+  args:
+    - ''
+  desc: 'Recupera e mostra le statistiche sul comando, sul modulo, sulla gilda e sull''utente più usati.'
+  params: [ ]
+commandstats_noparams_2:
+  args:
+    - ''
+  desc: 'Recupera e mostra le statistiche sul comando, sul modulo, sulla gilda e sull''utente più usati.'
+  params: [ ]
+config:
+  args:
+    - ''
+  desc: 'Modifica la configurazione yml del bot.'
+  params: [ ]
+config_string:
+  args:
+    - name
+  desc: 'Modifica la configurazione yml del bot.'
+  params:
+    - desc: 'Il nome della configurazione da modificare.'
+      name: name
+      optional: true
+      type: string
+config_string_string:
+  args:
+    - name prop
+  desc: 'Modifica la configurazione yml del bot.'
+  params:
+    - desc: 'Il nome della configurazione da modificare.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'La proprietà della configurazione da modificare.'
+      name: prop
+      optional: true
+      type: string
+config_string_string_string:
+  args:
+    - name prop value
+  desc: 'Modifica la configurazione yml del bot.'
+  params:
+    - desc: 'Il nome della configurazione da modificare.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'La proprietà della configurazione da modificare.'
+      name: prop
+      optional: true
+      type: string
+    - desc: 'Il nuovo valore da impostare per la proprietà.'
+      name: value
+      optional: true
+      type: string
+defprefix:
+  args:
+    - '[prefix]'
+  desc: 'Imposta o mostra il prefisso predefinito dei comandi.'
+  params:
+    - desc: 'Il nuovo prefisso da impostare. Se null o vuoto, viene mostrato il prefisso attuale.'
+      name: prefix
+      optional: true
+      type: string
+die:
+  args:
+    - ''
+  desc: 'Avvia lo spegnimento del bot.'
+  params: [ ]
+evaluate:
+  args:
+    - '[code]'
+  desc: 'Valuta uno snippet di codice C#.'
+  params:
+    - desc: 'Il codice C# da valutare.'
+      name: code
+      optional: true
+      type: string
+forwardmessages:
+  args:
+    - ''
+  desc: 'Attiva o disattiva l''inoltro dei messaggi diretti al/ai proprietario/i del bot.'
+  params: [ ]
+forwardtoall:
+  args:
+    - ''
+  desc: 'Attiva o disattiva l''invio dei messaggi inoltrati a tutti i proprietari del bot oppure solo al proprietario principale.'
+  params: [ ]
+generatedocs:
+  args:
+    - ''
+  desc: 'Genera i file YML della documentazione dei comandi'
+  params: [ ]
+imagesreload:
+  args:
+    - ''
+  desc: 'Avvia il ricaricamento delle immagini usate dal bot.'
+  params: [ ]
+instancestatus:
+  args:
+    - number
+  desc: 'Controlla lo stato di una specifica istanza del bot.'
+  params:
+    - &ref_256
+      desc: 'Il numero di porta dell''istanza da controllare'
+      name: instancePort
+      optional: false
+      type: int
+instancestatus_int:
+  args:
+    - number
+  desc: 'Controlla lo stato di una specifica istanza del bot.'
+  params:
+    - desc: 'Il numero di porta dell''istanza da controllare'
+      name: instancePort
+      optional: false
+      type: int
+retentionpending:
+  args:
+    - ''
+  desc: 'Elenca i server da cui il bot è uscito e i cui dati sono in attesa di eliminazione, dal più imminente.'
+  params: [ ]
+retentionrecent:
+  args:
+    - ''
+  desc: 'Elenca le ultime eliminazioni di dati completate, con il numero di righe rimosse per ciascuna.'
+  params: [ ]
+retentioncancel:
+  args:
+    - 123456789012345678
+  desc: 'Rimuove un server dalla coda di eliminazione così che i suoi dati vengano conservati.'
+  params:
+    - desc: 'Il server da conservare.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurge:
+  args:
+    - 123456789012345678
+  desc: 'Elimina subito i dati di un server invece di aspettare il periodo di attesa. Si rifiuta se il bot è ancora presente nel server.'
+  params:
+    - desc: 'Il server da eliminare.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurgeall:
+  args:
+    - ''
+  desc: 'Elimina subito tutti i server in attesa, ignorando il periodo di attesa. I server in cui il bot è rientrato vengono saltati.'
+  params: [ ]
+bothells:
+  args:
+    - ''
+  desc: 'Elenca i server invasi da bot, in base alle soglie di numero di bot e percentuale di bot nella configurazione dei bot.'
+  params: [ ]
+bothellcheck:
+  args:
+    - ''
+    - 123456789012345678
+  desc: 'Controlla un singolo server rispetto alle soglie di bot hell dopo aver scaricato l''intera lista dei membri.'
+  params:
+    - desc: 'Il server da controllare, oppure quello attuale se omesso.'
+      name: guildId
+      optional: true
+      type: ulong
+retentionscan:
+  args:
+    - ''
+  desc: 'Analizza tutte le tabelle con ambito di gilda alla ricerca di server in cui il bot non è più presente e li accoda per l''eliminazione dopo il periodo di attesa.'
+  params: [ ]
+leaveserver:
+  args:
+    - text
+  desc: 'Ordina al bot di uscire da un server.'
+  params:
+    - &ref_269
+      desc: 'L''identificatore o il nome della gilda da cui uscire.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string:
+  args:
+    - text
+  desc: 'Ordina al bot di uscire da un server.'
+  params:
+    - desc: 'L''identificatore o il nome della gilda da cui uscire.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_1:
+  args:
+    - text
+  desc: 'Ordina al bot di uscire da un server.'
+  params:
+    - desc: 'L''identificatore o il nome della gilda da cui uscire.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_2:
+  args:
+    - text
+  desc: 'Ordina al bot di uscire da un server.'
+  params:
+    - desc: 'L''identificatore o il nome della gilda da cui uscire.'
+      name: guildStr
+      optional: false
+      type: string
+listinstances:
+  args:
+    - ''
+  desc: 'Elenca tutte le istanze del bot registrate e il loro stato.'
+  params: [ ]
+listplaying:
+  args:
+    - ''
+  desc: 'Elenca tutti gli stati attualmente nella rotazione.'
+  params: [ ]
+listservers:
+  args:
+    - ''
+  desc: 'Elenca tutti i server in cui il bot si trova attualmente.'
+  params: [ ]
+redisexec:
+  args:
+    - text
+  desc: 'Esegue un comando Redis e restituisce il risultato.'
+  params:
+    - &ref_385
+      desc: 'Il comando Redis da eseguire.'
+      name: command
+      optional: false
+      type: string
+redisexec_string:
+  args:
+    - text
+  desc: 'Esegue un comando Redis e restituisce il risultato.'
+  params:
+    - desc: 'Il comando Redis da eseguire.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_1:
+  args:
+    - text
+  desc: 'Esegue un comando Redis e restituisce il risultato.'
+  params:
+    - desc: 'Il comando Redis da eseguire.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_2:
+  args:
+    - text
+  desc: 'Esegue un comando Redis e restituisce il risultato.'
+  params:
+    - desc: 'Il comando Redis da eseguire.'
+      name: command
+      optional: false
+      type: string
+removeinstance:
+  args:
+    - number
+  desc: 'Rimuove un''istanza del bot dalla gestione della dashboard.'
+  params:
+    - desc: 'Il numero di porta dell''istanza da rimuovere'
+      name: instancePort
+      optional: false
+      type: int
+removeplaying:
+  args:
+    - number
+  desc: 'Rimuove uno stato dalla rotazione degli stati di gioco tramite il suo indice.'
+  params:
+    - &ref_406
+      desc: 'L''indice (a partire da 1) dello stato da rimuovere. La rimozione userà l''indicizzazione a partire da zero.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int:
+  args:
+    - number
+  desc: 'Rimuove uno stato dalla rotazione degli stati di gioco tramite il suo indice.'
+  params:
+    - desc: 'L''indice (a partire da 1) dello stato da rimuovere. La rimozione userà l''indicizzazione a partire da zero.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_1:
+  args:
+    - number
+  desc: 'Rimuove uno stato dalla rotazione degli stati di gioco tramite il suo indice.'
+  params:
+    - desc: 'L''indice (a partire da 1) dello stato da rimuovere. La rimozione userà l''indicizzazione a partire da zero.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_2:
+  args:
+    - number
+  desc: 'Rimuove uno stato dalla rotazione degli stati di gioco tramite il suo indice.'
+  params:
+    - desc: 'L''indice (a partire da 1) dello stato da rimuovere. La rimozione userà l''indicizzazione a partire da zero.'
+      name: index
+      optional: false
+      type: int
+restartallinstances:
+  args:
+    - ''
+  desc: 'Riavvia tutte le istanze del bot registrate.'
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: 'Riavvia una specifica istanza del bot.'
+  params:
+    - desc: 'Il numero di porta dell''istanza da riavviare'
+      name: instancePort
+      optional: false
+      type: int
+rotateplaying:
+  args:
+    - ''
+  desc: 'Attiva o disattiva la rotazione degli stati di gioco del bot.'
+  params: [ ]
+scadd:
+  args:
+    - command
+  desc: 'Aggiunge un comando da eseguire all''avvio.'
+  params:
+    - desc: 'Il comando da aggiungere all''avvio.'
+      name: command
+      optional: false
+      type: string
+scclear:
+  args:
+    - ''
+  desc: 'Cancella tutti i comandi di avvio.'
+  params: [ ]
+sclist:
+  args:
+    - ''
+  desc: 'Elenca tutti i comandi di avvio.'
+  params: [ ]
+scrm:
+  args:
+    - index
+  desc: 'Rimuove un comando di avvio.'
+  params:
+    - desc: 'L''indice del comando da rimuovere.'
+      name: index
+      optional: false
+      type: int
+send:
+  args:
+    - whereorto text
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - &ref_483
+      desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - &ref_484
+      desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_=_=:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'L''ID dell''utente a cui inviare il messaggio.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_1:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'L''ID dell''utente a cui inviare il messaggio.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_2:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'L''ID dell''utente a cui inviare il messaggio.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_3:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'L''ID dell''utente a cui inviare il messaggio.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_string:
+  args:
+    - whereorto text
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_1:
+  args:
+    - whereorto text
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_2:
+  args:
+    - whereorto text
+  desc: 'Invia un messaggio a un canale o a un utente specificato.'
+  params:
+    - desc: 'L''ID del canale o dell''utente a cui inviare il messaggio.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Il messaggio da inviare.'
+      name: msg
+      optional: false
+      type: string
+setavatar:
+  args:
+    - '[img]'
+  desc: 'Imposta l''avatar del bot.'
+  params:
+    - desc: 'L''URL della nuova immagine dell''avatar. Se null, il comando potrebbe rimuovere l''avatar attuale o non fare nulla, a seconda dell''implementazione.'
+      name: img
+      optional: true
+      type: string
+setgame:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Imposta il gioco attualmente in riproduzione del bot.'
+  params:
+    - desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Il nome del gioco o dell''attività. Se null, potrebbe cancellare il gioco attuale.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Imposta il gioco attualmente in riproduzione del bot.'
+  params:
+    - desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Il nome del gioco o dell''attività. Se null, potrebbe cancellare il gioco attuale.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_1:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Imposta il gioco attualmente in riproduzione del bot.'
+  params:
+    - desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Il nome del gioco o dell''attività. Se null, potrebbe cancellare il gioco attuale.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_2:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Imposta il gioco attualmente in riproduzione del bot.'
+  params:
+    - desc: 'Il tipo di attività (ad esempio Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Il nome del gioco o dell''attività. Se null, potrebbe cancellare il gioco attuale.'
+      name: game
+      optional: true
+      type: string
+setname:
+  args:
+    - text
+  desc: 'Cambia il nome utente del bot con quello indicato.'
+  params:
+    - &ref_508
+      desc: 'Il nuovo nome utente per il bot.'
+      name: newName
+      optional: false
+      type: string
+setname_string:
+  args:
+    - text
+  desc: 'Cambia il nome utente del bot con quello indicato.'
+  params:
+    - desc: 'Il nuovo nome utente per il bot.'
+      name: newName
+      optional: false
+      type: string
+setname_string_1:
+  args:
+    - text
+  desc: 'Cambia il nome utente del bot con quello indicato.'
+  params:
+    - desc: 'Il nuovo nome utente per il bot.'
+      name: newName
+      optional: false
+      type: string
+setname_string_2:
+  args:
+    - text
+  desc: 'Cambia il nome utente del bot con quello indicato.'
+  params:
+    - desc: 'Il nuovo nome utente per il bot.'
+      name: newName
+      optional: false
+      type: string
+setstatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Imposta lo stato online del bot.'
+  params:
+    - &ref_526
+      desc: 'Il nuovo stato da impostare.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Imposta lo stato online del bot.'
+  params:
+    - desc: 'Il nuovo stato da impostare.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_1:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Imposta lo stato online del bot.'
+  params:
+    - desc: 'Il nuovo stato da impostare.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_2:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Imposta lo stato online del bot.'
+  params:
+    - desc: 'Il nuovo stato da impostare.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstream:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Imposta lo stato di streaming del bot.'
+  params:
+    - desc: 'L''URL dello stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Il nome dello stream. Se null, potrebbe usare un nome predefinito o nessun nome.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Imposta lo stato di streaming del bot.'
+  params:
+    - desc: 'L''URL dello stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Il nome dello stream. Se null, potrebbe usare un nome predefinito o nessun nome.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_1:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Imposta lo stato di streaming del bot.'
+  params:
+    - desc: 'L''URL dello stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Il nome dello stream. Se null, potrebbe usare un nome predefinito o nessun nome.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_2:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Imposta lo stato di streaming del bot.'
+  params:
+    - desc: 'L''URL dello stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Il nome dello stream. Se null, potrebbe usare un nome predefinito o nessun nome.'
+      name: name
+      optional: true
+      type: string
+shardstats:
+  args:
+    - ''
+  desc: 'Mostra le statistiche di tutti gli shard del bot, incluse le loro condizioni, il numero di gilde e il numero di utenti.'
+  params: [ ]
+shardstats_noparams:
+  args:
+    - ''
+  desc: 'Mostra le statistiche di tutti gli shard del bot, incluse le loro condizioni, il numero di gilde e il numero di utenti.'
+  params: [ ]
+shardstats_noparams_1:
+  args:
+    - ''
+  desc: 'Mostra le statistiche di tutti gli shard del bot, incluse le loro condizioni, il numero di gilde e il numero di utenti.'
+  params: [ ]
+shardstats_noparams_2:
+  args:
+    - ''
+  desc: 'Mostra le statistiche di tutti gli shard del bot, incluse le loro condizioni, il numero di gilde e il numero di utenti.'
+  params: [ ]
+sqlexec:
+  args:
+    - text
+  desc: 'Esegue un comando SQL grezzo sul database.'
+  params:
+    - &ref_555
+      desc: 'Il comando SQL da eseguire.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string:
+  args:
+    - text
+  desc: 'Esegue un comando SQL grezzo sul database.'
+  params:
+    - desc: 'Il comando SQL da eseguire.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_1:
+  args:
+    - text
+  desc: 'Esegue un comando SQL grezzo sul database.'
+  params:
+    - desc: 'Il comando SQL da eseguire.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_2:
+  args:
+    - text
+  desc: 'Esegue un comando SQL grezzo sul database.'
+  params:
+    - desc: 'Il comando SQL da eseguire.'
+      name: sql
+      optional: false
+      type: string
+startupcommandadd:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo comando di avvio da eseguire quando il bot si avvia.'
+  params:
+    - &ref_564
+      desc: 'Il testo del comando da aggiungere, senza il prefisso.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo comando di avvio da eseguire quando il bot si avvia.'
+  params:
+    - desc: 'Il testo del comando da aggiungere, senza il prefisso.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_1:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo comando di avvio da eseguire quando il bot si avvia.'
+  params:
+    - desc: 'Il testo del comando da aggiungere, senza il prefisso.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_2:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo comando di avvio da eseguire quando il bot si avvia.'
+  params:
+    - desc: 'Il testo del comando da aggiungere, senza il prefisso.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandremove:
+  args:
+    - number
+  desc: 'Rimuove un comando di avvio in base al suo indice.'
+  params:
+    - desc: 'L''indice (a partire da 1) del comando di avvio da rimuovere.'
+      name: index
+      optional: false
+      type: int
+startupcommandsclear:
+  args:
+    - ''
+  desc: 'Cancella tutti i comandi di avvio della gilda.'
+  params: [ ]
+startupcommandslist:
+  args:
+    - 1
+  desc: 'Elenca i comandi di avvio configurati per la gilda.'
+  params:
+    - desc: 'Elenca i comandi di avvio configurati per la gilda.'
+      name: 1
+      optional: false
+      type: '='
+stringsreload:
+  args:
+    - ''
+  desc: 'Avvia il ricaricamento delle stringhe del bot (localizzazioni).'
+  params: [ ]
+sudo:
+  args:
+    - '@user text'
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - &ref_580
+      desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_581
+      desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string:
+  args:
+    - '@user text'
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_1:
+  args:
+    - '@user text'
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_2:
+  args:
+    - '@user text'
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+sudo_string:
+  args:
+    - text
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+sudo_string_1:
+  args:
+    - text
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+sudo_string_2:
+  args:
+    - text
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+sudo_string_3:
+  args:
+    - text
+  desc: 'Esegue un comando come se fosse stato inviato dal proprietario della gilda.'
+  params:
+    - desc: 'La stringa del comando da eseguire, con nome e argomenti del comando.'
+      name: args
+      optional: false
+      type: string
+update:
+  args:
+    - ''
+  desc: 'Aggiorna il bot all''ultima versione disponibile nel repository.'
+  params: [ ]
+update_noparams:
+  args:
+    - ''
+  desc: 'Aggiorna il bot all''ultima versione disponibile nel repository.'
+  params: [ ]
+update_noparams_1:
+  args:
+    - ''
+  desc: 'Aggiorna il bot all''ultima versione disponibile nel repository.'
+  params: [ ]
+update_noparams_2:
+  args:
+    - ''
+  desc: 'Aggiorna il bot all''ultima versione disponibile nel repository.'
+  params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: 'Aggiorna tutte le istanze del bot registrate.'
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: 'Aggiorna una specifica istanza del bot.'
+  params:
+    - desc: 'Il numero di porta dell''istanza da aggiornare'
+      name: instancePort
+      optional: false
+      type: int
+wait:
+  args:
+    - number
+  desc: 'Esegue un comando di attesa che ritarda per un numero specificato di millisecondi.'
+  params:
+    - &ref_651
+      desc: 'Il numero di millisecondi di ritardo.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int:
+  args:
+    - number
+  desc: 'Esegue un comando di attesa che ritarda per un numero specificato di millisecondi.'
+  params:
+    - desc: 'Il numero di millisecondi di ritardo.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_1:
+  args:
+    - number
+  desc: 'Esegue un comando di attesa che ritarda per un numero specificato di millisecondi.'
+  params:
+    - desc: 'Il numero di millisecondi di ritardo.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_2:
+  args:
+    - number
+  desc: 'Esegue un comando di attesa che ritarda per un numero specificato di millisecondi.'
+  params:
+    - desc: 'Il numero di millisecondi di ritardo.'
+      name: miliseconds
+      optional: false
+      type: int

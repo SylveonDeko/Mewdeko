@@ -5,13 +5,13 @@ highlight:
     - add
     - list
     - delete
-  desc: 'Ajoute, liste, supprime ou correspond aux mises en évidence.'
+  desc: 'Ajoute, liste, supprime ou vérifie des mots-clés de surveillance (highlights).'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''action à effectuer : add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Paramètres pour l''action sélectionnée'
+    - desc: 'Paramètres de l''action sélectionnée'
       name: words
       optional: true
       type: string
@@ -22,13 +22,13 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: 'Ajoute, liste, supprime ou correspond aux mises en évidence.'
+  desc: 'Ajoute, liste, supprime ou vérifie des mots-clés de surveillance (highlights).'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''action à effectuer : add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Paramètres pour l''action sélectionnée'
+    - desc: 'Paramètres de l''action sélectionnée'
       name: words
       optional: true
       type: string
@@ -39,13 +39,13 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: 'Ajoute, liste, supprime ou correspond aux mises en évidence.'
+  desc: 'Ajoute, liste, supprime ou vérifie des mots-clés de surveillance (highlights).'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''action à effectuer : add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Paramètres pour l''action sélectionnée'
+    - desc: 'Paramètres de l''action sélectionnée'
       name: words
       optional: true
       type: string
@@ -56,26 +56,26 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: 'Ajoute, liste, supprime ou correspond aux mises en évidence.'
+  desc: 'Ajoute, liste, supprime ou vérifie des mots-clés de surveillance (highlights).'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''action à effectuer : add, list, delete ou match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Paramètres pour l''action sélectionnée'
+    - desc: 'Paramètres de l''action sélectionnée'
       name: words
       optional: true
       type: string
 highlights:
   args:
     - action word
-  desc: Gère les mises en évidence de l'utilisateur.
+  desc: 'Gère les highlights des utilisateurs.'
   params:
-    - desc: L'action à effectuer avec les mises en évidence.
+    - desc: 'L''action à effectuer sur les highlights.'
       name: action
       optional: false
       type: string
-    - desc: Le mot à mettre en évidence.
+    - desc: 'Le mot à mettre en surbrillance.'
       name: word
       optional: true
       type: string

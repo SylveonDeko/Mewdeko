@@ -1,0 +1,298 @@
+serveractivity:
+  args:
+    - '[days]'
+    - '7'
+    - '0'
+  desc: 'Показує підсумок активності сервера за період: повідомлення, час у голосових каналах, учасників, які писали, приєднання та виходи, а також найактивнішого учасника і канали. Використовуйте 0 для всього часу.'
+  params:
+    - desc: 'Період у днях, 0 для всього часу, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+useractivity:
+  args:
+    - '[@user] [days]'
+    - '@user 30'
+  desc: 'Показує підсумок активності учасника за період: повідомлення та час у голосових каналах з рейтингами, загальні підсумки за весь час і найчастіше використовувані канали.'
+  params:
+    - desc: 'Учасник або без значення для себе.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Період у днях, 0 для всього часу, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+channelactivity:
+  args:
+    - '[#channel] [days]'
+  desc: 'Показує підсумок активності каналу за період: повідомлення, час у голосових каналах, учасників, які писали, і найактивніших учасників.'
+  params:
+    - desc: 'Канал або без значення для поточного.'
+      name: channel
+      optional: true
+      type: IGuildChannel
+    - desc: 'Період у днях, 0 для всього часу, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+activitytop:
+  args:
+    - '[Messages|Voice] [days] [@role]'
+    - 'Voice 7'
+  desc: 'Ранжує учасників за повідомленнями або часом у голосових каналах за період, за бажанням лише тих, хто має певну роль.'
+  params:
+    - desc: 'Messages або Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Період у днях, 0 для всього часу, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+    - desc: 'Включати лише учасників із цією роллю.'
+      name: role
+      optional: true
+      type: IRole
+activitytopchannels:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Ранжує канали за повідомленнями або часом у голосових каналах за період.'
+  params:
+    - desc: 'Messages або Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Період у днях, 0 для всього часу, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+activitychart:
+  args:
+    - '[Messages|Voice|Members|Status|Joins|Leaves|Growth|InVoice] [days]'
+    - 'Members 30'
+  desc: 'Будує графік повідомлень, годин у голосових каналах, кількості учасників, статусів учасників, приєднань, виходів, зростання або учасників у голосових каналах за період.'
+  params:
+    - desc: 'Що відобразити на графіку.'
+      name: kind
+      optional: true
+      type: StatChartKind
+    - desc: 'Період у днях, від 1 до 90, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+activityexport:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Експортує рейтинг учасників за повідомленнями або часом у голосових каналах у файл CSV.'
+  params:
+    - desc: 'Messages або Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'Період у днях, 0 для всього часу, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+statssettings:
+  args:
+    - ''
+  desc: 'Показує налаштування відстеження статистики активності.'
+  params: [ ]
+statslookback:
+  args:
+    - '14'
+  desc: 'Встановлює стандартний період у днях, який використовують команди статистики, якщо він не вказаний.'
+  params:
+    - desc: 'Період у днях, від 1 до 90.'
+      name: days
+      optional: false
+      type: int
+statscooldown:
+  args:
+    - '30'
+  desc: 'Встановлює, скільки секунд має минути між двома враховуваними повідомленнями від одного учасника. 0 враховує кожне повідомлення.'
+  params:
+    - desc: 'Затримка в секундах, від 0 до 300.'
+      name: seconds
+      optional: false
+      type: int
+statstrackvoice:
+  args:
+    - ''
+  desc: 'Перемикає відстеження часу в голосових каналах для статистики активності.'
+  params: [ ]
+statstracksnapshots:
+  args:
+    - ''
+  desc: 'Перемикає щогодинні знімки учасників і статусів, які використовуються для графіків учасників і статусів.'
+  params: [ ]
+statscountbots:
+  args:
+    - ''
+  desc: 'Перемикає, чи враховувати ботів у статистиці активності.'
+  params: [ ]
+statsignorevoicestate:
+  args:
+    - 'SelfMuted'
+    - 'Afk'
+  desc: 'Перемикає, чи враховується час у голосових станах (SelfMuted, SelfDeafened, ServerMuted, ServerDeafened, Afk, Alone, Streaming, Video) до голосової статистики.'
+  params:
+    - desc: 'Стан для перемикання.'
+      name: state
+      optional: false
+      type: VoiceStateFlags
+statsignore:
+  args:
+    - '#channel'
+    - '@role'
+    - '@user'
+  desc: 'Перемикає, чи виключаються канал, усі власники ролі або окремий учасник зі статистики активності.'
+  params:
+    - desc: 'Канал для перемикання.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Роль для перемикання.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Учасник для перемикання.'
+      name: user
+      optional: false
+      type: IGuildUser
+statsignored:
+  args:
+    - ''
+  desc: 'Показує канали, ролі та учасників, виключених зі статистики активності.'
+  params: [ ]
+statsprivacy:
+  args:
+    - ''
+  desc: 'Вимикає вашу участь у статистиці активності на всіх серверах з постійним видаленням записаної статистики повідомлень і голосової активності або повертає вашу участь.'
+  params: [ ]
+topgames:
+  args:
+    - '[days]'
+    - '30'
+  desc: 'Показує рейтинг ігор і застосунків, у яких учасники проводять найбільше часу за період, з кількістю гравців. Потрібно увімкнути відстеження ігор.'
+  params:
+    - desc: 'Період у днях, 0 для всього часу, або без значення для стандартного періоду сервера.'
+      name: days
+      optional: true
+      type: int
+whoplays:
+  args:
+    - 'Minecraft'
+  desc: 'Показує, хто грає в гру або користується застосунком: скільки учасників зараз у ній і учасників з найбільшим часом у ній.'
+  params:
+    - desc: 'Назва гри або застосунку.'
+      name: game
+      optional: false
+      type: string
+statstrackactivities:
+  args:
+    - ''
+  desc: 'Перемикає відстеження ігор і застосунків, якими користуються учасники (гра, стрім, прослуховування, перегляд, змагання). Вимкнено за замовчуванням.'
+  params: [ ]
+statsverifyactivities:
+  args:
+    - ''
+  desc: 'Перемикає, чи враховувати лише активності, підкріплені застосунком Discord, Spotify або стрімом. Це блокує присутність, підроблену сторонніми клієнтами.'
+  params: [ ]
+statsactivityfiltermode:
+  args:
+    - 'Whitelist'
+    - 'Blacklist'
+  desc: 'Встановлює, чи дозволяє фільтр активностей лише перелічені ігри (Whitelist) або ігнорує їх (Blacklist).'
+  params:
+    - desc: 'Whitelist або Blacklist.'
+      name: mode
+      optional: false
+      type: ActivityFilterMode
+statsactivityfilter:
+  args:
+    - 'Spotify'
+  desc: 'Перемикає назву гри або застосунку у списку фільтра активностей.'
+  params:
+    - desc: 'Назва активності.'
+      name: name
+      optional: false
+      type: string
+statsactivityfilters:
+  args:
+    - ''
+  desc: 'Показує фільтр активностей і те, чи є він білим або чорним списком.'
+  params: [ ]
+liveboardadd:
+  args:
+    - '#channel InviteLeaderboard [Weekly] [entries] [intervalMinutes]'
+    - '#stats GrowthChart Monthly'
+  desc: 'Публікує таблицю лідерів, графік або огляд, які бот постійно оновлює і закріплює. Типи: InviteLeaderboard, MessageLeaderboard, VoiceLeaderboard, JoinsChart, LeavesChart, GrowthChart, MembersChart, MessagesChart, ServerOverview, InviteStats.'
+  params:
+    - desc: 'Канал для публікації.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Що показати.'
+      name: kind
+      optional: false
+      type: LiveBoardKind
+    - desc: 'Період: AllTime, Daily, Weekly або Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Кількість рядків для таблиць лідерів, від 3 до 25.'
+      name: entries
+      optional: true
+      type: int
+    - desc: 'Як часто оновлювати, щонайменше 5 хвилин.'
+      name: intervalMinutes
+      optional: true
+      type: int
+liveboardlist:
+  args:
+    - ''
+  desc: 'Показує активні дошки.'
+  params: [ ]
+liveboardremove:
+  args:
+    - '3'
+  desc: 'Видаляє активну дошку та її повідомлення.'
+  params:
+    - desc: 'ID дошки зі списку.'
+      name: id
+      optional: false
+      type: int
+liveboardrefresh:
+  args:
+    - ''
+  desc: 'Одразу оновлює всі активні дошки.'
+  params: [ ]
+serverreportchannel:
+  args:
+    - '[#channel]'
+  desc: 'Встановлює канал, який отримує заплановані звіти сервера, і вмикає їх. Не вказуйте канал, щоб вимкнути звіти.'
+  params:
+    - desc: 'Канал або без значення, щоб вимкнути.'
+      name: channel
+      optional: true
+      type: ITextChannel
+serverreportfrequency:
+  args:
+    - 'Weekly'
+  desc: 'Встановлює, як часто публікувати звіти сервера: Daily, Weekly або Monthly.'
+  params:
+    - desc: 'Daily, Weekly або Monthly.'
+      name: frequency
+      optional: false
+      type: ReportFrequency
+serverreportnow:
+  args:
+    - '[Weekly]'
+  desc: 'Публікує звіт сервера просто зараз у поточному каналі за вказаний період або за налаштованим.'
+  params:
+    - desc: 'Період, який охопити, або без значення для налаштованого.'
+      name: frequency
+      optional: true
+      type: ReportFrequency

@@ -1,0 +1,4851 @@
+adsarm:
+  args:
+    - ''
+  desc: '切换自动删除服务器广告消息的功能。'
+  params: [ ]
+antialt:
+  args:
+    - ''
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params: [ ]
+antipattern:
+  args:
+    - ''
+  desc: '配置服务器的反模式保护，并通过身份组设置处罚操作。'
+  params: [ ]
+antipattern_PunishmentAction_=:
+  args:
+    - '<action> [punishTime]'
+    - action
+  desc: '配置服务器的反模式保护，并通过身份组设置处罚操作。'
+  params:
+    - desc: '对检测到的模式匹配执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '处罚时长（如适用）。'
+      name: punishTime
+      optional: true
+      type: StoopidTime
+antipattern_PunishmentAction_IRole:
+  args:
+    - action @role
+  desc: '配置服务器的反模式保护，并通过身份组设置处罚操作。'
+  params:
+    - desc: '对检测到的模式匹配执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '分配给匹配模式用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+patternadd:
+  args:
+    - '<pattern> [name] [checkUsername] [checkDisplayName]'
+    - pattern
+  desc: '向反模式保护中添加一个正则表达式模式。'
+  params:
+    - desc: '用于匹配用户名或显示名称的正则表达式模式。'
+      name: pattern
+      optional: false
+      type: string
+    - desc: '模式的可选名称。'
+      name: name
+      optional: true
+      type: string
+    - desc: '是否检查用户名是否匹配该模式（默认为 true）。'
+      name: checkUsername
+      optional: true
+      type: bool
+    - desc: '是否检查显示名称是否匹配该模式（默认为 true）。'
+      name: checkDisplayName
+      optional: true
+      type: bool
+patternremove:
+  args:
+    - number
+  desc: '从反模式保护中移除一个模式。'
+  params:
+    - desc: '要移除的模式 ID。'
+      name: patternId
+      optional: false
+      type: int
+patternlist:
+  args:
+    - ''
+  desc: '列出反模式保护中配置的所有模式。'
+  params: [ ]
+patternconfig:
+  args:
+    - ''
+  desc: '显示当前的反模式配置。'
+  params: [ ]
+patternconfig_string_string:
+  args:
+    - setting value
+  desc: '显示当前的反模式配置。'
+  params:
+    - desc: '要配置的设置项。'
+      name: setting
+      optional: false
+      type: string
+    - desc: '要设置的值。'
+      name: value
+      optional: false
+      type: string
+antialt_StoopidTime_PunishmentAction_=:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_1:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_2:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_3:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_IRole:
+  args:
+    - minage action @role
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_69
+      desc: '作为处罚分配给检测到的小号的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_1:
+  args:
+    - minage action @role
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '作为处罚分配给检测到的小号的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_2:
+  args:
+    - minage action @role
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '作为处罚分配给检测到的小号的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_3:
+  args:
+    - minage action @role
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params:
+    - desc: '账号被视为小号的最低年龄（以分钟为单位）。'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '对检测到的小号执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '作为处罚分配给检测到的小号的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antialt_noparams:
+  args:
+    - ''
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params: [ ]
+antialt_noparams_1:
+  args:
+    - ''
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params: [ ]
+antialt_noparams_2:
+  args:
+    - ''
+  desc: '配置服务器的反小号保护，设置最低账号年龄，并通过身份组设置处罚操作。'
+  params: [ ]
+antimassmention:
+  args:
+    - ''
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params: [ ]
+antimassmention_int_int_int_bool_PunishmentAction_=:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_1:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_2:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_3:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: punishment
+    - desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_IRole:
+  args:
+    - number number number true|false action @role
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_75
+      desc: '作为处罚分配给受罚用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_1:
+  args:
+    - number number number true|false action @role
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '作为处罚分配给受罚用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_2:
+  args:
+    - number number number true|false action @role
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '作为处罚分配给受罚用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_3:
+  args:
+    - number number number true|false action @role
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params:
+    - desc: '单条消息中允许的提及数，超出后触发保护。'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '统计提及的时间窗口（以秒为单位）。'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '指定时间窗口内允许的最大提及数。'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '统计提及时是否忽略机器人账号。'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '对超出提及限制的用户执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '作为处罚分配给受罚用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_noparams:
+  args:
+    - ''
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params: [ ]
+antimassmention_noparams_1:
+  args:
+    - ''
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params: [ ]
+antimassmention_noparams_2:
+  args:
+    - ''
+  desc: '配置服务器的反大量提及保护，设置单条消息的提及上限、提及统计的时间窗口、时间窗口内允许的最大提及数，以及通过身份组设置处罚操作。'
+  params: [ ]
+antiraid:
+  args:
+    - ''
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params: [ ]
+antiraid_int_int_PunishmentAction:
+  args:
+    - number number action
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - &ref_76
+      desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - &ref_77
+      desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - &ref_78
+      desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_1:
+  args:
+    - number number action
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_2:
+  args:
+    - number number action
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_3:
+  args:
+    - number number action
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_StoopidTime:
+  args:
+    - number number action time
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_79
+      desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number number action time
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number number action time
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number number action time
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params:
+    - desc: '触发突袭检测的用户数阈值。'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '统计用户加入的时间窗口（以秒为单位）。'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '对检测到的突袭执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_noparams:
+  args:
+    - ''
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params: [ ]
+antiraid_noparams_1:
+  args:
+    - ''
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params: [ ]
+antiraid_noparams_2:
+  args:
+    - ''
+  desc: '配置服务器的反突袭保护，设置用户数阈值、检测时间窗口和处罚操作。'
+  params: [ ]
+antispam:
+  args:
+    - ''
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params: [ ]
+antispam_int_PunishmentAction:
+  args:
+    - number action
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - &ref_80
+      desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_81
+      desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_1:
+  args:
+    - number action
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_82
+      desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_2:
+  args:
+    - number action
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_3:
+  args:
+    - number action
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_IRole:
+  args:
+    - number action @role
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_83
+      desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_1:
+  args:
+    - number action @role
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_2:
+  args:
+    - number action @role
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_3:
+  args:
+    - number action @role
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_StoopidTime:
+  args:
+    - number action time
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_84
+      desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number action time
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number action time
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number action time
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params:
+    - desc: '触发刷屏检测的消息数阈值。'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '对检测到的刷屏者执行的处罚操作。'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_noparams:
+  args:
+    - ''
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params: [ ]
+antispam_noparams_1:
+  args:
+    - ''
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params: [ ]
+antispam_noparams_2:
+  args:
+    - ''
+  desc: '配置服务器的反刷屏保护，设置消息数阈值和处罚操作。'
+  params: [ ]
+asar:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - &ref_85
+      desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_1:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_2:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole:
+  args:
+    - number @role
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - &ref_86
+      desc: '用于分类的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_1:
+  args:
+    - number @role
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - desc: '用于分类的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_2:
+  args:
+    - number @role
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - desc: '用于分类的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_3:
+  args:
+    - number @role
+  desc: '将指定身份组添加到指定分组的可自助领取身份组列表中。'
+  params:
+    - desc: '用于分类的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要添加到可自助领取身份组列表中的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole:
+  args:
+    - '@role'
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params:
+    - &ref_87
+      desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole:
+  args:
+    - '@role'
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params:
+    - desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_1:
+  args:
+    - '@role'
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params:
+    - desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_2:
+  args:
+    - '@role'
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params:
+    - desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_noparams:
+  args:
+    - ''
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autoassignbotrole_noparams_1:
+  args:
+    - ''
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autoassignbotrole_noparams_2:
+  args:
+    - ''
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autoassignbotrole_noparams_3:
+  args:
+    - ''
+  desc: '显示机器人加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autoassignrole:
+  args:
+    - '@role'
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params:
+    - desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole:
+  args:
+    - '@role'
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params:
+    - desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_1:
+  args:
+    - '@role'
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params:
+    - desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_2:
+  args:
+    - '@role'
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params:
+    - desc: '要启用或禁用自动分配的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_noparams:
+  args:
+    - ''
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autoassignrole_noparams_1:
+  args:
+    - ''
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autoassignrole_noparams_2:
+  args:
+    - ''
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autoassignrole_noparams_3:
+  args:
+    - ''
+  desc: '显示用户加入服务器时可自动分配的身份组列表。'
+  params: [ ]
+autobanroleadd:
+  args:
+    - '@role'
+  desc: '将身份组添加到自动封禁身份组列表。'
+  params:
+    - &ref_88
+      desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole:
+  args:
+    - '@role'
+  desc: '将身份组添加到自动封禁身份组列表。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_1:
+  args:
+    - '@role'
+  desc: '将身份组添加到自动封禁身份组列表。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_2:
+  args:
+    - '@role'
+  desc: '将身份组添加到自动封禁身份组列表。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autobanrolelist:
+  args:
+    - ''
+  desc: '列出当前服务器自动封禁身份组列表中的所有身份组。'
+  params: [ ]
+autobanroleremove:
+  args:
+    - '@role'
+  desc: '从自动封禁身份组列表中移除一个身份组。'
+  params:
+    - desc: '要移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason:
+  args:
+    - '@role'
+    - '@role reason text'
+  desc: '设置自动封禁身份组在审计日志中显示的封禁原因。'
+  params:
+    - desc: '要设置封禁原因的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_abreason
+      desc: '审计日志中显示的原因（留空则清除）。'
+      name: reason
+      optional: true
+      type: string
+autobanrolereason_IRole:
+  args:
+    - '@role'
+  desc: '设置自动封禁身份组在审计日志中显示的封禁原因。'
+  params:
+    - desc: '要设置封禁原因的身份组。'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason_IRole_string:
+  args:
+    - '@role reason text'
+  desc: '设置自动封禁身份组在审计日志中显示的封禁原因。'
+  params:
+    - desc: '要设置封禁原因的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - *ref_abreason
+banbyhash:
+  args:
+    - text
+  desc: '通过头像 ID（即头像哈希）封禁多个用户。适用于处理不良用户号。'
+  params:
+    - &ref_106
+      desc: '要搜索的头像哈希。'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string:
+  args:
+    - text
+  desc: '通过头像 ID（即头像哈希）封禁多个用户。适用于处理不良用户号。'
+  params:
+    - desc: '要搜索的头像哈希。'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_1:
+  args:
+    - text
+  desc: '通过头像 ID（即头像哈希）封禁多个用户。适用于处理不良用户号。'
+  params:
+    - desc: '要搜索的头像哈希。'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_2:
+  args:
+    - text
+  desc: '通过头像 ID（即头像哈希）封禁多个用户。适用于处理不良用户号。'
+  params:
+    - desc: '要搜索的头像哈希。'
+      name: avatarHash
+      optional: false
+      type: string
+baninrole:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '封禁拥有指定身份组的用户。'
+  params:
+    - desc: '要封禁其成员的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '封禁原因，可选。'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '封禁拥有指定身份组的用户。'
+  params:
+    - desc: '要封禁其成员的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '封禁原因，可选。'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_1:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '封禁拥有指定身份组的用户。'
+  params:
+    - desc: '要封禁其成员的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '封禁原因，可选。'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_2:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '封禁拥有指定身份组的用户。'
+  params:
+    - desc: '要封禁其成员的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '封禁原因，可选。'
+      name: reason
+      optional: true
+      type: string
+banunder:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '封禁在服务器中停留了一定时间的用户。'
+  params:
+    - desc: '时长，格式为 {0}mo{1}d{2}h{3}m{4}s。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '指定 -accage 可按账号年龄而非服务器停留时间检查，指定 -p 可预览将被封禁的用户。'
+      name: option
+      optional: true
+      type: string
+    - desc: '指定时间范围。'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '封禁在服务器中停留了一定时间的用户。'
+  params:
+    - desc: '时长，格式为 {0}mo{1}d{2}h{3}m{4}s。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '指定 -accage 可按账号年龄而非服务器停留时间检查，指定 -p 可预览将被封禁的用户。'
+      name: option
+      optional: true
+      type: string
+    - desc: '指定时间范围。'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_1:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '封禁在服务器中停留了一定时间的用户。'
+  params:
+    - desc: '时长，格式为 {0}mo{1}d{2}h{3}m{4}s。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '指定 -accage 可按账号年龄而非服务器停留时间检查，指定 -p 可预览将被封禁的用户。'
+      name: option
+      optional: true
+      type: string
+    - desc: '指定时间范围。'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_2:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '封禁在服务器中停留了一定时间的用户。'
+  params:
+    - desc: '时长，格式为 {0}mo{1}d{2}h{3}m{4}s。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '指定 -accage 可按账号年龄而非服务器停留时间检查，指定 -p 可预览将被封禁的用户。'
+      name: option
+      optional: true
+      type: string
+    - desc: '指定时间范围。'
+      name: time1
+      optional: true
+      type: duration
+boost:
+  args:
+    - ''
+  desc: '开启或关闭助力消息。'
+  params: [ ]
+boostdel:
+  args:
+    - 30
+  desc: '设置助力消息的自动删除时间。'
+  params:
+    - &ref_114
+      desc: '设置助力消息的自动删除时间。'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=:
+  args:
+    - 30
+  desc: '设置助力消息的自动删除时间。'
+  params:
+    - desc: '设置助力消息的自动删除时间。'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_1:
+  args:
+    - 30
+  desc: '设置助力消息的自动删除时间。'
+  params:
+    - desc: '设置助力消息的自动删除时间。'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_2:
+  args:
+    - 30
+  desc: '设置助力消息的自动删除时间。'
+  params:
+    - desc: '设置助力消息的自动删除时间。'
+      name: 30
+      optional: false
+      type: '='
+boostmsg:
+  args:
+    - ''
+  desc: '设置服务器的助力消息。'
+  params: [ ]
+boostmsg_noparams:
+  args:
+    - ''
+  desc: '设置服务器的助力消息。'
+  params: [ ]
+boostmsg_noparams_1:
+  args:
+    - ''
+  desc: '设置服务器的助力消息。'
+  params: [ ]
+boostmsg_noparams_2:
+  args:
+    - ''
+  desc: '设置服务器的助力消息。'
+  params: [ ]
+boostmsg_string:
+  args:
+    - text
+  desc: '设置服务器的助力消息。'
+  params:
+    - &ref_115
+      desc: '新的助力消息。'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_1:
+  args:
+    - text
+  desc: '设置服务器的助力消息。'
+  params:
+    - desc: '新的助力消息。'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_2:
+  args:
+    - text
+  desc: '设置服务器的助力消息。'
+  params:
+    - desc: '新的助力消息。'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_3:
+  args:
+    - text
+  desc: '设置服务器的助力消息。'
+  params:
+    - desc: '新的助力消息。'
+      name: text
+      optional: true
+      type: string
+boosttest:
+  args:
+    - '[@user]'
+  desc: '发送助力测试消息。'
+  params:
+    - desc: '接收测试消息的用户。'
+      name: user
+      optional: true
+      type: user
+bye:
+  args:
+    - ''
+  desc: '切换是否发送离开消息。'
+  params: [ ]
+byedel:
+  args:
+    - 30
+  desc: '设置离开消息的自动删除时间。'
+  params:
+    - desc: '设置离开消息的自动删除时间。'
+      name: 30
+      optional: false
+      type: '='
+byemsg:
+  args:
+    - ''
+  desc: '将离开消息设置为指定文本。'
+  params: [ ]
+byemsg_noparams:
+  args:
+    - ''
+  desc: '将离开消息设置为指定文本。'
+  params: [ ]
+byemsg_noparams_1:
+  args:
+    - ''
+  desc: '将离开消息设置为指定文本。'
+  params: [ ]
+byemsg_noparams_2:
+  args:
+    - ''
+  desc: '将离开消息设置为指定文本。'
+  params: [ ]
+byemsg_string:
+  args:
+    - text
+  desc: '将离开消息设置为指定文本。'
+  params:
+    - &ref_117
+      desc: '要设置为离开消息的文本。'
+      name: text
+      optional: true
+      type: string
+byemsg_string_1:
+  args:
+    - text
+  desc: '将离开消息设置为指定文本。'
+  params:
+    - desc: '要设置为离开消息的文本。'
+      name: text
+      optional: true
+      type: string
+byemsg_string_2:
+  args:
+    - text
+  desc: '将离开消息设置为指定文本。'
+  params:
+    - desc: '要设置为离开消息的文本。'
+      name: text
+      optional: true
+      type: string
+byemsg_string_3:
+  args:
+    - text
+  desc: '将离开消息设置为指定文本。'
+  params:
+    - desc: '要设置为离开消息的文本。'
+      name: text
+      optional: true
+      type: string
+byetest:
+  args:
+    - '[@user]'
+  desc: '发送离开测试消息。'
+  params:
+    - desc: '接收离开测试消息的用户。'
+      name: user
+      optional: true
+      type: user
+commandlogchannel:
+  args:
+    - '[@channel]'
+  desc: '设置命令日志的记录频道。'
+  params:
+    - desc: '用于记录命令的频道。'
+      name: channel
+      optional: true
+      type: channel
+createrole:
+  args:
+    - '[roleName]'
+  desc: '创建一个指定名称的新身份组。'
+  params:
+    - desc: '要创建的身份组名称。'
+      name: roleName
+      optional: true
+      type: string
+creatvoichanl:
+  args:
+    - text
+  desc: '创建一个指定名称的新语音频道。'
+  params:
+    - &ref_160
+      desc: '要创建的语音频道名称。'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string:
+  args:
+    - text
+  desc: '创建一个指定名称的新语音频道。'
+  params:
+    - desc: '要创建的语音频道名称。'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_1:
+  args:
+    - text
+  desc: '创建一个指定名称的新语音频道。'
+  params:
+    - desc: '要创建的语音频道名称。'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_2:
+  args:
+    - text
+  desc: '创建一个指定名称的新语音频道。'
+  params:
+    - desc: '要创建的语音频道名称。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl:
+  args:
+    - text
+  desc: '创建一个指定名称的新文字频道。'
+  params:
+    - &ref_161
+      desc: '要创建的文字频道名称。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string:
+  args:
+    - text
+  desc: '创建一个指定名称的新文字频道。'
+  params:
+    - desc: '要创建的文字频道名称。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_1:
+  args:
+    - text
+  desc: '创建一个指定名称的新文字频道。'
+  params:
+    - desc: '要创建的文字频道名称。'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_2:
+  args:
+    - text
+  desc: '创建一个指定名称的新文字频道。'
+  params:
+    - desc: '要创建的文字频道名称。'
+      name: channelName
+      optional: false
+      type: string
+deafen:
+  args:
+    - '@user'
+  desc: '将服务器中的指定用户设为拒听。'
+  params:
+    - &ref_177
+      desc: '要设为拒听的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]:
+  args:
+    - '@user'
+  desc: '将服务器中的指定用户设为拒听。'
+  params:
+    - desc: '要设为拒听的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: '将服务器中的指定用户设为拒听。'
+  params:
+    - desc: '要设为拒听的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: '将服务器中的指定用户设为拒听。'
+  params:
+    - desc: '要设为拒听的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+delete:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_3:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '在指定文字频道中按 ID 删除一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要删除的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '可选，消息在经过此时长后被删除。'
+      name: time
+      optional: true
+      type: duration
+deleteguildstatsdata:
+  args:
+    - ''
+  desc: '删除服务器的所有统计数据。'
+  params: [ ]
+deleterole:
+  args:
+    - '@role'
+  desc: '删除指定身份组。'
+  params:
+    - &ref_188
+      desc: '要删除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole:
+  args:
+    - '@role'
+  desc: '删除指定身份组。'
+  params:
+    - desc: '要删除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_1:
+  args:
+    - '@role'
+  desc: '删除指定身份组。'
+  params:
+    - desc: '要删除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_2:
+  args:
+    - '@role'
+  desc: '删除指定身份组。'
+  params:
+    - desc: '要删除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+delmsgoncmd:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - &ref_196
+      desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_=:
+  args:
+    - server.server
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - &ref_192
+      desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_1:
+  args:
+    - server.server
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_2:
+  args:
+    - server.server
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_3:
+  args:
+    - server.server
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_Channel_State_=:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: state
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_1:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: state
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_2:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: state
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_3:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: state
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_ITextChannel:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: State
+    - &ref_195
+      desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_1:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: State
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_2:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: State
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_3:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '执行命令时删除消息的状态。'
+      name: s
+      optional: false
+      type: State
+    - desc: '设置在特定频道执行命令时是否自动删除消息。'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_List:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_1:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_2:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '设置在特定频道执行命令时是否自动删除消息。'
+  params:
+    - desc: '未使用的参数。'
+      name: _
+      optional: false
+      type: List
+deltxtchanl:
+  args:
+    - todelete
+  desc: '删除指定文字频道。'
+  params:
+    - &ref_197
+      desc: '要删除的文字频道。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel:
+  args:
+    - todelete
+  desc: '删除指定文字频道。'
+  params:
+    - desc: '要删除的文字频道。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_1:
+  args:
+    - todelete
+  desc: '删除指定文字频道。'
+  params:
+    - desc: '要删除的文字频道。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_2:
+  args:
+    - todelete
+  desc: '删除指定文字频道。'
+  params:
+    - desc: '要删除的文字频道。'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+delvoichanl:
+  args:
+    - voicechannel
+  desc: '删除指定语音频道。'
+  params:
+    - &ref_198
+      desc: '要删除的语音频道。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel:
+  args:
+    - voicechannel
+  desc: '删除指定语音频道。'
+  params:
+    - desc: '要删除的语音频道。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_1:
+  args:
+    - voicechannel
+  desc: '删除指定语音频道。'
+  params:
+    - desc: '要删除的语音频道。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_2:
+  args:
+    - voicechannel
+  desc: '删除指定语音频道。'
+  params:
+    - desc: '要删除的语音频道。'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+discordpermoverride:
+  args:
+    - cmd perms
+    - cmd
+  desc: '覆盖服务器中某个命令所需的权限。'
+  params:
+    - &ref_201
+      desc: '要覆盖权限的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_202
+      desc: '执行该命令所需的权限。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]:
+  args:
+    - cmd perms
+    - cmd
+  desc: '覆盖服务器中某个命令所需的权限。'
+  params:
+    - desc: '要覆盖权限的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '执行该命令所需的权限。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_1:
+  args:
+    - cmd perms
+    - cmd
+  desc: '覆盖服务器中某个命令所需的权限。'
+  params:
+    - desc: '要覆盖权限的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '执行该命令所需的权限。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_2:
+  args:
+    - cmd perms
+    - cmd
+  desc: '覆盖服务器中某个命令所需的权限。'
+  params:
+    - desc: '要覆盖权限的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '执行该命令所需的权限。'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverridelist:
+  args:
+    - ''
+  desc: '列出服务器中所有命令的权限覆盖设置。'
+  params: [ ]
+discordpermoverridereset:
+  args:
+    - ''
+  desc: '重置服务器中所有命令的权限覆盖设置。'
+  params: [ ]
+dpo:
+  args:
+    - permission action
+  desc: '覆盖 Discord 权限。'
+  params:
+    - desc: '要覆盖的权限。'
+      name: permission
+      optional: false
+      type: string
+    - desc: '要执行的操作。'
+      name: action
+      optional: false
+      type: string
+dpol:
+  args:
+    - ''
+  desc: '列出 Discord 权限覆盖设置。'
+  params: [ ]
+dpor:
+  args:
+    - ''
+  desc: '重置 Discord 权限覆盖设置。'
+  params: [ ]
+edit:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '编辑指定文字频道中的一条消息。'
+  params:
+    - &ref_204
+      desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_205
+      desc: '要编辑的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_206
+      desc: '消息的新内容。'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '编辑指定文字频道中的一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要编辑的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '消息的新内容。'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_1:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '编辑指定文字频道中的一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要编辑的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '消息的新内容。'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_2:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '编辑指定文字频道中的一条消息。'
+  params:
+    - desc: '消息所在的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要编辑的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '消息的新内容。'
+      name: text
+      optional: true
+      type: string
+gamevoicechannel:
+  args:
+    - ''
+  desc: '将当前语音频道设为服务器的游戏语音频道，或取消设置。'
+  params: [ ]
+greetdm:
+  args:
+    - ''
+  desc: '切换是否通过私信发送欢迎消息。'
+  params: [ ]
+greetdmmsg:
+  args:
+    - ''
+  desc: '将私信欢迎消息设置为指定文本。'
+  params: [ ]
+greetdmmsg_=:
+  args:
+    - '[text]'
+  desc: '将私信欢迎消息设置为指定文本。'
+  params:
+    - desc: '要设置为私信欢迎消息的文本。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_1:
+  args:
+    - '[text]'
+  desc: '将私信欢迎消息设置为指定文本。'
+  params:
+    - desc: '要设置为私信欢迎消息的文本。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_2:
+  args:
+    - '[text]'
+  desc: '将私信欢迎消息设置为指定文本。'
+  params:
+    - desc: '要设置为私信欢迎消息的文本。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_3:
+  args:
+    - '[text]'
+  desc: '将私信欢迎消息设置为指定文本。'
+  params:
+    - desc: '要设置为私信欢迎消息的文本。'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_noparams:
+  args:
+    - ''
+  desc: '将私信欢迎消息设置为指定文本。'
+  params: [ ]
+greetdmmsg_noparams_1:
+  args:
+    - ''
+  desc: '将私信欢迎消息设置为指定文本。'
+  params: [ ]
+greetdmmsg_noparams_2:
+  args:
+    - ''
+  desc: '将私信欢迎消息设置为指定文本。'
+  params: [ ]
+greetdmtest:
+  args:
+    - '[@user]'
+  desc: '发送私信欢迎测试消息。'
+  params:
+    - desc: '接收私信欢迎测试消息的用户。'
+      name: user
+      optional: true
+      type: user
+guildstatsoptout:
+  args:
+    - ''
+  desc: '允许将整个服务器排除在统计追踪之外。'
+  params: [ ]
+iam:
+  args:
+    - '@role'
+  desc: '授予用户一个可自助领取的身份组。'
+  params:
+    - &ref_249
+      desc: '要分配给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole:
+  args:
+    - '@role'
+  desc: '授予用户一个可自助领取的身份组。'
+  params:
+    - desc: '要分配给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_1:
+  args:
+    - '@role'
+  desc: '授予用户一个可自助领取的身份组。'
+  params:
+    - desc: '要分配给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_2:
+  args:
+    - '@role'
+  desc: '授予用户一个可自助领取的身份组。'
+  params:
+    - desc: '要分配给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+iamnot:
+  args:
+    - '@role'
+  desc: '移除用户的一个自助领取身份组。'
+  params:
+    - &ref_250
+      desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole:
+  args:
+    - '@role'
+  desc: '移除用户的一个自助领取身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_1:
+  args:
+    - '@role'
+  desc: '移除用户的一个自助领取身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_2:
+  args:
+    - '@role'
+  desc: '移除用户的一个自助领取身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+kickunder:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '踢出在服务器中停留时间少于指定时长的用户。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '可选参数，预览将被踢出的用户。'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '踢出在服务器中停留时间少于指定时长的用户。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '可选参数，预览将被踢出的用户。'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_1:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '踢出在服务器中停留时间少于指定时长的用户。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '可选参数，预览将被踢出的用户。'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_2:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '踢出在服务器中停留时间少于指定时长的用户。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '可选参数，预览将被踢出的用户。'
+      name: option
+      optional: true
+      type: string
+langsetdefault:
+  args:
+    - language
+  desc: '设置服务器的默认语言。'
+  params:
+    - desc: '要设为默认的语言代码。'
+      name: language
+      optional: false
+      type: string
+languageset:
+  args:
+    - text
+  desc: '设置当前服务器的语言。'
+  params:
+    - &ref_264
+      desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languageset_string:
+  args:
+    - text
+  desc: '设置当前服务器的语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languageset_string_1:
+  args:
+    - text
+  desc: '设置当前服务器的语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languageset_string_2:
+  args:
+    - text
+  desc: '设置当前服务器的语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault:
+  args:
+    - ''
+  desc: '设置机器人的默认语言。'
+  params: [ ]
+languagesetdefault_noparams:
+  args:
+    - ''
+  desc: '设置机器人的默认语言。'
+  params: [ ]
+languagesetdefault_noparams_1:
+  args:
+    - ''
+  desc: '设置机器人的默认语言。'
+  params: [ ]
+languagesetdefault_noparams_2:
+  args:
+    - ''
+  desc: '设置机器人的默认语言。'
+  params: [ ]
+languagesetdefault_string:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_1:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_2:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_3:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_4:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - &ref_265
+      desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_5:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_6:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_7:
+  args:
+    - text
+  desc: '设置机器人的默认语言。'
+  params:
+    - desc: '语言名称，或 "default" 以恢复默认语言。'
+      name: name
+      optional: false
+      type: string
+languageslist:
+  args:
+    - ''
+  desc: '列出所有支持的语言及其代码。'
+  params: [ ]
+leavehook:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - desc: '使用指定文本设置离开消息。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '使用指定文本设置离开消息。'
+      name: name
+      optional: true
+      type: string
+    - desc: '使用指定文本设置离开消息。'
+      name: image
+      optional: true
+      type: string
+    - desc: '离开消息中包含的文本。'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - desc: '使用指定文本设置离开消息。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '使用指定文本设置离开消息。'
+      name: name
+      optional: true
+      type: string
+    - desc: '使用指定文本设置离开消息。'
+      name: image
+      optional: true
+      type: string
+    - desc: '离开消息中包含的文本。'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_1:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - desc: '使用指定文本设置离开消息。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '使用指定文本设置离开消息。'
+      name: name
+      optional: true
+      type: string
+    - desc: '使用指定文本设置离开消息。'
+      name: image
+      optional: true
+      type: string
+    - desc: '离开消息中包含的文本。'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_2:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - desc: '使用指定文本设置离开消息。'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '使用指定文本设置离开消息。'
+      name: name
+      optional: true
+      type: string
+    - desc: '使用指定文本设置离开消息。'
+      name: image
+      optional: true
+      type: string
+    - desc: '离开消息中包含的文本。'
+      name: text
+      optional: true
+      type: string
+leavehook_string:
+  args:
+    - text
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - &ref_268
+      desc: '离开消息中包含的文本。'
+      name: text
+      optional: false
+      type: string
+leavehook_string_1:
+  args:
+    - text
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - desc: '离开消息中包含的文本。'
+      name: text
+      optional: false
+      type: string
+leavehook_string_2:
+  args:
+    - text
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - desc: '离开消息中包含的文本。'
+      name: text
+      optional: false
+      type: string
+leavehook_string_3:
+  args:
+    - text
+  desc: '使用指定文本设置离开消息。'
+  params:
+    - desc: '离开消息中包含的文本。'
+      name: text
+      optional: false
+      type: string
+log:
+  args:
+    - types
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - &ref_283
+      desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]:
+  args:
+    - types
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_1:
+  args:
+    - types
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_2:
+  args:
+    - types
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType_=:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '设为日志频道的频道。如未提供，命令将停止记录该事件类型的日志。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_1:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '设为日志频道的频道。如未提供，命令将停止记录该事件类型的日志。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_2:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '设为日志频道的频道。如未提供，命令将停止记录该事件类型的日志。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_3:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '设为日志频道的频道。如未提供，命令将停止记录该事件类型的日志。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '为特定事件类型设置日志频道。'
+      name: types
+      optional: true
+      type: params logtype[]
+log_string[]:
+  args:
+    - text
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - &ref_284
+      desc: '为特定事件类型设置日志频道。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_1:
+  args:
+    - text
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '为特定事件类型设置日志频道。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_2:
+  args:
+    - text
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '为特定事件类型设置日志频道。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_3:
+  args:
+    - text
+  desc: '为特定事件类型设置日志频道。'
+  params:
+    - desc: '为特定事件类型设置日志频道。'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+logcategory:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '为指定类型的日志设置日志分类。'
+  params:
+    - desc: '要设置分类的日志类型。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '日志发送到的文字频道。'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '为指定类型的日志设置日志分类。'
+  params:
+    - desc: '要设置分类的日志类型。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '日志发送到的文字频道。'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_1:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '为指定类型的日志设置日志分类。'
+  params:
+    - desc: '要设置分类的日志类型。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '日志发送到的文字频道。'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_2:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '为指定类型的日志设置日志分类。'
+  params:
+    - desc: '要设置分类的日志类型。'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '日志发送到的文字频道。'
+      name: channel
+      optional: true
+      type: channel
+logevents:
+  args:
+    - ''
+  desc: '显示服务器当前的日志事件配置。'
+  params: [ ]
+logignore:
+  args:
+    - channel
+  desc: '切换某频道是否被忽略日志事件。'
+  params:
+    - desc: '要忽略或取消忽略日志的频道。未指定时使用当前频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+logignorelist:
+  args:
+    - ''
+  desc: '列出当前被忽略日志的所有频道。'
+  params: [ ]
+lsar:
+  args:
+    - ''
+  desc: '列出服务器配置的可自助领取身份组。'
+  params: [ ]
+memberrole:
+  args:
+    - '@role'
+  desc: '设置服务器的成员身份组。目前未使用。'
+  params:
+    - &ref_292
+      desc: '成员将拥有的身份组。'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole:
+  args:
+    - '@role'
+  desc: '设置服务器的成员身份组。目前未使用。'
+  params:
+    - desc: '成员将拥有的身份组。'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_1:
+  args:
+    - '@role'
+  desc: '设置服务器的成员身份组。目前未使用。'
+  params:
+    - desc: '成员将拥有的身份组。'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_2:
+  args:
+    - '@role'
+  desc: '设置服务器的成员身份组。目前未使用。'
+  params:
+    - desc: '成员将拥有的身份组。'
+      name: role
+      optional: true
+      type: IRole
+nameban:
+  args:
+    - text
+  desc: '封禁指定名称的用户。此命令会先预览将被封禁的用户，也支持正则表达式。'
+  params:
+    - &ref_326
+      desc: '要使用的名称或正则表达式。'
+      name: name
+      optional: false
+      type: string
+nameban_string:
+  args:
+    - text
+  desc: '封禁指定名称的用户。此命令会先预览将被封禁的用户，也支持正则表达式。'
+  params:
+    - desc: '要使用的名称或正则表达式。'
+      name: name
+      optional: false
+      type: string
+nameban_string_1:
+  args:
+    - text
+  desc: '封禁指定名称的用户。此命令会先预览将被封禁的用户，也支持正则表达式。'
+  params:
+    - desc: '要使用的名称或正则表达式。'
+      name: name
+      optional: false
+      type: string
+nameban_string_2:
+  args:
+    - text
+  desc: '封禁指定名称的用户。此命令会先预览将被封禁的用户，也支持正则表达式。'
+  params:
+    - desc: '要使用的名称或正则表达式。'
+      name: name
+      optional: false
+      type: string
+nsfwtoggle:
+  args:
+    - ''
+  desc: '切换当前文字频道的 NSFW 设置。'
+  params: [ ]
+prefix:
+  args:
+    - prefix
+  desc: '管理命令前缀。'
+  params:
+    - desc: '要设置的前缀。'
+      name: prefix
+      optional: true
+      type: string
+prefixcommand:
+  args:
+    - ''
+  desc: '设置服务器的命令前缀。'
+  params: [ ]
+prefixcommand_Set_string:
+  args:
+    - set text
+    - set
+  desc: '设置服务器的命令前缀。'
+  params:
+    - &ref_353
+      desc: '设置服务器的命令前缀。'
+      name: _
+      optional: false
+      type: Set
+    - &ref_354
+      desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_1:
+  args:
+    - set text
+    - set
+  desc: '设置服务器的命令前缀。'
+  params:
+    - desc: '设置服务器的命令前缀。'
+      name: _
+      optional: false
+      type: Set
+    - desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_2:
+  args:
+    - set text
+    - set
+  desc: '设置服务器的命令前缀。'
+  params:
+    - desc: '设置服务器的命令前缀。'
+      name: _
+      optional: false
+      type: Set
+    - desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_3:
+  args:
+    - set text
+    - set
+  desc: '设置服务器的命令前缀。'
+  params:
+    - desc: '设置服务器的命令前缀。'
+      name: _
+      optional: false
+      type: Set
+    - desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_noparams:
+  args:
+    - ''
+  desc: '设置服务器的命令前缀。'
+  params: [ ]
+prefixcommand_noparams_1:
+  args:
+    - ''
+  desc: '设置服务器的命令前缀。'
+  params: [ ]
+prefixcommand_noparams_2:
+  args:
+    - ''
+  desc: '设置服务器的命令前缀。'
+  params: [ ]
+prefixcommand_string:
+  args:
+    - text
+  desc: '设置服务器的命令前缀。'
+  params:
+    - desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_1:
+  args:
+    - text
+  desc: '设置服务器的命令前缀。'
+  params:
+    - desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_2:
+  args:
+    - text
+  desc: '设置服务器的命令前缀。'
+  params:
+    - desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_3:
+  args:
+    - text
+  desc: '设置服务器的命令前缀。'
+  params:
+    - desc: '要设置的新命令前缀。'
+      name: prefix
+      optional: false
+      type: string
+prunemembers:
+  args:
+    - time "no"
+    - time
+  desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_360
+      desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=:
+  args:
+    - time "no"
+    - time
+  desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_1:
+  args:
+    - time "no"
+    - time
+  desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_2:
+  args:
+    - time "no"
+    - time
+  desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+  params:
+    - desc: '自定义格式的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '根据成员的活跃或不活跃情况将其从服务器中清理出去。'
+      name: '"no"'
+      optional: false
+      type: '='
+reactionroles:
+  args:
+    - messageid text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - &ref_380
+      desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_381
+      desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]:
+  args:
+    - excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - &ref_376
+      desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_375
+      desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_1:
+  args:
+    - excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - &ref_377
+      desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_2:
+  args:
+    - excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_3:
+  args:
+    - excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]:
+  args:
+    - excl messageid text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_378
+      desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_1:
+  args:
+    - excl messageid text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_2:
+  args:
+    - excl messageid text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_3:
+  args:
+    - excl messageid text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]:
+  args:
+    - text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_1:
+  args:
+    - text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_2:
+  args:
+    - text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_3:
+  args:
+    - text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]:
+  args:
+    - messageid excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_379
+      desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_1:
+  args:
+    - messageid excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_2:
+  args:
+    - messageid excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_3:
+  args:
+    - messageid excl text
+    - excl
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '使身份组互斥的排除参数。'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]:
+  args:
+    - messageid text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_1:
+  args:
+    - messageid text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_2:
+  args:
+    - messageid text
+  desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+  params:
+    - desc: '根据提供的输入分配反应身份组，并排除某些身份组。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '与表情回应关联的身份组和表情。'
+      name: input
+      optional: false
+      type: string[]
+reactionroleslist:
+  args:
+    - ''
+  desc: '显示服务器中已配置的反应身份组列表。'
+  params: [ ]
+reactionrolesremove:
+  args:
+    - number
+  desc: '根据索引移除一个反应身份组。'
+  params:
+    - &ref_382
+      desc: '要移除的反应身份组索引。'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int:
+  args:
+    - number
+  desc: '根据索引移除一个反应身份组。'
+  params:
+    - desc: '要移除的反应身份组索引。'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_1:
+  args:
+    - number
+  desc: '根据索引移除一个反应身份组。'
+  params:
+    - desc: '要移除的反应身份组索引。'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_2:
+  args:
+    - number
+  desc: '根据索引移除一个反应身份组。'
+  params:
+    - desc: '要移除的反应身份组索引。'
+      name: index
+      optional: false
+      type: int
+removeallroles:
+  args:
+    - '@user'
+  desc: '移除用户的所有身份组，托管身份组和 @everyone 除外。'
+  params:
+    - &ref_392
+      desc: '要移除所有身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser:
+  args:
+    - '@user'
+  desc: '移除用户的所有身份组，托管身份组和 @everyone 除外。'
+  params:
+    - desc: '要移除所有身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '移除用户的所有身份组，托管身份组和 @everyone 除外。'
+  params:
+    - desc: '要移除所有身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '移除用户的所有身份组，托管身份组和 @everyone 除外。'
+  params:
+    - desc: '要移除所有身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+removerole:
+  args:
+    - '@role @user'
+  desc: '移除用户的一个身份组。'
+  params:
+    - &ref_411
+      desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - &ref_410
+      desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: '移除用户的一个身份组。'
+  params:
+    - desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: '移除用户的一个身份组。'
+  params:
+    - desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: '移除用户的一个身份组。'
+  params:
+    - desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: '移除用户的一个身份组。'
+  params:
+    - desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: '移除用户的一个身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: '移除用户的一个身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: '移除用户的一个身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: '要移除身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+renamechannel:
+  args:
+    - channel text
+  desc: '重命名指定频道。'
+  params:
+    - &ref_418
+      desc: '要重命名的频道。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '频道的新名称。'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string:
+  args:
+    - channel text
+  desc: '重命名指定频道。'
+  params:
+    - &ref_419
+      desc: '要重命名的频道。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - &ref_420
+      desc: '频道的新名称。'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_1:
+  args:
+    - channel text
+  desc: '重命名指定频道。'
+  params:
+    - desc: '要重命名的频道。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '频道的新名称。'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_2:
+  args:
+    - channel text
+  desc: '重命名指定频道。'
+  params:
+    - desc: '要重命名的频道。'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '频道的新名称。'
+      name: name
+      optional: false
+      type: string
+renamerole:
+  args:
+    - '@role text'
+  desc: '重命名身份组。'
+  params:
+    - &ref_423
+      desc: '要重命名的身份组。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - &ref_424
+      desc: '身份组的新名称。'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string:
+  args:
+    - '@role text'
+  desc: '重命名身份组。'
+  params:
+    - desc: '要重命名的身份组。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: '身份组的新名称。'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_1:
+  args:
+    - '@role text'
+  desc: '重命名身份组。'
+  params:
+    - desc: '要重命名的身份组。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: '身份组的新名称。'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_2:
+  args:
+    - '@role text'
+  desc: '重命名身份组。'
+  params:
+    - desc: '要重命名的身份组。'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: '身份组的新名称。'
+      name: newname
+      optional: false
+      type: string
+rolecolor:
+  args:
+    - '@role'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - &ref_444
+      desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole:
+  args:
+    - '@role'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - &ref_445
+      desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_1:
+  args:
+    - '@role'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_2:
+  args:
+    - '@role'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_SKColor:
+  args:
+    - '@role color'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_446
+      desc: '身份组的新颜色。'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_1:
+  args:
+    - '@role color'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '身份组的新颜色。'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_2:
+  args:
+    - '@role color'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '身份组的新颜色。'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_3:
+  args:
+    - '@role color'
+  desc: '更改指定身份组的颜色。'
+  params:
+    - desc: '要更改颜色的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '身份组的新颜色。'
+      name: color
+      optional: false
+      type: SKColor
+rolehoist:
+  args:
+    - '@role'
+  desc: '切换指定身份组是否在成员列表中单独显示。'
+  params:
+    - &ref_456
+      desc: '要切换单独显示状态的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole:
+  args:
+    - '@role'
+  desc: '切换指定身份组是否在成员列表中单独显示。'
+  params:
+    - desc: '要切换单独显示状态的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_1:
+  args:
+    - '@role'
+  desc: '切换指定身份组是否在成员列表中单独显示。'
+  params:
+    - desc: '要切换单独显示状态的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_2:
+  args:
+    - '@role'
+  desc: '切换指定身份组是否在成员列表中单独显示。'
+  params:
+    - desc: '要切换单独显示状态的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq:
+  args:
+    - number @role
+  desc: '设置自助领取身份组的等级要求。'
+  params:
+    - &ref_458
+      desc: '获取该身份组所需的等级。'
+      name: level
+      optional: false
+      type: int
+    - &ref_459
+      desc: '要设置等级要求的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole:
+  args:
+    - number @role
+  desc: '设置自助领取身份组的等级要求。'
+  params:
+    - desc: '获取该身份组所需的等级。'
+      name: level
+      optional: false
+      type: int
+    - desc: '要设置等级要求的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_1:
+  args:
+    - number @role
+  desc: '设置自助领取身份组的等级要求。'
+  params:
+    - desc: '获取该身份组所需的等级。'
+      name: level
+      optional: false
+      type: int
+    - desc: '要设置等级要求的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_2:
+  args:
+    - number @role
+  desc: '设置自助领取身份组的等级要求。'
+  params:
+    - desc: '获取该身份组所需的等级。'
+      name: level
+      optional: false
+      type: int
+    - desc: '要设置等级要求的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rsar:
+  args:
+    - '@role'
+  desc: '从可自助领取身份组列表中移除指定身份组。'
+  params:
+    - &ref_471
+      desc: '要从可自助领取身份组列表中移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole:
+  args:
+    - '@role'
+  desc: '从可自助领取身份组列表中移除指定身份组。'
+  params:
+    - desc: '要从可自助领取身份组列表中移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_1:
+  args:
+    - '@role'
+  desc: '从可自助领取身份组列表中移除指定身份组。'
+  params:
+    - desc: '要从可自助领取身份组列表中移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_2:
+  args:
+    - '@role'
+  desc: '从可自助领取身份组列表中移除指定身份组。'
+  params:
+    - desc: '要从可自助领取身份组列表中移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+sargn:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '设置或移除指定可自助领取身份组分组的名称。'
+  params:
+    - desc: '要设置或移除名称的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要为分组设置的名称。未提供则移除该分组名称。'
+      name: name
+      optional: true
+      type: string
+sargn_int_=:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '设置或移除指定可自助领取身份组分组的名称。'
+  params:
+    - desc: '要设置或移除名称的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要为分组设置的名称。未提供则移除该分组名称。'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_1:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '设置或移除指定可自助领取身份组分组的名称。'
+  params:
+    - desc: '要设置或移除名称的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要为分组设置的名称。未提供则移除该分组名称。'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_2:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '设置或移除指定可自助领取身份组分组的名称。'
+  params:
+    - desc: '要设置或移除名称的分组编号。'
+      name: group
+      optional: false
+      type: int
+    - desc: '要为分组设置的名称。未提供则移除该分组名称。'
+      name: name
+      optional: true
+      type: string
+setguildavatar:
+  args:
+    - text
+  desc: '设置机器人在本服务器的头像。'
+  params:
+    - &ref_676
+      desc: '头像图片链接（如提供附件则可省略）。'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildavatar_string:
+  args:
+    - text
+  desc: '设置机器人在本服务器的头像。'
+  params:
+    - desc: '头像图片链接（如提供附件则可省略）。'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildbanner:
+  args:
+    - text
+  desc: '设置机器人在本服务器的横幅。'
+  params:
+    - &ref_677
+      desc: '横幅图片链接（如提供附件则可省略）。'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbanner_string:
+  args:
+    - text
+  desc: '设置机器人在本服务器的横幅。'
+  params:
+    - desc: '横幅图片链接（如提供附件则可省略）。'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbio:
+  args:
+    - text
+  desc: '设置机器人在本服务器的简介。'
+  params:
+    - &ref_678
+      desc: '简介文本。'
+      name: bio
+      optional: false
+      type: string
+setguildbio_string:
+  args:
+    - text
+  desc: '设置机器人在本服务器的简介。'
+  params:
+    - desc: '简介文本。'
+      name: bio
+      optional: false
+      type: string
+setchanlname:
+  args:
+    - text
+  desc: '设置当前文字频道的名称。'
+  params:
+    - &ref_493
+      desc: '要设置的文字频道名称。'
+      name: name
+      optional: false
+      type: string
+setchanlname_string:
+  args:
+    - text
+  desc: '设置当前文字频道的名称。'
+  params:
+    - desc: '要设置的文字频道名称。'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_1:
+  args:
+    - text
+  desc: '设置当前文字频道的名称。'
+  params:
+    - desc: '要设置的文字频道名称。'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_2:
+  args:
+    - text
+  desc: '设置当前文字频道的名称。'
+  params:
+    - desc: '要设置的文字频道名称。'
+      name: name
+      optional: false
+      type: string
+setnick:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=:
+  args:
+    - '@gu [newNick]'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_1:
+  args:
+    - '@gu [newNick]'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_2:
+  args:
+    - '@gu [newNick]'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_3:
+  args:
+    - '@gu [newNick]'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_1:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_2:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '设置机器人昵称的重载形式。'
+  params:
+    - desc: '设置机器人昵称的重载形式。'
+      name: gu
+      optional: false
+      type: user
+    - desc: '要设置的新昵称。'
+      name: newNick
+      optional: true
+      type: string
+setrole:
+  args:
+    - '@role @user'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - &ref_520
+      desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - &ref_519
+      desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_StoopidTime:
+  args:
+    - '@role @user time'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - &ref_525
+      desc: '身份组生效的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+setrole_IGuildUser_IRole_StoopidTime:
+  args:
+    - '@user @role time'
+  desc: '在指定时长内为用户添加身份组。'
+  params:
+    - desc: '要添加身份组的用户。'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '身份组生效的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+settopic:
+  args:
+    - '[topic]'
+  desc: '设置当前文字频道的主题。'
+  params:
+    - desc: '要设置的文字频道主题。'
+      name: topic
+      optional: true
+      type: string
+staffrole:
+  args:
+    - '[@role]'
+  desc: '设置或更新分配给工作人员的身份组。'
+  params:
+    - desc: '分配给工作人员的身份组。'
+      name: role
+      optional: true
+      type: role
+staffroledisable:
+  args:
+    - ''
+  desc: '停用分配给工作人员的身份组。'
+  params: [ ]
+timezone:
+  args:
+    - ''
+  desc: '获取时区信息。'
+  params: [ ]
+timezone_noparams:
+  args:
+    - ''
+  desc: '获取时区信息。'
+  params: [ ]
+timezone_noparams_1:
+  args:
+    - ''
+  desc: '获取时区信息。'
+  params: [ ]
+timezone_noparams_2:
+  args:
+    - ''
+  desc: '获取时区信息。'
+  params: [ ]
+timezone_string:
+  args:
+    - text
+  desc: '获取时区信息。'
+  params:
+    - &ref_625
+      desc: '时区 ID。'
+      name: id
+      optional: false
+      type: string
+timezone_string_1:
+  args:
+    - text
+  desc: '获取时区信息。'
+  params:
+    - desc: '时区 ID。'
+      name: id
+      optional: false
+      type: string
+timezone_string_2:
+  args:
+    - text
+  desc: '获取时区信息。'
+  params:
+    - desc: '时区 ID。'
+      name: id
+      optional: false
+      type: string
+timezone_string_3:
+  args:
+    - text
+  desc: '获取时区信息。'
+  params:
+    - desc: '时区 ID。'
+      name: id
+      optional: false
+      type: string
+timezones_noparams_1:
+  args:
+    - ''
+  desc: '列出所有可用时区。'
+  params: [ ]
+togglexclsar:
+  args:
+    - ''
+  desc: '切换自助领取身份组的互斥状态。'
+  params: [ ]
+undeafen:
+  args:
+    - '@user'
+  desc: '取消服务器中指定用户的拒听状态。'
+  params:
+    - desc: '要取消拒听的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+vcrole:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrole_=:
+  args:
+    - '@vchan [@role]'
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrole_=_1:
+  args:
+    - '@vchan [@role]'
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrole_=_2:
+  args:
+    - '@vchan [@role]'
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrole_=_3:
+  args:
+    - '@vchan [@role]'
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_1:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_2:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+  params:
+    - desc: '在用户位于语音频道时，为语音频道绑定或解绑身份组。'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '要绑定到语音频道的身份组。'
+      name: role
+      optional: true
+      type: role
+vcrolelist:
+  args:
+    - ''
+  desc: '列出本服务器所有语音频道身份组。'
+  params: [ ]
+vcrolerm:
+  args:
+    - vcid
+  desc: '解除语音频道与某身份组的绑定。'
+  params:
+    - &ref_641
+      desc: '语音频道 ID。'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong:
+  args:
+    - vcid
+  desc: '解除语音频道与某身份组的绑定。'
+  params:
+    - desc: '语音频道 ID。'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_1:
+  args:
+    - vcid
+  desc: '解除语音频道与某身份组的绑定。'
+  params:
+    - desc: '语音频道 ID。'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_2:
+  args:
+    - vcid
+  desc: '解除语音频道与某身份组的绑定。'
+  params:
+    - desc: '语音频道 ID。'
+      name: vcId
+      optional: false
+      type: ulong
+timezones:
+  args:
+    - ''
+  desc: '列出所有可用时区。'
+  params: [ ]
+antimasspost:
+  args:
+    - ''
+  desc: '关闭服务器的反大量发帖保护，或通过参数进行配置。'
+  params: [ ]
+antipostchannel:
+  args:
+    - ''
+  desc: '关闭服务器的反发帖频道保护，或通过参数进行配置。'
+  params: [ ]
+antipostchanneladd:
+  args:
+    - '<channel>'
+    - channel
+  desc: '向反发帖频道保护中添加一个蜜罐频道。'
+  params:
+    - desc: '要添加为蜜罐的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+antipostchannelremove:
+  args:
+    - '<channel>'
+    - channel
+  desc: '从反发帖频道保护中移除一个蜜罐频道。'
+  params:
+    - desc: '要从蜜罐追踪中移除的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+antiimagehash:
+  args:
+    - ''
+    - 'Ban'
+    - 'Delete 31'
+    - 'Timeout 31 1d'
+  desc: '启用反图片哈希保护，对重新发布被屏蔽图片的人执行处罚，包括经过缩放、翻转、降低画质重新上传或加边框的副本。不带参数运行可关闭。可选的容差（0 至 64，默认 31）用于设置发布的图片与被屏蔽图片的差异程度仍被视为被屏蔽图片的阈值。'
+  params: [ ]
+antiimagehashignore:
+  args:
+    - '<role>'
+    - '<channel>'
+  desc: '切换某身份组或频道是否免除反图片哈希保护。'
+  params: [ ]
+antiexternalapp:
+  args:
+    - ''
+    - 'Timeout'
+    - 'Timeout 5 5 1h'
+    - 'Kick 3 0'
+  desc: '启用反外部应用保护，监控成员通过添加到自己账号的应用所发送的消息。当消息提及的用户或身份组过多（默认 5，0 为关闭）、@everyone、包含邀请链接，或成员在 10 秒内运行应用的次数超过允许值（默认 5，0 为关闭）时，该消息会被删除，并对运行应用的成员进行处罚。添加到服务器本身的应用不会被检查。不带参数运行可关闭。'
+  params: [ ]
+blockimage:
+  args:
+    - ''
+    - 'mrbeast crypto scam'
+    - 'Delete nsfw meme'
+    - 'https://example.com/scam.png mrbeast crypto scam'
+  desc: '屏蔽一张图片，任何重新发布该图片的人都会受到处罚，包括经过缩放、重新压缩、镜像和加边框的副本。可附加图片、回复包含该图片的消息，或提供其链接。在标签前指定的操作仅对该图片覆盖服务器默认设置。'
+  params: [ ]
+unblockimage:
+  args:
+    - '<id>'
+  desc: '按 ID 从被屏蔽图片列表中移除一张图片，ID 可通过 blockedimages 查看。'
+  params: [ ]
+blockedimages:
+  args:
+    - ''
+  desc: '列出被屏蔽的图片，以及每张图片被拦截的次数。'
+  params: [ ]
+imagehash:
+  args:
+    - ''
+    - 'https://example.com/scam.png'
+  desc: '显示图片的感知哈希，但不屏蔽该图片。'
+  params: [ ]
+antiimagehashpreset:
+  args:
+    - ''
+  desc: '切换 Mewdeko 内置的已知诈骗图片列表：即目前在 Discord 上大量传播的假加密货币赌场和抽奖图片。这些图片会与你自己的列表一同被屏蔽。启用反图片哈希时默认开启。'
+  params: [ ]

@@ -3,13 +3,13 @@ todoadd:
     - listId
     - title
     - description
-  desc: 'Dodaje nowy element do okreslonej listy zadan'
+  desc: 'Dodaje nowy element zadania do wskazanej listy'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
-    - desc: 'Tytul elementu zadania.'
+    - desc: 'Tytuł elementu zadania.'
       name: title
       optional: false
       type: string
@@ -23,17 +23,17 @@ todoaddpriority:
     - priority
     - title
     - description
-  desc: 'Dodaje element zadania z priorytetem i opcjonalna data wykonania'
+  desc: 'Dodaje zadanie z priorytetem i opcjonalnym terminem'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
-    - desc: 'Poziom priorytetu (1=Niski, 2=Sredni, 3=Wysoki, 4=Krytyczny).'
+    - desc: 'Poziom priorytetu (1=Low, 2=Medium, 3=High, 4=Critical).'
       name: priority
       optional: false
       type: int
-    - desc: 'Tytul elementu zadania.'
+    - desc: 'Tytuł elementu zadania.'
       name: title
       optional: false
       type: string
@@ -58,7 +58,7 @@ todoaddtag:
 todocleardue:
   args:
     - itemId
-  desc: 'Usuwa date wykonania elementu zadania'
+  desc: 'Usuwa termin z elementu zadania'
   params:
     - desc: 'ID elementu zadania.'
       name: itemId
@@ -67,7 +67,7 @@ todocleardue:
 todoclearreminder:
   args:
     - itemId
-  desc: 'Usuwa przypomnienie elementu zadania'
+  desc: 'Usuwa przypomnienie z elementu zadania'
   params:
     - desc: 'ID elementu zadania.'
       name: itemId
@@ -76,7 +76,7 @@ todoclearreminder:
 todocomplete:
   args:
     - itemId
-  desc: 'Oznacza element zadania jako ukonczone'
+  desc: 'Oznacza element zadania jako ukończony'
   params:
     - desc: 'ID elementu zadania.'
       name: itemId
@@ -86,9 +86,9 @@ todocreatelist:
   args:
     - name
     - description
-  desc: 'Tworzy nowa liste zadan'
+  desc: 'Tworzy nową listę zadań'
   params:
-    - desc: 'Nazwa listy zadan.'
+    - desc: 'Nazwa listy zadań.'
       name: name
       optional: false
       type: string
@@ -100,9 +100,9 @@ todocreateserverlist:
   args:
     - name
     - description
-  desc: 'Tworzy nowa ogolnoserwerowa liste zadan (tylko administratorzy)'
+  desc: 'Tworzy nową listę zadań dla całego serwera (tylko administrator)'
   params:
-    - desc: 'Nazwa serwerowej listy zadan.'
+    - desc: 'Nazwa listy zadań serwera.'
       name: name
       optional: false
       type: string
@@ -122,9 +122,9 @@ tododelete:
 tododeletelist:
   args:
     - listId
-  desc: 'Usuwa cala liste zadan'
+  desc: 'Usuwa całą listę zadań'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
@@ -133,13 +133,13 @@ todoedit:
     - itemId
     - title
     - description
-  desc: 'Edytuje tytul i opis elementu zadania'
+  desc: 'Edytuje tytuł i opis elementu zadania'
   params:
     - desc: 'ID elementu zadania.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Nowy tytul.'
+    - desc: 'Nowy tytuł.'
       name: title
       optional: false
       type: string
@@ -152,17 +152,17 @@ todofilter:
     - listId
     - filter
     - value
-  desc: 'Filtruje elementy zadan wedlug tagu lub priorytetu'
+  desc: 'Filtruje elementy zadań według tagu lub priorytetu'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
-    - desc: 'Typ filtru (tag lub priorytet).'
+    - desc: 'Typ filtra (tag lub priority).'
       name: filter
       optional: false
       type: string
-    - desc: 'Wartosc do filtrowania.'
+    - desc: 'Wartość, według której filtrować.'
       name: value
       optional: true
       type: string
@@ -171,13 +171,13 @@ todogrant:
     - listId
     - '@user'
     - permissions
-  desc: 'Przyznaje uzytkownikowi uprawnienia do listy zadan (tylko wlasciciel listy/administrator)'
+  desc: 'Nadaje użytkownikowi uprawnienia do listy zadań (tylko właściciel listy lub administrator)'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
-    - desc: 'Uzytkownik, ktoremu przyznawane sa uprawnienia.'
+    - desc: 'Użytkownik, któremu nadać uprawnienia.'
       name: user
       optional: false
       type: IUser
@@ -188,18 +188,18 @@ todogrant:
 todolists:
   args:
     - includeServer
-  desc: 'Wyswietla wszystkie listy zadan dostepne dla uzytkownika'
+  desc: 'Wyświetla wszystkie listy zadań dostępne dla użytkownika'
   params:
-    - desc: 'Czy uwzglednic ogolnoserwerowe listy.'
+    - desc: 'Czy uwzględnić listy serwerowe.'
       name: includeServer
       optional: true
       type: bool
 todopermissions:
   args:
     - listId
-  desc: 'Wyswietla wszystkie uprawnienia listy zadan'
+  desc: 'Wyświetla wszystkie uprawnienia do listy zadań'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
@@ -213,7 +213,7 @@ todoremovetag:
       name: itemId
       optional: false
       type: int
-    - desc: 'Tag do usuniecia.'
+    - desc: 'Tag do usunięcia.'
       name: tag
       optional: false
       type: string
@@ -221,7 +221,7 @@ todoreorder:
   args:
     - itemId
     - newPosition
-  desc: 'Przenosi element zadania na nowa pozycje'
+  desc: 'Przenosi element zadania na nową pozycję'
   params:
     - desc: 'ID elementu zadania.'
       name: itemId
@@ -235,13 +235,13 @@ todorevoke:
   args:
     - listId
     - '@user'
-  desc: 'Odbiera uzytkownikowi wszystkie uprawnienia do listy zadan'
+  desc: 'Odbiera użytkownikowi wszystkie uprawnienia do listy zadań'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
-    - desc: 'Uzytkownik, ktoremu odbierane sa uprawnienia.'
+    - desc: 'Użytkownik, któremu odebrać uprawnienia.'
       name: user
       optional: false
       type: IUser
@@ -249,9 +249,9 @@ todosearch:
   args:
     - listId
     - query
-  desc: 'Wyszukuje elementy zadan w liscie'
+  desc: 'Wyszukuje elementy zadań na liście'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
@@ -263,13 +263,13 @@ todosetcolor:
   args:
     - listId
     - color
-  desc: 'Ustawia kolor listy zadan'
+  desc: 'Ustawia kolor listy zadań'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
-    - desc: 'Szesnastkowy kod koloru (np.,'
+    - desc: 'Kod koloru w formacie hex, np. #ff0000.'
       name: color
       optional: false
       type: string
@@ -277,13 +277,13 @@ todosetdue:
   args:
     - itemId
     - dateString
-  desc: 'Ustawia date wykonania elementu zadania'
+  desc: 'Ustawia termin dla elementu zadania'
   params:
     - desc: 'ID elementu zadania.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Data i godzina wykonania.'
+    - desc: 'Termin i godzina.'
       name: dateString
       optional: false
       type: string
@@ -305,22 +305,22 @@ todoshow:
   args:
     - listId
     - includeCompleted
-  desc: 'Wyswietla wszystkie elementy listy zadan'
+  desc: 'Wyświetla wszystkie elementy listy zadań'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int
-    - desc: 'Czy uwzglednic ukonczone elementy.'
+    - desc: 'Czy uwzględnić ukończone elementy.'
       name: includeCompleted
       optional: true
       type: bool
 todotoggleprivacy:
   args:
     - listId
-  desc: 'Przelacza ustawienie prywatnosci listy zadan'
+  desc: 'Przełącza ustawienie prywatności listy zadań'
   params:
-    - desc: 'ID listy zadan.'
+    - desc: 'ID listy zadań.'
       name: listId
       optional: false
       type: int

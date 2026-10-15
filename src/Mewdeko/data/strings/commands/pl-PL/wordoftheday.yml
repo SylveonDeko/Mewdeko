@@ -1,0 +1,247 @@
+wotd:
+  args:
+    - ''
+  desc: 'Pokazuje dzisiejsze słowo dnia lub podgląd, jeśli nie zostało jeszcze opublikowane.'
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: 'Włącza lub wyłącza codzienne publikowanie słów dnia. Najpierw należy ustawić kanał.'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: 'Ustawia kanał, na którym publikowane są codzienne słowa, i włącza publikowanie. Pozostaw puste, aby wyczyścić kanał i wyłączyć publikowanie.'
+  params:
+    - desc: 'Kanał, na którym publikować. Pomiń, aby wyczyścić.'
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: 'Ustawia lokalną godzinę (0-23), o której publikowane jest słowo dnia.'
+  params:
+    - desc: 'Godzina dnia w formacie 24-godzinnym.'
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: 'Ustawia strefę czasową używaną do godziny publikacji i do określania, kiedy zaczyna się nowy dzień.'
+  params:
+    - desc: 'Nazwa strefy czasowej IANA.'
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: 'Ustawia rolę do oznaczania przy każdym słowie dnia. Pozostaw puste, aby wyczyścić.'
+  params:
+    - desc: 'Rola do oznaczenia. Pomiń, aby wyczyścić.'
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: 'Ustawia własny szablon wiadomości dla słów dnia, obsługujący JSON embeda i symbole zastępcze. Wyślij bez tekstu, aby wyświetlić obecny szablon, lub "clear", aby użyć domyślnego embeda.'
+  params:
+    - desc: 'Tekst szablonu. Pomiń, aby wyświetlić, lub "clear", aby zresetować.'
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: 'Ustawia temat, w stronę którego mają zmierzać słowa ze słownika, maksymalnie pięć słów. Pozostaw puste lub wyślij "clear", aby usunąć.'
+  params:
+    - desc: 'Słowa tematyczne, np. "space" lub "medieval history". Pomiń, aby wyczyścić.'
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: 'Ogranicza słowa ze słownika do jednej części mowy: any, noun, verb, adjective lub adverb.'
+  params:
+    - desc: 'Część mowy do dozwolenia.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: 'Ustawia, jak mało znane mają być słowa ze słownika: any, common, moderate lub rare.'
+  params:
+    - desc: 'Poziom trudności.'
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: 'Wybiera źródło słów. Dictionary używa Datamuse z Twoimi filtrami, custom używa tylko słów dodanych przez wotdadd, a mixed używa słów własnych, dopóki się nie skończą.'
+  params:
+    - desc: 'Źródło słów.'
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: 'Dodaje słowo do listy własnych słów tego serwera. Jeśli nie podano definicji, zostanie wyszukana automatycznie.'
+  params:
+    - desc: 'Słowo do dodania.'
+      name: word
+      optional: false
+      type: string
+    - desc: 'Definicja słowa. Jeśli pominięto, zostanie wyszukana.'
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: 'Usuwa słowo z listy własnych słów tego serwera.'
+  params:
+    - desc: 'Słowo do usunięcia.'
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: 'Wyświetla własne słowa tego serwera i to, jak często każde z nich było publikowane.'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: 'Wyświetla ostatnio opublikowane słowa.'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: 'Wyświetla obecną konfigurację słowa dnia.'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: 'Publikuje nowe słowo od razu, niezależnie od harmonogramu.'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: 'Resetuje wszystkie ustawienia słowa dnia, własne słowa i historię tego serwera.'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: 'Ustawia temat dla konkretnego dnia tygodnia, zastępując temat bazowy tego dnia. Nie podawaj tematu, aby usunąć regułę dla tego dnia.'
+  params:
+    - desc: 'Dzień tygodnia.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'Słowa tematyczne na ten dzień. Pomiń, aby usunąć regułę.'
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: 'Ustawia część mowy i opcjonalny poziom trudności dla konkretnego dnia tygodnia. Użyj "any", aby dziedziczyć ustawienie bazowe.'
+  params:
+    - desc: 'Dzień tygodnia.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'Część mowy na ten dzień lub any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'Poziom trudności na ten dzień lub any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: 'Ustawia temat dla konkretnego miesiąca, zastępując temat bazowy w tym miesiącu. Reguły dni tygodnia nadal mają pierwszeństwo przed regułami miesięcznymi. Nie podawaj tematu, aby usunąć regułę.'
+  params:
+    - desc: 'Numer lub nazwa miesiąca.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'Słowa tematyczne na ten miesiąc. Pomiń, aby usunąć regułę.'
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: 'Ustawia część mowy i opcjonalny poziom trudności dla konkretnego miesiąca. Użyj "any", aby dziedziczyć ustawienie bazowe.'
+  params:
+    - desc: 'Numer lub nazwa miesiąca.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'Część mowy na ten miesiąc lub any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'Poziom trudności na ten miesiąc lub any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie reguły dni tygodnia i miesięcy oraz filtry obowiązujące dziś.'
+  params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: 'Przełącza tworzenie publicznego wątku dyskusji pod każdym dziennym słowem, z wiadomością startową zachęcającą do użycia słowa w zdaniu.'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: 'Ustawia szablon nazwy wątku dyskusji. Obsługuje %wotd.word%, %wotd.date%, %wotd.pos% oraz symbole serwera. Wyślij bez tekstu, aby wyświetlić obecny szablon, lub "clear", aby zresetować.'
+  params:
+    - desc: 'Szablon nazwy wątku. Pomiń, aby wyświetlić, lub "clear", aby zresetować.'
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: 'Ustawia, jak długo wątek dyskusji pozostaje otwarty bez aktywności, zanim Discord go zarchiwizuje: 1h, 24h, 3d lub 7d.'
+  params:
+    - desc: 'Jedna z wartości: 1h, 24h, 3d lub 7d.'
+      name: duration
+      optional: false
+      type: string

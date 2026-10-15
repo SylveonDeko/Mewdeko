@@ -31,13 +31,13 @@ statchanneladd:
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Añade un canal de estadísticas que muestra cuántos miembros tienen un rol específico.'
+  desc: 'Añade un canal de estadísticas que muestra cuántos miembros tienen un rol concreto.'
   params:
     - desc: 'El canal de voz a usar.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'El rol cuyos miembros se contarán.'
+    - desc: 'El rol del que contar miembros.'
       name: role
       optional: false
       type: IRole
@@ -48,13 +48,13 @@ statchannelrole:
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Añade un canal de cuenta atrás. Usa los marcadores %days% y %hours%.'
+  desc: 'Añade un canal de estadísticas de cuenta atrás. Usa los marcadores %days% y %hours%.'
   params:
     - desc: 'El canal de voz a usar.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'La fecha objetivo para la cuenta atrás.'
+    - desc: 'La fecha objetivo de la cuenta atrás.'
       name: date
       optional: false
       type: DateTime
@@ -65,7 +65,7 @@ statchannelcountdown:
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'Añade un canal de meta de miembros. Usa %count%, %goal% y %goal.percent%.'
+  desc: 'Añade un canal de estadísticas de objetivo de miembros. Usa %count%, %goal% y %goal.percent%.'
   params:
     - desc: 'El canal de voz a usar.'
       name: channel
@@ -84,12 +84,32 @@ statchannelremove:
     - '#voice-channel'
   desc: 'Elimina un canal de estadísticas.'
   params:
-    - desc: 'El canal de voz a eliminar.'
+    - desc: 'El canal de voz que se eliminará.'
       name: channel
       optional: false
       type: IVoiceChannel
 statchannellist:
   args:
     - ''
-  desc: 'Lista todos los canales de estadísticas de este servidor.'
+  desc: 'Muestra todos los canales de estadísticas de este servidor.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Configura un canal de estadísticas para mostrar un contador de Twitch.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Establece el mecanismo de actualización de un canal de estadísticas.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Establece el estilo de visualización de un canal de estadísticas.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Muestra la configuración predeterminada de los canales de estadísticas.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Muestra los tipos de canal de estadísticas disponibles.'

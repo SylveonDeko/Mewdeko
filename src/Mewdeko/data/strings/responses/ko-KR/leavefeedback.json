@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "떠나게 되어 아쉬워요!",
+  "leave_feedback_desc": "방금 **{0}** 서버에서 제거되었어요. 시간이 되신다면 이유를 알려 주실 수 있을까요? 다음에 무엇을 개선할지 정하는 데 정말 도움이 돼요. 이 서버에 대해서는 다시 묻지 않을게요.",
+  "leave_feedback_footer": "답변은 전혀 필수가 아니에요.",
+  "leave_feedback_placeholder": "봇이 제거된 이유는 무엇인가요?",
+  "leave_feedback_write_button": "작성하기",
+  "leave_feedback_dismiss_button": "괜찮아요",
+  "leave_feedback_reason_not_needed": "더 이상 필요하지 않았어요",
+  "leave_feedback_reason_confusing": "설정하기에 너무 복잡했어요",
+  "leave_feedback_reason_missing_features": "원하는 기능이 없었어요",
+  "leave_feedback_reason_unreliable": "고장 나거나 불안정했어요",
+  "leave_feedback_reason_other_bot": "다른 봇으로 바꿨어요",
+  "leave_feedback_reason_temporary": "일시적이고, 다시 추가할 거예요",
+  "leave_feedback_reason_testing": "그냥 뭔가 테스트 중이었어요",
+  "leave_feedback_thanks": "감사해요, 기록했어요: **{0}**. 다른 내용을 추가하고 싶으시면 아래 버튼을 사용해 주세요.",
+  "leave_feedback_submitted": "감사해요, 피드백을 전달했어요!",
+  "leave_feedback_dismissed": "괜찮아요, 다시 묻지 않을게요."
+}

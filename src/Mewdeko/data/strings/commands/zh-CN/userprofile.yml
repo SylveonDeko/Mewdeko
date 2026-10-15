@@ -6,48 +6,48 @@ deleteuserstatsdata:
 greetdmoptout:
   args:
     - ''
-  desc: '允许用户切换是否接收欢迎私信。仅在加入的服务器使用 mewdeko 发送私信欢迎时有效。'
+  desc: '允许用户切换是否退出欢迎私信。仅当其加入的服务器使用 Mewdeko 发送欢迎私信时生效。'
   params: [ ]
 profile:
   args:
     - '[@user]'
-  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  desc: '显示用户的个人资料；若指定了其他用户，则显示该用户的资料。'
   params:
-    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的资料。'
       name: user
       optional: true
       type: user
 profile_=:
   args:
     - '[@user]'
-  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  desc: '显示用户的个人资料；若指定了其他用户，则显示该用户的资料。'
   params:
-    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的资料。'
       name: user
       optional: true
       type: user
 profile_=_1:
   args:
     - '[@user]'
-  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  desc: '显示用户的个人资料；若指定了其他用户，则显示该用户的资料。'
   params:
-    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的资料。'
       name: user
       optional: true
       type: user
 profile_=_2:
   args:
     - '[@user]'
-  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  desc: '显示用户的个人资料；若指定了其他用户，则显示该用户的资料。'
   params:
-    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的资料。'
       name: user
       optional: true
       type: user
 pronouns:
   args:
     - '[@user]'
-  desc: '显示指定用户的代词，若未指定用户则显示命令调用者的代词。'
+  desc: '显示指定用户的代词；若未指定用户，则显示调用者的代词。'
   params:
     - desc: '可选。要显示代词的用户。'
       name: user
@@ -57,15 +57,15 @@ pronounsforceclear:
   args:
     - '@user true|false text'
     - true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
     - &ref_356
-      desc: '要清除代词的用户的用户ID。'
+      desc: '要清除代词的用户 ID。'
       name: user
       optional: true
       type: IUser
     - &ref_357
-      desc: '代词是否因滥用而被禁用。'
+      desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -78,13 +78,13 @@ pronounsforceclear_IUser_bool_string:
   args:
     - '@user true|false text'
     - true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
-    - desc: '要清除代词的用户的用户ID。'
+    - desc: '要清除代词的用户 ID。'
       name: user
       optional: true
       type: IUser
-    - desc: '代词是否因滥用而被禁用。'
+    - desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -96,13 +96,13 @@ pronounsforceclear_IUser_bool_string_1:
   args:
     - '@user true|false text'
     - true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
-    - desc: '要清除代词的用户的用户ID。'
+    - desc: '要清除代词的用户 ID。'
       name: user
       optional: true
       type: IUser
-    - desc: '代词是否因滥用而被禁用。'
+    - desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -114,13 +114,13 @@ pronounsforceclear_IUser_bool_string_2:
   args:
     - '@user true|false text'
     - true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
-    - desc: '要清除代词的用户的用户ID。'
+    - desc: '要清除代词的用户 ID。'
       name: user
       optional: true
       type: IUser
-    - desc: '代词是否因滥用而被禁用。'
+    - desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -131,14 +131,14 @@ pronounsforceclear_IUser_bool_string_2:
 pronounsforceclear_ulong_bool_string:
   args:
     - user true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
     - &ref_359
-      desc: '要清除代词的用户的用户ID。'
+      desc: '要清除代词的用户 ID。'
       name: user
       optional: false
       type: ulong
-    - desc: '代词是否因滥用而被禁用。'
+    - desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -149,13 +149,13 @@ pronounsforceclear_ulong_bool_string:
 pronounsforceclear_ulong_bool_string_1:
   args:
     - user true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
-    - desc: '要清除代词的用户的用户ID。'
+    - desc: '要清除代词的用户 ID。'
       name: user
       optional: false
       type: ulong
-    - desc: '代词是否因滥用而被禁用。'
+    - desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -166,13 +166,13 @@ pronounsforceclear_ulong_bool_string_1:
 pronounsforceclear_ulong_bool_string_2:
   args:
     - user true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
-    - desc: '要清除代词的用户的用户ID。'
+    - desc: '要清除代词的用户 ID。'
       name: user
       optional: false
       type: ulong
-    - desc: '代词是否因滥用而被禁用。'
+    - desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -183,13 +183,13 @@ pronounsforceclear_ulong_bool_string_2:
 pronounsforceclear_ulong_bool_string_3:
   args:
     - user true|false text
-  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  desc: '通过用户 ID 强制清除用户的代词，可选择将其标记为因滥用而被禁用。'
   params:
-    - desc: '要清除代词的用户的用户ID。'
+    - desc: '要清除代词的用户 ID。'
       name: user
       optional: false
       type: ulong
-    - desc: '代词是否因滥用而被禁用。'
+    - desc: '是否因滥用而禁用代词。'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -200,37 +200,37 @@ pronounsforceclear_ulong_bool_string_3:
 setbio:
   args:
     - text
-  desc: '设置或更新用户个人资料中的个人简介。'
+  desc: '设置或更新用户个人资料中的简介。'
   params:
     - &ref_490
-      desc: '个人简介文本。必须少于 2048 个字符。'
+      desc: '简介内容，不得超过 2048 个字符。'
       name: bio
       optional: false
       type: string
 setbio_string:
   args:
     - text
-  desc: '设置或更新用户个人资料中的个人简介。'
+  desc: '设置或更新用户个人资料中的简介。'
   params:
-    - desc: '个人简介文本。必须少于 2048 个字符。'
+    - desc: '简介内容，不得超过 2048 个字符。'
       name: bio
       optional: false
       type: string
 setbio_string_1:
   args:
     - text
-  desc: '设置或更新用户个人资料中的个人简介。'
+  desc: '设置或更新用户个人资料中的简介。'
   params:
-    - desc: '个人简介文本。必须少于 2048 个字符。'
+    - desc: '简介内容，不得超过 2048 个字符。'
       name: bio
       optional: false
       type: string
 setbio_string_2:
   args:
     - text
-  desc: '设置或更新用户个人资料中的个人简介。'
+  desc: '设置或更新用户个人资料中的简介。'
   params:
-    - desc: '个人简介文本。必须少于 2048 个字符。'
+    - desc: '简介内容，不得超过 2048 个字符。'
       name: bio
       optional: false
       type: string
@@ -274,7 +274,7 @@ setbirthday_DateTime_2:
 setbirthdayprivacy:
   args:
     - birthdaydisplaymodeenum
-  desc: '在用户个人资料中设置生日隐私模式。'
+  desc: '在用户个人资料中设置生日的隐私模式。'
   params:
     - &ref_492
       desc: '要设置的生日显示模式。'
@@ -284,7 +284,7 @@ setbirthdayprivacy:
 setbirthdayprivacy_BirthdayDisplayModeEnum:
   args:
     - birthdaydisplaymodeenum
-  desc: '在用户个人资料中设置生日隐私模式。'
+  desc: '在用户个人资料中设置生日的隐私模式。'
   params:
     - desc: '要设置的生日显示模式。'
       name: birthdayDisplayModeEnum
@@ -293,7 +293,7 @@ setbirthdayprivacy_BirthdayDisplayModeEnum:
 setbirthdayprivacy_BirthdayDisplayModeEnum_1:
   args:
     - birthdaydisplaymodeenum
-  desc: '在用户个人资料中设置生日隐私模式。'
+  desc: '在用户个人资料中设置生日的隐私模式。'
   params:
     - desc: '要设置的生日显示模式。'
       name: birthdayDisplayModeEnum
@@ -302,7 +302,7 @@ setbirthdayprivacy_BirthdayDisplayModeEnum_1:
 setbirthdayprivacy_BirthdayDisplayModeEnum_2:
   args:
     - birthdaydisplaymodeenum
-  desc: '在用户个人资料中设置生日隐私模式。'
+  desc: '在用户个人资料中设置生日的隐私模式。'
   params:
     - desc: '要设置的生日显示模式。'
       name: birthdayDisplayModeEnum
@@ -385,37 +385,37 @@ setprofilecolor_SKColor_2:
 setprofileimage:
   args:
     - text
-  desc: '在用户个人资料中设置个人资料图片 URL。'
+  desc: '在用户个人资料中设置头像图片链接。'
   params:
     - &ref_515
-      desc: '要设置为个人资料图片的图片 URL。'
+      desc: '要用作头像的图片链接。'
       name: url
       optional: false
       type: string
 setprofileimage_string:
   args:
     - text
-  desc: '在用户个人资料中设置个人资料图片 URL。'
+  desc: '在用户个人资料中设置头像图片链接。'
   params:
-    - desc: '要设置为个人资料图片的图片 URL。'
+    - desc: '要用作头像的图片链接。'
       name: url
       optional: false
       type: string
 setprofileimage_string_1:
   args:
     - text
-  desc: '在用户个人资料中设置个人资料图片 URL。'
+  desc: '在用户个人资料中设置头像图片链接。'
   params:
-    - desc: '要设置为个人资料图片的图片 URL。'
+    - desc: '要用作头像的图片链接。'
       name: url
       optional: false
       type: string
 setprofileimage_string_2:
   args:
     - text
-  desc: '在用户个人资料中设置个人资料图片 URL。'
+  desc: '在用户个人资料中设置头像图片链接。'
   params:
-    - desc: '要设置为个人资料图片的图片 URL。'
+    - desc: '要用作头像的图片链接。'
       name: url
       optional: false
       type: string
@@ -424,16 +424,16 @@ setpronouns:
     - '[pronouns]'
   desc: '设置或清除用户的代词。'
   params:
-    - desc: '要设置的代词。若为空或 null，则清除现有代词。'
+    - desc: '要设置的代词。若为空，则清除已有代词。'
       name: pronouns
       optional: true
       type: string
 setswitchfc:
   args:
     - '""'
-  desc: '在用户个人资料中设置或清除任天堂 Switch 好友代码。'
+  desc: '设置或清除用户个人资料中的 Nintendo Switch 好友代码。'
   params:
-    - desc: '在用户个人资料中设置或清除任天堂 Switch 好友代码。'
+    - desc: '设置或清除用户个人资料中的 Nintendo Switch 好友代码。'
       name: '""'
       optional: false
       type: '='
@@ -477,5 +477,5 @@ setzodiac_string_2:
 userstatsoptout:
   args:
     - ''
-  desc: '切换用户对命令统计收集的退出状态。'
+  desc: '切换用户是否退出命令统计数据收集。'
   params: [ ]

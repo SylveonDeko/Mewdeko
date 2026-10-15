@@ -38,15 +38,15 @@ addstatusrole_string_2:
 liststatusroles:
   args:
     - ''
-  desc: 'Tüm mevcut durum rollerini ayrıntılarıyla listeler.'
+  desc: 'Mevcut tüm durum rollerini ayrıntılarıyla listeler.'
   params: [ ]
 removeaddroles:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda kaldırılacak roller.'
   params:
     - &ref_390
-      desc: 'Durum rolünün indeksi.'
+      desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -58,9 +58,9 @@ removeaddroles:
 removeaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda kaldırılacak roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -71,9 +71,9 @@ removeaddroles_int_IRole[]:
 removeaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda kaldırılacak roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -84,9 +84,9 @@ removeaddroles_int_IRole[]_1:
 removeaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda kaldırılacak roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -97,11 +97,9 @@ removeaddroles_int_IRole[]_2:
 removeremoveroles:
   args:
     - number @role
-  desc: >-
-    Bir kullanıcı seçili duruma sahip olduğunda eklenen rollerden bir veya
-    daha fazlasını kaldırır.
+  desc: 'Seçilen duruma sahip olduğunda eklenen rollerden bir veya daha fazla rolü kaldırır.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -114,16 +112,16 @@ removestatusrole:
     - number
   desc: 'Bir durum rolü yapılandırmasını kaldırır.'
   params:
-    - desc: 'Kaldırılacak durum rolünün indeksi.'
+    - desc: 'Kaldırılacak durum rolünün sırası.'
       name: index
       optional: false
       type: int
 setaddroles:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda eklenecek roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -135,9 +133,9 @@ setaddroles:
 setaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda eklenecek roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -148,9 +146,9 @@ setaddroles_int_IRole[]:
 setaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda eklenecek roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -161,9 +159,9 @@ setaddroles_int_IRole[]_1:
 setaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda eklenecek roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -174,9 +172,9 @@ setaddroles_int_IRole[]_2:
 setremoveroles:
   args:
     - number @role
-  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  desc: 'Kullanıcı seçilen duruma sahip olduğunda kaldırılacak roller.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -189,7 +187,7 @@ setstatusrolechannel:
     - number channel
   desc: 'Belirli bir durum rolü için kanalı ayarlar.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -203,7 +201,7 @@ setstatusrolechannel_int_ITextChannel:
     - number channel
   desc: 'Belirli bir durum rolü için kanalı ayarlar.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -216,7 +214,7 @@ setstatusrolechannel_int_ITextChannel_1:
     - number channel
   desc: 'Belirli bir durum rolü için kanalı ayarlar.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -229,7 +227,7 @@ setstatusrolechannel_int_ITextChannel_2:
     - number channel
   desc: 'Belirli bir durum rolü için kanalı ayarlar.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -243,7 +241,7 @@ setstatusroleembed:
     - number
   desc: 'Belirli bir durum rolü için embed metnini ayarlar veya önizler.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
@@ -254,20 +252,18 @@ setstatusroleembed:
 togglereaddremoved:
   args:
     - number
-  desc: 'Bir durum kaldırıldığında eklenen rollerin kaldırılıp kaldırılmayacağını değiştirir.'
+  desc: 'Durum kaldırıldığında eklenen rollerin kaldırılıp kaldırılmayacağını değiştirir.'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int
 toggleremoveadded:
   args:
     - number
-  desc: >-
-    Sağlanan indekse göre kullanıcı artık duruma sahip olmadığında eklenen
-    rollerin kaldırılıp kaldırılmayacağını değiştirir.
+  desc: 'Verilen sıradaki durumu artık taşımayan kullanıcılardan eklenen rollerin kaldırılıp kaldırılmayacağını değiştirir'
   params:
-    - desc: 'Durum rolünün indeksi.'
+    - desc: 'Durum rolünün sırası.'
       name: index
       optional: false
       type: int

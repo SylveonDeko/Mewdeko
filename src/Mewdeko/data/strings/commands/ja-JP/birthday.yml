@@ -1,68 +1,64 @@
 birthdayannouncements:
   args:
     - ''
-  desc: 'ユーザーの誕生日通知を切り替えます。'
+  desc: 'ユーザーの誕生日のお知らせを切り替えます。'
   params: [ ]
 birthdaychannel:
   args:
     - '#channel'
-  desc: '誕生日通知チャンネルを設定します。'
+  desc: '誕生日のお知らせチャンネルを設定します。'
   params:
-    - desc: >-
-        通知に使用するテキストチャンネル。指定されない場合は現在の
-        チャンネルがデフォルトになります。
+    - desc: 'お知らせに使うテキストチャンネルです。指定しない場合は現在のチャンネルになります。'
       name: channel
       optional: true
       type: ITextChannel
 birthdayconfig:
   args:
     - ''
-  desc: '現在の誕生日設定を表示します。'
+  desc: '現在の誕生日の設定を表示します。'
   params: [ ]
 birthdaylist:
   args:
     - days
-  desc: 'サーバー内の今後の誕生日を表示します。'
+  desc: 'サーバーの今後の誕生日を表示します。'
   params:
-    - desc: 何日先まで見るか。デフォルトは 7、最大は 30 です。
+    - desc: '先の何日分を表示するかです。デフォルトは7日、最大は30日です。'
       name: days
       optional: true
       type: int
 birthdaymessage:
   args:
     - message
-  desc: 'カスタム誕生日メッセージテンプレートを設定します。'
+  desc: 'カスタムの誕生日メッセージのテンプレートを設定します。'
   params:
-    - desc: >-
-        メッセージテンプレート。{user} を使用してユーザーをメンション
-        します。空のままにすると現在のメッセージが表示されます。
+    - desc: 'メッセージのテンプレートです。ユーザーをメンションするには {user} を使います。空の場合は現在のメッセージを表示します。'
       name: message
       optional: true
       type: string
 birthdaypingrole:
   args:
     - '@role'
-  desc: '誕生日を通知する際にメンションするロールを設定します。'
+  desc: '誕生日のお知らせでメンションするロールを設定します。'
   params:
-    - desc: メンションするロール。無効にするにはロールを指定しないでください。
+    - desc: 'メンションするロールです。指定しない場合は無効になります。'
       name: role
       optional: true
       type: IRole
 birthdayrole:
   args:
     - '@role'
-  desc: 'ユーザーが誕生日に取得する誕生日ロールを設定します。'
+  desc: 'ユーザーの誕生日に付与される誕生日ロールを設定します。'
   params:
-    - desc: ユーザーの誕生日に割り当てるロール。無効にするにはロールを指定しないでください。
+    - desc: 'ユーザーの誕生日に付与するロールです。指定しない場合は無効になります。'
       name: role
       optional: true
       type: IRole
 birthdaytimezone:
   args:
     - timezone
-  desc: '誕生日の計算用にユーザーのタイムゾーンを設定します。'
+  desc: '誕生日の計算に使うユーザーのタイムゾーンを設定します。'
   params:
-    - desc: '設定するタイムゾーン (例: "America/New_York")。'
+    - desc: '設定するタイムゾーンです（例: "America/New_York"）。'
       name: timezone
       optional: false
       type: string

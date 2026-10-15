@@ -1,19 +1,19 @@
 setupvoicehub:
   args:
     - ''
-  desc: '将语音频道设置为创建自定义语音频道的枢纽。'
+  desc: '将语音频道设置为创建自定义语音频道的中枢。'
   params: [ ]
 setvoicehub:
   args:
     - '<channel> [category]'
     - channel
-  desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+  desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
   params:
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: channel
       optional: false
       type: voice channel
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: category
       optional: true
       type: category
@@ -21,13 +21,13 @@ setvoicehub_IVoiceChannel_=:
   args:
     - '<channel> [category]'
     - channel
-  desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+  desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
   params:
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: channel
       optional: false
       type: voice channel
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: category
       optional: true
       type: category
@@ -35,13 +35,13 @@ setvoicehub_IVoiceChannel_=_1:
   args:
     - '<channel> [category]'
     - channel
-  desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+  desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
   params:
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: channel
       optional: false
       type: voice channel
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: category
       optional: true
       type: category
@@ -49,87 +49,87 @@ setvoicehub_IVoiceChannel_=_2:
   args:
     - '<channel> [category]'
     - channel
-  desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+  desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
   params:
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: channel
       optional: false
       type: voice channel
-    - desc: '将特定语音频道设置为创建自定义语音频道的枢纽。'
+    - desc: '将指定语音频道设置为创建自定义语音频道的中枢。'
       name: category
       optional: true
       type: category
 voiceallow:
   args:
     - '@user'
-  desc: '允许特定用户加入您已锁定的语音频道。'
+  desc: '允许指定用户加入你锁定的语音频道。'
   params:
     - &ref_642
-      desc: '允许特定用户加入您已锁定的语音频道。'
+      desc: '允许指定用户加入你锁定的语音频道。'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser:
   args:
     - '@user'
-  desc: '允许特定用户加入您已锁定的语音频道。'
+  desc: '允许指定用户加入你锁定的语音频道。'
   params:
-    - desc: '允许特定用户加入您已锁定的语音频道。'
+    - desc: '允许指定用户加入你锁定的语音频道。'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_1:
   args:
     - '@user'
-  desc: '允许特定用户加入您已锁定的语音频道。'
+  desc: '允许指定用户加入你锁定的语音频道。'
   params:
-    - desc: '允许特定用户加入您已锁定的语音频道。'
+    - desc: '允许指定用户加入你锁定的语音频道。'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_2:
   args:
     - '@user'
-  desc: '允许特定用户加入您已锁定的语音频道。'
+  desc: '允许指定用户加入你锁定的语音频道。'
   params:
-    - desc: '允许特定用户加入您已锁定的语音频道。'
+    - desc: '允许指定用户加入你锁定的语音频道。'
       name: target
       optional: false
       type: IGuildUser
 voicebitrate:
   args:
     - number
-  desc: '设置您的自定义语音频道的码率。'
+  desc: '设置你的自定义语音频道的比特率。'
   params:
     - &ref_643
-      desc: '设置您的自定义语音频道的码率。'
+      desc: '设置你的自定义语音频道的比特率。'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int:
   args:
     - number
-  desc: '设置您的自定义语音频道的码率。'
+  desc: '设置你的自定义语音频道的比特率。'
   params:
-    - desc: '设置您的自定义语音频道的码率。'
+    - desc: '设置你的自定义语音频道的比特率。'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int_1:
   args:
     - number
-  desc: '设置您的自定义语音频道的码率。'
+  desc: '设置你的自定义语音频道的比特率。'
   params:
-    - desc: '设置您的自定义语音频道的码率。'
+    - desc: '设置你的自定义语音频道的比特率。'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int_2:
   args:
     - number
-  desc: '设置您的自定义语音频道的码率。'
+  desc: '设置你的自定义语音频道的比特率。'
   params:
-    - desc: '设置您的自定义语音频道的码率。'
+    - desc: '设置你的自定义语音频道的比特率。'
       name: bitrate
       optional: false
       type: int
@@ -141,7 +141,7 @@ voicechannels:
 voiceclaim:
   args:
     - ''
-  desc: '如果频道所有者不在，则声明对自定义语音频道的所有权。'
+  desc: '如果所有者不在场，则认领自定义语音频道的所有权。'
   params: [ ]
 voiceconfig:
   args:
@@ -159,147 +159,147 @@ voiceconfig:
 voicecontrols:
   args:
     - ''
-  desc: '显示用于管理您的自定义语音频道的交互式控件。'
+  desc: '显示用于管理你的自定义语音频道的交互式控件。'
   params: [ ]
 voicedeny:
   args:
     - '@user'
-  desc: '拒绝特定用户加入您的语音频道。'
+  desc: '拒绝指定用户加入你的语音频道。'
   params:
-    - desc: '拒绝特定用户加入您的语音频道。'
+    - desc: '拒绝指定用户加入你的语音频道。'
       name: target
       optional: false
       type: IGuildUser
 voicekeepalive:
   args:
     - true
-  desc: '即使频道为空也保持其活跃状态。'
+  desc: '设置即使为空也保持频道存活。'
   params:
-    - desc: '即使频道为空也保持其活跃状态。'
+    - desc: '设置即使为空也保持频道存活。'
       name: true
       optional: false
       type: '='
 voicelimit:
   args:
     - number
-  desc: '设置您的自定义语音频道的用户限制。'
+  desc: '设置你的自定义语音频道的人数上限。'
   params:
     - &ref_644
-      desc: '设置您的自定义语音频道的用户限制。'
+      desc: '设置你的自定义语音频道的人数上限。'
       name: limit
       optional: false
       type: int
 voicelimit_int:
   args:
     - number
-  desc: '设置您的自定义语音频道的用户限制。'
+  desc: '设置你的自定义语音频道的人数上限。'
   params:
-    - desc: '设置您的自定义语音频道的用户限制。'
+    - desc: '设置你的自定义语音频道的人数上限。'
       name: limit
       optional: false
       type: int
 voicelimit_int_1:
   args:
     - number
-  desc: '设置您的自定义语音频道的用户限制。'
+  desc: '设置你的自定义语音频道的人数上限。'
   params:
-    - desc: '设置您的自定义语音频道的用户限制。'
+    - desc: '设置你的自定义语音频道的人数上限。'
       name: limit
       optional: false
       type: int
 voicelimit_int_2:
   args:
     - number
-  desc: '设置您的自定义语音频道的用户限制。'
+  desc: '设置你的自定义语音频道的人数上限。'
   params:
-    - desc: '设置您的自定义语音频道的用户限制。'
+    - desc: '设置你的自定义语音频道的人数上限。'
       name: limit
       optional: false
       type: int
 voicelock:
   args:
     - true
-  desc: '锁定或解锁您的自定义语音频道。'
+  desc: '锁定或解锁你的自定义语音频道。'
   params:
-    - desc: '锁定或解锁您的自定义语音频道。'
+    - desc: '锁定或解锁你的自定义语音频道。'
       name: true
       optional: false
       type: '='
 voicepreferences:
   args:
     - ''
-  desc: '设置您的语音频道偏好。'
+  desc: '设置你的语音频道偏好。'
   params: [ ]
 voiceprefsbitrate:
   args:
     - '[bitrate]'
-  desc: '设置您对自定义语音频道的首选码率。'
+  desc: '设置自定义语音频道的首选比特率。'
   params:
-    - desc: '设置您对自定义语音频道的首选码率。'
+    - desc: '设置自定义语音频道的首选比特率。'
       name: bitrate
       optional: true
       type: int
 voiceprefskeepalive:
   args:
     - '[keepAlive]'
-  desc: '设置您对自定义语音频道的首选保活状态。'
+  desc: '设置自定义语音频道的首选保持存活状态。'
   params:
-    - desc: '设置您对自定义语音频道的首选保活状态。'
+    - desc: '设置自定义语音频道的首选保持存活状态。'
       name: keepAlive
       optional: true
       type: bool
 voiceprefslimit:
   args:
     - '[limit]'
-  desc: '设置您对自定义语音频道的首选用户限制。'
+  desc: '设置自定义语音频道的首选人数上限。'
   params:
-    - desc: '设置您对自定义语音频道的首选用户限制。'
+    - desc: '设置自定义语音频道的首选人数上限。'
       name: limit
       optional: true
       type: int
 voiceprefslock:
   args:
     - '[locked]'
-  desc: '设置您对自定义语音频道的首选锁定状态。'
+  desc: '设置自定义语音频道的首选锁定状态。'
   params:
-    - desc: '设置您对自定义语音频道的首选锁定状态。'
+    - desc: '设置自定义语音频道的首选锁定状态。'
       name: locked
       optional: true
       type: bool
 voiceprefsname:
   args:
     - '[format]'
-  desc: '设置您对自定义语音频道的首选名称格式。'
+  desc: '设置自定义语音频道的首选名称格式。'
   params:
-    - desc: '设置您对自定义语音频道的首选名称格式。'
+    - desc: '设置自定义语音频道的首选名称格式。'
       name: format
       optional: true
       type: string
 voiceprefsreset:
   args:
     - ''
-  desc: '重置您所有的语音频道偏好。'
+  desc: '重置你的所有语音频道偏好。'
   params: [ ]
 voicerename:
   args:
     - text
-  desc: '重命名您的自定义语音频道。'
+  desc: '重命名你的自定义语音频道。'
   params:
-    - desc: '重命名您的自定义语音频道。'
+    - desc: '重命名你的自定义语音频道。'
       name: name
       optional: false
       type: string
 voicetransfer:
   args:
     - '@user'
-  desc: '将您的自定义语音频道的所有权转让给另一个用户。'
+  desc: '将你的自定义语音频道的所有权转让给其他用户。'
   params:
-    - desc: '将您的自定义语音频道的所有权转让给另一个用户。'
+    - desc: '将你的自定义语音频道的所有权转让给其他用户。'
       name: target
       optional: false
       type: IGuildUser
 voiceunlock:
   args:
     - ''
-  desc: '解锁您的自定义语音频道。'
+  desc: '解锁你的自定义语音频道。'
   params: [ ]

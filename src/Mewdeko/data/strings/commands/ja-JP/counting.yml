@@ -1,30 +1,30 @@
 countingban:
   args:
     - user channel duration reason
-  desc: '特定のチャンネルでユーザーのカウントを禁止します。'
+  desc: '特定のチャンネルでのカウントから、ユーザーを BAN します。'
   params:
-    - desc: 'カウントを禁止するユーザー。'
+    - desc: 'カウントから BAN するユーザーです。'
       name: user
       optional: false
       type: guild user
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: '禁止期間（例: 1h、1d）。永久の場合は空欄にしてください。'
+    - desc: 'BAN の期間（例: 1h、1d）。永久に BAN する場合は空にします。'
       name: duration
       optional: true
       type: stoopid time
-    - desc: '禁止の理由。'
+    - desc: 'BAN の理由です。'
       name: reason
       optional: true
       type: string
 countingconfig:
   args:
     - channel
-  desc: 'カウントチャンネルの設定を構成します。'
+  desc: 'カウントチャンネルの設定を行います。'
   params:
-    - desc: '設定を表示するチャンネル。デフォルトは現在のチャンネル。'
+    - desc: '設定を表示するチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
@@ -33,67 +33,67 @@ countingcooldown:
     - channel seconds
   desc: 'ユーザーのカウント間のクールダウンを設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'クールダウン（秒、0-300）。'
+    - desc: 'クールダウン（秒、0〜300）です。'
       name: seconds
       optional: true
       type: int
 countingdisable:
   args:
     - channel purgeData reason
-  desc: 'チャンネルのカウントを無効にし、オプションですべてのデータを削除します。'
+  desc: 'チャンネルでのカウントを無効にし、必要に応じてすべてのデータを削除します。'
   params:
-    - desc: 'カウントを無効にするチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントを無効にするチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'このチャンネルのすべてのカウントデータを削除するかどうか。デフォルトはfalse。'
+    - desc: 'このチャンネルのカウントデータをすべて削除するかどうかです。デフォルトは false です。'
       name: purgeData
       optional: true
       type: bool
-    - desc: 'カウントを無効にする理由。'
+    - desc: 'カウントを無効にする理由です。'
       name: reason
       optional: true
       type: string
 countingfailurechannel:
   args:
     - countingChannel failureChannel
-  desc: 'カウント失敗が記録されるチャンネルを設定します。'
+  desc: 'カウントの失敗を記録するチャンネルを設定します。'
   params:
-    - desc: 'カウントチャンネル。'
+    - desc: 'カウントチャンネルです。'
       name: countingChannel
       optional: true
       type: text channel
-    - desc: '失敗ログのチャンネル。無効にするにはnullを使用。'
+    - desc: '失敗ログのチャンネルです。無効にする場合は null を指定します。'
       name: failureChannel
       optional: true
       type: text channel
 countingfailuremessage:
   args:
     - channel embed
-  desc: '失敗したカウントのカスタムメッセージを設定します。'
+  desc: 'カウントが失敗したときのカスタムメッセージを設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'メッセージテンプレート。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージのテンプレートです。デフォルトに戻す場合は "-" を指定します。'
       name: embed
       optional: true
       type: string
 countingfailurethreshold:
   args:
     - channel threshold
-  desc: '結果が出る前の失敗しきい値を設定します。'
+  desc: '処置が行われるまでの失敗のしきい値を設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'アクションを起こす前の失敗回数（1-10）。'
+    - desc: '処置が行われるまでの失敗回数（1〜10）です。'
       name: threshold
       optional: true
       type: int
@@ -102,72 +102,72 @@ countingleaderboard:
     - type channel
   desc: 'カウントチャンネルのリーダーボードを表示します。'
   params:
-    - desc: 'リーダーボードの種類（contributions、streak、accuracy、totalnumbers）。'
+    - desc: 'リーダーボードの種類（contributions、streak、accuracy、totalnumbers）です。'
       name: type
       optional: true
       type: string
-    - desc: 'リーダーボードを表示するチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'リーダーボードを表示するチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countinglist:
   args:
     - ''
-  desc: 'サーバーのすべてのアクティブなカウントチャンネルを一覧表示します。'
+  desc: 'サーバー内のアクティブなすべてのカウントチャンネルを一覧表示します。'
   params: [ ]
 countingmilestonechannel:
   args:
     - countingChannel milestoneChannel
-  desc: 'マイルストーン達成が発表されるチャンネルを設定します。'
+  desc: 'マイルストーンの達成を通知するチャンネルを設定します。'
   params:
-    - desc: 'カウントチャンネル。'
+    - desc: 'カウントチャンネルです。'
       name: countingChannel
       optional: true
       type: text channel
-    - desc: 'マイルストーン発表のチャンネル。無効にするにはnullを使用。'
+    - desc: 'マイルストーンのお知らせチャンネルです。無効にする場合は null を指定します。'
       name: milestoneChannel
       optional: true
       type: text channel
 countingmilestonemessage:
   args:
     - channel embed
-  desc: 'マイルストーン達成のカスタムメッセージを設定します。'
+  desc: 'マイルストーン達成時のカスタムメッセージを設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'メッセージテンプレート。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージのテンプレートです。デフォルトに戻す場合は "-" を指定します。'
       name: embed
       optional: true
       type: string
 countingmilestones:
   args:
     - channel milestones
-  desc: 'カスタムマイルストーン数を設定します。'
+  desc: 'カスタムのマイルストーン数を設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'カンマ区切りのマイルストーン数（例: 50,100,250,500,1000）。'
+    - desc: 'カンマ区切りのマイルストーン数です（例: 50,100,250,500,1000）。'
       name: milestones
       optional: true
       type: string
 countingreset:
   args:
     - channel newNumber reason
-  desc: 'チャンネルのカウントを特定の数にリセットします。'
+  desc: 'チャンネルのカウントを特定の数字にリセットします。'
   params:
-    - desc: 'リセットするチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'リセットするチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'リセットする数。デフォルトは0。'
+    - desc: 'リセット後の数字です。デフォルトは 0 です。'
       name: newNumber
       optional: true
       type: long
-    - desc: 'リセットの理由。'
+    - desc: 'リセットする理由です。'
       name: reason
       optional: true
       type: string
@@ -176,41 +176,41 @@ countingrestore:
     - saveId channel
   desc: '以前のセーブポイントからカウントを復元します。'
   params:
-    - desc: '復元するセーブポイントのID。'
+    - desc: '復元元となるセーブポイントの ID です。'
       name: saveId
       optional: false
       type: int
-    - desc: '復元するチャンネル。デフォルトは現在のチャンネル。'
+    - desc: '復元するチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countingsave:
   args:
     - channel reason
-  desc: '現在のカウント進捗のセーブポイントを作成します。'
+  desc: '現在のカウントの進行状況のセーブポイントを作成します。'
   params:
-    - desc: '保存するチャンネル。デフォルトは現在のチャンネル。'
+    - desc: '保存するチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'セーブポイントを作成する理由。'
+    - desc: 'セーブポイントを作成する理由です。'
       name: reason
       optional: true
       type: string
 countingsetup:
   args:
     - channel startNumber increment
-  desc: '現在または指定されたチャンネルでカウントを設定します。'
+  desc: '現在のチャンネルまたは指定したチャンネルでカウントをセットアップします。'
   params:
-    - desc: 'カウントを設定するチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントをセットアップするチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'カウントを開始する数。デフォルトは1。'
+    - desc: 'カウントを開始する数字です。デフォルトは 1 です。'
       name: startNumber
       optional: true
       type: long
-    - desc: '各カウントの増分。デフォルトは1。'
+    - desc: 'カウントごとの増分です。デフォルトは 1 です。'
       name: increment
       optional: true
       type: int
@@ -219,42 +219,42 @@ countingstats:
     - user channel
   desc: 'ユーザーまたはチャンネルのカウント統計を表示します。'
   params:
-    - desc: '統計を表示するユーザー。デフォルトはあなた。'
+    - desc: '統計を表示するユーザーです。デフォルトは自分です。'
       name: user
       optional: true
       type: user
-    - desc: '統計を確認するチャンネル。デフォルトは現在のチャンネル。'
+    - desc: '統計を確認するチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countingstatus:
   args:
     - channel
-  desc: 'チャンネルの現在のカウント状態を表示します。'
+  desc: 'チャンネルのカウントの現在の状態を表示します。'
   params:
-    - desc: '確認するチャンネル。デフォルトは現在のチャンネル。'
+    - desc: '確認するチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countingsuccessmessage:
   args:
     - channel embed
-  desc: '成功したカウントのカスタムメッセージを設定します。'
+  desc: 'カウント成功時のカスタムメッセージを設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'メッセージテンプレート。デフォルトにリセットするには"-"を使用。'
+    - desc: 'メッセージのテンプレートです。デフォルトに戻す場合は "-" を指定します。'
       name: embed
       optional: true
       type: string
 countingtimeout:
   args:
     - user duration channel reason
-  desc: 'ユーザーをカウントから一時的にタイムアウトします。'
+  desc: 'ユーザーのカウントを一時的にタイムアウトします。'
   params:
-    - desc: 'カウントからタイムアウトするユーザー。'
+    - desc: 'カウントからタイムアウトするユーザーです。'
       name: user
       optional: false
       type: guild user
@@ -262,109 +262,109 @@ countingtimeout:
       name: duration
       optional: false
       type: stoopid time
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'タイムアウトの理由。'
+    - desc: 'タイムアウトの理由です。'
       name: reason
       optional: true
       type: string
 countingunban:
   args:
     - user channel reason
-  desc: '特定のチャンネルでユーザーのカウント禁止を解除します。'
+  desc: '特定のチャンネルでのカウントの BAN を解除します。'
   params:
-    - desc: 'カウント禁止を解除するユーザー。'
+    - desc: 'カウントの BAN を解除するユーザーです。'
       name: user
       optional: false
       type: guild user
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: '禁止解除の理由。'
+    - desc: 'BAN を解除する理由です。'
       name: reason
       optional: true
       type: string
 countmodbanned:
   args:
     - channel roles...
-  desc: 'カウントから禁止されたロールを設定します。'
+  desc: 'カウントを禁止するロールを設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'カウントから禁止されたロール。'
+    - desc: 'カウントを禁止されているロールです。'
       name: roles
       optional: true
       type: role
 countmodclear:
   args:
     - user channel
-  desc: 'カウントチャンネルのユーザーの誤カウントをクリアします。'
+  desc: 'カウントチャンネルで、ユーザーの誤ったカウントをクリアします。'
   params:
-    - desc: '誤カウントをクリアするユーザー。'
+    - desc: '誤ったカウントをクリアするユーザーです。'
       name: user
       optional: false
       type: user
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countmodclearall:
   args:
     - channel
-  desc: 'カウントチャンネルのすべてのユーザーの誤カウントをクリアします。'
+  desc: 'カウントチャンネルで、すべてのユーザーの誤ったカウントをクリアします。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countmoddefaults:
   args:
     - enabled threshold windowHours punishment durationMinutes punishmentRole
-  desc: 'サーバー全体のデフォルトモデレーション設定を設定します。'
+  desc: 'サーバー全体のデフォルトのモデレーション設定を行います。'
   params:
-    - desc: 'モデレーションがデフォルトで有効かどうか。'
+    - desc: 'モデレーションをデフォルトで有効にするかどうかです。'
       name: enabled
       optional: false
       type: bool
-    - desc: 'ペナルティ前のデフォルト誤カウントしきい値。'
+    - desc: '処罰が行われるまでのデフォルトの誤カウントのしきい値です。'
       name: threshold
       optional: true
       type: int
-    - desc: '誤カウントを追跡するデフォルトの時間ウィンドウ（時間単位）。'
+    - desc: '誤カウントを追跡するデフォルトの時間枠（時間）です。'
       name: windowHours
       optional: true
       type: int
-    - desc: '適用するデフォルトのペナルティアクション。'
+    - desc: '適用するデフォルトの処罰アクションです。'
       name: punishment
       optional: true
       type: punishment action
-    - desc: '時間制限付きペナルティのデフォルト期間（分単位）。'
+    - desc: '時間制限付きの処罰のデフォルトの期間（分）です。'
       name: durationMinutes
       optional: true
       type: int
-    - desc: 'ロール追加ペナルティタイプのデフォルトロール。'
+    - desc: 'AddRole の処罰の種類で使用するデフォルトのロールです。'
       name: punishmentRole
       optional: true
       type: role
 countmodedits:
   args:
     - punish delete channel
-  desc: 'カウントチャンネルのメッセージ編集保護を設定します。'
+  desc: 'カウントチャンネルのメッセージ編集の保護を設定します。'
   params:
-    - desc: 'メッセージ編集を違反として罰するかどうか。'
+    - desc: 'メッセージの編集を違反として処罰するかどうかです。'
       name: punish
       optional: false
       type: bool
-    - desc: '編集されたメッセージを削除するかどうか。'
+    - desc: '編集されたメッセージを削除するかどうかです。'
       name: delete
       optional: true
       type: bool
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
@@ -373,100 +373,100 @@ countmodenable:
     - enabled channel
   desc: '特定のカウントチャンネルのモデレーションを有効または無効にします。'
   params:
-    - desc: 'モデレーションを有効または無効にするかどうか。'
+    - desc: 'モデレーションを有効にするか無効にするかです。'
       name: enabled
       optional: false
       type: bool
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countmodignore:
   args:
     - deleteMessages channel roles...
-  desc: 'カウントで無視するロールを設定します。'
+  desc: 'カウントの対象外にするロールを設定します。'
   params:
-    - desc: '無視されたロールからのメッセージを削除するかどうか。'
+    - desc: '対象外のロールのメッセージを削除するかどうかです。'
       name: deleteMessages
       optional: false
       type: bool
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'カウントで無視するロール。'
+    - desc: 'カウントの対象外にするロールです。'
       name: roles
       optional: true
       type: role
 countmodnonnumbers:
   args:
     - punish delete channel
-  desc: 'カウントチャンネルの非数字メッセージの処理を設定します。'
+  desc: 'カウントチャンネルで数字以外のメッセージの処理を設定します。'
   params:
-    - desc: '非数字メッセージを違反として罰するかどうか。'
+    - desc: '数字以外のメッセージを違反として処罰するかどうかです。'
       name: punish
       optional: false
       type: bool
-    - desc: '非数字メッセージを削除するかどうか。'
+    - desc: '数字以外のメッセージを削除するかどうかです。'
       name: delete
       optional: true
       type: bool
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countmodpunish:
   args:
     - count punishment durationMinutes role channel
-  desc: '特定の誤カウント数に対する段階的ペナルティを設定します。'
+  desc: '特定の誤カウント番号に対する段階的な処罰を設定します。'
   params:
-    - desc: 'このペナルティを発動する誤カウント数。'
+    - desc: 'この処罰を発動させる誤カウント番号です。'
       name: count
       optional: false
       type: int
-    - desc: '適用するペナルティアクション。'
+    - desc: '適用する処罰アクションです。'
       name: punishment
       optional: false
       type: punishment action
-    - desc: '時間制限付きペナルティの期間（分単位）。'
+    - desc: '時間制限付きの処罰の期間（分）です。'
       name: durationMinutes
       optional: true
       type: int
-    - desc: 'ロール追加ペナルティタイプのロール。'
+    - desc: 'AddRole の処罰の種類で使用するロールです。'
       name: role
       optional: true
       type: role
-    - desc: 'カウントチャンネル（サーバーデフォルトにはNULL）。'
+    - desc: 'カウントチャンネルです（サーバーのデフォルトを使う場合は NULL）。'
       name: channel
       optional: true
       type: text channel
 countmodpunishlist:
   args:
     - channel
-  desc: 'サーバーまたは特定チャンネルのすべての段階的ペナルティを一覧表示します。'
+  desc: 'サーバーまたは特定のチャンネルの段階的な処罰をすべて一覧表示します。'
   params:
-    - desc: 'カウントチャンネル（サーバーデフォルトにはNULL）。'
+    - desc: 'カウントチャンネルです（サーバーのデフォルトを使う場合は NULL）。'
       name: channel
       optional: true
       type: text channel
 countmodpunishment:
   args:
     - punishment durationMinutes role channel
-  desc: '誤カウントのペナルティを設定します。'
+  desc: '誤カウントに対する処罰を設定します。'
   params:
-    - desc: '適用するペナルティアクション。'
+    - desc: '適用する処罰アクションです。'
       name: punishment
       optional: false
       type: punishment action
-    - desc: '時間制限付きペナルティの期間（分単位）。'
+    - desc: '時間制限付きの処罰の期間（分）です。'
       name: durationMinutes
       optional: true
       type: int
-    - desc: 'ロール追加ペナルティタイプのロール。'
+    - desc: 'AddRole の処罰の種類で使用するロールです。'
       name: role
       optional: true
       type: role
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
@@ -475,68 +475,68 @@ countmodrequired:
     - channel roles...
   desc: 'カウントに必要なロールを設定します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
-    - desc: 'カウントに必要なロール。'
+    - desc: 'カウントに必要なロールです。'
       name: roles
       optional: true
       type: role
 countmodreset:
   args:
     - channel
-  desc: 'チャンネルをサーバーデフォルトを使用するようにリセットします。'
+  desc: 'チャンネルの設定をサーバーのデフォルトに戻します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countmodshow:
   args:
     - channel
-  desc: 'カウントチャンネルまたはサーバーデフォルトの現在のモデレーション設定を表示します。'
+  desc: 'カウントチャンネルまたはサーバーのデフォルトの現在のモデレーション設定を表示します。'
   params:
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countmodthreshold:
   args:
     - threshold channel
-  desc: 'カウントチャンネルの誤カウントしきい値を設定します。'
+  desc: 'カウントチャンネルの誤カウントのしきい値を設定します。'
   params:
-    - desc: 'ペナルティ前の誤カウント数（1-100）。'
+    - desc: '処罰が行われるまでの誤カウント数（1〜100）です。'
       name: threshold
       optional: false
       type: int
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel
 countmodunpunish:
   args:
     - count channel
-  desc: '特定の誤カウント数の段階的ペナルティを削除します。'
+  desc: '特定の誤カウント番号に対する段階的な処罰を削除します。'
   params:
-    - desc: 'ペナルティを削除する誤カウント数。'
+    - desc: '処罰を削除する誤カウント番号です。'
       name: count
       optional: false
       type: int
-    - desc: 'カウントチャンネル（サーバーデフォルトにはNULL）。'
+    - desc: 'カウントチャンネルです（サーバーのデフォルトを使う場合は NULL）。'
       name: channel
       optional: true
       type: text channel
 countmodwindow:
   args:
     - hours channel
-  desc: '誤カウントを追跡する時間ウィンドウを設定します。'
+  desc: '誤カウントを追跡する時間枠を設定します。'
   params:
-    - desc: '時間ウィンドウ（時間、1-168）。'
+    - desc: '時間枠（時間、1〜168）です。'
       name: hours
       optional: false
       type: int
-    - desc: 'カウントチャンネル。デフォルトは現在のチャンネル。'
+    - desc: 'カウントチャンネルです。デフォルトは現在のチャンネルです。'
       name: channel
       optional: true
       type: text channel

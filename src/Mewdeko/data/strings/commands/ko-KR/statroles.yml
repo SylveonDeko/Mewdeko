@@ -1,0 +1,206 @@
+statroleadd:
+  args:
+    - '@role Messages 500 [lookbackDays] [name]'
+    - '@role VoiceMinutes 600 30 Voice Regular'
+    - '@role Invites 10'
+  desc: '기준값 통계 역할을 만듭니다. 최소 기준(Messages, VoiceMinutes, Invites, JoinedDays, AccountDays 또는 ActivityMinutes)을 충족한 멤버에게 역할이 지급되며, 영구 설정이 아니면 기준 아래로 떨어지면 역할이 제거됩니다. ActivityMinutes는 "statroleset <id> activity <name>"으로 게임을 설정하거나 "any"로 두면 모든 게임을 대상으로 합니다.'
+  params:
+    - desc: '관리할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '측정할 항목입니다: Messages, VoiceMinutes, Invites, JoinedDays, AccountDays 또는 ActivityMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: '최소값입니다.'
+      name: minimum
+      optional: false
+      type: long
+    - desc: '기간(일 단위) 또는 전체 기간을 나타내는 0입니다.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: '표시 이름입니다.'
+      name: name
+      optional: true
+      type: string
+statroletop:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+    - '@role VoiceMinutes 3 7'
+  desc: '순위 통계 역할을 만듭니다. 1위부터 지정한 순위까지의 멤버에게 역할이 지급됩니다.'
+  params:
+    - desc: '관리할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '측정할 항목입니다.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: '자격을 유지하는 가장 낮은 순위입니다.'
+      name: topEnd
+      optional: false
+      type: int
+    - desc: '기간(일 단위) 또는 전체 기간을 나타내는 0입니다.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: '표시 이름입니다.'
+      name: name
+      optional: true
+      type: string
+statrolepercent:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+  desc: '상위 퍼센트 통계 역할을 만듭니다. 순위가 매겨진 멤버 중 지정한 상위 퍼센트에 드는 멤버에게 역할이 지급됩니다.'
+  params:
+    - desc: '관리할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '측정할 항목입니다.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: '백분위 기준값입니다 (1~100).'
+      name: topPercent
+      optional: false
+      type: int
+    - desc: '기간(일 단위) 또는 전체 기간을 나타내는 0입니다.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: '표시 이름입니다.'
+      name: name
+      optional: true
+      type: string
+statrolestreak:
+  args:
+    - '@role Messages 5 7 [lookbackDays] [name]'
+  desc: '연속 일수 통계 역할을 만듭니다. 기간 안에서 필요한 일수 이상 하루 최소 기준을 충족한 멤버에게 역할이 지급됩니다.'
+  params:
+    - desc: '관리할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Messages 또는 VoiceMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: '하루 최소 기준입니다.'
+      name: perDay
+      optional: false
+      type: long
+    - desc: '기준을 충족해야 하는 기간 내 일수입니다.'
+      name: requiredDays
+      optional: false
+      type: int
+    - desc: '기간(일 단위)입니다.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: '표시 이름입니다.'
+      name: name
+      optional: true
+      type: string
+statrolelist:
+  args:
+    - ''
+  desc: '통계 역할을 조건과 함께 나열합니다.'
+  params: [ ]
+statroleinfo:
+  args:
+    - '3'
+  desc: '통계 역할의 전체 설정을 표시합니다. 조건, 필터, 알림, 일정을 포함합니다.'
+  params:
+    - desc: '통계 역할 ID입니다.'
+      name: id
+      optional: false
+      type: int
+statroleremove:
+  args:
+    - '3'
+  desc: '통계 역할을 삭제합니다. 멤버는 현재 가지고 있는 역할을 유지합니다.'
+  params:
+    - desc: '통계 역할 ID입니다.'
+      name: id
+      optional: false
+      type: int
+statroletoggle:
+  args:
+    - '3'
+  desc: '통계 역할을 활성화하거나 비활성화합니다.'
+  params:
+    - desc: '통계 역할 ID입니다.'
+      name: id
+      optional: false
+      type: int
+statrolepreview:
+  args:
+    - '3'
+  desc: '아무것도 변경하지 않고 다음 실행 시 역할을 얻거나 잃을 사용자를 표시합니다.'
+  params:
+    - desc: '통계 역할 ID입니다.'
+      name: id
+      optional: false
+      type: int
+statrolerun:
+  args:
+    - '3'
+  desc: '예약 시간을 기다리지 않고 지금 통계 역할을 평가하여 적용합니다.'
+  params:
+    - desc: '통계 역할 ID입니다.'
+      name: id
+      optional: false
+      type: int
+statroleset:
+  args:
+    - '3 permanent true'
+    - '3 lookback 30'
+    - '3 notifychannel #announcements'
+    - '3 message %user% just %action% %role%!'
+    - '3 activity Minecraft'
+  desc: '통계 역할의 설정 하나를 변경합니다. 설정: name, min, max, lookback, topstart, topend, days, permanent, invert, bots, group, interval, notifychannel, notifydm, message, activity(게임 이름 또는 ActivityMinutes 통계용 "any"). max, group, notifychannel, message를 지우려면 "none"을 사용하세요.'
+  params:
+    - desc: '통계 역할 ID입니다.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정 이름이에요.'
+      name: setting
+      optional: false
+      type: string
+    - desc: '새 값이에요.'
+      name: value
+      optional: false
+      type: string
+statrolefilter:
+  args:
+    - '3 #channel'
+    - '3 @role'
+    - '3 @role true'
+    - '3 @user'
+  desc: '통계 역할의 필터를 전환합니다. 통계를 제한할 채널, 멤버에게 필요하거나(true인 경우 가지면 안 되는) 역할, 또는 역할이 적용되지 않을 멤버를 설정할 수 있습니다.'
+  params:
+    - desc: '통계 역할 ID입니다.'
+      name: id
+      optional: false
+      type: int
+    - desc: '통계를 제한할 채널입니다.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '필요하거나 제외할 역할입니다.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'True이면 허용 목록 대신 역할 차단 목록을 전환합니다.'
+      name: blacklist
+      optional: true
+      type: bool
+    - desc: '통계 역할이 적용되지 않을 멤버입니다.'
+      name: user
+      optional: false
+      type: IGuildUser

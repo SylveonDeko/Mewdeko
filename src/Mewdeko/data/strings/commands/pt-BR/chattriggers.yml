@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat.'
+  params:
+    - &ref_9
+      desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat.'
+  params:
+    - desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat.'
+  params:
+    - desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat.'
+  params:
+    - desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat com suporte a regex.'
+  params:
+    - desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat com suporte a regex.'
+  params:
+    - desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat com suporte a regex.'
+  params:
+    - desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Adiciona um novo gatilho de chat com suporte a regex.'
+  params:
+    - desc: 'A chave do gatilho de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'A mensagem associada ao gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Adiciona um novo gatilho de chat baseado em reação.'
+  params:
+    - desc: 'O emoji de reação que aciona o gatilho.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'A mensagem a enviar quando acionado.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Define o tipo de concessão de cargo de um gatilho de chat.'
+  params:
+    - &ref_130
+      desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'O tipo de concessão de cargo a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Define o tipo de concessão de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de concessão de cargo a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Define o tipo de concessão de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de concessão de cargo a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Define o tipo de concessão de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de concessão de cargo a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Define o canal para a republicação do gatilho de chat.'
+  params:
+    - desc: 'O canal para a republicação.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Define o webhook para a republicação do gatilho de chat.'
+  params:
+    - desc: 'A URL do webhook para a republicação.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Define se um gatilho de chat é válido para um tipo de gatilho específico.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'O tipo de gatilho para definir a validade.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Se o tipo de gatilho deve ser ativado ou desativado.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Define se um gatilho de chat é válido para um tipo de gatilho específico.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de gatilho para definir a validade.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Se o tipo de gatilho deve ser ativado ou desativado.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Define se um gatilho de chat é válido para um tipo de gatilho específico.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de gatilho para definir a validade.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Se o tipo de gatilho deve ser ativado ou desativado.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Define se um gatilho de chat é válido para um tipo de gatilho específico.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de gatilho para definir a validade.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Se o tipo de gatilho deve ser ativado ou desativado.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para ser excluído automaticamente após acionar.'
+  params:
+    - &ref_162
+      desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para ser excluído automaticamente após acionar.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para ser excluído automaticamente após acionar.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para ser excluído automaticamente após acionar.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para permitir direcionamento.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para ser acionado quando o texto aparecer em qualquer parte da mensagem.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Define o canal de republicação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'O canal a definir para a republicação.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Define o canal de republicação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O canal a definir para a republicação.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Define o canal de republicação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O canal a definir para a republicação.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Define o canal de republicação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O canal a definir para a republicação.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Define a URL do webhook para republicar um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'A URL do webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Define a URL do webhook para republicar um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A URL do webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Define a URL do webhook para republicar um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A URL do webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Define a URL do webhook para republicar um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A URL do webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para enviar uma mensagem direta como resposta.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Define se a resposta da interação deve ser efêmera para um gatilho de chat. Para não mostrar a outros meu sofrimento com a documentação!'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'True se a resposta deve ser efêmera, false caso contrário.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Define se a resposta da interação deve ser efêmera para um gatilho de chat. Para não mostrar a outros meu sofrimento com a documentação!'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True se a resposta deve ser efêmera, false caso contrário.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Define se a resposta da interação deve ser efêmera para um gatilho de chat. Para não mostrar a outros meu sofrimento com a documentação!'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True se a resposta deve ser efêmera, false caso contrário.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Define se a resposta da interação deve ser efêmera para um gatilho de chat. Para não mostrar a outros meu sofrimento com a documentação!'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True se a resposta deve ser efêmera, false caso contrário.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Mostra os erros de interação dos gatilhos de chat.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para não responder.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Define o prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'O novo prefixo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Define o prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O novo prefixo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Define o prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O novo prefixo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Define o prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O novo prefixo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Define o tipo de prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'O tipo de prefixo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Define o tipo de prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de prefixo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Define o tipo de prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de prefixo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Define o tipo de prefixo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de prefixo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Define reações para um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Os emojis a definir como reações.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Define reações para um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Os emojis a definir como reações.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Define reações para um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Os emojis a definir como reações.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Define reações para um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Os emojis a definir como reações.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Ativa ou desativa a concessão de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'O cargo a alternar.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Ativa ou desativa a concessão de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O cargo a alternar.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Ativa ou desativa a concessão de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O cargo a alternar.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Ativa ou desativa a concessão de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O cargo a alternar.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Ativa ou desativa a remoção de cargo de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O cargo a alternar.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Limpa todos os gatilhos de chat.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Exporta as configurações de gatilhos de chat do servidor atual.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Migra os gatilhos de chat no formato antigo CrEmbed para o novo formato de embed. Primeiro exporta um backup e depois converte todos os gatilhos.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Importa as configurações de gatilhos de chat para o servidor atual.'
+  params:
+    - desc: 'A entrada contendo as configurações das reações personalizadas.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Recarrega os gatilhos de chat.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Exclui um gatilho de chat pelo seu ID.'
+  params:
+    - desc: 'O ID do gatilho de chat a excluir.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Edita um gatilho de chat existente.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A nova mensagem do gatilho de chat.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Lista todos os gatilhos de chat.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Lista todos os gatilhos de chat agrupados por gatilho.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Define um gatilho de chat para reagir ao gatilho.'
+  params:
+    - desc: 'O ID do gatilho de chat a editar.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Define a descrição da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'A descrição a definir para a interação.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Define a descrição da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A descrição a definir para a interação.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Define a descrição da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A descrição a definir para a interação.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Define a descrição da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A descrição a definir para a interação.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Define o nome da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'O nome a definir para a interação.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Define o nome da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O nome a definir para a interação.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Define o nome da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O nome a definir para a interação.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Define o nome da interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O nome a definir para a interação.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Define o tipo de interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'O tipo de interação a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Define o tipo de interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de interação a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Define o tipo de interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de interação a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Define o tipo de interação de um gatilho de chat.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'O tipo de interação a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Mostra os detalhes de um gatilho de chat específico.'
+  params:
+    - &ref_544
+      desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Mostra os detalhes de um gatilho de chat específico.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Mostra os detalhes de um gatilho de chat específico.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Mostra os detalhes de um gatilho de chat específico.'
+  params:
+    - desc: 'O ID do gatilho de chat.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Define o evento que pode disparar um gatilho de chat.'
+cteventchannel:
+  desc: 'Define o canal onde um evento de gatilho de chat é tratado.'
+ctreply:
+  desc: 'Define a mensagem à qual um gatilho de chat responde.'
+ctdeleteafter:
+  desc: 'Define após quanto tempo a resposta de um gatilho de chat é excluída.'
+ctcooldown:
+  desc: 'Define um tempo de espera (cooldown) para um gatilho de chat.'
+ctrequirecounter:
+  desc: 'Define um requisito de contador para um gatilho de chat.'
+ctcategory:
+  desc: 'Define a categoria de um gatilho de chat.'
+ctcategorytoggle:
+  desc: 'Ativa ou desativa uma categoria de gatilho de chat.'
+cttest:
+  desc: 'Testa se uma mensagem de exemplo acionaria um gatilho de chat.'
+ctstats:
+  desc: 'Mostra estatísticas de atividade dos gatilhos de chat.'
+ctchain:
+  desc: 'Define um gatilho de chat que é executado após outro gatilho.'
+ctallowbots:
+  desc: 'Controla se um gatilho de chat responde a bots.'
+ctcounters:
+  desc: 'Lista os contadores dos gatilhos de chat.'
+ctcounterset:
+  desc: 'Define o valor de um contador de gatilho de chat.'
+ctcounterdelete:
+  desc: 'Exclui um contador de gatilho de chat.'
+ctplaceholders:
+  desc: 'Lista os marcadores disponíveis para os gatilhos de chat.'
+cttime:
+  desc: 'Define o intervalo de tempo ativo de um gatilho de chat.'
+ctexpiry:
+  desc: 'Define uma data de expiração para um gatilho de chat.'
+ctmaxuses:
+  desc: 'Define o número máximo de vezes que um gatilho de chat pode ser executado.'
+ctminage:
+  desc: 'Define uma idade mínima de conta para um gatilho de chat.'
+ctminmember:
+  desc: 'Define um tempo mínimo de participação no servidor para um gatilho de chat.'
+cttoggle:
+  desc: 'Ativa ou desativa um gatilho de chat.'
+ctaddresponse:
+  desc: 'Adiciona uma resposta extra a um gatilho de chat.'
+ctclearresponses:
+  desc: 'Remove respostas extras de um gatilho de chat.'
+ctresponsemode:
+  desc: 'Define como um gatilho de chat escolhe suas respostas.'
+ctcost:
+  desc: 'Define o custo em moeda de um gatilho de chat.'
+ctreward:
+  desc: 'Define a recompensa em moeda de um gatilho de chat.'
+ctxpreward:
+  desc: 'Define a recompensa de XP de um gatilho de chat.'
+ctreqlevel:
+  desc: 'Define o nível de XP necessário para um gatilho de chat.'
+ctreqmsg:
+  desc: 'Define a mensagem de falha de requisito de um gatilho de chat.'

@@ -1,0 +1,1475 @@
+allcatmdls:
+  args:
+    - action chnl
+  desc: '为某个类别中的所有模块添加或移除权限。'
+  params:
+    - &ref_61
+      desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_62
+      desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel:
+  args:
+    - action chnl
+  desc: '为某个类别中的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_1:
+  args:
+    - action chnl
+  desc: '为某个类别中的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_2:
+  args:
+    - action chnl
+  desc: '为某个类别中的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allchnlmdls:
+  args:
+    - action chnl
+  desc: '为某个频道中的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_63
+      desc: '要设置权限的频道。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel:
+  args:
+    - action chnl
+  desc: '为某个频道中的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的频道。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_1:
+  args:
+    - action chnl
+  desc: '为某个频道中的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的频道。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_2:
+  args:
+    - action chnl
+  desc: '为某个频道中的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的频道。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allcmdcooldowns:
+  args:
+    - ''
+  desc: '显示服务器中所有处于冷却状态的命令。'
+  params: [ ]
+allrolemdls:
+  args:
+    - action @role
+  desc: '为某个身份组的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_64
+      desc: '要设置权限的身份组。'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole:
+  args:
+    - action @role
+  desc: '为某个身份组的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的身份组。'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_1:
+  args:
+    - action @role
+  desc: '为某个身份组的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的身份组。'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_2:
+  args:
+    - action @role
+  desc: '为某个身份组的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的身份组。'
+      name: role
+      optional: false
+      type: IRole
+allsrvrmdls:
+  args:
+    - action
+  desc: '为整个服务器的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+allusrmdls:
+  args:
+    - action @user
+  desc: '为某个用户的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_65
+      desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser:
+  args:
+    - action @user
+  desc: '为某个用户的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_1:
+  args:
+    - action @user
+  desc: '为某个用户的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_2:
+  args:
+    - action @user
+  desc: '为某个用户的所有模块添加或移除权限。'
+  params:
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IUser
+autobanword:
+  args:
+    - text
+  desc: '切换当前服务器自动封禁列表中的某个词。'
+  params:
+    - &ref_89
+      desc: '要在自动封禁列表中切换的词。'
+      name: word
+      optional: false
+      type: string
+autobanword_string:
+  args:
+    - text
+  desc: '切换当前服务器自动封禁列表中的某个词。'
+  params:
+    - desc: '要在自动封禁列表中切换的词。'
+      name: word
+      optional: false
+      type: string
+autobanword_string_1:
+  args:
+    - text
+  desc: '切换当前服务器自动封禁列表中的某个词。'
+  params:
+    - desc: '要在自动封禁列表中切换的词。'
+      name: word
+      optional: false
+      type: string
+autobanword_string_2:
+  args:
+    - text
+  desc: '切换当前服务器自动封禁列表中的某个词。'
+  params:
+    - desc: '要在自动封禁列表中切换的词。'
+      name: word
+      optional: false
+      type: string
+autobanwordlist:
+  args:
+    - ''
+  desc: '以分页形式显示当前服务器自动封禁列表中的所有词。'
+  params: [ ]
+autobanwordlist_noparams:
+  args:
+    - ''
+  desc: '以分页形式显示当前服务器自动封禁列表中的所有词。'
+  params: [ ]
+autobanwordlist_noparams_1:
+  args:
+    - ''
+  desc: '以分页形式显示当前服务器自动封禁列表中的所有词。'
+  params: [ ]
+autobanwordlist_noparams_2:
+  args:
+    - ''
+  desc: '以分页形式显示当前服务器自动封禁列表中的所有词。'
+  params: [ ]
+catcmd:
+  args:
+    - command action chnl
+  desc: '为某个类别添加或移除特定命令的权限。'
+  params:
+    - &ref_120
+      desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - command action chnl
+  desc: '为某个类别添加或移除特定命令的权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - command action chnl
+  desc: '为某个类别添加或移除特定命令的权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - command action chnl
+  desc: '为某个类别添加或移除特定命令的权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl:
+  args:
+    - module action chnl
+  desc: '为某个类别添加或移除特定模块的权限。'
+  params:
+    - &ref_121
+      desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - module action chnl
+  desc: '为某个类别添加或移除特定模块的权限。'
+  params:
+    - desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - module action chnl
+  desc: '为某个类别添加或移除特定模块的权限。'
+  params:
+    - desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - module action chnl
+  desc: '为某个类别添加或移除特定模块的权限。'
+  params:
+    - desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的类别。'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+channelblacklist:
+  args:
+    - action id text
+    - action id
+  desc: '根据频道 ID 将其加入或移出黑名单，可附带原因。'
+  params:
+    - &ref_122
+      desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_123
+      desc: '频道的 ID。'
+      name: id
+      optional: false
+      type: ulong
+    - &ref_124
+      desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: '根据频道 ID 将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '频道的 ID。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: '根据频道 ID 将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_638
+      desc: '频道的 ID。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: '根据频道 ID 将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '频道的 ID。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+chnlcmd:
+  args:
+    - command action chnl
+  desc: '为某个特定命令添加或移除频道专属权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的频道。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+chnlfilterinv:
+  args:
+    - ''
+  desc: '开启或关闭某个特定频道的邀请链接过滤器。'
+  params: [ ]
+chnlfilterlin:
+  args:
+    - ''
+  desc: '开启或关闭某个特定频道的链接过滤器。'
+  params: [ ]
+chnlfilterwords:
+  args:
+    - ''
+  desc: '开启或关闭某个特定频道的词语过滤器。'
+  params: [ ]
+chnlmdl:
+  args:
+    - module action chnl
+  desc: '为某个特定模块添加或移除频道专属权限。'
+  params:
+    - desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的频道。'
+      name: chnl
+      optional: false
+      type: ITextChannel
+cmdcooldown:
+  args:
+    - '<command> [time]'
+    - command
+  desc: '为服务器中指定命令设置或清除冷却时间。'
+  params:
+    - desc: '要设置冷却时间的命令。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: '冷却时长。默认为 0s，即清除冷却。'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=:
+  args:
+    - '<command> [time]'
+    - command
+  desc: '为服务器中指定命令设置或清除冷却时间。'
+  params:
+    - desc: '要设置冷却时间的命令。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: '冷却时长。默认为 0s，即清除冷却。'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_1:
+  args:
+    - '<command> [time]'
+    - command
+  desc: '为服务器中指定命令设置或清除冷却时间。'
+  params:
+    - desc: '要设置冷却时间的命令。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: '冷却时长。默认为 0s，即清除冷却。'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_2:
+  args:
+    - '<command> [time]'
+    - command
+  desc: '为服务器中指定命令设置或清除冷却时间。'
+  params:
+    - desc: '要设置冷却时间的命令。'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: '冷却时长。默认为 0s，即清除冷却。'
+      name: time
+      optional: true
+      type: duration
+filterword:
+  args:
+    - text
+  desc: '添加或从当前服务器的过滤词列表中移除一个词。'
+  params:
+    - &ref_218
+      desc: '要在过滤词列表中切换的词。'
+      name: word
+      optional: true
+      type: string
+filterword_string:
+  args:
+    - text
+  desc: '添加或从当前服务器的过滤词列表中移除一个词。'
+  params:
+    - desc: '要在过滤词列表中切换的词。'
+      name: word
+      optional: true
+      type: string
+filterword_string_1:
+  args:
+    - text
+  desc: '添加或从当前服务器的过滤词列表中移除一个词。'
+  params:
+    - desc: '要在过滤词列表中切换的词。'
+      name: word
+      optional: true
+      type: string
+filterword_string_2:
+  args:
+    - text
+  desc: '添加或从当前服务器的过滤词列表中移除一个词。'
+  params:
+    - desc: '要在过滤词列表中切换的词。'
+      name: word
+      optional: true
+      type: string
+fwarn:
+  args:
+    - text
+  desc: '开启或关闭当前服务器中过滤词的警告。'
+  params:
+    - &ref_219
+      desc: '表示开启（"y"）或关闭（"n"）警告的字符串。'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string:
+  args:
+    - text
+  desc: '开启或关闭当前服务器中过滤词的警告。'
+  params:
+    - desc: '表示开启（"y"）或关闭（"n"）警告的字符串。'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_1:
+  args:
+    - text
+  desc: '开启或关闭当前服务器中过滤词的警告。'
+  params:
+    - desc: '表示开启（"y"）或关闭（"n"）警告的字符串。'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_2:
+  args:
+    - text
+  desc: '开启或关闭当前服务器中过滤词的警告。'
+  params:
+    - desc: '表示开启（"y"）或关闭（"n"）警告的字符串。'
+      name: yesnt
+      optional: false
+      type: string
+fwclear:
+  args:
+    - ''
+  desc: '清除当前服务器的所有过滤词。'
+  params: [ ]
+globalcommand:
+  args:
+    - cmd
+  desc: '切换某个命令在全局黑名单中的状态。'
+  params:
+    - &ref_231
+      desc: '要切换的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo:
+  args:
+    - cmd
+  desc: '切换某个命令在全局黑名单中的状态。'
+  params:
+    - desc: '要切换的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_1:
+  args:
+    - cmd
+  desc: '切换某个命令在全局黑名单中的状态。'
+  params:
+    - desc: '要切换的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_2:
+  args:
+    - cmd
+  desc: '切换某个命令在全局黑名单中的状态。'
+  params:
+    - desc: '要切换的命令。'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalmodule:
+  args:
+    - module
+  desc: '切换某个模块在全局黑名单中的状态。'
+  params:
+    - &ref_232
+      desc: '要切换的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo:
+  args:
+    - module
+  desc: '切换某个模块在全局黑名单中的状态。'
+  params:
+    - desc: '要切换的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_1:
+  args:
+    - module
+  desc: '切换某个模块在全局黑名单中的状态。'
+  params:
+    - desc: '要切换的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_2:
+  args:
+    - module
+  desc: '切换某个模块在全局黑名单中的状态。'
+  params:
+    - desc: '要切换的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalpermlist:
+  args:
+    - ''
+  desc: '列出当前所有被全局屏蔽的模块和命令。'
+  params: [ ]
+globalpermlist_noparams:
+  args:
+    - ''
+  desc: '列出当前所有被全局屏蔽的模块和命令。'
+  params: [ ]
+globalpermlist_noparams_1:
+  args:
+    - ''
+  desc: '列出当前所有被全局屏蔽的模块和命令。'
+  params: [ ]
+globalpermlist_noparams_2:
+  args:
+    - ''
+  desc: '列出当前所有被全局屏蔽的模块和命令。'
+  params: [ ]
+invwarn:
+  args:
+    - text
+  desc: '开启或关闭当前服务器中对发布的邀请链接的警告。'
+  params:
+    - desc: '表示开启（"y"）或关闭（"n"）警告的字符串。'
+      name: yesnt
+      optional: false
+      type: string
+listperms:
+  args:
+    - ''
+  desc: '列出服务器的权限。'
+  params: [ ]
+lstfilterwords:
+  args:
+    - ''
+  desc: '列出当前服务器过滤词列表中的所有词。'
+  params: [ ]
+manualblacklistcheck:
+  args:
+    - ''
+  desc: '在机器人的管理范围内手动检查黑名单实体。'
+  params: [ ]
+moveperm:
+  args:
+    - number number
+  desc: '将权限在层级中上移。'
+  params:
+    - &ref_297
+      desc: '初始索引'
+      name: from
+      optional: false
+      type: int
+    - &ref_298
+      desc: '替换索引'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int:
+  args:
+    - number number
+  desc: '将权限在层级中上移。'
+  params:
+    - desc: '初始索引'
+      name: from
+      optional: false
+      type: int
+    - desc: '替换索引'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_1:
+  args:
+    - number number
+  desc: '将权限在层级中上移。'
+  params:
+    - desc: '初始索引'
+      name: from
+      optional: false
+      type: int
+    - desc: '替换索引'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_2:
+  args:
+    - number number
+  desc: '将权限在层级中上移。'
+  params:
+    - desc: '初始索引'
+      name: from
+      optional: false
+      type: int
+    - desc: '替换索引'
+      name: to
+      optional: false
+      type: int
+permrole:
+  args:
+    - '[@role]'
+  desc: '重置权限身份组。'
+  params:
+    - desc: '要设为权限身份组的身份组（如有）'
+      name: role
+      optional: true
+      type: role
+permrole_=:
+  args:
+    - '[@role]'
+  desc: '重置权限身份组。'
+  params:
+    - desc: '要设为权限身份组的身份组（如有）'
+      name: role
+      optional: true
+      type: role
+permrole_=_1:
+  args:
+    - '[@role]'
+  desc: '重置权限身份组。'
+  params:
+    - desc: '要设为权限身份组的身份组（如有）'
+      name: role
+      optional: true
+      type: role
+permrole_=_2:
+  args:
+    - '[@role]'
+  desc: '重置权限身份组。'
+  params:
+    - desc: '要设为权限身份组的身份组（如有）'
+      name: role
+      optional: true
+      type: role
+permrole_Reset:
+  args:
+    - reset
+  desc: '重置权限身份组。'
+  params:
+    - &ref_342
+      desc: '重置权限身份组。'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_1:
+  args:
+    - reset
+  desc: '重置权限身份组。'
+  params:
+    - desc: '重置权限身份组。'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_2:
+  args:
+    - reset
+  desc: '重置权限身份组。'
+  params:
+    - desc: '重置权限身份组。'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_3:
+  args:
+    - reset
+  desc: '重置权限身份组。'
+  params:
+    - desc: '重置权限身份组。'
+      name: _
+      optional: false
+      type: Reset
+removeperm:
+  args:
+    - number
+  desc: '根据索引从列表中删除一个权限。'
+  params:
+    - &ref_405
+      desc: '要删除的权限'
+      name: index
+      optional: false
+      type: int
+removeperm_int:
+  args:
+    - number
+  desc: '根据索引从列表中删除一个权限。'
+  params:
+    - desc: '要删除的权限'
+      name: index
+      optional: false
+      type: int
+removeperm_int_1:
+  args:
+    - number
+  desc: '根据索引从列表中删除一个权限。'
+  params:
+    - desc: '要删除的权限'
+      name: index
+      optional: false
+      type: int
+removeperm_int_2:
+  args:
+    - number
+  desc: '根据索引从列表中删除一个权限。'
+  params:
+    - desc: '要删除的权限'
+      name: index
+      optional: false
+      type: int
+resetglobalperms:
+  args:
+    - ''
+  desc: '重置所有全局权限，清除所有全局命令和模块屏蔽。'
+  params: [ ]
+resetperms:
+  args:
+    - ''
+  desc: '重置服务器的权限。'
+  params: [ ]
+rolecmd:
+  args:
+    - command action @role
+  desc: '为某个特定命令添加或移除身份组专属权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolemdl:
+  args:
+    - module action @role
+  desc: '为某个特定模块添加或移除身份组专属权限。'
+  params:
+    - desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的身份组。'
+      name: role
+      optional: false
+      type: IRole
+serverblacklist:
+  args:
+    - action id text
+    - action id
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string:
+  args:
+    - action guild text
+    - action guild
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_485
+      desc: '服务器对象。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_1:
+  args:
+    - action guild text
+    - action guild
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '服务器对象。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_2:
+  args:
+    - action guild text
+    - action guild
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '服务器对象。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_3:
+  args:
+    - action guild text
+    - action guild
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '服务器对象。'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据服务器对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+srvrcmd:
+  args:
+    - command action
+  desc: '在服务器中启用或禁用某个命令。'
+  params:
+    - &ref_556
+      desc: '要执行操作的命令'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_557
+      desc: '禁用还是启用该命令'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction:
+  args:
+    - command action
+  desc: '在服务器中启用或禁用某个命令。'
+  params:
+    - desc: '要执行操作的命令'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '禁用还是启用该命令'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_1:
+  args:
+    - command action
+  desc: '在服务器中启用或禁用某个命令。'
+  params:
+    - desc: '要执行操作的命令'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '禁用还是启用该命令'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_2:
+  args:
+    - command action
+  desc: '在服务器中启用或禁用某个命令。'
+  params:
+    - desc: '要执行操作的命令'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '禁用还是启用该命令'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrfilterinv:
+  args:
+    - ''
+  desc: '开启或关闭服务器范围的邀请链接过滤器。'
+  params: [ ]
+srvrfilterlin:
+  args:
+    - ''
+  desc: '开启或关闭服务器范围的链接过滤器。'
+  params: [ ]
+srvrfilterwords:
+  args:
+    - ''
+  desc: '开启或关闭服务器范围的词语过滤器。'
+  params: [ ]
+srvrmdl:
+  args:
+    - module action
+  desc: '为某个特定模块添加或移除服务器级权限。'
+  params:
+    - desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+userblacklist:
+  args:
+    - action id text
+    - action id
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string:
+  args:
+    - action @user text
+    - action @user
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_637
+      desc: '用户对象。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_1:
+  args:
+    - action @user text
+    - action @user
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '用户对象。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_2:
+  args:
+    - action @user text
+    - action @user
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '用户对象。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_3:
+  args:
+    - action @user text
+    - action @user
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '用户对象。'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+  params:
+    - desc: '指定是添加到黑名单还是从中移除。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '根据用户对象将其加入或移出黑名单，可附带原因。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '黑名单操作的原因。'
+      name: reason
+      optional: true
+      type: string
+usrcmd:
+  args:
+    - command action @user
+  desc: '为某个特定命令添加或移除用户专属权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_639
+      desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser:
+  args:
+    - command action @user
+  desc: '为某个特定命令添加或移除用户专属权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_1:
+  args:
+    - command action @user
+  desc: '为某个特定命令添加或移除用户专属权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_2:
+  args:
+    - command action @user
+  desc: '为某个特定命令添加或移除用户专属权限。'
+  params:
+    - desc: '要设置权限的命令。'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+usrmdl:
+  args:
+    - module action @user
+  desc: '为某个特定模块添加或移除用户专属权限。'
+  params:
+    - desc: '要设置权限的模块。'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: '要执行的操作（enable/disable）。'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: '要设置权限的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+verbose:
+  args:
+    - '[action]'
+  desc: '设置使用命令时，是否根据问题类型抛出错误。'
+  params:
+    - desc: '只是一个开/关选项。由于它本身就是切换项，作用不大。'
+      name: action
+      optional: true
+      type: action

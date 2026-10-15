@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Lista todos os menus de cargos deste servidor, com canal, tipo, número de opções e status.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Mostra todas as informações de um menu de cargos: canal, tipo, regras de escolha, cargo necessário, confirmação e opções.'
+  params:
+    - desc: 'O ID do menu, obtido em rolemenus.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Publica um novo menu de cargos em um canal, com uma opção por cargo. Os membros escolhem em um menu suspenso ou em uma fileira de botões para ganhar ou largar esses cargos.'
+  params:
+    - desc: 'O canal onde o menu será publicado.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'dropdown (menu suspenso) ou buttons (botões).'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: 'Um ou mais cargos, até 25.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Adiciona um cargo a um menu, com emoji e nome opcionais, e atualiza a mensagem publicada.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'O cargo que a nova opção concede.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Um emoji opcional seguido do nome exibido no menu. Por padrão, usa o nome do cargo.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Remove um cargo de um menu e atualiza a mensagem publicada.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'O cargo a tirar do menu.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Renomeia um menu. O nome dá título à mensagem padrão e aparece nas listas.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'O novo nome, até 100 caracteres.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Define o texto acima de um menu, como texto simples ou JSON de embed do criador de embeds. Envie apenas o ID para ver a mensagem atual, ou "clear" para voltar à lista padrão de opções.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'A mensagem, "clear", ou nada para visualizar.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Alterna um menu entre menu suspenso e botões.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'dropdown (menu suspenso) ou buttons (botões).'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Define se os membros escolhem um cargo (escolher outro o substitui) ou quantos cargos quiserem do menu.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'exclusive para escolher um, multi para escolher quantos quiser.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Define quantos cargos de um menu um membro deve manter e pode ter. Um máximo de 0 significa sem limite.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'O mínimo de cargos que um membro deve manter depois de escolher.'
+      name: min
+      optional: false
+      type: int
+    - desc: 'O máximo de cargos que um membro pode ter, 0 para sem limite.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Permite apenas que membros com um cargo usem o menu. Omita o cargo para que qualquer um possa usar.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'O cargo necessário para usar o menu. Omita para limpar.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Escolhe se os membros recebem uma nota privada listando os cargos ganhos e perdidos, ou nenhuma nota.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private ou silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Pausa um menu, desativando o menu suspenso ou os botões, ou o retoma se estiver pausado.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Publica uma nova cópia de um menu, no mesmo canal ou em outro, e apaga a mensagem antiga.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Onde publicar. Por padrão, o canal atual.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Apaga um menu e a sua mensagem. Os membros mantêm os cargos que já escolheram.'
+  params:
+    - desc: 'O ID do menu.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Move uma configuração antiga de cargos por emoji de uma mensagem para um novo menu de cargos no mesmo canal, e então desativa a configuração antiga.'
+  params:
+    - desc: 'O ID da mensagem com a configuração antiga.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown ou buttons. Por padrão, dropdown.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

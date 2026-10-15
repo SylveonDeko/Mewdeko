@@ -1,7 +1,7 @@
 confess:
   args:
     - serverid text
-  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  desc: 'Дозволяє користувачам анонімно надсилати зізнання.'
   params:
     - &ref_139
       desc: 'ID сервера.'
@@ -9,149 +9,147 @@ confess:
       optional: false
       type: ulong
     - &ref_140
-      desc: 'Повідомлення сповіді'
+      desc: 'Текст зізнання.'
       name: confession
       optional: false
       type: string
 confess_ulong_string:
   args:
     - serverid text
-  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  desc: 'Дозволяє користувачам анонімно надсилати зізнання.'
   params:
     - desc: 'ID сервера.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Повідомлення сповіді'
+    - desc: 'Текст зізнання.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_1:
   args:
     - serverid text
-  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  desc: 'Дозволяє користувачам анонімно надсилати зізнання.'
   params:
     - desc: 'ID сервера.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Повідомлення сповіді'
+    - desc: 'Текст зізнання.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_2:
   args:
     - serverid text
-  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  desc: 'Дозволяє користувачам анонімно надсилати зізнання.'
   params:
     - desc: 'ID сервера.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Повідомлення сповіді'
+    - desc: 'Текст зізнання.'
       name: confession
       optional: false
       type: string
 confessblacklist:
   args:
     - user
-  desc: 'Додає користувача до чорного списку сповідей.'
+  desc: 'Додає користувача до чорного списку зізнань.'
   params:
-    - desc: 'Користувач для внесення до чорного списку сповідей.'
+    - desc: 'Користувач, якого треба додати до чорного списку зізнань.'
       name: user
       optional: false
       type: IUser
 confesschannel:
   args:
     - channel
-  desc: 'Встановлює канал сповідей.'
+  desc: 'Встановлює канал для зізнань.'
   params:
-    - desc: 'Канал для встановлення для сповідей.'
+    - desc: 'Канал для зізнань.'
       name: channel
       optional: true
       type: ITextChannel
 confessionblacklist:
   args:
     - '@user'
-  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  desc: 'Додає користувача до чорного списку зізнань або видаляє його звідти.'
   params:
     - &ref_141
-      desc: 'Користувач для додавання або видалення з чорного списку.'
+      desc: 'Користувач, якого треба додати до чорного списку або видалити з нього.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser:
   args:
     - '@user'
-  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  desc: 'Додає користувача до чорного списку зізнань або видаляє його звідти.'
   params:
     - &ref_142
-      desc: 'Користувач для додавання або видалення з чорного списку.'
+      desc: 'Користувач, якого треба додати до чорного списку або видалити з нього.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser_1:
   args:
     - '@user'
-  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  desc: 'Додає користувача до чорного списку зізнань або видаляє його звідти.'
   params:
-    - desc: 'Користувач для додавання або видалення з чорного списку.'
+    - desc: 'Користувач, якого треба додати до чорного списку або видалити з нього.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser_2:
   args:
     - '@user'
-  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  desc: 'Додає користувача до чорного списку зізнань або видаляє його звідти.'
   params:
-    - desc: 'Користувач для додавання або видалення з чорного списку.'
+    - desc: 'Користувач, якого треба додати до чорного списку або видалити з нього.'
       name: user
       optional: false
       type: IUser
 confessionchannel:
   args:
     - '[@channel]'
-  desc: 'Встановлює канал сповідей для анонімних сповідей.'
+  desc: 'Встановлює канал для анонімних зізнань.'
   params:
-    - desc: 'Канал сповідей (необов''язково).'
+    - desc: 'Канал для зізнань (необов''язково).'
       name: channel
       optional: true
       type: channel
 confessionlogchannel:
   args:
     - '[@channel]'
-  desc: >-
-    Встановлює канал журналу сповідей для запису сповідей. Зловживання цією
-    функцією закінчиться тим, що я буду за 2м від вашого будинку.
+  desc: 'Встановлює канал журналу зізнань. Якщо ти зловживатимеш цією функцією, я опинюся за 2 метри від твого дому.'
   params:
-    - desc: 'Канал журналу сповідей (необов''язково).'
+    - desc: 'Канал журналу зізнань (необов''язково).'
       name: channel
       optional: true
       type: channel
 confessionunblacklist:
   args:
     - '@user'
-  desc: 'Видаляє користувача з чорного списку сповідей.'
+  desc: 'Видаляє користувача з чорного списку зізнань.'
   params:
-    - desc: 'Користувач для видалення з чорного списку.'
+    - desc: 'Користувач, якого треба видалити з чорного списку.'
       name: user
       optional: false
       type: IUser
 confesslogchannel:
   args:
     - channel
-  desc: 'Встановлює канал журналу сповідей.'
+  desc: 'Встановлює канал журналу зізнань.'
   params:
-    - desc: 'Канал для запису сповідей.'
+    - desc: 'Канал, куди записувати зізнання.'
       name: channel
       optional: true
       type: ITextChannel
 confessunblacklist:
   args:
     - user
-  desc: 'Видаляє користувача з чорного списку сповідей.'
+  desc: 'Видаляє користувача з чорного списку зізнань.'
   params:
-    - desc: 'Користувач для видалення з чорного списку сповідей.'
+    - desc: 'Користувач, якого треба розблокувати для зізнань.'
       name: user
       optional: false
       type: IUser

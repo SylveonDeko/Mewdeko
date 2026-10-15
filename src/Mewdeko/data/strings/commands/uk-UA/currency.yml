@@ -1,0 +1,892 @@
+baccarat:
+  args:
+    - number text
+  desc: 'Зіграй у баккара.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Тип ставки (player, banker, tie).'
+      name: betType
+      optional: true
+      type: string
+bingo:
+  args:
+    - number text
+  desc: 'Зіграй у бінго з викликом чисел.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Тип картки бінго (small, large).'
+      name: cardType
+      optional: true
+      type: string
+blackjack:
+  args:
+    - number
+  desc: 'Починає нову гру в блекджек або приєднується до наявної.'
+  params:
+    - &ref_113
+      desc: 'Сума ставки гравця.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long:
+  args:
+    - number
+  desc: 'Починає нову гру в блекджек або приєднується до наявної.'
+  params:
+    - desc: 'Сума ставки гравця.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_1:
+  args:
+    - number
+  desc: 'Починає нову гру в блекджек або приєднується до наявної.'
+  params:
+    - desc: 'Сума ставки гравця.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_2:
+  args:
+    - number
+  desc: 'Починає нову гру в блекджек або приєднується до наявної.'
+  params:
+    - desc: 'Сума ставки гравця.'
+      name: amount
+      optional: false
+      type: long
+cash:
+  args:
+    - ''
+  desc: 'Перевіряє поточний баланс користувача.'
+  params: [ ]
+challengeleaderboard:
+  args:
+    - ''
+  desc: 'Переглянь таблицю лідерів щоденного виклику.'
+  params: [ ]
+claimchallenge:
+  args:
+    - ''
+  desc: 'Забери нагороду за виконаний щоденний виклик.'
+  params: [ ]
+coinflip:
+  args:
+    - number text
+  desc: 'Дозволяє підкинути монету зі вказаною ставкою та прогнозом.'
+  params:
+    - &ref_135
+      desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_136
+      desc: 'Прогноз користувача ("heads" або "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string:
+  args:
+    - number text
+  desc: 'Дозволяє підкинути монету зі вказаною ставкою та прогнозом.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Прогноз користувача ("heads" або "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_1:
+  args:
+    - number text
+  desc: 'Дозволяє підкинути монету зі вказаною ставкою та прогнозом.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Прогноз користувача ("heads" або "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_2:
+  args:
+    - number text
+  desc: 'Дозволяє підкинути монету зі вказаною ставкою та прогнозом.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Прогноз користувача ("heads" або "tails").'
+      name: guess
+      optional: false
+      type: string
+craps:
+  args:
+    - number text
+  desc: 'Зіграй у кепс.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Тип ставки (pass, dontpass, field, any).'
+      name: betType
+      optional: true
+      type: string
+crash:
+  args:
+    - number number
+  desc: 'Зіграй у гру Crash, де ставиш на множник, який може обвалитися будь-коли.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Множник, на якому забрати виграш (1.1x–10.0x).'
+      name: targetMultiplier
+      optional: true
+      type: double
+dailychallenge:
+  args:
+    - ''
+  desc: 'Переглянь свій поточний щоденний виклик.'
+  params: [ ]
+dailyreward:
+  args:
+    - ''
+  desc: 'Дозволяє користувачу забрати щоденну нагороду.'
+  params: [ ]
+diceduel:
+  args:
+    - '@user number'
+  desc: 'Викликай іншого гравця на дуель у кубики.'
+  params:
+    - desc: 'Користувач, якого треба викликати.'
+      name: opponent
+      optional: false
+      type: IUser
+    - desc: 'Сума ставки кожного гравця.'
+      name: betAmount
+      optional: false
+      type: long
+duckrace:
+  args:
+    - number
+  desc: 'Почни перегони качок, схожі на перегони коней.'
+  params:
+    - desc: 'Сума ставки на перегони качок.'
+      name: betAmount
+      optional: false
+      type: long
+highlow:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Показує число від 1 до 10, і ти отримуєш виплату, якщо правильно вгадаєш, чи наступне число буде вищим або нижчим. Однакові числа повертають ставку.'
+  params:
+    - &ref_247
+      desc: 'Прогноз користувача ("higher" або "lower").'
+      name: guess
+      optional: false
+      type: string
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: true
+      type: long
+highlow_string:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Показує число від 1 до 10, і ти отримуєш виплату, якщо правильно вгадаєш, чи наступне число буде вищим або нижчим. Однакові числа повертають ставку.'
+  params:
+    - desc: 'Прогноз користувача ("higher" або "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_1:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Показує число від 1 до 10, і ти отримуєш виплату, якщо правильно вгадаєш, чи наступне число буде вищим або нижчим. Однакові числа повертають ставку.'
+  params:
+    - desc: 'Прогноз користувача ("higher" або "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_2:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Показує число від 1 до 10, і ти отримуєш виплату, якщо правильно вгадаєш, чи наступне число буде вищим або нижчим. Однакові числа повертають ставку.'
+  params:
+    - desc: 'Прогноз користувача ("higher" або "lower").'
+      name: guess
+      optional: false
+      type: string
+hit:
+  args:
+    - ''
+  desc: 'Бере ще одну карту для гравця.'
+  params: [ ]
+horserace:
+  args:
+    - number
+  desc: 'Приєднується або починає перегони коней з вказаною ставкою.'
+  params:
+    - &ref_248
+      desc: 'Сума валюти для ставки на перегони.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int:
+  args:
+    - number
+  desc: 'Приєднується або починає перегони коней з вказаною ставкою.'
+  params:
+    - desc: 'Сума валюти для ставки на перегони.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_1:
+  args:
+    - number
+  desc: 'Приєднується або починає перегони коней з вказаною ставкою.'
+  params:
+    - desc: 'Сума валюти для ставки на перегони.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_2:
+  args:
+    - number
+  desc: 'Приєднується або починає перегони коней з вказаною ставкою.'
+  params:
+    - desc: 'Сума валюти для ставки на перегони.'
+      name: betAmount
+      optional: false
+      type: int
+keno:
+  args:
+    - number text
+  desc: 'Зіграй у кено, вибираючи числа та дивлячись, скільки з них збігаються з виграними.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'До 10 чисел від 1 до 80, розділених пробілами.'
+      name: numbers
+      optional: false
+      type: string
+lottery:
+  args:
+    - number
+  desc: 'Купи лотерейні квитки.'
+  params:
+    - desc: 'Кількість квитків для купівлі (1–10).'
+      name: ticketCount
+      optional: true
+      type: int
+memory:
+  args:
+    - number text
+  desc: 'Зіграй у гру на пам''ять, запам''ятовуючи послідовності.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Рівень складності (easy, medium, hard).'
+      name: difficulty
+      optional: true
+      type: string
+minesweeper:
+  args:
+    - number text
+  desc: 'Зіграй у спрощений сапер.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Розмір поля (small, medium, large).'
+      name: size
+      optional: true
+      type: string
+modifybalance:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Додає гроші на баланс користувача.'
+  params:
+    - desc: 'Користувач, якому це додати.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Сума для додавання, не перегни палку, ок? Може бути від''ємною.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Причина, чому ти це робиш цій людині, речі тощо.'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Додає гроші на баланс користувача.'
+  params:
+    - desc: 'Користувач, якому це додати.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Сума для додавання, не перегни палку, ок? Може бути від''ємною.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Причина, чому ти це робиш цій людині, речі тощо.'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_1:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Додає гроші на баланс користувача.'
+  params:
+    - desc: 'Користувач, якому це додати.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Сума для додавання, не перегни палку, ок? Може бути від''ємною.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Причина, чому ти це робиш цій людині, речі тощо.'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_2:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Додає гроші на баланс користувача.'
+  params:
+    - desc: 'Користувач, якому це додати.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Сума для додавання, не перегни палку, ок? Може бути від''ємною.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Причина, чому ти це робиш цій людині, речі тощо.'
+      name: reason
+      optional: true
+      type: string
+plinko:
+  args:
+    - number number
+  desc: 'Зіграй у пачінко, кидаючи кульку між кілочками для випадкових множників.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Кількість рядів кілочків (5–10).'
+      name: rows
+      optional: true
+      type: int
+roulette:
+  args:
+    - number text
+  desc: 'Зіграй у рулетку зі вказаною ставкою та типом ставки.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_469
+      desc: 'Тип ставки (наприклад, "red", "black", "even", "odd" або число від 0 до 36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string:
+  args:
+    - number text
+  desc: 'Зіграй у рулетку зі вказаною ставкою та типом ставки.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Тип ставки (наприклад, "red", "black", "even", "odd" або число від 0 до 36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_1:
+  args:
+    - number text
+  desc: 'Зіграй у рулетку зі вказаною ставкою та типом ставки.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Тип ставки (наприклад, "red", "black", "even", "odd" або число від 0 до 36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_2:
+  args:
+    - number text
+  desc: 'Зіграй у рулетку зі вказаною ставкою та типом ставки.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Тип ставки (наприклад, "red", "black", "even", "odd" або число від 0 до 36).'
+      name: betType
+      optional: false
+      type: string
+rps:
+  args:
+    - text 0
+    - text
+  desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+  params:
+    - &ref_470
+      desc: 'Твій вибір (rock, paper, scissors, lizard або spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=:
+  args:
+    - text 0
+    - text
+  desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+  params:
+    - desc: 'Твій вибір (rock, paper, scissors, lizard або spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_1:
+  args:
+    - text 0
+    - text
+  desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+  params:
+    - desc: 'Твій вибір (rock, paper, scissors, lizard або spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_2:
+  args:
+    - text 0
+    - text
+  desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+  params:
+    - desc: 'Твій вибір (rock, paper, scissors, lizard або spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Зіграй у камінь, ножиці, папір, ящірка, Спок проти бота, зі ставкою або без неї.'
+      name: 0
+      optional: false
+      type: '='
+russianroulette:
+  args:
+    - number number
+  desc: 'Зіграй у російську рулетку.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Кількість куль (1–5).'
+      name: bullets
+      optional: true
+      type: int
+scratchcard:
+  args:
+    - text
+  desc: 'Зіграй у гру зі скретч-картками.'
+  params:
+    - desc: 'Тип картки для купівлі (bronze, silver, gold, diamond).'
+      name: cardType
+      optional: true
+      type: string
+setdaily:
+  args:
+    - number time
+  desc: 'Встановлює суму щоденної нагороди та кулдаун для сервера.'
+  params:
+    - &ref_499
+      desc: 'Сума щоденної нагороди.'
+      name: amount
+      optional: false
+      type: int
+    - &ref_500
+      desc: 'Кулдаун для отримання щоденної нагороди.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Встановлює суму щоденної нагороди та кулдаун для сервера.'
+  params:
+    - desc: 'Сума щоденної нагороди.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Кулдаун для отримання щоденної нагороди.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Встановлює суму щоденної нагороди та кулдаун для сервера.'
+  params:
+    - desc: 'Сума щоденної нагороди.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Кулдаун для отримання щоденної нагороди.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Встановлює суму щоденної нагороди та кулдаун для сервера.'
+  params:
+    - desc: 'Сума щоденної нагороди.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Кулдаун для отримання щоденної нагороди.'
+      name: time
+      optional: false
+      type: StoopidTime
+slot:
+  args:
+    - 10
+  desc: 'Грає в слот-автомат зі вказаною ставкою.'
+  params:
+    - desc: 'Грає в слот-автомат зі вказаною ставкою.'
+      name: 10
+      optional: false
+      type: '='
+spinwheel:
+  args:
+    - 0
+  desc: 'Дозволяє крутити колесо з шансом виграти або програти кредити.'
+  params:
+    - desc: 'Дозволяє крутити колесо з шансом виграти або програти кредити.'
+      name: 0
+      optional: false
+      type: '='
+stand:
+  args:
+    - ''
+  desc: 'Зупиняє хід гравця та завершує його, виконуючи хід дилера.'
+  params: [ ]
+transactions:
+  args:
+    - '@user'
+  desc: 'Отримує та показує транзакції вказаного користувача або поточного користувача.'
+  params:
+    - desc: 'Користувач, чиї транзакції показати. За замовчуванням це поточний користувач.'
+      name: user
+      optional: true
+      type: IUser?
+triviachain:
+  args:
+    - number text
+  desc: 'Зіграй у ланцюжок вікторин, відповідаючи на запитання підряд за зростаючі нагороди.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Категорія вікторини.'
+      name: category
+      optional: true
+      type: string
+war:
+  args:
+    - number
+  desc: 'Зіграй у війну проти бота.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+wheelfortune:
+  args:
+    - number text
+  desc: 'Зіграй у покращене колесо фортуни з налаштовуваними секторами.'
+  params:
+    - desc: 'Сума ставки.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Тип колеса (classic, risky, balanced).'
+      name: wheelType
+      optional: true
+      type: string
+work:
+  args:
+    - ''
+  desc: 'Відпрацюй зміну за випадкову виплату, з кулдауном, який встановлює сервер.'
+  params: [ ]
+crime:
+  args:
+    - ''
+  desc: 'Спробуй скоїти злочин за більшу виплату, ніж у роботі, з ризиком отримати штраф натомість.'
+  params: [ ]
+rob:
+  args:
+    - '@user'
+  desc: 'Спробуй вкрасти гроші з гаманця іншого користувача. Гроші на банківському рахунку недосяжні.'
+  params:
+    - desc: 'Користувач, якого треба пограбувати.'
+      name: target
+      optional: false
+      type: user
+pay:
+  args:
+    - '@user <amount>'
+  desc: 'Надсилає валюту іншому користувачеві, мінус податок на переказ, який стягує сервер.'
+  params:
+    - desc: 'Користувач, якому надіслати валюту.'
+      name: target
+      optional: false
+      type: user
+    - desc: 'Сума до сплати податку.'
+      name: amount
+      optional: false
+      type: long
+bank:
+  args:
+    - ''
+    - '@user'
+  desc: 'Показує баланси гаманця та банку, нараховуючи відсотки, які вже накопичилися.'
+  params:
+    - desc: 'Користувач, якого переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: user
+deposit:
+  args:
+    - '<amount|all>'
+  desc: 'Переказує валюту з гаманця до банку, де вона захищена від пограбування.'
+  params:
+    - desc: 'Сума для внесення або "all", щоб внести весь гаманець.'
+      name: amount
+      optional: false
+      type: string
+withdraw:
+  args:
+    - '<amount|all>'
+  desc: 'Переказує валюту з банку назад у гаманець, щоб її можна було витратити.'
+  params:
+    - desc: 'Сума для зняття або "all", щоб зняти все.'
+      name: amount
+      optional: false
+      type: string
+shop:
+  args:
+    - ''
+  desc: 'Показує все, що зараз продає сервер.'
+  params: [ ]
+buy:
+  args:
+    - '<item name>'
+  desc: 'Купує предмет у магазині сервера.'
+  params:
+    - desc: 'Назва предмета для купівлі.'
+      name: name
+      optional: false
+      type: string
+inventory:
+  args:
+    - ''
+    - '@user'
+  desc: 'Показує предмети, якими володіє користувач.'
+  params:
+    - desc: 'Користувач, чий інвентар показати. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: user
+use:
+  args:
+    - '<item name>'
+  desc: 'Використовує один із твоїх предметів одноразового використання.'
+  params:
+    - desc: 'Назва предмета для використання.'
+      name: name
+      optional: false
+      type: string
+shopaddrole:
+  args:
+    - '<price> @role <name>'
+  desc: 'Додає роль до магазину, щоб користувачі могли її купити.'
+  params:
+    - desc: 'Ціна ролі.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Роль, яка видається після покупки.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Назва позиції в магазині, яка відображається.'
+      name: name
+      optional: false
+      type: string
+shopadditem:
+  args:
+    - '<price> <name>'
+  desc: 'Додає в магазин звичайний колекційний предмет без автоматичного ефекту після покупки.'
+  params:
+    - desc: 'Ціна предмета.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Назва позиції в магазині, яка відображається.'
+      name: name
+      optional: false
+      type: string
+shopremove:
+  args:
+    - '<item name>'
+  desc: 'Видаляє предмет із магазину разом із усіма його копіями в учасників.'
+  params:
+    - desc: 'Назва предмета для видалення.'
+      name: name
+      optional: false
+      type: string
+shopprice:
+  args:
+    - '<price> <item name>'
+  desc: 'Встановлює ціну наявного предмета в магазині.'
+  params:
+    - desc: 'Нова ціна.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Назва предмета, ціну якого треба змінити.'
+      name: name
+      optional: false
+      type: string
+shopstock:
+  args:
+    - '<stock> <item name>'
+  desc: 'Встановлює, скільки одиниць предмета залишилося для продажу.'
+  params:
+    - desc: 'Залишок на складі або -1 для необмеженої кількості.'
+      name: stock
+      optional: false
+      type: int
+    - desc: 'Назва предмета, який треба поповнити на складі.'
+      name: name
+      optional: false
+      type: string
+shopdesc:
+  args:
+    - '<item name> | <description>'
+  desc: 'Встановлює опис, який показується для предмета в магазині.'
+  params:
+    - desc: 'Назва предмета, далі вертикальна риска і новий опис.'
+      name: name
+      optional: false
+      type: string
+shoptoggle:
+  args:
+    - '<item name>'
+  desc: 'Показує або приховує предмет магазину, не видаляючи його та не забираючи в користувачів уже куплені копії.'
+  params:
+    - desc: 'Назва предмета, який треба перемкнути.'
+      name: name
+      optional: false
+      type: string
+economyconfig:
+  args:
+    - ''
+  desc: 'Показує всі налаштування економіки та їхні поточні значення.'
+  params: [ ]
+economyset:
+  args:
+    - '<setting> <value>'
+  desc: 'Змінює одне налаштування економіки. Щоб побачити всі доступні назви налаштувань, виконай команду config.'
+  params:
+    - desc: 'Налаштування, яке треба змінити.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'Нове значення.'
+      name: value
+      optional: false
+      type: string
+economyreset:
+  args:
+    - ''
+  desc: 'Відновлює всі налаштування економіки до значень за замовчуванням.'
+  params: [ ]
+economystats:
+  args:
+    - ''
+  desc: 'Показує розмір і концентрацію грошової маси сервера.'
+  params: [ ]
+economyflow:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Показує, звідки валюта надходить в обіг і куди з нього виходить.'
+  params:
+    - desc: 'Скільки днів назад показувати дані. За замовчуванням 7.'
+      name: days
+      optional: true
+      type: int
+gamestats:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Показує, скільки кожна гра виплатила порівняно з тим, скільки з гравців забрала, щоб коефіцієнти виплат можна було налаштовувати на основі реальних результатів, а не навмання.'
+  params:
+    - desc: 'Скільки днів назад показувати дані. За замовчуванням 7.'
+      name: days
+      optional: true
+      type: int
+cashleaderboard:
+  args:
+    - ''
+  desc: 'Показує таблицю лідерів користувачів з найбільшим чистим статком.'
+  params: [ ]

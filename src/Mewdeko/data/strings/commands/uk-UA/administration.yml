@@ -1,0 +1,4851 @@
+adsarm:
+  args:
+    - ''
+  desc: 'Перемикає автовидалення рекламних повідомлень сервера.'
+  params: [ ]
+antialt:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params: [ ]
+antipattern:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Pattern для сервера: дію покарання з покаранням через роль.'
+  params: [ ]
+antipattern_PunishmentAction_=:
+  args:
+    - '<action> [punishTime]'
+    - action
+  desc: 'Налаштовує захист Anti-Pattern для сервера: дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Дія покарання, яка застосовується до знайдених збігів шаблону.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Тривалість покарання, якщо це стосується.'
+      name: punishTime
+      optional: true
+      type: StoopidTime
+antipattern_PunishmentAction_IRole:
+  args:
+    - action @role
+  desc: 'Налаштовує захист Anti-Pattern для сервера: дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Дія покарання, яка застосовується до знайдених збігів шаблону.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Роль, яку отримують користувачі, що відповідають шаблонам.'
+      name: role
+      optional: false
+      type: IRole
+patternadd:
+  args:
+    - '<pattern> [name] [checkUsername] [checkDisplayName]'
+    - pattern
+  desc: 'Додає шаблон regex до захисту Anti-Pattern.'
+  params:
+    - desc: 'Шаблон regex для перевірки імен користувачів і відображуваних імен.'
+      name: pattern
+      optional: false
+      type: string
+    - desc: 'Необов''язкова назва шаблону.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Чи перевіряти імена користувачів за цим шаблоном (за замовчуванням true).'
+      name: checkUsername
+      optional: true
+      type: bool
+    - desc: 'Чи перевіряти відображувані імена за цим шаблоном (за замовчуванням true).'
+      name: checkDisplayName
+      optional: true
+      type: bool
+patternremove:
+  args:
+    - number
+  desc: 'Видаляє шаблон із захисту Anti-Pattern.'
+  params:
+    - desc: 'ID шаблону, який треба видалити.'
+      name: patternId
+      optional: false
+      type: int
+patternlist:
+  args:
+    - ''
+  desc: 'Показує всі шаблони, налаштовані для захисту Anti-Pattern.'
+  params: [ ]
+patternconfig:
+  args:
+    - ''
+  desc: 'Показує поточні налаштування anti-pattern.'
+  params: [ ]
+patternconfig_string_string:
+  args:
+    - setting value
+  desc: 'Показує поточні налаштування anti-pattern.'
+  params:
+    - desc: 'Налаштування, яке треба змінити.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'Значення, яке треба встановити.'
+      name: value
+      optional: false
+      type: string
+antialt_StoopidTime_PunishmentAction_=:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_1:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_2:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_3:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_IRole:
+  args:
+    - minage action @role
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_69
+      desc: 'Роль, яку отримують знайдені альтернативні акаунти як покарання.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_1:
+  args:
+    - minage action @role
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Роль, яку отримують знайдені альтернативні акаунти як покарання.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_2:
+  args:
+    - minage action @role
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Роль, яку отримують знайдені альтернативні акаунти як покарання.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_3:
+  args:
+    - minage action @role
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Мінімальний вік (у хвилинах), з якого акаунти вважаються альтернативними.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: 'Дія покарання для знайдених альтернативних акаунтів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Роль, яку отримують знайдені альтернативні акаунти як покарання.'
+      name: role
+      optional: false
+      type: IRole
+antialt_noparams:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params: [ ]
+antialt_noparams_1:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params: [ ]
+antialt_noparams_2:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Alt для сервера: мінімальний вік акаунта та дію покарання з покаранням через роль.'
+  params: [ ]
+antimassmention:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params: [ ]
+antimassmention_int_int_int_bool_PunishmentAction_=:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_1:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_2:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_3:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_IRole:
+  args:
+    - number number number true|false action @role
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_75
+      desc: 'Роль, яку отримують покарані користувачі.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_1:
+  args:
+    - number number number true|false action @role
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Роль, яку отримують покарані користувачі.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_2:
+  args:
+    - number number number true|false action @role
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Роль, яку отримують покарані користувачі.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_3:
+  args:
+    - number number number true|false action @role
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params:
+    - desc: 'Кількість згадок, дозволена в одному повідомленні, перш ніж спрацює захист.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження згадок.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: 'Максимальна кількість згадок у вказаному часовому вікні.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: 'Чи ігнорувати акаунти ботів під час відстеження згадок.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: 'Дія покарання для користувачів, які перевищили ліміти згадок.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Роль, яку отримують покарані користувачі.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_noparams:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params: [ ]
+antimassmention_noparams_1:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params: [ ]
+antimassmention_noparams_2:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Mass-Mention для сервера: поріг згадок в одному повідомленні, часове вікно для відстеження згадок, максимальну кількість згадок у цьому вікні та дію покарання з покаранням через роль.'
+  params: [ ]
+antiraid:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params: [ ]
+antiraid_int_int_PunishmentAction:
+  args:
+    - number number action
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - &ref_76
+      desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - &ref_77
+      desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - &ref_78
+      desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_1:
+  args:
+    - number number action
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_2:
+  args:
+    - number number action
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_3:
+  args:
+    - number number action
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_StoopidTime:
+  args:
+    - number number action time
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_79
+      desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number number action time
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number number action time
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number number action time
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params:
+    - desc: 'Кількість користувачів, яка запускає виявлення рейду.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно (у секундах) для відстеження приєднань.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених рейдів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_noparams:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params: [ ]
+antiraid_noparams_1:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params: [ ]
+antiraid_noparams_2:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Raid для сервера: поріг користувачів, часове вікно виявлення та дію покарання.'
+  params: [ ]
+antispam:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params: [ ]
+antispam_int_PunishmentAction:
+  args:
+    - number action
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - &ref_80
+      desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_81
+      desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_1:
+  args:
+    - number action
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_82
+      desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_2:
+  args:
+    - number action
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_3:
+  args:
+    - number action
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_IRole:
+  args:
+    - number action @role
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_83
+      desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_1:
+  args:
+    - number action @role
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_2:
+  args:
+    - number action @role
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_3:
+  args:
+    - number action @role
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_StoopidTime:
+  args:
+    - number action time
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_84
+      desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number action time
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number action time
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number action time
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params:
+    - desc: 'Кількість повідомлень, яка запускає виявлення спаму.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: 'Дія покарання для виявлених спамерів.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_noparams:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params: [ ]
+antispam_noparams_1:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params: [ ]
+antispam_noparams_2:
+  args:
+    - ''
+  desc: 'Налаштовує захист Anti-Spam для сервера: поріг кількості повідомлень і дію покарання.'
+  params: [ ]
+asar:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - &ref_85
+      desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_1:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_2:
+  args:
+    - '@role'
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole:
+  args:
+    - number @role
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - &ref_86
+      desc: 'Номер групи для впорядкування.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - desc: 'Номер групи для впорядкування.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - desc: 'Номер групи для впорядкування.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_3:
+  args:
+    - number @role
+  desc: 'Додає вказану роль до списку ролей, які можна призначати собі автоматично, у вказаній групі.'
+  params:
+    - desc: 'Номер групи для впорядкування.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Роль, яку треба додати до списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params:
+    - &ref_87
+      desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params:
+    - desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params:
+    - desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params:
+    - desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_noparams:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params: [ ]
+autoassignbotrole_noparams_1:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params: [ ]
+autoassignbotrole_noparams_2:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params: [ ]
+autoassignbotrole_noparams_3:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати ботам під час їхнього приєднання до сервера.'
+  params: [ ]
+autoassignrole:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params:
+    - desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params:
+    - desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params:
+    - desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params:
+    - desc: 'Роль, для якої треба увімкнути або вимкнути автоматичне призначення.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_noparams:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params: [ ]
+autoassignrole_noparams_1:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params: [ ]
+autoassignrole_noparams_2:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params: [ ]
+autoassignrole_noparams_3:
+  args:
+    - ''
+  desc: 'Показує список ролей, які можна автоматично призначати, коли користувачі приєднуються до сервера.'
+  params: [ ]
+autobanroleadd:
+  args:
+    - '@role'
+  desc: 'Додає роль до списку AutoBanRoles.'
+  params:
+    - &ref_88
+      desc: 'Роль, яку треба додати.'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole:
+  args:
+    - '@role'
+  desc: 'Додає роль до списку AutoBanRoles.'
+  params:
+    - desc: 'Роль, яку треба додати.'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_1:
+  args:
+    - '@role'
+  desc: 'Додає роль до списку AutoBanRoles.'
+  params:
+    - desc: 'Роль, яку треба додати.'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_2:
+  args:
+    - '@role'
+  desc: 'Додає роль до списку AutoBanRoles.'
+  params:
+    - desc: 'Роль, яку треба додати.'
+      name: role
+      optional: false
+      type: IRole
+autobanrolelist:
+  args:
+    - ''
+  desc: 'Показує всі ролі зі списку AutoBanRole для поточного сервера.'
+  params: [ ]
+autobanroleremove:
+  args:
+    - '@role'
+  desc: 'Видаляє роль зі списку AutoBanRoles.'
+  params:
+    - desc: 'Роль, яку треба видалити.'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason:
+  args:
+    - '@role'
+    - '@role reason text'
+  desc: 'Встановлює причину бану для AutoBanRole, яка з''являється в журналі аудиту.'
+  params:
+    - desc: 'Роль, для якої треба встановити причину.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_abreason
+      desc: 'Причина, яка показується в журналі аудиту (залиш порожнім, щоб очистити).'
+      name: reason
+      optional: true
+      type: string
+autobanrolereason_IRole:
+  args:
+    - '@role'
+  desc: 'Встановлює причину бану для AutoBanRole, яка з''являється в журналі аудиту.'
+  params:
+    - desc: 'Роль, для якої треба встановити причину.'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason_IRole_string:
+  args:
+    - '@role reason text'
+  desc: 'Встановлює причину бану для AutoBanRole, яка з''являється в журналі аудиту.'
+  params:
+    - desc: 'Роль, для якої треба встановити причину.'
+      name: role
+      optional: false
+      type: IRole
+    - *ref_abreason
+banbyhash:
+  args:
+    - text
+  desc: 'Банить кількох користувачів за їхнім ID аватара, тобто за хешем аватара. Корисно для юзерботів, які надто тупі.'
+  params:
+    - &ref_106
+      desc: 'Хеш аватара для пошуку.'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string:
+  args:
+    - text
+  desc: 'Банить кількох користувачів за їхнім ID аватара, тобто за хешем аватара. Корисно для юзерботів, які надто тупі.'
+  params:
+    - desc: 'Хеш аватара для пошуку.'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_1:
+  args:
+    - text
+  desc: 'Банить кількох користувачів за їхнім ID аватара, тобто за хешем аватара. Корисно для юзерботів, які надто тупі.'
+  params:
+    - desc: 'Хеш аватара для пошуку.'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_2:
+  args:
+    - text
+  desc: 'Банить кількох користувачів за їхнім ID аватара, тобто за хешем аватара. Корисно для юзерботів, які надто тупі.'
+  params:
+    - desc: 'Хеш аватара для пошуку.'
+      name: avatarHash
+      optional: false
+      type: string
+baninrole:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Дозволяє банити користувачів із певною роллю.'
+  params:
+    - desc: 'Роль, учасників з якою треба забанити.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Причина бану, необов''язково.'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Дозволяє банити користувачів із певною роллю.'
+  params:
+    - desc: 'Роль, учасників з якою треба забанити.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Причина бану, необов''язково.'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_1:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Дозволяє банити користувачів із певною роллю.'
+  params:
+    - desc: 'Роль, учасників з якою треба забанити.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Причина бану, необов''язково.'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_2:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: 'Дозволяє банити користувачів із певною роллю.'
+  params:
+    - desc: 'Роль, учасників з якою треба забанити.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Причина бану, необов''язково.'
+      name: reason
+      optional: true
+      type: string
+banunder:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Дозволяє банити користувачів, які перебувають на сервері певний час.'
+  params:
+    - desc: 'Проміжок часу. Формат: {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Дозволяє вказати -accage, щоб перевіряти вік акаунта, а не вік на сервері, або -p, щоб переглянути користувачів, яких буде забанено.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Дозволяє вказати часовий діапазон.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Дозволяє банити користувачів, які перебувають на сервері певний час.'
+  params:
+    - desc: 'Проміжок часу. Формат: {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Дозволяє вказати -accage, щоб перевіряти вік акаунта, а не вік на сервері, або -p, щоб переглянути користувачів, яких буде забанено.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Дозволяє вказати часовий діапазон.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_1:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Дозволяє банити користувачів, які перебувають на сервері певний час.'
+  params:
+    - desc: 'Проміжок часу. Формат: {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Дозволяє вказати -accage, щоб перевіряти вік акаунта, а не вік на сервері, або -p, щоб переглянути користувачів, яких буде забанено.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Дозволяє вказати часовий діапазон.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_2:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: 'Дозволяє банити користувачів, які перебувають на сервері певний час.'
+  params:
+    - desc: 'Проміжок часу. Формат: {0}mo{1}d{2}h{3}m{4}s'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Дозволяє вказати -accage, щоб перевіряти вік акаунта, а не вік на сервері, або -p, щоб переглянути користувачів, яких буде забанено.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'Дозволяє вказати часовий діапазон.'
+      name: time1
+      optional: true
+      type: duration
+boost:
+  args:
+    - ''
+  desc: 'Вмикає або вимикає повідомлення про бусти.'
+  params: [ ]
+boostdel:
+  args:
+    - 30
+  desc: 'Встановлює таймер видалення повідомлень про бусти.'
+  params:
+    - &ref_114
+      desc: 'Встановлює таймер видалення повідомлень про бусти.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=:
+  args:
+    - 30
+  desc: 'Встановлює таймер видалення повідомлень про бусти.'
+  params:
+    - desc: 'Встановлює таймер видалення повідомлень про бусти.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_1:
+  args:
+    - 30
+  desc: 'Встановлює таймер видалення повідомлень про бусти.'
+  params:
+    - desc: 'Встановлює таймер видалення повідомлень про бусти.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_2:
+  args:
+    - 30
+  desc: 'Встановлює таймер видалення повідомлень про бусти.'
+  params:
+    - desc: 'Встановлює таймер видалення повідомлень про бусти.'
+      name: 30
+      optional: false
+      type: '='
+boostmsg:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params: [ ]
+boostmsg_noparams:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params: [ ]
+boostmsg_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params: [ ]
+boostmsg_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params: [ ]
+boostmsg_string:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params:
+    - &ref_115
+      desc: 'Нове повідомлення про буст.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_1:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params:
+    - desc: 'Нове повідомлення про буст.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_2:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params:
+    - desc: 'Нове повідомлення про буст.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_3:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про буст для сервера.'
+  params:
+    - desc: 'Нове повідомлення про буст.'
+      name: text
+      optional: true
+      type: string
+boosttest:
+  args:
+    - '[@user]'
+  desc: 'Надсилає тестове повідомлення про буст.'
+  params:
+    - desc: 'Користувач, якому надіслати тестове повідомлення.'
+      name: user
+      optional: true
+      type: user
+bye:
+  args:
+    - ''
+  desc: 'Вмикає або вимикає надсилання повідомлення про прощання.'
+  params: [ ]
+byedel:
+  args:
+    - 30
+  desc: 'Встановлює таймер видалення повідомлень про прощання.'
+  params:
+    - desc: 'Встановлює таймер видалення повідомлень про прощання.'
+      name: 30
+      optional: false
+      type: '='
+byemsg:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params: [ ]
+byemsg_noparams:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params: [ ]
+byemsg_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params: [ ]
+byemsg_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params: [ ]
+byemsg_string:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params:
+    - &ref_117
+      desc: 'Текст, який буде повідомленням про прощання.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_1:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params:
+    - desc: 'Текст, який буде повідомленням про прощання.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_2:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params:
+    - desc: 'Текст, який буде повідомленням про прощання.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_3:
+  args:
+    - text
+  desc: 'Встановлює повідомлення про прощання з вказаним текстом.'
+  params:
+    - desc: 'Текст, який буде повідомленням про прощання.'
+      name: text
+      optional: true
+      type: string
+byetest:
+  args:
+    - '[@user]'
+  desc: 'Надсилає тестове повідомлення про прощання.'
+  params:
+    - desc: 'Користувач, якому надіслати тестове повідомлення про прощання.'
+      name: user
+      optional: true
+      type: user
+commandlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал, куди записувати команди.'
+  params:
+    - desc: 'Канал, куди записувати команди.'
+      name: channel
+      optional: true
+      type: channel
+createrole:
+  args:
+    - '[roleName]'
+  desc: 'Створює нову роль із вказаною назвою.'
+  params:
+    - desc: 'Назва ролі, яку треба створити.'
+      name: roleName
+      optional: true
+      type: string
+creatvoichanl:
+  args:
+    - text
+  desc: 'Створює новий голосовий канал із вказаною назвою.'
+  params:
+    - &ref_160
+      desc: 'Назва голосового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string:
+  args:
+    - text
+  desc: 'Створює новий голосовий канал із вказаною назвою.'
+  params:
+    - desc: 'Назва голосового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_1:
+  args:
+    - text
+  desc: 'Створює новий голосовий канал із вказаною назвою.'
+  params:
+    - desc: 'Назва голосового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_2:
+  args:
+    - text
+  desc: 'Створює новий голосовий канал із вказаною назвою.'
+  params:
+    - desc: 'Назва голосового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl:
+  args:
+    - text
+  desc: 'Створює новий текстовий канал із вказаною назвою.'
+  params:
+    - &ref_161
+      desc: 'Назва текстового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string:
+  args:
+    - text
+  desc: 'Створює новий текстовий канал із вказаною назвою.'
+  params:
+    - desc: 'Назва текстового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_1:
+  args:
+    - text
+  desc: 'Створює новий текстовий канал із вказаною назвою.'
+  params:
+    - desc: 'Назва текстового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_2:
+  args:
+    - text
+  desc: 'Створює новий текстовий канал із вказаною назвою.'
+  params:
+    - desc: 'Назва текстового каналу, який треба створити.'
+      name: channelName
+      optional: false
+      type: string
+deafen:
+  args:
+    - '@user'
+  desc: 'Вимикає звук для вказаних користувачів на сервері (глушить).'
+  params:
+    - &ref_177
+      desc: 'Користувачі, яким треба вимкнути звук.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Вимикає звук для вказаних користувачів на сервері (глушить).'
+  params:
+    - desc: 'Користувачі, яким треба вимкнути звук.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Вимикає звук для вказаних користувачів на сервері (глушить).'
+  params:
+    - desc: 'Користувачі, яким треба вимкнути звук.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Вимикає звук для вказаних користувачів на сервері (глушить).'
+  params:
+    - desc: 'Користувачі, яким треба вимкнути звук.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+delete:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_3:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: 'Видаляє повідомлення за його ID у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'ID повідомлення, яке треба видалити.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Необов''язковий проміжок часу, після якого повідомлення буде видалено.'
+      name: time
+      optional: true
+      type: duration
+deleteguildstatsdata:
+  args:
+    - ''
+  desc: 'Дозволяє видалити всі дані статистики сервера.'
+  params: [ ]
+deleterole:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль.'
+  params:
+    - &ref_188
+      desc: 'Роль, яку треба видалити.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль.'
+  params:
+    - desc: 'Роль, яку треба видалити.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль.'
+  params:
+    - desc: 'Роль, яку треба видалити.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль.'
+  params:
+    - desc: 'Роль, яку треба видалити.'
+      name: role
+      optional: false
+      type: IRole
+delmsgoncmd:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - &ref_196
+      desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_=:
+  args:
+    - server.server
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - &ref_192
+      desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_1:
+  args:
+    - server.server
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_2:
+  args:
+    - server.server
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_3:
+  args:
+    - server.server
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_Channel_State_=:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_1:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_2:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_3:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: state
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_ITextChannel:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: State
+    - &ref_195
+      desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_1:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: State
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_2:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: State
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_3:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: 'Стан видалення повідомлень під час виконання команди.'
+      name: s
+      optional: false
+      type: State
+    - desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_List:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_1:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_2:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: 'Встановлює, чи видаляти повідомлення під час виконання команди, для конкретного каналу.'
+  params:
+    - desc: 'Не використовується.'
+      name: _
+      optional: false
+      type: List
+deltxtchanl:
+  args:
+    - todelete
+  desc: 'Видаляє вказаний текстовий канал.'
+  params:
+    - &ref_197
+      desc: 'Текстовий канал, який треба видалити.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel:
+  args:
+    - todelete
+  desc: 'Видаляє вказаний текстовий канал.'
+  params:
+    - desc: 'Текстовий канал, який треба видалити.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_1:
+  args:
+    - todelete
+  desc: 'Видаляє вказаний текстовий канал.'
+  params:
+    - desc: 'Текстовий канал, який треба видалити.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_2:
+  args:
+    - todelete
+  desc: 'Видаляє вказаний текстовий канал.'
+  params:
+    - desc: 'Текстовий канал, який треба видалити.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+delvoichanl:
+  args:
+    - voicechannel
+  desc: 'Видаляє вказаний голосовий канал.'
+  params:
+    - &ref_198
+      desc: 'Голосовий канал, який треба видалити.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel:
+  args:
+    - voicechannel
+  desc: 'Видаляє вказаний голосовий канал.'
+  params:
+    - desc: 'Голосовий канал, який треба видалити.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_1:
+  args:
+    - voicechannel
+  desc: 'Видаляє вказаний голосовий канал.'
+  params:
+    - desc: 'Голосовий канал, який треба видалити.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_2:
+  args:
+    - voicechannel
+  desc: 'Видаляє вказаний голосовий канал.'
+  params:
+    - desc: 'Голосовий канал, який треба видалити.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+discordpermoverride:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Перевизначає необхідні дозволи для певної команди на поточному сервері.'
+  params:
+    - &ref_201
+      desc: 'Команда, для якої перевизначатимуться дозволи.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_202
+      desc: 'Дозволи, потрібні для виконання команди.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Перевизначає необхідні дозволи для певної команди на поточному сервері.'
+  params:
+    - desc: 'Команда, для якої перевизначатимуться дозволи.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Дозволи, потрібні для виконання команди.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_1:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Перевизначає необхідні дозволи для певної команди на поточному сервері.'
+  params:
+    - desc: 'Команда, для якої перевизначатимуться дозволи.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Дозволи, потрібні для виконання команди.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_2:
+  args:
+    - cmd perms
+    - cmd
+  desc: 'Перевизначає необхідні дозволи для певної команди на поточному сервері.'
+  params:
+    - desc: 'Команда, для якої перевизначатимуться дозволи.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Дозволи, потрібні для виконання команди.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverridelist:
+  args:
+    - ''
+  desc: 'Показує всі перевизначення дозволів команд на поточному сервері.'
+  params: [ ]
+discordpermoverridereset:
+  args:
+    - ''
+  desc: 'Скидає всі перевизначення дозволів команд на поточному сервері.'
+  params: [ ]
+dpo:
+  args:
+    - permission action
+  desc: 'Перевизначає дозволи Discord.'
+  params:
+    - desc: 'Дозвіл, який треба перевизначити.'
+      name: permission
+      optional: false
+      type: string
+    - desc: 'Дія, яку треба виконати.'
+      name: action
+      optional: false
+      type: string
+dpol:
+  args:
+    - ''
+  desc: 'Показує перевизначення дозволів Discord.'
+  params: [ ]
+dpor:
+  args:
+    - ''
+  desc: 'Скидає перевизначення дозволів Discord.'
+  params: [ ]
+edit:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Редагує повідомлення у вказаному текстовому каналі.'
+  params:
+    - &ref_204
+      desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_205
+      desc: 'ID повідомлення, яке треба відредагувати.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_206
+      desc: 'Новий текст повідомлення.'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Редагує повідомлення у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ID повідомлення, яке треба відредагувати.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Новий текст повідомлення.'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_1:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Редагує повідомлення у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ID повідомлення, яке треба відредагувати.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Новий текст повідомлення.'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_2:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: 'Редагує повідомлення у вказаному текстовому каналі.'
+  params:
+    - desc: 'Текстовий канал, де знаходиться повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ID повідомлення, яке треба відредагувати.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Новий текст повідомлення.'
+      name: text
+      optional: true
+      type: string
+gamevoicechannel:
+  args:
+    - ''
+  desc: 'Перемикає поточний голосовий канал як ігровий голосовий канал сервера.'
+  params: [ ]
+greetdm:
+  args:
+    - ''
+  desc: 'Вмикає або вимикає надсилання привітань у особисті повідомлення.'
+  params: [ ]
+greetdmmsg:
+  args:
+    - ''
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params: [ ]
+greetdmmsg_=:
+  args:
+    - '[text]'
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params:
+    - desc: 'Текст, який буде привітанням в особистих повідомленнях.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_1:
+  args:
+    - '[text]'
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params:
+    - desc: 'Текст, який буде привітанням в особистих повідомленнях.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_2:
+  args:
+    - '[text]'
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params:
+    - desc: 'Текст, який буде привітанням в особистих повідомленнях.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_3:
+  args:
+    - '[text]'
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params:
+    - desc: 'Текст, який буде привітанням в особистих повідомленнях.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_noparams:
+  args:
+    - ''
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params: [ ]
+greetdmmsg_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params: [ ]
+greetdmmsg_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює текст привітання в особистих повідомленнях.'
+  params: [ ]
+greetdmtest:
+  args:
+    - '[@user]'
+  desc: 'Надсилає тестове привітання в особисті повідомлення.'
+  params:
+    - desc: 'Користувач, якому надіслати тестове привітання.'
+      name: user
+      optional: true
+      type: user
+guildstatsoptout:
+  args:
+    - ''
+  desc: 'Дозволяє вимкнути відстеження статистики для всього сервера.'
+  params: [ ]
+iam:
+  args:
+    - '@role'
+  desc: 'Видає користувачу роль, яку він може призначити собі сам.'
+  params:
+    - &ref_249
+      desc: 'Роль, яку треба призначити користувачу.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole:
+  args:
+    - '@role'
+  desc: 'Видає користувачу роль, яку він може призначити собі сам.'
+  params:
+    - desc: 'Роль, яку треба призначити користувачу.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видає користувачу роль, яку він може призначити собі сам.'
+  params:
+    - desc: 'Роль, яку треба призначити користувачу.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видає користувачу роль, яку він може призначити собі сам.'
+  params:
+    - desc: 'Роль, яку треба призначити користувачу.'
+      name: role
+      optional: false
+      type: IRole
+iamnot:
+  args:
+    - '@role'
+  desc: 'Забирає у користувача роль, яку він призначив собі сам.'
+  params:
+    - &ref_250
+      desc: 'Роль, яку треба забрати у користувача.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole:
+  args:
+    - '@role'
+  desc: 'Забирає у користувача роль, яку він призначив собі сам.'
+  params:
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_1:
+  args:
+    - '@role'
+  desc: 'Забирає у користувача роль, яку він призначив собі сам.'
+  params:
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_2:
+  args:
+    - '@role'
+  desc: 'Забирає у користувача роль, яку він призначив собі сам.'
+  params:
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: role
+      optional: false
+      type: IRole
+kickunder:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Кікає користувачів, які перебувають на сервері менше за вказаний час.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Необов''язковий параметр для перегляду користувачів, яких буде кікнуто.'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Кікає користувачів, які перебувають на сервері менше за вказаний час.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Необов''язковий параметр для перегляду користувачів, яких буде кікнуто.'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_1:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Кікає користувачів, які перебувають на сервері менше за вказаний час.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Необов''язковий параметр для перегляду користувачів, яких буде кікнуто.'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_2:
+  args:
+    - '<time> [option]'
+    - time
+  desc: 'Кікає користувачів, які перебувають на сервері менше за вказаний час.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Необов''язковий параметр для перегляду користувачів, яких буде кікнуто.'
+      name: option
+      optional: true
+      type: string
+langsetdefault:
+  args:
+    - language
+  desc: 'Встановлює мову сервера за замовчуванням.'
+  params:
+    - desc: 'Код мови, який треба встановити за замовчуванням.'
+      name: language
+      optional: false
+      type: string
+languageset:
+  args:
+    - text
+  desc: 'Встановлює мову для поточного сервера.'
+  params:
+    - &ref_264
+      desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languageset_string:
+  args:
+    - text
+  desc: 'Встановлює мову для поточного сервера.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languageset_string_1:
+  args:
+    - text
+  desc: 'Встановлює мову для поточного сервера.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languageset_string_2:
+  args:
+    - text
+  desc: 'Встановлює мову для поточного сервера.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault:
+  args:
+    - ''
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params: [ ]
+languagesetdefault_noparams:
+  args:
+    - ''
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params: [ ]
+languagesetdefault_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params: [ ]
+languagesetdefault_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params: [ ]
+languagesetdefault_string:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_1:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_2:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_3:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_4:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - &ref_265
+      desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_5:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_6:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_7:
+  args:
+    - text
+  desc: 'Встановлює мову бота за замовчуванням.'
+  params:
+    - desc: 'Назва мови або "default", щоб повернутися до мови за замовчуванням.'
+      name: name
+      optional: false
+      type: string
+languageslist:
+  args:
+    - ''
+  desc: 'Показує всі підтримувані мови разом із їхніми кодами.'
+  params: [ ]
+leavehook:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_1:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_2:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+      name: image
+      optional: true
+      type: string
+    - desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: true
+      type: string
+leavehook_string:
+  args:
+    - text
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - &ref_268
+      desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_1:
+  args:
+    - text
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_2:
+  args:
+    - text
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_3:
+  args:
+    - text
+  desc: 'Налаштовує повідомлення про вихід із вказаним текстом.'
+  params:
+    - desc: 'Текст, який буде в повідомленні про вихід.'
+      name: text
+      optional: false
+      type: string
+log:
+  args:
+    - types
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - &ref_283
+      desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]:
+  args:
+    - types
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_1:
+  args:
+    - types
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_2:
+  args:
+    - types
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType_=:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Канал, який треба зробити каналом журналу. Якщо не вказано, команда вимкне журнал для вказаного типу подій.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_1:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Канал, який треба зробити каналом журналу. Якщо не вказано, команда вимкне журнал для вказаного типу подій.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_2:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Канал, який треба зробити каналом журналу. Якщо не вказано, команда вимкне журнал для вказаного типу подій.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_3:
+  args:
+    - '@channel [types]'
+    - type
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Канал, який треба зробити каналом журналу. Якщо не вказано, команда вимкне журнал для вказаного типу подій.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_string[]:
+  args:
+    - text
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - &ref_284
+      desc: 'Встановлює канал журналу для певного типу подій.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_1:
+  args:
+    - text
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_2:
+  args:
+    - text
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_3:
+  args:
+    - text
+  desc: 'Встановлює канал журналу для певного типу подій.'
+  params:
+    - desc: 'Встановлює канал журналу для певного типу подій.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+logcategory:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Встановлює категорію журналу для вказаного типу журналів.'
+  params:
+    - desc: 'Тип журналів, для якого треба встановити категорію.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Текстовий канал, куди надсилатимуться журнали.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Встановлює категорію журналу для вказаного типу журналів.'
+  params:
+    - desc: 'Тип журналів, для якого треба встановити категорію.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Текстовий канал, куди надсилатимуться журнали.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_1:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Встановлює категорію журналу для вказаного типу журналів.'
+  params:
+    - desc: 'Тип журналів, для якого треба встановити категорію.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Текстовий канал, куди надсилатимуться журнали.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_2:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: 'Встановлює категорію журналу для вказаного типу журналів.'
+  params:
+    - desc: 'Тип журналів, для якого треба встановити категорію.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: 'Текстовий канал, куди надсилатимуться журнали.'
+      name: channel
+      optional: true
+      type: channel
+logevents:
+  args:
+    - ''
+  desc: 'Показує поточні налаштування подій журналу для сервера.'
+  params: [ ]
+logignore:
+  args:
+    - channel
+  desc: 'Перемикає канал як ігнорований для подій журналу.'
+  params:
+    - desc: 'Канал, який треба ігнорувати або не ігнорувати в журналі. Якщо не вказано, використовується поточний канал.'
+      name: channel
+      optional: true
+      type: ITextChannel
+logignorelist:
+  args:
+    - ''
+  desc: 'Показує всі канали, які зараз ігноруються в журналі.'
+  params: [ ]
+lsar:
+  args:
+    - ''
+  desc: 'Показує ролі для самопризначення, налаштовані на сервері.'
+  params: [ ]
+memberrole:
+  args:
+    - '@role'
+  desc: 'Встановлює роль учасника для сервера. Наразі не використовується.'
+  params:
+    - &ref_292
+      desc: 'Роль, яку матимуть учасники.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole:
+  args:
+    - '@role'
+  desc: 'Встановлює роль учасника для сервера. Наразі не використовується.'
+  params:
+    - desc: 'Роль, яку матимуть учасники.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Встановлює роль учасника для сервера. Наразі не використовується.'
+  params:
+    - desc: 'Роль, яку матимуть учасники.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Встановлює роль учасника для сервера. Наразі не використовується.'
+  params:
+    - desc: 'Роль, яку матимуть учасники.'
+      name: role
+      optional: true
+      type: IRole
+nameban:
+  args:
+    - text
+  desc: 'Дозволяє банити користувачів з певним іменем. Команда покаже попередній перегляд користувачів, яких буде забанено. Приймає також шаблон regex.'
+  params:
+    - &ref_326
+      desc: 'Ім''я або шаблон regex, який треба використати.'
+      name: name
+      optional: false
+      type: string
+nameban_string:
+  args:
+    - text
+  desc: 'Дозволяє банити користувачів з певним іменем. Команда покаже попередній перегляд користувачів, яких буде забанено. Приймає також шаблон regex.'
+  params:
+    - desc: 'Ім''я або шаблон regex, який треба використати.'
+      name: name
+      optional: false
+      type: string
+nameban_string_1:
+  args:
+    - text
+  desc: 'Дозволяє банити користувачів з певним іменем. Команда покаже попередній перегляд користувачів, яких буде забанено. Приймає також шаблон regex.'
+  params:
+    - desc: 'Ім''я або шаблон regex, який треба використати.'
+      name: name
+      optional: false
+      type: string
+nameban_string_2:
+  args:
+    - text
+  desc: 'Дозволяє банити користувачів з певним іменем. Команда покаже попередній перегляд користувачів, яких буде забанено. Приймає також шаблон regex.'
+  params:
+    - desc: 'Ім''я або шаблон regex, який треба використати.'
+      name: name
+      optional: false
+      type: string
+nsfwtoggle:
+  args:
+    - ''
+  desc: 'Перемикає налаштування NSFW для поточного текстового каналу.'
+  params: [ ]
+prefix:
+  args:
+    - prefix
+  desc: 'Керує префіксами команд.'
+  params:
+    - desc: 'Префікс, який треба встановити.'
+      name: prefix
+      optional: true
+      type: string
+prefixcommand:
+  args:
+    - ''
+  desc: 'Встановлює префікс команд для сервера.'
+  params: [ ]
+prefixcommand_Set_string:
+  args:
+    - set text
+    - set
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - &ref_353
+      desc: 'Встановлює префікс команд для сервера.'
+      name: _
+      optional: false
+      type: Set
+    - &ref_354
+      desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_1:
+  args:
+    - set text
+    - set
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - desc: 'Встановлює префікс команд для сервера.'
+      name: _
+      optional: false
+      type: Set
+    - desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_2:
+  args:
+    - set text
+    - set
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - desc: 'Встановлює префікс команд для сервера.'
+      name: _
+      optional: false
+      type: Set
+    - desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_3:
+  args:
+    - set text
+    - set
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - desc: 'Встановлює префікс команд для сервера.'
+      name: _
+      optional: false
+      type: Set
+    - desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_noparams:
+  args:
+    - ''
+  desc: 'Встановлює префікс команд для сервера.'
+  params: [ ]
+prefixcommand_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює префікс команд для сервера.'
+  params: [ ]
+prefixcommand_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює префікс команд для сервера.'
+  params: [ ]
+prefixcommand_string:
+  args:
+    - text
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_1:
+  args:
+    - text
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_2:
+  args:
+    - text
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_3:
+  args:
+    - text
+  desc: 'Встановлює префікс команд для сервера.'
+  params:
+    - desc: 'Новий префікс команд, який треба встановити.'
+      name: prefix
+      optional: false
+      type: string
+prunemembers:
+  args:
+    - time "no"
+    - time
+  desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_360
+      desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=:
+  args:
+    - time "no"
+    - time
+  desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_1:
+  args:
+    - time "no"
+    - time
+  desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_2:
+  args:
+    - time "no"
+    - time
+  desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+  params:
+    - desc: 'Тривалість у користувацькому форматі.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Видаляє учасників із сервера залежно від їхньої активності або неактивності.'
+      name: '"no"'
+      optional: false
+      type: '='
+reactionroles:
+  args:
+    - messageid text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - &ref_380
+      desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_381
+      desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]:
+  args:
+    - excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - &ref_376
+      desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_375
+      desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_1:
+  args:
+    - excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - &ref_377
+      desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_2:
+  args:
+    - excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_3:
+  args:
+    - excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_378
+      desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_1:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_2:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_3:
+  args:
+    - excl messageid text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]:
+  args:
+    - text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_1:
+  args:
+    - text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_2:
+  args:
+    - text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_3:
+  args:
+    - text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_379
+      desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_1:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_2:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_3:
+  args:
+    - messageid excl text
+    - excl
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Параметр виключення, щоб зробити ролі ексклюзивними.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]:
+  args:
+    - messageid text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_1:
+  args:
+    - messageid text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_2:
+  args:
+    - messageid text
+  desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+  params:
+    - desc: 'Призначає реакційні ролі за вказаними даними, крім певних ролей.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'Ролі та емодзі, які треба пов''язати з реакціями.'
+      name: input
+      optional: false
+      type: string[]
+reactionroleslist:
+  args:
+    - ''
+  desc: 'Показує список реакційних ролей, налаштованих на сервері.'
+  params: [ ]
+reactionrolesremove:
+  args:
+    - number
+  desc: 'Видаляє реакційну роль за її індексом.'
+  params:
+    - &ref_382
+      desc: 'Індекс реакційної ролі, яку треба видалити.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int:
+  args:
+    - number
+  desc: 'Видаляє реакційну роль за її індексом.'
+  params:
+    - desc: 'Індекс реакційної ролі, яку треба видалити.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_1:
+  args:
+    - number
+  desc: 'Видаляє реакційну роль за її індексом.'
+  params:
+    - desc: 'Індекс реакційної ролі, яку треба видалити.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_2:
+  args:
+    - number
+  desc: 'Видаляє реакційну роль за її індексом.'
+  params:
+    - desc: 'Індекс реакційної ролі, яку треба видалити.'
+      name: index
+      optional: false
+      type: int
+removeallroles:
+  args:
+    - '@user'
+  desc: 'Забирає у користувача всі ролі, крім керованих ролей і ролі @everyone.'
+  params:
+    - &ref_392
+      desc: 'Користувач, у якого треба забрати всі ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Забирає у користувача всі ролі, крім керованих ролей і ролі @everyone.'
+  params:
+    - desc: 'Користувач, у якого треба забрати всі ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Забирає у користувача всі ролі, крім керованих ролей і ролі @everyone.'
+  params:
+    - desc: 'Користувач, у якого треба забрати всі ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Забирає у користувача всі ролі, крім керованих ролей і ролі @everyone.'
+  params:
+    - desc: 'Користувач, у якого треба забрати всі ролі.'
+      name: user
+      optional: false
+      type: IGuildUser
+removerole:
+  args:
+    - '@role @user'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - &ref_411
+      desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - &ref_410
+      desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: 'Забирає роль у користувача.'
+  params:
+    - desc: 'Роль, яку треба забрати у користувача.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: 'Користувач, у якого треба забрати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+renamechannel:
+  args:
+    - channel text
+  desc: 'Перейменовує вказаний канал.'
+  params:
+    - &ref_418
+      desc: 'Канал, який треба перейменувати.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Нова назва каналу.'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string:
+  args:
+    - channel text
+  desc: 'Перейменовує вказаний канал.'
+  params:
+    - &ref_419
+      desc: 'Канал, який треба перейменувати.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - &ref_420
+      desc: 'Нова назва каналу.'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_1:
+  args:
+    - channel text
+  desc: 'Перейменовує вказаний канал.'
+  params:
+    - desc: 'Канал, який треба перейменувати.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Нова назва каналу.'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_2:
+  args:
+    - channel text
+  desc: 'Перейменовує вказаний канал.'
+  params:
+    - desc: 'Канал, який треба перейменувати.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Нова назва каналу.'
+      name: name
+      optional: false
+      type: string
+renamerole:
+  args:
+    - '@role text'
+  desc: 'Перейменовує роль.'
+  params:
+    - &ref_423
+      desc: 'Роль, яку треба перейменувати.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - &ref_424
+      desc: 'Нова назва ролі.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string:
+  args:
+    - '@role text'
+  desc: 'Перейменовує роль.'
+  params:
+    - desc: 'Роль, яку треба перейменувати.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'Нова назва ролі.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_1:
+  args:
+    - '@role text'
+  desc: 'Перейменовує роль.'
+  params:
+    - desc: 'Роль, яку треба перейменувати.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'Нова назва ролі.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_2:
+  args:
+    - '@role text'
+  desc: 'Перейменовує роль.'
+  params:
+    - desc: 'Роль, яку треба перейменувати.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: 'Нова назва ролі.'
+      name: newname
+      optional: false
+      type: string
+rolecolor:
+  args:
+    - '@role'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - &ref_444
+      desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole:
+  args:
+    - '@role'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - &ref_445
+      desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_1:
+  args:
+    - '@role'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_2:
+  args:
+    - '@role'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_SKColor:
+  args:
+    - '@role color'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_446
+      desc: 'Новий колір ролі.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_1:
+  args:
+    - '@role color'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Новий колір ролі.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_2:
+  args:
+    - '@role color'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Новий колір ролі.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_3:
+  args:
+    - '@role color'
+  desc: 'Змінює колір вказаної ролі.'
+  params:
+    - desc: 'Роль, для якої треба змінити колір.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Новий колір ролі.'
+      name: color
+      optional: false
+      type: SKColor
+rolehoist:
+  args:
+    - '@role'
+  desc: 'Перемикає відокремлення ролі у списку учасників.'
+  params:
+    - &ref_456
+      desc: 'Роль, для якої треба перемкнути відокремлення.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole:
+  args:
+    - '@role'
+  desc: 'Перемикає відокремлення ролі у списку учасників.'
+  params:
+    - desc: 'Роль, для якої треба перемкнути відокремлення.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_1:
+  args:
+    - '@role'
+  desc: 'Перемикає відокремлення ролі у списку учасників.'
+  params:
+    - desc: 'Роль, для якої треба перемкнути відокремлення.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_2:
+  args:
+    - '@role'
+  desc: 'Перемикає відокремлення ролі у списку учасників.'
+  params:
+    - desc: 'Роль, для якої треба перемкнути відокремлення.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq:
+  args:
+    - number @role
+  desc: 'Встановлює вимогу рівня для ролі, яку можна призначати собі автоматично.'
+  params:
+    - &ref_458
+      desc: 'Рівень, потрібний для отримання ролі.'
+      name: level
+      optional: false
+      type: int
+    - &ref_459
+      desc: 'Роль, для якої треба встановити вимогу рівня.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole:
+  args:
+    - number @role
+  desc: 'Встановлює вимогу рівня для ролі, яку можна призначати собі автоматично.'
+  params:
+    - desc: 'Рівень, потрібний для отримання ролі.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Роль, для якої треба встановити вимогу рівня.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Встановлює вимогу рівня для ролі, яку можна призначати собі автоматично.'
+  params:
+    - desc: 'Рівень, потрібний для отримання ролі.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Роль, для якої треба встановити вимогу рівня.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Встановлює вимогу рівня для ролі, яку можна призначати собі автоматично.'
+  params:
+    - desc: 'Рівень, потрібний для отримання ролі.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Роль, для якої треба встановити вимогу рівня.'
+      name: role
+      optional: false
+      type: IRole
+rsar:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль зі списку ролей для самопризначення.'
+  params:
+    - &ref_471
+      desc: 'Роль, яку треба видалити зі списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль зі списку ролей для самопризначення.'
+  params:
+    - desc: 'Роль, яку треба видалити зі списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль зі списку ролей для самопризначення.'
+  params:
+    - desc: 'Роль, яку треба видалити зі списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видаляє вказану роль зі списку ролей для самопризначення.'
+  params:
+    - desc: 'Роль, яку треба видалити зі списку ролей для самопризначення.'
+      name: role
+      optional: false
+      type: IRole
+sargn:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Встановлює або видаляє назву для вказаної групи ролей для самопризначення.'
+  params:
+    - desc: 'Номер групи, для якої треба встановити або видалити назву.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Назва для групи. Якщо не вказано, назву групи буде видалено.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Встановлює або видаляє назву для вказаної групи ролей для самопризначення.'
+  params:
+    - desc: 'Номер групи, для якої треба встановити або видалити назву.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Назва для групи. Якщо не вказано, назву групи буде видалено.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_1:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Встановлює або видаляє назву для вказаної групи ролей для самопризначення.'
+  params:
+    - desc: 'Номер групи, для якої треба встановити або видалити назву.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Назва для групи. Якщо не вказано, назву групи буде видалено.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_2:
+  args:
+    - '<group> [name]'
+    - number
+  desc: 'Встановлює або видаляє назву для вказаної групи ролей для самопризначення.'
+  params:
+    - desc: 'Номер групи, для якої треба встановити або видалити назву.'
+      name: group
+      optional: false
+      type: int
+    - desc: 'Назва для групи. Якщо не вказано, назву групи буде видалено.'
+      name: name
+      optional: true
+      type: string
+setguildavatar:
+  args:
+    - text
+  desc: 'Встановлює аватар бота для цього сервера.'
+  params:
+    - &ref_676
+      desc: 'URL зображення аватара (необов''язково, якщо додано вкладення).'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildavatar_string:
+  args:
+    - text
+  desc: 'Встановлює аватар бота для цього сервера.'
+  params:
+    - desc: 'URL зображення аватара (необов''язково, якщо додано вкладення).'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildbanner:
+  args:
+    - text
+  desc: 'Встановлює банер бота для цього сервера.'
+  params:
+    - &ref_677
+      desc: 'URL зображення банера (необов''язково, якщо додано вкладення).'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbanner_string:
+  args:
+    - text
+  desc: 'Встановлює банер бота для цього сервера.'
+  params:
+    - desc: 'URL зображення банера (необов''язково, якщо додано вкладення).'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbio:
+  args:
+    - text
+  desc: 'Встановлює біо бота для цього сервера.'
+  params:
+    - &ref_678
+      desc: 'Текст біо.'
+      name: bio
+      optional: false
+      type: string
+setguildbio_string:
+  args:
+    - text
+  desc: 'Встановлює біо бота для цього сервера.'
+  params:
+    - desc: 'Текст біо.'
+      name: bio
+      optional: false
+      type: string
+setchanlname:
+  args:
+    - text
+  desc: 'Встановлює назву поточного текстового каналу.'
+  params:
+    - &ref_493
+      desc: 'Назва для текстового каналу.'
+      name: name
+      optional: false
+      type: string
+setchanlname_string:
+  args:
+    - text
+  desc: 'Встановлює назву поточного текстового каналу.'
+  params:
+    - desc: 'Назва для текстового каналу.'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_1:
+  args:
+    - text
+  desc: 'Встановлює назву поточного текстового каналу.'
+  params:
+    - desc: 'Назва для текстового каналу.'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_2:
+  args:
+    - text
+  desc: 'Встановлює назву поточного текстового каналу.'
+  params:
+    - desc: 'Назва для текстового каналу.'
+      name: name
+      optional: false
+      type: string
+setnick:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=:
+  args:
+    - '@gu [newNick]'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_1:
+  args:
+    - '@gu [newNick]'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_2:
+  args:
+    - '@gu [newNick]'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_3:
+  args:
+    - '@gu [newNick]'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_1:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_2:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: 'Варіант для встановлення нікнейму бота.'
+  params:
+    - desc: 'Варіант для встановлення нікнейму бота.'
+      name: gu
+      optional: false
+      type: user
+    - desc: 'Новий нікнейм, який ти хочеш встановити.'
+      name: newNick
+      optional: true
+      type: string
+setrole:
+  args:
+    - '@role @user'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - &ref_520
+      desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - &ref_519
+      desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_StoopidTime:
+  args:
+    - '@role @user time'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - &ref_525
+      desc: 'Тривалість, протягом якої роль буде активною.'
+      name: time
+      optional: false
+      type: StoopidTime
+setrole_IGuildUser_IRole_StoopidTime:
+  args:
+    - '@user @role time'
+  desc: 'Видає користувачу роль на вказаний проміжок часу.'
+  params:
+    - desc: 'Користувач, якому треба видати роль.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль, яку треба видати користувачу.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: 'Тривалість, протягом якої роль буде активною.'
+      name: time
+      optional: false
+      type: StoopidTime
+settopic:
+  args:
+    - '[topic]'
+  desc: 'Встановлює тему поточного текстового каналу.'
+  params:
+    - desc: 'Тема для текстового каналу.'
+      name: topic
+      optional: true
+      type: string
+staffrole:
+  args:
+    - '[@role]'
+  desc: 'Встановлює або оновлює роль, яку отримують члени персоналу.'
+  params:
+    - desc: 'Роль, яку отримуватимуть члени персоналу.'
+      name: role
+      optional: true
+      type: role
+staffroledisable:
+  args:
+    - ''
+  desc: 'Вимикає роль, яку отримують члени персоналу.'
+  params: [ ]
+timezone:
+  args:
+    - ''
+  desc: 'Показує інформацію про часовий пояс.'
+  params: [ ]
+timezone_noparams:
+  args:
+    - ''
+  desc: 'Показує інформацію про часовий пояс.'
+  params: [ ]
+timezone_noparams_1:
+  args:
+    - ''
+  desc: 'Показує інформацію про часовий пояс.'
+  params: [ ]
+timezone_noparams_2:
+  args:
+    - ''
+  desc: 'Показує інформацію про часовий пояс.'
+  params: [ ]
+timezone_string:
+  args:
+    - text
+  desc: 'Показує інформацію про часовий пояс.'
+  params:
+    - &ref_625
+      desc: 'ID часового поясу.'
+      name: id
+      optional: false
+      type: string
+timezone_string_1:
+  args:
+    - text
+  desc: 'Показує інформацію про часовий пояс.'
+  params:
+    - desc: 'ID часового поясу.'
+      name: id
+      optional: false
+      type: string
+timezone_string_2:
+  args:
+    - text
+  desc: 'Показує інформацію про часовий пояс.'
+  params:
+    - desc: 'ID часового поясу.'
+      name: id
+      optional: false
+      type: string
+timezone_string_3:
+  args:
+    - text
+  desc: 'Показує інформацію про часовий пояс.'
+  params:
+    - desc: 'ID часового поясу.'
+      name: id
+      optional: false
+      type: string
+timezones_noparams_1:
+  args:
+    - ''
+  desc: 'Показує всі доступні часові пояси.'
+  params: [ ]
+togglexclsar:
+  args:
+    - ''
+  desc: 'Перемикає ексклюзивність ролей для самопризначення.'
+  params: [ ]
+undeafen:
+  args:
+    - '@user'
+  desc: 'Вмикає звук для вказаних користувачів на сервері.'
+  params:
+    - desc: 'Користувачі, яким треба повернути звук.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+vcrole:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrole_=:
+  args:
+    - '@vchan [@role]'
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_1:
+  args:
+    - '@vchan [@role]'
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_2:
+  args:
+    - '@vchan [@role]'
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_3:
+  args:
+    - '@vchan [@role]'
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_1:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_2:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+  params:
+    - desc: 'Прив''язує або відв''язує роль від голосового каналу, поки ти в ньому.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: 'Роль, яку треба прив''язати до голосового каналу.'
+      name: role
+      optional: true
+      type: role
+vcrolelist:
+  args:
+    - ''
+  desc: 'Показує всі ролі голосових каналів для цього сервера.'
+  params: [ ]
+vcrolerm:
+  args:
+    - vcid
+  desc: 'Відв''язує роль від голосового каналу.'
+  params:
+    - &ref_641
+      desc: 'ID голосового каналу.'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong:
+  args:
+    - vcid
+  desc: 'Відв''язує роль від голосового каналу.'
+  params:
+    - desc: 'ID голосового каналу.'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_1:
+  args:
+    - vcid
+  desc: 'Відв''язує роль від голосового каналу.'
+  params:
+    - desc: 'ID голосового каналу.'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_2:
+  args:
+    - vcid
+  desc: 'Відв''язує роль від голосового каналу.'
+  params:
+    - desc: 'ID голосового каналу.'
+      name: vcId
+      optional: false
+      type: ulong
+timezones:
+  args:
+    - ''
+  desc: 'Показує всі доступні часові пояси.'
+  params: [ ]
+antimasspost:
+  args:
+    - ''
+  desc: 'Вимикає захист Anti-Mass-Post для сервера або налаштовує його, якщо вказані аргументи.'
+  params: [ ]
+antipostchannel:
+  args:
+    - ''
+  desc: 'Вимикає захист Anti-Post-Channel для сервера або налаштовує його, якщо вказані аргументи.'
+  params: [ ]
+antipostchanneladd:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Додає канал-приманку до захисту Anti-Post-Channel.'
+  params:
+    - desc: 'Текстовий канал, який треба додати як приманку.'
+      name: channel
+      optional: false
+      type: ITextChannel
+antipostchannelremove:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Видаляє канал-приманку із захисту Anti-Post-Channel.'
+  params:
+    - desc: 'Текстовий канал, який треба прибрати з відстеження приманок.'
+      name: channel
+      optional: false
+      type: ITextChannel
+antiimagehash:
+  args:
+    - ''
+    - 'Ban'
+    - 'Delete 31'
+    - 'Timeout 31 1d'
+  desc: 'Вмикає захист Anti-Image-Hash, який карає кожного, хто повторно публікує зображення із заблокованого списку, зокрема копії зі зміненим розміром, віддзеркалені, повторно завантажені з нижчою якістю або з рамкою. Запусти без аргументів, щоб вимкнути. Необов''язковий поріг (від 0 до 64, за замовчуванням 31) визначає, наскільки опубліковане зображення може відрізнятися й досі вважатися заблокованим.'
+  params: [ ]
+antiimagehashignore:
+  args:
+    - '<role>'
+    - '<channel>'
+  desc: 'Перемикає роль або канал як виняток із захисту Anti-Image-Hash.'
+  params: [ ]
+antiexternalapp:
+  args:
+    - ''
+    - 'Timeout'
+    - 'Timeout 5 5 1h'
+    - 'Kick 3 0'
+  desc: 'Вмикає захист Anti-External-App, який стежить за повідомленнями, які учасники надсилають через застосунки, додані до їхнього акаунта. Повідомлення видаляється, а учасник, який запустив застосунок, отримує покарання, якщо воно згадує забагато людей або ролей (за замовчуванням 5, 0 вимикає перевірку), пінгує всіх, містить посилання-запрошення або якщо учасник запускає застосунки частіше за дозволену кількість разів за 10 секунд (за замовчуванням 5, 0 вимикає перевірку). Застосунки, додані безпосередньо на сервер, не перевіряються. Запусти без аргументів, щоб вимкнути.'
+  params: [ ]
+blockimage:
+  args:
+    - ''
+    - 'mrbeast crypto scam'
+    - 'Delete nsfw meme'
+    - 'https://example.com/scam.png mrbeast crypto scam'
+  desc: 'Блокує зображення, тож кожного, хто повторно його опублікує, буде покарано, зокрема копії зі зміненим розміром, перестиснені, віддзеркалені та з рамкою. Прикріпи зображення, відповідай на повідомлення з ним або вкажи його URL. Дія, вказана перед міткою, перевизначає налаштування сервера лише для цього зображення.'
+  params: [ ]
+unblockimage:
+  args:
+    - '<id>'
+  desc: 'Видаляє зображення із списку заблокованих за його ID, який показує blockedimages.'
+  params: [ ]
+blockedimages:
+  args:
+    - ''
+  desc: 'Показує заблоковані зображення та скільки разів спіймано кожне з них.'
+  params: [ ]
+imagehash:
+  args:
+    - ''
+    - 'https://example.com/scam.png'
+  desc: 'Показує перцептивний хеш зображення без його блокування.'
+  params: [ ]
+antiimagehashpreset:
+  args:
+    - ''
+  desc: 'Перемикає список відомих шахрайських зображень, який іде разом із Mewdeko: фальшиві зображення крипто-казино та розіграшів, які зараз масово розсилають у Discord. Вони блокуються разом із твоїм власним списком. Увімкнено за замовчуванням, коли ввімкнено Anti-Image-Hash.'
+  params: [ ]

@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Bu sunucudaki her rol menüsünü kanalı, türü, seçenek sayısı ve durumuyla listeler.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Bir rol menüsü hakkındaki her şeyi gösterir: kanal, tür, seçim kuralları, gerekli rol, onay ve seçenekler.'
+  params:
+    - desc: 'rolemenus''taki menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Bir kanala her rol için bir seçenek içeren yeni bir rol menüsü gönderir. Üyeler bu rolleri almak veya bırakmak için açılır menüden ya da düğme sırasından seçim yapar.'
+  params:
+    - desc: 'Menünün gönderileceği kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'açılır menü veya düğmeler.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: 'Bir veya daha fazla rol, en fazla 25.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Bir menüye rol ekler; isteğe bağlı emoji ve ad ile birlikte ve gönderilen mesajı günceller.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Yeni seçeneğin vereceği rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'İsteğe bağlı emoji, ardından menüde gösterilecek ad. Varsayılan olarak rol adı kullanılır.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Bir rolü menüden çıkarır ve gönderilen mesajı günceller.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Menüden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Bir menünün adını değiştirir. Ad, varsayılan mesajın başlığı olur ve listelerde görünür.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Yeni ad, en fazla 100 karakter.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Bir menünün üstündeki metni düz metin veya embed oluşturucudan gelen embed JSON''u olarak ayarlar. Mevcut mesajı görmek için yalnızca ID gönder, varsayılan seçenek listesine dönmek için "clear" gönder.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Mesaj, "clear" veya görüntülemek için boş bırak.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Bir menüyü açılır menü ile düğmeler arasında değiştirir.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'açılır menü veya düğmeler.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Üyelerin menüden bir rol mi (başka birini seçince değişir) yoksa istedikleri kadar rol mü seçeceğini belirler.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'tek seçim için exclusive, çoklu seçim için multi.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Bir üyenin seçimden sonra en az kaç rol tutması ve en fazla kaç rol sahip olabileceğini belirler. Maksimum 0 sınırsız demektir.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Üye seçim yaptıktan sonra tutması gereken en az rol sayısı.'
+      name: min
+      optional: false
+      type: int
+    - desc: 'Bir üyenin sahip olabileceği en fazla rol sayısı; sınırsız için 0.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Menüyü yalnızca belirli bir role sahip üyeler kullanabilir. Herkesin kullanabilmesi için rolü boş bırak.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Menüyü kullanmak için gereken rol. Temizlemek için çıkar.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Üyelerin kazandıkları ve kaybettikleri rolleri listeleyen özel bir not alıp almayacağını ya da hiç not almayacağını seçer.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private veya silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Bir menüyü duraklatır; açılır menüsünü veya düğmelerini gri yapar ya da duraklatılmışsa devam ettirir.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Menünün yeni bir kopyasını aynı veya başka bir kanala gönderir ve eski mesajı siler.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Nereye gönderileceği. Varsayılan olarak mevcut kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Bir menüyü ve mesajını siler. Üyeler zaten seçtikleri rolleri tutar.'
+  params:
+    - desc: 'Menü ID''si.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Bir mesajdaki eski emoji rol kurulumunu aynı kanaldaki yeni bir rol menüsüne taşır, ardından eski kurulumu devre dışı bırakır.'
+  params:
+    - desc: 'Eski kurulumun bulunduğu mesajın ID''si.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown veya buttons. Varsayılan olarak dropdown.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

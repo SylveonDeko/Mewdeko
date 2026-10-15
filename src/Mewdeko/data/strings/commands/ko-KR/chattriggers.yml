@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: '새 채팅 트리거를 추가해요.'
+  params:
+    - &ref_9
+      desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: '새 채팅 트리거를 추가해요.'
+  params:
+    - desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: '새 채팅 트리거를 추가해요.'
+  params:
+    - desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: '새 채팅 트리거를 추가해요.'
+  params:
+    - desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: '정규식을 지원하는 새 채팅 트리거를 추가해요.'
+  params:
+    - desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: '정규식을 지원하는 새 채팅 트리거를 추가해요.'
+  params:
+    - desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: '정규식을 지원하는 새 채팅 트리거를 추가해요.'
+  params:
+    - desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: '정규식을 지원하는 새 채팅 트리거를 추가해요.'
+  params:
+    - desc: '채팅 트리거의 키예요.'
+      name: key
+      optional: false
+      type: string
+    - desc: '채팅 트리거와 연결된 메시지예요.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: '반응 기반 채팅 트리거를 추가해요.'
+  params:
+    - desc: '트리거가 될 반응 이모지예요.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: '트리거되었을 때 보낼 메시지예요.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: '채팅 트리거의 역할 부여 방식을 설정해요.'
+  params:
+    - &ref_130
+      desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: '설정할 역할 부여 방식이에요.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: '채팅 트리거의 역할 부여 방식을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 역할 부여 방식이에요.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: '채팅 트리거의 역할 부여 방식을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 역할 부여 방식이에요.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: '채팅 트리거의 역할 부여 방식을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 역할 부여 방식이에요.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: '채팅 트리거 교차 게시 채널을 설정해요.'
+  params:
+    - desc: '교차 게시할 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: '채팅 트리거 교차 게시용 웹후크를 설정해요.'
+  params:
+    - desc: '교차 게시에 사용할 웹후크 URL이에요.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: '특정 트리거 유형에서 채팅 트리거를 사용할지 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: '유효 여부를 설정할 트리거 유형이에요.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: '트리거 유형을 켤지 끌지 설정해요. 켜려면 true, 끄려면 false를 입력해요.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: '특정 트리거 유형에서 채팅 트리거를 사용할지 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '유효 여부를 설정할 트리거 유형이에요.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: '트리거 유형을 켤지 끌지 설정해요. 켜려면 true, 끄려면 false를 입력해요.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: '특정 트리거 유형에서 채팅 트리거를 사용할지 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '유효 여부를 설정할 트리거 유형이에요.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: '트리거 유형을 켤지 끌지 설정해요. 켜려면 true, 끄려면 false를 입력해요.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: '특정 트리거 유형에서 채팅 트리거를 사용할지 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '유효 여부를 설정할 트리거 유형이에요.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: '트리거 유형을 켤지 끌지 설정해요. 켜려면 true, 끄려면 false를 입력해요.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: '트리거된 후 채팅 트리거 메시지를 자동 삭제하도록 설정해요.'
+  params:
+    - &ref_162
+      desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: '트리거된 후 채팅 트리거 메시지를 자동 삭제하도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: '트리거된 후 채팅 트리거 메시지를 자동 삭제하도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: '트리거된 후 채팅 트리거 메시지를 자동 삭제하도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: '채팅 트리거가 대상 지정을 허용하도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: '채팅 트리거가 메시지 어디에든 포함되면 반응하도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: '채팅 트리거의 교차 게시 채널을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: '교차 게시할 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: '채팅 트리거의 교차 게시 채널을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '교차 게시할 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '채팅 트리거의 교차 게시 채널을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '교차 게시할 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '채팅 트리거의 교차 게시 채널을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '교차 게시할 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: '채팅 트리거 교차 게시에 사용할 웹후크 URL을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: '설정할 웹후크 URL이에요.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: '채팅 트리거 교차 게시에 사용할 웹후크 URL을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 웹후크 URL이에요.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: '채팅 트리거 교차 게시에 사용할 웹후크 URL을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 웹후크 URL이에요.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: '채팅 트리거 교차 게시에 사용할 웹후크 URL을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 웹후크 URL이에요.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: '채팅 트리거가 응답으로 DM을 보내도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: '채팅 트리거의 상호작용 응답을 본인에게만 보이게(ephemeral) 할지 설정해요. 다른 사람에게 문서 때문에 고생하는 모습은 보여주지 않으려고요!'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: '응답을 본인에게만 보이게 하려면 true, 아니면 false를 입력해요.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: '채팅 트리거의 상호작용 응답을 본인에게만 보이게(ephemeral) 할지 설정해요. 다른 사람에게 문서 때문에 고생하는 모습은 보여주지 않으려고요!'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '응답을 본인에게만 보이게 하려면 true, 아니면 false를 입력해요.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: '채팅 트리거의 상호작용 응답을 본인에게만 보이게(ephemeral) 할지 설정해요. 다른 사람에게 문서 때문에 고생하는 모습은 보여주지 않으려고요!'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '응답을 본인에게만 보이게 하려면 true, 아니면 false를 입력해요.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: '채팅 트리거의 상호작용 응답을 본인에게만 보이게(ephemeral) 할지 설정해요. 다른 사람에게 문서 때문에 고생하는 모습은 보여주지 않으려고요!'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '응답을 본인에게만 보이게 하려면 true, 아니면 false를 입력해요.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: '채팅 트리거의 상호작용 오류를 보여줘요.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: '채팅 트리거가 응답하지 않도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: '채팅 트리거의 접두사를 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: '설정할 새 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: '채팅 트리거의 접두사를 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 새 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: '채팅 트리거의 접두사를 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 새 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: '채팅 트리거의 접두사를 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 새 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: '채팅 트리거의 접두사 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: '설정할 접두사 유형이에요.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: '채팅 트리거의 접두사 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 접두사 유형이에요.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: '채팅 트리거의 접두사 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 접두사 유형이에요.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: '채팅 트리거의 접두사 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 접두사 유형이에요.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: '채팅 트리거의 반응을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: '반응으로 설정할 이모지 문자열이에요.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: '채팅 트리거의 반응을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '반응으로 설정할 이모지 문자열이에요.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: '채팅 트리거의 반응을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '반응으로 설정할 이모지 문자열이에요.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: '채팅 트리거의 반응을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '반응으로 설정할 이모지 문자열이에요.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: '채팅 트리거의 역할 부여를 켜거나 꺼요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: '전환할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: '채팅 트리거의 역할 부여를 켜거나 꺼요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '전환할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: '채팅 트리거의 역할 부여를 켜거나 꺼요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '전환할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: '채팅 트리거의 역할 부여를 켜거나 꺼요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '전환할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: '채팅 트리거의 역할 제거를 켜거나 꺼요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '전환할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: '모든 채팅 트리거를 삭제해요.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: '현재 서버의 채팅 트리거 설정을 내보내요.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: '이전 CrEmbed 형식의 채팅 트리거를 새 임베드 형식으로 변환해요. 먼저 백업을 내보낸 뒤 모든 트리거를 변환해요.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: '현재 서버의 채팅 트리거 설정을 가져와요.'
+  params:
+    - desc: '사용자 지정 반응 설정이 담긴 입력값이에요.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: '채팅 트리거를 다시 불러와요.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'ID로 채팅 트리거를 삭제해요.'
+  params:
+    - desc: '삭제할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: '기존 채팅 트리거를 수정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '채팅 트리거의 새 메시지예요.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: '모든 채팅 트리거를 보여줘요.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: '트리거별로 묶어 모든 채팅 트리거를 보여줘요.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: '채팅 트리거가 해당 트리거에 반응하도록 설정해요.'
+  params:
+    - desc: '수정할 채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 설명을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: '상호작용에 설정할 설명이에요.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 설명을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '상호작용에 설정할 설명이에요.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 설명을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '상호작용에 설정할 설명이에요.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 설명을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '상호작용에 설정할 설명이에요.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 이름을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: '상호작용에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 이름을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '상호작용에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 이름을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '상호작용에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: '채팅 트리거의 상호작용 이름을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '상호작용에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: '채팅 트리거의 상호작용 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: '설정할 상호작용 유형이에요.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: '채팅 트리거의 상호작용 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 상호작용 유형이에요.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: '채팅 트리거의 상호작용 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 상호작용 유형이에요.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: '채팅 트리거의 상호작용 유형을 설정해요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+    - desc: '설정할 상호작용 유형이에요.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: '특정 채팅 트리거의 자세한 정보를 보여줘요.'
+  params:
+    - &ref_544
+      desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: '특정 채팅 트리거의 자세한 정보를 보여줘요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: '특정 채팅 트리거의 자세한 정보를 보여줘요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: '특정 채팅 트리거의 자세한 정보를 보여줘요.'
+  params:
+    - desc: '채팅 트리거의 ID예요.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: '채팅 트리거를 실행할 이벤트를 설정해요.'
+cteventchannel:
+  desc: '채팅 트리거 이벤트를 처리할 채널을 설정해요.'
+ctreply:
+  desc: '채팅 트리거가 응답할 메시지를 설정해요.'
+ctdeleteafter:
+  desc: '채팅 트리거 응답을 보낸 뒤 삭제할 시간을 설정해요.'
+ctcooldown:
+  desc: '채팅 트리거의 쿨다운을 설정해요.'
+ctrequirecounter:
+  desc: '채팅 트리거의 카운터 조건을 설정해요.'
+ctcategory:
+  desc: '채팅 트리거의 카테고리를 설정해요.'
+ctcategorytoggle:
+  desc: '채팅 트리거 카테고리를 켜거나 꺼요.'
+cttest:
+  desc: '샘플 메시지가 채팅 트리거를 실행하는지 테스트해요.'
+ctstats:
+  desc: '채팅 트리거 활동 통계를 보여줘요.'
+ctchain:
+  desc: '다른 트리거 뒤에 실행되는 채팅 트리거를 설정해요.'
+ctallowbots:
+  desc: '채팅 트리거가 봇 메시지에 반응할지 설정해요.'
+ctcounters:
+  desc: '채팅 트리거 카운터 목록을 보여줘요.'
+ctcounterset:
+  desc: '채팅 트리거 카운터 값을 설정해요.'
+ctcounterdelete:
+  desc: '채팅 트리거 카운터를 삭제해요.'
+ctplaceholders:
+  desc: '채팅 트리거에서 사용할 수 있는 자리표시자 목록을 보여줘요.'
+cttime:
+  desc: '채팅 트리거가 활성화되는 시간 범위를 설정해요.'
+ctexpiry:
+  desc: '채팅 트리거의 만료 시간을 설정해요.'
+ctmaxuses:
+  desc: '채팅 트리거를 실행할 수 있는 최대 횟수를 설정해요.'
+ctminage:
+  desc: '채팅 트리거의 최소 계정 나이를 설정해요.'
+ctminmember:
+  desc: '채팅 트리거의 최소 서버 참여 기간을 설정해요.'
+cttoggle:
+  desc: '채팅 트리거를 켜거나 꺼요.'
+ctaddresponse:
+  desc: '채팅 트리거에 추가 응답을 더해요.'
+ctclearresponses:
+  desc: '채팅 트리거의 추가 응답을 제거해요.'
+ctresponsemode:
+  desc: '채팅 트리거가 응답을 고르는 방식을 설정해요.'
+ctcost:
+  desc: '채팅 트리거의 재화 비용을 설정해요.'
+ctreward:
+  desc: '채팅 트리거의 재화 보상을 설정해요.'
+ctxpreward:
+  desc: '채팅 트리거의 XP 보상을 설정해요.'
+ctreqlevel:
+  desc: '채팅 트리거에 필요한 XP 레벨을 설정해요.'
+ctreqmsg:
+  desc: '채팅 트리거 요건을 충족하지 못했을 때의 메시지를 설정해요.'

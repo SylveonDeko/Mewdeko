@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Publica o botão de candidatura de um canal com restrição, para que você preencha o formulário.'
+  params:
+    - desc: 'O canal para se candidatar.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Força a aprovação de uma candidatura, independentemente da contagem de votos.'
+  params:
+    - desc: 'O ID da candidatura.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Uma observação opcional exibida na candidatura encerrada.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Lista todos os bloqueados de se candidatar neste servidor.'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Bloqueia um usuário de se candidatar, para um canal ou para todos os canais com restrição.'
+  params:
+    - desc: 'O usuário a bloquear.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'O canal com restrição, ou deixe vazio para bloquear em todos.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Remove um bloqueio para que um usuário possa se candidatar novamente.'
+  params:
+    - desc: 'O usuário bloqueado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'O canal com restrição onde o bloqueio foi definido, se for específico de canal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Altera uma configuração de um portão. Execute sem uma configuração para ver tudo o que pode ser alterado.'
+  params:
+    - desc: 'O canal com restrição.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'O nome da configuração.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'O novo valor.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Recusa uma candidatura, independentemente da contagem de votos.'
+  params:
+    - desc: 'O ID da candidatura.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Uma observação opcional exibida na candidatura encerrada.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Mostra o histórico de candidaturas de um usuário ou o seu, se nenhum usuário for informado.'
+  params:
+    - desc: 'O usuário a consultar.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Lista todos os portões do servidor com os seus limites atuais.'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Publica um botão que as pessoas podem clicar para se candidatar a um canal com restrição.'
+  params:
+    - desc: 'O canal com restrição.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Onde publicar o painel. Padrão: o canal atual.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Lista as candidaturas que ainda aguardam uma decisão.'
+  params:
+    - desc: 'Opcionalmente limita a lista a um canal com restrição.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Adiciona uma pergunta ao formulário de candidatura de um portão. Um portão pode ter até cinco.'
+  params:
+    - desc: 'O canal com restrição.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'O texto da pergunta, com até 45 caracteres.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Mostra as perguntas de candidatura de um portão na ordem em que os candidatos as veem.'
+  params:
+    - desc: 'O canal com restrição.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Remove uma pergunta do formulário de candidatura pela sua posição na lista.'
+  params:
+    - desc: 'O canal com restrição.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'A posição, começando em 1, mostrada pela lista de perguntas.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Remove o portão de um canal, junto com suas perguntas e o histórico de candidaturas.'
+  params:
+    - desc: 'O canal com restrição.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Abre candidaturas para um canal bloqueado, concedendo o cargo informado aos candidatos aprovados.'
+  params:
+    - desc: 'O canal bloqueado a proteger com o portão.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'O cargo concedido quando uma candidatura é aprovada. Deixe de fora para adicionar os candidatos diretamente ao canal.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Retira uma das suas próprias candidaturas abertas.'
+  params:
+    - desc: 'O ID da candidatura mostrado na mensagem de análise.'
+      name: applicationId
+      optional: false
+      type: int

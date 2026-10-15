@@ -1,0 +1,892 @@
+baccarat:
+  args:
+    - number text
+  desc: '바카라 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '베팅 유형이에요. player, banker, tie 중 하나예요.'
+      name: betType
+      optional: true
+      type: string
+bingo:
+  args:
+    - number text
+  desc: '숫자를 부르는 빙고 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '빙고 카드 유형이에요. small 또는 large를 입력해요.'
+      name: cardType
+      optional: true
+      type: string
+blackjack:
+  args:
+    - number
+  desc: '새 블랙잭 게임을 시작하거나 진행 중인 게임에 참여해요.'
+  params:
+    - &ref_113
+      desc: '플레이어의 베팅 금액이에요.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long:
+  args:
+    - number
+  desc: '새 블랙잭 게임을 시작하거나 진행 중인 게임에 참여해요.'
+  params:
+    - desc: '플레이어의 베팅 금액이에요.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_1:
+  args:
+    - number
+  desc: '새 블랙잭 게임을 시작하거나 진행 중인 게임에 참여해요.'
+  params:
+    - desc: '플레이어의 베팅 금액이에요.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_2:
+  args:
+    - number
+  desc: '새 블랙잭 게임을 시작하거나 진행 중인 게임에 참여해요.'
+  params:
+    - desc: '플레이어의 베팅 금액이에요.'
+      name: amount
+      optional: false
+      type: long
+cash:
+  args:
+    - ''
+  desc: '사용자의 현재 잔액을 확인해요.'
+  params: [ ]
+challengeleaderboard:
+  args:
+    - ''
+  desc: '일일 챌린지 리더보드를 보여줘요.'
+  params: [ ]
+claimchallenge:
+  args:
+    - ''
+  desc: '완료한 일일 챌린지 보상을 받아요.'
+  params: [ ]
+coinflip:
+  args:
+    - number text
+  desc: '지정한 금액과 예측으로 동전 던지기를 해요.'
+  params:
+    - &ref_135
+      desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_136
+      desc: '사용자의 예측이에요. "heads" 또는 "tails"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string:
+  args:
+    - number text
+  desc: '지정한 금액과 예측으로 동전 던지기를 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '사용자의 예측이에요. "heads" 또는 "tails"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_1:
+  args:
+    - number text
+  desc: '지정한 금액과 예측으로 동전 던지기를 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '사용자의 예측이에요. "heads" 또는 "tails"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_2:
+  args:
+    - number text
+  desc: '지정한 금액과 예측으로 동전 던지기를 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '사용자의 예측이에요. "heads" 또는 "tails"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+craps:
+  args:
+    - number text
+  desc: '크랩스 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '베팅 유형이에요. pass, dontpass, field, any 중 하나예요.'
+      name: betType
+      optional: true
+      type: string
+crash:
+  args:
+    - number number
+  desc: '언제든 터질 수 있는 배율에 베팅하는 크래시 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '정산할 배율이에요. 1.1배에서 10.0배까지 입력할 수 있어요.'
+      name: targetMultiplier
+      optional: true
+      type: double
+dailychallenge:
+  args:
+    - ''
+  desc: '현재 일일 챌린지를 확인해요.'
+  params: [ ]
+dailyreward:
+  args:
+    - ''
+  desc: '일일 보상을 받아요.'
+  params: [ ]
+diceduel:
+  args:
+    - '@user number'
+  desc: '다른 플레이어에게 주사위 대결을 신청해요.'
+  params:
+    - desc: '도전할 사용자예요.'
+      name: opponent
+      optional: false
+      type: IUser
+    - desc: '각 플레이어가 베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+duckrace:
+  args:
+    - number
+  desc: '경마와 비슷한 오리 경주를 시작해요.'
+  params:
+    - desc: '오리 경주에 베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+highlow:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1부터 10까지 숫자를 보여주고, 다음 숫자가 높을지 낮을지 맞히면 보상을 받아요. 같은 숫자가 나오면 베팅액을 돌려받아요.'
+  params:
+    - &ref_247
+      desc: '사용자의 예측이에요. "higher" 또는 "lower"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: true
+      type: long
+highlow_string:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1부터 10까지 숫자를 보여주고, 다음 숫자가 높을지 낮을지 맞히면 보상을 받아요. 같은 숫자가 나오면 베팅액을 돌려받아요.'
+  params:
+    - desc: '사용자의 예측이에요. "higher" 또는 "lower"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+highlow_string_1:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1부터 10까지 숫자를 보여주고, 다음 숫자가 높을지 낮을지 맞히면 보상을 받아요. 같은 숫자가 나오면 베팅액을 돌려받아요.'
+  params:
+    - desc: '사용자의 예측이에요. "higher" 또는 "lower"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+highlow_string_2:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '1부터 10까지 숫자를 보여주고, 다음 숫자가 높을지 낮을지 맞히면 보상을 받아요. 같은 숫자가 나오면 베팅액을 돌려받아요.'
+  params:
+    - desc: '사용자의 예측이에요. "higher" 또는 "lower"를 입력해요.'
+      name: guess
+      optional: false
+      type: string
+hit:
+  args:
+    - ''
+  desc: '플레이어에게 카드를 한 장 더 뽑아줘요.'
+  params: [ ]
+horserace:
+  args:
+    - number
+  desc: '지정한 베팅 금액으로 경마에 참여하거나 새 경주를 시작해요.'
+  params:
+    - &ref_248
+      desc: '경주에 베팅할 재화의 양이에요.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int:
+  args:
+    - number
+  desc: '지정한 베팅 금액으로 경마에 참여하거나 새 경주를 시작해요.'
+  params:
+    - desc: '경주에 베팅할 재화의 양이에요.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_1:
+  args:
+    - number
+  desc: '지정한 베팅 금액으로 경마에 참여하거나 새 경주를 시작해요.'
+  params:
+    - desc: '경주에 베팅할 재화의 양이에요.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_2:
+  args:
+    - number
+  desc: '지정한 베팅 금액으로 경마에 참여하거나 새 경주를 시작해요.'
+  params:
+    - desc: '경주에 베팅할 재화의 양이에요.'
+      name: betAmount
+      optional: false
+      type: int
+keno:
+  args:
+    - number text
+  desc: '숫자를 골라 뽑힌 숫자와 얼마나 맞는지 보는 키노 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '1부터 80 사이의 숫자를 공백으로 구분해 최대 10개까지 입력해요.'
+      name: numbers
+      optional: false
+      type: string
+lottery:
+  args:
+    - number
+  desc: '복권을 구매해요.'
+  params:
+    - desc: '구매할 복권 수예요. 1부터 10까지 입력할 수 있어요.'
+      name: ticketCount
+      optional: true
+      type: int
+memory:
+  args:
+    - number text
+  desc: '순서를 기억하는 메모리 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '난이도예요. easy, medium, hard 중 하나예요.'
+      name: difficulty
+      optional: true
+      type: string
+minesweeper:
+  args:
+    - number text
+  desc: '간단한 지뢰찾기 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '격자 크기예요. small, medium, large 중 하나예요.'
+      name: size
+      optional: true
+      type: string
+modifybalance:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '사용자의 잔액에 금액을 더해요.'
+  params:
+    - desc: '금액을 더할 사용자예요.'
+      name: user
+      optional: false
+      type: user
+    - desc: '더할 금액이에요. 너무 과하게 주지는 마세요! 음수도 가능해요.'
+      name: amount
+      optional: false
+      type: long
+    - desc: '이 사람, 대상 등에게 이렇게 하는 이유예요.'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '사용자의 잔액에 금액을 더해요.'
+  params:
+    - desc: '금액을 더할 사용자예요.'
+      name: user
+      optional: false
+      type: user
+    - desc: '더할 금액이에요. 너무 과하게 주지는 마세요! 음수도 가능해요.'
+      name: amount
+      optional: false
+      type: long
+    - desc: '이 사람, 대상 등에게 이렇게 하는 이유예요.'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_1:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '사용자의 잔액에 금액을 더해요.'
+  params:
+    - desc: '금액을 더할 사용자예요.'
+      name: user
+      optional: false
+      type: user
+    - desc: '더할 금액이에요. 너무 과하게 주지는 마세요! 음수도 가능해요.'
+      name: amount
+      optional: false
+      type: long
+    - desc: '이 사람, 대상 등에게 이렇게 하는 이유예요.'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_2:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '사용자의 잔액에 금액을 더해요.'
+  params:
+    - desc: '금액을 더할 사용자예요.'
+      name: user
+      optional: false
+      type: user
+    - desc: '더할 금액이에요. 너무 과하게 주지는 마세요! 음수도 가능해요.'
+      name: amount
+      optional: false
+      type: long
+    - desc: '이 사람, 대상 등에게 이렇게 하는 이유예요.'
+      name: reason
+      optional: true
+      type: string
+plinko:
+  args:
+    - number number
+  desc: '핀 사이로 떨어지는 공으로 무작위 배율을 얻는 플링코 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '핀 줄 수예요. 5부터 10까지 입력할 수 있어요.'
+      name: rows
+      optional: true
+      type: int
+roulette:
+  args:
+    - number text
+  desc: '지정한 베팅 금액과 유형으로 룰렛 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_469
+      desc: '베팅 유형이에요. "red", "black", "even", "odd" 또는 0~36 사이의 숫자를 입력해요.'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string:
+  args:
+    - number text
+  desc: '지정한 베팅 금액과 유형으로 룰렛 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '베팅 유형이에요. "red", "black", "even", "odd" 또는 0~36 사이의 숫자를 입력해요.'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_1:
+  args:
+    - number text
+  desc: '지정한 베팅 금액과 유형으로 룰렛 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '베팅 유형이에요. "red", "black", "even", "odd" 또는 0~36 사이의 숫자를 입력해요.'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_2:
+  args:
+    - number text
+  desc: '지정한 베팅 금액과 유형으로 룰렛 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '베팅 유형이에요. "red", "black", "even", "odd" 또는 0~36 사이의 숫자를 입력해요.'
+      name: betType
+      optional: false
+      type: string
+rps:
+  args:
+    - text 0
+    - text
+  desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+  params:
+    - &ref_470
+      desc: '선택이에요. rock, paper, scissors, lizard, spock 중 하나를 입력해요.'
+      name: choice
+      optional: false
+      type: string
+    - desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=:
+  args:
+    - text 0
+    - text
+  desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+  params:
+    - desc: '선택이에요. rock, paper, scissors, lizard, spock 중 하나를 입력해요.'
+      name: choice
+      optional: false
+      type: string
+    - desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_1:
+  args:
+    - text 0
+    - text
+  desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+  params:
+    - desc: '선택이에요. rock, paper, scissors, lizard, spock 중 하나를 입력해요.'
+      name: choice
+      optional: false
+      type: string
+    - desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_2:
+  args:
+    - text 0
+    - text
+  desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+  params:
+    - desc: '선택이에요. rock, paper, scissors, lizard, spock 중 하나를 입력해요.'
+      name: choice
+      optional: false
+      type: string
+    - desc: '봇과 가위바위보리자드스팍을 해요. 베팅할 수도 있어요.'
+      name: 0
+      optional: false
+      type: '='
+russianroulette:
+  args:
+    - number number
+  desc: '러시안 룰렛 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '총알 수예요. 1부터 5까지 입력할 수 있어요.'
+      name: bullets
+      optional: true
+      type: int
+scratchcard:
+  args:
+    - text
+  desc: '스크래치 카드 게임을 해요.'
+  params:
+    - desc: '구매할 카드 종류예요. bronze, silver, gold, diamond 중 하나예요.'
+      name: cardType
+      optional: true
+      type: string
+setdaily:
+  args:
+    - number time
+  desc: '서버의 일일 보상 금액과 쿨다운 시간을 설정해요.'
+  params:
+    - &ref_499
+      desc: '일일 보상 금액이에요.'
+      name: amount
+      optional: false
+      type: int
+    - &ref_500
+      desc: '일일 보상을 받은 뒤 다음 보상까지의 쿨다운 시간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime:
+  args:
+    - number time
+  desc: '서버의 일일 보상 금액과 쿨다운 시간을 설정해요.'
+  params:
+    - desc: '일일 보상 금액이에요.'
+      name: amount
+      optional: false
+      type: int
+    - desc: '일일 보상을 받은 뒤 다음 보상까지의 쿨다운 시간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_1:
+  args:
+    - number time
+  desc: '서버의 일일 보상 금액과 쿨다운 시간을 설정해요.'
+  params:
+    - desc: '일일 보상 금액이에요.'
+      name: amount
+      optional: false
+      type: int
+    - desc: '일일 보상을 받은 뒤 다음 보상까지의 쿨다운 시간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_2:
+  args:
+    - number time
+  desc: '서버의 일일 보상 금액과 쿨다운 시간을 설정해요.'
+  params:
+    - desc: '일일 보상 금액이에요.'
+      name: amount
+      optional: false
+      type: int
+    - desc: '일일 보상을 받은 뒤 다음 보상까지의 쿨다운 시간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+slot:
+  args:
+    - 10
+  desc: '지정한 베팅 금액으로 슬롯머신 게임을 해요.'
+  params:
+    - desc: '지정한 베팅 금액으로 슬롯머신 게임을 해요.'
+      name: 10
+      optional: false
+      type: '='
+spinwheel:
+  args:
+    - 0
+  desc: '룰렛을 돌려 재화를 얻거나 잃을 수 있어요.'
+  params:
+    - desc: '룰렛을 돌려 재화를 얻거나 잃을 수 있어요.'
+      name: 0
+      optional: false
+      type: '='
+stand:
+  args:
+    - ''
+  desc: '차례를 마치고 딜러 차례를 진행해요.'
+  params: [ ]
+transactions:
+  args:
+    - '@user'
+  desc: '지정한 사용자 또는 본인의 거래 내역을 보여줘요.'
+  params:
+    - desc: '거래 내역을 볼 사용자예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IUser?
+triviachain:
+  args:
+    - number text
+  desc: '질문에 연달아 답해서 보상을 점점 늘리는 퀴즈 연속 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '퀴즈 카테고리예요.'
+      name: category
+      optional: true
+      type: string
+war:
+  args:
+    - number
+  desc: '봇과 전쟁 카드 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+wheelfortune:
+  args:
+    - number text
+  desc: '사용자 지정 칸으로 구성할 수 있는 향상된 행운의 바퀴 게임을 해요.'
+  params:
+    - desc: '베팅할 금액이에요.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '바퀴 유형이에요. classic, risky, balanced 중 하나예요.'
+      name: wheelType
+      optional: true
+      type: string
+work:
+  args:
+    - ''
+  desc: '서버가 정한 쿨다운마다 한 번 일해서 무작위 보수를 받아요.'
+  params: [ ]
+crime:
+  args:
+    - ''
+  desc: '일하는 것보다 큰 보상을 노리고 범죄를 시도하지만, 벌금을 낼 위험이 있어요.'
+  params: [ ]
+rob:
+  args:
+    - '@user'
+  desc: '다른 사용자의 지갑에서 돈을 훔치려고 시도해요. 은행에 예치된 재화는 훔칠 수 없어요.'
+  params:
+    - desc: '강탈할 사용자예요.'
+      name: target
+      optional: false
+      type: user
+pay:
+  args:
+    - '@user <amount>'
+  desc: '서버가 부과하는 송금 세금을 뺀 재화를 다른 사용자에게 보내요.'
+  params:
+    - desc: '재화를 받을 사용자예요.'
+      name: target
+      optional: false
+      type: user
+    - desc: '세금 전 송금할 금액이에요.'
+      name: amount
+      optional: false
+      type: long
+bank:
+  args:
+    - ''
+    - '@user'
+  desc: '지갑과 은행 잔액을 보여주고, 쌓인 이자를 받아요.'
+  params:
+    - desc: '확인할 사용자예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: user
+deposit:
+  args:
+    - '<amount|all>'
+  desc: '지갑의 재화를 은행으로 옮겨 강탈로부터 보호해요.'
+  params:
+    - desc: '입금할 금액이에요. 지갑 전체를 입금하려면 "all"을 입력해요.'
+      name: amount
+      optional: false
+      type: string
+withdraw:
+  args:
+    - '<amount|all>'
+  desc: '은행의 재화를 지갑으로 옮겨 사용할 수 있게 해요.'
+  params:
+    - desc: '출금할 금액이에요. 전액을 출금하려면 "all"을 입력해요.'
+      name: amount
+      optional: false
+      type: string
+shop:
+  args:
+    - ''
+  desc: '서버가 판매하는 모든 항목을 보여줘요.'
+  params: [ ]
+buy:
+  args:
+    - '<item name>'
+  desc: '서버 상점에서 항목을 구매해요.'
+  params:
+    - desc: '구매할 항목의 이름이에요.'
+      name: name
+      optional: false
+      type: string
+inventory:
+  args:
+    - ''
+    - '@user'
+  desc: '사용자가 가진 항목을 보여줘요.'
+  params:
+    - desc: '보유 항목을 볼 사용자예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: user
+use:
+  args:
+    - '<item name>'
+  desc: '보유한 소모성 항목 하나를 사용해요.'
+  params:
+    - desc: '사용할 항목의 이름이에요.'
+      name: name
+      optional: false
+      type: string
+shopaddrole:
+  args:
+    - '<price> @role <name>'
+  desc: '사용자가 구매할 수 있도록 상점에 역할을 추가해요.'
+  params:
+    - desc: '역할의 가격이에요.'
+      name: price
+      optional: false
+      type: long
+    - desc: '구매 시 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: role
+    - desc: '상점 항목에 표시될 이름이에요.'
+      name: name
+      optional: false
+      type: string
+shopadditem:
+  args:
+    - '<price> <name>'
+  desc: '구매 시 자동 효과가 없는 수집용 항목을 상점에 추가해요.'
+  params:
+    - desc: '항목의 가격이에요.'
+      name: price
+      optional: false
+      type: long
+    - desc: '상점 항목에 표시될 이름이에요.'
+      name: name
+      optional: false
+      type: string
+shopremove:
+  args:
+    - '<item name>'
+  desc: '상점에서 항목을 제거하고, 모든 사람이 가진 사본도 함께 제거해요.'
+  params:
+    - desc: '제거할 항목의 이름이에요.'
+      name: name
+      optional: false
+      type: string
+shopprice:
+  args:
+    - '<price> <item name>'
+  desc: '기존 상점 항목의 가격을 설정해요.'
+  params:
+    - desc: '새 가격이에요.'
+      name: price
+      optional: false
+      type: long
+    - desc: '가격을 바꿀 항목의 이름이에요.'
+      name: name
+      optional: false
+      type: string
+shopstock:
+  args:
+    - '<stock> <item name>'
+  desc: '판매할 수 있는 남은 수량을 설정해요.'
+  params:
+    - desc: '남은 재고 수량이에요. 무제한이면 -1을 입력해요.'
+      name: stock
+      optional: false
+      type: int
+    - desc: '재입고할 항목의 이름이에요.'
+      name: name
+      optional: false
+      type: string
+shopdesc:
+  args:
+    - '<item name> | <description>'
+  desc: '상점 항목의 설명을 설정해요.'
+  params:
+    - desc: '아이템 이름과 파이프(|), 그리고 새 설명을 입력합니다.'
+      name: name
+      optional: false
+      type: string
+shoptoggle:
+  args:
+    - '<item name>'
+  desc: '아이템을 삭제하거나 소유자의 아이템을 지우지 않고 상점에서 보이거나 숨깁니다.'
+  params:
+    - desc: '표시 여부를 전환할 아이템 이름입니다.'
+      name: name
+      optional: false
+      type: string
+economyconfig:
+  args:
+    - ''
+  desc: '모든 경제 설정과 현재 값을 보여줍니다.'
+  params: [ ]
+economyset:
+  args:
+    - '<setting> <value>'
+  desc: '경제 설정 하나를 변경합니다. config 명령어를 실행하면 사용 가능한 모든 설정 이름을 볼 수 있습니다.'
+  params:
+    - desc: '변경할 설정입니다.'
+      name: setting
+      optional: false
+      type: string
+    - desc: '새 값이에요.'
+      name: value
+      optional: false
+      type: string
+economyreset:
+  args:
+    - ''
+  desc: '모든 경제 설정을 기본값으로 되돌립니다.'
+  params: [ ]
+economystats:
+  args:
+    - ''
+  desc: '서버의 화폐 공급량과 집중도를 보여줍니다.'
+  params: [ ]
+economyflow:
+  args:
+    - ''
+    - '<days>'
+  desc: '화폐가 유통에 들어오고 나가는 경로를 보여줍니다.'
+  params:
+    - desc: '보고할 기간(일)입니다. 기본값은 7입니다.'
+      name: days
+      optional: true
+      type: int
+gamestats:
+  args:
+    - ''
+    - '<days>'
+  desc: '각 게임이 받은 금액 대비 실제로 지급한 금액을 보여줍니다. 추측 대신 실제 결과를 바탕으로 지급 비율을 조정할 수 있습니다.'
+  params:
+    - desc: '보고할 기간(일)입니다. 기본값은 7입니다.'
+      name: days
+      optional: true
+      type: int
+cashleaderboard:
+  args:
+    - ''
+  desc: '순자산이 가장 많은 사용자의 순위표를 보여줍니다.'
+  params: [ ]

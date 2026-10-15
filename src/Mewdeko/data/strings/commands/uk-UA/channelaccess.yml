@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Публікує кнопку подачі заявки для каналу з обмеженим доступом, щоб ти міг заповнити форму заявки.'
+  params:
+    - desc: 'Канал, на який подаєш заявку.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Примусово пропускає заявку незалежно від кількості голосів.'
+  params:
+    - desc: 'ID заявки.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Необов''язкова примітка, яка показується в закритій заявці.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Показує всіх, кому заблоковано подавати заявки на цьому сервері.'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Блокує користувачеві подачу заявок або для одного каналу, або для всіх каналів з обмеженим доступом.'
+  params:
+    - desc: 'Користувач, якого треба заблокувати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал з обмеженим доступом або порожнє поле, щоб заблокувати скрізь.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Знімає блокування, щоб користувач знову міг подавати заявки.'
+  params:
+    - desc: 'Заблокований користувач.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал з обмеженим доступом, на якому було встановлено блокування, якщо воно було прив''язане до каналу.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Змінює одне налаштування обмеження. Запусти без налаштування, щоб побачити все, що можна змінити.'
+  params:
+    - desc: 'Канал з обмеженим доступом.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Назва налаштування.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Нове значення.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Відхиляє заявку незалежно від кількості голосів.'
+  params:
+    - desc: 'ID заявки.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Необов''язкова примітка, яка показується в закритій заявці.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Показує історію заявок користувача або твою, якщо користувача не вказано.'
+  params:
+    - desc: 'Користувач, якого треба переглянути.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Показує всі обмеження на сервері з їхніми поточними порогами.'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Публікує кнопку, за якою люди можуть подати заявку на канал з обмеженим доступом.'
+  params:
+    - desc: 'Канал з обмеженим доступом.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Де опублікувати панель. За замовчуванням це поточний канал.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Показує заявки, які ще чекають на рішення.'
+  params:
+    - desc: 'Необов''язково обмежити список одним каналом з обмеженим доступом.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Додає запитання до форми заявки обмеження. Обмеження може мати до п''яти запитань.'
+  params:
+    - desc: 'Канал з обмеженим доступом.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Текст запитання, до 45 символів.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Показує запитання заявки обмеження в тому порядку, в якому їх бачать заявники.'
+  params:
+    - desc: 'Канал з обмеженим доступом.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Видаляє запитання з форми заявки обмеження за його номером у списку.'
+  params:
+    - desc: 'Канал з обмеженим доступом.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Номер запитання, починаючи з одиниці, як у списку запитань.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Видаляє обмеження каналу разом із його запитаннями та історією заявок.'
+  params:
+    - desc: 'Канал з обмеженим доступом.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Відкриває заявки на закритий канал і видає вказану роль схваленим заявникам.'
+  params:
+    - desc: 'Закритий канал, який треба обмежити.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Роль, яку видають, коли заявка схвалена. Якщо не вказати, заявники просто додаються до каналу.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Відкликає одну з твоїх відкритих заявок.'
+  params:
+    - desc: 'ID заявки, який показується в повідомленні для розгляду.'
+      name: applicationId
+      optional: false
+      type: int

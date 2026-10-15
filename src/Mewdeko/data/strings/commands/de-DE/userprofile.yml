@@ -1,55 +1,55 @@
 deleteuserstatsdata:
   args:
     - ''
-  desc: 'Löscht die Befehlsstatistikdaten des Benutzers.'
+  desc: 'Löscht die Befehlsstatistiken des Users.'
   params: [ ]
 greetdmoptout:
   args:
     - ''
-  desc: 'Ermöglicht einem Benutzer, den Opt-out von Begrüßungs-DMs umzuschalten. Funktioniert nur, wenn der Server, dem er beitritt, mewdeko für DM-Begrüßungen verwendet.'
+  desc: 'Ermöglicht einem User, sich von Begrüßungs-DMs abzumelden. Funktioniert nur, wenn der Server, dem er beitritt, mewdeko für DM-Begrüßungen verwendet.'
   params: [ ]
 profile:
   args:
     - '[@user]'
-  desc: 'Zeigt das Profil des Benutzers oder das Profil eines anderen Benutzers an, wenn angegeben.'
+  desc: 'Zeigt dein Profil oder das eines anderen Users, falls angegeben.'
   params:
-    - desc: 'Der Benutzer, dessen Profil angezeigt werden soll. Wenn leer, wird das Profil des Aufrufers angezeigt.'
+    - desc: 'Der User, dessen Profil angezeigt wird. Bei null wird dein eigenes Profil angezeigt.'
       name: user
       optional: true
       type: user
 profile_=:
   args:
     - '[@user]'
-  desc: 'Zeigt das Profil des Benutzers oder das Profil eines anderen Benutzers an, wenn angegeben.'
+  desc: 'Zeigt dein Profil oder das eines anderen Users, falls angegeben.'
   params:
-    - desc: 'Der Benutzer, dessen Profil angezeigt werden soll. Wenn leer, wird das Profil des Aufrufers angezeigt.'
+    - desc: 'Der User, dessen Profil angezeigt wird. Bei null wird dein eigenes Profil angezeigt.'
       name: user
       optional: true
       type: user
 profile_=_1:
   args:
     - '[@user]'
-  desc: 'Zeigt das Profil des Benutzers oder das Profil eines anderen Benutzers an, wenn angegeben.'
+  desc: 'Zeigt dein Profil oder das eines anderen Users, falls angegeben.'
   params:
-    - desc: 'Der Benutzer, dessen Profil angezeigt werden soll. Wenn leer, wird das Profil des Aufrufers angezeigt.'
+    - desc: 'Der User, dessen Profil angezeigt wird. Bei null wird dein eigenes Profil angezeigt.'
       name: user
       optional: true
       type: user
 profile_=_2:
   args:
     - '[@user]'
-  desc: 'Zeigt das Profil des Benutzers oder das Profil eines anderen Benutzers an, wenn angegeben.'
+  desc: 'Zeigt dein Profil oder das eines anderen Users, falls angegeben.'
   params:
-    - desc: 'Der Benutzer, dessen Profil angezeigt werden soll. Wenn leer, wird das Profil des Aufrufers angezeigt.'
+    - desc: 'Der User, dessen Profil angezeigt wird. Bei null wird dein eigenes Profil angezeigt.'
       name: user
       optional: true
       type: user
 pronouns:
   args:
     - '[@user]'
-  desc: 'Zeigt die Pronomen des angegebenen Benutzers oder des Befehlsaufrufers an, wenn kein Benutzer angegeben ist.'
+  desc: 'Zeigt die Pronomen des angegebenen Users oder des Ausführenden, falls kein User angegeben wird.'
   params:
-    - desc: 'Optional. Der Benutzer, dessen Pronomen angezeigt werden sollen.'
+    - desc: 'Optional. Der User, dessen Pronomen angezeigt werden.'
       name: user
       optional: true
       type: user
@@ -57,15 +57,15 @@ pronounsforceclear:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
     - &ref_356
-      desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+      desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: true
       type: IUser
     - &ref_357
-      desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+      desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -78,13 +78,13 @@ pronounsforceclear_IUser_bool_string:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
-    - desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+    - desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+    - desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -96,13 +96,13 @@ pronounsforceclear_IUser_bool_string_1:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
-    - desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+    - desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+    - desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -114,13 +114,13 @@ pronounsforceclear_IUser_bool_string_2:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
-    - desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+    - desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+    - desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -131,14 +131,14 @@ pronounsforceclear_IUser_bool_string_2:
 pronounsforceclear_ulong_bool_string:
   args:
     - user true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
     - &ref_359
-      desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+      desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+    - desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -149,13 +149,13 @@ pronounsforceclear_ulong_bool_string:
 pronounsforceclear_ulong_bool_string_1:
   args:
     - user true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
-    - desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+    - desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+    - desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -166,13 +166,13 @@ pronounsforceclear_ulong_bool_string_1:
 pronounsforceclear_ulong_bool_string_2:
   args:
     - user true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
-    - desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+    - desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+    - desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -183,13 +183,13 @@ pronounsforceclear_ulong_bool_string_2:
 pronounsforceclear_ulong_bool_string_3:
   args:
     - user true|false text
-  desc: 'Löscht die Pronomen eines Benutzers per ID zwangsweise und markiert sie optional als wegen Missbrauch deaktiviert.'
+  desc: 'Löscht die Pronomen eines Users anhand der ID zwangsweise, optional mit Markierung als deaktiviert wegen Missbrauchs.'
   params:
-    - desc: 'Die Benutzer-ID des Benutzers, dessen Pronomen gelöscht werden sollen.'
+    - desc: 'Die User-ID des Users, dessen Pronomen gelöscht werden.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Ob die Pronomen aufgrund von Missbrauch deaktiviert werden.'
+    - desc: 'Ob die Pronomen wegen Missbrauchs deaktiviert werden.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
@@ -200,44 +200,44 @@ pronounsforceclear_ulong_bool_string_3:
 setbio:
   args:
     - text
-  desc: 'Legt die Biografie im Benutzerprofil fest oder aktualisiert sie.'
+  desc: 'Legt die Biografie in deinem Profil fest oder aktualisiert sie.'
   params:
     - &ref_490
-      desc: 'Der Biografietext. Muss weniger als 2048 Zeichen enthalten.'
+      desc: 'Der Biografietext. Muss weniger als 2048 Zeichen haben.'
       name: bio
       optional: false
       type: string
 setbio_string:
   args:
     - text
-  desc: 'Legt die Biografie im Benutzerprofil fest oder aktualisiert sie.'
+  desc: 'Legt die Biografie in deinem Profil fest oder aktualisiert sie.'
   params:
-    - desc: 'Der Biografietext. Muss weniger als 2048 Zeichen enthalten.'
+    - desc: 'Der Biografietext. Muss weniger als 2048 Zeichen haben.'
       name: bio
       optional: false
       type: string
 setbio_string_1:
   args:
     - text
-  desc: 'Legt die Biografie im Benutzerprofil fest oder aktualisiert sie.'
+  desc: 'Legt die Biografie in deinem Profil fest oder aktualisiert sie.'
   params:
-    - desc: 'Der Biografietext. Muss weniger als 2048 Zeichen enthalten.'
+    - desc: 'Der Biografietext. Muss weniger als 2048 Zeichen haben.'
       name: bio
       optional: false
       type: string
 setbio_string_2:
   args:
     - text
-  desc: 'Legt die Biografie im Benutzerprofil fest oder aktualisiert sie.'
+  desc: 'Legt die Biografie in deinem Profil fest oder aktualisiert sie.'
   params:
-    - desc: 'Der Biografietext. Muss weniger als 2048 Zeichen enthalten.'
+    - desc: 'Der Biografietext. Muss weniger als 2048 Zeichen haben.'
       name: bio
       optional: false
       type: string
 setbirthday:
   args:
     - time
-  desc: 'Legt den Geburtstag im Benutzerprofil fest.'
+  desc: 'Legt den Geburtstag in deinem Profil fest.'
   params:
     - &ref_491
       desc: 'Das Geburtsdatum.'
@@ -247,7 +247,7 @@ setbirthday:
 setbirthday_DateTime:
   args:
     - time
-  desc: 'Legt den Geburtstag im Benutzerprofil fest.'
+  desc: 'Legt den Geburtstag in deinem Profil fest.'
   params:
     - desc: 'Das Geburtsdatum.'
       name: dateTime
@@ -256,7 +256,7 @@ setbirthday_DateTime:
 setbirthday_DateTime_1:
   args:
     - time
-  desc: 'Legt den Geburtstag im Benutzerprofil fest.'
+  desc: 'Legt den Geburtstag in deinem Profil fest.'
   params:
     - desc: 'Das Geburtsdatum.'
       name: dateTime
@@ -265,7 +265,7 @@ setbirthday_DateTime_1:
 setbirthday_DateTime_2:
   args:
     - time
-  desc: 'Legt den Geburtstag im Benutzerprofil fest.'
+  desc: 'Legt den Geburtstag in deinem Profil fest.'
   params:
     - desc: 'Das Geburtsdatum.'
       name: dateTime
@@ -274,81 +274,81 @@ setbirthday_DateTime_2:
 setbirthdayprivacy:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Legt den Datenschutzmodus für Geburtstage im Benutzerprofil fest.'
+  desc: 'Legt den Datenschutzmodus für den Geburtstag in deinem Profil fest.'
   params:
     - &ref_492
-      desc: 'Der festzulegende Geburtstags-Anzeigemodus.'
+      desc: 'Der Anzeigemodus für den Geburtstag, der festgelegt wird.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Legt den Datenschutzmodus für Geburtstage im Benutzerprofil fest.'
+  desc: 'Legt den Datenschutzmodus für den Geburtstag in deinem Profil fest.'
   params:
-    - desc: 'Der festzulegende Geburtstags-Anzeigemodus.'
+    - desc: 'Der Anzeigemodus für den Geburtstag, der festgelegt wird.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum_1:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Legt den Datenschutzmodus für Geburtstage im Benutzerprofil fest.'
+  desc: 'Legt den Datenschutzmodus für den Geburtstag in deinem Profil fest.'
   params:
-    - desc: 'Der festzulegende Geburtstags-Anzeigemodus.'
+    - desc: 'Der Anzeigemodus für den Geburtstag, der festgelegt wird.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum_2:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Legt den Datenschutzmodus für Geburtstage im Benutzerprofil fest.'
+  desc: 'Legt den Datenschutzmodus für den Geburtstag in deinem Profil fest.'
   params:
-    - desc: 'Der festzulegende Geburtstags-Anzeigemodus.'
+    - desc: 'Der Anzeigemodus für den Geburtstag, der festgelegt wird.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setprivacy:
   args:
     - privacyenum
-  desc: 'Legt die Datenschutzebene des Benutzerprofils fest.'
+  desc: 'Legt die Datenschutzstufe deines Profils fest.'
   params:
     - &ref_513
-      desc: 'Die anzuwendende Datenschutzeinstellung.'
+      desc: 'Die Datenschutzeinstellung, die angewendet wird.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum:
   args:
     - privacyenum
-  desc: 'Legt die Datenschutzebene des Benutzerprofils fest.'
+  desc: 'Legt die Datenschutzstufe deines Profils fest.'
   params:
-    - desc: 'Die anzuwendende Datenschutzeinstellung.'
+    - desc: 'Die Datenschutzeinstellung, die angewendet wird.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum_1:
   args:
     - privacyenum
-  desc: 'Legt die Datenschutzebene des Benutzerprofils fest.'
+  desc: 'Legt die Datenschutzstufe deines Profils fest.'
   params:
-    - desc: 'Die anzuwendende Datenschutzeinstellung.'
+    - desc: 'Die Datenschutzeinstellung, die angewendet wird.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum_2:
   args:
     - privacyenum
-  desc: 'Legt die Datenschutzebene des Benutzerprofils fest.'
+  desc: 'Legt die Datenschutzstufe deines Profils fest.'
   params:
-    - desc: 'Die anzuwendende Datenschutzeinstellung.'
+    - desc: 'Die Datenschutzeinstellung, die angewendet wird.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprofilecolor:
   args:
     - input
-  desc: 'Legt die Profilfarbe basierend auf einer SKColor-Eingabe fest.'
+  desc: 'Legt die Profilfarbe anhand einer SKColor-Eingabe fest.'
   params:
     - &ref_514
       desc: 'Die SKColor, die die gewünschte Profilfarbe darstellt.'
@@ -358,7 +358,7 @@ setprofilecolor:
 setprofilecolor_SKColor:
   args:
     - input
-  desc: 'Legt die Profilfarbe basierend auf einer SKColor-Eingabe fest.'
+  desc: 'Legt die Profilfarbe anhand einer SKColor-Eingabe fest.'
   params:
     - desc: 'Die SKColor, die die gewünschte Profilfarbe darstellt.'
       name: input
@@ -367,7 +367,7 @@ setprofilecolor_SKColor:
 setprofilecolor_SKColor_1:
   args:
     - input
-  desc: 'Legt die Profilfarbe basierend auf einer SKColor-Eingabe fest.'
+  desc: 'Legt die Profilfarbe anhand einer SKColor-Eingabe fest.'
   params:
     - desc: 'Die SKColor, die die gewünschte Profilfarbe darstellt.'
       name: input
@@ -376,7 +376,7 @@ setprofilecolor_SKColor_1:
 setprofilecolor_SKColor_2:
   args:
     - input
-  desc: 'Legt die Profilfarbe basierend auf einer SKColor-Eingabe fest.'
+  desc: 'Legt die Profilfarbe anhand einer SKColor-Eingabe fest.'
   params:
     - desc: 'Die SKColor, die die gewünschte Profilfarbe darstellt.'
       name: input
@@ -385,97 +385,97 @@ setprofilecolor_SKColor_2:
 setprofileimage:
   args:
     - text
-  desc: 'Legt die Profilbild-URL im Benutzerprofil fest.'
+  desc: 'Legt die Profilbild-URL in deinem Profil fest.'
   params:
     - &ref_515
-      desc: 'Die URL des Bildes, das als Profilbild festgelegt werden soll.'
+      desc: 'Die URL des Bildes, das als Profilbild festgelegt wird.'
       name: url
       optional: false
       type: string
 setprofileimage_string:
   args:
     - text
-  desc: 'Legt die Profilbild-URL im Benutzerprofil fest.'
+  desc: 'Legt die Profilbild-URL in deinem Profil fest.'
   params:
-    - desc: 'Die URL des Bildes, das als Profilbild festgelegt werden soll.'
+    - desc: 'Die URL des Bildes, das als Profilbild festgelegt wird.'
       name: url
       optional: false
       type: string
 setprofileimage_string_1:
   args:
     - text
-  desc: 'Legt die Profilbild-URL im Benutzerprofil fest.'
+  desc: 'Legt die Profilbild-URL in deinem Profil fest.'
   params:
-    - desc: 'Die URL des Bildes, das als Profilbild festgelegt werden soll.'
+    - desc: 'Die URL des Bildes, das als Profilbild festgelegt wird.'
       name: url
       optional: false
       type: string
 setprofileimage_string_2:
   args:
     - text
-  desc: 'Legt die Profilbild-URL im Benutzerprofil fest.'
+  desc: 'Legt die Profilbild-URL in deinem Profil fest.'
   params:
-    - desc: 'Die URL des Bildes, das als Profilbild festgelegt werden soll.'
+    - desc: 'Die URL des Bildes, das als Profilbild festgelegt wird.'
       name: url
       optional: false
       type: string
 setpronouns:
   args:
     - '[pronouns]'
-  desc: 'Legt die Pronomen des Benutzers fest oder löscht sie.'
+  desc: 'Legt die Pronomen für den User fest oder entfernt sie.'
   params:
-    - desc: 'Die festzulegenden Pronomen. Wenn leer oder null, werden vorhandene Pronomen gelöscht.'
+    - desc: 'Die Pronomen, die festgelegt werden. Bei null oder leer werden vorhandene Pronomen entfernt.'
       name: pronouns
       optional: true
       type: string
 setswitchfc:
   args:
     - '""'
-  desc: 'Legt den Nintendo-Switch-Freundescode im Benutzerprofil fest oder löscht ihn.'
+  desc: 'Legt den Nintendo-Switch-Freundescode in deinem Profil fest oder entfernt ihn.'
   params:
-    - desc: 'Legt den Nintendo-Switch-Freundescode im Benutzerprofil fest oder löscht ihn.'
+    - desc: 'Legt den Nintendo-Switch-Freundescode in deinem Profil fest oder entfernt ihn.'
       name: '""'
       optional: false
       type: '='
 setzodiac:
   args:
     - text
-  desc: 'Legt das Tierkreiszeichen im Benutzerprofil fest.'
+  desc: 'Legt das Sternzeichen in deinem Profil fest.'
   params:
     - &ref_539
-      desc: 'Das festzulegende Tierkreiszeichen.'
+      desc: 'Das Sternzeichen, das festgelegt wird.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string:
   args:
     - text
-  desc: 'Legt das Tierkreiszeichen im Benutzerprofil fest.'
+  desc: 'Legt das Sternzeichen in deinem Profil fest.'
   params:
-    - desc: 'Das festzulegende Tierkreiszeichen.'
+    - desc: 'Das Sternzeichen, das festgelegt wird.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_1:
   args:
     - text
-  desc: 'Legt das Tierkreiszeichen im Benutzerprofil fest.'
+  desc: 'Legt das Sternzeichen in deinem Profil fest.'
   params:
-    - desc: 'Das festzulegende Tierkreiszeichen.'
+    - desc: 'Das Sternzeichen, das festgelegt wird.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_2:
   args:
     - text
-  desc: 'Legt das Tierkreiszeichen im Benutzerprofil fest.'
+  desc: 'Legt das Sternzeichen in deinem Profil fest.'
   params:
-    - desc: 'Das festzulegende Tierkreiszeichen.'
+    - desc: 'Das Sternzeichen, das festgelegt wird.'
       name: zodiac
       optional: false
       type: string
 userstatsoptout:
   args:
     - ''
-  desc: 'Schaltet den Opt-out-Status des Benutzers für die Befehlsstatistikerfassung um.'
+  desc: 'Schaltet deinen Opt-out-Status für die Erfassung von Befehlsstatistiken um.'
   params: [ ]

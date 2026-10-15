@@ -1,0 +1,2459 @@
+anime:
+  args:
+    - text
+  desc: 'Шукає аніме і показує інформацію про результати пошуку.'
+  params:
+    - &ref_66
+      desc: 'Запит для пошуку.'
+      name: query
+      optional: false
+      type: string
+anime_string:
+  args:
+    - text
+  desc: 'Шукає аніме і показує інформацію про результати пошуку.'
+  params:
+    - desc: 'Запит для пошуку.'
+      name: query
+      optional: false
+      type: string
+anime_string_1:
+  args:
+    - text
+  desc: 'Шукає аніме і показує інформацію про результати пошуку.'
+  params:
+    - desc: 'Запит для пошуку.'
+      name: query
+      optional: false
+      type: string
+anime_string_2:
+  args:
+    - text
+  desc: 'Шукає аніме і показує інформацію про результати пошуку.'
+  params:
+    - desc: 'Запит для пошуку.'
+      name: query
+      optional: false
+      type: string
+autotranslang:
+  args:
+    - '[langs]'
+  desc: 'Встановлює або видаляє бажану мовну пару для автоматичного перекладу користувача в поточному каналі.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to'' або null, щоб видалити налаштування.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=:
+  args:
+    - '[langs]'
+  desc: 'Встановлює або видаляє бажану мовну пару для автоматичного перекладу користувача в поточному каналі.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to'' або null, щоб видалити налаштування.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_1:
+  args:
+    - '[langs]'
+  desc: 'Встановлює або видаляє бажану мовну пару для автоматичного перекладу користувача в поточному каналі.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to'' або null, щоб видалити налаштування.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_2:
+  args:
+    - '[langs]'
+  desc: 'Встановлює або видаляє бажану мовну пару для автоматичного перекладу користувача в поточному каналі.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to'' або null, щоб видалити налаштування.'
+      name: langs
+      optional: true
+      type: string
+autotranslate:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+  params:
+    - &ref_97
+      desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+  params:
+    - desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_1:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+  params:
+    - desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_2:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+  params:
+    - desc: 'Перемикає автопереклад для поточного каналу; за бажанням може автоматично видаляти початкове повідомлення.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+baka:
+  args:
+    - text
+  desc: 'Називає когось baka.'
+  params:
+    - &ref_98
+      desc: 'Кого назвати baka.'
+      name: toShow
+      optional: false
+      type: string
+baka_string:
+  args:
+    - text
+  desc: 'Називає когось baka.'
+  params:
+    - &ref_99
+      desc: 'Кого назвати baka.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_1:
+  args:
+    - text
+  desc: 'Називає когось baka.'
+  params:
+    - desc: 'Кого назвати baka.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_2:
+  args:
+    - text
+  desc: 'Називає когось baka.'
+  params:
+    - desc: 'Кого назвати baka.'
+      name: toShow
+      optional: false
+      type: string
+bible:
+  args:
+    - text text
+  desc: 'Шукає і показує вірші Біблії за книгою, розділом і віршем.'
+  params:
+    - &ref_111
+      desc: 'Книга Біблії.'
+      name: book
+      optional: false
+      type: string
+    - &ref_112
+      desc: 'Розділ і вірш у форматі "Розділ:Вірш".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string:
+  args:
+    - text text
+  desc: 'Шукає і показує вірші Біблії за книгою, розділом і віршем.'
+  params:
+    - desc: 'Книга Біблії.'
+      name: book
+      optional: false
+      type: string
+    - desc: 'Розділ і вірш у форматі "Розділ:Вірш".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_1:
+  args:
+    - text text
+  desc: 'Шукає і показує вірші Біблії за книгою, розділом і віршем.'
+  params:
+    - desc: 'Книга Біблії.'
+      name: book
+      optional: false
+      type: string
+    - desc: 'Розділ і вірш у форматі "Розділ:Вірш".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_2:
+  args:
+    - text text
+  desc: 'Шукає і показує вірші Біблії за книгою, розділом і віршем.'
+  params:
+    - desc: 'Книга Біблії.'
+      name: book
+      optional: false
+      type: string
+    - desc: 'Розділ і вірш у форматі "Розділ:Вірш".'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bite:
+  args:
+    - text
+  desc: 'Кусає когось.'
+  params:
+    - desc: 'Кого вкусити.'
+      name: toShow
+      optional: false
+      type: string
+blush:
+  args:
+    - '[toShow]'
+  desc: 'Червоніє.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+bored:
+  args:
+    - '[toShow]'
+  desc: 'Показує нудьгу.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+catfact:
+  args:
+    - ''
+  desc: 'Знаходить і показує випадковий факт про котів.'
+  params: [ ]
+charinfo:
+  args:
+    - text
+  desc: 'Знаходить і показує інформацію про персонажа.'
+  params:
+    - &ref_125
+      desc: 'Ім''я персонажа для пошуку.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string:
+  args:
+    - text
+  desc: 'Знаходить і показує інформацію про персонажа.'
+  params:
+    - desc: 'Ім''я персонажа для пошуку.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_1:
+  args:
+    - text
+  desc: 'Знаходить і показує інформацію про персонажа.'
+  params:
+    - desc: 'Ім''я персонажа для пошуку.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_2:
+  args:
+    - text
+  desc: 'Знаходить і показує інформацію про персонажа.'
+  params:
+    - desc: 'Ім''я персонажа для пошуку.'
+      name: chara
+      optional: false
+      type: string
+chucknorris:
+  args:
+    - ''
+  desc: 'Показує жарт про Чака Норріса.'
+  params: [ ]
+color:
+  args:
+    - colors
+  desc: 'Показує кольоровий зразок за вказаними шістнадцятковими кодами кольорів.'
+  params:
+    - &ref_137
+      desc: 'Масив об''єктів SKColor, що представляють кольори для показу.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]:
+  args:
+    - colors
+  desc: 'Показує кольоровий зразок за вказаними шістнадцятковими кодами кольорів.'
+  params:
+    - desc: 'Масив об''єктів SKColor, що представляють кольори для показу.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_1:
+  args:
+    - colors
+  desc: 'Показує кольоровий зразок за вказаними шістнадцятковими кодами кольорів.'
+  params:
+    - desc: 'Масив об''єктів SKColor, що представляють кольори для показу.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_2:
+  args:
+    - colors
+  desc: 'Показує кольоровий зразок за вказаними шістнадцятковими кодами кольорів.'
+  params:
+    - desc: 'Масив об''єктів SKColor, що представляють кольори для показу.'
+      name: colors
+      optional: false
+      type: SKColor[]
+cry:
+  args:
+    - '[toShow]'
+  desc: 'Плаче.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+cuddle:
+  args:
+    - text
+  desc: 'Пригортається до когось.'
+  params:
+    - &ref_170
+      desc: 'Кого пригорнути.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string:
+  args:
+    - text
+  desc: 'Пригортається до когось.'
+  params:
+    - &ref_171
+      desc: 'Кого пригорнути.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_1:
+  args:
+    - text
+  desc: 'Пригортається до когось.'
+  params:
+    - desc: 'Кого пригорнути.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_2:
+  args:
+    - text
+  desc: 'Пригортається до когось.'
+  params:
+    - desc: 'Кого пригорнути.'
+      name: toShow
+      optional: false
+      type: string
+dance:
+  args:
+    - '[toShow]'
+  desc: 'Танцює.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+define:
+  args:
+    - text
+  desc: 'Знаходить і показує визначення зі словника Pearson.'
+  params:
+    - &ref_179
+      desc: 'Слово для визначення.'
+      name: word
+      optional: false
+      type: string
+define_string:
+  args:
+    - text
+  desc: 'Знаходить і показує визначення зі словника Pearson.'
+  params:
+    - desc: 'Слово для визначення.'
+      name: word
+      optional: false
+      type: string
+define_string_1:
+  args:
+    - text
+  desc: 'Знаходить і показує визначення зі словника Pearson.'
+  params:
+    - desc: 'Слово для визначення.'
+      name: word
+      optional: false
+      type: string
+define_string_2:
+  args:
+    - text
+  desc: 'Знаходить і показує визначення зі словника Pearson.'
+  params:
+    - desc: 'Слово для визначення.'
+      name: word
+      optional: false
+      type: string
+facepalm:
+  args:
+    - '[toShow]'
+  desc: 'Робить фейспалм.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+feed:
+  args:
+    - text
+  desc: 'Годує когось.'
+  params:
+    - &ref_213
+      desc: 'Кого погодувати.'
+      name: toShow
+      optional: false
+      type: string
+feed_string:
+  args:
+    - text
+  desc: 'Годує когось.'
+  params:
+    - desc: 'Кого погодувати.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_1:
+  args:
+    - text
+  desc: 'Годує когось.'
+  params:
+    - desc: 'Кого погодувати.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_2:
+  args:
+    - text
+  desc: 'Годує когось.'
+  params:
+    - desc: 'Кого погодувати.'
+      name: toShow
+      optional: false
+      type: string
+feedadd:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Додає нову RSS-стрічку до списку стрічок сервера.'
+  params:
+    - desc: 'URL RSS-стрічки.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Канал, куди надсилатимуться оновлення стрічки (необов''язково; за замовчуванням — поточний канал).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Додає нову RSS-стрічку до списку стрічок сервера.'
+  params:
+    - desc: 'URL RSS-стрічки.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Канал, куди надсилатимуться оновлення стрічки (необов''язково; за замовчуванням — поточний канал).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_1:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Додає нову RSS-стрічку до списку стрічок сервера.'
+  params:
+    - desc: 'URL RSS-стрічки.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Канал, куди надсилатимуться оновлення стрічки (необов''язково; за замовчуванням — поточний канал).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_2:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Додає нову RSS-стрічку до списку стрічок сервера.'
+  params:
+    - desc: 'URL RSS-стрічки.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Канал, куди надсилатимуться оновлення стрічки (необов''язково; за замовчуванням — поточний канал).'
+      name: channel
+      optional: true
+      type: channel
+feedlist:
+  args:
+    - ''
+  desc: 'Показує всі RSS-стрічки, додані на сервер.'
+  params: [ ]
+feedmessage:
+  args:
+    - number text
+  desc: 'Встановлює власний формат повідомлень про оновлення стрічки в конкретному каналі.'
+  params:
+    - &ref_215
+      desc: 'Номер стрічки у списку.'
+      name: index
+      optional: false
+      type: int
+    - &ref_216
+      desc: 'Власний формат повідомлення.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string:
+  args:
+    - number text
+  desc: 'Встановлює власний формат повідомлень про оновлення стрічки в конкретному каналі.'
+  params:
+    - desc: 'Номер стрічки у списку.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Власний формат повідомлення.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_1:
+  args:
+    - number text
+  desc: 'Встановлює власний формат повідомлень про оновлення стрічки в конкретному каналі.'
+  params:
+    - desc: 'Номер стрічки у списку.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Власний формат повідомлення.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_2:
+  args:
+    - number text
+  desc: 'Встановлює власний формат повідомлень про оновлення стрічки в конкретному каналі.'
+  params:
+    - desc: 'Номер стрічки у списку.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Власний формат повідомлення.'
+      name: message
+      optional: false
+      type: string
+feedremove:
+  args:
+    - number
+  desc: 'Видаляє RSS-стрічку зі списку сервера.'
+  params:
+    - desc: 'Номер стрічки у списку.'
+      name: index
+      optional: false
+      type: int
+findanime:
+  args:
+    - '[e]'
+  desc: 'Шукає інформацію про аніме за зображенням.'
+  params:
+    - desc: 'URL зображення або прикріплене зображення для пошуку.'
+      name: e
+      optional: true
+      type: string
+gatari:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!Gatari.'
+  params:
+    - desc: 'Ім''я користувача osu!Gatari, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!Gatari.'
+  params:
+    - desc: 'Ім''я користувача osu!Gatari, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!Gatari.'
+  params:
+    - desc: 'Ім''я користувача osu!Gatari, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!Gatari.'
+  params:
+    - desc: 'Ім''я користувача osu!Gatari, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+google:
+  args:
+    - '[query]'
+  desc: 'Виконує загальний пошук через Google або DuckDuckGo і показує результати.'
+  params:
+    - desc: 'Пошуковий запит.'
+      name: query
+      optional: true
+      type: string
+google_=:
+  args:
+    - '[query]'
+  desc: 'Виконує загальний пошук через Google або DuckDuckGo і показує результати.'
+  params:
+    - desc: 'Пошуковий запит.'
+      name: query
+      optional: true
+      type: string
+google_=_1:
+  args:
+    - '[query]'
+  desc: 'Виконує загальний пошук через Google або DuckDuckGo і показує результати.'
+  params:
+    - desc: 'Пошуковий запит.'
+      name: query
+      optional: true
+      type: string
+google_=_2:
+  args:
+    - '[query]'
+  desc: 'Виконує загальний пошук через Google або DuckDuckGo і показує результати.'
+  params:
+    - desc: 'Пошуковий запит.'
+      name: query
+      optional: true
+      type: string
+handhold:
+  args:
+    - text
+  desc: 'Тримає когось за руку.'
+  params:
+    - &ref_242
+      desc: 'Кого взяти за руку.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string:
+  args:
+    - text
+  desc: 'Тримає когось за руку.'
+  params:
+    - desc: 'Кого взяти за руку.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_1:
+  args:
+    - text
+  desc: 'Тримає когось за руку.'
+  params:
+    - &ref_243
+      desc: 'Кого взяти за руку.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_2:
+  args:
+    - text
+  desc: 'Тримає когось за руку.'
+  params:
+    - desc: 'Кого взяти за руку.'
+      name: toShow
+      optional: false
+      type: string
+happy:
+  args:
+    - '[toShow]'
+  desc: 'Виражає радість.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+highfive:
+  args:
+    - text
+  desc: 'Дає комусь «п''ять».'
+  params:
+    - desc: 'Кому дати «п''ять».'
+      name: toShow
+      optional: false
+      type: string
+hug:
+  args:
+    - text
+  desc: 'Обіймає когось.'
+  params:
+    - desc: 'Кого обійняти.'
+      name: toShow
+      optional: false
+      type: string
+hug_string:
+  args:
+    - text
+  desc: 'Обіймає когось.'
+  params:
+    - desc: 'Кого обійняти.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_1:
+  args:
+    - text
+  desc: 'Обіймає когось.'
+  params:
+    - desc: 'Кого обійняти.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_2:
+  args:
+    - text
+  desc: 'Обіймає когось.'
+  params:
+    - desc: 'Кого обійняти.'
+      name: toShow
+      optional: false
+      type: string
+image:
+  args:
+    - text
+  desc: 'Шукає зображення через Google і DuckDuckGo, а потім відфільтровує NSFW-результати.'
+  params:
+    - &ref_251
+      desc: 'Пошуковий запит для зображення.'
+      name: query
+      optional: false
+      type: string
+image_string:
+  args:
+    - text
+  desc: 'Шукає зображення через Google і DuckDuckGo, а потім відфільтровує NSFW-результати.'
+  params:
+    - &ref_252
+      desc: 'Пошуковий запит для зображення.'
+      name: query
+      optional: false
+      type: string
+image_string_1:
+  args:
+    - text
+  desc: 'Шукає зображення через Google і DuckDuckGo, а потім відфільтровує NSFW-результати.'
+  params:
+    - desc: 'Пошуковий запит для зображення.'
+      name: query
+      optional: false
+      type: string
+image_string_2:
+  args:
+    - text
+  desc: 'Шукає зображення через Google і DuckDuckGo, а потім відфільтровує NSFW-результати.'
+  params:
+    - desc: 'Пошуковий запит для зображення.'
+      name: query
+      optional: false
+      type: string
+kiss:
+  args:
+    - text
+  desc: 'Цілує когось.'
+  params:
+    - desc: 'Кого поцілувати.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string:
+  args:
+    - text
+  desc: 'Цілує когось.'
+  params:
+    - desc: 'Кого поцілувати.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_1:
+  args:
+    - text
+  desc: 'Цілує когось.'
+  params:
+    - desc: 'Кого поцілувати.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_2:
+  args:
+    - text
+  desc: 'Цілує когось.'
+  params:
+    - desc: 'Кого поцілувати.'
+      name: toShow
+      optional: false
+      type: string
+laugh:
+  args:
+    - '[toShow]'
+  desc: 'Сміється.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+magicitem:
+  args:
+    - ''
+  desc: 'Показує опис магічного предмета з World of Warcraft.'
+  params: [ ]
+mal:
+  args:
+    - text
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - &ref_288
+      desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+      name: name
+      optional: true
+      type: string
+mal_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - &ref_287
+      desc: 'Користувач, для якого отримати інформацію профілю MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - desc: 'Користувач, для якого отримати інформацію профілю MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - desc: 'Користувач, для якого отримати інформацію профілю MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_3:
+  args:
+    - '@user'
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - desc: 'Користувач, для якого отримати інформацію профілю MyAnimeList.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_string:
+  args:
+    - text
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+      name: name
+      optional: true
+      type: string
+mal_string_1:
+  args:
+    - text
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+      name: name
+      optional: true
+      type: string
+mal_string_2:
+  args:
+    - text
+  desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+  params:
+    - desc: 'Показує інформацію про профіль MyAnimeList вказаного користувача на поточному сервері.'
+      name: name
+      optional: true
+      type: string
+manga:
+  args:
+    - text
+  desc: 'Шукає мангу і показує інформацію про результати пошуку.'
+  params:
+    - desc: 'Запит для пошуку.'
+      name: query
+      optional: false
+      type: string
+meme:
+  args:
+    - ''
+  desc: 'Знаходить і показує випадковий мем із Reddit.'
+  params: [ ]
+meme_noparams:
+  args:
+    - ''
+  desc: 'Знаходить і показує випадковий мем із Reddit.'
+  params: [ ]
+meme_noparams_1:
+  args:
+    - ''
+  desc: 'Знаходить і показує випадковий мем із Reddit.'
+  params: [ ]
+meme_noparams_2:
+  args:
+    - ''
+  desc: 'Знаходить і показує випадковий мем із Reddit.'
+  params: [ ]
+memegen:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Створює мем із вказаним шаблоном і текстом.'
+  params:
+    - desc: 'Назва шаблону мема.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Текст для мема (необов''язково).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Створює мем із вказаним шаблоном і текстом.'
+  params:
+    - desc: 'Назва шаблону мема.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Текст для мема (необов''язково).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_1:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Створює мем із вказаним шаблоном і текстом.'
+  params:
+    - desc: 'Назва шаблону мема.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Текст для мема (необов''язково).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_2:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Створює мем із вказаним шаблоном і текстом.'
+  params:
+    - desc: 'Назва шаблону мема.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Текст для мема (необов''язково).'
+      name: memeText
+      optional: true
+      type: string
+memelist:
+  args:
+    - ''
+  desc: 'Показує доступні шаблони мемів.'
+  params: [ ]
+movie:
+  args:
+    - '[query]'
+  desc: 'Знаходить і показує інформацію про фільм з IMDb за запитом.'
+  params:
+    - desc: 'Назва фільму для пошуку на IMDb.'
+      name: query
+      optional: true
+      type: string
+movie_=:
+  args:
+    - '[query]'
+  desc: 'Знаходить і показує інформацію про фільм з IMDb за запитом.'
+  params:
+    - desc: 'Назва фільму для пошуку на IMDb.'
+      name: query
+      optional: true
+      type: string
+movie_=_1:
+  args:
+    - '[query]'
+  desc: 'Знаходить і показує інформацію про фільм з IMDb за запитом.'
+  params:
+    - desc: 'Назва фільму для пошуку на IMDb.'
+      name: query
+      optional: true
+      type: string
+movie_=_2:
+  args:
+    - '[query]'
+  desc: 'Знаходить і показує інформацію про фільм з IMDb за запитом.'
+  params:
+    - desc: 'Назва фільму для пошуку на IMDb.'
+      name: query
+      optional: true
+      type: string
+osu:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+osu5:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує 5 найкращих результатів osu! для користувача.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати результати.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати результати (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує 5 найкращих результатів osu! для користувача.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати результати.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати результати (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує 5 найкращих результатів osu! для користувача.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати результати.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати результати (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує 5 найкращих результатів osu! для користувача.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати результати.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати результати (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Показує інформацію про профіль osu!.'
+  params:
+    - desc: 'Ім''я користувача osu!, для якого отримати інформацію.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Ігровий режим (standard, taiko, catch, mania), для якого отримати інформацію (необов''язково).'
+      name: mode
+      optional: true
+      type: string
+pat:
+  args:
+    - text
+  desc: 'Погладжує когось.'
+  params:
+    - desc: 'Кого погладити.'
+      name: toShow
+      optional: false
+      type: string
+pat_string:
+  args:
+    - text
+  desc: 'Погладжує когось.'
+  params:
+    - &ref_336
+      desc: 'Кого погладити.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_1:
+  args:
+    - text
+  desc: 'Погладжує когось.'
+  params:
+    - desc: 'Кого погладити.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_2:
+  args:
+    - text
+  desc: 'Погладжує когось.'
+  params:
+    - desc: 'Кого погладити.'
+      name: toShow
+      optional: false
+      type: string
+poke:
+  args:
+    - text
+  desc: 'Тицяє когось.'
+  params:
+    - desc: 'Кого тицьнути.'
+      name: toShow
+      optional: false
+      type: string
+poke_string:
+  args:
+    - text
+  desc: 'Тицяє когось.'
+  params:
+    - desc: 'Кого тицьнути.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_1:
+  args:
+    - text
+  desc: 'Тицяє когось.'
+  params:
+    - desc: 'Кого тицьнути.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_2:
+  args:
+    - text
+  desc: 'Тицяє когось.'
+  params:
+    - desc: 'Кого тицьнути.'
+      name: toShow
+      optional: false
+      type: string
+pokemon:
+  args:
+    - text
+  desc: 'Показує інформацію про Покемона.'
+  params:
+    - &ref_348
+      desc: 'Назва Покемона.'
+      name: name
+      optional: false
+      type: string
+pokemon_string:
+  args:
+    - text
+  desc: 'Показує інформацію про Покемона.'
+  params:
+    - desc: 'Назва Покемона.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_1:
+  args:
+    - text
+  desc: 'Показує інформацію про Покемона.'
+  params:
+    - desc: 'Назва Покемона.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_2:
+  args:
+    - text
+  desc: 'Показує інформацію про Покемона.'
+  params:
+    - desc: 'Назва Покемона.'
+      name: name
+      optional: false
+      type: string
+pout:
+  args:
+    - '[toShow]'
+  desc: 'Надуває губи.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+punch:
+  args:
+    - text
+  desc: 'Б''є когось.'
+  params:
+    - desc: 'Кого вдарити.'
+      name: toShow
+      optional: false
+      type: string
+punch_string:
+  args:
+    - text
+  desc: 'Б''є когось.'
+  params:
+    - desc: 'Кого вдарити.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_1:
+  args:
+    - text
+  desc: 'Б''є когось.'
+  params:
+    - desc: 'Кого вдарити.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_2:
+  args:
+    - text
+  desc: 'Б''є когось.'
+  params:
+    - desc: 'Кого вдарити.'
+      name: toShow
+      optional: false
+      type: string
+randjoke:
+  args:
+    - ''
+  desc: 'Показує випадковий жарт.'
+  params: [ ]
+randombird:
+  args:
+    - ''
+  desc: 'Показує пташку.'
+  params: [ ]
+randomcat:
+  args:
+    - ''
+  desc: 'Показує випадкове зображення кота.'
+  params: [ ]
+randomdog:
+  args:
+    - ''
+  desc: 'Показує випадкове зображення собаки.'
+  params: [ ]
+randomfood:
+  args:
+    - ''
+  desc: 'Показує випадкове зображення їжі.'
+  params: [ ]
+randomkitsune:
+  args:
+    - ''
+  desc: 'Надсилає випадкове зображення кіцуне.'
+  params: [ ]
+randomneko:
+  args:
+    - ''
+  desc: 'Надсилає випадкове зображення неко.'
+  params: [ ]
+randomreddit:
+  args:
+    - text
+  desc: 'Знаходить і показує випадковий пост із вказаного сабреддіту.'
+  params:
+    - &ref_374
+      desc: 'Сабреддіт, з якого отримати випадковий пост.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string:
+  args:
+    - text
+  desc: 'Знаходить і показує випадковий пост із вказаного сабреддіту.'
+  params:
+    - desc: 'Сабреддіт, з якого отримати випадковий пост.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_1:
+  args:
+    - text
+  desc: 'Знаходить і показує випадковий пост із вказаного сабреддіту.'
+  params:
+    - desc: 'Сабреддіт, з якого отримати випадковий пост.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_2:
+  args:
+    - text
+  desc: 'Знаходить і показує випадковий пост із вказаного сабреддіту.'
+  params:
+    - desc: 'Сабреддіт, з якого отримати випадковий пост.'
+      name: subreddit
+      optional: false
+      type: string
+randomwaifu:
+  args:
+    - ''
+  desc: 'Надсилає випадкове зображення waifu.'
+  params: [ ]
+resolvetonetags:
+  args:
+    - text
+  desc: 'Розв''язує теги тону в повідомленні і пояснює кожен знайдений тег.'
+  params:
+    - &ref_441
+      desc: 'Повідомлення з тегами тону для розв''язання.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string:
+  args:
+    - text
+  desc: 'Розв''язує теги тону в повідомленні і пояснює кожен знайдений тег.'
+  params:
+    - desc: 'Повідомлення з тегами тону для розв''язання.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_1:
+  args:
+    - text
+  desc: 'Розв''язує теги тону в повідомленні і пояснює кожен знайдений тег.'
+  params:
+    - desc: 'Повідомлення з тегами тону для розв''язання.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_2:
+  args:
+    - text
+  desc: 'Розв''язує теги тону в повідомленні і пояснює кожен знайдений тег.'
+  params:
+    - desc: 'Повідомлення з тегами тону для розв''язання.'
+      name: tag
+      optional: false
+      type: string
+revav:
+  args:
+    - '[@usr]'
+  desc: 'Виконує зворотний пошук зображення за посиланням на аватар.'
+  params:
+    - desc: 'Користувач, чий аватар потрібно знайти зворотним пошуком.'
+      name: usr
+      optional: true
+      type: user
+revimg:
+  args:
+    - '[imageLink]'
+  desc: 'Виконує зворотний пошук зображення за вказаним посиланням на зображення.'
+  params:
+    - desc: 'Прямий URL зображення для пошуку.'
+      name: imageLink
+      optional: true
+      type: string
+rip:
+  args:
+    - '@user'
+  desc: 'Показує зображення RIP з ім''ям і аватаром користувача.'
+  params:
+    - &ref_443
+      desc: 'Користувач, для якого створити зображення RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Показує зображення RIP з ім''ям і аватаром користувача.'
+  params:
+    - desc: 'Користувач, для якого створити зображення RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Показує зображення RIP з ім''ям і аватаром користувача.'
+  params:
+    - desc: 'Користувач, для якого створити зображення RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Показує зображення RIP з ім''ям і аватаром користувача.'
+  params:
+    - desc: 'Користувач, для якого створити зображення RIP.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rsstest:
+  args:
+    - number
+  desc: 'Перевіряє отримання RSS-стрічки, щоб знайти оновлення.'
+  params:
+    - desc: 'Номер стрічки у списку.'
+      name: index
+      optional: false
+      type: int
+safebooru:
+  args:
+    - text
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_=:
+  args:
+    - '<tags>'
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_1:
+  args:
+    - '<tags>'
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_2:
+  args:
+    - '<tags>'
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_3:
+  args:
+    - '<tags>'
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_string[]:
+  args:
+    - text
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_1:
+  args:
+    - text
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_2:
+  args:
+    - text
+  desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+  params:
+    - desc: 'Шукає і показує зображення за вказаним тегом із Safebooru.'
+      name: tags
+      optional: false
+      type: string[]
+ship:
+  args:
+    - '@user @user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - &ref_540
+      desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_541
+      desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser:
+  args:
+    - '@user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_1:
+  args:
+    - '@user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_2:
+  args:
+    - '@user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_3:
+  args:
+    - '@user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_IUser:
+  args:
+    - '@user @user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_1:
+  args:
+    - '@user @user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - &ref_542
+      desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_2:
+  args:
+    - '@user @user'
+  desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+  params:
+    - desc: 'Користувач, з яким порівняти поточного користувача.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Надсилає зображення шипу на основі сумісності поточного користувача з іншим користувачем.'
+      name: user2
+      optional: false
+      type: IUser
+shoot:
+  args:
+    - text
+  desc: 'Стріляє в когось.'
+  params:
+    - desc: 'В кого вистрілити.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string:
+  args:
+    - text
+  desc: 'Стріляє в когось.'
+  params:
+    - desc: 'В кого вистрілити.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_1:
+  args:
+    - text
+  desc: 'Стріляє в когось.'
+  params:
+    - desc: 'В кого вистрілити.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_2:
+  args:
+    - text
+  desc: 'Стріляє в когось.'
+  params:
+    - desc: 'В кого вистрілити.'
+      name: toShow
+      optional: false
+      type: string
+shorten:
+  args:
+    - text
+  desc: 'Скорочує вказане посилання через API goolnk.com.'
+  params:
+    - &ref_543
+      desc: 'URL для скорочення.'
+      name: query
+      optional: false
+      type: string
+shorten_string:
+  args:
+    - text
+  desc: 'Скорочує вказане посилання через API goolnk.com.'
+  params:
+    - desc: 'URL для скорочення.'
+      name: query
+      optional: false
+      type: string
+shorten_string_1:
+  args:
+    - text
+  desc: 'Скорочує вказане посилання через API goolnk.com.'
+  params:
+    - desc: 'URL для скорочення.'
+      name: query
+      optional: false
+      type: string
+shorten_string_2:
+  args:
+    - text
+  desc: 'Скорочує вказане посилання через API goolnk.com.'
+  params:
+    - desc: 'URL для скорочення.'
+      name: query
+      optional: false
+      type: string
+shrug:
+  args:
+    - '[toShow]'
+  desc: 'Знизує плечима.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+slap:
+  args:
+    - text
+  desc: 'Дає ляпаса комусь.'
+  params:
+    - &ref_546
+      desc: 'Кому дати ляпаса.'
+      name: toShow
+      optional: false
+      type: string
+slap_string:
+  args:
+    - text
+  desc: 'Дає ляпаса комусь.'
+  params:
+    - desc: 'Кому дати ляпаса.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_1:
+  args:
+    - text
+  desc: 'Дає ляпаса комусь.'
+  params:
+    - desc: 'Кому дати ляпаса.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_2:
+  args:
+    - text
+  desc: 'Дає ляпаса комусь.'
+  params:
+    - desc: 'Кому дати ляпаса.'
+      name: toShow
+      optional: false
+      type: string
+sleep:
+  args:
+    - '[toShow]'
+  desc: 'Спить.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+smile:
+  args:
+    - '[toShow]'
+  desc: 'Усміхається.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+smug:
+  args:
+    - '[toShow]'
+  desc: 'Самовдоволено посміхається.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+stare:
+  args:
+    - '[toShow]'
+  desc: 'Витріщається.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+steam:
+  args:
+    - text
+  desc: 'Шукає гру в Steam за назвою і надає посилання на її сторінку в Steam Store.'
+  params:
+    - &ref_567
+      desc: 'Назва гри для пошуку в Steam.'
+      name: query
+      optional: false
+      type: string
+steam_string:
+  args:
+    - text
+  desc: 'Шукає гру в Steam за назвою і надає посилання на її сторінку в Steam Store.'
+  params:
+    - desc: 'Назва гри для пошуку в Steam.'
+      name: query
+      optional: false
+      type: string
+steam_string_1:
+  args:
+    - text
+  desc: 'Шукає гру в Steam за назвою і надає посилання на її сторінку в Steam Store.'
+  params:
+    - desc: 'Назва гри для пошуку в Steam.'
+      name: query
+      optional: false
+      type: string
+steam_string_2:
+  args:
+    - text
+  desc: 'Шукає гру в Steam за назвою і надає посилання на її сторінку в Steam Store.'
+  params:
+    - desc: 'Назва гри для пошуку в Steam.'
+      name: query
+      optional: false
+      type: string
+streamadd:
+  args:
+    - text
+  desc: 'Додає новий стрім до списку сповіщень поточного сервера.'
+  params:
+    - &ref_571
+      desc: 'Посилання на стрім для додавання.'
+      name: link
+      optional: false
+      type: string
+streamadd_string:
+  args:
+    - text
+  desc: 'Додає новий стрім до списку сповіщень поточного сервера.'
+  params:
+    - desc: 'Посилання на стрім для додавання.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_1:
+  args:
+    - text
+  desc: 'Додає новий стрім до списку сповіщень поточного сервера.'
+  params:
+    - desc: 'Посилання на стрім для додавання.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_2:
+  args:
+    - text
+  desc: 'Додає новий стрім до списку сповіщень поточного сервера.'
+  params:
+    - desc: 'Посилання на стрім для додавання.'
+      name: link
+      optional: false
+      type: string
+streamcheck:
+  args:
+    - text
+  desc: 'Перевіряє статус трансляції стріму за його URL.'
+  params:
+    - &ref_572
+      desc: 'URL стріму для перевірки.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string:
+  args:
+    - text
+  desc: 'Перевіряє статус трансляції стріму за його URL.'
+  params:
+    - desc: 'URL стріму для перевірки.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_1:
+  args:
+    - text
+  desc: 'Перевіряє статус трансляції стріму за його URL.'
+  params:
+    - desc: 'URL стріму для перевірки.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_2:
+  args:
+    - text
+  desc: 'Перевіряє статус трансляції стріму за його URL.'
+  params:
+    - desc: 'URL стріму для перевірки.'
+      name: url
+      optional: false
+      type: string
+streamlist:
+  args:
+    - ''
+  desc: 'Показує всі стріми, на які підписаний сервер.'
+  params: [ ]
+streammessage:
+  args:
+    - number text
+  desc: 'Встановлює власне повідомлення сповіщення для конкретного стріму у списку сповіщень сервера.'
+  params:
+    - &ref_573
+      desc: 'Номер стріму у списку, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+    - &ref_574
+      desc: 'Власне повідомлення, яке надсилатиметься, коли стрім почнеться. Порожнє повідомлення скидає його до стандартного.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string:
+  args:
+    - number text
+  desc: 'Встановлює власне повідомлення сповіщення для конкретного стріму у списку сповіщень сервера.'
+  params:
+    - desc: 'Номер стріму у списку, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Власне повідомлення, яке надсилатиметься, коли стрім почнеться. Порожнє повідомлення скидає його до стандартного.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_1:
+  args:
+    - number text
+  desc: 'Встановлює власне повідомлення сповіщення для конкретного стріму у списку сповіщень сервера.'
+  params:
+    - desc: 'Номер стріму у списку, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Власне повідомлення, яке надсилатиметься, коли стрім почнеться. Порожнє повідомлення скидає його до стандартного.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_2:
+  args:
+    - number text
+  desc: 'Встановлює власне повідомлення сповіщення для конкретного стріму у списку сповіщень сервера.'
+  params:
+    - desc: 'Номер стріму у списку, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Власне повідомлення, яке надсилатиметься, коли стрім почнеться. Порожнє повідомлення скидає його до стандартного.'
+      name: message
+      optional: false
+      type: string
+streamoffline:
+  args:
+    - ''
+  desc: 'Перемикає сповіщення сервера про завершення відстежуваного стріму.'
+  params: [ ]
+streamofflinemessage:
+  args:
+    - number
+    - text
+  desc: 'Встановлює повідомлення про завершення для конкретного стріму.'
+  params:
+    - desc: 'Номер стріму у списку, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Шаблон повідомлення про завершення з плейсхолдерами.'
+      name: message
+      optional: false
+      type: string
+streamremove:
+  args:
+    - number
+  desc: 'Видаляє стрім зі списку сповіщень за його номером.'
+  params:
+    - &ref_575
+      desc: 'Номер стріму у списку сповіщень, який потрібно видалити, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+streamremove_int:
+  args:
+    - number
+  desc: 'Видаляє стрім зі списку сповіщень за його номером.'
+  params:
+    - desc: 'Номер стріму у списку сповіщень, який потрібно видалити, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+streamremove_int_1:
+  args:
+    - number
+  desc: 'Видаляє стрім зі списку сповіщень за його номером.'
+  params:
+    - desc: 'Номер стріму у списку сповіщень, який потрібно видалити, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+streamremove_int_2:
+  args:
+    - number
+  desc: 'Видаляє стрім зі списку сповіщень за його номером.'
+  params:
+    - desc: 'Номер стріму у списку сповіщень, який потрібно видалити, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+streamsclear:
+  args:
+    - ''
+  desc: 'Очищає всі стріми зі списку сповіщень сервера.'
+  params: [ ]
+streamtemplate:
+  args:
+    - text
+  desc: 'Встановлює або показує власний шаблон повідомлень про стріми для всіх стрімів на сервері.'
+  params:
+    - desc: 'Шаблон повідомлення з плейсхолдерами. Залиште порожнім, щоб показати поточний шаблон; використовуйте "reset", щоб вимкнути власні повідомлення.'
+      name: template
+      optional: true
+      type: string
+think:
+  args:
+    - '[toShow]'
+  desc: 'Думає.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+thumbsup:
+  args:
+    - '[toShow]'
+  desc: 'Показує великий палець угору.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+tickle:
+  args:
+    - text
+  desc: 'Лоскоче когось.'
+  params:
+    - desc: 'Кого лоскотати.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string:
+  args:
+    - text
+  desc: 'Лоскоче когось.'
+  params:
+    - desc: 'Кого лоскотати.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_1:
+  args:
+    - text
+  desc: 'Лоскоче когось.'
+  params:
+    - desc: 'Кого лоскотати.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_2:
+  args:
+    - text
+  desc: 'Лоскоче когось.'
+  params:
+    - desc: 'Кого лоскотати.'
+      name: toShow
+      optional: false
+      type: string
+time:
+  args:
+    - text
+  desc: 'Показує поточний час у вказаному місці.'
+  params:
+    - &ref_620
+      desc: 'Місце, для якого знайти поточний час.'
+      name: query
+      optional: false
+      type: string
+time_string:
+  args:
+    - text
+  desc: 'Показує поточний час у вказаному місці.'
+  params:
+    - desc: 'Місце, для якого знайти поточний час.'
+      name: query
+      optional: false
+      type: string
+time_string_1:
+  args:
+    - text
+  desc: 'Показує поточний час у вказаному місці.'
+  params:
+    - desc: 'Місце, для якого знайти поточний час.'
+      name: query
+      optional: false
+      type: string
+time_string_2:
+  args:
+    - text
+  desc: 'Показує поточний час у вказаному місці.'
+  params:
+    - desc: 'Місце, для якого знайти поточний час.'
+      name: query
+      optional: false
+      type: string
+translangs:
+  args:
+    - ''
+  desc: 'Показує всі доступні мови для перекладу.'
+  params: [ ]
+translate:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Перекладає текст з однієї мови на іншу, вказану користувачем.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Текст для перекладу.'
+      name: text
+      optional: true
+      type: string
+translate_string_=:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Перекладає текст з однієї мови на іншу, вказану користувачем.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Текст для перекладу.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_1:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Перекладає текст з однієї мови на іншу, вказану користувачем.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Текст для перекладу.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_2:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Перекладає текст з однієї мови на іншу, вказану користувачем.'
+  params:
+    - desc: 'Мовна пара у форматі ''from>to''.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Текст для перекладу.'
+      name: text
+      optional: true
+      type: string
+urbandict:
+  args:
+    - '[query]'
+  desc: 'Шукає в Urban Dictionary і показує визначення для вказаного терміна.'
+  params:
+    - desc: 'Термін для пошуку в Urban Dictionary.'
+      name: query
+      optional: true
+      type: string
+wave:
+  args:
+    - '[toShow]'
+  desc: 'Махає рукою.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+weather:
+  args:
+    - text
+  desc: 'Показує інтерактивну інформацію про погоду у вказаному місці.'
+  params:
+    - &ref_659
+      desc: 'Місце, для якого знайти інформацію про погоду.'
+      name: query
+      optional: false
+      type: string
+weather_string:
+  args:
+    - text
+  desc: 'Показує інтерактивну інформацію про погоду у вказаному місці.'
+  params:
+    - desc: 'Місце, для якого знайти інформацію про погоду.'
+      name: query
+      optional: false
+      type: string
+weather_string_1:
+  args:
+    - text
+  desc: 'Показує інтерактивну інформацію про погоду у вказаному місці.'
+  params:
+    - desc: 'Місце, для якого знайти інформацію про погоду.'
+      name: query
+      optional: false
+      type: string
+weather_string_2:
+  args:
+    - text
+  desc: 'Показує інтерактивну інформацію про погоду у вказаному місці.'
+  params:
+    - desc: 'Місце, для якого знайти інформацію про погоду.'
+      name: query
+      optional: false
+      type: string
+wiki:
+  args:
+    - '[query]'
+  desc: 'Шукає і показує інформацію з Вікіпедії за запитом.'
+  params:
+    - desc: 'Пошуковий термін для Вікіпедії.'
+      name: query
+      optional: true
+      type: string
+wikia:
+  args:
+    - text text
+  desc: 'Отримує і показує детальну інформацію про конкретну тему з wikia.'
+  params:
+    - &ref_661
+      desc: 'Цільовий сайт wikia.'
+      name: target
+      optional: false
+      type: string
+    - &ref_662
+      desc: 'Пошуковий термін для wikia.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string:
+  args:
+    - text text
+  desc: 'Отримує і показує детальну інформацію про конкретну тему з wikia.'
+  params:
+    - desc: 'Цільовий сайт wikia.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Пошуковий термін для wikia.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_1:
+  args:
+    - text text
+  desc: 'Отримує і показує детальну інформацію про конкретну тему з wikia.'
+  params:
+    - desc: 'Цільовий сайт wikia.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Пошуковий термін для wikia.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_2:
+  args:
+    - text text
+  desc: 'Отримує і показує детальну інформацію про конкретну тему з wikia.'
+  params:
+    - desc: 'Цільовий сайт wikia.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Пошуковий термін для wikia.'
+      name: query
+      optional: false
+      type: string
+wink:
+  args:
+    - '[toShow]'
+  desc: 'Підморгує.'
+  params:
+    - desc: 'Додатковий текст (необов''язково).'
+      name: toShow
+      optional: true
+      type: string
+wowjoke:
+  args:
+    - ''
+  desc: 'Показує жарт про World of Warcraft.'
+  params: [ ]
+xkcd:
+  args:
+    - '[arg]'
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - desc: 'Показує комікс XKCD за його номером.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=:
+  args:
+    - '[arg]'
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - desc: 'Показує комікс XKCD за його номером.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_1:
+  args:
+    - '[arg]'
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - desc: 'Показує комікс XKCD за його номером.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_2:
+  args:
+    - '[arg]'
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - desc: 'Показує комікс XKCD за його номером.'
+      name: arg
+      optional: true
+      type: string
+xkcd_int:
+  args:
+    - number
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - &ref_663
+      desc: 'Номер коміксу XKCD для показу.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_1:
+  args:
+    - number
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - desc: 'Номер коміксу XKCD для показу.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_2:
+  args:
+    - number
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - desc: 'Номер коміксу XKCD для показу.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_3:
+  args:
+    - number
+  desc: 'Показує комікс XKCD за його номером.'
+  params:
+    - desc: 'Номер коміксу XKCD для показу.'
+      name: num
+      optional: false
+      type: int
+yomama:
+  args:
+    - ''
+  desc: 'Показує жарт про Yo Mama.'
+  params: [ ]
+youtube:
+  args:
+    - text
+  desc: 'Шукає відео на YouTube за запитом і показує результати.'
+  params:
+    - &ref_675
+      desc: 'Пошуковий запит для відео на YouTube.'
+      name: query
+      optional: false
+      type: string
+youtube_string:
+  args:
+    - text
+  desc: 'Шукає відео на YouTube за запитом і показує результати.'
+  params:
+    - desc: 'Пошуковий запит для відео на YouTube.'
+      name: query
+      optional: false
+      type: string
+youtube_string_1:
+  args:
+    - text
+  desc: 'Шукає відео на YouTube за запитом і показує результати.'
+  params:
+    - desc: 'Пошуковий запит для відео на YouTube.'
+      name: query
+      optional: false
+      type: string
+youtube_string_2:
+  args:
+    - text
+  desc: 'Шукає відео на YouTube за запитом і показує результати.'
+  params:
+    - desc: 'Пошуковий запит для відео на YouTube.'
+      name: query
+      optional: false
+      type: string

@@ -1,0 +1,1243 @@
+acadd:
+  args:
+    - command
+  desc: 'Додає автоматичну команду.'
+  params:
+    - desc: 'Команда для додавання як автоматичної.'
+      name: command
+      optional: false
+      type: string
+topserversupdate:
+  args:
+    - ''
+  desc: 'Оновлює список топ-серверів. Можна виконати лише на головному екземплярі.'
+aclist:
+  args:
+    - ''
+  desc: 'Показує всі автоматичні команди.'
+  params: [ ]
+acrm:
+  args:
+    - index
+  desc: 'Видаляє автоматичну команду.'
+  params:
+    - desc: 'Індекс команди для видалення.'
+      name: index
+      optional: false
+      type: int
+addinstance:
+  args:
+    - number
+  desc: 'Додає екземпляр бота, яким можна керувати з панелі керування.'
+  params:
+    - &ref_400
+      desc: 'Номер порту, на якому працює екземпляр'
+      name: instancePort
+      optional: false
+      type: int
+addinstance_int:
+  args:
+    - number
+  desc: 'Додає екземпляр бота, яким можна керувати з панелі керування.'
+  params:
+    - desc: 'Номер порту, на якому працює екземпляр'
+      name: instancePort
+      optional: false
+      type: int
+addplaying:
+  args:
+    - t text
+  desc: 'Додає новий статус до ротації ігрових статусів бота.'
+  params:
+    - &ref_21
+      desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - &ref_22
+      desc: 'Текст статусу для додавання.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string:
+  args:
+    - t text
+  desc: 'Додає новий статус до ротації ігрових статусів бота.'
+  params:
+    - desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Текст статусу для додавання.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_1:
+  args:
+    - t text
+  desc: 'Додає новий статус до ротації ігрових статусів бота.'
+  params:
+    - desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Текст статусу для додавання.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_2:
+  args:
+    - t text
+  desc: 'Додає новий статус до ротації ігрових статусів бота.'
+  params:
+    - desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Текст статусу для додавання.'
+      name: status
+      optional: false
+      type: string
+autocommandadd:
+  args:
+    - number text
+  desc: 'Додає автоматичну команду, яка періодично виконуватиметься на вказаному сервері.'
+  params:
+    - &ref_91
+      desc: 'Інтервал у секундах, з яким виконуватиметься команда. Має бути 5 секунд або більше.'
+      name: interval
+      optional: false
+      type: int
+    - &ref_92
+      desc: 'Текст команди, який виконуватиметься автоматично.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string:
+  args:
+    - number text
+  desc: 'Додає автоматичну команду, яка періодично виконуватиметься на вказаному сервері.'
+  params:
+    - desc: 'Інтервал у секундах, з яким виконуватиметься команда. Має бути 5 секунд або більше.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Текст команди, який виконуватиметься автоматично.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_1:
+  args:
+    - number text
+  desc: 'Додає автоматичну команду, яка періодично виконуватиметься на вказаному сервері.'
+  params:
+    - desc: 'Інтервал у секундах, з яким виконуватиметься команда. Має бути 5 секунд або більше.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Текст команди, який виконуватиметься автоматично.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_2:
+  args:
+    - number text
+  desc: 'Додає автоматичну команду, яка періодично виконуватиметься на вказаному сервері.'
+  params:
+    - desc: 'Інтервал у секундах, з яким виконуватиметься команда. Має бути 5 секунд або більше.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Текст команди, який виконуватиметься автоматично.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandremove:
+  args:
+    - number
+  desc: 'Видаляє автоматичну команду за її індексом.'
+  params:
+    - &ref_93
+      desc: 'Індекс автоматичної команди для видалення, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int:
+  args:
+    - number
+  desc: 'Видаляє автоматичну команду за її індексом.'
+  params:
+    - &ref_94
+      desc: 'Індекс автоматичної команди для видалення, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_1:
+  args:
+    - number
+  desc: 'Видаляє автоматичну команду за її індексом.'
+  params:
+    - desc: 'Індекс автоматичної команди для видалення, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_2:
+  args:
+    - number
+  desc: 'Видаляє автоматичну команду за її індексом.'
+  params:
+    - desc: 'Індекс автоматичної команди для видалення, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+autocommandslist:
+  args:
+    - 1
+  desc: 'Показує автоматичні команди, налаштовані для сервера.'
+  params:
+    - &ref_95
+      desc: 'Показує автоматичні команди, налаштовані для сервера.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=:
+  args:
+    - 1
+  desc: 'Показує автоматичні команди, налаштовані для сервера.'
+  params:
+    - desc: 'Показує автоматичні команди, налаштовані для сервера.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_1:
+  args:
+    - 1
+  desc: 'Показує автоматичні команди, налаштовані для сервера.'
+  params:
+    - desc: 'Показує автоматичні команди, налаштовані для сервера.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_2:
+  args:
+    - 1
+  desc: 'Показує автоматичні команди, налаштовані для сервера.'
+  params:
+    - desc: 'Показує автоматичні команди, налаштовані для сервера.'
+      name: 1
+      optional: false
+      type: '='
+bash:
+  args:
+    - text
+  desc: 'Виконує команду bash. Залежно від платформи команда виконується в bash або PowerShell.'
+  params:
+    - &ref_110
+      desc: 'Команда для виконання.'
+      name: message
+      optional: false
+      type: string
+bash_string:
+  args:
+    - text
+  desc: 'Виконує команду bash. Залежно від платформи команда виконується в bash або PowerShell.'
+  params:
+    - desc: 'Команда для виконання.'
+      name: message
+      optional: false
+      type: string
+bash_string_1:
+  args:
+    - text
+  desc: 'Виконує команду bash. Залежно від платформи команда виконується в bash або PowerShell.'
+  params:
+    - desc: 'Команда для виконання.'
+      name: message
+      optional: false
+      type: string
+bash_string_2:
+  args:
+    - text
+  desc: 'Виконує команду bash. Залежно від платформи команда виконується в bash або PowerShell.'
+  params:
+    - desc: 'Команда для виконання.'
+      name: message
+      optional: false
+      type: string
+commandstats:
+  args:
+    - ''
+  desc: 'Отримує й показує статистику найчастіше використовуваних команд, модулів, серверів і користувачів.'
+  params: [ ]
+commandstats_noparams:
+  args:
+    - ''
+  desc: 'Отримує й показує статистику найчастіше використовуваних команд, модулів, серверів і користувачів.'
+  params: [ ]
+commandstats_noparams_1:
+  args:
+    - ''
+  desc: 'Отримує й показує статистику найчастіше використовуваних команд, модулів, серверів і користувачів.'
+  params: [ ]
+commandstats_noparams_2:
+  args:
+    - ''
+  desc: 'Отримує й показує статистику найчастіше використовуваних команд, модулів, серверів і користувачів.'
+  params: [ ]
+config:
+  args:
+    - ''
+  desc: 'Змінює конфігурацію бота у форматі yml.'
+  params: [ ]
+config_string:
+  args:
+    - name
+  desc: 'Змінює конфігурацію бота у форматі yml.'
+  params:
+    - desc: 'Назва конфігурації для зміни.'
+      name: name
+      optional: true
+      type: string
+config_string_string:
+  args:
+    - name prop
+  desc: 'Змінює конфігурацію бота у форматі yml.'
+  params:
+    - desc: 'Назва конфігурації для зміни.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Властивість конфігурації для зміни.'
+      name: prop
+      optional: true
+      type: string
+config_string_string_string:
+  args:
+    - name prop value
+  desc: 'Змінює конфігурацію бота у форматі yml.'
+  params:
+    - desc: 'Назва конфігурації для зміни.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Властивість конфігурації для зміни.'
+      name: prop
+      optional: true
+      type: string
+    - desc: 'Нове значення для властивості.'
+      name: value
+      optional: true
+      type: string
+defprefix:
+  args:
+    - '[prefix]'
+  desc: 'Встановлює або показує типовий префікс команд.'
+  params:
+    - desc: 'Новий префікс для встановлення. Якщо значення порожнє або містить лише пробіли, показується поточний префікс.'
+      name: prefix
+      optional: true
+      type: string
+die:
+  args:
+    - ''
+  desc: 'Ініціює вимкнення бота.'
+  params: [ ]
+evaluate:
+  args:
+    - '[code]'
+  desc: 'Виконує фрагмент коду C#.'
+  params:
+    - desc: 'Код C# для виконання.'
+      name: code
+      optional: true
+      type: string
+forwardmessages:
+  args:
+    - ''
+  desc: 'Перемикає пересилання особистих повідомлень власнику (власникам) бота.'
+  params: [ ]
+forwardtoall:
+  args:
+    - ''
+  desc: 'Перемикає, чи надсилати переслані повідомлення всім власникам бота, чи лише основному власнику.'
+  params: [ ]
+generatedocs:
+  args:
+    - ''
+  desc: 'Створює YML-файли документації команд'
+  params: [ ]
+imagesreload:
+  args:
+    - ''
+  desc: 'Запускає перезавантаження зображень, які використовує бот.'
+  params: [ ]
+instancestatus:
+  args:
+    - number
+  desc: 'Перевіряє стан конкретного екземпляра бота.'
+  params:
+    - &ref_256
+      desc: 'Номер порту екземпляра для перевірки'
+      name: instancePort
+      optional: false
+      type: int
+instancestatus_int:
+  args:
+    - number
+  desc: 'Перевіряє стан конкретного екземпляра бота.'
+  params:
+    - desc: 'Номер порту екземпляра для перевірки'
+      name: instancePort
+      optional: false
+      type: int
+retentionpending:
+  args:
+    - ''
+  desc: 'Показує сервери, які бот покинув і чиї дані чекають на очищення, починаючи з найближчого.'
+  params: [ ]
+retentionrecent:
+  args:
+    - ''
+  desc: 'Показує останні завершені очищення даних і скільки рядків було видалено в кожному.'
+  params: [ ]
+retentioncancel:
+  args:
+    - 123456789012345678
+  desc: 'Вилучає сервер з черги очищення, щоб його дані збереглися.'
+  params:
+    - desc: 'Сервер, який треба зберегти.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurge:
+  args:
+    - 123456789012345678
+  desc: 'Негайно очищає дані сервера, не чекаючи на пільговий період. Не працює, поки бот ще на сервері.'
+  params:
+    - desc: 'Сервер, дані якого треба очистити.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurgeall:
+  args:
+    - ''
+  desc: 'Негайно очищає дані всіх серверів у черзі, ігноруючи пільговий період. Сервери, до яких бот повернувся, пропускаються.'
+  params: [ ]
+bothells:
+  args:
+    - ''
+  desc: 'Показує сервери, переповнені ботами, за порогами кількості ботів і відсотка ботів у конфігурації бота.'
+  params: [ ]
+bothellcheck:
+  args:
+    - ''
+    - 123456789012345678
+  desc: 'Перевіряє один сервер за порогами «bot hell» після завантаження повного списку його учасників.'
+  params:
+    - desc: 'Сервер для перевірки. Якщо не вказано, перевіряється поточний.'
+      name: guildId
+      optional: true
+      type: ulong
+retentionscan:
+  args:
+    - ''
+  desc: 'Сканує всі таблиці, пов''язані з серверами, на сервери, яких бот більше не має, і ставить їх у чергу на очищення після пільгового періоду.'
+  params: [ ]
+leaveserver:
+  args:
+    - text
+  desc: 'Наказує боту покинути сервер.'
+  params:
+    - &ref_269
+      desc: 'Ідентифікатор або назва сервера, який треба покинути.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string:
+  args:
+    - text
+  desc: 'Наказує боту покинути сервер.'
+  params:
+    - desc: 'Ідентифікатор або назва сервера, який треба покинути.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_1:
+  args:
+    - text
+  desc: 'Наказує боту покинути сервер.'
+  params:
+    - desc: 'Ідентифікатор або назва сервера, який треба покинути.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_2:
+  args:
+    - text
+  desc: 'Наказує боту покинути сервер.'
+  params:
+    - desc: 'Ідентифікатор або назва сервера, який треба покинути.'
+      name: guildStr
+      optional: false
+      type: string
+listinstances:
+  args:
+    - ''
+  desc: 'Показує всі зареєстровані екземпляри бота та їхній стан.'
+  params: [ ]
+listplaying:
+  args:
+    - ''
+  desc: 'Показує всі статуси, які зараз є в ротації.'
+  params: [ ]
+listservers:
+  args:
+    - ''
+  desc: 'Показує всі сервери, на яких зараз перебуває бот.'
+  params: [ ]
+redisexec:
+  args:
+    - text
+  desc: 'Виконує команду Redis і повертає результат.'
+  params:
+    - &ref_385
+      desc: 'Команда Redis для виконання.'
+      name: command
+      optional: false
+      type: string
+redisexec_string:
+  args:
+    - text
+  desc: 'Виконує команду Redis і повертає результат.'
+  params:
+    - desc: 'Команда Redis для виконання.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_1:
+  args:
+    - text
+  desc: 'Виконує команду Redis і повертає результат.'
+  params:
+    - desc: 'Команда Redis для виконання.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_2:
+  args:
+    - text
+  desc: 'Виконує команду Redis і повертає результат.'
+  params:
+    - desc: 'Команда Redis для виконання.'
+      name: command
+      optional: false
+      type: string
+removeinstance:
+  args:
+    - number
+  desc: 'Видаляє екземпляр бота з керування через панель керування.'
+  params:
+    - desc: 'Номер порту екземпляра для видалення'
+      name: instancePort
+      optional: false
+      type: int
+removeplaying:
+  args:
+    - number
+  desc: 'Видаляє статус з ротації ігрових статусів за його індексом.'
+  params:
+    - &ref_406
+      desc: 'Індекс статусу для видалення, починаючи з 1. Фактичне видалення використовує індексацію з 0.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int:
+  args:
+    - number
+  desc: 'Видаляє статус з ротації ігрових статусів за його індексом.'
+  params:
+    - desc: 'Індекс статусу для видалення, починаючи з 1. Фактичне видалення використовує індексацію з 0.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_1:
+  args:
+    - number
+  desc: 'Видаляє статус з ротації ігрових статусів за його індексом.'
+  params:
+    - desc: 'Індекс статусу для видалення, починаючи з 1. Фактичне видалення використовує індексацію з 0.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_2:
+  args:
+    - number
+  desc: 'Видаляє статус з ротації ігрових статусів за його індексом.'
+  params:
+    - desc: 'Індекс статусу для видалення, починаючи з 1. Фактичне видалення використовує індексацію з 0.'
+      name: index
+      optional: false
+      type: int
+restartallinstances:
+  args:
+    - ''
+  desc: 'Перезапускає всі зареєстровані екземпляри бота.'
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: 'Перезапускає конкретний екземпляр бота.'
+  params:
+    - desc: 'Номер порту екземпляра для перезапуску'
+      name: instancePort
+      optional: false
+      type: int
+rotateplaying:
+  args:
+    - ''
+  desc: 'Перемикає ротацію ігрових статусів бота.'
+  params: [ ]
+scadd:
+  args:
+    - command
+  desc: 'Додає команду, яка виконається під час запуску.'
+  params:
+    - desc: 'Команда для додавання до запуску.'
+      name: command
+      optional: false
+      type: string
+scclear:
+  args:
+    - ''
+  desc: 'Очищає всі команди запуску.'
+  params: [ ]
+sclist:
+  args:
+    - ''
+  desc: 'Показує всі команди запуску.'
+  params: [ ]
+scrm:
+  args:
+    - index
+  desc: 'Видаляє команду запуску.'
+  params:
+    - desc: 'Індекс команди для видалення.'
+      name: index
+      optional: false
+      type: int
+send:
+  args:
+    - whereorto text
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - &ref_483
+      desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - &ref_484
+      desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_=_=:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID користувача, якому надіслати повідомлення.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_1:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID користувача, якому надіслати повідомлення.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_2:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID користувача, якому надіслати повідомлення.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_3:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID користувача, якому надіслати повідомлення.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_string:
+  args:
+    - whereorto text
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_1:
+  args:
+    - whereorto text
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_2:
+  args:
+    - whereorto text
+  desc: 'Надсилає повідомлення вказаному каналу або користувачеві.'
+  params:
+    - desc: 'ID каналу або користувача, якому надіслати повідомлення.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Повідомлення для надсилання.'
+      name: msg
+      optional: false
+      type: string
+setavatar:
+  args:
+    - '[img]'
+  desc: 'Встановлює аватар бота.'
+  params:
+    - desc: 'URL нового зображення аватара. Якщо значення порожнє, команда може видалити поточний аватар або нічого не робити, залежно від реалізації.'
+      name: img
+      optional: true
+      type: string
+setgame:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Встановлює гру, в яку зараз грає бот.'
+  params:
+    - desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Назва гри або активності. Якщо значення порожнє, поточну гру може бути очищено.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Встановлює гру, в яку зараз грає бот.'
+  params:
+    - desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Назва гри або активності. Якщо значення порожнє, поточну гру може бути очищено.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_1:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Встановлює гру, в яку зараз грає бот.'
+  params:
+    - desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Назва гри або активності. Якщо значення порожнє, поточну гру може бути очищено.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_2:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Встановлює гру, в яку зараз грає бот.'
+  params:
+    - desc: 'Тип активності (наприклад, Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Назва гри або активності. Якщо значення порожнє, поточну гру може бути очищено.'
+      name: game
+      optional: true
+      type: string
+setname:
+  args:
+    - text
+  desc: 'Змінює ім''я користувача бота на вказане нове.'
+  params:
+    - &ref_508
+      desc: 'Нове ім''я користувача для бота.'
+      name: newName
+      optional: false
+      type: string
+setname_string:
+  args:
+    - text
+  desc: 'Змінює ім''я користувача бота на вказане нове.'
+  params:
+    - desc: 'Нове ім''я користувача для бота.'
+      name: newName
+      optional: false
+      type: string
+setname_string_1:
+  args:
+    - text
+  desc: 'Змінює ім''я користувача бота на вказане нове.'
+  params:
+    - desc: 'Нове ім''я користувача для бота.'
+      name: newName
+      optional: false
+      type: string
+setname_string_2:
+  args:
+    - text
+  desc: 'Змінює ім''я користувача бота на вказане нове.'
+  params:
+    - desc: 'Нове ім''я користувача для бота.'
+      name: newName
+      optional: false
+      type: string
+setstatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Встановлює онлайн-статус бота.'
+  params:
+    - &ref_526
+      desc: 'Новий статус для встановлення.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Встановлює онлайн-статус бота.'
+  params:
+    - desc: 'Новий статус для встановлення.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_1:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Встановлює онлайн-статус бота.'
+  params:
+    - desc: 'Новий статус для встановлення.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_2:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Встановлює онлайн-статус бота.'
+  params:
+    - desc: 'Новий статус для встановлення.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstream:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Встановлює статус трансляції бота.'
+  params:
+    - desc: 'URL трансляції.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Назва трансляції. Якщо значення порожнє, може використовуватися типова назва або без назви.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Встановлює статус трансляції бота.'
+  params:
+    - desc: 'URL трансляції.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Назва трансляції. Якщо значення порожнє, може використовуватися типова назва або без назви.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_1:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Встановлює статус трансляції бота.'
+  params:
+    - desc: 'URL трансляції.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Назва трансляції. Якщо значення порожнє, може використовуватися типова назва або без назви.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_2:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Встановлює статус трансляції бота.'
+  params:
+    - desc: 'URL трансляції.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Назва трансляції. Якщо значення порожнє, може використовуватися типова назва або без назви.'
+      name: name
+      optional: true
+      type: string
+shardstats:
+  args:
+    - ''
+  desc: 'Показує статистику всіх шардів бота, зокрема їхній стан, кількість серверів і кількість користувачів.'
+  params: [ ]
+shardstats_noparams:
+  args:
+    - ''
+  desc: 'Показує статистику всіх шардів бота, зокрема їхній стан, кількість серверів і кількість користувачів.'
+  params: [ ]
+shardstats_noparams_1:
+  args:
+    - ''
+  desc: 'Показує статистику всіх шардів бота, зокрема їхній стан, кількість серверів і кількість користувачів.'
+  params: [ ]
+shardstats_noparams_2:
+  args:
+    - ''
+  desc: 'Показує статистику всіх шардів бота, зокрема їхній стан, кількість серверів і кількість користувачів.'
+  params: [ ]
+sqlexec:
+  args:
+    - text
+  desc: 'Виконує сиру SQL-команду в базі даних.'
+  params:
+    - &ref_555
+      desc: 'SQL-команда для виконання.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string:
+  args:
+    - text
+  desc: 'Виконує сиру SQL-команду в базі даних.'
+  params:
+    - desc: 'SQL-команда для виконання.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_1:
+  args:
+    - text
+  desc: 'Виконує сиру SQL-команду в базі даних.'
+  params:
+    - desc: 'SQL-команда для виконання.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_2:
+  args:
+    - text
+  desc: 'Виконує сиру SQL-команду в базі даних.'
+  params:
+    - desc: 'SQL-команда для виконання.'
+      name: sql
+      optional: false
+      type: string
+startupcommandadd:
+  args:
+    - text
+  desc: 'Додає нову команду запуску, яка виконається під час старту бота.'
+  params:
+    - &ref_564
+      desc: 'Текст команди для додавання, без префікса.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string:
+  args:
+    - text
+  desc: 'Додає нову команду запуску, яка виконається під час старту бота.'
+  params:
+    - desc: 'Текст команди для додавання, без префікса.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_1:
+  args:
+    - text
+  desc: 'Додає нову команду запуску, яка виконається під час старту бота.'
+  params:
+    - desc: 'Текст команди для додавання, без префікса.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_2:
+  args:
+    - text
+  desc: 'Додає нову команду запуску, яка виконається під час старту бота.'
+  params:
+    - desc: 'Текст команди для додавання, без префікса.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandremove:
+  args:
+    - number
+  desc: 'Видаляє команду запуску за її індексом.'
+  params:
+    - desc: 'Індекс команди запуску для видалення, починаючи з 1.'
+      name: index
+      optional: false
+      type: int
+startupcommandsclear:
+  args:
+    - ''
+  desc: 'Очищає всі команди запуску для сервера.'
+  params: [ ]
+startupcommandslist:
+  args:
+    - 1
+  desc: 'Показує команди запуску, налаштовані для сервера.'
+  params:
+    - desc: 'Показує команди запуску, налаштовані для сервера.'
+      name: 1
+      optional: false
+      type: '='
+stringsreload:
+  args:
+    - ''
+  desc: 'Запускає перезавантаження рядків бота (локалізацій).'
+  params: [ ]
+sudo:
+  args:
+    - '@user text'
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - &ref_580
+      desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_581
+      desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string:
+  args:
+    - '@user text'
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_1:
+  args:
+    - '@user text'
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_2:
+  args:
+    - '@user text'
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+sudo_string:
+  args:
+    - text
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+sudo_string_1:
+  args:
+    - text
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+sudo_string_2:
+  args:
+    - text
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+sudo_string_3:
+  args:
+    - text
+  desc: 'Виконує команду так, ніби її надіслав власник сервера.'
+  params:
+    - desc: 'Рядок команди для виконання, включно з назвою команди та аргументами.'
+      name: args
+      optional: false
+      type: string
+update:
+  args:
+    - ''
+  desc: 'Оновлює бота до останньої версії з репозиторію.'
+  params: [ ]
+update_noparams:
+  args:
+    - ''
+  desc: 'Оновлює бота до останньої версії з репозиторію.'
+  params: [ ]
+update_noparams_1:
+  args:
+    - ''
+  desc: 'Оновлює бота до останньої версії з репозиторію.'
+  params: [ ]
+update_noparams_2:
+  args:
+    - ''
+  desc: 'Оновлює бота до останньої версії з репозиторію.'
+  params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: 'Оновлює всі зареєстровані екземпляри бота.'
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: 'Оновлює конкретний екземпляр бота.'
+  params:
+    - desc: 'Номер порту екземпляра для оновлення'
+      name: instancePort
+      optional: false
+      type: int
+wait:
+  args:
+    - number
+  desc: 'Виконує команду очікування, яка затримує виконання на вказану кількість мілісекунд.'
+  params:
+    - &ref_651
+      desc: 'Кількість мілісекунд затримки.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int:
+  args:
+    - number
+  desc: 'Виконує команду очікування, яка затримує виконання на вказану кількість мілісекунд.'
+  params:
+    - desc: 'Кількість мілісекунд затримки.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_1:
+  args:
+    - number
+  desc: 'Виконує команду очікування, яка затримує виконання на вказану кількість мілісекунд.'
+  params:
+    - desc: 'Кількість мілісекунд затримки.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_2:
+  args:
+    - number
+  desc: 'Виконує команду очікування, яка затримує виконання на вказану кількість мілісекунд.'
+  params:
+    - desc: 'Кількість мілісекунд затримки.'
+      name: miliseconds
+      optional: false
+      type: int

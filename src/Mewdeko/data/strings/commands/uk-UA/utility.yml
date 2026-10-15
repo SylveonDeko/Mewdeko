@@ -1,0 +1,4732 @@
+activitygraph:
+  args:
+    - graphtype.days
+  desc: 'Показує графік найактивніших годин і днів на сервері.'
+  params:
+    - &ref_4
+      desc: 'Показує графік найактивніших годин і днів на сервері.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=:
+  args:
+    - graphtype.days
+  desc: 'Показує графік найактивніших годин і днів на сервері.'
+  params:
+    - desc: 'Показує графік найактивніших годин і днів на сервері.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_1:
+  args:
+    - graphtype.days
+  desc: 'Показує графік найактивніших годин і днів на сервері.'
+  params:
+    - desc: 'Показує графік найактивніших годин і днів на сервері.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_2:
+  args:
+    - graphtype.days
+  desc: 'Показує графік найактивніших годин і днів на сервері.'
+  params:
+    - desc: 'Показує графік найактивніших годин і днів на сервері.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+addautopublish:
+  args:
+    - channel
+  desc: 'Вмикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - &ref_5
+      desc: 'Канал новин, для якого потрібно увімкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel:
+  args:
+    - channel
+  desc: 'Вмикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - desc: 'Канал новин, для якого потрібно увімкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Вмикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - desc: 'Канал новин, для якого потрібно увімкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Вмикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - desc: 'Канал новин, для якого потрібно увімкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist:
+  args:
+    - '@user channel'
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - &ref_24
+      desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_23
+      desc: 'Слово, яке потрібно додати до чорного списку.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Слово, яке потрібно додати до чорного списку.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Слово, яке потрібно додати до чорного списку.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Слово, яке потрібно додати до чорного списку.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Додає слово до чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал, для якого застосовується чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+aichannel:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Налаштовує службу ШІ для каналу'
+  params:
+    - desc: 'Канал, для якого налаштовується ШІ'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Увімкнути чи вимкнути ШІ'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Налаштовує службу ШІ для каналу'
+  params:
+    - desc: 'Канал, для якого налаштовується ШІ'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Увімкнути чи вимкнути ШІ'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_1:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Налаштовує службу ШІ для каналу'
+  params:
+    - desc: 'Канал, для якого налаштовується ШІ'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Увімкнути чи вимкнути ШІ'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_2:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Налаштовує службу ШІ для каналу'
+  params:
+    - desc: 'Канал, для якого налаштовується ШІ'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Увімкнути чи вимкнути ШІ'
+      name: enabled
+      optional: true
+      type: bool
+aiconfig:
+  args:
+    - ''
+  desc: 'Показує поточну конфігурацію ШІ'
+  params: [ ]
+aicustomembed:
+  args:
+    - '[embedTemplate]'
+  desc: 'Встановлює або показує власний шаблон вбудованого повідомлення (embed) для відповідей ШІ. Використовуйте %airesponse%, щоб вказати, де має з''являтися відповідь ШІ у вбудованому повідомленні.'
+  params:
+    - desc: 'Необов''язковий шаблон. Якщо не вказано, показується поточний шаблон.'
+      name: embedTemplate
+      optional: true
+      type: string
+aikey:
+  args:
+    - ''
+  desc: 'Встановлює ключ API для служби ШІ'
+  params: [ ]
+aimodel:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Встановлює постачальника та модель ШІ'
+  params:
+    - desc: 'Постачальник ШІ, який потрібно використовувати'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Назва моделі'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Встановлює постачальника та модель ШІ'
+  params:
+    - desc: 'Постачальник ШІ, який потрібно використовувати'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Назва моделі'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_1:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Встановлює постачальника та модель ШІ'
+  params:
+    - desc: 'Постачальник ШІ, який потрібно використовувати'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Назва моделі'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_2:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Встановлює постачальника та модель ШІ'
+  params:
+    - desc: 'Постачальник ШІ, який потрібно використовувати'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Назва моделі'
+      name: model
+      optional: true
+      type: string
+aiprompt:
+  args:
+    - text
+  desc: 'Встановлює системну підказку для ШІ'
+  params:
+    - &ref_59
+      desc: 'Системна підказка, яку потрібно використовувати'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string:
+  args:
+    - text
+  desc: 'Встановлює системну підказку для ШІ'
+  params:
+    - desc: 'Системна підказка, яку потрібно використовувати'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_1:
+  args:
+    - text
+  desc: 'Встановлює системну підказку для ШІ'
+  params:
+    - desc: 'Системна підказка, яку потрібно використовувати'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_2:
+  args:
+    - text
+  desc: 'Встановлює системну підказку для ШІ'
+  params:
+    - desc: 'Системна підказка, яку потрібно використовувати'
+      name: prompt
+      optional: false
+      type: string
+aiwebhook:
+  args:
+    - '[name] [avatar]'
+  desc: 'Встановлює вебхук для відповідей ШІ на цьому сервері.'
+  params:
+    - desc: 'Назва вебхука. Якщо не вказано (null), вебхук вимикається.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Необов''язкове посилання на аватар вебхука.'
+      name: avatar
+      optional: true
+      type: string
+aiwebsearch:
+  args:
+    - 'true'
+    - 'false'
+  desc: 'Увімкнює або вимикає веб-пошук для ШІ (лише Claude)'
+  params:
+    - desc: 'Чи увімкнути або вимкнути веб-пошук'
+      name: enabled
+      optional: false
+      type: bool
+alias:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Додає новий псевдонім для команди або видаляє наявний, якщо зіставлення не вказано.'
+  params:
+    - desc: 'Ключове слово для псевдоніма.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Команда, на яку зіставляється псевдонім. Якщо не вказано (null), псевдонім буде видалено.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Додає новий псевдонім для команди або видаляє наявний, якщо зіставлення не вказано.'
+  params:
+    - desc: 'Ключове слово для псевдоніма.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Команда, на яку зіставляється псевдонім. Якщо не вказано (null), псевдонім буде видалено.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_1:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Додає новий псевдонім для команди або видаляє наявний, якщо зіставлення не вказано.'
+  params:
+    - desc: 'Ключове слово для псевдоніма.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Команда, на яку зіставляється псевдонім. Якщо не вказано (null), псевдонім буде видалено.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_2:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Додає новий псевдонім для команди або видаляє наявний, якщо зіставлення не вказано.'
+  params:
+    - desc: 'Ключове слово для псевдоніма.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Команда, на яку зіставляється псевдонім. Якщо не вказано (null), псевдонім буде видалено.'
+      name: mapping
+      optional: true
+      type: string
+aliasesclear:
+  args:
+    - ''
+  desc: 'Очищає всі псевдоніми команд на сервері.'
+  params: [ ]
+aliaslist:
+  args:
+    - ''
+  desc: 'Показує всі псевдоніми команд, встановлені на сервері.'
+  params: [ ]
+avatar:
+  args:
+    - '[@usr]'
+  desc: 'Показує аватар вказаного користувача або того, хто викликав команду. Має кнопку для перегляду серверного аватара, якщо він є.'
+  params:
+    - desc: 'Необов''язково. Користувач, чий аватар потрібно показати.'
+      name: usr
+      optional: true
+      type: user
+banner:
+  args:
+    - '[@usr]'
+  desc: 'Показує банер вказаного користувача або того, хто викликав команду.'
+  params:
+    - desc: 'Необов''язково. Користувач, чий банер потрібно показати.'
+      name: usr
+      optional: true
+      type: user
+calcops:
+  args:
+    - ''
+  desc: 'Показує доступні математичні операції, які можна використовувати у виразах.'
+  params: [ ]
+calculate:
+  args:
+    - text
+  desc: 'Обчислює математичний вираз і повертає результат.'
+  params:
+    - &ref_118
+      desc: 'Вираз для обчислення.'
+      name: expression
+      optional: false
+      type: string
+calculate_string:
+  args:
+    - text
+  desc: 'Обчислює математичний вираз і повертає результат.'
+  params:
+    - desc: 'Вираз для обчислення.'
+      name: expression
+      optional: false
+      type: string
+calculate_string_1:
+  args:
+    - text
+  desc: 'Обчислює математичний вираз і повертає результат.'
+  params:
+    - desc: 'Вираз для обчислення.'
+      name: expression
+      optional: false
+      type: string
+calculate_string_2:
+  args:
+    - text
+  desc: 'Обчислює математичний вираз і повертає результат.'
+  params:
+    - desc: 'Вираз для обчислення.'
+      name: expression
+      optional: false
+      type: string
+channelid:
+  args:
+    - ''
+  desc: 'Показує ID поточного каналу.'
+  params: [ ]
+channelinfo:
+  args:
+    - '[@channel]'
+  desc: 'Показує інформацію про вказаний текстовий канал або поточний канал.'
+  params:
+    - desc: 'Необов''язково. Текстовий канал, про який потрібно отримати інформацію.'
+      name: channel
+      optional: true
+      type: channel
+channelmessages:
+  args:
+    - '[@channel]'
+  desc: 'Показує статистику повідомлень для конкретного каналу.'
+  params:
+    - desc: 'Канал, для якого потрібно отримати статистику повідомлень. Якщо не вказано, використовується поточний канал.'
+      name: channel
+      optional: true
+      type: channel
+channeltopic:
+  args:
+    - '[@channel]'
+  desc: 'Показує тему поточного каналу. Якщо вказано канал, показує тему цього каналу.'
+  params:
+    - desc: 'Канал, тему якого потрібно показати.'
+      name: channel
+      optional: true
+      type: channel
+convert:
+  args:
+    - text
+  desc: 'Конвертує медіафайли в різні формати. Використання: .convert формат_для_конвертації (з прикріпленим файлом)'
+  params:
+    - &ref_144
+      desc: 'Формат для конвертації (наприклад, gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string:
+  args:
+    - text
+  desc: 'Конвертує медіафайли в різні формати. Використання: .convert формат_для_конвертації (з прикріпленим файлом)'
+  params:
+    - desc: 'Формат для конвертації (наприклад, gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_1:
+  args:
+    - text
+  desc: 'Конвертує медіафайли в різні формати. Використання: .convert формат_для_конвертації (з прикріпленим файлом)'
+  params:
+    - desc: 'Формат для конвертації (наприклад, gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_2:
+  args:
+    - text
+  desc: 'Конвертує медіафайли в різні формати. Використання: .convert формат_для_конвертації (з прикріпленим файлом)'
+  params:
+    - desc: 'Формат для конвертації (наприклад, gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convertlist:
+  args:
+    - ''
+  desc: 'Показує всі доступні одиниці вимірювання для конвертації.'
+  params: [ ]
+convertunits:
+  args:
+    - text text number
+  desc: 'Перетворює вказане значення з однієї одиниці в іншу.'
+  params:
+    - &ref_145
+      desc: 'Початкова одиниця вимірювання значення.'
+      name: origin
+      optional: false
+      type: string
+    - &ref_146
+      desc: 'Цільова одиниця, в яку потрібно перетворити.'
+      name: target
+      optional: false
+      type: string
+    - &ref_147
+      desc: 'Значення для перетворення.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal:
+  args:
+    - text text number
+  desc: 'Перетворює вказане значення з однієї одиниці в іншу.'
+  params:
+    - desc: 'Початкова одиниця вимірювання значення.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'Цільова одиниця, в яку потрібно перетворити.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Значення для перетворення.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_1:
+  args:
+    - text text number
+  desc: 'Перетворює вказане значення з однієї одиниці в іншу.'
+  params:
+    - desc: 'Початкова одиниця вимірювання значення.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'Цільова одиниця, в яку потрібно перетворити.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Значення для перетворення.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_2:
+  args:
+    - text text number
+  desc: 'Перетворює вказане значення з однієї одиниці в іншу.'
+  params:
+    - desc: 'Початкова одиниця вимірювання значення.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'Цільова одиниця, в яку потрібно перетворити.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Значення для перетворення.'
+      name: value
+      optional: false
+      type: decimal
+debugembed:
+  args:
+    - text
+  desc: 'Налагоджувальна команда для перевірки розбору вбудованих повідомлень (embed).'
+  params:
+    - &ref_178
+      desc: 'Текст, який потрібно розібрати як embed.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string:
+  args:
+    - text
+  desc: 'Налагоджувальна команда для перевірки розбору вбудованих повідомлень (embed).'
+  params:
+    - desc: 'Текст, який потрібно розібрати як embed.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_1:
+  args:
+    - text
+  desc: 'Налагоджувальна команда для перевірки розбору вбудованих повідомлень (embed).'
+  params:
+    - desc: 'Текст, який потрібно розібрати як embed.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_2:
+  args:
+    - text
+  desc: 'Налагоджувальна команда для перевірки розбору вбудованих повідомлень (embed).'
+  params:
+    - desc: 'Текст, який потрібно розібрати як embed.'
+      name: embedText
+      optional: false
+      type: string
+delallquotes:
+  args:
+    - text
+  desc: 'Видаляє всі цитати, пов''язані з вказаним ключовим словом.'
+  params:
+    - &ref_182
+      desc: 'Ключове слово, цитати для якого буде видалено.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string:
+  args:
+    - text
+  desc: 'Видаляє всі цитати, пов''язані з вказаним ключовим словом.'
+  params:
+    - desc: 'Ключове слово, цитати для якого буде видалено.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_1:
+  args:
+    - text
+  desc: 'Видаляє всі цитати, пов''язані з вказаним ключовим словом.'
+  params:
+    - desc: 'Ключове слово, цитати для якого буде видалено.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_2:
+  args:
+    - text
+  desc: 'Видаляє всі цитати, пов''язані з вказаним ключовим словом.'
+  params:
+    - desc: 'Ключове слово, цитати для якого буде видалено.'
+      name: keyword
+      optional: false
+      type: string
+editsnipe:
+  args:
+    - ''
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params: [ ]
+editsnipe_ITextChannel:
+  args:
+    - chan
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - &ref_207
+      desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_1:
+  args:
+    - chan
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_2:
+  args:
+    - chan
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_3:
+  args:
+    - chan
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_208
+      desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser:
+  args:
+    - '@user'
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_1:
+  args:
+    - '@user'
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_2:
+  args:
+    - '@user'
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_3:
+  args:
+    - '@user'
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_noparams:
+  args:
+    - ''
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params: [ ]
+editsnipe_noparams_1:
+  args:
+    - ''
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params: [ ]
+editsnipe_noparams_2:
+  args:
+    - ''
+  desc: 'Показує останнє відредаговане повідомлення користувача в указаному каналі.'
+  params: [ ]
+editsnipelist:
+  args:
+    - 5
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - &ref_209
+      desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=:
+  args:
+    - 5
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_1:
+  args:
+    - 5
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_2:
+  args:
+    - 5
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - &ref_210
+      desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_211
+      desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X відредагованих повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+embeddelete:
+  args:
+    - name
+  desc: 'Видаляє особистий шаблон embed.'
+  params:
+    - desc: 'Назва шаблону embed, який потрібно видалити.'
+      name: name
+      optional: false
+      type: string
+embedlist:
+  args:
+    - ''
+  desc: 'Показує всі особисті шаблони embed.'
+  params: [ ]
+embedpreview:
+  args:
+    - name
+  desc: 'Попередньо переглядає шаблон embed.'
+  params:
+    - desc: 'Назва шаблону embed для попереднього перегляду.'
+      name: name
+      optional: false
+      type: string
+embedsave:
+  args:
+    - name
+    - embedJson
+  desc: 'Зберігає шаблон embed для особистого використання.'
+  params:
+    - desc: 'Назва шаблону embed.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'JSON-представлення embed.'
+      name: embedJson
+      optional: false
+      type: string
+emotelist:
+  args:
+    - '[emotetype]'
+  desc: 'Показує емодзі на сервері. Якщо вказано тип емодзі, показуються лише емодзі цього типу.'
+  params:
+    - desc: 'Тип емодзі для показу (animated або nonanimated).'
+      name: emotetype
+      optional: true
+      type: string
+fetch:
+  args:
+    - id
+  desc: 'Отримує й показує інформацію про користувача за його ID в Discord.'
+  params:
+    - &ref_217
+      desc: 'ID користувача в Discord.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong:
+  args:
+    - id
+  desc: 'Отримує й показує інформацію про користувача за його ID в Discord.'
+  params:
+    - desc: 'ID користувача в Discord.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_1:
+  args:
+    - id
+  desc: 'Отримує й показує інформацію про користувача за його ID в Discord.'
+  params:
+    - desc: 'ID користувача в Discord.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_2:
+  args:
+    - id
+  desc: 'Отримує й показує інформацію про користувача за його ID в Discord.'
+  params:
+    - desc: 'ID користувача в Discord.'
+      name: id
+      optional: false
+      type: ulong
+getautopublishes:
+  args:
+    - ''
+  desc: 'Показує список каналів з увімкненою автопублікацією та їхні чорні списки.'
+  params: [ ]
+getjson:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ITextChannel_ulong:
+  args:
+    - channel messageid
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_226
+      desc: 'ID повідомлення, JSON якого потрібно отримати.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_1:
+  args:
+    - channel messageid
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ID повідомлення, JSON якого потрібно отримати.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_2:
+  args:
+    - channel messageid
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ID повідомлення, JSON якого потрібно отримати.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_3:
+  args:
+    - channel messageid
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ID повідомлення, JSON якого потрібно отримати.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ulong_=:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_1:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_2:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+  params:
+    - desc: 'Показує специфічний для Mewdeko JSON повідомлення.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Канал повідомлення.'
+      name: channel
+      optional: true
+      type: channel
+graph:
+  args:
+    - text -10 10
+    - text
+  desc: 'Будує графік математичної функції.'
+  params:
+    - &ref_234
+      desc: 'Функція для побудови графіка.'
+      name: function
+      optional: false
+      type: string
+    - &ref_235
+      desc: 'Будує графік математичної функції.'
+      name: -10
+      optional: false
+      type: '='
+    - &ref_236
+      desc: 'Будує графік математичної функції.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=:
+  args:
+    - text -10 10
+    - text
+  desc: 'Будує графік математичної функції.'
+  params:
+    - desc: 'Функція для побудови графіка.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Будує графік математичної функції.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Будує графік математичної функції.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_1:
+  args:
+    - text -10 10
+    - text
+  desc: 'Будує графік математичної функції.'
+  params:
+    - desc: 'Функція для побудови графіка.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Будує графік математичної функції.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Будує графік математичної функції.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_2:
+  args:
+    - text -10 10
+    - text
+  desc: 'Будує графік математичної функції.'
+  params:
+    - desc: 'Функція для побудови графіка.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Будує графік математичної функції.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Будує графік математичної функції.'
+      name: 10
+      optional: false
+      type: '='
+guildembeddelete:
+  args:
+    - name
+  desc: 'Видаляє серверний шаблон embed (потрібен дозвіл ManageMessages).'
+  params:
+    - desc: 'Назва шаблону embed, який потрібно видалити.'
+      name: name
+      optional: false
+      type: string
+guildembedlist:
+  args:
+    - ''
+  desc: 'Показує всі серверні шаблони embed.'
+  params: [ ]
+guildembedsave:
+  args:
+    - name
+    - embedJson
+  desc: 'Зберігає шаблон embed для використання на сервері (потрібен дозвіл ManageMessages).'
+  params:
+    - desc: 'Назва шаблону embed.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'JSON-представлення embed.'
+      name: embedJson
+      optional: false
+      type: string
+inrole:
+  args:
+    - '@role'
+  desc: 'Показує список користувачів з вказаною роллю.'
+  params:
+    - &ref_253
+      desc: 'Роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole:
+  args:
+    - '@role'
+  desc: 'Показує список користувачів з вказаною роллю.'
+  params:
+    - desc: 'Роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Показує список користувачів з вказаною роллю.'
+  params:
+    - desc: 'Роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Показує список користувачів з вказаною роллю.'
+  params:
+    - desc: 'Роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+inroles:
+  args:
+    - '@role @role'
+  desc: 'Показує список користувачів з вказаними ролями.'
+  params:
+    - &ref_254
+      desc: 'Перша роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_255
+      desc: 'Друга роль для пошуку.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Показує список користувачів з вказаними ролями.'
+  params:
+    - desc: 'Перша роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Друга роль для пошуку.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Показує список користувачів з вказаними ролями.'
+  params:
+    - desc: 'Перша роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Друга роль для пошуку.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Показує список користувачів з вказаними ролями.'
+  params:
+    - desc: 'Перша роль для пошуку.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Друга роль для пошуку.'
+      name: role2
+      optional: false
+      type: IRole
+invite:
+  args:
+    - ''
+  desc: 'Показує посилання-запрошення бота, а також веб-сайт, документацію та сервер підтримки.'
+  params: [ ]
+invitedusers:
+  args:
+    - '[@user]'
+  desc: 'Показує список користувачів, запрошених конкретним користувачем.'
+  params:
+    - desc: 'Користувач, чиї запрошення потрібно перевірити. Якщо не вказано, перевіряється користувач, який викликав команду.'
+      name: user
+      optional: true
+      type: user
+inviteleaderboard:
+  args:
+    - '[AllTime] [@role]'
+    - 'Weekly'
+  desc: 'Показує рейтинг користувачів з найбільшою кількістю запрошень із розбивкою на звичайні/вийшли/фейкові/бонусні. За бажанням обмежується періодом або роллю.'
+  params:
+    - desc: 'Період: AllTime, Daily, Weekly або Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Враховувати лише запрошувачів із цією роллю.'
+      name: role
+      optional: true
+      type: IRole
+invites_=:
+  args:
+    - '[@user]'
+  desc: 'Показує кількість запрошень користувача.'
+  params:
+    - desc: 'Користувач, чиї запрошення потрібно перевірити. Якщо не вказано, перевіряється користувач, який викликав команду.'
+      name: user
+      optional: true
+      type: user
+invitesettings:
+  args:
+    - ''
+  desc: 'Показує поточні налаштування запрошень на сервері.'
+  params: [ ]
+joinstats:
+  args:
+    - ''
+  desc: 'Генерує й надсилає графік статистики приєднань до сервера.'
+  params: [ ]
+joinstatscolor:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - &ref_257
+      desc: 'Червоний компонент кольору.'
+      name: r
+      optional: false
+      type: int
+    - &ref_258
+      desc: 'Зелений компонент кольору.'
+      name: g
+      optional: false
+      type: int
+    - &ref_259
+      desc: 'Синій компонент кольору.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - desc: 'Червоний компонент кольору.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Зелений компонент кольору.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Синій компонент кольору.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - desc: 'Червоний компонент кольору.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Зелений компонент кольору.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Синій компонент кольору.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - desc: 'Червоний компонент кольору.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Зелений компонент кольору.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Синій компонент кольору.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_noparams:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+joinstatscolor_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+joinstatscolor_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+joinstatscolor_noparams_3:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики приєднань за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+leavestats:
+  args:
+    - ''
+  desc: 'Генерує й надсилає графік статистики виходів із сервера.'
+  params: [ ]
+leavestatscolor:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - &ref_270
+      desc: 'Червоний компонент кольору, від 0 до 255.'
+      name: r
+      optional: false
+      type: int
+    - &ref_271
+      desc: 'Зелений компонент кольору, від 0 до 255.'
+      name: g
+      optional: false
+      type: int
+    - &ref_272
+      desc: 'Синій компонент кольору, від 0 до 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - desc: 'Червоний компонент кольору, від 0 до 255.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Зелений компонент кольору, від 0 до 255.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Синій компонент кольору, від 0 до 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - desc: 'Червоний компонент кольору, від 0 до 255.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Зелений компонент кольору, від 0 до 255.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Синій компонент кольору, від 0 до 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params:
+    - desc: 'Червоний компонент кольору, від 0 до 255.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Зелений компонент кольору, від 0 до 255.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Синій компонент кольору, від 0 до 255.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_noparams:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+leavestatscolor_noparams_1:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+leavestatscolor_noparams_2:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+leavestatscolor_noparams_3:
+  args:
+    - ''
+  desc: 'Встановлює колір графіка статистики виходів за замовчуванням — золотий. Це зручна команда, яка застосовує попередньо визначений колір без введення RGB.'
+  params: [ ]
+listquotes:
+  args:
+    - ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - &ref_279
+      desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=:
+  args:
+    - ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_1:
+  args:
+    - ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_2:
+  args:
+    - ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_1:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_2:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_3:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+  params:
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Показує цитати сервера на вказаній сторінці. Цитати можна впорядкувати за ключовим словом або датою додавання.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+minmessagecountlength:
+  args:
+    - 0
+  desc: 'Встановлює мінімальну довжину повідомлення для його врахування'
+  params:
+    - desc: 'Встановлює мінімальну довжину повідомлення для його врахування'
+      name: 0
+      optional: false
+      type: '='
+minmsglength:
+  args:
+    - length
+  desc: 'Встановлює мінімальну довжину повідомлення для підрахунку.'
+  params:
+    - desc: 'Мінімальна довжина повідомлення.'
+      name: length
+      optional: false
+      type: int
+owoify:
+  args:
+    - text
+  desc: 'O-OwoIfy: перетворює вказаний текст на «OwO»-стиль.'
+  params:
+    - &ref_334
+      desc: 'Текст для перетворення на «OwO»-стиль.'
+      name: input
+      optional: false
+      type: string
+owoify_string:
+  args:
+    - text
+  desc: 'O-OwoIfy: перетворює вказаний текст на «OwO»-стиль.'
+  params:
+    - desc: 'Текст для перетворення на «OwO»-стиль.'
+      name: input
+      optional: false
+      type: string
+owoify_string_1:
+  args:
+    - text
+  desc: 'O-OwoIfy: перетворює вказаний текст на «OwO»-стиль.'
+  params:
+    - desc: 'Текст для перетворення на «OwO»-стиль.'
+      name: input
+      optional: false
+      type: string
+owoify_string_2:
+  args:
+    - text
+  desc: 'O-OwoIfy: перетворює вказаний текст на «OwO»-стиль.'
+  params:
+    - desc: 'Текст для перетворення на «OwO»-стиль.'
+      name: input
+      optional: false
+      type: string
+ping:
+  args:
+    - ''
+  desc: 'Показує пінг бота.'
+  params: [ ]
+pingip:
+  args:
+    - text 1
+    - text
+  desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+  params:
+    - &ref_345
+      desc: 'IP-адреса для пінгування.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=:
+  args:
+    - text 1
+    - text
+  desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+  params:
+    - desc: 'IP-адреса для пінгування.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_1:
+  args:
+    - text 1
+    - text
+  desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+  params:
+    - desc: ''
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_2:
+  args:
+    - text 1
+    - text
+  desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+  params:
+    - desc: 'IP-адреса для пінгування.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Пінгує IP-адресу. Максимум 10 пінгів.'
+      name: 1
+      optional: false
+      type: '='
+plot:
+  args:
+    - expression
+  desc: 'Будує графік.'
+  params:
+    - desc: 'Математичний вираз для побудови графіка.'
+      name: expression
+      optional: false
+      type: string
+previewlinks:
+  args:
+    - text
+  desc: 'Вмикає або вимикає попередній перегляд посилань на сервері.'
+  params:
+    - &ref_355
+      desc: '"yes", щоб увімкнути попередній перегляд посилань, будь-яке інше значення — щоб вимкнути.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string:
+  args:
+    - text
+  desc: 'Вмикає або вимикає попередній перегляд посилань на сервері.'
+  params:
+    - desc: '"yes", щоб увімкнути попередній перегляд посилань, будь-яке інше значення — щоб вимкнути.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_1:
+  args:
+    - text
+  desc: 'Вмикає або вимикає попередній перегляд посилань на сервері.'
+  params:
+    - desc: '"yes", щоб увімкнути попередній перегляд посилань, будь-яке інше значення — щоб вимкнути.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_2:
+  args:
+    - text
+  desc: 'Вмикає або вимикає попередній перегляд посилань на сервері.'
+  params:
+    - desc: '"yes", щоб увімкнути попередній перегляд посилань, будь-яке інше значення — щоб вимкнути.'
+      name: yesnt
+      optional: false
+      type: string
+quoteadd:
+  args:
+    - text text
+  desc: 'Додає нову цитату з вказаним ключовим словом і текстом.'
+  params:
+    - &ref_367
+      desc: 'Ключове слово, пов''язане з цитатою.'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_368
+      desc: 'Текст цитати.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string:
+  args:
+    - text text
+  desc: 'Додає нову цитату з вказаним ключовим словом і текстом.'
+  params:
+    - desc: 'Ключове слово, пов''язане з цитатою.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Текст цитати.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_1:
+  args:
+    - text text
+  desc: 'Додає нову цитату з вказаним ключовим словом і текстом.'
+  params:
+    - desc: 'Ключове слово, пов''язане з цитатою.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Текст цитати.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_2:
+  args:
+    - text text
+  desc: 'Додає нову цитату з вказаним ключовим словом і текстом.'
+  params:
+    - desc: 'Ключове слово, пов''язане з цитатою.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Текст цитати.'
+      name: text
+      optional: false
+      type: string
+quotedelete:
+  args:
+    - number
+  desc: 'Видаляє цитату з вказаним ID.'
+  params:
+    - &ref_369
+      desc: 'ID цитати для видалення.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int:
+  args:
+    - number
+  desc: 'Видаляє цитату з вказаним ID.'
+  params:
+    - desc: 'ID цитати для видалення.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_1:
+  args:
+    - number
+  desc: 'Видаляє цитату з вказаним ID.'
+  params:
+    - desc: 'ID цитати для видалення.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_2:
+  args:
+    - number
+  desc: 'Видаляє цитату з вказаним ID.'
+  params:
+    - desc: 'ID цитати для видалення.'
+      name: id
+      optional: false
+      type: int
+quoteexport:
+  args: [ ]
+  desc: 'Експортує всі цитати з сервера у форматі JSON.'
+  params: [ ]
+quoteid:
+  args:
+    - number
+  desc: 'Показує, хто додав цитату з вказаним ID.'
+  params:
+    - &ref_370
+      desc: 'ID цитати для показу.'
+      name: id
+      optional: false
+      type: int
+quoteid_int:
+  args:
+    - number
+  desc: 'Показує, хто додав цитату з вказаним ID.'
+  params:
+    - desc: 'ID цитати для показу.'
+      name: id
+      optional: false
+      type: int
+quoteid_int_1:
+  args:
+    - number
+  desc: 'Показує, хто додав цитату з вказаним ID.'
+  params:
+    - desc: 'ID цитати для показу.'
+      name: id
+      optional: false
+      type: int
+quoteid_int_2:
+  args:
+    - number
+  desc: 'Показує, хто додав цитату з вказаним ID.'
+  params:
+    - desc: 'ID цитати для показу.'
+      name: id
+      optional: false
+      type: int
+quoteimport:
+  args: [ ]
+  desc: 'Імпортує цитати з прикріпленого JSON-файлу. Дублікати цитат дозволені.'
+  params: [ ]
+quoteprint:
+  args:
+    - text
+  desc: 'Показує випадкову цитату, що відповідає вказаному ключовому слову.'
+  params:
+    - &ref_371
+      desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string:
+  args:
+    - text
+  desc: 'Показує випадкову цитату, що відповідає вказаному ключовому слову.'
+  params:
+    - desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_1:
+  args:
+    - text
+  desc: 'Показує випадкову цитату, що відповідає вказаному ключовому слову.'
+  params:
+    - desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_2:
+  args:
+    - text
+  desc: 'Показує випадкову цитату, що відповідає вказаному ключовому слову.'
+  params:
+    - desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+quotesearch:
+  args:
+    - text text
+  desc: 'Шукає й показує цитату, що відповідає одночасно ключовому слову і текстовому запиту.'
+  params:
+    - &ref_372
+      desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_373
+      desc: 'Текст для пошуку в цитатах.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string:
+  args:
+    - text text
+  desc: 'Шукає й показує цитату, що відповідає одночасно ключовому слову і текстовому запиту.'
+  params:
+    - desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Текст для пошуку в цитатах.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_1:
+  args:
+    - text text
+  desc: 'Шукає й показує цитату, що відповідає одночасно ключовому слову і текстовому запиту.'
+  params:
+    - desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Текст для пошуку в цитатах.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_2:
+  args:
+    - text text
+  desc: 'Шукає й показує цитату, що відповідає одночасно ключовому слову і текстовому запиту.'
+  params:
+    - desc: 'Ключове слово для пошуку в цитатах.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Текст для пошуку в цитатах.'
+      name: text
+      optional: false
+      type: string
+quoteshow:
+  args:
+    - number
+  desc: 'Показує цитату з вказаним ID.'
+  params:
+    - desc: 'ID цитати для показу.'
+      name: id
+      optional: false
+      type: int
+remind:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - &ref_388
+      desc: 'Створює нагадування для вказаного текстового каналу.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - &ref_386
+      desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - &ref_387
+      desc: 'Текстовий канал, куди надсилатиметься нагадування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - desc: 'Текстовий канал, куди надсилатиметься нагадування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - desc: 'Текстовий канал, куди надсилатиметься нагадування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - desc: 'Текстовий канал, куди надсилатиметься нагадування.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - desc: 'Створює нагадування для вказаного текстового каналу.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_1:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - desc: 'Створює нагадування для вказаного текстового каналу.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_2:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Створює нагадування для вказаного текстового каналу.'
+  params:
+    - desc: 'Створює нагадування для вказаного текстового каналу.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Текст нагадування та інформація про час.'
+      name: remindString
+      optional: false
+      type: string
+reminddelete:
+  args:
+    - number
+  desc: 'Видаляє конкретне нагадування.'
+  params:
+    - &ref_389
+      desc: 'Індекс нагадування для видалення.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int:
+  args:
+    - number
+  desc: 'Видаляє конкретне нагадування.'
+  params:
+    - desc: 'Індекс нагадування для видалення.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_1:
+  args:
+    - number
+  desc: 'Видаляє конкретне нагадування.'
+  params:
+    - desc: 'Індекс нагадування для видалення.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_2:
+  args:
+    - number
+  desc: 'Видаляє конкретне нагадування.'
+  params:
+    - desc: 'Індекс нагадування для видалення.'
+      name: index
+      optional: false
+      type: int
+remindlist:
+  args:
+    - ''
+  desc: 'Показує всі нагадування поточного користувача.'
+  params: [ ]
+removeautopublish:
+  args:
+    - channel
+  desc: 'Вимикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - &ref_393
+      desc: 'Канал новин, для якого потрібно вимкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel:
+  args:
+    - channel
+  desc: 'Вимикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - desc: 'Канал новин, для якого потрібно вимкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Вимикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - desc: 'Канал новин, для якого потрібно вимкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Вимикає автопублікацію для вказаного каналу новин на сервері.'
+  params:
+    - desc: 'Канал новин, для якого потрібно вимкнути автопублікацію.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist:
+  args:
+    - '@user channel'
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - &ref_409
+      desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_407
+      desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_408
+      desc: 'Слово, яке потрібно видалити з чорного списку.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Слово, яке потрібно видалити з чорного списку.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Слово, яке потрібно видалити з чорного списку.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Слово, яке потрібно видалити з чорного списку.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+  params:
+    - desc: 'Видаляє слово з чорного списку автопублікації для вказаного каналу.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Канал, для якого потрібно видалити чорний список.'
+      name: channel
+      optional: false
+      type: ITextChannel
+repeat:
+  args:
+    - text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - &ref_427
+      desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string:
+  args:
+    - dt interval text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - &ref_428
+      desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - &ref_429
+      desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_1:
+  args:
+    - dt interval text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_2:
+  args:
+    - dt interval text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_3:
+  args:
+    - dt interval text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string:
+  args:
+    - dt text
+    - dt
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - &ref_430
+      desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_1:
+  args:
+    - dt text
+    - dt
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_2:
+  args:
+    - dt text
+    - dt
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_3:
+  args:
+    - dt text
+    - dt
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий час доби для запуску повторювача.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string:
+  args:
+    - interval text
+    - interval
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - &ref_431
+      desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_1:
+  args:
+    - interval text
+    - interval
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_2:
+  args:
+    - interval text
+    - interval
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_3:
+  args:
+    - interval text
+    - interval
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Необов''язковий інтервал між повтореннями.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_string:
+  args:
+    - text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_string_1:
+  args:
+    - text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeat_string_2:
+  args:
+    - text
+  desc: 'Створює повторювач із необов''язковим часом початку та інтервалом.'
+  params:
+    - desc: 'Повідомлення для повторення.'
+      name: message
+      optional: true
+      type: string
+repeatactivity:
+  args:
+    - index threshold timeWindow
+  desc: 'Встановлює поріг активності для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Кількість повідомлень, необхідна для запуску.'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Часове вікно для визначення активності (наприклад, 5m, 10s).'
+      name: timeWindow
+      optional: false
+      type: stoopid time
+repeatchannel:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Змінює канал, у який повторювач надсилає свої повідомлення.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Новий канал для повторювача. Якщо не вказано, використовується поточний канал.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Змінює канал, у який повторювач надсилає свої повідомлення.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Новий канал для повторювача. Якщо не вказано, використовується поточний канал.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_1:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Змінює канал, у який повторювач надсилає свої повідомлення.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Новий канал для повторювача. Якщо не вказано, використовується поточний канал.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_2:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Змінює канал, у який повторювач надсилає свої повідомлення.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Новий канал для повторювача. Якщо не вказано, використовується поточний канал.'
+      name: channel
+      optional: true
+      type: channel
+repeatconversation:
+  args:
+    - index
+  desc: 'Перемикає визначення розмов для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatforumtags:
+  args:
+    - index action tagType tags
+  desc: 'Встановлює умови тегів форуму для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Дія для виконання (add, remove, clear, list).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Тип правила тегу (required або excluded).'
+      name: tagType
+      optional: true
+      type: string
+    - desc: 'Список назв або ID тегів через кому.'
+      name: tags
+      optional: true
+      type: string
+repeatinvoke:
+  args:
+    - number
+  desc: 'Негайно запускає повторювач за його індексом.'
+  params:
+    - desc: 'Індекс повторювача для запуску (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int:
+  args:
+    - number
+  desc: 'Негайно запускає повторювач за його індексом.'
+  params:
+    - desc: 'Індекс повторювача для запуску (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_1:
+  args:
+    - number
+  desc: 'Негайно запускає повторювач за його індексом.'
+  params:
+    - &ref_433
+      desc: 'Індекс повторювача для запуску (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_2:
+  args:
+    - number
+  desc: 'Негайно запускає повторювач за його індексом.'
+  params:
+    - desc: 'Індекс повторювача для запуску (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatlist:
+  args:
+    - ''
+  desc: 'Показує всі активні повторювачі на сервері.'
+  params: [ ]
+repeatmessage:
+  args:
+    - number text
+    - number
+  desc: 'Оновлює повідомлення наявного повторювача.'
+  params:
+    - &ref_434
+      desc: 'Індекс повторювача для оновлення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - &ref_435
+      desc: 'Нове повідомлення для повторювача.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string:
+  args:
+    - number text
+    - number
+  desc: 'Оновлює повідомлення наявного повторювача.'
+  params:
+    - desc: 'Індекс повторювача для оновлення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Нове повідомлення для повторювача.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_1:
+  args:
+    - number text
+    - number
+  desc: 'Оновлює повідомлення наявного повторювача.'
+  params:
+    - desc: 'Індекс повторювача для оновлення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Нове повідомлення для повторювача.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_2:
+  args:
+    - number text
+    - number
+  desc: 'Оновлює повідомлення наявного повторювача.'
+  params:
+    - desc: 'Індекс повторювача для оновлення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Нове повідомлення для повторювача.'
+      name: message
+      optional: true
+      type: string
+repeatpriority:
+  args:
+    - index priority
+  desc: 'Встановлює пріоритет для повторювача (0-100, вище = важливіше).'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Рівень пріоритету (0-100).'
+      name: priority
+      optional: false
+      type: int
+repeatredun:
+  args:
+    - action
+  desc: 'Керує перевіркою повторів.'
+  params:
+    - desc: 'Дія для виконання.'
+      name: action
+      optional: false
+      type: string
+repeatredundant:
+  args:
+    - number
+  desc: 'Перемикає перевірку повторів для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatremove:
+  args:
+    - number
+  desc: 'Видаляє повторювач за його індексом.'
+  params:
+    - desc: 'Індекс повторювача для видалення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatremove_int:
+  args:
+    - number
+  desc: 'Видаляє повторювач за його індексом.'
+  params:
+    - desc: 'Індекс повторювача для видалення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_1:
+  args:
+    - number
+  desc: 'Видаляє повторювач за його індексом.'
+  params:
+    - desc: 'Індекс повторювача для видалення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_2:
+  args:
+    - number
+  desc: 'Видаляє повторювач за його індексом.'
+  params:
+    - desc: 'Індекс повторювача для видалення (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatschedule:
+  args:
+    - index preset
+  desc: 'Встановлює планування повторювача за часом.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Попередньо визначена умова часу (business, evening, weekend, none, disable).'
+      name: preset
+      optional: false
+      type: string
+repeatthreadautosticky:
+  args:
+    - index
+  desc: 'Перемикає функцію автоматичного закріплення гілок для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatthreadonly:
+  args:
+    - index
+  desc: 'Перемикає режим лише для гілок для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeatsuppressnotifications:
+  args:
+    - index
+  desc: 'Перемикає придушення сповіщень для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeattoggle:
+  args:
+    - index
+  desc: 'Перемикає стан увімкнення повторювача.'
+  params:
+    - desc: 'Індекс повторювача для перемикання (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+repeattriggermode:
+  args:
+    - index mode
+  desc: 'Встановлює режим запуску для повторювача.'
+  params:
+    - desc: 'Індекс повторювача для зміни (нумерація з 1).'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Режим запуску для встановлення.'
+      name: mode
+      optional: false
+      type: string
+resetmessagecounts:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_1:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_2:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_ITextChannel:
+  args:
+    - channel
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - &ref_439
+      desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Скидає лічильники повідомлень для користувача, каналу або обох.'
+  params:
+    - desc: 'Необов''язково: канал, у якому потрібно скинути лічильники повідомлень.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rinfo:
+  args:
+    - '@role'
+  desc: 'Показує інформацію про вказану роль на сервері.'
+  params:
+    - &ref_442
+      desc: 'Роль, про яку потрібно отримати інформацію.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole:
+  args:
+    - '@role'
+  desc: 'Показує інформацію про вказану роль на сервері.'
+  params:
+    - desc: 'Роль, про яку потрібно отримати інформацію.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_1:
+  args:
+    - '@role'
+  desc: 'Показує інформацію про вказану роль на сервері.'
+  params:
+    - desc: 'Роль, про яку потрібно отримати інформацію.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_2:
+  args:
+    - '@role'
+  desc: 'Показує інформацію про вказану роль на сервері.'
+  params:
+    - desc: 'Роль, про яку потрібно отримати інформацію.'
+      name: role
+      optional: false
+      type: IRole
+roleid:
+  args:
+    - '@role'
+  desc: 'Показує ID вказаної ролі.'
+  params:
+    - &ref_457
+      desc: 'Роль, ID якої потрібно отримати.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole:
+  args:
+    - '@role'
+  desc: 'Показує ID вказаної ролі.'
+  params:
+    - desc: 'Роль, ID якої потрібно отримати.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_1:
+  args:
+    - '@role'
+  desc: 'Показує ID вказаної ролі.'
+  params:
+    - desc: 'Роль, ID якої потрібно отримати.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_2:
+  args:
+    - '@role'
+  desc: 'Показує ID вказаної ролі.'
+  params:
+    - desc: 'Роль, ID якої потрібно отримати.'
+      name: role
+      optional: false
+      type: IRole
+rolepermlist:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - &ref_460
+      desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - &ref_461
+      desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_1:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_2:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]:
+  args:
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_1:
+  args:
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_2:
+  args:
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_3:
+  args:
+    - perms
+  desc: 'Показує всі ролі з вказаними дозволами. Типовий тип пошуку — And.'
+  params:
+    - desc: 'Дозволи для пошуку.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+roles:
+  args:
+    - '[@target]'
+  desc: 'Показує список ролей на поточному сервері. Якщо вказано користувача, показує його ролі.'
+  params:
+    - desc: 'Користувач, чиї ролі потрібно показати.'
+      name: target
+      optional: true
+      type: user
+roll:
+  args:
+    - number @user
+    - number
+    - '@user number'
+  desc: 'Кидає кубик із вказаною кількістю граней. Підтримуються кубики D&D.'
+  params:
+    - desc: 'Кидає кубик із вказаною кількістю граней. Підтримуються кубики D&D.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_467
+      default: null
+      desc: 'Кидає кубик із вказаною кількістю граней. Підтримуються кубики D&D.'
+      name: user
+      optional: true
+      type: Transactions(IUser
+roll_string:
+  args:
+    - text
+  desc: 'Кидає кубик із вказаною кількістю граней. Підтримуються кубики D&D.'
+  params:
+    - &ref_468
+      desc: 'Кидок, який потрібно зробити.'
+      name: roll
+      optional: false
+      type: string
+roll_string_1:
+  args:
+    - text
+  desc: 'Кидає кубик із вказаною кількістю граней. Підтримуються кубики D&D.'
+  params:
+    - desc: 'Кидок, який потрібно зробити.'
+      name: roll
+      optional: false
+      type: string
+roll_string_2:
+  args:
+    - text
+  desc: 'Кидає кубик із вказаною кількістю граней. Підтримуються кубики D&D.'
+  params:
+    - desc: 'Кидок, який потрібно зробити.'
+      name: roll
+      optional: false
+      type: string
+roll_string_3:
+  args:
+    - text
+  desc: 'Кидає кубик із вказаною кількістю граней. Підтримуються кубики D&D.'
+  params:
+    - desc: 'Кидок, який потрібно зробити.'
+      name: roll
+      optional: false
+      type: string
+savechat:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+  params:
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+  params:
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_1:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+  params:
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_2:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+  params:
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Зберігає журнал чату каналу. Публічний Mewdeko зберігає його в CDN на nginx і надсилає вам посилання для перегляду.'
+      name: channel
+      optional: true
+      type: channel
+say:
+  args:
+    - channel text
+    - channel
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - &ref_478
+      desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_479
+      desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+say_=:
+  args:
+    - '@channel [message]'
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+say_=_1:
+  args:
+    - '@channel [message]'
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+say_=_2:
+  args:
+    - '@channel [message]'
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+say_=_3:
+  args:
+    - '@channel [message]'
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string:
+  args:
+    - channel text
+    - channel
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_1:
+  args:
+    - channel text
+    - channel
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_2:
+  args:
+    - channel text
+    - channel
+  desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+  params:
+    - desc: 'Використовується, щоб надіслати повідомлення або embed від імені бота.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Повідомлення для надсилання.'
+      name: message
+      optional: true
+      type: string
+serverid_noparams:
+  args:
+    - ''
+  desc: 'Показує ID поточного сервера.'
+  params: [ ]
+serverinfo:
+  args:
+    - '[guildName]'
+  desc: 'Показує детальну інформацію про сервер.'
+  params:
+    - desc: 'Необов''язково. Назва сервера, про який потрібно показати інформацію.'
+      name: guildName
+      optional: true
+      type: string
+servermessages:
+  args:
+    - ''
+  desc: 'Показує статистику повідомлень для всього сервера.'
+  params: [ ]
+setminaccountage:
+  args:
+    - number
+  desc: 'Встановлює мінімальний вік облікового запису, необхідний для врахування запрошення.'
+  params:
+    - &ref_505
+      desc: 'Мінімальний вік у днях.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int:
+  args:
+    - number
+  desc: 'Встановлює мінімальний вік облікового запису, необхідний для врахування запрошення.'
+  params:
+    - desc: 'Мінімальний вік у днях.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_1:
+  args:
+    - number
+  desc: 'Встановлює мінімальний вік облікового запису, необхідний для врахування запрошення.'
+  params:
+    - desc: 'Мінімальний вік у днях.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_2:
+  args:
+    - number
+  desc: 'Встановлює мінімальний вік облікового запису, необхідний для врахування запрошення.'
+  params:
+    - desc: 'Мінімальний вік у днях.'
+      name: days
+      optional: false
+      type: int
+showemojis:
+  args:
+    - text
+  desc: 'Збільшує один або кілька вказаних емодзі.'
+  params:
+    - &ref_545
+      desc: 'Збільшує один або кілька вказаних емодзі.'
+      name: _
+      optional: false
+      type: string
+showemojis_string:
+  args:
+    - text
+  desc: 'Збільшує один або кілька вказаних емодзі.'
+  params:
+    - desc: 'Збільшує один або кілька вказаних емодзі.'
+      name: _
+      optional: false
+      type: string
+showemojis_string_1:
+  args:
+    - text
+  desc: 'Збільшує один або кілька вказаних емодзі.'
+  params:
+    - desc: 'Збільшує один або кілька вказаних емодзі.'
+      name: _
+      optional: false
+      type: string
+showemojis_string_2:
+  args:
+    - text
+  desc: 'Збільшує один або кілька вказаних емодзі.'
+  params:
+    - desc: 'Збільшує один або кілька вказаних емодзі.'
+      name: _
+      optional: false
+      type: string
+snipe:
+  args:
+    - ''
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params: [ ]
+snipe_ITextChannel:
+  args:
+    - chan
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_1:
+  args:
+    - chan
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_2:
+  args:
+    - chan
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_3:
+  args:
+    - chan
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser:
+  args:
+    - '@user'
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_1:
+  args:
+    - '@user'
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_2:
+  args:
+    - '@user'
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_3:
+  args:
+    - '@user'
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_noparams:
+  args:
+    - ''
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params: [ ]
+snipe_noparams_1:
+  args:
+    - ''
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params: [ ]
+snipe_noparams_2:
+  args:
+    - ''
+  desc: 'Показує останнє видалене повідомлення користувача в указаному каналі.'
+  params: [ ]
+snipelist:
+  args:
+    - 5
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=:
+  args:
+    - 5
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_1:
+  args:
+    - 5
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_2:
+  args:
+    - 5
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Канал, повідомлення з якого потрібно отримати.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+  params:
+    - desc: 'Користувач, повідомлення якого потрібно отримати.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Показує останні X видалених повідомлень користувача в указаному каналі.'
+      name: 5
+      optional: false
+      type: '='
+snipeset:
+  args:
+    - value
+  desc: 'Вмикає або вимикає відстеження видалених повідомлень. За замовчуванням вимкнено.'
+  params:
+    - &ref_551
+      desc: 'Значення, яке треба встановити.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction:
+  args:
+    - value
+  desc: 'Вмикає або вимикає відстеження видалених повідомлень. За замовчуванням вимкнено.'
+  params:
+    - desc: 'Значення, яке треба встановити.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_1:
+  args:
+    - value
+  desc: 'Вмикає або вимикає відстеження видалених повідомлень. За замовчуванням вимкнено.'
+  params:
+    - desc: 'Значення, яке треба встановити.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_2:
+  args:
+    - value
+  desc: 'Вмикає або вимикає відстеження видалених повідомлень. За замовчуванням вимкнено.'
+  params:
+    - desc: 'Значення, яке треба встановити.'
+      name: value
+      optional: false
+      type: PermissionAction
+stats:
+  args:
+    - ''
+  desc: 'Показує статистику бота.'
+  params: [ ]
+streamrole:
+  args:
+    - '@role @role'
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params:
+    - &ref_576
+      desc: 'Роль, за активністю трансляції якої стежитиме бот.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - &ref_577
+      desc: 'Роль, яка видаватиметься користувачам, що почали трансляцію.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params:
+    - desc: 'Роль, за активністю трансляції якої стежитиме бот.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Роль, яка видаватиметься користувачам, що почали трансляцію.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params:
+    - desc: 'Роль, за активністю трансляції якої стежитиме бот.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Роль, яка видаватиметься користувачам, що почали трансляцію.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params:
+    - desc: 'Роль, за активністю трансляції якої стежитиме бот.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Роль, яка видаватиметься користувачам, що почали трансляцію.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_noparams:
+  args:
+    - ''
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params: [ ]
+streamrole_noparams_1:
+  args:
+    - ''
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params: [ ]
+streamrole_noparams_2:
+  args:
+    - ''
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params: [ ]
+streamrole_noparams_3:
+  args:
+    - ''
+  desc: 'Вимикає функцію ролі трансляції на сервері.'
+  params: [ ]
+streamroleblacklist:
+  args:
+    - action @user
+  desc: 'Додає або видаляє користувача з чорного списку функції ролі трансляції.'
+  params:
+    - &ref_578
+      desc: 'Дія для виконання (add або remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_579
+      desc: 'Користувач, якого потрібно додати до списку або видалити зі списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser:
+  args:
+    - action @user
+  desc: 'Додає або видаляє користувача з чорного списку функції ролі трансляції.'
+  params:
+    - desc: 'Дія для виконання (add або remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Користувач, якого потрібно додати до списку або видалити зі списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_1:
+  args:
+    - action @user
+  desc: 'Додає або видаляє користувача з чорного списку функції ролі трансляції.'
+  params:
+    - desc: 'Дія для виконання (add або remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Користувач, якого потрібно додати до списку або видалити зі списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_2:
+  args:
+    - action @user
+  desc: 'Додає або видаляє користувача з чорного списку функції ролі трансляції.'
+  params:
+    - desc: 'Дія для виконання (add або remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Користувач, якого потрібно додати до списку або видалити зі списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamrolekeyword:
+  args:
+    - '[keyword]'
+  desc: 'Встановлює ключове слово для функції ролі трансляції. Роль отримуватимуть лише користувачі, чиї трансляції містять це ключове слово.'
+  params:
+    - desc: 'Ключове слово для функції ролі трансляції.'
+      name: keyword
+      optional: true
+      type: string
+streamrolewhitelist:
+  args:
+    - action @user
+  desc: 'Додає або видаляє користувача з білого списку функції ролі трансляції.'
+  params:
+    - desc: 'Дія для виконання (add або remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Користувач, якого потрібно додати до списку або видалити зі списку.'
+      name: user
+      optional: false
+      type: IGuildUser
+sym:
+  args:
+    - expression
+  desc: 'Виконує символьні обчислення.'
+  params:
+    - desc: 'Вираз для символьного обчислення.'
+      name: expression
+      optional: false
+      type: string
+symbolic:
+  args:
+    - text
+  desc: 'Виконує символьні математичні операції.'
+  params:
+    - &ref_592
+      desc: 'Символьний вираз для обчислення або перетворення.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string:
+  args:
+    - text
+  desc: 'Виконує символьні математичні операції.'
+  params:
+    - desc: 'Символьний вираз для обчислення або перетворення.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_1:
+  args:
+    - text
+  desc: 'Виконує символьні математичні операції.'
+  params:
+    - desc: 'Символьний вираз для обчислення або перетворення.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_2:
+  args:
+    - text
+  desc: 'Виконує символьні математичні операції.'
+  params:
+    - desc: 'Символьний вираз для обчислення або перетворення.'
+      name: expression
+      optional: false
+      type: string
+toggleinvitetracking:
+  args:
+    - ''
+  desc: 'Перемикає відстеження запрошень на сервері.'
+  params: [ ]
+togglemessagecount:
+  args:
+    - ''
+  desc: 'Перемикає підрахунок повідомлень на сервері'
+  params: [ ]
+togglemsgcount:
+  args:
+    - ''
+  desc: 'Перемикає відстеження кількості повідомлень.'
+  params: [ ]
+toggleremoveinviteonleave:
+  args:
+    - ''
+  desc: 'Перемикає, чи видаляються запрошення, коли користувач покидає сервер.'
+  params: [ ]
+topusers:
+  args:
+    - ''
+  desc: 'Показує рейтинг 10 найактивніших користувачів за кількістю повідомлень.'
+  params: [ ]
+traceroute:
+  args:
+    - text
+  desc: 'Виконує трасування маршруту до вказаного хоста, показуючи шлях, яким пакети досягають IP-адреси або домену.'
+  params:
+    - &ref_626
+      desc: 'IP-адреса або доменна назва, до якої потрібно простежити маршрут.'
+      name: hostname
+      optional: false
+      type: string
+traceroute_string:
+  args:
+    - text
+  desc: 'Виконує трасування маршруту до вказаного хоста, показуючи шлях, яким пакети досягають IP-адреси або домену.'
+  params:
+    - desc: 'IP-адреса або доменна назва, до якої потрібно простежити маршрут.'
+      name: hostname
+      optional: false
+      type: string
+userid:
+  args:
+    - '[@target]'
+  desc: 'Показує ID вказаного користувача.'
+  params:
+    - desc: 'Користувач, ID якого потрібно отримати.'
+      name: target
+      optional: true
+      type: user
+userinfo:
+  args:
+    - '[@usr]'
+  desc: 'Показує детальну інформацію про вказаного користувача або того, хто викликав команду.'
+  params:
+    - desc: 'Необов''язково. Користувач, про якого потрібно отримати інформацію.'
+      name: usr
+      optional: true
+      type: user
+usermessages_=_1:
+  args:
+    - '[@user]'
+  desc: 'Показує статистику повідомлень конкретного користувача.'
+  params:
+    - desc: 'Користувач, для якого потрібно отримати статистику повідомлень. Якщо не вказано, використовується той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+vcheck:
+  args:
+    - '[url]'
+  desc: 'Перевіряє URL на віруси через API VirusTotal.'
+  params:
+    - desc: 'URL для перевірки.'
+      name: url
+      optional: true
+      type: string
+verboseerror:
+  args:
+    - '[newstate]'
+  desc: 'Перемикає детальні повідомлення про помилки для команд.'
+  params:
+    - desc: 'Новий стан детальних помилок. Якщо не вказано (null), стан буде перемкнено.'
+      name: newstate
+      optional: true
+      type: bool
+vinfo:
+  args:
+    - '[channel]'
+  desc: 'Показує інформацію про вказаний голосовий канал або поточний голосовий канал користувача.'
+  params:
+    - desc: 'Голосовий канал, про який потрібно отримати інформацію (необов''язково).'
+      name: channel
+      optional: true
+      type: voice channel
+vote_noparams:
+  args:
+    - ''
+  desc: 'Показує посилання, щоб проголосувати за Mewdeko.'
+  params: [ ]
+whoinvited:
+  args:
+    - '[@user]'
+  desc: 'Показує, хто запросив конкретного користувача на сервер.'
+  params:
+    - desc: 'Користувач для перевірки. Якщо не вказано (null), перевіряється той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+whosplaying:
+  args:
+    - text
+  desc: 'Показує список користувачів, які грають у вказану гру.'
+  params:
+    - &ref_660
+      desc: 'Гра для пошуку.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string:
+  args:
+    - text
+  desc: 'Показує список користувачів, які грають у вказану гру.'
+  params:
+    - desc: 'Гра для пошуку.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_1:
+  args:
+    - text
+  desc: 'Показує список користувачів, які грають у вказану гру.'
+  params:
+    - desc: 'Гра для пошуку.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_2:
+  args:
+    - text
+  desc: 'Показує список користувачів, які грають у вказану гру.'
+  params:
+    - desc: 'Гра для пошуку.'
+      name: game
+      optional: true
+      type: string
+vote:
+  args:
+    - ''
+  desc: 'Показує посилання, щоб проголосувати за Mewdeko.'
+  params: [ ]
+serverid:
+  args:
+    - ''
+  desc: 'Показує ID поточного сервера.'
+  params: [ ]
+invites:
+  args:
+    - '[user]'
+    - user
+  desc: 'Показує кількість запрошень користувача.'
+  params:
+    - desc: 'Користувач, чиї запрошення потрібно перевірити. Якщо не вказано, перевіряється користувач, який викликав команду.'
+      name: user
+      optional: true
+      type: IUser
+usermessages:
+  args:
+    - '[user]'
+    - user
+  desc: 'Показує статистику повідомлень конкретного користувача.'
+  params:
+    - desc: 'Користувач, для якого потрібно отримати статистику повідомлень. Якщо не вказано, використовується той, хто викликав команду.'
+      name: user
+      optional: true
+      type: IUser
+togglecountrejoins:
+  args:
+    - ''
+  desc: 'Перемикає, чи зараховується користувачеві, що повернувся на сервер, звичайне запрошення знову, або ж його позначають як фейкове.'
+  params: [ ]
+togglefakenoavatar:
+  args:
+    - ''
+  desc: 'Перемикає, чи позначаються як фейкові запрошення користувачів, які приєдналися без аватара.'
+  params: [ ]
+invitelinkchannel:
+  args:
+    - '[#channel]'
+  desc: 'Встановлює канал, на який вказують особисті посилання-запрошення (з команди invitelink). Якщо канал не вказано, використовується системний канал.'
+  params:
+    - desc: 'Канал або, якщо не вказано, системний канал.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitelogchannel:
+  args:
+    - '[#channel]'
+  desc: 'Встановлює канал, у який надсилатиметься вбудоване повідомлення про кожне відстежуване приєднання та вихід із зазначенням, хто кого запросив і як. Якщо канал не вказано, функцію буде вимкнено.'
+  params:
+    - desc: 'Канал або без значення, щоб вимкнути.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitestats:
+  args:
+    - '[Monthly]'
+    - 'Weekly'
+  desc: 'Показує аналітику зростання за період: приєднання, виходи, чистий приріст, утримання, фейкові приєднання, джерела приєднань, найактивніших запрошувачів і найпопулярніші коди запрошень.'
+  params:
+    - desc: 'Період: AllTime, Daily, Weekly або Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedbycode:
+  args:
+    - 'abc123'
+  desc: 'Показує учасників, які приєдналися через конкретний код запрошення.'
+  params:
+    - desc: 'Код запрошення або URL.'
+      name: code
+      optional: false
+      type: string
+invitedbylabel:
+  args:
+    - 'Twitter'
+  desc: 'Показує учасників, які приєдналися через будь-який код запрошення з певною міткою.'
+  params:
+    - desc: 'Мітка.'
+      name: label
+      optional: false
+      type: string
+invitecodes:
+  args:
+    - '[user]'
+  desc: 'Показує коди запрошень, створені користувачем, із кількістю використань.'
+  params:
+    - desc: 'Користувач або, якщо не вказано, ви самі.'
+      name: user
+      optional: true
+      type: IUser
+invitelink:
+  args:
+    - ''
+  desc: 'Показує ваше особисте посилання-запрошення; якщо його ще немає, створює для вас постійне. Приєднання через нього зараховуються вам.'
+  params: [ ]
+addinvites:
+  args:
+    - '@user 5'
+  desc: 'Додає звичайні запрошення користувачеві.'
+  params:
+    - desc: 'Користувач.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Скільки додати.'
+      name: amount
+      optional: false
+      type: int
+removeinvites:
+  args:
+    - '@user 5'
+  desc: 'Видаляє звичайні запрошення в користувача.'
+  params:
+    - desc: 'Користувач.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Скільки видалити.'
+      name: amount
+      optional: false
+      type: int
+addbonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Надає користувачеві бонусні запрошення. Бонусні запрошення враховуються в загальній кількості, але відстежуються окремо.'
+  params:
+    - desc: 'Користувач.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Скільки надати.'
+      name: amount
+      optional: false
+      type: int
+removebonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Забирає у користувача бонусні запрошення.'
+  params:
+    - desc: 'Користувач.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Скільки видалити.'
+      name: amount
+      optional: false
+      type: int
+addfakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Позначає частину запрошень користувача як фейкові, зменшуючи його загальну кількість.'
+  params:
+    - desc: 'Користувач.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Скільки позначити.'
+      name: amount
+      optional: false
+      type: int
+removefakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Знімає позначку фейкових запрошень з користувача, збільшуючи його загальну кількість.'
+  params:
+    - desc: 'Користувач.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Скільки зняти позначку.'
+      name: amount
+      optional: false
+      type: int
+resetinvites:
+  args:
+    - '@user'
+    - 'Server'
+    - 'LeftMembers'
+  desc: 'Скидає запрошення для одного користувача, для всіх учасників сервера або лише для запрошувачів, які вже вийшли.'
+  params:
+    - desc: 'Користувач, чиї запрошення потрібно скинути.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Server, щоб скинути для всіх, або LeftMembers, щоб скинути лише тих, хто вийшов.'
+      name: scope
+      optional: false
+      type: InviteResetScope
+syncinvites:
+  args:
+    - '[user]'
+  desc: 'Імпортує кількість використань запрошень з Discord, підвищуючи звичайний підсумок кожного запрошувача до суми використань за всіма його кодами. Підсумки ніколи не знижуються, тож команду безпечно запускати повторно.'
+  params:
+    - desc: 'Синхронізує лише цього користувача або, якщо не вказано, усіх.'
+      name: user
+      optional: true
+      type: IGuildUser
+deleteinvite:
+  args:
+    - 'abc123'
+  desc: 'Видаляє код запрошення з сервера.'
+  params:
+    - desc: 'Код запрошення або URL.'
+      name: code
+      optional: false
+      type: string
+purgeinvites:
+  args:
+    - '[maxUses] [#channel]'
+    - '0 #general'
+  desc: 'Видаляє всі коди запрошень без мітки, які використовувалися не більше вказаної кількості разів, за бажанням лише для одного каналу.'
+  params:
+    - desc: 'Коди, які використовувалися більше цієї кількості разів, зберігаються. За замовчуванням 0 (лише невикористані коди).'
+      name: maxUses
+      optional: true
+      type: int
+    - desc: 'Очистити лише коди, що ведуть на цей канал.'
+      name: channel
+      optional: true
+      type: ITextChannel
+inviteblacklist:
+  args:
+    - '@user'
+    - '@role'
+  desc: 'Перемикає, чи може користувач (або всі власники ролі) отримувати зарахування запрошень.'
+  params:
+    - desc: 'Користувач, для якого потрібно перемкнути налаштування.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Роль для перемикання.'
+      name: role
+      optional: false
+      type: IRole
+invitehide:
+  args:
+    - '@user'
+  desc: 'Перемикає, чи приховано користувача в рейтингах запрошень. Його запрошення все одно відстежуються.'
+  params:
+    - desc: 'Користувач.'
+      name: user
+      optional: false
+      type: IGuildUser
+inviteexclusions:
+  args:
+    - ''
+  desc: 'Показує запрошувачів у чорному списку, ролі в чорному списку та учасників, приховані в рейтингу.'
+  params: [ ]
+invitelabelset:
+  args:
+    - 'abc123 Twitter campaign'
+  desc: 'Додає мітку до коду запрошення, щоб він відображався за назвою в статистиці, експорті та плейсхолдерах привітань.'
+  params:
+    - desc: 'Код запрошення або URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Текст мітки, до 64 символів.'
+      name: label
+      optional: false
+      type: string
+invitelabelrole:
+  args:
+    - 'abc123 @role'
+    - 'abc123'
+  desc: 'Встановлює або очищає роль, яка надається всім, хто приєднався через код запрошення з міткою.'
+  params:
+    - desc: 'Код запрошення або URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Роль або, якщо не вказано, очищення ролі.'
+      name: role
+      optional: true
+      type: IRole
+invitelabelremove:
+  args:
+    - 'abc123'
+  desc: 'Видаляє мітку з коду запрошення.'
+  params:
+    - desc: 'Код запрошення або URL.'
+      name: code
+      optional: false
+      type: string
+invitelabels:
+  args:
+    - ''
+  desc: 'Показує коди запрошень із мітками разом із їхніми ролями та власниками.'
+  params: [ ]
+inviteexport:
+  args:
+    - '[AllTime]'
+  desc: 'Експортує рейтинг запрошень у файл CSV.'
+  params:
+    - desc: 'Період: AllTime, Daily, Weekly або Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedexport:
+  args:
+    - '[user]'
+  desc: 'Експортує учасників, яких запросив користувач (або всі зафіксовані приєднання), у файл CSV.'
+  params:
+    - desc: 'Запрошувач або, якщо не вказано, усі приєднання.'
+      name: user
+      optional: true
+      type: IUser
+invitemassban:
+  args:
+    - '@user [reason]'
+  desc: 'Банить усіх учасників, які досі на сервері і були запрошені користувачем. Спершу запитує підтвердження.'
+  params:
+    - desc: 'Запрошувач.'
+      name: inviter
+      optional: false
+      type: IUser
+    - desc: 'Причина бану.'
+      name: reason
+      optional: true
+      type: string
+invitemassbancode:
+  args:
+    - 'abc123 [reason]'
+  desc: 'Банить усіх учасників, які досі на сервері і приєдналися через код запрошення. Спершу запитує підтвердження.'
+  params:
+    - desc: 'Код запрошення або URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Причина бану.'
+      name: reason
+      optional: true
+      type: string

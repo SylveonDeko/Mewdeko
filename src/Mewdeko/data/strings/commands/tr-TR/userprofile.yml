@@ -1,55 +1,55 @@
 deleteuserstatsdata:
   args:
     - ''
-  desc: 'Kullanicinin komut istatistik verilerini siler.'
+  desc: 'Kullanıcının komut istatistik verilerini siler.'
   params: [ ]
 greetdmoptout:
   args:
     - ''
-  desc: 'Kullanicinin karsilama DM''lerinden cikis yapmasini saglar. Yalnizca katildiklari sunucu DM karsilamalari icin mewdeko kullaniyorsa gecerlidir.'
+  desc: 'Kullanıcının karşılama DM''lerinden çıkma durumunu değiştirmesine izin verir. Yalnızca katıldıkları sunucu DM karşılamaları için mewdeko kullanıyorsa çalışır.'
   params: [ ]
 profile:
   args:
     - '[@user]'
-  desc: 'Kullanicinin profilini veya belirtilmisse baska bir kullanicinin profilini gosterir.'
+  desc: 'Kullanıcının profilini veya belirtilirse başka bir kullanıcının profilini gösterir.'
   params:
-    - desc: 'Profili gosterilecek kullanici. Bos birakilirsa cagranin profili gosterilir.'
+    - desc: 'Profili gösterilecek kullanıcı. Boş bırakılırsa komutu kullananın profilini gösterir.'
       name: user
       optional: true
       type: user
 profile_=:
   args:
     - '[@user]'
-  desc: 'Kullanicinin profilini veya belirtilmisse baska bir kullanicinin profilini gosterir.'
+  desc: 'Kullanıcının profilini veya belirtilirse başka bir kullanıcının profilini gösterir.'
   params:
-    - desc: 'Profili gosterilecek kullanici. Bos birakilirsa cagranin profili gosterilir.'
+    - desc: 'Profili gösterilecek kullanıcı. Boş bırakılırsa komutu kullananın profilini gösterir.'
       name: user
       optional: true
       type: user
 profile_=_1:
   args:
     - '[@user]'
-  desc: 'Kullanicinin profilini veya belirtilmisse baska bir kullanicinin profilini gosterir.'
+  desc: 'Kullanıcının profilini veya belirtilirse başka bir kullanıcının profilini gösterir.'
   params:
-    - desc: 'Profili gosterilecek kullanici. Bos birakilirsa cagranin profili gosterilir.'
+    - desc: 'Profili gösterilecek kullanıcı. Boş bırakılırsa komutu kullananın profilini gösterir.'
       name: user
       optional: true
       type: user
 profile_=_2:
   args:
     - '[@user]'
-  desc: 'Kullanicinin profilini veya belirtilmisse baska bir kullanicinin profilini gosterir.'
+  desc: 'Kullanıcının profilini veya belirtilirse başka bir kullanıcının profilini gösterir.'
   params:
-    - desc: 'Profili gosterilecek kullanici. Bos birakilirsa cagranin profili gosterilir.'
+    - desc: 'Profili gösterilecek kullanıcı. Boş bırakılırsa komutu kullananın profilini gösterir.'
       name: user
       optional: true
       type: user
 pronouns:
   args:
     - '[@user]'
-  desc: 'Belirtilen kullanicinin zamirlerini veya hic kullanici belirtilmemisse komut cagraninin zamirlerini gosterir.'
+  desc: 'Belirtilen kullanıcının zamirlerini gösterir; kullanıcı belirtilmezse komutu kullananın zamirlerini gösterir.'
   params:
-    - desc: 'Ihtiyari. Zamirleri gosterilecek kullanici.'
+    - desc: 'İsteğe bağlı. Zamirlerinin gösterileceği kullanıcı.'
       name: user
       optional: true
       type: user
@@ -57,20 +57,20 @@ pronounsforceclear:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
     - &ref_356
-      desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+      desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: true
       type: IUser
     - &ref_357
-      desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+      desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
     - &ref_358
-      desc: 'Islemin gerekceleri.'
+      desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
@@ -78,17 +78,17 @@ pronounsforceclear_IUser_bool_string:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
-    - desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+    - desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+    - desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Islemin gerekceleri.'
+    - desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
@@ -96,17 +96,17 @@ pronounsforceclear_IUser_bool_string_1:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
-    - desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+    - desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+    - desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Islemin gerekceleri.'
+    - desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
@@ -114,368 +114,368 @@ pronounsforceclear_IUser_bool_string_2:
   args:
     - '@user true|false text'
     - true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
-    - desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+    - desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: true
       type: IUser
-    - desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+    - desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Islemin gerekceleri.'
+    - desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string:
   args:
     - user true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
     - &ref_359
-      desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+      desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+    - desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Islemin gerekceleri.'
+    - desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_1:
   args:
     - user true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
-    - desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+    - desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+    - desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Islemin gerekceleri.'
+    - desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_2:
   args:
     - user true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
-    - desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+    - desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+    - desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Islemin gerekceleri.'
+    - desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
 pronounsforceclear_ulong_bool_string_3:
   args:
     - user true|false text
-  desc: 'Bir kullanicinin zamirlerini ID ile zorla temizler, istege bagli olarak uygunsuz kullanim nedeniyle devre disi birakilmis olarak isaretler.'
+  desc: 'ID''ye göre bir kullanıcının zamirlerini zorla temizler; istenirse kötüye kullanım nedeniyle devre dışı olarak işaretler.'
   params:
-    - desc: 'Zamirleri temizlenecek kullanicinin kullanici ID''si.'
+    - desc: 'Zamirleri temizlenecek kullanıcının kullanıcı ID''si.'
       name: user
       optional: false
       type: ulong
-    - desc: 'Zamirlerin uygunsuz kullanim nedeniyle devre disi birakilip birakilmadigi.'
+    - desc: 'Zamirlerin kötüye kullanım nedeniyle devre dışı bırakılıp bırakılmayacağı.'
       name: pronounsDisabledAbuse
       optional: false
       type: bool
-    - desc: 'Islemin gerekcelesi.'
+    - desc: 'İşlemin nedeni.'
       name: reason
       optional: false
       type: string
 setbio:
   args:
     - text
-  desc: 'Kullanicinin profilindeki biyografiyi ayarlar veya gunceller.'
+  desc: 'Kullanıcının profilindeki biyografiyi ayarlar veya günceller.'
   params:
     - &ref_490
-      desc: 'Biyografi metni. 2048 karakterden az olmalidir.'
+      desc: 'Biyografi metni. 2048 karakterden kısa olmalı.'
       name: bio
       optional: false
       type: string
 setbio_string:
   args:
     - text
-  desc: 'Kullanicinin profilindeki biyografiyi ayarlar veya gunceller.'
+  desc: 'Kullanıcının profilindeki biyografiyi ayarlar veya günceller.'
   params:
-    - desc: 'Biyografi metni. 2048 karakterden az olmalidir.'
+    - desc: 'Biyografi metni. 2048 karakterden kısa olmalı.'
       name: bio
       optional: false
       type: string
 setbio_string_1:
   args:
     - text
-  desc: 'Kullanicinin profilindeki biyografiyi ayarlar veya gunceller.'
+  desc: 'Kullanıcının profilindeki biyografiyi ayarlar veya günceller.'
   params:
-    - desc: 'Biyografi metni. 2048 karakterden az olmalidir.'
+    - desc: 'Biyografi metni. 2048 karakterden kısa olmalı.'
       name: bio
       optional: false
       type: string
 setbio_string_2:
   args:
     - text
-  desc: 'Kullanicinin profilindeki biyografiyi ayarlar veya gunceller.'
+  desc: 'Kullanıcının profilindeki biyografiyi ayarlar veya günceller.'
   params:
-    - desc: 'Biyografi metni. 2048 karakterden az olmalidir.'
+    - desc: 'Biyografi metni. 2048 karakterden kısa olmalı.'
       name: bio
       optional: false
       type: string
 setbirthday:
   args:
     - time
-  desc: 'Kullanicinin profilinde dogum gununü ayarlar.'
+  desc: 'Kullanıcının profiline doğum gününü ayarlar.'
   params:
     - &ref_491
-      desc: 'Dogum gunu tarihi.'
+      desc: 'Doğum günü tarihi.'
       name: dateTime
       optional: false
       type: DateTime
 setbirthday_DateTime:
   args:
     - time
-  desc: 'Kullanicinin profilinde dogum gununü ayarlar.'
+  desc: 'Kullanıcının profiline doğum gününü ayarlar.'
   params:
-    - desc: 'Dogum gunu tarihi.'
+    - desc: 'Doğum günü tarihi.'
       name: dateTime
       optional: false
       type: DateTime
 setbirthday_DateTime_1:
   args:
     - time
-  desc: 'Kullanicinin profilinde dogum gununü ayarlar.'
+  desc: 'Kullanıcının profiline doğum gününü ayarlar.'
   params:
-    - desc: 'Dogum gunu tarihi.'
+    - desc: 'Doğum günü tarihi.'
       name: dateTime
       optional: false
       type: DateTime
 setbirthday_DateTime_2:
   args:
     - time
-  desc: 'Kullanicinin profilinde dogum gununü ayarlar.'
+  desc: 'Kullanıcının profiline doğum gününü ayarlar.'
   params:
-    - desc: 'Dogum gunu tarihi.'
+    - desc: 'Doğum günü tarihi.'
       name: dateTime
       optional: false
       type: DateTime
 setbirthdayprivacy:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Kullanicinin profilinde dogum gunu gizlilik modunu ayarlar.'
+  desc: 'Kullanıcının profilinde doğum günü gizlilik modunu ayarlar.'
   params:
     - &ref_492
-      desc: 'Ayarlanacak dogum gunu goruntuleme modu.'
+      desc: 'Ayarlanacak doğum günü görüntüleme modu.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Kullanicinin profilinde dogum gunu gizlilik modunu ayarlar.'
+  desc: 'Kullanıcının profilinde doğum günü gizlilik modunu ayarlar.'
   params:
-    - desc: 'Ayarlanacak dogum gunu goruntuleme modu.'
+    - desc: 'Ayarlanacak doğum günü görüntüleme modu.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum_1:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Kullanicinin profilinde dogum gunu gizlilik modunu ayarlar.'
+  desc: 'Kullanıcının profilinde doğum günü gizlilik modunu ayarlar.'
   params:
-    - desc: 'Ayarlanacak dogum gunu goruntuleme modu.'
+    - desc: 'Ayarlanacak doğum günü görüntüleme modu.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setbirthdayprivacy_BirthdayDisplayModeEnum_2:
   args:
     - birthdaydisplaymodeenum
-  desc: 'Kullanicinin profilinde dogum gunu gizlilik modunu ayarlar.'
+  desc: 'Kullanıcının profilinde doğum günü gizlilik modunu ayarlar.'
   params:
-    - desc: 'Ayarlanacak dogum gunu goruntuleme modu.'
+    - desc: 'Ayarlanacak doğum günü görüntüleme modu.'
       name: birthdayDisplayModeEnum
       optional: false
       type: BirthdayDisplayModeEnum
 setprivacy:
   args:
     - privacyenum
-  desc: 'Kullanicinin profil gizlilik duzeyini ayarlar.'
+  desc: 'Kullanıcının profil gizlilik düzeyini ayarlar.'
   params:
     - &ref_513
-      desc: 'Uygulanacak gizlilik ayari.'
+      desc: 'Uygulanacak gizlilik ayarı.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum:
   args:
     - privacyenum
-  desc: 'Kullanicinin profil gizlilik duzeyini ayarlar.'
+  desc: 'Kullanıcının profil gizlilik düzeyini ayarlar.'
   params:
-    - desc: 'Uygulanacak gizlilik ayari.'
+    - desc: 'Uygulanacak gizlilik ayarı.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum_1:
   args:
     - privacyenum
-  desc: 'Kullanicinin profil gizlilik duzeyini ayarlar.'
+  desc: 'Kullanıcının profil gizlilik düzeyini ayarlar.'
   params:
-    - desc: 'Uygulanacak gizlilik ayari.'
+    - desc: 'Uygulanacak gizlilik ayarı.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprivacy_ProfilePrivacyEnum_2:
   args:
     - privacyenum
-  desc: 'Kullanicinin profil gizlilik duzeyini ayarlar.'
+  desc: 'Kullanıcının profil gizlilik düzeyini ayarlar.'
   params:
-    - desc: 'Uygulanacak gizlilik ayari.'
+    - desc: 'Uygulanacak gizlilik ayarı.'
       name: privacyEnum
       optional: false
       type: ProfilePrivacyEnum
 setprofilecolor:
   args:
     - input
-  desc: 'Bir SKColor girisine gore profil rengini ayarlar.'
+  desc: 'Profil rengini bir SKColor girdisine göre ayarlar.'
   params:
     - &ref_514
-      desc: 'Istenen profil rengini temsil eden SKColor.'
+      desc: 'İstenen profil rengini temsil eden SKColor.'
       name: input
       optional: false
       type: SKColor
 setprofilecolor_SKColor:
   args:
     - input
-  desc: 'Bir SKColor girisine gore profil rengini ayarlar.'
+  desc: 'Profil rengini bir SKColor girdisine göre ayarlar.'
   params:
-    - desc: 'Istenen profil rengini temsil eden SKColor.'
+    - desc: 'İstenen profil rengini temsil eden SKColor.'
       name: input
       optional: false
       type: SKColor
 setprofilecolor_SKColor_1:
   args:
     - input
-  desc: 'Bir SKColor girisine gore profil rengini ayarlar.'
+  desc: 'Profil rengini bir SKColor girdisine göre ayarlar.'
   params:
-    - desc: 'Istenen profil rengini temsil eden SKColor.'
+    - desc: 'İstenen profil rengini temsil eden SKColor.'
       name: input
       optional: false
       type: SKColor
 setprofilecolor_SKColor_2:
   args:
     - input
-  desc: 'Bir SKColor girisine gore profil rengini ayarlar.'
+  desc: 'Profil rengini bir SKColor girdisine göre ayarlar.'
   params:
-    - desc: 'Istenen profil rengini temsil eden SKColor.'
+    - desc: 'İstenen profil rengini temsil eden SKColor.'
       name: input
       optional: false
       type: SKColor
 setprofileimage:
   args:
     - text
-  desc: 'Kullanicinin profilinde profil resmi URL''sini ayarlar.'
+  desc: 'Kullanıcının profilindeki profil resmi URL''sini ayarlar.'
   params:
     - &ref_515
-      desc: 'Profil resmi olarak ayarlanacak resmin URL''si.'
+      desc: 'Profil resmi olarak ayarlanacak görselin URL''si.'
       name: url
       optional: false
       type: string
 setprofileimage_string:
   args:
     - text
-  desc: 'Kullanicinin profilinde profil resmi URL''sini ayarlar.'
+  desc: 'Kullanıcının profilindeki profil resmi URL''sini ayarlar.'
   params:
-    - desc: 'Profil resmi olarak ayarlanacak resmin URL''si.'
+    - desc: 'Profil resmi olarak ayarlanacak görselin URL''si.'
       name: url
       optional: false
       type: string
 setprofileimage_string_1:
   args:
     - text
-  desc: 'Kullanicinin profilinde profil resmi URL''sini ayarlar.'
+  desc: 'Kullanıcının profilindeki profil resmi URL''sini ayarlar.'
   params:
-    - desc: 'Profil resmi olarak ayarlanacak resmin URL''si.'
+    - desc: 'Profil resmi olarak ayarlanacak görselin URL''si.'
       name: url
       optional: false
       type: string
 setprofileimage_string_2:
   args:
     - text
-  desc: 'Kullanicinin profilinde profil resmi URL''sini ayarlar.'
+  desc: 'Kullanıcının profilindeki profil resmi URL''sini ayarlar.'
   params:
-    - desc: 'Profil resmi olarak ayarlanacak resmin URL''si.'
+    - desc: 'Profil resmi olarak ayarlanacak görselin URL''si.'
       name: url
       optional: false
       type: string
 setpronouns:
   args:
     - '[pronouns]'
-  desc: 'Kullanici icin zamirleri ayarlar veya temizler.'
+  desc: 'Kullanıcının zamirlerini ayarlar veya temizler.'
   params:
-    - desc: 'Ayarlanacak zamirler. Bos veya null ise mevcut zamirler temizlenir.'
+    - desc: 'Ayarlanacak zamirler. Boş veya null ise mevcut zamirler temizlenir.'
       name: pronouns
       optional: true
       type: string
 setswitchfc:
   args:
     - '""'
-  desc: 'Kullanicinin profilinde Nintendo Switch arkadaslik kodunu ayarlar veya temizler.'
+  desc: 'Kullanıcının profilindeki Nintendo Switch arkadaş kodunu ayarlar veya temizler.'
   params:
-    - desc: 'Kullanicinin profilinde Nintendo Switch arkadaslik kodunu ayarlar veya temizler.'
+    - desc: 'Kullanıcının profilindeki Nintendo Switch arkadaş kodunu ayarlar veya temizler.'
       name: '""'
       optional: false
       type: '='
 setzodiac:
   args:
     - text
-  desc: 'Kullanicinin profilinde burc isaretini ayarlar.'
+  desc: 'Kullanıcının profilindeki burç işaretini ayarlar.'
   params:
     - &ref_539
-      desc: 'Ayarlanacak burc isareti.'
+      desc: 'Ayarlanacak burç işareti.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string:
   args:
     - text
-  desc: 'Kullanicinin profilinde burc isaretini ayarlar.'
+  desc: 'Kullanıcının profilindeki burç işaretini ayarlar.'
   params:
-    - desc: 'Ayarlanacak burc isareti.'
+    - desc: 'Ayarlanacak burç işareti.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_1:
   args:
     - text
-  desc: 'Kullanicinin profilinde burc isaretini ayarlar.'
+  desc: 'Kullanıcının profilindeki burç işaretini ayarlar.'
   params:
-    - desc: 'Ayarlanacak burc isareti.'
+    - desc: 'Ayarlanacak burç işareti.'
       name: zodiac
       optional: false
       type: string
 setzodiac_string_2:
   args:
     - text
-  desc: 'Kullanicinin profilinde burc isaretini ayarlar.'
+  desc: 'Kullanıcının profilindeki burç işaretini ayarlar.'
   params:
-    - desc: 'Ayarlanacak burc isareti.'
+    - desc: 'Ayarlanacak burç işareti.'
       name: zodiac
       optional: false
       type: string
 userstatsoptout:
   args:
     - ''
-  desc: 'Kullanicinin komut istatistikleri toplama icin cikis durumunu degistirir.'
+  desc: 'Kullanıcının komut istatistiği toplamasından çıkma durumunu değiştirir.'
   params: [ ]

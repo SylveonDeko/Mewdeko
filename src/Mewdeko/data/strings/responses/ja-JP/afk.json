@@ -2,6 +2,7 @@
   "afk_already_in_list": "指定したチャンネルはすでにリストに含まれているため、追加できませんでした。",
   "afk_channels_updated": "{0}をAFK無視チャンネルリストに追加しました",
   "afk_deletion_disabled": "AFKメッセージの自動削除が無効になりました！",
+  "afk_deletion_invalid": "削除までの時間は 0 または正の秒数である必要があります。",
   "afk_deletion_set": "AFKメッセージは{0}秒後に削除されます。",
   "afk_disabled": "AFKを無効にしました。",
   "afk_disabled_channels_none": "無効チャンネルが設定されていません！",

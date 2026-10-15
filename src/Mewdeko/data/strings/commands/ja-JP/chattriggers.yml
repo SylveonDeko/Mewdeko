@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: '新しいチャットトリガーを追加します。'
+  params:
+    - &ref_9
+      desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: '新しいチャットトリガーを追加します。'
+  params:
+    - desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: '新しいチャットトリガーを追加します。'
+  params:
+    - desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: '新しいチャットトリガーを追加します。'
+  params:
+    - desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: '正規表現に対応した新しいチャットトリガーを追加します。'
+  params:
+    - desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: '正規表現に対応した新しいチャットトリガーを追加します。'
+  params:
+    - desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: '正規表現に対応した新しいチャットトリガーを追加します。'
+  params:
+    - desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: '正規表現に対応した新しいチャットトリガーを追加します。'
+  params:
+    - desc: 'チャットトリガーのキーです。'
+      name: key
+      optional: false
+      type: string
+    - desc: 'チャットトリガーに関連付けるメッセージです。'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'リアクションで発動する新しいチャットトリガーを追加します。'
+  params:
+    - desc: '発動の対象となるリアクション絵文字です。'
+      name: reaction
+      optional: false
+      type: string
+    - desc: '発動時に送信するメッセージです。'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'チャットトリガーのロール付与の種類を設定します。'
+  params:
+    - &ref_130
+      desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: '設定するロール付与の種類です。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'チャットトリガーのロール付与の種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するロール付与の種類です。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'チャットトリガーのロール付与の種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するロール付与の種類です。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'チャットトリガーのロール付与の種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するロール付与の種類です。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'チャットトリガーのクロスポスト先のチャンネルを設定します。'
+  params:
+    - desc: 'クロスポスト先のチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'チャットトリガーのクロスポストに使う Webhook を設定します。'
+  params:
+    - desc: 'クロスポストに使う Webhook の URL です。'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: '特定のトリガーの種類に対して、チャットトリガーを有効にするかどうかを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: '有効性を設定するトリガーの種類です。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'そのトリガーの種類を有効にするか無効にするかです。'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: '特定のトリガーの種類に対して、チャットトリガーを有効にするかどうかを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '有効性を設定するトリガーの種類です。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'そのトリガーの種類を有効にするか無効にするかです。'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: '特定のトリガーの種類に対して、チャットトリガーを有効にするかどうかを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '有効性を設定するトリガーの種類です。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'そのトリガーの種類を有効にするか無効にするかです。'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: '特定のトリガーの種類に対して、チャットトリガーを有効にするかどうかを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '有効性を設定するトリガーの種類です。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'そのトリガーの種類を有効にするか無効にするかです。'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: '発動後にチャットトリガーの応答を自動削除するように設定します。'
+  params:
+    - &ref_162
+      desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: '発動後にチャットトリガーの応答を自動削除するように設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: '発動後にチャットトリガーの応答を自動削除するように設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: '発動後にチャットトリガーの応答を自動削除するように設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'チャットトリガーで対象指定を許可するように設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'メッセージのどこにでも含まれていれば発動するように、チャットトリガーを設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'チャットトリガーのクロスポスト先のチャンネルを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'クロスポストに設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'チャットトリガーのクロスポスト先のチャンネルを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'クロスポストに設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'チャットトリガーのクロスポスト先のチャンネルを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'クロスポストに設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'チャットトリガーのクロスポスト先のチャンネルを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'クロスポストに設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'チャットトリガーをクロスポストする Webhook の URL を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: '設定する Webhook の URL です。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'チャットトリガーをクロスポストする Webhook の URL を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定する Webhook の URL です。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'チャットトリガーをクロスポストする Webhook の URL を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定する Webhook の URL です。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'チャットトリガーをクロスポストする Webhook の URL を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定する Webhook の URL です。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'チャットトリガーへの応答として、DM を送信するように設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'チャットトリガーのインタラクション応答を、実行したユーザーにだけ表示する（エフェメラル）かどうかを設定します。ドキュメント作成の苦労を他の人に見せないためです！'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: '応答をエフェメラルにする場合は true、そうでない場合は false です。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'チャットトリガーのインタラクション応答を、実行したユーザーにだけ表示する（エフェメラル）かどうかを設定します。ドキュメント作成の苦労を他の人に見せないためです！'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '応答をエフェメラルにする場合は true、そうでない場合は false です。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'チャットトリガーのインタラクション応答を、実行したユーザーにだけ表示する（エフェメラル）かどうかを設定します。ドキュメント作成の苦労を他の人に見せないためです！'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '応答をエフェメラルにする場合は true、そうでない場合は false です。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'チャットトリガーのインタラクション応答を、実行したユーザーにだけ表示する（エフェメラル）かどうかを設定します。ドキュメント作成の苦労を他の人に見せないためです！'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '応答をエフェメラルにする場合は true、そうでない場合は false です。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'チャットトリガーのインタラクションエラーを表示します。'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: '応答しないようにチャットトリガーを設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'チャットトリガーのプレフィックスを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: '設定する新しいプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'チャットトリガーのプレフィックスを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定する新しいプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'チャットトリガーのプレフィックスを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定する新しいプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'チャットトリガーのプレフィックスを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定する新しいプレフィックスです。'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'チャットトリガーのプレフィックスの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: '設定するプレフィックスの種類です。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'チャットトリガーのプレフィックスの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するプレフィックスの種類です。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'チャットトリガーのプレフィックスの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するプレフィックスの種類です。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'チャットトリガーのプレフィックスの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するプレフィックスの種類です。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'チャットトリガーのリアクションを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'リアクションとして設定する絵文字の文字列です。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'チャットトリガーのリアクションを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'リアクションとして設定する絵文字の文字列です。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'チャットトリガーのリアクションを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'リアクションとして設定する絵文字の文字列です。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'チャットトリガーのリアクションを設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'リアクションとして設定する絵文字の文字列です。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'チャットトリガーのロール付与を切り替えます。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: '切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'チャットトリガーのロール付与を切り替えます。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'チャットトリガーのロール付与を切り替えます。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'チャットトリガーのロール付与を切り替えます。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'チャットトリガーのロール削除を切り替えます。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'すべてのチャットトリガーを削除します。'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: '現在のサーバーのチャットトリガー設定をエクスポートします。'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: '従来の CrEmbed 形式のチャットトリガーを新しい埋め込み形式に移行します。最初にバックアップをエクスポートしてから、すべてのトリガーを変換します。'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: '現在のサーバーのチャットトリガー設定をインポートします。'
+  params:
+    - desc: 'カスタムリアクションの設定を含む入力です。'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'チャットトリガーを再読み込みします。'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'ID を指定してチャットトリガーを削除します。'
+  params:
+    - desc: '削除するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: '既存のチャットトリガーを編集します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'チャットトリガーの新しいメッセージです。'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'すべてのチャットトリガーを一覧表示します。'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'トリガーごとにグループ化して、すべてのチャットトリガーを一覧表示します。'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'トリガーに対してリアクションするように、チャットトリガーを設定します。'
+  params:
+    - desc: '編集するチャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクションの説明を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'インタラクションに設定する説明です。'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクションの説明を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'インタラクションに設定する説明です。'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクションの説明を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'インタラクションに設定する説明です。'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクションの説明を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'インタラクションに設定する説明です。'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクション名を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'インタラクションに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクション名を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'インタラクションに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクション名を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'インタラクションに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'チャットトリガーのインタラクション名を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'インタラクションに設定する名前です。'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'チャットトリガーのインタラクションの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: '設定するインタラクションの種類です。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'チャットトリガーのインタラクションの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するインタラクションの種類です。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'チャットトリガーのインタラクションの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するインタラクションの種類です。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'チャットトリガーのインタラクションの種類を設定します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するインタラクションの種類です。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: '特定のチャットトリガーの詳細を表示します。'
+  params:
+    - &ref_544
+      desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: '特定のチャットトリガーの詳細を表示します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: '特定のチャットトリガーの詳細を表示します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: '特定のチャットトリガーの詳細を表示します。'
+  params:
+    - desc: 'チャットトリガーの ID です。'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'チャットトリガーを発動させることができるイベントを設定します。'
+cteventchannel:
+  desc: 'チャットトリガーのイベントを処理するチャンネルを設定します。'
+ctreply:
+  desc: 'チャットトリガーが返信するメッセージを設定します。'
+ctdeleteafter:
+  desc: 'チャットトリガーの応答を送信してから削除されるまでの時間を設定します。'
+ctcooldown:
+  desc: 'チャットトリガーのクールダウンを設定します。'
+ctrequirecounter:
+  desc: 'チャットトリガーのカウンター条件を設定します。'
+ctcategory:
+  desc: 'チャットトリガーのカテゴリを設定します。'
+ctcategorytoggle:
+  desc: 'チャットトリガーのカテゴリを有効または無効にします。'
+cttest:
+  desc: 'サンプルメッセージでチャットトリガーが発動するかどうかをテストします。'
+ctstats:
+  desc: 'チャットトリガーの利用統計を表示します。'
+ctchain:
+  desc: '別のトリガーの後に実行されるチャットトリガーを設定します。'
+ctallowbots:
+  desc: 'チャットトリガーがボットに反応するかどうかを制御します。'
+ctcounters:
+  desc: 'チャットトリガーのカウンターを一覧表示します。'
+ctcounterset:
+  desc: 'チャットトリガーのカウンター値を設定します。'
+ctcounterdelete:
+  desc: 'チャットトリガーのカウンターを削除します。'
+ctplaceholders:
+  desc: 'チャットトリガーで使用できるプレースホルダーを一覧表示します。'
+cttime:
+  desc: 'チャットトリガーが有効になる時間帯を設定します。'
+ctexpiry:
+  desc: 'チャットトリガーの有効期限を設定します。'
+ctmaxuses:
+  desc: 'チャットトリガーが実行できる最大回数を設定します。'
+ctminage:
+  desc: 'チャットトリガーに必要な最低アカウント年齢を設定します。'
+ctminmember:
+  desc: 'チャットトリガーに必要なサーバー在籍期間の最低値を設定します。'
+cttoggle:
+  desc: 'チャットトリガーを有効または無効にします。'
+ctaddresponse:
+  desc: 'チャットトリガーに追加の応答を追加します。'
+ctclearresponses:
+  desc: 'チャットトリガーから追加の応答を削除します。'
+ctresponsemode:
+  desc: 'チャットトリガーが応答を選ぶ方法を設定します。'
+ctcost:
+  desc: 'チャットトリガーの通貨コストを設定します。'
+ctreward:
+  desc: 'チャットトリガーの通貨報酬を設定します。'
+ctxpreward:
+  desc: 'チャットトリガーの XP 報酬を設定します。'
+ctreqlevel:
+  desc: 'チャットトリガーに必要な XP レベルを設定します。'
+ctreqmsg:
+  desc: 'チャットトリガーの条件を満たさなかった場合のメッセージを設定します。'

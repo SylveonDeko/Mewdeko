@@ -20,6 +20,7 @@
   "giveaway_entry_successful": "Gewinnspiel-Eingabe erfolgreich!",
   "giveaway_guild_not_found": "Die Gilde für dieses Gewinnspiel konnte nicht gefunden werden.",
   "giveaway_host_message_removed": "Gewinnspiel-Host-Nachricht wurde entfernt.",
+  "giveaway_host_message_set": "Die Nachricht des Gewinnspiel-Hosts wurde gesetzt.",
   "giveaway_invalid_color": "Das ist keine gültige Farbe! Bitte verwende korrektes Hex (beginnt mit #) oder verwende HTML-Farbnamen!",
   "giveaway_invalid_emote": "Ich kann dieses Emote nicht für Gewinnspielen verwenden! Wahrscheinlich, weil ich nicht in einem Server damit bin.",
   "giveaway_invalid_emote_current": "Das aktuelle Gewinnspiel-Emote ist ungültig oder ich kann nicht darauf zugreifen! Bitte stelle es erneut ein und starten ein neues Gewinnspiel.",

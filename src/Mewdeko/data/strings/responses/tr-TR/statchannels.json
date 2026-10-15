@@ -1,0 +1,15 @@
+{
+  "stat_channel_created": "**{1}** türünde **{0}** istatistik kanalı oluşturuldu.",
+  "stat_channel_added": "**{1}** türünde **{0}** istatistik kanalı eklendi.",
+  "stat_channel_exists": "Bu kanal zaten bir istatistik kanalı.",
+  "stat_channel_removed": "**{0}** istatistik kanalı kaldırıldı.",
+  "stat_channel_not_found": "Bu kanal bir istatistik kanalı değil.",
+  "stat_channel_none": "Ayarlanmış istatistik kanalı yok.",
+  "stat_channel_list_title": "İstatistik Kanalları",
+  "stat_channel_types_title": "Kullanılabilir İstatistik Türleri",
+  "stat_channel_unknown_type": "Bu istatistik türü yok. Mevcut türlere göz atmak için types komutunu kullan.",
+  "stat_channel_mechanism_set": "**{0}** artık her **{2}** dakikada bir **{1}** ile güncellenecek.",
+  "stat_channel_style_set": "**{0}** artık **{1}** stilini kullanıyor, örneğin `{2}`.",
+  "stat_channel_defaults_set": "Yeni istatistik kanalları varsayılan olarak her **{1}** dakikada bir **{0}** güncellenecek ve **{2}** stilini kullanacak.",
+  "stat_channel_invalid_date": "Bu tarih ayrıştırılamadı. 2026-12-31 18:00 gibi bir format kullan."
+}

@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: '"anal" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - &ref_90
+      desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '現在のサーバーチャンネルに、指定した間隔で "boobs" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: '現在のサーバーチャンネルまたは DM に、指定した間隔で "butts" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '現在のサーバーチャンネルまたは DM に、指定した間隔で "butts" サブレディットの NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: '現在のサーバーチャンネルに、指定した間隔で NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '自動投稿の間隔（秒）です。0 に設定すると自動投稿を停止します。'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW コンテンツを絞り込むための任意のタグです。複数のタグは ''|'' で区切ります。空欄の場合はランダムな NSFW コンテンツを表示します。'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: '現在のサーバーチャンネルに、指定した間隔で NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '自動投稿の間隔（秒）です。0 に設定すると自動投稿を停止します。'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW コンテンツを絞り込むための任意のタグです。複数のタグは ''|'' で区切ります。空欄の場合はランダムな NSFW コンテンツを表示します。'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: '現在のサーバーチャンネルに、指定した間隔で NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '自動投稿の間隔（秒）です。0 に設定すると自動投稿を停止します。'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW コンテンツを絞り込むための任意のタグです。複数のタグは ''|'' で区切ります。空欄の場合はランダムな NSFW コンテンツを表示します。'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: '現在のサーバーチャンネルに、指定した間隔で NSFW コンテンツを自動投稿するかどうかを開始または停止するコマンドです。'
+  params:
+    - desc: '自動投稿の間隔（秒）です。0 に設定すると自動投稿を停止します。'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW コンテンツを絞り込むための任意のタグです。複数のタグは ''|'' で区切ります。空欄の場合はランダムな NSFW コンテンツを表示します。'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: '"bondage" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: '現在のサーバーチャンネルまたは DM で、"boobs" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: '現在のサーバーチャンネルまたは DM で、"ass" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Danbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_176
+      desc: 'Danbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Danbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Danbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Danbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Danbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Danbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Danbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Derpibooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_200
+      desc: 'Derpibooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Derpibooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Derpibooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Derpibooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Derpibooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Derpibooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Derpibooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて E621 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_203
+      desc: 'E621 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて E621 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'E621 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて E621 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'E621 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて E621 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'E621 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Gelbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_222
+      desc: 'Gelbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Gelbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Gelbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Gelbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Gelbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Gelbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Gelbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて "hentai" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_245
+      desc: '"hentai" サブレディットから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて "hentai" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: '"hentai" サブレディットから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて "hentai" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: '"hentai" サブレディットから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて "hentai" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: '"hentai" サブレディットから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて複数のソースから NSFW コンテンツを取得して表示する "hentai bomb" を開始するコマンドです。'
+  params:
+    - desc: '各ソースから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: '"HENTAI_GIF" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Konachan の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_263
+      desc: 'Konachan の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Konachan の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Konachan の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Konachan の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Konachan の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Konachan の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Konachan の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: 'NHentai のウェブサイトから漫画の情報を取得して表示するコマンドです。'
+  params:
+    - &ref_327
+      desc: '取得する漫画の識別番号です。'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: 'NHentai のウェブサイトから漫画の情報を取得して表示するコマンドです。'
+  params:
+    - desc: '取得する漫画の識別番号です。'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: 'NHentai のウェブサイトから漫画の情報を取得して表示するコマンドです。'
+  params:
+    - desc: '取得する漫画の識別番号です。'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: 'NHentai のウェブサイトから漫画の情報を取得して表示するコマンドです。'
+  params:
+    - desc: '取得する漫画の識別番号です。'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - &ref_328
+      desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のページ番号です。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 検索の種類です。'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: '指定された検索語、ページ番号、種類、ブラックリストをもとに、NHentai でヘンタイ漫画を検索するコマンドです。'
+  params:
+    - desc: 'NHentai の検索語です。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 検索のブラックリストです。'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: 'NSFW タグのブラックリストを管理します。'
+  params:
+    - desc: '実行する操作です（add/remove）。'
+      name: action
+      optional: false
+      type: string
+    - desc: 'ブラックリストに登録するタグです。'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: '現在のサーバーの NSFW タグのブラックリストを管理するコマンドです。'
+  params:
+    - desc: 'ブラックリストに追加または削除する任意のタグです。指定しない場合は、現在のブラックリストに登録されているタグを表示します。'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: '"porn" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて RealBooru のソースから NSFW コンテンツを取得して表示する "porn bomb" を開始するコマンドです。'
+  params:
+    - &ref_352
+      desc: 'RealBooru のソースから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて RealBooru のソースから NSFW コンテンツを取得して表示する "porn bomb" を開始するコマンドです。'
+  params:
+    - desc: 'RealBooru のソースから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて RealBooru のソースから NSFW コンテンツを取得して表示する "porn bomb" を開始するコマンドです。'
+  params:
+    - desc: 'RealBooru のソースから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて RealBooru のソースから NSFW コンテンツを取得して表示する "porn bomb" を開始するコマンドです。'
+  params:
+    - desc: 'RealBooru のソースから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: '"pussy" サブレディットから NSFW コンテンツを取得して表示するコマンドです。'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Realbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_383
+      desc: 'Realbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Realbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Realbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Realbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Realbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Realbooru の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Realbooru の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: '指定したサブレディットから NSFW コンテンツを取得するコマンドです。'
+  params:
+    - &ref_384
+      desc: 'コンテンツを取得するサブレディットの名前です。'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: '指定したサブレディットから NSFW コンテンツを取得するコマンドです。'
+  params:
+    - desc: 'コンテンツを取得するサブレディットの名前です。'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: '指定したサブレディットから NSFW コンテンツを取得するコマンドです。'
+  params:
+    - desc: 'コンテンツを取得するサブレディットの名前です。'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: '指定したサブレディットから NSFW コンテンツを取得するコマンドです。'
+  params:
+    - desc: 'コンテンツを取得するサブレディットの名前です。'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Rule34 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_472
+      desc: 'Rule34 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Rule34 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Rule34 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Rule34 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Rule34 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Rule34 の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Rule34 の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Sankaku の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_474
+      desc: 'Sankaku の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Sankaku の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Sankaku の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Sankaku の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Sankaku の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Sankaku の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Sankaku の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Yandere の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - &ref_674
+      desc: 'Yandere の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Yandere の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Yandere の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Yandere の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Yandere の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: '現在のサーバーチャンネルまたは DM で、任意のタグを付けて Yandere の画像ボードから NSFW コンテンツを取得して表示するコマンドです。'
+  params:
+    - desc: 'Yandere の画像ボードから NSFW コンテンツを絞り込むための任意のタグです。'
+      name: tags
+      optional: false
+      type: string[]

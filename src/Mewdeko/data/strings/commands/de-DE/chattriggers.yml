@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger hinzu.'
+  params:
+    - &ref_9
+      desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger hinzu.'
+  params:
+    - desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger hinzu.'
+  params:
+    - desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger hinzu.'
+  params:
+    - desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger mit Regex-Unterstützung hinzu.'
+  params:
+    - desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger mit Regex-Unterstützung hinzu.'
+  params:
+    - desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger mit Regex-Unterstützung hinzu.'
+  params:
+    - desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Fügt einen neuen Chat-Trigger mit Regex-Unterstützung hinzu.'
+  params:
+    - desc: 'Der Schlüssel für den Chat-Trigger.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Die Nachricht, die mit dem Chat-Trigger verknüpft ist.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Fügt einen neuen reaktionsbasierten Chat-Trigger hinzu.'
+  params:
+    - desc: 'Das Reaktions-Emoji, auf das ausgelöst wird.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'Die Nachricht, die bei Auslösung gesendet wird.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Legt den Rollenvergabe-Typ für einen Chat-Trigger fest.'
+  params:
+    - &ref_130
+      desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'Der zu setzende Rollenvergabe-Typ.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Legt den Rollenvergabe-Typ für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Rollenvergabe-Typ.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Legt den Rollenvergabe-Typ für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Rollenvergabe-Typ.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Legt den Rollenvergabe-Typ für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Rollenvergabe-Typ.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Legt den Kanal für das Cross-Posting von Chat-Triggern fest.'
+  params:
+    - desc: 'Der Kanal für das Cross-Posting.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Legt den Webhook für das Cross-Posting von Chat-Triggern fest.'
+  params:
+    - desc: 'Die Webhook-URL für das Cross-Posting.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Legt fest, ob ein Chat-Trigger für einen bestimmten Trigger-Typ gültig ist.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'Der Trigger-Typ, dessen Gültigkeit festgelegt wird.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Ob der Trigger-Typ aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Legt fest, ob ein Chat-Trigger für einen bestimmten Trigger-Typ gültig ist.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Trigger-Typ, dessen Gültigkeit festgelegt wird.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Ob der Trigger-Typ aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Legt fest, ob ein Chat-Trigger für einen bestimmten Trigger-Typ gültig ist.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Trigger-Typ, dessen Gültigkeit festgelegt wird.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Ob der Trigger-Typ aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Legt fest, ob ein Chat-Trigger für einen bestimmten Trigger-Typ gültig ist.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Trigger-Typ, dessen Gültigkeit festgelegt wird.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Ob der Trigger-Typ aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger sich nach dem Auslösen automatisch löscht.'
+  params:
+    - &ref_162
+      desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger sich nach dem Auslösen automatisch löscht.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger sich nach dem Auslösen automatisch löscht.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger sich nach dem Auslösen automatisch löscht.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger auf Ziele ausgerichtet werden darf.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger irgendwo in der Nachricht enthalten sein darf.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Legt den Cross-Posting-Kanal für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'Der Kanal für das Cross-Posting.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Legt den Cross-Posting-Kanal für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Kanal für das Cross-Posting.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Legt den Cross-Posting-Kanal für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Kanal für das Cross-Posting.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Legt den Cross-Posting-Kanal für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Kanal für das Cross-Posting.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Legt die Webhook-URL für das Cross-Posting eines Chat-Triggers fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'Die zu setzende Webhook-URL.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Legt die Webhook-URL für das Cross-Posting eines Chat-Triggers fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die zu setzende Webhook-URL.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Legt die Webhook-URL für das Cross-Posting eines Chat-Triggers fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die zu setzende Webhook-URL.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Legt die Webhook-URL für das Cross-Posting eines Chat-Triggers fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die zu setzende Webhook-URL.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger als Antwort eine Direktnachricht sendet.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Legt fest, ob die Interaktionsantwort eines Chat-Triggers nur für den Auslöser sichtbar (ephemeral) sein soll. Damit andere mein Leid mit der Doku nicht sehen müssen!'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'True, wenn die Antwort ephemeral sein soll, sonst false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Legt fest, ob die Interaktionsantwort eines Chat-Triggers nur für den Auslöser sichtbar (ephemeral) sein soll. Damit andere mein Leid mit der Doku nicht sehen müssen!'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True, wenn die Antwort ephemeral sein soll, sonst false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Legt fest, ob die Interaktionsantwort eines Chat-Triggers nur für den Auslöser sichtbar (ephemeral) sein soll. Damit andere mein Leid mit der Doku nicht sehen müssen!'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True, wenn die Antwort ephemeral sein soll, sonst false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Legt fest, ob die Interaktionsantwort eines Chat-Triggers nur für den Auslöser sichtbar (ephemeral) sein soll. Damit andere mein Leid mit der Doku nicht sehen müssen!'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True, wenn die Antwort ephemeral sein soll, sonst false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Zeigt die Interaktionsfehler für Chat-Trigger an.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger nicht antwortet.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Legt das Präfix für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'Das neue Präfix.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Legt das Präfix für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Das neue Präfix.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Legt das Präfix für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Das neue Präfix.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Legt das Präfix für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Das neue Präfix.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Legt den Präfix-Typ für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'Der zu setzende Präfix-Typ.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Legt den Präfix-Typ für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Präfix-Typ.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Legt den Präfix-Typ für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Präfix-Typ.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Legt den Präfix-Typ für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Präfix-Typ.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Legt Reaktionen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Die Emoji-Zeichenfolgen, die als Reaktionen gesetzt werden.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Legt Reaktionen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Emoji-Zeichenfolgen, die als Reaktionen gesetzt werden.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Legt Reaktionen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Emoji-Zeichenfolgen, die als Reaktionen gesetzt werden.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Legt Reaktionen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Emoji-Zeichenfolgen, die als Reaktionen gesetzt werden.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Schaltet die Rollenvergabe für einen Chat-Trigger um.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'Die Rolle, die umgeschaltet werden soll.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Schaltet die Rollenvergabe für einen Chat-Trigger um.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Rolle, die umgeschaltet werden soll.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Schaltet die Rollenvergabe für einen Chat-Trigger um.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Rolle, die umgeschaltet werden soll.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Schaltet die Rollenvergabe für einen Chat-Trigger um.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Rolle, die umgeschaltet werden soll.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Schaltet das Entfernen von Rollen für einen Chat-Trigger um.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Rolle, die umgeschaltet werden soll.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Löscht alle Chat-Trigger.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Exportiert die Chat-Trigger-Einstellungen für den aktuellen Server.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Migriert alte Chat-Trigger im CrEmbed-Format in das neue Embed-Format. Exportiert zuerst ein Backup und konvertiert dann alle Trigger.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Importiert Chat-Trigger-Einstellungen für den aktuellen Server.'
+  params:
+    - desc: 'Die Eingabe mit den Einstellungen für benutzerdefinierte Reaktionen.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Lädt die Chat-Trigger neu.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Löscht einen Chat-Trigger anhand seiner ID.'
+  params:
+    - desc: 'Die ID des zu löschenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Bearbeitet einen bestehenden Chat-Trigger.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die neue Nachricht für den Chat-Trigger.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Listet alle Chat-Trigger auf.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Listet alle Chat-Trigger, gruppiert nach Auslöser.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Legt fest, dass ein Chat-Trigger auf den Auslöser reagiert.'
+  params:
+    - desc: 'Die ID des zu bearbeitenden Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Legt die Interaktionsbeschreibung für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'Die Beschreibung für die Interaktion.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Legt die Interaktionsbeschreibung für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Beschreibung für die Interaktion.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Legt die Interaktionsbeschreibung für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Beschreibung für die Interaktion.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Legt die Interaktionsbeschreibung für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Beschreibung für die Interaktion.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Legt den Interaktionsnamen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'Der Name für die Interaktion.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Legt den Interaktionsnamen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Name für die Interaktion.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Legt den Interaktionsnamen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Name für die Interaktion.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Legt den Interaktionsnamen für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Name für die Interaktion.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Legt den Interaktionstyp für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'Der zu setzende Interaktionstyp.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Legt den Interaktionstyp für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Interaktionstyp.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Legt den Interaktionstyp für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Interaktionstyp.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Legt den Interaktionstyp für einen Chat-Trigger fest.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der zu setzende Interaktionstyp.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Zeigt Details zu einem bestimmten Chat-Trigger.'
+  params:
+    - &ref_544
+      desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Zeigt Details zu einem bestimmten Chat-Trigger.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Zeigt Details zu einem bestimmten Chat-Trigger.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Zeigt Details zu einem bestimmten Chat-Trigger.'
+  params:
+    - desc: 'Die ID des Chat-Triggers.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Legt das Ereignis fest, das einen Chat-Trigger auslösen kann.'
+cteventchannel:
+  desc: 'Legt den Kanal fest, in dem ein Chat-Trigger-Ereignis verarbeitet wird.'
+ctreply:
+  desc: 'Legt die Nachricht fest, auf die ein Chat-Trigger antwortet.'
+ctdeleteafter:
+  desc: 'Legt fest, nach wie vielen Sekunden eine Chat-Trigger-Antwort nach dem Senden gelöscht wird.'
+ctcooldown:
+  desc: 'Legt eine Abklingzeit für einen Chat-Trigger fest.'
+ctrequirecounter:
+  desc: 'Legt eine Zählerbedingung für einen Chat-Trigger fest.'
+ctcategory:
+  desc: 'Legt die Kategorie für einen Chat-Trigger fest.'
+ctcategorytoggle:
+  desc: 'Aktiviert oder deaktiviert eine Chat-Trigger-Kategorie.'
+cttest:
+  desc: 'Testet, ob eine Beispielnachricht einen Chat-Trigger auslösen würde.'
+ctstats:
+  desc: 'Zeigt Aktivitätsstatistiken der Chat-Trigger.'
+ctchain:
+  desc: 'Legt einen Chat-Trigger fest, der nach einem anderen Trigger läuft.'
+ctallowbots:
+  desc: 'Legt fest, ob ein Chat-Trigger auf Bots reagiert.'
+ctcounters:
+  desc: 'Listet Chat-Trigger-Zähler auf.'
+ctcounterset:
+  desc: 'Legt einen Wert für einen Chat-Trigger-Zähler fest.'
+ctcounterdelete:
+  desc: 'Löscht einen Chat-Trigger-Zähler.'
+ctplaceholders:
+  desc: 'Listet die Platzhalter auf, die für Chat-Trigger verfügbar sind.'
+cttime:
+  desc: 'Legt den aktiven Zeitraum für einen Chat-Trigger fest.'
+ctexpiry:
+  desc: 'Legt ein Ablaufdatum für einen Chat-Trigger fest.'
+ctmaxuses:
+  desc: 'Legt die maximale Anzahl an Ausführungen für einen Chat-Trigger fest.'
+ctminage:
+  desc: 'Legt ein Mindestalter des Accounts für einen Chat-Trigger fest.'
+ctminmember:
+  desc: 'Legt eine Mindestdauer der Server-Mitgliedschaft für einen Chat-Trigger fest.'
+cttoggle:
+  desc: 'Aktiviert oder deaktiviert einen Chat-Trigger.'
+ctaddresponse:
+  desc: 'Fügt einem Chat-Trigger eine weitere Antwort hinzu.'
+ctclearresponses:
+  desc: 'Entfernt weitere Antworten von einem Chat-Trigger.'
+ctresponsemode:
+  desc: 'Legt fest, wie ein Chat-Trigger seine Antworten auswählt.'
+ctcost:
+  desc: 'Legt die Währungskosten für einen Chat-Trigger fest.'
+ctreward:
+  desc: 'Legt die Währungsbelohnung für einen Chat-Trigger fest.'
+ctxpreward:
+  desc: 'Legt die XP-Belohnung für einen Chat-Trigger fest.'
+ctreqlevel:
+  desc: 'Legt das benötigte XP-Level für einen Chat-Trigger fest.'
+ctreqmsg:
+  desc: 'Legt die Nachricht fest, die bei nicht erfüllter Anforderung für einen Chat-Trigger erscheint.'

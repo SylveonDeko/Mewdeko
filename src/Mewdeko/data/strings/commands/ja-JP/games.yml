@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Acrophobia ゲームを開始するためのコマンドです。'
+  params:
+    - &ref_3
+      desc: 'コマンドに渡す引数です。'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Acrophobia ゲームを開始するためのコマンドです。'
+  params:
+    - desc: 'コマンドに渡す引数です。'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Acrophobia ゲームを開始するためのコマンドです。'
+  params:
+    - desc: 'コマンドに渡す引数です。'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Acrophobia ゲームを開始するためのコマンドです。'
+  params:
+    - desc: 'コマンドに渡す引数です。'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: '選択肢の一覧からランダムに選ぶためのコマンドです。'
+  params:
+    - desc: 'セミコロンで区切った選択肢の一覧です。'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'ユーザーのドラゴンステータスを切り替えるコマンドです。通常はベータ版のコマンドで使用されます。'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'マジック 8 ボールに答えを尋ねるコマンドです。'
+  params:
+    - desc: '尋ねる質問です。'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: '指定した種類でハングマンゲームを開始します。'
+  params:
+    - &ref_244
+      desc: '指定した種類でハングマンゲームを開始します。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: '指定した種類でハングマンゲームを開始します。'
+  params:
+    - desc: '指定した種類でハングマンゲームを開始します。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: '指定した種類でハングマンゲームを開始します。'
+  params:
+    - desc: '指定した種類でハングマンゲームを開始します。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: '指定した種類でハングマンゲームを開始します。'
+  params:
+    - desc: '指定した種類でハングマンゲームを開始します。'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: '現在のサーバーで利用可能なハングマンの種類を一覧表示します。'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: '現在のチャンネルで実行中のハングマンゲームを停止します。'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Kaladont ゲームを開始するためのコマンドです。'
+  params:
+    - &ref_kaladont_1
+      desc: 'Kaladont ゲームを開始するためのコマンドです。'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Kaladont ゲームを開始するためのコマンドです。'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Kaladont ゲームを開始するためのコマンドです。'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Kaladont ゲームを開始するためのコマンドです。'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: '現在の Kaladont ゲームを停止するためのコマンドです。'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: '常設の Kaladont チャンネルを設定します。'
+  params:
+    - &ref_kaladont_setup_1
+      desc: '常設の Kaladont チャンネルを設定します。'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: '常設の Kaladont チャンネルを設定します。'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: '常設の Kaladont チャンネルを設定します。'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: '常設の Kaladont チャンネルを設定します。'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: '常設の Kaladont チャンネルを無効にします。'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: '会話に割り込んでくる、面白い Linux コマンドです。'
+  params:
+    - &ref_275
+      desc: '"GNU" を置き換える名前です。'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: '"Linux" を置き換える名前です。'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: '会話に割り込んでくる、面白い Linux コマンドです。'
+  params:
+    - desc: '"GNU" を置き換える名前です。'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux" を置き換える名前です。'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: '会話に割り込んでくる、面白い Linux コマンドです。'
+  params:
+    - desc: '"GNU" を置き換える名前です。'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux" を置き換える名前です。'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: '会話に割り込んでくる、面白い Linux コマンドです。'
+  params:
+    - desc: '"GNU" を置き換える名前です。'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux" を置き換える名前です。'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Nunchi ゲームを開始するか、参加します。'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - &ref_351
+      desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - &ref_349
+      desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+  params:
+    - desc: 'シンプルな「はい/いいえ」の投票を作成します。'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: '投票者の身元が伏せられる匿名の投票を作成します。'
+  params:
+    - desc: '投票の質問と選択肢です。セミコロンで区切ります。'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: '複数の選択肢を持つカスタム投票を作成します。'
+  params:
+    - desc: '投票の質問と選択肢です。セミコロンで区切ります。'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'ユーザーが複数の選択肢を選べる複数選択の投票を作成します。'
+  params:
+    - desc: '投票の質問と選択肢です。セミコロンで区切ります。'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'テンプレートから投票を作成します。'
+  params:
+    - desc: '使用するテンプレートの名前です。'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'サーバーで利用可能なすべての投票テンプレートを一覧表示します。'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: '以前存在したコマンドです。NadekoBot でトランスジェンダーの人々に対する侮辱語を使ったことを記録として、また NadekoBot への反発として残しています。'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'TicTacToe ゲームを開始します。'
+  params:
+    - &ref_619
+      desc: 'ttt のオプションです。'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'TicTacToe ゲームを開始します。'
+  params:
+    - desc: 'ttt のオプションです。'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'TicTacToe ゲームを開始します。'
+  params:
+    - desc: 'ttt のオプションです。'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'TicTacToe ゲームを開始します。'
+  params:
+    - desc: 'ttt のオプションです。'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: '現在のトリビアのリーダーボードを表示します。'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: '現在のトリビアゲームを停止します。'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'トリビアゲームを開始します。'
+  params:
+    - &ref_629
+      desc: 'トリビアの任意の引数です。'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'トリビアゲームを開始します。'
+  params:
+    - desc: 'トリビアの任意の引数です。'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'トリビアゲームを開始します。'
+  params:
+    - desc: 'トリビアの任意の引数です。'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'トリビアゲームを開始します。'
+  params:
+    - desc: 'トリビアの任意の引数です。'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'タイピングゲーム用の新しい記事を追加します。'
+  params:
+    - &ref_630
+      desc: '追加する記事の本文です。'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'タイピングゲーム用の新しい記事を追加します。'
+  params:
+    - desc: '追加する記事の本文です。'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'タイピングゲーム用の新しい記事を追加します。'
+  params:
+    - desc: '追加する記事の本文です。'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'タイピングゲーム用の新しい記事を追加します。'
+  params:
+    - desc: '追加する記事の本文です。'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'インデックスを指定して、タイピング記事を削除します。'
+  params:
+    - &ref_631
+      desc: '削除する記事のインデックスです。'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'インデックスを指定して、タイピング記事を削除します。'
+  params:
+    - desc: '削除する記事のインデックスです。'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'インデックスを指定して、タイピング記事を削除します。'
+  params:
+    - desc: '削除する記事のインデックスです。'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'インデックスを指定して、タイピング記事を削除します。'
+  params:
+    - desc: '削除する記事のインデックスです。'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'タイピングゲームで利用可能な記事を一覧表示します。'
+  params:
+    - desc: 'タイピングゲームで利用可能な記事を一覧表示します。'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'スピードタイピングゲームを開始します。'
+  params:
+    - &ref_632
+      desc: 'ゲームの設定に使う引数です。'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'スピードタイピングゲームを開始します。'
+  params:
+    - desc: 'ゲームの設定に使う引数です。'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'スピードタイピングゲームを開始します。'
+  params:
+    - desc: 'ゲームの設定に使う引数です。'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'スピードタイピングゲームを開始します。'
+  params:
+    - desc: 'ゲームの設定に使う引数です。'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: '現在のスピードタイピングゲームを停止します。'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: '選択肢の一覧からランダムに選ぶためのコマンドです。'
+  params:
+    - desc: 'セミコロンで区切った選択肢の一覧です。'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: '現在のチャンネルで実行中のハングマンゲームを停止します。'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Nunchi ゲームを開始するか、参加します。'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: '現在のトリビアのリーダーボードを表示します。'
+  params: [ ]

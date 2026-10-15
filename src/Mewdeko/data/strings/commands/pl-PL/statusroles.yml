@@ -38,12 +38,12 @@ addstatusrole_string_2:
 liststatusroles:
   args:
     - ''
-  desc: 'Wyświetla wszystkie aktualne role statusu z ich szczegółami.'
+  desc: 'Wyświetla wszystkie aktualne role statusu wraz ze szczegółami.'
   params: [ ]
 removeaddroles:
   args:
     - number @role
-  desc: 'Ustawia role do usunięcia gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do usunięcia, gdy użytkownik ma wybrany status.'
   params:
     - &ref_390
       desc: 'Indeks roli statusu.'
@@ -58,7 +58,7 @@ removeaddroles:
 removeaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Ustawia role do usunięcia gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do usunięcia, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -71,7 +71,7 @@ removeaddroles_int_IRole[]:
 removeaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Ustawia role do usunięcia gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do usunięcia, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -84,7 +84,7 @@ removeaddroles_int_IRole[]_1:
 removeaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Ustawia role do usunięcia gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do usunięcia, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -97,8 +97,7 @@ removeaddroles_int_IRole[]_2:
 removeremoveroles:
   args:
     - number @role
-  desc: >-
-    Usuwa jedną lub więcej ról z ról dodanych gdy użytkownik ma wybrany status.
+  desc: 'Usuwa jedną lub więcej ról z ról dodawanych, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -120,7 +119,7 @@ removestatusrole:
 setaddroles:
   args:
     - number @role
-  desc: 'Ustawia role do dodania gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do dodania, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -134,7 +133,7 @@ setaddroles:
 setaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Ustawia role do dodania gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do dodania, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -147,7 +146,7 @@ setaddroles_int_IRole[]:
 setaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Ustawia role do dodania gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do dodania, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -160,7 +159,7 @@ setaddroles_int_IRole[]_1:
 setaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Ustawia role do dodania gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do dodania, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -173,7 +172,7 @@ setaddroles_int_IRole[]_2:
 setremoveroles:
   args:
     - number @role
-  desc: 'Ustawia role do usunięcia gdy użytkownik ma wybrany status.'
+  desc: 'Ustawia role do usunięcia, gdy użytkownik ma wybrany status.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -240,20 +239,20 @@ setstatusroleembed:
   args:
     - '<index> [embedText]'
     - number
-  desc: 'Ustawia lub podgląda tekst embed dla określonej roli statusu.'
+  desc: 'Ustawia lub podgląda tekst embeda dla określonej roli statusu.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
       optional: false
       type: int
-    - desc: 'Tekst embed do ustawienia.'
+    - desc: 'Tekst embeda do ustawienia.'
       name: embedText
       optional: true
       type: string
 togglereaddremoved:
   args:
     - number
-  desc: 'Przełącza czy dodane role są usuwane gdy status jest usuwany.'
+  desc: 'Przełącza, czy dodane role są usuwane, gdy status zostanie usunięty.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index
@@ -262,9 +261,7 @@ togglereaddremoved:
 toggleremoveadded:
   args:
     - number
-  desc: >-
-    Przełącza czy dodane role są usuwane gdy użytkownik nie ma już statusu
-    według podanego indeksu.
+  desc: 'Przełącza, czy dodane role są usuwane, gdy użytkownik nie ma już statusu o podanym indeksie.'
   params:
     - desc: 'Indeks roli statusu.'
       name: index

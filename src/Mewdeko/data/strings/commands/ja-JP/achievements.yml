@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: '実績の概要を表示します。ランク、ポイント、各カテゴリの進捗、最近の解除を確認できます。ほかのユーザーをメンションすると、そのユーザーの概要を表示します。'
+  params:
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: '1つのカテゴリに含まれるすべての実績を、未解除のものの進捗とともに表示します。'
+  params:
+    - desc: 'カテゴリのキーまたは名前です。messages、voice、reactions、invites、commands、loyalty、boosts、community、prestige、custom などを指定できます。'
+      name: category
+      optional: false
+      type: string
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'サーバー内のすべての実績を進捗付きで、ページごとに表示します。'
+  params:
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: '直近に解除された実績を5件表示します。'
+  params:
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'グレードとポイントで上位の解除実績を5件表示します。'
+  params:
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: '名前または説明で実績を検索し、それぞれの進捗を表示します。'
+  params:
+    - desc: '検索するキーワードです。'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'すべてのサーバーで獲得した実績を表示します。合計ポイント、サーバー数、グローバル実績を含みます。'
+  params:
+    - desc: '表示するユーザーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'サーバー内で最も多くの実績を獲得しているメンバーを表示します。非表示設定にしているメンバーは除外されます。'
+  params:
+    - desc: 'Points、Unlocked、Recent のいずれかです。省略すると Points になります。'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'すべてのサーバーで最も多くの実績を獲得しているユーザーを表示します。'
+  params:
+    - desc: 'Points、Unlocked、Recent のいずれかです。省略すると Points になります。'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'ランク、ポイント、次のランクまでの進捗、装備中のバッジを含む実績プロフィールカードを描画します。'
+  params:
+    - desc: 'カードを表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: '実績が追跡するすべての数値を表示します。メッセージ数、ボイス時間、リアクション、招待、コマンド、サーバー在籍期間、ブースト、レベル、評判などです。'
+  params:
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: '実績を画像で表示します。解除済みの場合は解除済みと表示し、未解除の場合は自分または他のユーザーがどれだけ近いかを表示します。'
+  params:
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: '実績の画像、ダッシュボード、アプリに表示されるアイコンを設定します。trophy のようなアイコン名、サーバーの絵文字、または https の画像リンクを指定できます。省略すると、カテゴリのアイコンが再び使われます。'
+  params:
+    - desc: '実績の名前またはキーです。スペースを含む場合は引用符で囲んでください。'
+      name: achievement
+      optional: false
+      type: string
+    - desc: 'アイコンです。省略すると削除されます。'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: '自分または他のユーザーが所有するすべてのバッジを表示し、上部に装備中の4つのスロットを表示します。'
+  params:
+    - desc: '表示するメンバーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: '所有しているバッジをプロフィールの4つのスロットのいずれかに設定します。バッジのキーは badges で確認できます。'
+  params:
+    - desc: 'スロットの番号（1〜4）です。'
+      name: slot
+      optional: false
+      type: int
+    - desc: 'バッジのキーです。'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'プロフィールのスロットのいずれかを空にします。'
+  params:
+    - desc: 'スロットの番号（1〜4）です。'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'バッジの内容と獲得方法を表示します。'
+  params:
+    - desc: 'バッジのキーです。'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: '実績プロフィール、実績、バッジ、リーダーボードの掲載順位を誰が見られるかを設定します。'
+  params:
+    - desc: 'Profile、Achievements、Badges、Leaderboard のいずれかです。'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone または OnlyMe です。'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: '解除時のDM、サーバー内の解除メッセージ、またはそのメッセージ内のメンションを、自分に対して有効または無効にします。'
+  params:
+    - desc: 'Dm、Message、Mention のいずれかです。'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: '有効にする場合は true、無効にする場合は false を指定します。'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'サーバー内のすべての実績を、キー、有効かどうか、解除したメンバー数とともに一覧表示します。'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'サーバーで実績の獲得を開始または一時停止します。開始するとメッセージのカウントも有効になり、すでに条件を満たしているメンバーには実績が静かに付与されます。'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: '実績の解除を通知するチャンネルを設定します。省略するとログチャンネルの使用を停止します。'
+  params:
+    - desc: 'チャンネルです。'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: '解除の通知先を設定します。Auto はログチャンネルが設定されていればそれを使い、設定されていなければ解除が発生したチャンネルを使います。Here は解除が発生したチャンネルを使用します。LogChannel はログチャンネルのみ、DmOnly はDMのみ、Silent は通知を行いません。'
+  params:
+    - desc: 'Auto、Here、LogChannel、DmOnly、Silent のいずれかです。'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'メンバーが自分で無効にしない限り、解除通知をDMで受け取るかどうかを設定します。'
+  params:
+    - desc: '有効にする場合は true、無効にする場合は false を指定します。'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: '解除メッセージを設定します。プレーンテキストと埋め込みJSONの両方に対応しており、%achievement.name%、%achievement.points%、%achievement.list%、%achievements.tier% などのプレースホルダーを使えます。省略するとデフォルトに戻ります。'
+  params:
+    - desc: 'メッセージです。削除する場合は空にします。'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'メンバーが獲得した実績ポイントごとに XP を付与します。0 で無効になります。'
+  params:
+    - desc: 'ポイントあたりの XP（0〜1000）です。'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'メンバーが獲得できるように、1つの実績を有効にします。'
+  params:
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: '1つの実績を無効にします。すでに解除したメンバーは引き続き保持します。'
+  params:
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'カテゴリ全体を有効または無効にします。'
+  params:
+    - desc: 'カテゴリのキーまたは名前です。'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'メンバーに実績を付与し、通常の解除と同じように通知します。'
+  params:
+    - desc: 'メンバーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'メンバーからその実績を取り消します。'
+  params:
+    - desc: 'メンバーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: '確認の後、メンバーがサーバーで獲得したすべての実績を削除します。'
+  params:
+    - desc: 'メンバーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: '特定の数値に到達すると解除される実績を作成します。指定できる指標は MessagesTotal、MessagesToday、VoiceHours、Reactions、Invites、Commands、TenureDays、XpLevel、Reputation、NetWorth です。'
+  params:
+    - desc: '数える対象です。'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: '到達させる数値です。'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst、Champion のいずれかです。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名前です。'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'サーバー内の任意の場所で特定のフレーズを発言すると解除される実績を作成します。'
+  params:
+    - desc: 'フレーズです。スペースを含む場合は引用符で囲んでください。'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst、Champion のいずれかです。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名前です。'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: '絵文字でリアクションすると解除される実績を作成します。'
+  params:
+    - desc: '絵文字です。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst、Champion のいずれかです。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名前です。'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'achgrant でスタッフだけが付与できる実績を作成します。'
+  params:
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst、Champion のいずれかです。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名前です。'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: '確認の後、サーバーが作成した実績を削除します。解除したすべてのユーザーからその実績は削除されます。'
+  params:
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: '実績を解除したときにメンバーへ付与するロールを設定します。'
+  params:
+    - desc: 'ロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: '実績を解除したときにメンバーへ付与する通貨を設定します。0 で削除されます。'
+  params:
+    - desc: '金額です。'
+      name: amount
+      optional: false
+      type: long
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: '実績を解除したときにメンバーへ付与する XP を設定します。0 で削除されます。'
+  params:
+    - desc: '金額です。'
+      name: amount
+      optional: false
+      type: int
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: '実績のすべての報酬を削除します。'
+  params:
+    - desc: '実績の名前またはキーです。'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: '指定したロールを持つメンバーが実績を獲得できないようにします。もう一度実行すると再び獲得できるようになります。'
+  params:
+    - desc: 'ロールです。'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'チャンネルでの活動を実績のカウント対象から除外します。もう一度実行するとカウント対象に戻ります。'
+  params:
+    - desc: 'チャンネルです。'
+      name: channel
+      optional: false
+      type: IGuildChannel

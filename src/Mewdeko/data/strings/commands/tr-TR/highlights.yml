@@ -7,11 +7,11 @@ highlight:
     - delete
   desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Yapılacak işlem: add, list, delete veya match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Seçilen eylem için parametreler'
+    - desc: 'Seçilen işlem için parametreler'
       name: words
       optional: true
       type: string
@@ -24,11 +24,11 @@ highlight_HighlightActions_=:
     - delete
   desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Yapılacak işlem: add, list, delete veya match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Seçilen eylem için parametreler'
+    - desc: 'Seçilen işlem için parametreler'
       name: words
       optional: true
       type: string
@@ -41,11 +41,11 @@ highlight_HighlightActions_=_1:
     - delete
   desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Yapılacak işlem: add, list, delete veya match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Seçilen eylem için parametreler'
+    - desc: 'Seçilen işlem için parametreler'
       name: words
       optional: true
       type: string
@@ -58,24 +58,24 @@ highlight_HighlightActions_=_2:
     - delete
   desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Yapılacak işlem: add, list, delete veya match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Seçilen eylem için parametreler'
+    - desc: 'Seçilen işlem için parametreler'
       name: words
       optional: true
       type: string
 highlights:
   args:
     - action word
-  desc: Kullanıcı vurgularını yönetir.
+  desc: 'Kullanıcı vurgularını yönetir.'
   params:
-    - desc: Vurgularla gerçekleştirilecek eylem.
+    - desc: 'Vurgularla yapılacak işlem.'
       name: action
       optional: false
       type: string
-    - desc: Vurgulanacak kelime.
+    - desc: 'Vurgulanacak kelime.'
       name: word
       optional: true
       type: string

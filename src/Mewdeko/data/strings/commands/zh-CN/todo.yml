@@ -3,9 +3,9 @@ todoadd:
     - listId
     - title
     - description
-  desc: '向指定列表添加新的待办事项'
+  desc: '向指定列表添加一个新的待办事项'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
@@ -13,7 +13,7 @@ todoadd:
       name: title
       optional: false
       type: string
-    - desc: '事项的可选描述。'
+    - desc: '可选的事项描述。'
       name: description
       optional: true
       type: string
@@ -23,13 +23,13 @@ todoaddpriority:
     - priority
     - title
     - description
-  desc: '添加带有优先级和可选截止日期的待办事项'
+  desc: '添加带优先级和可选截止日期的待办事项'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
-    - desc: '优先级 (1=低, 2=中, 3=高, 4=紧急)。'
+    - desc: '优先级（1=低，2=中，3=高，4=紧急）。'
       name: priority
       optional: false
       type: int
@@ -37,7 +37,7 @@ todoaddpriority:
       name: title
       optional: false
       type: string
-    - desc: '事项的可选描述。'
+    - desc: '可选的事项描述。'
       name: description
       optional: true
       type: string
@@ -47,7 +47,7 @@ todoaddtag:
     - tag
   desc: '为待办事项添加标签'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
@@ -60,7 +60,7 @@ todocleardue:
     - itemId
   desc: '移除待办事项的截止日期'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
@@ -69,16 +69,16 @@ todoclearreminder:
     - itemId
   desc: '移除待办事项的提醒'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
 todocomplete:
   args:
     - itemId
-  desc: '将待办事项标记为已完成'
+  desc: '完成一个待办事项'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
@@ -100,7 +100,7 @@ todocreateserverlist:
   args:
     - name
     - description
-  desc: '创建新的服务器级待办列表（仅管理员）'
+  desc: '创建服务器级别的待办列表（仅管理员）'
   params:
     - desc: '服务器待办列表的名称。'
       name: name
@@ -113,9 +113,9 @@ todocreateserverlist:
 tododelete:
   args:
     - itemId
-  desc: '删除待办事项'
+  desc: '删除一个待办事项'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
@@ -124,7 +124,7 @@ tododeletelist:
     - listId
   desc: '删除整个待办列表'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
@@ -135,7 +135,7 @@ todoedit:
     - description
   desc: '编辑待办事项的标题和描述'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
@@ -154,15 +154,15 @@ todofilter:
     - value
   desc: '按标签或优先级筛选待办事项'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
-    - desc: '筛选类型（标签或优先级）。'
+    - desc: '筛选类型（tag 或 priority）。'
       name: filter
       optional: false
       type: string
-    - desc: '筛选值。'
+    - desc: '用于筛选的值。'
       name: value
       optional: true
       type: string
@@ -171,9 +171,9 @@ todogrant:
     - listId
     - '@user'
     - permissions
-  desc: '授予用户对待办列表的权限（仅列表所有者/管理员）'
+  desc: '授予用户待办列表的权限（仅列表所有者或管理员）'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
@@ -181,7 +181,7 @@ todogrant:
       name: user
       optional: false
       type: IUser
-    - desc: '逗号分隔的权限 (view,add,edit,complete,delete,manage,all)。'
+    - desc: '以逗号分隔的权限（view,add,edit,complete,delete,manage,all）。'
       name: permissions
       optional: false
       type: string
@@ -190,7 +190,7 @@ todolists:
     - includeServer
   desc: '列出用户可访问的所有待办列表'
   params:
-    - desc: '是否包含服务器级列表。'
+    - desc: '是否包含服务器级别的列表。'
       name: includeServer
       optional: true
       type: bool
@@ -199,7 +199,7 @@ todopermissions:
     - listId
   desc: '显示待办列表的所有权限'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
@@ -209,7 +209,7 @@ todoremovetag:
     - tag
   desc: '从待办事项中移除标签'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
@@ -221,13 +221,13 @@ todoreorder:
   args:
     - itemId
     - newPosition
-  desc: '将待办事项重新排序到新位置'
+  desc: '将待办事项移动到新位置'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
-    - desc: '新位置（从1开始）。'
+    - desc: '新位置（从 1 开始）。'
       name: newPosition
       optional: false
       type: int
@@ -237,7 +237,7 @@ todorevoke:
     - '@user'
   desc: '撤销用户在待办列表上的所有权限'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
@@ -251,11 +251,11 @@ todosearch:
     - query
   desc: '在列表中搜索待办事项'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
-    - desc: '搜索查询。'
+    - desc: '搜索关键词。'
       name: query
       optional: false
       type: string
@@ -265,11 +265,11 @@ todosetcolor:
     - color
   desc: '设置待办列表的颜色'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
-    - desc: '十六进制颜色代码（例如，'
+    - desc: '十六进制颜色代码，例如 #ff0000。'
       name: color
       optional: false
       type: string
@@ -279,11 +279,11 @@ todosetdue:
     - dateString
   desc: '设置待办事项的截止日期'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
-    - desc: '截止日期和时间。'
+    - desc: '截止的日期和时间。'
       name: dateString
       optional: false
       type: string
@@ -293,11 +293,11 @@ todosetreminder:
     - dateString
   desc: '为待办事项设置提醒时间'
   params:
-    - desc: '待办事项的ID。'
+    - desc: '待办事项的 ID。'
       name: itemId
       optional: false
       type: int
-    - desc: '提醒日期和时间。'
+    - desc: '提醒的日期和时间。'
       name: dateString
       optional: false
       type: string
@@ -307,7 +307,7 @@ todoshow:
     - includeCompleted
   desc: '显示待办列表中的所有事项'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int
@@ -320,7 +320,7 @@ todotoggleprivacy:
     - listId
   desc: '切换待办列表的隐私设置'
   params:
-    - desc: '待办列表的ID。'
+    - desc: '待办列表的 ID。'
       name: listId
       optional: false
       type: int

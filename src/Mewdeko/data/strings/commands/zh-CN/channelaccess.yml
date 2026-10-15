@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: '为受限频道发布申请按钮，方便你填写申请表。'
+  params:
+    - desc: '要申请加入的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: '无论投票数量如何，强制通过申请。'
+  params:
+    - desc: '申请 ID。'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: '显示在已关闭申请上的可选备注。'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: '列出本服务器中所有被禁止申请的用户。'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: '禁止用户申请，可针对单个频道或所有受限频道。'
+  params:
+    - desc: '要禁止的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '受限频道。留空则在所有地方禁止该用户。'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: '解除禁令，使用户可以再次申请。'
+  params:
+    - desc: '被禁止的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '如果禁令是针对特定频道设置的，则为该频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: '更改受限频道的一项设置。不带设置项运行可查看所有可更改的内容。'
+  params:
+    - desc: '受限频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '设置项名称。'
+      name: setting
+      optional: true
+      type: string
+    - desc: '新值。'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: '无论投票数量如何，拒绝申请。'
+  params:
+    - desc: '申请 ID。'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: '显示在已关闭申请上的可选备注。'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: '显示用户的申请历史。未指定用户时显示你自己的申请历史。'
+  params:
+    - desc: '要查询的用户。'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: '列出服务器中所有受限频道及其当前阈值。'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: '发布一个按钮，供用户点击以申请受限频道。'
+  params:
+    - desc: '受限频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '发布面板的位置。默认为当前频道。'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: '列出仍在等待审批的申请。'
+  params:
+    - desc: '可选，将列表限制为某一个受限频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: '向受限频道的申请表中添加一个问题。每个受限频道最多可以有五个问题。'
+  params:
+    - desc: '受限频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '问题文本，最多 45 个字符。'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: '按申请者看到的顺序显示受限频道的申请问题。'
+  params:
+    - desc: '受限频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: '按列表中的位置从受限频道的申请表中移除一个问题。'
+  params:
+    - desc: '受限频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '问题列表中显示的从 1 开始的位置。'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: '移除某频道的受限设置，包括其问题和申请历史。'
+  params:
+    - desc: '受限频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: '为锁定频道开放申请，并向通过的申请者授予指定身份组。'
+  params:
+    - desc: '要设置为受限的锁定频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '申请通过时授予的身份组。留空则直接将申请者加入频道。'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: '撤回你自己仍在等待中的申请。'
+  params:
+    - desc: '审核消息上显示的申请 ID。'
+      name: applicationId
+      optional: false
+      type: int

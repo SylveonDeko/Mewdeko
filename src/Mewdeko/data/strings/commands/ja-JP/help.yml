@@ -2,10 +2,9 @@ commands:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
+  desc: '特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合は、modules のエイリアスで、help のエイリアスです。'
   params:
-    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
+    - desc: '表示するモジュールです。続けて検索語を指定すると、そのコマンドを絞り込めます。'
       name: module
       optional: true
       type: string
@@ -13,10 +12,9 @@ commands_=:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
+  desc: '特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合は、modules のエイリアスで、help のエイリアスです。'
   params:
-    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
+    - desc: '表示するモジュールです。続けて検索語を指定すると、そのコマンドを絞り込めます。'
       name: module
       optional: true
       type: string
@@ -24,10 +22,9 @@ commands_=_1:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
+  desc: '特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合は、modules のエイリアスで、help のエイリアスです。'
   params:
-    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
+    - desc: '表示するモジュールです。続けて検索語を指定すると、そのコマンドを絞り込めます。'
       name: module
       optional: true
       type: string
@@ -35,10 +32,9 @@ commands_=_2:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
+  desc: '特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合は、modules のエイリアスで、help のエイリアスです。'
   params:
-    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
+    - desc: '表示するモジュールです。続けて検索語を指定すると、そのコマンドを絞り込めます。'
       name: module
       optional: true
       type: string
@@ -50,26 +46,22 @@ donate:
 exportcommandsjson:
   args:
     - ''
-  desc: >-
-    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  desc: 'すべてのコマンドをJSONファイルにエクスポートします。主に https://mewdeko.tech/commands で使用されます。'
   params: [ ]
 exportcommandsjson_noparams:
   args:
     - ''
-  desc: >-
-    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  desc: 'すべてのコマンドをJSONファイルにエクスポートします。主に https://mewdeko.tech/commands で使用されます。'
   params: [ ]
 exportcommandsjson_noparams_1:
   args:
     - ''
-  desc: >-
-    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  desc: 'すべてのコマンドをJSONファイルにエクスポートします。主に https://mewdeko.tech/commands で使用されます。'
   params: [ ]
 exportcommandsjson_noparams_2:
   args:
     - ''
-  desc: >-
-    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  desc: 'すべてのコマンドをJSONファイルにエクスポートします。主に https://mewdeko.tech/commands で使用されます。'
   params: [ ]
 guide:
   args:
@@ -79,25 +71,25 @@ guide:
 h:
   args:
     - command
-  desc: 特定のコマンドのヘルプを表示します。
+  desc: '特定のコマンドのヘルプを表示します。'
   params:
-    - desc: ヘルプを取得するコマンド。
+    - desc: 'ヘルプを表示するコマンドです。'
       name: command
       optional: true
       type: string
 help:
   args:
     - command
-  desc: コマンドのヘルプ情報を表示します。
+  desc: 'コマンドのヘルプ情報を表示します。'
   params:
-    - desc: ヘルプを取得するコマンド。
+    - desc: 'ヘルプを表示するコマンドです。'
       name: command
       optional: true
       type: string
 modules:
   args:
     - ''
-  desc: 'すべてのモジュールのリストを表示します。基本的に今は help のエイリアスです。'
+  desc: 'すべてのモジュールの一覧を表示します。現時点では、実質的に help のエイリアスです。'
   params: [ ]
 searchcommand:
   args:
@@ -105,7 +97,7 @@ searchcommand:
   desc: '名前または説明でコマンドを検索します。'
   params:
     - &ref_481
-      desc: '検索する用語'
+      desc: '検索する語句です。'
       name: commandname
       optional: false
       type: string
@@ -114,7 +106,7 @@ searchcommand_string:
     - text
   desc: '名前または説明でコマンドを検索します。'
   params:
-    - desc: '検索する用語'
+    - desc: '検索する語句です。'
       name: commandname
       optional: false
       type: string
@@ -123,7 +115,7 @@ searchcommand_string_1:
     - text
   desc: '名前または説明でコマンドを検索します。'
   params:
-    - desc: '検索する用語'
+    - desc: '検索する語句です。'
       name: commandname
       optional: false
       type: string
@@ -132,17 +124,17 @@ searchcommand_string_2:
     - text
   desc: '名前または説明でコマンドを検索します。'
   params:
-    - desc: '検索する用語'
+    - desc: '検索する語句です。'
       name: commandname
       optional: false
       type: string
 source:
   args:
     - ''
-  desc: 'ボットのソースコードリンクを表示します。'
+  desc: 'ボットのソースコードへのリンクを表示します。'
   params: [ ]
 vote:
   args:
     - ''
-  desc: 'Mewdeko に投票するリンクを表示します。'
+  desc: 'mewdeko に投票するためのリンクを表示します。'
   params: [ ]

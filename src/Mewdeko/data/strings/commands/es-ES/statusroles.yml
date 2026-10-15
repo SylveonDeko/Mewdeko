@@ -4,7 +4,7 @@ addstatusrole:
   desc: 'Añade una configuración de rol de estado.'
   params:
     - &ref_32
-      desc: 'El estado que se va a añadir.'
+      desc: 'El estado a añadir.'
       name: status
       optional: false
       type: string
@@ -13,7 +13,7 @@ addstatusrole_string:
     - text
   desc: 'Añade una configuración de rol de estado.'
   params:
-    - desc: 'El estado que se va a añadir.'
+    - desc: 'El estado a añadir.'
       name: status
       optional: false
       type: string
@@ -22,7 +22,7 @@ addstatusrole_string_1:
     - text
   desc: 'Añade una configuración de rol de estado.'
   params:
-    - desc: 'El estado que se va a añadir.'
+    - desc: 'El estado a añadir.'
       name: status
       optional: false
       type: string
@@ -31,19 +31,19 @@ addstatusrole_string_2:
     - text
   desc: 'Añade una configuración de rol de estado.'
   params:
-    - desc: 'El estado que se va a añadir.'
+    - desc: 'El estado a añadir.'
       name: status
       optional: false
       type: string
 liststatusroles:
   args:
     - ''
-  desc: 'Lista todos los roles de estado actuales con sus detalles.'
+  desc: 'Muestra todos los roles de estado actuales con sus detalles.'
   params: [ ]
 removeaddroles:
   args:
     - number @role
-  desc: 'Establece los roles a eliminar cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se quitarán cuando un usuario tenga el estado seleccionado.'
   params:
     - &ref_390
       desc: 'El índice del rol de estado.'
@@ -51,61 +51,59 @@ removeaddroles:
       optional: false
       type: int
     - &ref_391
-      desc: 'Los roles a eliminar.'
+      desc: 'Los roles que se quitarán.'
       name: roles
       optional: false
       type: IRole[]
 removeaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Establece los roles a eliminar cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se quitarán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a eliminar.'
+    - desc: 'Los roles que se quitarán.'
       name: roles
       optional: false
       type: IRole[]
 removeaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Establece los roles a eliminar cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se quitarán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a eliminar.'
+    - desc: 'Los roles que se quitarán.'
       name: roles
       optional: false
       type: IRole[]
 removeaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Establece los roles a eliminar cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se quitarán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a eliminar.'
+    - desc: 'Los roles que se quitarán.'
       name: roles
       optional: false
       type: IRole[]
 removeremoveroles:
   args:
     - number @role
-  desc: >-
-    Elimina uno o más roles de los roles añadidos cuando un usuario tiene el
-    estado seleccionado.
+  desc: 'Quita uno o varios roles de los roles añadidos cuando un usuario tiene el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a eliminar.'
+    - desc: 'Los roles que se quitarán.'
       name: roles
       optional: false
       type: IRole[]
@@ -121,73 +119,73 @@ removestatusrole:
 setaddroles:
   args:
     - number @role
-  desc: 'Establece los roles a añadir cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se añadirán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
     - &ref_486
-      desc: 'Los roles a añadir.'
+      desc: 'Los roles que se añadirán.'
       name: roles
       optional: false
       type: IRole[]
 setaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Establece los roles a añadir cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se añadirán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a añadir.'
+    - desc: 'Los roles que se añadirán.'
       name: roles
       optional: false
       type: IRole[]
 setaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Establece los roles a añadir cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se añadirán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a añadir.'
+    - desc: 'Los roles que se añadirán.'
       name: roles
       optional: false
       type: IRole[]
 setaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Establece los roles a añadir cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se añadirán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a añadir.'
+    - desc: 'Los roles que se añadirán.'
       name: roles
       optional: false
       type: IRole[]
 setremoveroles:
   args:
     - number @role
-  desc: 'Establece los roles a eliminar cuando un usuario tiene el estado seleccionado.'
+  desc: 'Establece los roles que se quitarán cuando un usuario tenga el estado seleccionado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
       optional: false
       type: int
-    - desc: 'Los roles a eliminar.'
+    - desc: 'Los roles que se quitarán.'
       name: roles
       optional: false
       type: IRole[]
 setstatusrolechannel:
   args:
     - number channel
-  desc: 'Establece el canal para un rol de estado específico.'
+  desc: 'Establece el canal de un rol de estado concreto.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
@@ -201,7 +199,7 @@ setstatusrolechannel:
 setstatusrolechannel_int_ITextChannel:
   args:
     - number channel
-  desc: 'Establece el canal para un rol de estado específico.'
+  desc: 'Establece el canal de un rol de estado concreto.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
@@ -214,7 +212,7 @@ setstatusrolechannel_int_ITextChannel:
 setstatusrolechannel_int_ITextChannel_1:
   args:
     - number channel
-  desc: 'Establece el canal para un rol de estado específico.'
+  desc: 'Establece el canal de un rol de estado concreto.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
@@ -227,7 +225,7 @@ setstatusrolechannel_int_ITextChannel_1:
 setstatusrolechannel_int_ITextChannel_2:
   args:
     - number channel
-  desc: 'Establece el canal para un rol de estado específico.'
+  desc: 'Establece el canal de un rol de estado concreto.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
@@ -241,7 +239,7 @@ setstatusroleembed:
   args:
     - '<index> [embedText]'
     - number
-  desc: 'Establece o previsualiza el texto del embed para un rol de estado específico.'
+  desc: 'Establece o previsualiza el texto del embed de un rol de estado concreto.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
@@ -254,7 +252,7 @@ setstatusroleembed:
 togglereaddremoved:
   args:
     - number
-  desc: 'Alterna si los roles añadidos se eliminan cuando se elimina un estado.'
+  desc: 'Activa o desactiva que los roles añadidos se quiten cuando se elimina un estado.'
   params:
     - desc: 'El índice del rol de estado.'
       name: index
@@ -263,9 +261,7 @@ togglereaddremoved:
 toggleremoveadded:
   args:
     - number
-  desc: >-
-    Alterna si los roles añadidos se eliminan cuando un usuario ya no tiene el
-    estado según el índice proporcionado.
+  desc: 'Activa o desactiva que los roles añadidos se quiten cuando un usuario ya no tiene un estado con el índice indicado'
   params:
     - desc: 'El índice del rol de estado.'
       name: index

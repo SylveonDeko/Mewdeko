@@ -3,17 +3,17 @@ coprmonitoradd:
     - '<ownerProject> [channel] [packages]'
     - '<ownerProject> [channel] [packages]'
     - ownerProject
-  desc: '向服务器添加COPR项目监控。'
+  desc: '为服务器添加 COPR 项目监控。'
   params:
-    - desc: 'COPR项目，格式为owner/project（例如linux4switch/l4s）。'
+    - desc: 'COPR 项目，格式为 owner/project（例如 linux4switch/l4s）。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '可选的通知频道。默认为当前频道。'
+    - desc: '用于通知的可选频道。默认为当前频道。'
       name: channel
       optional: true
       type: ITextChannel
-    - desc: '可选的逗号分隔包列表以进行监控（例如mesa,kernel）。'
+    - desc: '可选的逗号分隔软件包列表，用于监控（例如 mesa,kernel）。'
       name: packages
       optional: true
       type: string
@@ -21,36 +21,36 @@ coprmonitorremove:
   args:
     - '<ownerProject> [channel]'
     - ownerProject
-  desc: '从服务器删除COPR项目监控。'
+  desc: '从服务器中移除 COPR 项目监控。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '可选频道以删除特定监控。'
+    - desc: '要从中移除特定监控的可选频道。'
       name: channel
       optional: true
       type: ITextChannel
 coprmonitorlist:
   args:
     - ''
-  desc: '列出服务器中配置的所有COPR监控。'
+  desc: '列出服务器中配置的所有 COPR 监控。'
   params: [ ]
 coprmonitortoggle:
   args:
     - ownerProject
-  desc: '打开或关闭COPR监控。'
+  desc: '开启或关闭 COPR 监控。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
 coprnotify:
   args:
     - ownerProject status enabled
-  desc: '配置哪些构建状态为监控触发通知。'
+  desc: '配置哪些构建状态会触发该监控的通知。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
@@ -58,98 +58,98 @@ coprnotify:
       name: status
       optional: false
       type: CoprBuildStatus
-    - desc: '是否启用或禁用此状态的通知。'
+    - desc: '是否为该状态启用或禁用通知。'
       name: enabled
       optional: false
       type: bool
 coprfilter:
   args:
     - ownerProject text
-  desc: '设置COPR监控的包过滤器。'
+  desc: '设置 COPR 监控的软件包过滤器。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '逗号分隔的包列表，或"all"以监控所有内容。'
+    - desc: '逗号分隔的软件包列表，或使用 "all" 监控全部。'
       name: packages
       optional: false
       type: string
 coprsucceededmessage:
   args:
     - ownerProject text
-  desc: '设置COPR构建成功时显示的消息。'
+  desc: '设置 COPR 构建成功时显示的消息。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '消息或embed代码。使用"-"重置为默认值。'
+    - desc: '消息或嵌入代码。使用 "-" 可恢复默认。'
       name: message
       optional: false
       type: string
 coprfailedmessage:
   args:
     - ownerProject text
-  desc: '设置COPR构建失败时显示的消息。'
+  desc: '设置 COPR 构建失败时显示的消息。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '消息或embed代码。使用"-"重置为默认值。'
+    - desc: '消息或嵌入代码。使用 "-" 可恢复默认。'
       name: message
       optional: false
       type: string
 coprcanceledmessage:
   args:
     - ownerProject text
-  desc: '设置COPR构建取消时显示的消息。'
+  desc: '设置 COPR 构建取消时显示的消息。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '消息或embed代码。使用"-"重置为默认值。'
+    - desc: '消息或嵌入代码。使用 "-" 可恢复默认。'
       name: message
       optional: false
       type: string
 coprpendingmessage:
   args:
     - ownerProject text
-  desc: '设置COPR构建挂起时显示的消息。'
+  desc: '设置 COPR 构建等待中时显示的消息。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '消息或embed代码。使用"-"重置为默认值。'
+    - desc: '消息或嵌入代码。使用 "-" 可恢复默认。'
       name: message
       optional: false
       type: string
 coprrunningmessage:
   args:
     - ownerProject text
-  desc: '设置COPR构建运行时显示的消息。'
+  desc: '设置 COPR 构建进行中时显示的消息。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '消息或embed代码。使用"-"重置为默认值。'
+    - desc: '消息或嵌入代码。使用 "-" 可恢复默认。'
       name: message
       optional: false
       type: string
 coprskippedmessage:
   args:
     - ownerProject text
-  desc: '设置COPR构建跳过时显示的消息。'
+  desc: '设置 COPR 构建跳过时显示的消息。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '消息或embed代码。使用"-"重置为默认值。'
+    - desc: '消息或嵌入代码。使用 "-" 可恢复默认。'
       name: message
       optional: false
       type: string
@@ -158,11 +158,11 @@ coprdefaultmessage:
     - ownerProject text
   desc: '设置所有其他构建状态的默认消息。'
   params:
-    - desc: 'COPR项目，格式为owner/project。'
+    - desc: 'COPR 项目，格式为 owner/project。'
       name: ownerProject
       optional: false
       type: string
-    - desc: '消息或embed代码。使用"-"重置为默认值。'
+    - desc: '消息或嵌入代码。使用 "-" 可恢复默认。'
       name: message
       optional: false
       type: string

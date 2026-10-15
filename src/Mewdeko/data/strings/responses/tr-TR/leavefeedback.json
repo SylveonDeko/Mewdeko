@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "Gittiğimi görmek üzücü!",
+  "leave_feedback_desc": "Az önce **{0}** sunucusundan çıkarıldım. Bir dakikan varsa neden olduğunu söyler misin? Bu, bir sonra neler üzerinde çalışacağımıza karar vermemize gerçekten yardımcı oluyor ve bu sunucu hakkında bir daha sorulmayacaksın.",
+  "leave_feedback_footer": "Cevap vermek tamamen isteğe bağlı.",
+  "leave_feedback_placeholder": "Bot neden kaldırıldı?",
+  "leave_feedback_write_button": "Bir şeyler yaz",
+  "leave_feedback_dismiss_button": "Hayır, teşekkürler",
+  "leave_feedback_reason_not_needed": "Artık ihtiyacımız kalmadı",
+  "leave_feedback_reason_confusing": "Kurulumu çok karmaşıktı",
+  "leave_feedback_reason_missing_features": "İstediğimiz özellikler yoktu",
+  "leave_feedback_reason_unreliable": "Bozuktu ya da güvenilir değildi",
+  "leave_feedback_reason_other_bot": "Başka bir bota geçtik",
+  "leave_feedback_reason_temporary": "Geçici, sonra tekrar ekleyeceğim",
+  "leave_feedback_reason_testing": "Sadece bir şeyi deniyordum",
+  "leave_feedback_thanks": "Teşekkürler, not ettim: **{0}**. Eklemek istediğin başka bir şey varsa aşağıdaki düğmeyi kullan.",
+  "leave_feedback_submitted": "Teşekkürler, geri bildirimin iletildi!",
+  "leave_feedback_dismissed": "Sorun değil, bir daha sorulmayacaksın."
+}

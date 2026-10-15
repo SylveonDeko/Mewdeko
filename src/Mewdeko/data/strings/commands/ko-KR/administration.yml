@@ -1,0 +1,4851 @@
+adsarm:
+  args:
+    - ''
+  desc: '서버 광고 메시지 자동 삭제를 켜거나 꺼요.'
+  params: [ ]
+antialt:
+  args:
+    - ''
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antipattern:
+  args:
+    - ''
+  desc: 'Anti-Pattern 보호를 설정해요. 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antipattern_PunishmentAction_=:
+  args:
+    - '<action> [punishTime]'
+    - action
+  desc: 'Anti-Pattern 보호를 설정해요. 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '감지된 패턴 일치에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '처벌 기간이에요. 해당하는 경우에만 사용해요.'
+      name: punishTime
+      optional: true
+      type: StoopidTime
+antipattern_PunishmentAction_IRole:
+  args:
+    - action @role
+  desc: 'Anti-Pattern 보호를 설정해요. 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '감지된 패턴 일치에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '패턴과 일치하는 사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+patternadd:
+  args:
+    - '<pattern> [name] [checkUsername] [checkDisplayName]'
+    - pattern
+  desc: 'Anti-Pattern 보호에 정규식 패턴을 추가해요.'
+  params:
+    - desc: '사용자 이름이나 표시 이름과 대조할 정규식 패턴이에요.'
+      name: pattern
+      optional: false
+      type: string
+    - desc: '패턴의 이름이에요. 선택 사항이에요.'
+      name: name
+      optional: true
+      type: string
+    - desc: '사용자 이름을 이 패턴으로 검사할지 여부예요. 기본값은 true예요.'
+      name: checkUsername
+      optional: true
+      type: bool
+    - desc: '표시 이름을 이 패턴으로 검사할지 여부예요. 기본값은 true예요.'
+      name: checkDisplayName
+      optional: true
+      type: bool
+patternremove:
+  args:
+    - number
+  desc: 'Anti-Pattern 보호에서 패턴을 제거해요.'
+  params:
+    - desc: '제거할 패턴의 ID예요.'
+      name: patternId
+      optional: false
+      type: int
+patternlist:
+  args:
+    - ''
+  desc: 'Anti-Pattern 보호에 설정된 모든 패턴을 보여줘요.'
+  params: [ ]
+patternconfig:
+  args:
+    - ''
+  desc: '현재 anti-pattern 설정을 보여줘요.'
+  params: [ ]
+patternconfig_string_string:
+  args:
+    - setting value
+  desc: '현재 anti-pattern 설정을 보여줘요.'
+  params:
+    - desc: '설정할 항목이에요.'
+      name: setting
+      optional: false
+      type: string
+    - desc: '설정할 값이에요.'
+      name: value
+      optional: false
+      type: string
+antialt_StoopidTime_PunishmentAction_=:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_1:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_2:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_=_3:
+  args:
+    - '<minAge> <action> [punishTime]'
+    - minage action
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: duration
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antialt_StoopidTime_PunishmentAction_IRole:
+  args:
+    - minage action @role
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_69
+      desc: '감지된 부계정에 처벌로 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_1:
+  args:
+    - minage action @role
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '감지된 부계정에 처벌로 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_2:
+  args:
+    - minage action @role
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '감지된 부계정에 처벌로 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antialt_StoopidTime_PunishmentAction_IRole_3:
+  args:
+    - minage action @role
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '부계정으로 판단할 계정의 최소 나이(분)예요.'
+      name: minAge
+      optional: false
+      type: StoopidTime
+    - desc: '감지된 부계정에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '감지된 부계정에 처벌로 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antialt_noparams:
+  args:
+    - ''
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antialt_noparams_1:
+  args:
+    - ''
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antialt_noparams_2:
+  args:
+    - ''
+  desc: 'Anti-Alt 보호를 설정해요. 최소 계정 나이와 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antimassmention:
+  args:
+    - ''
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antimassmention_int_int_int_bool_PunishmentAction_=:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_1:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_2:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_=_3:
+  args:
+    - '<mentionThreshold> <timeWindowSeconds> <maxMentionsInTimeWindow> <ignoreBots> <action> [punishTime]'
+    - number number number true|false action
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: punishment
+    - desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: true
+      type: duration
+antimassmention_int_int_int_bool_PunishmentAction_IRole:
+  args:
+    - number number number true|false action @role
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_75
+      desc: '처벌받은 사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_1:
+  args:
+    - number number number true|false action @role
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '처벌받은 사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_2:
+  args:
+    - number number number true|false action @role
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '처벌받은 사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_int_int_int_bool_PunishmentAction_IRole_3:
+  args:
+    - number number number true|false action @role
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '보호가 작동하기 전에 한 메시지에서 허용할 멘션 수예요.'
+      name: mentionThreshold
+      optional: false
+      type: int
+    - desc: '멘션을 확인할 시간 범위(초)예요.'
+      name: timeWindowSeconds
+      optional: false
+      type: int
+    - desc: '지정한 시간 범위 안에서 허용할 최대 멘션 수예요.'
+      name: maxMentionsInTimeWindow
+      optional: false
+      type: int
+    - desc: '멘션을 추적할 때 봇 계정을 제외할지 여부예요.'
+      name: ignoreBots
+      optional: false
+      type: bool
+    - desc: '멘션 한도를 초과한 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: '처벌받은 사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+antimassmention_noparams:
+  args:
+    - ''
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antimassmention_noparams_1:
+  args:
+    - ''
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antimassmention_noparams_2:
+  args:
+    - ''
+  desc: 'Anti-Mass-Mention 보호를 설정해요. 한 메시지의 멘션 기준치, 멘션을 추적할 시간 범위, 시간 범위 안에서 허용할 최대 멘션 수, 역할 기반 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antiraid:
+  args:
+    - ''
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antiraid_int_int_PunishmentAction:
+  args:
+    - number number action
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - &ref_76
+      desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - &ref_77
+      desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - &ref_78
+      desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_1:
+  args:
+    - number number action
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_2:
+  args:
+    - number number action
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_3:
+  args:
+    - number number action
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antiraid_int_int_PunishmentAction_StoopidTime:
+  args:
+    - number number action time
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_79
+      desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number number action time
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number number action time
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_int_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number number action time
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '레이드로 감지할 사용자 수 기준치예요.'
+      name: userThreshold
+      optional: false
+      type: int
+    - desc: '사용자 입장을 확인할 시간 범위(초)예요.'
+      name: seconds
+      optional: false
+      type: int
+    - desc: '감지된 레이드에 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antiraid_noparams:
+  args:
+    - ''
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antiraid_noparams_1:
+  args:
+    - ''
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antiraid_noparams_2:
+  args:
+    - ''
+  desc: 'Anti-Raid 보호를 설정해요. 사용자 기준치, 감지 시간 범위, 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antispam:
+  args:
+    - ''
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antispam_int_PunishmentAction:
+  args:
+    - number action
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - &ref_80
+      desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_81
+      desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_1:
+  args:
+    - number action
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - &ref_82
+      desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_2:
+  args:
+    - number action
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_3:
+  args:
+    - number action
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+antispam_int_PunishmentAction_IRole:
+  args:
+    - number action @role
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_83
+      desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_1:
+  args:
+    - number action @role
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_2:
+  args:
+    - number action @role
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_IRole_3:
+  args:
+    - number action @role
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: role
+      optional: false
+      type: IRole
+antispam_int_PunishmentAction_StoopidTime:
+  args:
+    - number action time
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - &ref_84
+      desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_1:
+  args:
+    - number action time
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_2:
+  args:
+    - number action time
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_int_PunishmentAction_StoopidTime_3:
+  args:
+    - number action time
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params:
+    - desc: '스팸으로 감지할 메시지 수 기준치예요.'
+      name: messageCount
+      optional: false
+      type: int
+    - desc: '감지된 스팸 사용자에게 적용할 처벌 방식이에요.'
+      name: action
+      optional: false
+      type: PunishmentAction
+    - desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+      name: punishTime
+      optional: false
+      type: StoopidTime
+antispam_noparams:
+  args:
+    - ''
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antispam_noparams_1:
+  args:
+    - ''
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+antispam_noparams_2:
+  args:
+    - ''
+  desc: 'Anti-Spam 보호를 설정해요. 메시지 수 기준치와 처벌 방식을 지정할 수 있어요.'
+  params: [ ]
+asar:
+  args:
+    - '@role'
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - &ref_85
+      desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole:
+  args:
+    - '@role'
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_1:
+  args:
+    - '@role'
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+asar_IRole_2:
+  args:
+    - '@role'
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole:
+  args:
+    - number @role
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - &ref_86
+      desc: '정리를 위한 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_1:
+  args:
+    - number @role
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - desc: '정리를 위한 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_2:
+  args:
+    - number @role
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - desc: '정리를 위한 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+asar_int_IRole_3:
+  args:
+    - number @role
+  desc: '지정한 그룹의 자동 셀프 역할 목록에 역할을 추가해요.'
+  params:
+    - desc: '정리를 위한 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '자동 셀프 역할 목록에 추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole:
+  args:
+    - '@role'
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - &ref_87
+      desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole:
+  args:
+    - '@role'
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_1:
+  args:
+    - '@role'
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_IRole_2:
+  args:
+    - '@role'
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignbotrole_noparams:
+  args:
+    - ''
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autoassignbotrole_noparams_1:
+  args:
+    - ''
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autoassignbotrole_noparams_2:
+  args:
+    - ''
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autoassignbotrole_noparams_3:
+  args:
+    - ''
+  desc: '봇이 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autoassignrole:
+  args:
+    - '@role'
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole:
+  args:
+    - '@role'
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_1:
+  args:
+    - '@role'
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_IRole_2:
+  args:
+    - '@role'
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params:
+    - desc: '자동 부여를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autoassignrole_noparams:
+  args:
+    - ''
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autoassignrole_noparams_1:
+  args:
+    - ''
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autoassignrole_noparams_2:
+  args:
+    - ''
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autoassignrole_noparams_3:
+  args:
+    - ''
+  desc: '사용자가 서버에 참여할 때 자동으로 부여할 수 있는 역할 목록을 보여줘요.'
+  params: [ ]
+autobanroleadd:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles 목록에 역할을 추가해요.'
+  params:
+    - &ref_88
+      desc: '추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles 목록에 역할을 추가해요.'
+  params:
+    - desc: '추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_1:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles 목록에 역할을 추가해요.'
+  params:
+    - desc: '추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autobanroleadd_IRole_2:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles 목록에 역할을 추가해요.'
+  params:
+    - desc: '추가할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autobanrolelist:
+  args:
+    - ''
+  desc: '현재 서버의 AutoBanRoles 목록에 있는 모든 역할을 보여줘요.'
+  params: [ ]
+autobanroleremove:
+  args:
+    - '@role'
+  desc: 'AutoBanRoles 목록에서 역할을 제거해요.'
+  params:
+    - desc: '제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason:
+  args:
+    - '@role'
+    - '@role reason text'
+  desc: '감사 로그에 표시될 AutoBanRole의 차단 사유를 설정해요.'
+  params:
+    - desc: '사유를 설정할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_abreason
+      desc: '감사 로그에 표시할 사유예요. 비워두면 사유를 제거해요.'
+      name: reason
+      optional: true
+      type: string
+autobanrolereason_IRole:
+  args:
+    - '@role'
+  desc: '감사 로그에 표시될 AutoBanRole의 차단 사유를 설정해요.'
+  params:
+    - desc: '사유를 설정할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+autobanrolereason_IRole_string:
+  args:
+    - '@role reason text'
+  desc: '감사 로그에 표시될 AutoBanRole의 차단 사유를 설정해요.'
+  params:
+    - desc: '사유를 설정할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - *ref_abreason
+banbyhash:
+  args:
+    - text
+  desc: '아바타 ID, 즉 아바타 해시로 여러 사용자를 한꺼번에 차단해요. 관리가 어설픈 userbot을 정리할 때 유용해요.'
+  params:
+    - &ref_106
+      desc: '검색할 아바타 해시예요.'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string:
+  args:
+    - text
+  desc: '아바타 ID, 즉 아바타 해시로 여러 사용자를 한꺼번에 차단해요. 관리가 어설픈 userbot을 정리할 때 유용해요.'
+  params:
+    - desc: '검색할 아바타 해시예요.'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_1:
+  args:
+    - text
+  desc: '아바타 ID, 즉 아바타 해시로 여러 사용자를 한꺼번에 차단해요. 관리가 어설픈 userbot을 정리할 때 유용해요.'
+  params:
+    - desc: '검색할 아바타 해시예요.'
+      name: avatarHash
+      optional: false
+      type: string
+banbyhash_string_2:
+  args:
+    - text
+  desc: '아바타 ID, 즉 아바타 해시로 여러 사용자를 한꺼번에 차단해요. 관리가 어설픈 userbot을 정리할 때 유용해요.'
+  params:
+    - desc: '검색할 아바타 해시예요.'
+      name: avatarHash
+      optional: false
+      type: string
+baninrole:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '특정 역할을 가진 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '사용자를 차단할 역할이에요.'
+      name: role
+      optional: false
+      type: role
+    - desc: '차단 사유예요. 선택 사항이에요.'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '특정 역할을 가진 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '사용자를 차단할 역할이에요.'
+      name: role
+      optional: false
+      type: role
+    - desc: '차단 사유예요. 선택 사항이에요.'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_1:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '특정 역할을 가진 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '사용자를 차단할 역할이에요.'
+      name: role
+      optional: false
+      type: role
+    - desc: '차단 사유예요. 선택 사항이에요.'
+      name: reason
+      optional: true
+      type: string
+baninrole_IRole_=_2:
+  args:
+    - '@role [reason]'
+    - '@role'
+  desc: '특정 역할을 가진 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '사용자를 차단할 역할이에요.'
+      name: role
+      optional: false
+      type: role
+    - desc: '차단 사유예요. 선택 사항이에요.'
+      name: reason
+      optional: true
+      type: string
+banunder:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '서버에 일정 시간 이상 있었던 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '기간이에요. {0}mo{1}d{2}h{3}m{4}s 형식으로 입력해요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage를 지정하면 서버 기간 대신 계정 나이를 확인하고, -p를 지정하면 차단될 사용자를 미리 볼 수 있어요.'
+      name: option
+      optional: true
+      type: string
+    - desc: '시간 범위를 지정할 수 있어요.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '서버에 일정 시간 이상 있었던 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '기간이에요. {0}mo{1}d{2}h{3}m{4}s 형식으로 입력해요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage를 지정하면 서버 기간 대신 계정 나이를 확인하고, -p를 지정하면 차단될 사용자를 미리 볼 수 있어요.'
+      name: option
+      optional: true
+      type: string
+    - desc: '시간 범위를 지정할 수 있어요.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_1:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '서버에 일정 시간 이상 있었던 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '기간이에요. {0}mo{1}d{2}h{3}m{4}s 형식으로 입력해요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage를 지정하면 서버 기간 대신 계정 나이를 확인하고, -p를 지정하면 차단될 사용자를 미리 볼 수 있어요.'
+      name: option
+      optional: true
+      type: string
+    - desc: '시간 범위를 지정할 수 있어요.'
+      name: time1
+      optional: true
+      type: duration
+banunder_StoopidTime_=_=_2:
+  args:
+    - '<time> [option] [time1]'
+    - time
+  desc: '서버에 일정 시간 이상 있었던 사용자를 차단할 수 있어요.'
+  params:
+    - desc: '기간이에요. {0}mo{1}d{2}h{3}m{4}s 형식으로 입력해요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '-accage를 지정하면 서버 기간 대신 계정 나이를 확인하고, -p를 지정하면 차단될 사용자를 미리 볼 수 있어요.'
+      name: option
+      optional: true
+      type: string
+    - desc: '시간 범위를 지정할 수 있어요.'
+      name: time1
+      optional: true
+      type: duration
+boost:
+  args:
+    - ''
+  desc: '부스트 메시지를 켜거나 꺼요.'
+  params: [ ]
+boostdel:
+  args:
+    - 30
+  desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+  params:
+    - &ref_114
+      desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=:
+  args:
+    - 30
+  desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+  params:
+    - desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_1:
+  args:
+    - 30
+  desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+  params:
+    - desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+      name: 30
+      optional: false
+      type: '='
+boostdel_=_2:
+  args:
+    - 30
+  desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+  params:
+    - desc: '부스트 메시지를 삭제할 시간을 설정해요.'
+      name: 30
+      optional: false
+      type: '='
+boostmsg:
+  args:
+    - ''
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params: [ ]
+boostmsg_noparams:
+  args:
+    - ''
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params: [ ]
+boostmsg_noparams_1:
+  args:
+    - ''
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params: [ ]
+boostmsg_noparams_2:
+  args:
+    - ''
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params: [ ]
+boostmsg_string:
+  args:
+    - text
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params:
+    - &ref_115
+      desc: '새 부스트 메시지예요.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_1:
+  args:
+    - text
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params:
+    - desc: '새 부스트 메시지예요.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_2:
+  args:
+    - text
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params:
+    - desc: '새 부스트 메시지예요.'
+      name: text
+      optional: true
+      type: string
+boostmsg_string_3:
+  args:
+    - text
+  desc: '서버의 부스트 메시지를 설정해요.'
+  params:
+    - desc: '새 부스트 메시지예요.'
+      name: text
+      optional: true
+      type: string
+boosttest:
+  args:
+    - '[@user]'
+  desc: '부스트 테스트 메시지를 보내요.'
+  params:
+    - desc: '테스트 메시지를 받을 사용자예요.'
+      name: user
+      optional: true
+      type: user
+bye:
+  args:
+    - ''
+  desc: '작별 메시지 전송을 켜거나 꺼요.'
+  params: [ ]
+byedel:
+  args:
+    - 30
+  desc: '작별 메시지를 삭제할 시간을 설정해요.'
+  params:
+    - desc: '작별 메시지를 삭제할 시간을 설정해요.'
+      name: 30
+      optional: false
+      type: '='
+byemsg:
+  args:
+    - ''
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+byemsg_noparams:
+  args:
+    - ''
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+byemsg_noparams_1:
+  args:
+    - ''
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+byemsg_noparams_2:
+  args:
+    - ''
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+byemsg_string:
+  args:
+    - text
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - &ref_117
+      desc: '작별 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_1:
+  args:
+    - text
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - desc: '작별 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_2:
+  args:
+    - text
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - desc: '작별 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+byemsg_string_3:
+  args:
+    - text
+  desc: '작별 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - desc: '작별 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+byetest:
+  args:
+    - '[@user]'
+  desc: '작별 테스트 메시지를 보내요.'
+  params:
+    - desc: '작별 테스트 메시지를 받을 사용자예요.'
+      name: user
+      optional: true
+      type: user
+commandlogchannel:
+  args:
+    - '[@channel]'
+  desc: '명령어 로그를 남길 채널을 설정해요.'
+  params:
+    - desc: '명령어 로그를 남길 채널이에요.'
+      name: channel
+      optional: true
+      type: channel
+createrole:
+  args:
+    - '[roleName]'
+  desc: '지정한 이름의 새 역할을 만들어요.'
+  params:
+    - desc: '만들 역할의 이름이에요.'
+      name: roleName
+      optional: true
+      type: string
+creatvoichanl:
+  args:
+    - text
+  desc: '지정한 이름의 새 음성 채널을 만들어요.'
+  params:
+    - &ref_160
+      desc: '만들 음성 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string:
+  args:
+    - text
+  desc: '지정한 이름의 새 음성 채널을 만들어요.'
+  params:
+    - desc: '만들 음성 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_1:
+  args:
+    - text
+  desc: '지정한 이름의 새 음성 채널을 만들어요.'
+  params:
+    - desc: '만들 음성 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+creatvoichanl_string_2:
+  args:
+    - text
+  desc: '지정한 이름의 새 음성 채널을 만들어요.'
+  params:
+    - desc: '만들 음성 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl:
+  args:
+    - text
+  desc: '지정한 이름의 새 텍스트 채널을 만들어요.'
+  params:
+    - &ref_161
+      desc: '만들 텍스트 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string:
+  args:
+    - text
+  desc: '지정한 이름의 새 텍스트 채널을 만들어요.'
+  params:
+    - desc: '만들 텍스트 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_1:
+  args:
+    - text
+  desc: '지정한 이름의 새 텍스트 채널을 만들어요.'
+  params:
+    - desc: '만들 텍스트 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+creatxtchanl_string_2:
+  args:
+    - text
+  desc: '지정한 이름의 새 텍스트 채널을 만들어요.'
+  params:
+    - desc: '만들 텍스트 채널의 이름이에요.'
+      name: channelName
+      optional: false
+      type: string
+deafen:
+  args:
+    - '@user'
+  desc: '서버에서 지정한 사용자의 스피커를 꺼요.'
+  params:
+    - &ref_177
+      desc: '스피커를 끌 사용자예요.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]:
+  args:
+    - '@user'
+  desc: '서버에서 지정한 사용자의 스피커를 꺼요.'
+  params:
+    - desc: '스피커를 끌 사용자예요.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: '서버에서 지정한 사용자의 스피커를 꺼요.'
+  params:
+    - desc: '스피커를 끌 사용자예요.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+deafen_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: '서버에서 지정한 사용자의 스피커를 꺼요.'
+  params:
+    - desc: '스피커를 끌 사용자예요.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+delete:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+delete_ITextChannel_ulong_=_3:
+  args:
+    - '@channel <messageId> [time]'
+    - channel messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_1:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+delete_ulong_=_2:
+  args:
+    - '@channel <messageId> [time]'
+    - messageid
+  desc: '지정한 텍스트 채널에서 ID로 메시지를 삭제해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '삭제할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '선택 사항이에요. 이 시간이 지나면 메시지를 삭제해요.'
+      name: time
+      optional: true
+      type: duration
+deleteguildstatsdata:
+  args:
+    - ''
+  desc: '서버의 모든 통계 데이터를 삭제해요.'
+  params: [ ]
+deleterole:
+  args:
+    - '@role'
+  desc: '지정한 역할을 삭제해요.'
+  params:
+    - &ref_188
+      desc: '삭제할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole:
+  args:
+    - '@role'
+  desc: '지정한 역할을 삭제해요.'
+  params:
+    - desc: '삭제할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_1:
+  args:
+    - '@role'
+  desc: '지정한 역할을 삭제해요.'
+  params:
+    - desc: '삭제할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+deleterole_IRole_2:
+  args:
+    - '@role'
+  desc: '지정한 역할을 삭제해요.'
+  params:
+    - desc: '삭제할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+delmsgoncmd:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - &ref_196
+      desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_=:
+  args:
+    - server.server
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - &ref_192
+      desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_1:
+  args:
+    - server.server
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_2:
+  args:
+    - server.server
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_=_3:
+  args:
+    - server.server
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: Server.Server
+      optional: false
+      type: '='
+delmsgoncmd_Channel_State_=:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: state
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_1:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: state
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_2:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: state
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_=_3:
+  args:
+    - '@_ <s> @ch'
+    - channel|ch|chnl enable|disable|inherit
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: state
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: channel
+delmsgoncmd_Channel_State_ITextChannel:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: State
+    - &ref_195
+      desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_1:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: State
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_2:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: State
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_Channel_State_ITextChannel_3:
+  args:
+    - channel|ch|chnl enable|disable|inherit ch
+    - channel
+    - ch
+    - chnl
+    - enable
+    - disable
+    - inherit
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: Channel
+    - desc: '명령어 실행 시 메시지 삭제 설정값이에요.'
+      name: s
+      optional: false
+      type: State
+    - desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+      name: ch
+      optional: false
+      type: ITextChannel
+delmsgoncmd_List:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_1:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: List
+delmsgoncmd_List_2:
+  args:
+    - list|ls
+    - list
+    - ls
+  desc: '특정 채널에서 명령어 실행 시 메시지를 삭제할지 설정해요.'
+  params:
+    - desc: '사용되지 않는 매개변수예요.'
+      name: _
+      optional: false
+      type: List
+deltxtchanl:
+  args:
+    - todelete
+  desc: '지정한 텍스트 채널을 삭제해요.'
+  params:
+    - &ref_197
+      desc: '삭제할 텍스트 채널이에요.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel:
+  args:
+    - todelete
+  desc: '지정한 텍스트 채널을 삭제해요.'
+  params:
+    - desc: '삭제할 텍스트 채널이에요.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_1:
+  args:
+    - todelete
+  desc: '지정한 텍스트 채널을 삭제해요.'
+  params:
+    - desc: '삭제할 텍스트 채널이에요.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+deltxtchanl_ITextChannel_2:
+  args:
+    - todelete
+  desc: '지정한 텍스트 채널을 삭제해요.'
+  params:
+    - desc: '삭제할 텍스트 채널이에요.'
+      name: toDelete
+      optional: false
+      type: ITextChannel
+delvoichanl:
+  args:
+    - voicechannel
+  desc: '지정한 음성 채널을 삭제해요.'
+  params:
+    - &ref_198
+      desc: '삭제할 음성 채널이에요.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel:
+  args:
+    - voicechannel
+  desc: '지정한 음성 채널을 삭제해요.'
+  params:
+    - desc: '삭제할 음성 채널이에요.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_1:
+  args:
+    - voicechannel
+  desc: '지정한 음성 채널을 삭제해요.'
+  params:
+    - desc: '삭제할 음성 채널이에요.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+delvoichanl_IVoiceChannel_2:
+  args:
+    - voicechannel
+  desc: '지정한 음성 채널을 삭제해요.'
+  params:
+    - desc: '삭제할 음성 채널이에요.'
+      name: voiceChannel
+      optional: false
+      type: IVoiceChannel
+discordpermoverride:
+  args:
+    - cmd perms
+    - cmd
+  desc: '현재 서버에서 특정 명령어에 필요한 권한을 재정의해요.'
+  params:
+    - &ref_201
+      desc: '권한을 재정의할 명령어예요.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_202
+      desc: '명령어 실행에 필요한 권한이에요.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]:
+  args:
+    - cmd perms
+    - cmd
+  desc: '현재 서버에서 특정 명령어에 필요한 권한을 재정의해요.'
+  params:
+    - desc: '권한을 재정의할 명령어예요.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '명령어 실행에 필요한 권한이에요.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_1:
+  args:
+    - cmd perms
+    - cmd
+  desc: '현재 서버에서 특정 명령어에 필요한 권한을 재정의해요.'
+  params:
+    - desc: '권한을 재정의할 명령어예요.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '명령어 실행에 필요한 권한이에요.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverride_CommandOrCrInfo_GuildPermission[]_2:
+  args:
+    - cmd perms
+    - cmd
+  desc: '현재 서버에서 특정 명령어에 필요한 권한을 재정의해요.'
+  params:
+    - desc: '권한을 재정의할 명령어예요.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+    - desc: '명령어 실행에 필요한 권한이에요.'
+      name: perms
+      optional: true
+      type: GuildPermission[]
+discordpermoverridelist:
+  args:
+    - ''
+  desc: '현재 서버의 모든 명령어 권한 재정의 목록을 보여줘요.'
+  params: [ ]
+discordpermoverridereset:
+  args:
+    - ''
+  desc: '현재 서버의 모든 명령어 권한 재정의를 초기화해요.'
+  params: [ ]
+dpo:
+  args:
+    - permission action
+  desc: 'Discord 권한을 재정의해요.'
+  params:
+    - desc: '재정의할 권한이에요.'
+      name: permission
+      optional: false
+      type: string
+    - desc: '수행할 작업이에요.'
+      name: action
+      optional: false
+      type: string
+dpol:
+  args:
+    - ''
+  desc: 'Discord 권한 재정의 목록을 보여줘요.'
+  params: [ ]
+dpor:
+  args:
+    - ''
+  desc: 'Discord 권한 재정의를 초기화해요.'
+  params: [ ]
+edit:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '지정한 텍스트 채널의 메시지를 수정해요.'
+  params:
+    - &ref_204
+      desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_205
+      desc: '수정할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_206
+      desc: '메시지의 새 내용이에요.'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '지정한 텍스트 채널의 메시지를 수정해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '수정할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '메시지의 새 내용이에요.'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_1:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '지정한 텍스트 채널의 메시지를 수정해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '수정할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '메시지의 새 내용이에요.'
+      name: text
+      optional: true
+      type: string
+edit_ITextChannel_ulong_string_2:
+  args:
+    - channel messageid text
+    - channel messageid
+  desc: '지정한 텍스트 채널의 메시지를 수정해요.'
+  params:
+    - desc: '메시지가 있는 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '수정할 메시지의 ID예요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '메시지의 새 내용이에요.'
+      name: text
+      optional: true
+      type: string
+gamevoicechannel:
+  args:
+    - ''
+  desc: '현재 음성 채널을 서버의 게임 음성 채널로 켜거나 꺼요.'
+  params: [ ]
+greetdm:
+  args:
+    - ''
+  desc: 'DM으로 보내는 인사 메시지를 켜거나 꺼요.'
+  params: [ ]
+greetdmmsg:
+  args:
+    - ''
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+greetdmmsg_=:
+  args:
+    - '[text]'
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - desc: 'DM 인사 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_1:
+  args:
+    - '[text]'
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - desc: 'DM 인사 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_2:
+  args:
+    - '[text]'
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - desc: 'DM 인사 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_=_3:
+  args:
+    - '[text]'
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params:
+    - desc: 'DM 인사 메시지로 설정할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+greetdmmsg_noparams:
+  args:
+    - ''
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+greetdmmsg_noparams_1:
+  args:
+    - ''
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+greetdmmsg_noparams_2:
+  args:
+    - ''
+  desc: 'DM 인사 메시지를 지정한 텍스트로 설정해요.'
+  params: [ ]
+greetdmtest:
+  args:
+    - '[@user]'
+  desc: 'DM 인사 테스트 메시지를 보내요.'
+  params:
+    - desc: 'DM 인사 테스트 메시지를 받을 사용자예요.'
+      name: user
+      optional: true
+      type: user
+guildstatsoptout:
+  args:
+    - ''
+  desc: '서버 전체의 통계 추적을 끌 수 있어요.'
+  params: [ ]
+iam:
+  args:
+    - '@role'
+  desc: '사용자에게 셀프 역할을 부여해요.'
+  params:
+    - &ref_249
+      desc: '사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole:
+  args:
+    - '@role'
+  desc: '사용자에게 셀프 역할을 부여해요.'
+  params:
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_1:
+  args:
+    - '@role'
+  desc: '사용자에게 셀프 역할을 부여해요.'
+  params:
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+iam_IRole_2:
+  args:
+    - '@role'
+  desc: '사용자에게 셀프 역할을 부여해요.'
+  params:
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+iamnot:
+  args:
+    - '@role'
+  desc: '사용자에게서 셀프 역할을 제거해요.'
+  params:
+    - &ref_250
+      desc: '사용자에게서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole:
+  args:
+    - '@role'
+  desc: '사용자에게서 셀프 역할을 제거해요.'
+  params:
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_1:
+  args:
+    - '@role'
+  desc: '사용자에게서 셀프 역할을 제거해요.'
+  params:
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+iamnot_IRole_2:
+  args:
+    - '@role'
+  desc: '사용자에게서 셀프 역할을 제거해요.'
+  params:
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+kickunder:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '서버에 지정한 시간보다 짧게 있었던 사용자를 추방해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '추방될 사용자를 미리 보는 선택 옵션이에요.'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '서버에 지정한 시간보다 짧게 있었던 사용자를 추방해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '추방될 사용자를 미리 보는 선택 옵션이에요.'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_1:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '서버에 지정한 시간보다 짧게 있었던 사용자를 추방해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '추방될 사용자를 미리 보는 선택 옵션이에요.'
+      name: option
+      optional: true
+      type: string
+kickunder_StoopidTime_=_2:
+  args:
+    - '<time> [option]'
+    - time
+  desc: '서버에 지정한 시간보다 짧게 있었던 사용자를 추방해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '추방될 사용자를 미리 보는 선택 옵션이에요.'
+      name: option
+      optional: true
+      type: string
+langsetdefault:
+  args:
+    - language
+  desc: '서버의 기본 언어를 설정해요.'
+  params:
+    - desc: '기본값으로 설정할 언어 코드예요.'
+      name: language
+      optional: false
+      type: string
+languageset:
+  args:
+    - text
+  desc: '현재 서버의 언어를 설정해요.'
+  params:
+    - &ref_264
+      desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languageset_string:
+  args:
+    - text
+  desc: '현재 서버의 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languageset_string_1:
+  args:
+    - text
+  desc: '현재 서버의 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languageset_string_2:
+  args:
+    - text
+  desc: '현재 서버의 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault:
+  args:
+    - ''
+  desc: '봇의 기본 언어를 설정해요.'
+  params: [ ]
+languagesetdefault_noparams:
+  args:
+    - ''
+  desc: '봇의 기본 언어를 설정해요.'
+  params: [ ]
+languagesetdefault_noparams_1:
+  args:
+    - ''
+  desc: '봇의 기본 언어를 설정해요.'
+  params: [ ]
+languagesetdefault_noparams_2:
+  args:
+    - ''
+  desc: '봇의 기본 언어를 설정해요.'
+  params: [ ]
+languagesetdefault_string:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_1:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_2:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_3:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_4:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - &ref_265
+      desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_5:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_6:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languagesetdefault_string_7:
+  args:
+    - text
+  desc: '봇의 기본 언어를 설정해요.'
+  params:
+    - desc: '언어 이름이에요. 기본 언어로 되돌리려면 "default"를 입력해요.'
+      name: name
+      optional: false
+      type: string
+languageslist:
+  args:
+    - ''
+  desc: '지원하는 모든 언어와 코드를 보여줘요.'
+  params: [ ]
+leavehook:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: name
+      optional: true
+      type: string
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: image
+      optional: true
+      type: string
+    - desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: name
+      optional: true
+      type: string
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: image
+      optional: true
+      type: string
+    - desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_1:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: name
+      optional: true
+      type: string
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: image
+      optional: true
+      type: string
+    - desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+leavehook_ITextChannel_string_=_=_2:
+  args:
+    - '[@chan] [name] [image] [text]'
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: chan
+      optional: true
+      type: channel
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: name
+      optional: true
+      type: string
+    - desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+      name: image
+      optional: true
+      type: string
+    - desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: true
+      type: string
+leavehook_string:
+  args:
+    - text
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - &ref_268
+      desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_1:
+  args:
+    - text
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_2:
+  args:
+    - text
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: false
+      type: string
+leavehook_string_3:
+  args:
+    - text
+  desc: '지정한 텍스트로 퇴장 메시지를 설정해요.'
+  params:
+    - desc: '퇴장 메시지에 포함할 텍스트예요.'
+      name: text
+      optional: false
+      type: string
+log:
+  args:
+    - types
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - &ref_283
+      desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]:
+  args:
+    - types
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_1:
+  args:
+    - types
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType[]_2:
+  args:
+    - types
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: LogType[]
+log_LogType_=:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '로그 채널로 설정할 채널이에요. 입력하지 않으면 해당 이벤트 유형의 로깅을 꺼요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_1:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '로그 채널로 설정할 채널이에요. 입력하지 않으면 해당 이벤트 유형의 로깅을 꺼요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_2:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '로그 채널로 설정할 채널이에요. 입력하지 않으면 해당 이벤트 유형의 로깅을 꺼요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_LogType_=_3:
+  args:
+    - '@channel [types]'
+    - type
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '로그 채널로 설정할 채널이에요. 입력하지 않으면 해당 이벤트 유형의 로깅을 꺼요.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: types
+      optional: true
+      type: params logtype[]
+log_string[]:
+  args:
+    - text
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - &ref_284
+      desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_1:
+  args:
+    - text
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_2:
+  args:
+    - text
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+log_string[]_3:
+  args:
+    - text
+  desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+  params:
+    - desc: '특정 이벤트 유형의 로그 채널을 설정해요.'
+      name: channelTypePairs
+      optional: false
+      type: string[]
+logcategory:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '특정 로그 유형의 로그 카테고리를 설정해요.'
+  params:
+    - desc: '카테고리를 설정할 로그 유형이에요.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '로그를 보낼 텍스트 채널이에요.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '특정 로그 유형의 로그 카테고리를 설정해요.'
+  params:
+    - desc: '카테고리를 설정할 로그 유형이에요.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '로그를 보낼 텍스트 채널이에요.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_1:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '특정 로그 유형의 로그 카테고리를 설정해요.'
+  params:
+    - desc: '카테고리를 설정할 로그 유형이에요.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '로그를 보낼 텍스트 채널이에요.'
+      name: channel
+      optional: true
+      type: channel
+logcategory_LogCommandService_LogCategoryTypes_=_2:
+  args:
+    - '<type> [@channel]'
+    - type
+  desc: '특정 로그 유형의 로그 카테고리를 설정해요.'
+  params:
+    - desc: '카테고리를 설정할 로그 유형이에요.'
+      name: type
+      optional: false
+      type: logcommandservice.logcategorytypes
+    - desc: '로그를 보낼 텍스트 채널이에요.'
+      name: channel
+      optional: true
+      type: channel
+logevents:
+  args:
+    - ''
+  desc: '서버의 현재 로깅 이벤트 설정을 보여줘요.'
+  params: [ ]
+logignore:
+  args:
+    - channel
+  desc: '채널을 로깅 무시 대상으로 켜거나 꺼요.'
+  params:
+    - desc: '로깅에서 무시하거나 무시 해제할 채널이에요. 지정하지 않으면 현재 채널을 사용해요.'
+      name: channel
+      optional: true
+      type: ITextChannel
+logignorelist:
+  args:
+    - ''
+  desc: '현재 로깅에서 무시되는 모든 채널을 보여줘요.'
+  params: [ ]
+lsar:
+  args:
+    - ''
+  desc: '서버에 설정된 자동 셀프 역할 목록을 보여줘요.'
+  params: [ ]
+memberrole:
+  args:
+    - '@role'
+  desc: '서버의 멤버 역할을 설정해요. 현재 사용되지 않아요.'
+  params:
+    - &ref_292
+      desc: '멤버가 가질 역할이에요.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole:
+  args:
+    - '@role'
+  desc: '서버의 멤버 역할을 설정해요. 현재 사용되지 않아요.'
+  params:
+    - desc: '멤버가 가질 역할이에요.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_1:
+  args:
+    - '@role'
+  desc: '서버의 멤버 역할을 설정해요. 현재 사용되지 않아요.'
+  params:
+    - desc: '멤버가 가질 역할이에요.'
+      name: role
+      optional: true
+      type: IRole
+memberrole_IRole_2:
+  args:
+    - '@role'
+  desc: '서버의 멤버 역할을 설정해요. 현재 사용되지 않아요.'
+  params:
+    - desc: '멤버가 가질 역할이에요.'
+      name: role
+      optional: true
+      type: IRole
+nameban:
+  args:
+    - text
+  desc: '특정 이름을 가진 사용자를 차단할 수 있어요. 차단될 사용자 미리보기를 먼저 보여줘요. 정규식 패턴도 사용할 수 있어요.'
+  params:
+    - &ref_326
+      desc: '사용할 이름 또는 정규식 패턴이에요.'
+      name: name
+      optional: false
+      type: string
+nameban_string:
+  args:
+    - text
+  desc: '특정 이름을 가진 사용자를 차단할 수 있어요. 차단될 사용자 미리보기를 먼저 보여줘요. 정규식 패턴도 사용할 수 있어요.'
+  params:
+    - desc: '사용할 이름 또는 정규식 패턴이에요.'
+      name: name
+      optional: false
+      type: string
+nameban_string_1:
+  args:
+    - text
+  desc: '특정 이름을 가진 사용자를 차단할 수 있어요. 차단될 사용자 미리보기를 먼저 보여줘요. 정규식 패턴도 사용할 수 있어요.'
+  params:
+    - desc: '사용할 이름 또는 정규식 패턴이에요.'
+      name: name
+      optional: false
+      type: string
+nameban_string_2:
+  args:
+    - text
+  desc: '특정 이름을 가진 사용자를 차단할 수 있어요. 차단될 사용자 미리보기를 먼저 보여줘요. 정규식 패턴도 사용할 수 있어요.'
+  params:
+    - desc: '사용할 이름 또는 정규식 패턴이에요.'
+      name: name
+      optional: false
+      type: string
+nsfwtoggle:
+  args:
+    - ''
+  desc: '현재 텍스트 채널의 NSFW 설정을 켜거나 꺼요.'
+  params: [ ]
+prefix:
+  args:
+    - prefix
+  desc: '명령어 접두사를 관리해요.'
+  params:
+    - desc: '설정할 접두사예요.'
+      name: prefix
+      optional: true
+      type: string
+prefixcommand:
+  args:
+    - ''
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params: [ ]
+prefixcommand_Set_string:
+  args:
+    - set text
+    - set
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - &ref_353
+      desc: '서버의 명령어 접두사를 설정해요.'
+      name: _
+      optional: false
+      type: Set
+    - &ref_354
+      desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_1:
+  args:
+    - set text
+    - set
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - desc: '서버의 명령어 접두사를 설정해요.'
+      name: _
+      optional: false
+      type: Set
+    - desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_2:
+  args:
+    - set text
+    - set
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - desc: '서버의 명령어 접두사를 설정해요.'
+      name: _
+      optional: false
+      type: Set
+    - desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_Set_string_3:
+  args:
+    - set text
+    - set
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - desc: '서버의 명령어 접두사를 설정해요.'
+      name: _
+      optional: false
+      type: Set
+    - desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_noparams:
+  args:
+    - ''
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params: [ ]
+prefixcommand_noparams_1:
+  args:
+    - ''
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params: [ ]
+prefixcommand_noparams_2:
+  args:
+    - ''
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params: [ ]
+prefixcommand_string:
+  args:
+    - text
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_1:
+  args:
+    - text
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_2:
+  args:
+    - text
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prefixcommand_string_3:
+  args:
+    - text
+  desc: '서버의 명령어 접두사를 설정해요.'
+  params:
+    - desc: '새로 설정할 명령어 접두사예요.'
+      name: prefix
+      optional: false
+      type: string
+prunemembers:
+  args:
+    - time "no"
+    - time
+  desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_360
+      desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=:
+  args:
+    - time "no"
+    - time
+  desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_1:
+  args:
+    - time "no"
+    - time
+  desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+      name: '"no"'
+      optional: false
+      type: '='
+prunemembers_StoopidTime_=_2:
+  args:
+    - time "no"
+    - time
+  desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+  params:
+    - desc: '사용자 지정 형식의 기간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '활동 또는 비활동을 기준으로 서버의 멤버를 정리해요.'
+      name: '"no"'
+      optional: false
+      type: '='
+reactionroles:
+  args:
+    - messageid text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - &ref_380
+      desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_381
+      desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]:
+  args:
+    - excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - &ref_376
+      desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_375
+      desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_1:
+  args:
+    - excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - &ref_377
+      desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_2:
+  args:
+    - excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_string[]_3:
+  args:
+    - excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]:
+  args:
+    - excl messageid text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - &ref_378
+      desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_1:
+  args:
+    - excl messageid text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_2:
+  args:
+    - excl messageid text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_Exclude_ulong_string[]_3:
+  args:
+    - excl messageid text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]:
+  args:
+    - text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_1:
+  args:
+    - text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_2:
+  args:
+    - text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_string[]_3:
+  args:
+    - text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]:
+  args:
+    - messageid excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - &ref_379
+      desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_1:
+  args:
+    - messageid excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_2:
+  args:
+    - messageid excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_Exclude_string[]_3:
+  args:
+    - messageid excl text
+    - excl
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '역할을 상호 배타적으로 만드는 제외 옵션이에요.'
+      name: _
+      optional: false
+      type: Exclude
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]:
+  args:
+    - messageid text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_1:
+  args:
+    - messageid text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroles_ulong_string[]_2:
+  args:
+    - messageid text
+  desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+  params:
+    - desc: '입력값을 기준으로 반응 역할을 지정해요. 일부 역할은 제외해요.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: '반응과 연결할 역할과 이모지예요.'
+      name: input
+      optional: false
+      type: string[]
+reactionroleslist:
+  args:
+    - ''
+  desc: '서버에 설정된 반응 역할 목록을 보여줘요.'
+  params: [ ]
+reactionrolesremove:
+  args:
+    - number
+  desc: '인덱스로 반응 역할 하나를 제거해요.'
+  params:
+    - &ref_382
+      desc: '제거할 반응 역할의 인덱스예요.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int:
+  args:
+    - number
+  desc: '인덱스로 반응 역할 하나를 제거해요.'
+  params:
+    - desc: '제거할 반응 역할의 인덱스예요.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_1:
+  args:
+    - number
+  desc: '인덱스로 반응 역할 하나를 제거해요.'
+  params:
+    - desc: '제거할 반응 역할의 인덱스예요.'
+      name: index
+      optional: false
+      type: int
+reactionrolesremove_int_2:
+  args:
+    - number
+  desc: '인덱스로 반응 역할 하나를 제거해요.'
+  params:
+    - desc: '제거할 반응 역할의 인덱스예요.'
+      name: index
+      optional: false
+      type: int
+removeallroles:
+  args:
+    - '@user'
+  desc: '관리 역할과 @everyone 역할을 제외한 사용자의 모든 역할을 제거해요.'
+  params:
+    - &ref_392
+      desc: '모든 역할을 제거할 사용자예요.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser:
+  args:
+    - '@user'
+  desc: '관리 역할과 @everyone 역할을 제외한 사용자의 모든 역할을 제거해요.'
+  params:
+    - desc: '모든 역할을 제거할 사용자예요.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '관리 역할과 @everyone 역할을 제외한 사용자의 모든 역할을 제거해요.'
+  params:
+    - desc: '모든 역할을 제거할 사용자예요.'
+      name: user
+      optional: false
+      type: IGuildUser
+removeallroles_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '관리 역할과 @everyone 역할을 제외한 사용자의 모든 역할을 제거해요.'
+  params:
+    - desc: '모든 역할을 제거할 사용자예요.'
+      name: user
+      optional: false
+      type: IGuildUser
+removerole:
+  args:
+    - '@role @user'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - &ref_411
+      desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - &ref_410
+      desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+removerole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+removerole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: '사용자에게서 역할을 제거해요.'
+  params:
+    - desc: '사용자에게서 제거할 역할이에요.'
+      name: roleToRemove
+      optional: false
+      type: IRole
+    - desc: '역할을 제거할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+renamechannel:
+  args:
+    - channel text
+  desc: '지정한 채널의 이름을 바꿔요.'
+  params:
+    - &ref_418
+      desc: '이름을 바꿀 채널이에요.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '채널의 새 이름이에요.'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string:
+  args:
+    - channel text
+  desc: '지정한 채널의 이름을 바꿔요.'
+  params:
+    - &ref_419
+      desc: '이름을 바꿀 채널이에요.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - &ref_420
+      desc: '채널의 새 이름이에요.'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_1:
+  args:
+    - channel text
+  desc: '지정한 채널의 이름을 바꿔요.'
+  params:
+    - desc: '이름을 바꿀 채널이에요.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '채널의 새 이름이에요.'
+      name: name
+      optional: false
+      type: string
+renamechannel_IGuildChannel_string_2:
+  args:
+    - channel text
+  desc: '지정한 채널의 이름을 바꿔요.'
+  params:
+    - desc: '이름을 바꿀 채널이에요.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '채널의 새 이름이에요.'
+      name: name
+      optional: false
+      type: string
+renamerole:
+  args:
+    - '@role text'
+  desc: '역할의 이름을 바꿔요.'
+  params:
+    - &ref_423
+      desc: '이름을 바꿀 역할이에요.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - &ref_424
+      desc: '역할의 새 이름이에요.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string:
+  args:
+    - '@role text'
+  desc: '역할의 이름을 바꿔요.'
+  params:
+    - desc: '이름을 바꿀 역할이에요.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: '역할의 새 이름이에요.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_1:
+  args:
+    - '@role text'
+  desc: '역할의 이름을 바꿔요.'
+  params:
+    - desc: '이름을 바꿀 역할이에요.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: '역할의 새 이름이에요.'
+      name: newname
+      optional: false
+      type: string
+renamerole_IRole_string_2:
+  args:
+    - '@role text'
+  desc: '역할의 이름을 바꿔요.'
+  params:
+    - desc: '이름을 바꿀 역할이에요.'
+      name: roleToEdit
+      optional: false
+      type: IRole
+    - desc: '역할의 새 이름이에요.'
+      name: newname
+      optional: false
+      type: string
+rolecolor:
+  args:
+    - '@role'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - &ref_444
+      desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole:
+  args:
+    - '@role'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - &ref_445
+      desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_1:
+  args:
+    - '@role'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_2:
+  args:
+    - '@role'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolecolor_IRole_SKColor:
+  args:
+    - '@role color'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_446
+      desc: '역할의 새 색이에요.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_1:
+  args:
+    - '@role color'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할의 새 색이에요.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_2:
+  args:
+    - '@role color'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할의 새 색이에요.'
+      name: color
+      optional: false
+      type: SKColor
+rolecolor_IRole_SKColor_3:
+  args:
+    - '@role color'
+  desc: '지정한 역할의 색을 바꿔요.'
+  params:
+    - desc: '색을 바꿀 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '역할의 새 색이에요.'
+      name: color
+      optional: false
+      type: SKColor
+rolehoist:
+  args:
+    - '@role'
+  desc: '지정한 역할의 구분 표시(hoist) 설정을 켜거나 꺼요.'
+  params:
+    - &ref_456
+      desc: '구분 표시를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole:
+  args:
+    - '@role'
+  desc: '지정한 역할의 구분 표시(hoist) 설정을 켜거나 꺼요.'
+  params:
+    - desc: '구분 표시를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_1:
+  args:
+    - '@role'
+  desc: '지정한 역할의 구분 표시(hoist) 설정을 켜거나 꺼요.'
+  params:
+    - desc: '구분 표시를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolehoist_IRole_2:
+  args:
+    - '@role'
+  desc: '지정한 역할의 구분 표시(hoist) 설정을 켜거나 꺼요.'
+  params:
+    - desc: '구분 표시를 켜거나 끌 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq:
+  args:
+    - number @role
+  desc: '자동 셀프 역할의 레벨 요구 조건을 설정해요.'
+  params:
+    - &ref_458
+      desc: '역할을 얻는 데 필요한 레벨이에요.'
+      name: level
+      optional: false
+      type: int
+    - &ref_459
+      desc: '레벨 요구 조건을 설정할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole:
+  args:
+    - number @role
+  desc: '자동 셀프 역할의 레벨 요구 조건을 설정해요.'
+  params:
+    - desc: '역할을 얻는 데 필요한 레벨이에요.'
+      name: level
+      optional: false
+      type: int
+    - desc: '레벨 요구 조건을 설정할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_1:
+  args:
+    - number @role
+  desc: '자동 셀프 역할의 레벨 요구 조건을 설정해요.'
+  params:
+    - desc: '역할을 얻는 데 필요한 레벨이에요.'
+      name: level
+      optional: false
+      type: int
+    - desc: '레벨 요구 조건을 설정할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rolelevelreq_int_IRole_2:
+  args:
+    - number @role
+  desc: '자동 셀프 역할의 레벨 요구 조건을 설정해요.'
+  params:
+    - desc: '역할을 얻는 데 필요한 레벨이에요.'
+      name: level
+      optional: false
+      type: int
+    - desc: '레벨 요구 조건을 설정할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rsar:
+  args:
+    - '@role'
+  desc: '자동 셀프 역할 목록에서 지정한 역할을 제거해요.'
+  params:
+    - &ref_471
+      desc: '자동 셀프 역할 목록에서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole:
+  args:
+    - '@role'
+  desc: '자동 셀프 역할 목록에서 지정한 역할을 제거해요.'
+  params:
+    - desc: '자동 셀프 역할 목록에서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_1:
+  args:
+    - '@role'
+  desc: '자동 셀프 역할 목록에서 지정한 역할을 제거해요.'
+  params:
+    - desc: '자동 셀프 역할 목록에서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+rsar_IRole_2:
+  args:
+    - '@role'
+  desc: '자동 셀프 역할 목록에서 지정한 역할을 제거해요.'
+  params:
+    - desc: '자동 셀프 역할 목록에서 제거할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+sargn:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '자동 셀프 역할 그룹의 이름을 설정하거나 제거해요.'
+  params:
+    - desc: '이름을 설정하거나 제거할 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '그룹에 설정할 이름이에요. 입력하지 않으면 그룹 이름을 제거해요.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '자동 셀프 역할 그룹의 이름을 설정하거나 제거해요.'
+  params:
+    - desc: '이름을 설정하거나 제거할 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '그룹에 설정할 이름이에요. 입력하지 않으면 그룹 이름을 제거해요.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_1:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '자동 셀프 역할 그룹의 이름을 설정하거나 제거해요.'
+  params:
+    - desc: '이름을 설정하거나 제거할 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '그룹에 설정할 이름이에요. 입력하지 않으면 그룹 이름을 제거해요.'
+      name: name
+      optional: true
+      type: string
+sargn_int_=_2:
+  args:
+    - '<group> [name]'
+    - number
+  desc: '자동 셀프 역할 그룹의 이름을 설정하거나 제거해요.'
+  params:
+    - desc: '이름을 설정하거나 제거할 그룹 번호예요.'
+      name: group
+      optional: false
+      type: int
+    - desc: '그룹에 설정할 이름이에요. 입력하지 않으면 그룹 이름을 제거해요.'
+      name: name
+      optional: true
+      type: string
+setguildavatar:
+  args:
+    - text
+  desc: '봇의 서버별 아바타를 설정해요.'
+  params:
+    - &ref_676
+      desc: '아바타 이미지 URL이에요. 첨부 파일을 제공하면 생략할 수 있어요.'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildavatar_string:
+  args:
+    - text
+  desc: '봇의 서버별 아바타를 설정해요.'
+  params:
+    - desc: '아바타 이미지 URL이에요. 첨부 파일을 제공하면 생략할 수 있어요.'
+      name: avatarUrl
+      optional: true
+      type: string
+setguildbanner:
+  args:
+    - text
+  desc: '봇의 서버별 배너를 설정해요.'
+  params:
+    - &ref_677
+      desc: '배너 이미지 URL이에요. 첨부 파일을 제공하면 생략할 수 있어요.'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbanner_string:
+  args:
+    - text
+  desc: '봇의 서버별 배너를 설정해요.'
+  params:
+    - desc: '배너 이미지 URL이에요. 첨부 파일을 제공하면 생략할 수 있어요.'
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbio:
+  args:
+    - text
+  desc: '봇의 서버별 소개를 설정해요.'
+  params:
+    - &ref_678
+      desc: '소개 텍스트예요.'
+      name: bio
+      optional: false
+      type: string
+setguildbio_string:
+  args:
+    - text
+  desc: '봇의 서버별 소개를 설정해요.'
+  params:
+    - desc: '소개 텍스트예요.'
+      name: bio
+      optional: false
+      type: string
+setchanlname:
+  args:
+    - text
+  desc: '현재 텍스트 채널의 이름을 설정해요.'
+  params:
+    - &ref_493
+      desc: '텍스트 채널에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setchanlname_string:
+  args:
+    - text
+  desc: '현재 텍스트 채널의 이름을 설정해요.'
+  params:
+    - desc: '텍스트 채널에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_1:
+  args:
+    - text
+  desc: '현재 텍스트 채널의 이름을 설정해요.'
+  params:
+    - desc: '텍스트 채널에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setchanlname_string_2:
+  args:
+    - text
+  desc: '현재 텍스트 채널의 이름을 설정해요.'
+  params:
+    - desc: '텍스트 채널에 설정할 이름이에요.'
+      name: name
+      optional: false
+      type: string
+setnick:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=:
+  args:
+    - '@gu [newNick]'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_1:
+  args:
+    - '@gu [newNick]'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_2:
+  args:
+    - '@gu [newNick]'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setnick_=_3:
+  args:
+    - '@gu [newNick]'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_1:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setnick_IGuildUser_=_2:
+  args:
+    - '@gu [newNick]'
+    - '@user'
+  desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+  params:
+    - desc: '봇의 닉네임을 설정하는 다른 형식이에요.'
+      name: gu
+      optional: false
+      type: user
+    - desc: '설정할 새 닉네임이에요.'
+      name: newNick
+      optional: true
+      type: string
+setrole:
+  args:
+    - '@role @user'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - &ref_520
+      desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - &ref_519
+      desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IGuildUser_IRole:
+  args:
+    - '@user @role'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_1:
+  args:
+    - '@user @role'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_2:
+  args:
+    - '@user @role'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IGuildUser_IRole_3:
+  args:
+    - '@user @role'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+setrole_IRole_IGuildUser:
+  args:
+    - '@role @user'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_1:
+  args:
+    - '@role @user'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_2:
+  args:
+    - '@role @user'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+setrole_IRole_IGuildUser_StoopidTime:
+  args:
+    - '@role @user time'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - &ref_525
+      desc: '역할이 유지될 기간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+setrole_IGuildUser_IRole_StoopidTime:
+  args:
+    - '@user @role time'
+  desc: '사용자에게 지정한 기간 동안 역할을 부여해요.'
+  params:
+    - desc: '역할을 부여할 사용자예요.'
+      name: targetUser
+      optional: false
+      type: IGuildUser
+    - desc: '사용자에게 부여할 역할이에요.'
+      name: roleToAdd
+      optional: false
+      type: IRole
+    - desc: '역할이 유지될 기간이에요.'
+      name: time
+      optional: false
+      type: StoopidTime
+settopic:
+  args:
+    - '[topic]'
+  desc: '현재 텍스트 채널의 주제를 설정해요.'
+  params:
+    - desc: '텍스트 채널에 설정할 주제예요.'
+      name: topic
+      optional: true
+      type: string
+staffrole:
+  args:
+    - '[@role]'
+  desc: '스태프에게 부여할 역할을 설정하거나 수정해요.'
+  params:
+    - desc: '스태프에게 부여할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+staffroledisable:
+  args:
+    - ''
+  desc: '스태프 역할 설정을 비활성화해요.'
+  params: [ ]
+timezone:
+  args:
+    - ''
+  desc: '시간대 정보를 보여줘요.'
+  params: [ ]
+timezone_noparams:
+  args:
+    - ''
+  desc: '시간대 정보를 보여줘요.'
+  params: [ ]
+timezone_noparams_1:
+  args:
+    - ''
+  desc: '시간대 정보를 보여줘요.'
+  params: [ ]
+timezone_noparams_2:
+  args:
+    - ''
+  desc: '시간대 정보를 보여줘요.'
+  params: [ ]
+timezone_string:
+  args:
+    - text
+  desc: '시간대 정보를 보여줘요.'
+  params:
+    - &ref_625
+      desc: '시간대 ID예요.'
+      name: id
+      optional: false
+      type: string
+timezone_string_1:
+  args:
+    - text
+  desc: '시간대 정보를 보여줘요.'
+  params:
+    - desc: '시간대 ID예요.'
+      name: id
+      optional: false
+      type: string
+timezone_string_2:
+  args:
+    - text
+  desc: '시간대 정보를 보여줘요.'
+  params:
+    - desc: '시간대 ID예요.'
+      name: id
+      optional: false
+      type: string
+timezone_string_3:
+  args:
+    - text
+  desc: '시간대 정보를 보여줘요.'
+  params:
+    - desc: '시간대 ID예요.'
+      name: id
+      optional: false
+      type: string
+timezones_noparams_1:
+  args:
+    - ''
+  desc: '사용 가능한 모든 시간대를 보여줘요.'
+  params: [ ]
+togglexclsar:
+  args:
+    - ''
+  desc: '자동 셀프 역할의 배타성을 켜거나 꺼요.'
+  params: [ ]
+undeafen:
+  args:
+    - '@user'
+  desc: '서버에서 지정한 사용자의 스피커 끄기를 해제해요.'
+  params:
+    - desc: '스피커 끄기를 해제할 사용자예요.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+vcrole:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrole_=:
+  args:
+    - '@vchan [@role]'
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_1:
+  args:
+    - '@vchan [@role]'
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_2:
+  args:
+    - '@vchan [@role]'
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrole_=_3:
+  args:
+    - '@vchan [@role]'
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_1:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrole_SocketGuildChannel_=_2:
+  args:
+    - '@vchan [@role]'
+    - vchan
+  desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+  params:
+    - desc: '음성 채널에 있을 때 역할을 음성 채널에 연결하거나 연결을 해제해요.'
+      name: vchan
+      optional: false
+      type: channel
+    - desc: '음성 채널에 연결할 역할이에요.'
+      name: role
+      optional: true
+      type: role
+vcrolelist:
+  args:
+    - ''
+  desc: '이 서버의 모든 음성 채널 역할을 보여줘요.'
+  params: [ ]
+vcrolerm:
+  args:
+    - vcid
+  desc: '음성 채널에서 역할 연결을 해제해요.'
+  params:
+    - &ref_641
+      desc: '음성 채널 ID예요.'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong:
+  args:
+    - vcid
+  desc: '음성 채널에서 역할 연결을 해제해요.'
+  params:
+    - desc: '음성 채널 ID예요.'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_1:
+  args:
+    - vcid
+  desc: '음성 채널에서 역할 연결을 해제해요.'
+  params:
+    - desc: '음성 채널 ID예요.'
+      name: vcId
+      optional: false
+      type: ulong
+vcrolerm_ulong_2:
+  args:
+    - vcid
+  desc: '음성 채널에서 역할 연결을 해제해요.'
+  params:
+    - desc: '음성 채널 ID예요.'
+      name: vcId
+      optional: false
+      type: ulong
+timezones:
+  args:
+    - ''
+  desc: '사용 가능한 모든 시간대를 보여줘요.'
+  params: [ ]
+antimasspost:
+  args:
+    - ''
+  desc: 'Anti-Mass-Post 보호를 끄거나, 인수를 주면 설정해요.'
+  params: [ ]
+antipostchannel:
+  args:
+    - ''
+  desc: 'Anti-Post-Channel 보호를 끄거나, 인수를 주면 설정해요.'
+  params: [ ]
+antipostchanneladd:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Anti-Post-Channel 보호에 허니팟 채널을 추가해요.'
+  params:
+    - desc: '허니팟으로 추가할 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+antipostchannelremove:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Anti-Post-Channel 보호에서 허니팟 채널을 제거해요.'
+  params:
+    - desc: '허니팟 추적에서 제거할 텍스트 채널이에요.'
+      name: channel
+      optional: false
+      type: ITextChannel
+antiimagehash:
+  args:
+    - ''
+    - 'Ban'
+    - 'Delete 31'
+    - 'Timeout 31 1d'
+  desc: 'Anti-Image-Hash 보호를 켜요. 차단된 이미지 목록에 있는 이미지를 다시 올리는 사람을 조치해요. 크기를 바꾸거나, 뒤집거나, 화질을 낮춰 다시 올리거나, 테두리를 씌운 복사본도 포함해요. 인수 없이 실행하면 보호를 꺼요. 선택 사항인 허용 오차(0~64, 기본값 31)는 올린 이미지가 차단된 이미지와 얼마나 달라 보여도 차단 대상으로 볼지 정해요.'
+  params: [ ]
+antiimagehashignore:
+  args:
+    - '<role>'
+    - '<channel>'
+  desc: '역할 또는 채널을 Anti-Image-Hash 보호에서 제외할지 설정해요.'
+  params: [ ]
+antiexternalapp:
+  args:
+    - ''
+    - 'Timeout'
+    - 'Timeout 5 5 1h'
+    - 'Kick 3 0'
+  desc: 'Anti-External-App 보호를 켜요. 사용자가 자기 계정에 추가한 앱으로 보내는 메시지를 감시해요. 메시지가 너무 많은 사람이나 역할을 언급하거나(기본값 5, 0이면 끔), @everyone을 사용하거나, 초대 링크를 포함하거나, 10초 동안 허용 횟수(기본값 5, 0이면 끔)보다 많이 앱을 실행하면 메시지를 삭제하고 앱을 실행한 사용자를 처벌해요. 서버에 추가된 앱은 검사하지 않아요. 인수 없이 실행하면 보호를 꺼요.'
+  params: [ ]
+blockimage:
+  args:
+    - ''
+    - 'mrbeast crypto scam'
+    - 'Delete nsfw meme'
+    - 'https://example.com/scam.png mrbeast crypto scam'
+  desc: '이미지를 차단해요. 크기가 바뀌거나, 다시 압축되거나, 뒤집히거나, 테두리가 씌워진 복사본도 포함해 다시 올리면 조치해요. 이미지를 첨부하거나, 이미지가 있는 메시지에 답장하거나, URL을 입력할 수 있어요. 라벨 앞에 조치를 입력하면 이 이미지에만 서버 기본값 대신 적용돼요.'
+  params: [ ]
+unblockimage:
+  args:
+    - '<id>'
+  desc: 'blockedimages에 표시되는 ID로 차단된 이미지 목록에서 이미지를 제거해요.'
+  params: [ ]
+blockedimages:
+  args:
+    - ''
+  desc: '차단된 이미지 목록과 각 이미지가 감지된 횟수를 보여줘요.'
+  params: [ ]
+imagehash:
+  args:
+    - ''
+    - 'https://example.com/scam.png'
+  desc: '이미지를 차단하지 않고 지각 해시(perceptual hash)를 보여줘요.'
+  params: [ ]
+antiimagehashpreset:
+  args:
+    - ''
+  desc: 'Mewdeko에 포함된 알려진 스캠 이미지 목록을 켜거나 꺼요. 현재 Discord에 퍼지고 있는 가짜 암호화폐 카지노와 경품 이미지가 포함돼요. 자체 목록과 함께 차단돼요. Anti-Image-Hash가 켜져 있으면 기본으로 켜져 있어요.'
+  params: [ ]

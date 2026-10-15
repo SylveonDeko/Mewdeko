@@ -2,10 +2,9 @@ commands:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
+  desc: 'Muestra los comandos de un módulo concreto, opcionalmente filtrados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.'
   params:
-    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
+    - desc: 'El módulo a consultar, seguido opcionalmente de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string
@@ -13,10 +12,9 @@ commands_=:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
+  desc: 'Muestra los comandos de un módulo concreto, opcionalmente filtrados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.'
   params:
-    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
+    - desc: 'El módulo a consultar, seguido opcionalmente de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string
@@ -24,10 +22,9 @@ commands_=_1:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
+  desc: 'Muestra los comandos de un módulo concreto, opcionalmente filtrados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.'
   params:
-    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
+    - desc: 'El módulo a consultar, seguido opcionalmente de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string
@@ -35,10 +32,9 @@ commands_=_2:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
+  desc: 'Muestra los comandos de un módulo concreto, opcionalmente filtrados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.'
   params:
-    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
+    - desc: 'El módulo a consultar, seguido opcionalmente de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string
@@ -50,26 +46,22 @@ donate:
 exportcommandsjson:
   args:
     - ''
-  desc: >-
-    Exporta todos los comandos a un archivo json. Usado principalmente para
+  desc: 'Exporta todos los comandos a un archivo JSON. Se usa principalmente para https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams:
   args:
     - ''
-  desc: >-
-    Exporta todos los comandos a un archivo json. Usado principalmente para
+  desc: 'Exporta todos los comandos a un archivo JSON. Se usa principalmente para https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams_1:
   args:
     - ''
-  desc: >-
-    Exporta todos los comandos a un archivo json. Usado principalmente para
+  desc: 'Exporta todos los comandos a un archivo JSON. Se usa principalmente para https://mewdeko.tech/commands.'
   params: [ ]
 exportcommandsjson_noparams_2:
   args:
     - ''
-  desc: >-
-    Exporta todos los comandos a un archivo json. Usado principalmente para
+  desc: 'Exporta todos los comandos a un archivo JSON. Se usa principalmente para https://mewdeko.tech/commands.'
   params: [ ]
 guide:
   args:
@@ -79,25 +71,25 @@ guide:
 h:
   args:
     - command
-  desc: Muestra ayuda para un comando específico.
+  desc: 'Muestra la ayuda de un comando concreto.'
   params:
-    - desc: El comando del cual obtener ayuda.
+    - desc: 'El comando del que obtener ayuda.'
       name: command
       optional: true
       type: string
 help:
   args:
     - command
-  desc: Muestra información de ayuda para los comandos.
+  desc: 'Muestra información de ayuda sobre los comandos.'
   params:
-    - desc: El comando del cual obtener ayuda.
+    - desc: 'El comando del que obtener ayuda.'
       name: command
       optional: true
       type: string
 modules:
   args:
     - ''
-  desc: 'Muestra una lista de todos los módulos. Básicamente solo es un alias de help en este momento.'
+  desc: 'Muestra una lista de todos los módulos. A estas alturas es básicamente un alias de help.'
   params: [ ]
 searchcommand:
   args:

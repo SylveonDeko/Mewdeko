@@ -2,13 +2,13 @@ rolegreetadd:
   args:
     - '@role [@channel]'
     - '@role'
-  desc: 'Ajoute un nouveau message de bienvenue de role pour un role specifique. Si aucun salon n''est specifie, le salon actuel est utilise.'
+  desc: 'Ajoute un nouveau message d''accueil de rôle pour le rôle indiqué. Si aucun salon n''est indiqué, le salon actuel est utilisé.'
   params:
-    - desc: 'Le role pour lequel le message de bienvenue est defini.'
+    - desc: 'Le rôle pour lequel définir le message d''accueil.'
       name: role
       optional: false
       type: role
-    - desc: 'Le salon textuel ou le message de bienvenue sera envoye. Optionnel.'
+    - desc: 'Le salon textuel où le message d''accueil sera envoyé. Facultatif.'
       name: channel
       optional: true
       type: channel
@@ -16,13 +16,13 @@ rolegreetadd_IRole_=:
   args:
     - '@role [@channel]'
     - '@role'
-  desc: 'Ajoute un nouveau message de bienvenue de role pour un role specifique. Si aucun salon n''est specifie, le salon actuel est utilise.'
+  desc: 'Ajoute un nouveau message d''accueil de rôle pour le rôle indiqué. Si aucun salon n''est indiqué, le salon actuel est utilisé.'
   params:
-    - desc: 'Le role pour lequel le message de bienvenue est defini.'
+    - desc: 'Le rôle pour lequel définir le message d''accueil.'
       name: role
       optional: false
       type: role
-    - desc: 'Le salon textuel ou le message de bienvenue sera envoye. Optionnel.'
+    - desc: 'Le salon textuel où le message d''accueil sera envoyé. Facultatif.'
       name: channel
       optional: true
       type: channel
@@ -30,13 +30,13 @@ rolegreetadd_IRole_=_1:
   args:
     - '@role [@channel]'
     - '@role'
-  desc: 'Ajoute un nouveau message de bienvenue de role pour un role specifique. Si aucun salon n''est specifie, le salon actuel est utilise.'
+  desc: 'Ajoute un nouveau message d''accueil de rôle pour le rôle indiqué. Si aucun salon n''est indiqué, le salon actuel est utilisé.'
   params:
-    - desc: 'Le role pour lequel le message de bienvenue est defini.'
+    - desc: 'Le rôle pour lequel définir le message d''accueil.'
       name: role
       optional: false
       type: role
-    - desc: 'Le salon textuel ou le message de bienvenue sera envoye. Optionnel.'
+    - desc: 'Le salon textuel où le message d''accueil sera envoyé. Facultatif.'
       name: channel
       optional: true
       type: channel
@@ -44,319 +44,319 @@ rolegreetadd_IRole_=_2:
   args:
     - '@role [@channel]'
     - '@role'
-  desc: 'Ajoute un nouveau message de bienvenue de role pour un role specifique. Si aucun salon n''est specifie, le salon actuel est utilise.'
+  desc: 'Ajoute un nouveau message d''accueil de rôle pour le rôle indiqué. Si aucun salon n''est indiqué, le salon actuel est utilisé.'
   params:
-    - desc: 'Le role pour lequel le message de bienvenue est defini.'
+    - desc: 'Le rôle pour lequel définir le message d''accueil.'
       name: role
       optional: false
       type: role
-    - desc: 'Le salon textuel ou le message de bienvenue sera envoye. Optionnel.'
+    - desc: 'Le salon textuel où le message d''accueil sera envoyé. Facultatif.'
       name: channel
       optional: true
       type: channel
 rolegreetdelete:
   args:
     - number time
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
     - &ref_448
-      desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+      desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
     - &ref_450
-      desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+      desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
       name: time
       optional: false
       type: StoopidTime
 rolegreetdelete_int_StoopidTime:
   args:
     - number time
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+    - desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
       name: time
       optional: false
       type: StoopidTime
 rolegreetdelete_int_StoopidTime_1:
   args:
     - number time
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+    - desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
       name: time
       optional: false
       type: StoopidTime
 rolegreetdelete_int_StoopidTime_2:
   args:
     - number time
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+    - desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
       name: time
       optional: false
       type: StoopidTime
 rolegreetdelete_int_int:
   args:
     - number number
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
     - &ref_449
-      desc: 'La duree, en secondes, apres laquelle le message de bienvenue sera supprime.'
+      desc: 'La durée, en secondes, au bout de laquelle le message d''accueil sera supprimé.'
       name: howlong
       optional: false
       type: int
 rolegreetdelete_int_int_1:
   args:
     - number number
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'La duree, en secondes, apres laquelle le message de bienvenue sera supprime.'
+    - desc: 'La durée, en secondes, au bout de laquelle le message d''accueil sera supprimé.'
       name: howlong
       optional: false
       type: int
 rolegreetdelete_int_int_2:
   args:
     - number number
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'La duree, en secondes, apres laquelle le message de bienvenue sera supprime.'
+    - desc: 'La durée, en secondes, au bout de laquelle le message d''accueil sera supprimé.'
       name: howlong
       optional: false
       type: int
 rolegreetdelete_int_int_3:
   args:
     - number number
-  desc: 'Met a jour un message de bienvenue de role pour qu''il soit supprime automatiquement apres une duree specifiee.'
+  desc: 'Configure la suppression automatique d''un message d''accueil de rôle après une durée donnée.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'La duree, en secondes, apres laquelle le message de bienvenue sera supprime.'
+    - desc: 'La durée, en secondes, au bout de laquelle le message d''accueil sera supprimé.'
       name: howlong
       optional: false
       type: int
 rolegreetdisable:
   args:
     - number true|false
-  desc: 'Active ou desactive un message de bienvenue de role.'
+  desc: 'Active ou désactive un message d''accueil de rôle.'
   params:
     - &ref_451
-      desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+      desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
     - &ref_452
-      desc: 'Si le message de bienvenue doit etre active ou desactive.'
+      desc: 'Indique s''il faut activer ou désactiver le message d''accueil.'
       name: enabled
       optional: false
       type: bool
 rolegreetdisable_int_bool:
   args:
     - number true|false
-  desc: 'Active ou desactive un message de bienvenue de role.'
+  desc: 'Active ou désactive un message d''accueil de rôle.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
-    - desc: 'Si le message de bienvenue doit etre active ou desactive.'
+    - desc: 'Indique s''il faut activer ou désactiver le message d''accueil.'
       name: enabled
       optional: false
       type: bool
 rolegreetdisable_int_bool_1:
   args:
     - number true|false
-  desc: 'Active ou desactive un message de bienvenue de role.'
+  desc: 'Active ou désactive un message d''accueil de rôle.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
-    - desc: 'Si le message de bienvenue doit etre active ou desactive.'
+    - desc: 'Indique s''il faut activer ou désactiver le message d''accueil.'
       name: enabled
       optional: false
       type: bool
 rolegreetdisable_int_bool_2:
   args:
     - number true|false
-  desc: 'Active ou desactive un message de bienvenue de role.'
+  desc: 'Active ou désactive un message d''accueil de rôle.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
-    - desc: 'Si le message de bienvenue doit etre active ou desactive.'
+    - desc: 'Indique s''il faut activer ou désactiver le message d''accueil.'
       name: enabled
       optional: false
       type: bool
 rolegreetgreetbots:
   args:
     - number true|false
-  desc: 'Active ou desactive la salutation des bots par un salut de role specifique.'
+  desc: 'Active ou désactive l''accueil des bots par un message d''accueil de rôle spécifique.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
     - &ref_453
-      desc: 'Si la salutation des bots doit etre activee ou desactivee.'
+      desc: 'Indique s''il faut activer ou désactiver l''accueil des bots.'
       name: enabled
       optional: false
       type: bool
 rolegreetgreetbots_int_bool:
   args:
     - number true|false
-  desc: 'Active ou desactive la salutation des bots par un salut de role specifique.'
+  desc: 'Active ou désactive l''accueil des bots par un message d''accueil de rôle spécifique.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
-    - desc: 'Si la salutation des bots doit etre activee ou desactivee.'
+    - desc: 'Indique s''il faut activer ou désactiver l''accueil des bots.'
       name: enabled
       optional: false
       type: bool
 rolegreetgreetbots_int_bool_1:
   args:
     - number true|false
-  desc: 'Active ou desactive la salutation des bots par un salut de role specifique.'
+  desc: 'Active ou désactive l''accueil des bots par un message d''accueil de rôle spécifique.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
-    - desc: 'Si la salutation des bots doit etre activee ou desactivee.'
+    - desc: 'Indique s''il faut activer ou désactiver l''accueil des bots.'
       name: enabled
       optional: false
       type: bool
 rolegreetgreetbots_int_bool_2:
   args:
     - number true|false
-  desc: 'Active ou desactive la salutation des bots par un salut de role specifique.'
+  desc: 'Active ou désactive l''accueil des bots par un message d''accueil de rôle spécifique.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: num
       optional: false
       type: int
-    - desc: 'Si la salutation des bots doit etre activee ou desactivee.'
+    - desc: 'Indique s''il faut activer ou désactiver l''accueil des bots.'
       name: enabled
       optional: false
       type: bool
 rolegreetlist:
   args:
     - ''
-  desc: 'Liste tous les saluts de role configures sur le serveur, en fournissant des informations detaillees pour chacun.'
+  desc: 'Affiche tous les messages d''accueil de rôle configurés sur le serveur, avec des informations détaillées pour chacun.'
   params: [ ]
 rolegreetmessage:
   args:
     - '<id> [message]'
     - number
-  desc: 'Met a jour le contenu du message d''un salut de role. Si aucun message n''est fourni, presente des options pour previsualiser le message tel quel ou le voir en texte normal.'
+  desc: 'Modifie le contenu d''un message d''accueil de rôle. Si aucun message n''est fourni, propose des options pour prévisualiser le message tel quel ou l''afficher en texte brut.'
   params:
-    - desc: 'L''ID du salut de role a mettre a jour, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle à modifier, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Le nouveau contenu du message. Optionnel.'
+    - desc: 'Le nouveau contenu du message. Facultatif.'
       name: message
       optional: true
       type: string
 rolegreetremove:
   args:
     - number
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
     - &ref_454
-      desc: Supprime les saluts de role associes a l''ID de role donne
+      desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
       name: id
       optional: false
       type: int
 rolegreetremove_IRole:
   args:
     - '@role'
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
-    - desc: 'Le role dont les saluts de role seront supprimes.'
+    - desc: 'Le rôle dont supprimer les messages d''accueil.'
       name: role
       optional: false
       type: IRole
 rolegreetremove_IRole_1:
   args:
     - '@role'
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
-    - desc: 'Le role dont les saluts de role seront supprimes.'
+    - desc: 'Le rôle dont supprimer les messages d''accueil.'
       name: role
       optional: false
       type: IRole
 rolegreetremove_IRole_2:
   args:
     - '@role'
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
-    - desc: 'Le role dont les saluts de role seront supprimes.'
+    - desc: 'Le rôle dont supprimer les messages d''accueil.'
       name: role
       optional: false
       type: IRole
 rolegreetremove_IRole_3:
   args:
     - '@role'
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
-    - desc: 'Le role dont les saluts de role seront supprimes.'
+    - desc: 'Le rôle dont supprimer les messages d''accueil.'
       name: role
       optional: false
       type: IRole
 rolegreetremove_int:
   args:
     - number
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
-    - desc: Supprime les saluts de role associes a l''ID de role donne
+    - desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
       name: id
       optional: false
       type: int
 rolegreetremove_int_1:
   args:
     - number
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
-    - desc: Supprime les saluts de role associes a l''ID de role donne
+    - desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
       name: id
       optional: false
       type: int
 rolegreetremove_int_2:
   args:
     - number
-  desc: Supprime les saluts de role associes a l''ID de role donne
+  desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
   params:
-    - desc: Supprime les saluts de role associes a l''ID de role donne
+    - desc: 'Supprime les messages d''accueil de rôle associés à l''ID de rôle indiqué'
       name: id
       optional: false
       type: int
@@ -364,17 +364,17 @@ rolegreetwebhook:
   args:
     - '<id> [name] [avatar]'
     - number
-  desc: 'Configure un webhook pour un message de bienvenue de role, permettant un nom et un avatar personnalises. Si aucun nom n''est fourni, le webhook est desactive.'
+  desc: 'Configure un webhook pour un message d''accueil de rôle, permettant un nom et un avatar personnalisés. Si aucun nom n''est fourni, le webhook est désactivé.'
   params:
-    - desc: 'L''ID du salut de role pour configurer le webhook, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle pour lequel configurer le webhook, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Le nom du webhook. Optionnel.'
+    - desc: 'Le nom du webhook. Facultatif.'
       name: name
       optional: true
       type: string
-    - desc: "L'URL de l'avatar pour le webhook. Optionnel."
+    - desc: 'L''URL de l''avatar du webhook. Facultatif.'
       name: avatar
       optional: true
       type: string
@@ -382,17 +382,17 @@ rolegreetwebhook_int_=_=:
   args:
     - '<id> [name] [avatar]'
     - number
-  desc: 'Configure un webhook pour un message de bienvenue de role, permettant un nom et un avatar personnalises. Si aucun nom n''est fourni, le webhook est desactive.'
+  desc: 'Configure un webhook pour un message d''accueil de rôle, permettant un nom et un avatar personnalisés. Si aucun nom n''est fourni, le webhook est désactivé.'
   params:
-    - desc: 'L''ID du salut de role pour configurer le webhook, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle pour lequel configurer le webhook, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Le nom du webhook. Optionnel.'
+    - desc: 'Le nom du webhook. Facultatif.'
       name: name
       optional: true
       type: string
-    - desc: "L'URL de l'avatar pour le webhook. Optionnel."
+    - desc: 'L''URL de l''avatar du webhook. Facultatif.'
       name: avatar
       optional: true
       type: string
@@ -400,17 +400,17 @@ rolegreetwebhook_int_=_=_1:
   args:
     - '<id> [name] [avatar]'
     - number
-  desc: 'Configure un webhook pour un message de bienvenue de role, permettant un nom et un avatar personnalises. Si aucun nom n''est fourni, le webhook est desactive.'
+  desc: 'Configure un webhook pour un message d''accueil de rôle, permettant un nom et un avatar personnalisés. Si aucun nom n''est fourni, le webhook est désactivé.'
   params:
-    - desc: 'L''ID du salut de role pour configurer le webhook, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle pour lequel configurer le webhook, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Le nom du webhook. Optionnel.'
+    - desc: 'Le nom du webhook. Facultatif.'
       name: name
       optional: true
       type: string
-    - desc: "L'URL de l'avatar pour le webhook. Optionnel."
+    - desc: 'L''URL de l''avatar du webhook. Facultatif.'
       name: avatar
       optional: true
       type: string
@@ -418,17 +418,17 @@ rolegreetwebhook_int_=_=_2:
   args:
     - '<id> [name] [avatar]'
     - number
-  desc: 'Configure un webhook pour un message de bienvenue de role, permettant un nom et un avatar personnalises. Si aucun nom n''est fourni, le webhook est desactive.'
+  desc: 'Configure un webhook pour un message d''accueil de rôle, permettant un nom et un avatar personnalisés. Si aucun nom n''est fourni, le webhook est désactivé.'
   params:
-    - desc: 'L''ID du salut de role pour configurer le webhook, base sur sa position dans la liste de tous les saluts de role.'
+    - desc: 'L''ID du message d''accueil de rôle pour lequel configurer le webhook, selon sa position dans la liste de tous les messages d''accueil de rôle.'
       name: id
       optional: false
       type: int
-    - desc: 'Le nom du webhook. Optionnel.'
+    - desc: 'Le nom du webhook. Facultatif.'
       name: name
       optional: true
       type: string
-    - desc: "L'URL de l'avatar pour le webhook. Optionnel."
+    - desc: 'L''URL de l''avatar du webhook. Facultatif.'
       name: avatar
       optional: true
       type: string

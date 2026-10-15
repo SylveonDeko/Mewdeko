@@ -809,7 +809,7 @@ manualblacklistcheck:
 moveperm:
   args:
     - number number
-  desc: 'Moves a permission higher in the heirarchy.'
+  desc: 'Moves a permission higher in the hierarchy.'
   params:
     - &ref_297
       desc: 'Initial Index'
@@ -824,7 +824,7 @@ moveperm:
 moveperm_int_int:
   args:
     - number number
-  desc: 'Moves a permission higher in the heirarchy.'
+  desc: 'Moves a permission higher in the hierarchy.'
   params:
     - desc: 'Initial Index'
       name: from
@@ -837,7 +837,7 @@ moveperm_int_int:
 moveperm_int_int_1:
   args:
     - number number
-  desc: 'Moves a permission higher in the heirarchy.'
+  desc: 'Moves a permission higher in the hierarchy.'
   params:
     - desc: 'Initial Index'
       name: from
@@ -850,7 +850,7 @@ moveperm_int_int_1:
 moveperm_int_int_2:
   args:
     - number number
-  desc: 'Moves a permission higher in the heirarchy.'
+  desc: 'Moves a permission higher in the hierarchy.'
   params:
     - desc: 'Initial Index'
       name: from

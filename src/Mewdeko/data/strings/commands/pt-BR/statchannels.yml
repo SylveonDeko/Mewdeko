@@ -1,7 +1,7 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: 'Cria um novo canal de voz bloqueado exibindo uma estatística do servidor. O bot criará e gerenciará o canal.'
+  desc: 'Cria um novo canal de voz bloqueado que exibe uma estatística do servidor. O bot criará e gerenciará o canal.'
   params:
     - desc: 'O tipo de estatística a exibir.'
       name: type
@@ -14,7 +14,7 @@ statchannelcreate:
 statchanneladd:
   args:
     - '#voice-channel TotalMembers [template]'
-  desc: 'Adiciona um canal de voz como canal de estatísticas. Tipos: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  desc: 'Adiciona um canal de voz como canal de estatística. Tipos: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
   params:
     - desc: 'O canal de voz a usar.'
       name: channel
@@ -31,13 +31,13 @@ statchanneladd:
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Adiciona um canal de estatísticas mostrando quantos membros têm um cargo específico.'
+  desc: 'Adiciona um canal de estatística que mostra quantos membros possuem um cargo específico.'
   params:
     - desc: 'O canal de voz a usar.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'O cargo cujos membros contar.'
+    - desc: 'O cargo cujos membros serão contados.'
       name: role
       optional: false
       type: IRole
@@ -48,13 +48,13 @@ statchannelrole:
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Adiciona um canal de contagem regressiva. Use os placeholders %days% e %hours%.'
+  desc: 'Adiciona um canal de estatística de contagem regressiva. Use os marcadores %days% e %hours%.'
   params:
     - desc: 'O canal de voz a usar.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'A data alvo para a contagem regressiva.'
+    - desc: 'A data alvo da contagem regressiva.'
       name: date
       optional: false
       type: DateTime
@@ -65,7 +65,7 @@ statchannelcountdown:
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'Adiciona um canal de meta de membros. Use %count%, %goal% e %goal.percent%.'
+  desc: 'Adiciona um canal de estatística de meta de membros. Use %count%, %goal% e %goal.percent%.'
   params:
     - desc: 'O canal de voz a usar.'
       name: channel
@@ -82,7 +82,7 @@ statchannelgoal:
 statchannelremove:
   args:
     - '#voice-channel'
-  desc: 'Remove um canal de estatísticas.'
+  desc: 'Remove um canal de estatística.'
   params:
     - desc: 'O canal de voz a remover.'
       name: channel
@@ -91,5 +91,25 @@ statchannelremove:
 statchannellist:
   args:
     - ''
-  desc: 'Lista todos os canais de estatísticas deste servidor.'
+  desc: 'Lista todos os canais de estatística deste servidor.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Define um canal de estatística para mostrar um contador da Twitch.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Define o mecanismo de atualização de um canal de estatística.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Define o estilo de exibição de um canal de estatística.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Mostra as configurações padrão dos canais de estatística.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Lista os tipos de canais de estatística disponíveis.'

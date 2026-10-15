@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Забороняє користувачу рахувати в конкретному каналі.'
+  params:
+    - desc: 'Користувач, якому заборонити рахувати.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Тривалість бану (наприклад, 1h, 1d). Залиш порожнім для постійного бану.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Причина бану.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Налаштовує параметри каналу для підрахунку.'
+  params:
+    - desc: 'Канал, для якого показати налаштування. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Встановлює кулдаун між підрахунками користувачів.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Кулдаун у секундах (0–300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Вимикає підрахунок у каналі та за бажанням очищає всі дані.'
+  params:
+    - desc: 'Канал, у якому вимкнути підрахунок. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Чи видалити всі дані підрахунку для цього каналу. За замовчуванням false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Причина вимкнення підрахунку.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Встановлює канал, куди записуються помилки підрахунку.'
+  params:
+    - desc: 'Канал для підрахунку.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Канал для журналів помилок. Використай null, щоб вимкнути.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Встановлює власне повідомлення для неправильних підрахунків.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Шаблон повідомлення. Використай "-", щоб повернути стандартне.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Встановлює поріг помилок до застосування наслідків.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Кількість помилок до дії (1–10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Показує таблицю лідерів для каналу підрахунку.'
+  params:
+    - desc: 'Тип таблиці лідерів (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Канал, для якого показати таблицю лідерів. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Показує всі активні канали підрахунку на сервері.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Встановлює канал, де оголошуються досягнення етапів.'
+  params:
+    - desc: 'Канал для підрахунку.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Канал для оголошень про етапи. Використай null, щоб вимкнути.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Встановлює власне повідомлення для досягнень етапів.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Шаблон повідомлення. Використай "-", щоб повернути стандартне.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Встановлює власні числа етапів.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Числа етапів через кому (наприклад, 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Скидає підрахунок у каналі до конкретного числа.'
+  params:
+    - desc: 'Канал для скидання. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Число, до якого скинути. За замовчуванням 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Причина скидання.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Відновлює підрахунок із попередньої точки збереження.'
+  params:
+    - desc: 'ID точки збереження, з якої відновити.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Канал для відновлення. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Створює точку збереження для поточного прогресу підрахунку.'
+  params:
+    - desc: 'Канал для збереження. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Причина створення точки збереження.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Налаштовує підрахунок у поточному каналі або вказаному каналі.'
+  params:
+    - desc: 'Канал для налаштування підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Число, з якого почати підрахунок. За замовчуванням 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'Крок для кожного підрахунку. За замовчуванням 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Показує статистику підрахунку для користувача або каналу.'
+  params:
+    - desc: 'Користувач, для якого показати статистику. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Канал, де перевірити статистику. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Показує поточний стан підрахунку в каналі.'
+  params:
+    - desc: 'Канал для перевірки. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Встановлює власне повідомлення для успішних підрахунків.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Шаблон повідомлення. Використай "-", щоб повернути стандартне.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Тимчасово відсторонює користувача від підрахунку.'
+  params:
+    - desc: 'Користувач, якого треба відсторонити від підрахунку.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Тривалість відсторонення (наприклад, 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Причина відсторонення.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Знімає блокування підрахунку з користувача в конкретному каналі.'
+  params:
+    - desc: 'Користувач, з якого треба зняти блокування підрахунку.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Причина зняття блокування.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Встановлює ролі, яким заборонено рахувати.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ролі, яким заборонено рахувати.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Очищає неправильні підрахунки користувача в каналі підрахунку.'
+  params:
+    - desc: 'Користувач, для якого очистити неправильні підрахунки.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Очищає неправильні підрахунки всіх користувачів у каналі підрахунку.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Встановлює загальносерверні налаштування модерації за замовчуванням.'
+  params:
+    - desc: 'Чи увімкнена модерація за замовчуванням.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Поріг неправильних підрахунків за замовчуванням до покарання.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Часове вікно за замовчуванням у годинах для відстеження неправильних підрахунків.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Дія покарання за замовчуванням.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Тривалість покарання за замовчуванням у хвилинах для покарань з часом.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Роль за замовчуванням для покарання типу AddRole.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Налаштовує захист від редагування повідомлень для каналу підрахунку.'
+  params:
+    - desc: 'Чи карати за редагування повідомлень як за порушення.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Чи видаляти відредаговані повідомлення.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Вмикає або вимикає модерацію для конкретного каналу підрахунку.'
+  params:
+    - desc: 'Чи увімкнути чи вимкнути модерацію.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Встановлює ролі, які ігноруватимуться під час підрахунку.'
+  params:
+    - desc: 'Чи видаляти повідомлення від ролей, які ігноруються.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ролі, які треба ігнорувати під час підрахунку.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Налаштовує обробку повідомлень без чисел для каналу підрахунку.'
+  params:
+    - desc: 'Чи карати за повідомлення без чисел як за порушення.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Чи видаляти повідомлення без чисел.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Встановлює поступове покарання для конкретного номера неправильного підрахунку.'
+  params:
+    - desc: 'Номер неправильного підрахунку, який запускає це покарання.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Дія покарання для застосування.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Тривалість покарань з часом у хвилинах.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Роль для покарання типу AddRole.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Канал підрахунку (NULL — налаштування сервера за замовчуванням).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Показує всі поступові покарання для сервера або конкретного каналу.'
+  params:
+    - desc: 'Канал підрахунку (NULL — налаштування сервера за замовчуванням).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Встановлює покарання за неправильні підрахунки.'
+  params:
+    - desc: 'Дія покарання для застосування.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Тривалість покарань з часом у хвилинах.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Роль для покарання типу AddRole.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Встановлює ролі, потрібні для підрахунку.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ролі, потрібні для підрахунку.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Повертає канал до налаштувань сервера за замовчуванням.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Показує поточні налаштування модерації для каналу підрахунку або налаштування сервера за замовчуванням.'
+  params:
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Встановлює поріг неправильних підрахунків для каналу підрахунку.'
+  params:
+    - desc: 'Кількість неправильних підрахунків до покарання (1–100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Видаляє поступове покарання для конкретного номера неправильного підрахунку.'
+  params:
+    - desc: 'Номер неправильного підрахунку, для якого видалити покарання.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Канал підрахунку (NULL — налаштування сервера за замовчуванням).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Встановлює часове вікно для відстеження неправильних підрахунків.'
+  params:
+    - desc: 'Часове вікно в годинах (1–168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Канал для підрахунку. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: text channel

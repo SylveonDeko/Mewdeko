@@ -1,0 +1,953 @@
+activefilters:
+  args:
+    - ''
+  desc: 'Показує всі активні аудіофільтри.'
+  params: [ ]
+autoplay:
+  args:
+    - number
+  desc: 'Встановлює кількість автовідтворюваних треків на сервері. Використовує Spotify API, тому client secret і ID мають бути дійсними.'
+  params:
+    - &ref_96
+      desc: 'Кількість треків для автовідтворення. Максимум 5'
+      name: amount
+      optional: false
+      type: int
+autoplay_int:
+  args:
+    - number
+  desc: 'Встановлює кількість автовідтворюваних треків на сервері. Використовує Spotify API, тому client secret і ID мають бути дійсними.'
+  params:
+    - desc: 'Кількість треків для автовідтворення. Максимум 5'
+      name: amount
+      optional: false
+      type: int
+bass:
+  args:
+    - 0
+  desc: 'Встановлює рівень підсилення басів для поточного треку.'
+  params:
+    - desc: 'Встановлює рівень підсилення басів для поточного треку.'
+      name: 0
+      optional: false
+      type: '='
+clearqueue:
+  args:
+    - ''
+  desc: 'Очищає чергу відтворення.'
+  params: [ ]
+deleteplaylist:
+  args:
+    - text
+  desc: 'Видаляє збережений плейлист.'
+  params:
+    - &ref_187
+      desc: 'Назва плейлиста для видалення.'
+      name: name
+      optional: false
+      type: string
+deleteplaylist_string:
+  args:
+    - text
+  desc: 'Видаляє збережений плейлист.'
+  params:
+    - desc: 'Назва плейлиста для видалення.'
+      name: name
+      optional: false
+      type: string
+distortion:
+  args:
+    - true
+  desc: 'Застосовує ефект спотворення до аудіо.'
+  params:
+    - desc: 'Застосовує ефект спотворення до аудіо.'
+      name: true
+      optional: false
+      type: '='
+echo:
+  args:
+    - 1 0.5
+    - 0
+  desc: 'Застосовує ефект луни до поточного треку. Потрібен плагін фільтра луни на вузлі Lavalink.'
+  params:
+    - desc: 'Затримка луни в секундах від 0.1 до 5. 0 вимикає ефект.'
+      name: delay
+      optional: true
+      type: float
+    - desc: 'Наскільки згасає кожна луна, від 0 до 1.'
+      name: decay
+      optional: true
+      type: float
+eightd:
+  args:
+    - true
+  desc: 'Застосовує аудіоефект 8D, який обертає звук навколо слухача.'
+  params:
+    - desc: 'Застосовує аудіоефект 8D, який обертає звук навколо слухача.'
+      name: true
+      optional: false
+      type: '='
+join:
+  args:
+    - ''
+  desc: 'Отримує музичний програвач і намагається приєднатися до голосового каналу.'
+  params: [ ]
+karaoke:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+  params:
+    - desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+  params:
+    - desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_1:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+  params:
+    - desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_2:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+  params:
+    - desc: 'Застосовує або знімає фільтр караоке, який намагається прибрати вокал з треку.'
+      name: true
+      optional: false
+      type: '='
+leave:
+  args:
+    - ''
+  desc: 'Відключає бота від голосового каналу.'
+  params: [ ]
+loadplaylist:
+  args:
+    - text false
+    - text
+  desc: 'Завантажує раніше збережений плейлист у чергу.'
+  params:
+    - &ref_280
+      desc: 'Назва плейлиста для завантаження.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Завантажує раніше збережений плейлист у чергу.'
+      name: false
+      optional: false
+      type: '='
+loadplaylist_string_=:
+  args:
+    - text false
+    - text
+  desc: 'Завантажує раніше збережений плейлист у чергу.'
+  params:
+    - desc: 'Назва плейлиста для завантаження.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Завантажує раніше збережений плейлист у чергу.'
+      name: false
+      optional: false
+      type: '='
+loop:
+  args:
+    - repeattype
+  desc: 'Встановлює, чи повторювати відтворення і як.'
+  params:
+    - &ref_286
+      desc: 'Тип повтору.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+loop_PlayerRepeatType:
+  args:
+    - repeattype
+  desc: 'Встановлює, чи повторювати відтворення і як.'
+  params:
+    - desc: 'Тип повтору.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+lowpass:
+  args:
+    - 20
+    - 0
+  desc: 'Застосовує фільтр низьких частот, який приглушує звук, відрізаючи високі частоти.'
+  params:
+    - desc: 'Рівень згладжування від 1 до 100. Більші значення сильніше відрізають високі частоти. 0 вимикає фільтр.'
+      name: smoothing
+      optional: true
+      type: float
+movesong:
+  args:
+    - number number
+  desc: 'Переміщує пісню в черзі на нову позицію.'
+  params:
+    - &ref_299
+      desc: 'Поточна позиція пісні.'
+      name: from
+      optional: false
+      type: int
+    - &ref_300
+      desc: 'Нова позиція пісні.'
+      name: to
+      optional: false
+      type: int
+movesong_int_int:
+  args:
+    - number number
+  desc: 'Переміщує пісню в черзі на нову позицію.'
+  params:
+    - desc: 'Поточна позиція пісні.'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Нова позиція пісні.'
+      name: to
+      optional: false
+      type: int
+musiclinkchannel:
+  args:
+    - ''
+    - '[@channel]'
+  desc: 'Перемикає автоматичну конвертацію посилань на музику для каналу. Коли увімкнено, будь-яке посилання на Apple Music, Spotify, YouTube Music або іншу підтримувану музичну платформу, опубліковане в цьому каналі, отримує відповідь embed з назвою треку, виконавцем, обкладинкою та еквівалентними посиланнями на інші сервіси.'
+  params:
+    - desc: 'Канал для перемикання. За замовчуванням поточний канал.'
+      name: channel
+      optional: true
+      type: channel
+musiclinkchannels:
+  args:
+    - ''
+  desc: 'Показує канали на цьому сервері, де ввімкнено конвертацію музичних посилань.'
+  params: [ ]
+musicsettings:
+  args:
+    - ''
+  desc: 'Показує поточні налаштування музики для сервера.'
+  params: [ ]
+nightcore:
+  args:
+    - true
+  desc: 'Перемикає ефект nightcore для поточного треку.'
+  params:
+    - desc: 'Перемикає ефект nightcore для поточного треку.'
+      name: true
+      optional: false
+      type: '='
+normalize:
+  args:
+    - ''
+    - false
+  desc: 'Перемикає вирівнювання гучності, яке згладжує гучні та тихі частини аудіо. Потрібен плагін фільтра нормалізації на вузлі Lavalink.'
+  params:
+    - desc: 'Чи увімкнути або вимкнути нормалізацію. За замовчуванням true.'
+      name: enable
+      optional: true
+      type: bool
+nowplaying:
+  args:
+    - ''
+  desc: 'Показує трек, що зараз відтворюється, якщо він є.'
+  params: [ ]
+pause:
+  args:
+    - ''
+  desc: 'Призупиняє або відновлює відтворення залежно від поточного стану.'
+  params: [ ]
+play:
+  args:
+    - number
+  desc: 'Відтворює музику з різних джерел, зокрема YouTube, Spotify і прямого пошуку. Підтримує треки, плейлисти й альбоми з підтримуваних платформ.'
+  params:
+    - &ref_346
+      desc: 'Відтворює музику з різних джерел, зокрема YouTube, Spotify і прямого пошуку. Підтримує треки, плейлисти й альбоми з підтримуваних платформ.'
+      name: queueNumber
+      optional: false
+      type: int
+play_int:
+  args:
+    - number
+  desc: 'Відтворює музику з різних джерел, зокрема YouTube, Spotify і прямого пошуку. Підтримує треки, плейлисти й альбоми з підтримуваних платформ.'
+  params:
+    - desc: 'Відтворює музику з різних джерел, зокрема YouTube, Spotify і прямого пошуку. Підтримує треки, плейлисти й альбоми з підтримуваних платформ.'
+      name: queueNumber
+      optional: false
+      type: int
+play_string:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'Відтворює музику з URL або пошукового запиту. URL з будь-якого джерела, увімкненого на вузлі Lavalink (YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit та інші), завантажуються напряму. Звичайний текст шукається в типовому джерелі, якщо запит не починається з префікса джерела, наприклад «spotify:», «deezer:», «applemusic:», «soundcloud:» або «youtube:».'
+  params:
+    - &ref_347
+      desc: 'URL або пошуковий запит для музики, за бажанням із префіксом назви джерела'
+      name: query
+      optional: false
+      type: string
+play_string_1:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'Відтворює музику з URL або пошукового запиту. URL з будь-якого джерела, увімкненого на вузлі Lavalink (YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit та інші), завантажуються напряму. Звичайний текст шукається в типовому джерелі, якщо запит не починається з префікса джерела, наприклад «spotify:», «deezer:», «applemusic:», «soundcloud:» або «youtube:».'
+  params:
+    - desc: 'URL або пошуковий запит для музики, за бажанням із префіксом назви джерела'
+      name: query
+      optional: false
+      type: string
+playlists:
+  args:
+    - ''
+  desc: 'Показує всі збережені плейлисти сервера.'
+  params: [ ]
+queue:
+  args:
+    - ''
+  desc: 'Черга відтворення.'
+  params: [ ]
+resetfilters:
+  args:
+    - ''
+  desc: 'Видаляє всі активні аудіофільтри з поточного треку.'
+  params: [ ]
+saveplaylist:
+  args:
+    - text
+  desc: 'Зберігає поточну чергу як іменований плейлист.'
+  params:
+    - &ref_477
+      desc: 'Назва, під якою зберегти плейлист.'
+      name: name
+      optional: false
+      type: string
+saveplaylist_string:
+  args:
+    - text
+  desc: 'Зберігає поточну чергу як іменований плейлист.'
+  params:
+    - desc: 'Назва, під якою зберегти плейлист.'
+      name: name
+      optional: false
+      type: string
+search:
+  args:
+    - text
+    - 'spotify: text'
+  desc: 'Шукає треки, не відтворюючи їх автоматично. Шукає в типовому джерелі, якщо запит не починається з префікса джерела, наприклад «spotify:», «deezer:» або «soundcloud:».'
+  params:
+    - &ref_480
+      desc: 'Пошуковий запит, за бажанням із префіксом назви джерела'
+      name: query
+      optional: false
+      type: string
+search_string:
+  args:
+    - text
+    - 'spotify: text'
+  desc: 'Шукає треки, не відтворюючи їх автоматично. Шукає в типовому джерелі, якщо запит не починається з префікса джерела, наприклад «spotify:», «deezer:» або «soundcloud:».'
+  params:
+    - desc: 'Пошуковий запит, за бажанням із префіксом назви джерела'
+      name: query
+      optional: false
+      type: string
+seek:
+  args:
+    - text
+  desc: 'Перемотує поточний трек на вказану позицію.'
+  params:
+    - &ref_482
+      desc: 'Час для перемотування у форматі mm:ss'
+      name: timeSpan
+      optional: false
+      type: string
+seek_string:
+  args:
+    - text
+  desc: 'Перемотує поточний трек на вказану позицію.'
+  params:
+    - desc: 'Час для перемотування у форматі mm:ss'
+      name: timeSpan
+      optional: false
+      type: string
+setdjrole:
+  args:
+    - '[@role]'
+  desc: 'Встановлює роль DJ для музичних команд, які потребують підвищених прав.'
+  params:
+    - desc: 'Роль, яку призначити DJ. Якщо значення порожнє, роль DJ видаляється.'
+      name: role
+      optional: true
+      type: role
+setmusicchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал, куди надсилатимуться музичні події.'
+  params:
+    - desc: 'Канал, куди надсилатимуться музичні події.'
+      name: channel
+      optional: true
+      type: channel
+shuffle:
+  args:
+    - ''
+  desc: 'Перемішує поточну чергу відтворення.'
+  params: [ ]
+skip:
+  args:
+    - ''
+  desc: 'Перемикає на наступний трек.'
+  params: [ ]
+songremove:
+  args:
+    - number
+  desc: 'Видаляє вибраний трек із черги. Якщо вибраний трек є поточним, його буде пропущено. Якщо наступного треку немає, програвач зупиниться.'
+  params:
+    - &ref_554
+      desc: 'Номер треку в черзі для видалення.'
+      name: queueNumber
+      optional: false
+      type: int
+songremove_int:
+  args:
+    - number
+  desc: 'Видаляє вибраний трек із черги. Якщо вибраний трек є поточним, його буде пропущено. Якщо наступного треку немає, програвач зупиниться.'
+  params:
+    - desc: 'Номер треку в черзі для видалення.'
+      name: queueNumber
+      optional: false
+      type: int
+stereowiden:
+  args:
+    - true
+  desc: 'Застосовує ефект стереорозширення для кращої просторової сцени.'
+  params:
+    - desc: 'Застосовує ефект стереорозширення для кращої просторової сцени.'
+      name: true
+      optional: false
+      type: '='
+tremolo:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+  params:
+    - desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+  params:
+    - desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_1:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+  params:
+    - desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_2:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+  params:
+    - desc: 'Застосовує або знімає фільтр тремоло, який створює хвилювання гучності.'
+      name: true
+      optional: false
+      type: '='
+vaporwave:
+  args:
+    - true
+  desc: 'Перемикає ефект vaporwave для поточного треку.'
+  params:
+    - desc: 'Перемикає ефект vaporwave для поточного треку.'
+      name: true
+      optional: false
+      type: '='
+vibrato:
+  args:
+    - true
+  desc: 'Застосовує або знімає фільтр вібрато, який створює хвилювання висоти тону.'
+  params:
+    - desc: 'Застосовує або знімає фільтр вібрато, який створює хвилювання висоти тону.'
+      name: true
+      optional: false
+      type: '='
+volume:
+  args:
+    - number
+  desc: 'Встановлює гучність програвача'
+  params:
+    - &ref_645
+      desc: 'Гучність для встановлення'
+      name: volume
+      optional: false
+      type: int
+volume_int:
+  args:
+    - number
+  desc: 'Встановлює гучність програвача'
+  params:
+    - desc: 'Гучність для встановлення'
+      name: volume
+      optional: false
+      type: int
+voteskip:
+  args:
+    - ''
+  desc: 'Починає або приєднується до голосування за пропуск поточного треку.'
+  params: [ ]
+lastfmlink:
+  args: [ ]
+  desc: 'Прив''язує обліковий запис Last.fm користувача для скроблінгу.'
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: 'Прив''язує обліковий запис Last.fm користувача для скроблінгу.'
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: 'Відв''язує обліковий запис Last.fm користувача.'
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: 'Відв''язує обліковий запис Last.fm користувача.'
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: 'Вмикає або вимикає скроблінг Last.fm.'
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: 'Вмикає або вимикає скроблінг Last.fm.'
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: 'Показує стан облікового запису Last.fm користувача.'
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: 'Показує стан облікового запису Last.fm користувача.'
+  params: [ ]
+fm:
+  args:
+    - '[@user]'
+  desc: 'Показує поточний або останній відтворений трек з Last.fm; якщо обліковий запис не прив''язано, використовує статус Spotify з Discord.'
+  params:
+    - desc: 'Користувач для перевірки. За замовчуванням той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+fmrecent:
+  args:
+    - '[@user]'
+  desc: 'Показує нещодавно відтворені треки користувача з Last.fm.'
+  params:
+    - desc: 'Користувач для перевірки. За замовчуванням той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+fmtopartists:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Показує топ виконавців користувача на Last.fm за вказаний період.'
+  params:
+    - desc: 'Період: week, month, quarter, half, year або overall (за замовчуванням).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Користувач для перевірки. За замовчуванням той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+fmtopalbums:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Показує топ альбомів користувача на Last.fm за вказаний період.'
+  params:
+    - desc: 'Період: week, month, quarter, half, year або overall (за замовчуванням).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Користувач для перевірки. За замовчуванням той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+fmtoptracks:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Показує топ треків користувача на Last.fm за вказаний період.'
+  params:
+    - desc: 'Період: week, month, quarter, half, year або overall (за замовчуванням).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Користувач для перевірки. За замовчуванням той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+fmartist:
+  args:
+    - '[artist]'
+  desc: 'Показує інформацію про виконавця з Last.fm разом із кількістю твоїх прослуховувань.'
+  params:
+    - desc: 'Назва виконавця. За замовчуванням той, кого ти зараз або нещодавно слухав.'
+      name: artist
+      optional: true
+      type: string
+fmalbum:
+  args:
+    - '[artist | album]'
+  desc: 'Показує інформацію про альбом з Last.fm разом із кількістю твоїх прослуховувань.'
+  params:
+    - desc: 'Альбом для пошуку у форматі «виконавець | альбом». За замовчуванням той, який ти зараз або нещодавно слухав.'
+      name: query
+      optional: true
+      type: string
+fmwhoknows:
+  args:
+    - '[artist]'
+  desc: 'Ранжує всіх учасників сервера з прив''язаними акаунтами за кількістю прослуховувань виконавця.'
+  params:
+    - desc: 'Виконавець для перевірки. За замовчуванням той, кого ти зараз або нещодавно слухав.'
+      name: artist
+      optional: true
+      type: string
+fmwhoknowsalbum:
+  args:
+    - 'artist | album'
+  desc: 'Ранжує всіх учасників сервера з прив''язаними акаунтами за кількістю прослуховувань альбому.'
+  params:
+    - desc: 'Альбом для перевірки у форматі «виконавець | альбом».'
+      name: query
+      optional: false
+      type: string
+fmwhoknowstrack:
+  args:
+    - 'artist | track'
+  desc: 'Ранжує всіх учасників сервера з прив''язаними акаунтами за кількістю прослуховувань треку.'
+  params:
+    - desc: 'Трек для перевірки у форматі «виконавець | трек».'
+      name: query
+      optional: false
+      type: string
+fmcrowns:
+  args:
+    - '[artist]'
+  desc: 'Показує, хто «володіє» виконавцем (має найбільше прослуховувань) на цьому сервері.'
+  params:
+    - desc: 'Виконавець для перевірки. За замовчуванням той, кого ти зараз або нещодавно слухав.'
+      name: artist
+      optional: true
+      type: string
+fmtaste:
+  args:
+    - '@user'
+  desc: 'Порівнює твоїх топ-виконавців з топом іншого користувача, щоб побачити, наскільки збігаються смаки.'
+  params:
+    - desc: 'Користувач, з яким порівняти.'
+      name: user
+      optional: false
+      type: user
+fmchart:
+  args:
+    - '[size]'
+    - '[period]'
+    - '[@user]'
+  desc: 'Створює зображення-сітку з топ-альбомів користувача на Last.fm.'
+  params:
+    - desc: 'Розмір сітки (size x size). Має бути від 2 до 5. За замовчуванням 3.'
+      name: size
+      optional: true
+      type: int
+    - desc: 'Період: week, month, quarter, half, year або overall (за замовчуванням).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Користувач для перевірки. За замовчуванням той, хто викликав команду.'
+      name: user
+      optional: true
+      type: user
+ttsenable:
+  args:
+    - ''
+  desc: 'Перемикає TTS для голосового каналу, в якому ти зараз перебуваєш.'
+  params: [ ]
+ttslink:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Прив''язує текстовий канал до поточного голосового каналу для TTS. Повідомлення в прив''язаному каналі озвучуватимуться. Без аргументів відв''язує канал.'
+  params:
+    - desc: 'Текстовий канал для прив''язки. Щоб відв''язати, не вказуй його.'
+      name: channel
+      optional: true
+      type: channel
+ttslink_ITextChannel:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Прив''язує текстовий канал до поточного голосового каналу для TTS. Повідомлення в прив''язаному каналі озвучуватимуться. Без аргументів відв''язує канал.'
+  params:
+    - desc: 'Текстовий канал для прив''язки. Щоб відв''язати, не вказуй його.'
+      name: channel
+      optional: true
+      type: channel
+ttsannounce:
+  args:
+    - ''
+  desc: 'Перемикає оголошення про вхід і вихід для поточного голосового каналу.'
+  params: [ ]
+ttsautojoin:
+  args:
+    - ''
+  desc: 'Перемикає автоматичне приєднання до голосового каналу, в якому ти перебуваєш. Коли увімкнено, бот сам приєднується до цього каналу, коли учасник заходить (якщо бот ще не в голосовому каналі), і виходить, коли канал порожній. Працює, навіть якщо бот не підключений.'
+  params: [ ]
+ttsjoinformat:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Встановлює формат оголошення про вхід. Підтримує заповнювачі, наприклад %user.name%, %user.mention%, %server.name%. Без аргументів скидає до стандартного.'
+  params:
+    - desc: 'Рядок формату входу. Щоб скинути до стандартного, не вказуй його.'
+      name: format
+      optional: true
+      type: string
+ttsjoinformat_string:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Встановлює формат оголошення про вхід. Підтримує заповнювачі, наприклад %user.name%, %user.mention%, %server.name%. Без аргументів скидає до стандартного.'
+  params:
+    - desc: 'Рядок формату входу. Щоб скинути до стандартного, не вказуй його.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Встановлює формат оголошення про вихід. Підтримує заповнювачі, наприклад %user.name%, %user.mention%, %server.name%. Без аргументів скидає до стандартного.'
+  params:
+    - desc: 'Рядок формату виходу. Щоб скинути до стандартного, не вказуй його.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat_string:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Встановлює формат оголошення про вихід. Підтримує заповнювачі, наприклад %user.name%, %user.mention%, %server.name%. Без аргументів скидає до стандартного.'
+  params:
+    - desc: 'Рядок формату виходу. Щоб скинути до стандартного, не вказуй його.'
+      name: format
+      optional: true
+      type: string
+ttsvolume:
+  args:
+    - '75'
+  desc: 'Встановлює гучність TTS (0-100). Окремо від гучності музики.'
+  params:
+    - desc: 'Рівень гучності від 0 до 100.'
+      name: volume
+      optional: false
+      type: int
+ttsvolume_int:
+  args:
+    - '75'
+  desc: 'Встановлює гучність TTS (0-100). Окремо від гучності музики.'
+  params:
+    - desc: 'Рівень гучності від 0 до 100.'
+      name: volume
+      optional: false
+      type: int
+ttsspeed:
+  args:
+    - '1.5'
+  desc: 'Встановлює швидкість відтворення TTS (0.5-2.0).'
+  params:
+    - desc: 'Множник швидкості від 0.5 до 2.0.'
+      name: speed
+      optional: false
+      type: float
+ttsspeed_float:
+  args:
+    - '1.5'
+  desc: 'Встановлює швидкість відтворення TTS (0.5-2.0).'
+  params:
+    - desc: 'Множник швидкості від 0.5 до 2.0.'
+      name: speed
+      optional: false
+      type: float
+ttsdefaultvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Встановлює типовий голос TTS для сервера. Без аргументів скидає до системного значення за замовчуванням.'
+  params:
+    - desc: 'Назва голосу. Щоб скинути, не вказуй її.'
+      name: voice
+      optional: true
+      type: string
+ttsdefaultvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Встановлює типовий голос TTS для сервера. Без аргументів скидає до системного значення за замовчуванням.'
+  params:
+    - desc: 'Назва голосу. Щоб скинути, не вказуй її.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Встановлює твій особистий голос TTS для цього сервера. Без аргументів скидає до типового голосу сервера.'
+  params:
+    - desc: 'Назва голосу. Щоб скинути, не вказуй її.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Встановлює твій особистий голос TTS для цього сервера. Без аргументів скидає до типового голосу сервера.'
+  params:
+    - desc: 'Назва голосу. Щоб скинути, не вказуй її.'
+      name: voice
+      optional: true
+      type: string
+ttsvoices:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'Шукає доступні голоси TTS за назвою, мовою, статтю або джерелом. Результати розбиваються на сторінки.'
+  params:
+    - desc: 'Пошуковий запит (назва голосу, мова, стать або джерело).'
+      name: search
+      optional: false
+      type: string
+ttsvoices_string:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'Шукає доступні голоси TTS за назвою, мовою, статтю або джерелом. Результати розбиваються на сторінки.'
+  params:
+    - desc: 'Пошуковий запит (назва голосу, мова, стать або джерело).'
+      name: search
+      optional: false
+      type: string
+ttsblock:
+  args:
+    - '@user'
+  desc: 'Блокує або розблоковує користувачеві використання TTS на цьому сервері. Перемикає стан блокування.'
+  params:
+    - desc: 'Користувач, якого треба заблокувати або розблокувати.'
+      name: user
+      optional: false
+      type: user
+ttsblock_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Блокує або розблоковує користувачеві використання TTS на цьому сервері. Перемикає стан блокування.'
+  params:
+    - desc: 'Користувач, якого треба заблокувати або розблокувати.'
+      name: user
+      optional: false
+      type: user
+ttsblocklist:
+  args:
+    - ''
+  desc: 'Показує всіх користувачів, яким заблоковано TTS на цьому сервері.'
+  params: [ ]
+ttsrole:
+  args:
+    - '@role'
+    - ''
+  desc: 'Встановлює роль, потрібну для використання TTS. Без аргументів знімає обмеження.'
+  params:
+    - desc: 'Роль, яку треба вимагати. Щоб зняти обмеження, не вказуй її.'
+      name: role
+      optional: true
+      type: role
+ttsrole_IRole:
+  args:
+    - '@role'
+    - ''
+  desc: 'Встановлює роль, потрібну для використання TTS. Без аргументів знімає обмеження.'
+  params:
+    - desc: 'Роль, яку треба вимагати. Щоб зняти обмеження, не вказуй її.'
+      name: role
+      optional: true
+      type: role
+ttsreplycontext:
+  args:
+    - ''
+  desc: 'Перемикає, чи зачитувати TTS контекст відповіді (наприклад, «відповідає User»).'
+  params: [ ]
+ttsattachmentnarration:
+  args:
+    - ''
+  desc: 'Перемикає, чи озвучувати вкладення TTS (наприклад, «надіслав зображення»).'
+  params: [ ]
+ttsconsecutivegrouping:
+  args:
+    - ''
+  desc: 'Перемикає, чи пропускати префікс з іменем для послідовних повідомлень від одного користувача.'
+  params: [ ]
+ttsmaxqueue:
+  args:
+    - '20'
+  desc: 'Встановлює максимальний розмір черги TTS (1-50).'
+  params:
+    - desc: 'Максимальний розмір черги від 1 до 50.'
+      name: size
+      optional: false
+      type: int
+ttsmaxqueue_int:
+  args:
+    - '20'
+  desc: 'Встановлює максимальний розмір черги TTS (1-50).'
+  params:
+    - desc: 'Максимальний розмір черги від 1 до 50.'
+      name: size
+      optional: false
+      type: int
+ttssettings:
+  args:
+    - ''
+  desc: 'Показує поточні налаштування TTS для цього сервера та голосового каналу.'
+  params: [ ]
+ttsremove:
+  args:
+    - ''
+  desc: 'Видаляє всі налаштування TTS для поточного голосового каналу.'
+  params: [ ]

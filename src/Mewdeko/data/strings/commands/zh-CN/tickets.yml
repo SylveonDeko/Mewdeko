@@ -1,0 +1,2313 @@
+addmodalfield:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '向工单创建表单添加字段。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '字段的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选配置项。'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '向工单创建表单添加字段。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '字段的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选配置项。'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_1:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '向工单创建表单添加字段。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '字段的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选配置项。'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_2:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '向工单创建表单添加字段。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '字段的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选配置项。'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_3:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '向工单创建表单添加字段。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '字段的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选配置项。'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_4:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: '向工单创建表单添加字段。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '字段的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选配置项。'
+      name: fieldConfig
+      optional: true
+      type: string
+addoption:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '向现有选择菜单添加选项。'
+  params:
+    - desc: '要添加选项的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '显示给用户的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选，显示在标签下方的描述。'
+      name: description
+      optional: true
+      type: string
+    - desc: '可选，显示在标签旁边的表情。'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '向现有选择菜单添加选项。'
+  params:
+    - desc: '要添加选项的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '显示给用户的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选，显示在标签下方的描述。'
+      name: description
+      optional: true
+      type: string
+    - desc: '可选，显示在标签旁边的表情。'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_1:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '向现有选择菜单添加选项。'
+  params:
+    - desc: '要添加选项的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '显示给用户的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选，显示在标签下方的描述。'
+      name: description
+      optional: true
+      type: string
+    - desc: '可选，显示在标签旁边的表情。'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_2:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '向现有选择菜单添加选项。'
+  params:
+    - desc: '要添加选项的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '显示给用户的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选，显示在标签下方的描述。'
+      name: description
+      optional: true
+      type: string
+    - desc: '可选，显示在标签旁边的表情。'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_3:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '向现有选择菜单添加选项。'
+  params:
+    - desc: '要添加选项的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '显示给用户的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选，显示在标签下方的描述。'
+      name: description
+      optional: true
+      type: string
+    - desc: '可选，显示在标签旁边的表情。'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_4:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '向现有选择菜单添加选项。'
+  params:
+    - desc: '要添加选项的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '显示给用户的标签。'
+      name: label
+      optional: false
+      type: string
+    - desc: '可选，显示在标签下方的描述。'
+      name: description
+      optional: true
+      type: string
+    - desc: '可选，显示在标签旁边的表情。'
+      name: emoji
+      optional: true
+      type: string
+addselectmenu:
+  args:
+    - panelid
+  desc: '向工单面板添加选择菜单。'
+  params:
+    - &ref_31
+      desc: '要添加菜单的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong:
+  args:
+    - panelid
+  desc: '向工单面板添加选择菜单。'
+  params:
+    - desc: '要添加菜单的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_1:
+  args:
+    - panelid
+  desc: '向工单面板添加选择菜单。'
+  params:
+    - desc: '要添加菜单的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_2:
+  args:
+    - panelid
+  desc: '向工单面板添加选择菜单。'
+  params:
+    - desc: '要添加菜单的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_3:
+  args:
+    - panelid
+  desc: '向工单面板添加选择菜单。'
+  params:
+    - desc: '要添加菜单的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_4:
+  args:
+    - panelid
+  desc: '向工单面板添加选择菜单。'
+  params:
+    - desc: '要添加菜单的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+buttoninfo:
+  args:
+    - number
+  desc: '显示按钮的详细信息。'
+  params:
+    - &ref_116
+      desc: '要查看的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int:
+  args:
+    - number
+  desc: '显示按钮的详细信息。'
+  params:
+    - desc: '要查看的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_1:
+  args:
+    - number
+  desc: '显示按钮的详细信息。'
+  params:
+    - desc: '要查看的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_2:
+  args:
+    - number
+  desc: '显示按钮的详细信息。'
+  params:
+    - desc: '要查看的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_3:
+  args:
+    - number
+  desc: '显示按钮的详细信息。'
+  params:
+    - desc: '要查看的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_4:
+  args:
+    - number
+  desc: '显示按钮的详细信息。'
+  params:
+    - desc: '要查看的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+checkpanels:
+  args:
+    - ''
+  desc: '检查服务器中所有面板是否缺少消息。'
+  params: [ ]
+deletebutton:
+  args:
+    - number
+  desc: '从面板中删除按钮。'
+  params:
+    - &ref_186
+      desc: '要删除的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int:
+  args:
+    - number
+  desc: '从面板中删除按钮。'
+  params:
+    - desc: '要删除的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_1:
+  args:
+    - number
+  desc: '从面板中删除按钮。'
+  params:
+    - desc: '要删除的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_2:
+  args:
+    - number
+  desc: '从面板中删除按钮。'
+  params:
+    - desc: '要删除的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_3:
+  args:
+    - number
+  desc: '从面板中删除按钮。'
+  params:
+    - desc: '要删除的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_4:
+  args:
+    - number
+  desc: '从面板中删除按钮。'
+  params:
+    - desc: '要删除的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+deleteselectmenu:
+  args:
+    - number
+  desc: '从面板中删除选择菜单。'
+  params:
+    - desc: '要删除的选择菜单 ID。'
+      name: menuId
+      optional: false
+      type: int
+deleteselectoption:
+  args:
+    - number
+  desc: '从选择菜单中删除特定选项。'
+  params:
+    - desc: '要删除的选择菜单选项 ID。'
+      name: optionId
+      optional: false
+      type: int
+listmodalfields:
+  args:
+    - number
+  desc: '列出工单创建表单中的所有字段。'
+  params:
+    - &ref_277
+      desc: '列出工单创建表单中的所有字段。'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int:
+  args:
+    - number
+  desc: '列出工单创建表单中的所有字段。'
+  params:
+    - desc: '列出工单创建表单中的所有字段。'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_1:
+  args:
+    - number
+  desc: '列出工单创建表单中的所有字段。'
+  params:
+    - desc: '列出工单创建表单中的所有字段。'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_2:
+  args:
+    - number
+  desc: '列出工单创建表单中的所有字段。'
+  params:
+    - desc: '列出工单创建表单中的所有字段。'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_3:
+  args:
+    - number
+  desc: '列出工单创建表单中的所有字段。'
+  params:
+    - desc: '列出工单创建表单中的所有字段。'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_4:
+  args:
+    - number
+  desc: '列出工单创建表单中的所有字段。'
+  params:
+    - desc: '列出工单创建表单中的所有字段。'
+      name: buttonId
+      optional: false
+      type: int
+listoptions:
+  args:
+    - text
+  desc: '列出选择菜单中的所有选项。'
+  params:
+    - &ref_278
+      desc: '要查看的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string:
+  args:
+    - text
+  desc: '列出选择菜单中的所有选项。'
+  params:
+    - desc: '要查看的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_1:
+  args:
+    - text
+  desc: '列出选择菜单中的所有选项。'
+  params:
+    - desc: '要查看的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_2:
+  args:
+    - text
+  desc: '列出选择菜单中的所有选项。'
+  params:
+    - desc: '要查看的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_3:
+  args:
+    - text
+  desc: '列出选择菜单中的所有选项。'
+  params:
+    - desc: '要查看的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_4:
+  args:
+    - text
+  desc: '列出选择菜单中的所有选项。'
+  params:
+    - desc: '要查看的菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+panelinfo:
+  args:
+    - panelid
+  desc: '显示工单面板的详细信息。'
+  params:
+    - &ref_335
+      desc: '要查看的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong:
+  args:
+    - panelid
+  desc: '显示工单面板的详细信息。'
+  params:
+    - desc: '要查看的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_1:
+  args:
+    - panelid
+  desc: '显示工单面板的详细信息。'
+  params:
+    - desc: '要查看的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_2:
+  args:
+    - panelid
+  desc: '显示工单面板的详细信息。'
+  params:
+    - desc: '要查看的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_3:
+  args:
+    - panelid
+  desc: '显示工单面板的详细信息。'
+  params:
+    - desc: '要查看的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_4:
+  args:
+    - panelid
+  desc: '显示工单面板的详细信息。'
+  params:
+    - desc: '要查看的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+panellist:
+  args:
+    - ''
+  desc: '列出服务器中的所有工单面板。'
+  params: [ ]
+panellist_noparams:
+  args:
+    - ''
+  desc: '列出服务器中的所有工单面板。'
+  params: [ ]
+panellist_noparams_1:
+  args:
+    - ''
+  desc: '列出服务器中的所有工单面板。'
+  params: [ ]
+panellist_noparams_2:
+  args:
+    - ''
+  desc: '列出服务器中的所有工单面板。'
+  params: [ ]
+panellist_noparams_3:
+  args:
+    - ''
+  desc: '列出服务器中的所有工单面板。'
+  params: [ ]
+panellist_noparams_4:
+  args:
+    - ''
+  desc: '列出服务器中的所有工单面板。'
+  params: [ ]
+recreateallpanels:
+  args:
+    - ''
+  desc: '重新创建所有缺少消息的面板。'
+  params: [ ]
+recreatepanel:
+  args:
+    - number
+  desc: '在原频道中重新创建已删除的工单面板。'
+  params:
+    - desc: '要重新创建的面板消息 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+removemodalfield:
+  args:
+    - number text
+  desc: '从工单创建表单中移除字段。'
+  params:
+    - desc: '从工单创建表单中移除字段。'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_401
+      desc: '从工单创建表单中移除字段。'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string:
+  args:
+    - number text
+  desc: '从工单创建表单中移除字段。'
+  params:
+    - desc: '从工单创建表单中移除字段。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '从工单创建表单中移除字段。'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_1:
+  args:
+    - number text
+  desc: '从工单创建表单中移除字段。'
+  params:
+    - desc: '从工单创建表单中移除字段。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '从工单创建表单中移除字段。'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_2:
+  args:
+    - number text
+  desc: '从工单创建表单中移除字段。'
+  params:
+    - desc: '从工单创建表单中移除字段。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '从工单创建表单中移除字段。'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_3:
+  args:
+    - number text
+  desc: '从工单创建表单中移除字段。'
+  params:
+    - desc: '从工单创建表单中移除字段。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '从工单创建表单中移除字段。'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_4:
+  args:
+    - number text
+  desc: '从工单创建表单中移除字段。'
+  params:
+    - desc: '从工单创建表单中移除字段。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '从工单创建表单中移除字段。'
+      name: fieldId
+      optional: false
+      type: string
+removeoption:
+  args:
+    - text text
+  desc: '从选择菜单中移除选项。'
+  params:
+    - &ref_403
+      desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_404
+      desc: '要移除的选项值。'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string:
+  args:
+    - text text
+  desc: '从选择菜单中移除选项。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '要移除的选项值。'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_1:
+  args:
+    - text text
+  desc: '从选择菜单中移除选项。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '要移除的选项值。'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_2:
+  args:
+    - text text
+  desc: '从选择菜单中移除选项。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '要移除的选项值。'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_3:
+  args:
+    - text text
+  desc: '从选择菜单中移除选项。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '要移除的选项值。'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_4:
+  args:
+    - text text
+  desc: '从选择菜单中移除选项。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '要移除的选项值。'
+      name: optionValue
+      optional: false
+      type: string
+setautoclose:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单的自动关闭时间。'
+  params:
+    - &ref_487
+      desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_488
+      desc: '无活动多少小时后自动关闭，或设为 null 以禁用。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单的自动关闭时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '无活动多少小时后自动关闭，或设为 null 以禁用。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_1:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单的自动关闭时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '无活动多少小时后自动关闭，或设为 null 以禁用。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_2:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单的自动关闭时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '无活动多少小时后自动关闭，或设为 null 以禁用。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_3:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单的自动关闭时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '无活动多少小时后自动关闭，或设为 null 以禁用。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_4:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单的自动关闭时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '无活动多少小时后自动关闭，或设为 null 以禁用。'
+      name: hours
+      optional: true
+      type: int
+setmodaltitle:
+  args:
+    - number text
+  desc: '设置工单创建表单的标题。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_506
+      desc: '表单上显示的标题。'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string:
+  args:
+    - number text
+  desc: '设置工单创建表单的标题。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '表单上显示的标题。'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_1:
+  args:
+    - number text
+  desc: '设置工单创建表单的标题。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '表单上显示的标题。'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_2:
+  args:
+    - number text
+  desc: '设置工单创建表单的标题。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '表单上显示的标题。'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_3:
+  args:
+    - number text
+  desc: '设置工单创建表单的标题。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '表单上显示的标题。'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_4:
+  args:
+    - number text
+  desc: '设置工单创建表单的标题。'
+  params:
+    - desc: '要配置的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '表单上显示的标题。'
+      name: title
+      optional: false
+      type: string
+setpaneltranscripts:
+  args:
+    - panelid true|false
+  desc: '启用或禁用面板的聊天记录保存。'
+  params:
+    - &ref_510
+      desc: '要修改的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_511
+      desc: '是否启用或禁用聊天记录保存。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool:
+  args:
+    - panelid true|false
+  desc: '启用或禁用面板的聊天记录保存。'
+  params:
+    - desc: '要修改的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '是否启用或禁用聊天记录保存。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_1:
+  args:
+    - panelid true|false
+  desc: '启用或禁用面板的聊天记录保存。'
+  params:
+    - desc: '要修改的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '是否启用或禁用聊天记录保存。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_2:
+  args:
+    - panelid true|false
+  desc: '启用或禁用面板的聊天记录保存。'
+  params:
+    - desc: '要修改的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '是否启用或禁用聊天记录保存。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_3:
+  args:
+    - panelid true|false
+  desc: '启用或禁用面板的聊天记录保存。'
+  params:
+    - desc: '要修改的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '是否启用或禁用聊天记录保存。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_4:
+  args:
+    - panelid true|false
+  desc: '启用或禁用面板的聊天记录保存。'
+  params:
+    - desc: '要修改的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '是否启用或禁用聊天记录保存。'
+      name: enable
+      optional: false
+      type: bool
+setplaceholder:
+  args:
+    - text text
+  desc: '更新选择菜单的占位文字。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_512
+      desc: '新的占位文字。'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string:
+  args:
+    - text text
+  desc: '更新选择菜单的占位文字。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新的占位文字。'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_1:
+  args:
+    - text text
+  desc: '更新选择菜单的占位文字。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新的占位文字。'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_2:
+  args:
+    - text text
+  desc: '更新选择菜单的占位文字。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新的占位文字。'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_3:
+  args:
+    - text text
+  desc: '更新选择菜单的占位文字。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新的占位文字。'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_4:
+  args:
+    - text text
+  desc: '更新选择菜单的占位文字。'
+  params:
+    - desc: '菜单 ID。'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新的占位文字。'
+      name: placeholder
+      optional: false
+      type: string
+setresponsetime:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单所需的响应时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_518
+      desc: '分钟数，或设为 null 以禁用。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单所需的响应时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分钟数，或设为 null 以禁用。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_1:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单所需的响应时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分钟数，或设为 null 以禁用。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_2:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单所需的响应时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分钟数，或设为 null 以禁用。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_3:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单所需的响应时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分钟数，或设为 null 以禁用。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_4:
+  args:
+    - number number
+    - number
+  desc: '设置由按钮创建的工单所需的响应时间。'
+  params:
+    - desc: '要修改的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分钟数，或设为 null 以禁用。'
+      name: minutes
+      optional: true
+      type: int
+ticketaddbutton:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '向现有工单面板添加按钮。'
+  params:
+    - desc: '向现有工单面板添加按钮。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '向现有工单面板添加按钮。'
+      name: label
+      optional: false
+      type: string
+    - desc: '向现有工单面板添加按钮。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '向现有工单面板添加按钮。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '向现有工单面板添加按钮。'
+  params:
+    - desc: '向现有工单面板添加按钮。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '向现有工单面板添加按钮。'
+      name: label
+      optional: false
+      type: string
+    - desc: '向现有工单面板添加按钮。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '向现有工单面板添加按钮。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_1:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '向现有工单面板添加按钮。'
+  params:
+    - desc: '向现有工单面板添加按钮。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '向现有工单面板添加按钮。'
+      name: label
+      optional: false
+      type: string
+    - desc: '向现有工单面板添加按钮。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '向现有工单面板添加按钮。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_2:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '向现有工单面板添加按钮。'
+  params:
+    - desc: '向现有工单面板添加按钮。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '向现有工单面板添加按钮。'
+      name: label
+      optional: false
+      type: string
+    - desc: '向现有工单面板添加按钮。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '向现有工单面板添加按钮。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddpriority:
+  args:
+    - text text text number true|false time text
+  desc: '创建新的工单优先级等级。'
+  params:
+    - &ref_599
+      desc: '创建新的工单优先级等级。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: name
+      optional: false
+      type: string
+    - &ref_600
+      desc: '创建新的工单优先级等级。'
+      name: emoji
+      optional: false
+      type: string
+    - &ref_601
+      desc: '创建新的工单优先级等级。'
+      name: level
+      optional: false
+      type: int
+    - &ref_602
+      desc: '创建新的工单优先级等级。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - &ref_603
+      desc: '创建新的工单优先级等级。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - &ref_604
+      desc: '创建新的工单优先级等级。'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string:
+  args:
+    - text text text number true|false time text
+  desc: '创建新的工单优先级等级。'
+  params:
+    - desc: '创建新的工单优先级等级。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: name
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: level
+      optional: false
+      type: int
+    - desc: '创建新的工单优先级等级。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: '创建新的工单优先级等级。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: '创建新的工单优先级等级。'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_1:
+  args:
+    - text text text number true|false time text
+  desc: '创建新的工单优先级等级。'
+  params:
+    - desc: '创建新的工单优先级等级。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: name
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: level
+      optional: false
+      type: int
+    - desc: '创建新的工单优先级等级。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: '创建新的工单优先级等级。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: '创建新的工单优先级等级。'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_2:
+  args:
+    - text text text number true|false time text
+  desc: '创建新的工单优先级等级。'
+  params:
+    - desc: '创建新的工单优先级等级。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: name
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '创建新的工单优先级等级。'
+      name: level
+      optional: false
+      type: int
+    - desc: '创建新的工单优先级等级。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: '创建新的工单优先级等级。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: '创建新的工单优先级等级。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag:
+  args:
+    - text text text text
+  desc: '创建新的工单标签。'
+  params:
+    - desc: '创建新的工单标签。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: name
+      optional: false
+      type: string
+    - &ref_605
+      desc: '创建新的工单标签。'
+      name: description
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string:
+  args:
+    - text text text text
+  desc: '创建新的工单标签。'
+  params:
+    - desc: '创建新的工单标签。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: name
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: description
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_1:
+  args:
+    - text text text text
+  desc: '创建新的工单标签。'
+  params:
+    - desc: '创建新的工单标签。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: name
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: description
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_2:
+  args:
+    - text text text text
+  desc: '创建新的工单标签。'
+  params:
+    - desc: '创建新的工单标签。'
+      name: id
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: name
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: description
+      optional: false
+      type: string
+    - desc: '创建新的工单标签。'
+      name: color
+      optional: false
+      type: string
+ticketaddtags:
+  args:
+    - text
+  desc: '为当前工单添加标签。'
+  params:
+    - &ref_606
+      desc: '为当前工单添加标签。'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]:
+  args:
+    - text
+  desc: '为当前工单添加标签。'
+  params:
+    - desc: '为当前工单添加标签。'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_1:
+  args:
+    - text
+  desc: '为当前工单添加标签。'
+  params:
+    - desc: '为当前工单添加标签。'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_2:
+  args:
+    - text
+  desc: '为当前工单添加标签。'
+  params:
+    - desc: '为当前工单添加标签。'
+      name: tags
+      optional: false
+      type: string[]
+ticketarchive:
+  args:
+    - ''
+  desc: '归档工单；若已设置归档分类，则将其移动到该分类。'
+  params: [ ]
+ticketarchivecategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: '设置已关闭工单的归档分类。'
+  params:
+    - desc: '设置已关闭工单的归档分类。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '设置已关闭工单的归档分类。'
+      name: category
+      optional: true
+      type: category
+ticketautoarchive:
+  args:
+    - number boolean
+  desc: '设置按钮的自动归档行为。'
+  params:
+    - desc: '要配置自动归档的按钮 ID。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '关闭时是否启用自动归档。'
+      name: enabled
+      optional: true
+      type: bool
+ticketautoclose:
+  args:
+    - '<buttonId> [hours]'
+    - number
+  desc: '设置某工单类型的自动关闭时间。'
+  params:
+    - desc: '设置某工单类型的自动关闭时间。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '设置某工单类型的自动关闭时间。'
+      name: hours
+      optional: true
+      type: int
+ticketblock:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '禁止某用户创建工单。'
+  params:
+    - desc: '禁止某用户创建工单。'
+      name: user
+      optional: false
+      type: user
+    - desc: '禁止某用户创建工单。'
+      name: reason
+      optional: true
+      type: string
+ticketcategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: '设置用于创建工单的分类。'
+  params:
+    - desc: '设置用于创建工单的分类。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '设置用于创建工单的分类。'
+      name: category
+      optional: true
+      type: category
+ticketclaim:
+  args:
+    - ''
+  desc: '以员工身份认领当前工单。'
+  params: [ ]
+ticketclose:
+  args:
+    - ''
+  desc: '关闭当前工单。'
+  params: [ ]
+ticketclosebehavior:
+  args:
+    - number bool bool bool bool number
+  desc: '一次设置按钮的多项关闭行为'
+  params:
+    - desc: '要配置关闭行为的按钮 ID'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '关闭时是否自动归档'
+      name: autoArchive
+      optional: true
+      type: bool?
+    - desc: '关闭时是否删除工单'
+      name: deleteOnClose
+      optional: true
+      type: bool?
+    - desc: '关闭时是否锁定工单'
+      name: lockOnClose
+      optional: true
+      type: bool?
+    - desc: '关闭时是否重命名工单'
+      name: renameOnClose
+      optional: true
+      type: bool?
+    - desc: '删除前的延迟时间（分钟）'
+      name: deleteDelayMinutes
+      optional: true
+      type: int?
+ticketcloseinactive:
+  args:
+    - number
+  desc: '关闭不活跃的工单。'
+  params:
+    - &ref_607
+      desc: '关闭不活跃的工单。'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int:
+  args:
+    - number
+  desc: '关闭不活跃的工单。'
+  params:
+    - desc: '关闭不活跃的工单。'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_1:
+  args:
+    - number
+  desc: '关闭不活跃的工单。'
+  params:
+    - desc: '关闭不活跃的工单。'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_2:
+  args:
+    - number
+  desc: '关闭不活跃的工单。'
+  params:
+    - desc: '关闭不活跃的工单。'
+      name: hours
+      optional: false
+      type: int
+ticketcreatecase:
+  args:
+    - text text
+  desc: '创建一个新的工单案件。'
+  params:
+    - &ref_608
+      desc: '创建一个新的工单案件。'
+      name: title
+      optional: false
+      type: string
+    - desc: '创建一个新的工单案件。'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string:
+  args:
+    - text text
+  desc: '创建一个新的工单案件。'
+  params:
+    - desc: '创建一个新的工单案件。'
+      name: title
+      optional: false
+      type: string
+    - desc: '创建一个新的工单案件。'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_1:
+  args:
+    - text text
+  desc: '创建一个新的工单案件。'
+  params:
+    - desc: '创建一个新的工单案件。'
+      name: title
+      optional: false
+      type: string
+    - desc: '创建一个新的工单案件。'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_2:
+  args:
+    - text text
+  desc: '创建一个新的工单案件。'
+  params:
+    - desc: '创建一个新的工单案件。'
+      name: title
+      optional: false
+      type: string
+    - desc: '创建一个新的工单案件。'
+      name: description
+      optional: false
+      type: string
+ticketduplicatepanel:
+  args:
+    - panelid targetchannel
+  desc: '复制一个工单面板。'
+  params:
+    - desc: '复制一个工单面板。'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_609
+      desc: '复制一个工单面板。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel:
+  args:
+    - panelid targetchannel
+  desc: '复制一个工单面板。'
+  params:
+    - desc: '复制一个工单面板。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '复制一个工单面板。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_1:
+  args:
+    - panelid targetchannel
+  desc: '复制一个工单面板。'
+  params:
+    - desc: '复制一个工单面板。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '复制一个工单面板。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_2:
+  args:
+    - panelid targetchannel
+  desc: '复制一个工单面板。'
+  params:
+    - desc: '复制一个工单面板。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '复制一个工单面板。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketlinkcase:
+  args:
+    - number
+  desc: '将当前工单关联到一个案件。'
+  params:
+    - &ref_610
+      desc: '将当前工单关联到一个案件。'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int:
+  args:
+    - number
+  desc: '将当前工单关联到一个案件。'
+  params:
+    - desc: '将当前工单关联到一个案件。'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_1:
+  args:
+    - number
+  desc: '将当前工单关联到一个案件。'
+  params:
+    - desc: '将当前工单关联到一个案件。'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_2:
+  args:
+    - number
+  desc: '将当前工单关联到一个案件。'
+  params:
+    - desc: '将当前工单关联到一个案件。'
+      name: caseId
+      optional: false
+      type: int
+ticketlistpanel:
+  args:
+    - panelid
+  desc: '列出指定工单面板的所有组件'
+  params:
+    - &ref_611
+      desc: '要查看的面板消息 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong:
+  args:
+    - panelid
+  desc: '列出指定工单面板的所有组件'
+  params:
+    - desc: '要查看的面板消息 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_1:
+  args:
+    - panelid
+  desc: '列出指定工单面板的所有组件'
+  params:
+    - desc: '要查看的面板消息 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_2:
+  args:
+    - panelid
+  desc: '列出指定工单面板的所有组件'
+  params:
+    - desc: '要查看的面板消息 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_3:
+  args:
+    - panelid
+  desc: '列出指定工单面板的所有组件'
+  params:
+    - desc: '要查看的面板消息 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_4:
+  args:
+    - panelid
+  desc: '列出指定工单面板的所有组件'
+  params:
+    - desc: '要查看的面板消息 ID'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanels:
+  args:
+    - ''
+  desc: '列出服务器中的所有工单面板'
+  params: [ ]
+ticketlogchannel:
+  args:
+    - '[@channel]'
+  desc: '设置工单的日志频道。'
+  params:
+    - desc: '设置工单的日志频道。'
+      name: channel
+      optional: true
+      type: channel
+ticketmoveall:
+  args:
+    - sourcecategory targetcategory
+  desc: '在分类之间移动所有工单。'
+  params:
+    - &ref_612
+      desc: '在分类之间移动所有工单。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - &ref_613
+      desc: '在分类之间移动所有工单。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel:
+  args:
+    - sourcecategory targetcategory
+  desc: '在分类之间移动所有工单。'
+  params:
+    - desc: '在分类之间移动所有工单。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: '在分类之间移动所有工单。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_1:
+  args:
+    - sourcecategory targetcategory
+  desc: '在分类之间移动所有工单。'
+  params:
+    - desc: '在分类之间移动所有工单。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: '在分类之间移动所有工单。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_2:
+  args:
+    - sourcecategory targetcategory
+  desc: '在分类之间移动所有工单。'
+  params:
+    - desc: '在分类之间移动所有工单。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: '在分类之间移动所有工单。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmovepanel:
+  args:
+    - panelid targetchannel
+  desc: '将工单面板移动到另一个频道。'
+  params:
+    - desc: '将工单面板移动到另一个频道。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '将工单面板移动到另一个频道。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketnote:
+  args:
+    - text
+  desc: '为当前工单添加备注。'
+  params:
+    - &ref_614
+      desc: '为当前工单添加备注。'
+      name: content
+      optional: false
+      type: string
+ticketnote_string:
+  args:
+    - text
+  desc: '为当前工单添加备注。'
+  params:
+    - desc: '为当前工单添加备注。'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_1:
+  args:
+    - text
+  desc: '为当前工单添加备注。'
+  params:
+    - desc: '为当前工单添加备注。'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_2:
+  args:
+    - text
+  desc: '为当前工单添加备注。'
+  params:
+    - desc: '为当前工单添加备注。'
+      name: content
+      optional: false
+      type: string
+ticketpanel:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '创建工单面板'
+  params:
+    - desc: '创建工单面板'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '创建工单面板'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '创建工单面板'
+  params:
+    - desc: '创建工单面板'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '创建工单面板'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_1:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '创建工单面板'
+  params:
+    - desc: '创建工单面板'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '创建工单面板'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_2:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: '创建工单面板'
+  params:
+    - desc: '创建工单面板'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '创建工单面板'
+      name: embedJson
+      optional: true
+      type: string
+ticketpaneldelete:
+  args:
+    - panelid
+  desc: '删除一个已有的工单面板。'
+  params:
+    - desc: '要删除的面板 ID。'
+      name: panelId
+      optional: false
+      type: ulong
+ticketpriority:
+  args:
+    - text
+  desc: '设置当前工单的优先级。'
+  params:
+    - &ref_615
+      desc: '设置当前工单的优先级。'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string:
+  args:
+    - text
+  desc: '设置当前工单的优先级。'
+  params:
+    - desc: '设置当前工单的优先级。'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_1:
+  args:
+    - text
+  desc: '设置当前工单的优先级。'
+  params:
+    - desc: '设置当前工单的优先级。'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_2:
+  args:
+    - text
+  desc: '设置当前工单的优先级。'
+  params:
+    - desc: '设置当前工单的优先级。'
+      name: priority
+      optional: false
+      type: string
+ticketremovepriority:
+  args:
+    - text
+  desc: '删除一个优先级。'
+  params:
+    - &ref_616
+      desc: '删除一个优先级。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string:
+  args:
+    - text
+  desc: '删除一个优先级。'
+  params:
+    - desc: '删除一个优先级。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_1:
+  args:
+    - text
+  desc: '删除一个优先级。'
+  params:
+    - desc: '删除一个优先级。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_2:
+  args:
+    - text
+  desc: '删除一个优先级。'
+  params:
+    - desc: '删除一个优先级。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovetag:
+  args:
+    - text
+  desc: '移除一个标签。'
+  params:
+    - &ref_617
+      desc: '移除一个标签。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string:
+  args:
+    - text
+  desc: '移除一个标签。'
+  params:
+    - desc: '移除一个标签。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_1:
+  args:
+    - text
+  desc: '移除一个标签。'
+  params:
+    - desc: '移除一个标签。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_2:
+  args:
+    - text
+  desc: '移除一个标签。'
+  params:
+    - desc: '移除一个标签。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetags:
+  args:
+    - text
+  desc: '从当前工单移除标签。'
+  params:
+    - desc: '从当前工单移除标签。'
+      name: tags
+      optional: false
+      type: string[]
+ticketresponsetime:
+  args:
+    - '<buttonId> [minutes]'
+    - number
+  desc: '设置某类工单要求的响应时间。'
+  params:
+    - desc: '设置某类工单要求的响应时间。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '设置某类工单要求的响应时间。'
+      name: minutes
+      optional: true
+      type: int
+ticketstats:
+  args:
+    - ''
+  desc: '显示服务器的工单统计数据。'
+  params: [ ]
+tickettranscriptchannel:
+  args:
+    - '[@channel]'
+  desc: '设置工单的记录频道。'
+  params:
+    - desc: '设置工单的记录频道。'
+      name: channel
+      optional: true
+      type: channel
+ticketunblock:
+  args:
+    - '@user'
+  desc: '解除用户创建工单的限制。'
+  params:
+    - desc: '解除用户创建工单的限制。'
+      name: user
+      optional: false
+      type: IGuildUser
+ticketunclaim:
+  args:
+    - ''
+  desc: '取消认领当前工单。'
+  params: [ ]
+ticketunlinkcase:
+  args:
+    - ''
+  desc: '将当前工单与其案件解除关联。'
+  params: [ ]
+ticketupdatepanel:
+  args:
+    - panelid text
+  desc: '更新工单面板的嵌入内容。'
+  params:
+    - desc: '更新工单面板的嵌入内容。'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_618
+      desc: '更新工单面板的嵌入内容。'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string:
+  args:
+    - panelid text
+  desc: '更新工单面板的嵌入内容。'
+  params:
+    - desc: '更新工单面板的嵌入内容。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '更新工单面板的嵌入内容。'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_1:
+  args:
+    - panelid text
+  desc: '更新工单面板的嵌入内容。'
+  params:
+    - desc: '更新工单面板的嵌入内容。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '更新工单面板的嵌入内容。'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_2:
+  args:
+    - panelid text
+  desc: '更新工单面板的嵌入内容。'
+  params:
+    - desc: '更新工单面板的嵌入内容。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '更新工单面板的嵌入内容。'
+      name: embedJson
+      optional: false
+      type: string
+ticketuserstats:
+  args:
+    - '[@user]'
+  desc: '显示某位用户的工单统计数据。'
+  params:
+    - desc: '显示某位用户的工单统计数据。'
+      name: user
+      optional: true
+      type: user

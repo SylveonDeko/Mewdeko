@@ -38,7 +38,7 @@ addstatusrole_string_2:
 liststatusroles:
   args:
     - ''
-  desc: 'Elenca tutti i ruoli di stato correnti con i loro dettagli.'
+  desc: 'Elenca tutti i ruoli di stato attuali con i relativi dettagli.'
   params: [ ]
 removeaddroles:
   args:
@@ -97,9 +97,7 @@ removeaddroles_int_IRole[]_2:
 removeremoveroles:
   args:
     - number @role
-  desc: >-
-    Rimuove uno o più ruoli dai ruoli aggiunti quando un utente ha lo stato
-    selezionato.
+  desc: 'Rimuove uno o più ruoli da quelli aggiunti quando un utente ha lo stato selezionato.'
   params:
     - desc: 'L''indice del ruolo di stato.'
       name: index
@@ -254,7 +252,7 @@ setstatusroleembed:
 togglereaddremoved:
   args:
     - number
-  desc: 'Attiva/disattiva se i ruoli aggiunti vengono rimossi quando uno stato viene rimosso.'
+  desc: 'Attiva o disattiva la rimozione dei ruoli aggiunti quando uno stato viene rimosso.'
   params:
     - desc: 'L''indice del ruolo di stato.'
       name: index
@@ -263,9 +261,7 @@ togglereaddremoved:
 toggleremoveadded:
   args:
     - number
-  desc: >-
-    Attiva/disattiva se i ruoli aggiunti vengono rimossi quando un utente non
-    ha più lo stato in base all''indice fornito.
+  desc: 'Attiva o disattiva la rimozione dei ruoli aggiunti quando un utente non ha più uno stato con l''indice indicato'
   params:
     - desc: 'L''indice del ruolo di stato.'
       name: index

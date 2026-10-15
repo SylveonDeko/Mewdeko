@@ -1,0 +1,892 @@
+baccarat:
+  args:
+    - number text
+  desc: '玩一局百家乐。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '下注类型（player、banker、tie）。'
+      name: betType
+      optional: true
+      type: string
+bingo:
+  args:
+    - number text
+  desc: '玩一局宾果游戏，由机器人叫号。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '宾果卡类型（small、large）。'
+      name: cardType
+      optional: true
+      type: string
+blackjack:
+  args:
+    - number
+  desc: '开始一局新的二十一点，或加入已有的牌局。'
+  params:
+    - &ref_113
+      desc: '玩家的下注金额。'
+      name: amount
+      optional: false
+      type: long
+blackjack_long:
+  args:
+    - number
+  desc: '开始一局新的二十一点，或加入已有的牌局。'
+  params:
+    - desc: '玩家的下注金额。'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_1:
+  args:
+    - number
+  desc: '开始一局新的二十一点，或加入已有的牌局。'
+  params:
+    - desc: '玩家的下注金额。'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_2:
+  args:
+    - number
+  desc: '开始一局新的二十一点，或加入已有的牌局。'
+  params:
+    - desc: '玩家的下注金额。'
+      name: amount
+      optional: false
+      type: long
+cash:
+  args:
+    - ''
+  desc: '查看用户当前的余额。'
+  params: [ ]
+challengeleaderboard:
+  args:
+    - ''
+  desc: '查看每日挑战排行榜。'
+  params: [ ]
+claimchallenge:
+  args:
+    - ''
+  desc: '领取已完成每日挑战的奖励。'
+  params: [ ]
+coinflip:
+  args:
+    - number text
+  desc: '以指定下注金额和猜测结果进行一次抛硬币。'
+  params:
+    - &ref_135
+      desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_136
+      desc: '用户的猜测（"heads" 或 "tails"）。'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string:
+  args:
+    - number text
+  desc: '以指定下注金额和猜测结果进行一次抛硬币。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '用户的猜测（"heads" 或 "tails"）。'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_1:
+  args:
+    - number text
+  desc: '以指定下注金额和猜测结果进行一次抛硬币。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '用户的猜测（"heads" 或 "tails"）。'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_2:
+  args:
+    - number text
+  desc: '以指定下注金额和猜测结果进行一次抛硬币。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '用户的猜测（"heads" 或 "tails"）。'
+      name: guess
+      optional: false
+      type: string
+craps:
+  args:
+    - number text
+  desc: '玩一局掷骰游戏（Craps）。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '下注类型（pass、dontpass、field、any）。'
+      name: betType
+      optional: true
+      type: string
+crash:
+  args:
+    - number number
+  desc: '玩崩盘游戏：押注一个随时可能崩盘的倍数。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '兑现时的倍数（1.1x 至 10.0x）。'
+      name: targetMultiplier
+      optional: true
+      type: double
+dailychallenge:
+  args:
+    - ''
+  desc: '查看你当前的每日挑战。'
+  params: [ ]
+dailyreward:
+  args:
+    - ''
+  desc: '领取你的每日奖励。'
+  params: [ ]
+diceduel:
+  args:
+    - '@user number'
+  desc: '向其他玩家发起骰子对决挑战。'
+  params:
+    - desc: '要挑战的用户。'
+      name: opponent
+      optional: false
+      type: IUser
+    - desc: '每位玩家的下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+duckrace:
+  args:
+    - number
+  desc: '开始一场类似赛马的鸭子赛跑。'
+  params:
+    - desc: '鸭子赛跑的下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+highlow:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '显示一个 1 到 10 的数字，如果你正确猜中下一个数字是更大还是更小，即可获得奖励。数字相同则退还本金。'
+  params:
+    - &ref_247
+      desc: '用户的猜测（"higher" 或 "lower"）。'
+      name: guess
+      optional: false
+      type: string
+    - desc: '下注金额。'
+      name: betAmount
+      optional: true
+      type: long
+highlow_string:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '显示一个 1 到 10 的数字，如果你正确猜中下一个数字是更大还是更小，即可获得奖励。数字相同则退还本金。'
+  params:
+    - desc: '用户的猜测（"higher" 或 "lower"）。'
+      name: guess
+      optional: false
+      type: string
+highlow_string_1:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '显示一个 1 到 10 的数字，如果你正确猜中下一个数字是更大还是更小，即可获得奖励。数字相同则退还本金。'
+  params:
+    - desc: '用户的猜测（"higher" 或 "lower"）。'
+      name: guess
+      optional: false
+      type: string
+highlow_string_2:
+  args:
+    - 'text'
+    - 'text number'
+  desc: '显示一个 1 到 10 的数字，如果你正确猜中下一个数字是更大还是更小，即可获得奖励。数字相同则退还本金。'
+  params:
+    - desc: '用户的猜测（"higher" 或 "lower"）。'
+      name: guess
+      optional: false
+      type: string
+hit:
+  args:
+    - ''
+  desc: '要牌，为玩家抽取一张新牌。'
+  params: [ ]
+horserace:
+  args:
+    - number
+  desc: '以指定下注金额加入或开始一场赛马。'
+  params:
+    - &ref_248
+      desc: '在比赛中下注的货币金额。'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int:
+  args:
+    - number
+  desc: '以指定下注金额加入或开始一场赛马。'
+  params:
+    - desc: '在比赛中下注的货币金额。'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_1:
+  args:
+    - number
+  desc: '以指定下注金额加入或开始一场赛马。'
+  params:
+    - desc: '在比赛中下注的货币金额。'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_2:
+  args:
+    - number
+  desc: '以指定下注金额加入或开始一场赛马。'
+  params:
+    - desc: '在比赛中下注的货币金额。'
+      name: betAmount
+      optional: false
+      type: int
+keno:
+  args:
+    - number text
+  desc: '玩基诺：选择号码，看有多少个与开奖号码相符。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '最多 10 个 1 至 80 之间的数字，用空格分隔。'
+      name: numbers
+      optional: false
+      type: string
+lottery:
+  args:
+    - number
+  desc: '购买彩票。'
+  params:
+    - desc: '购买的彩票数量（1 至 10）。'
+      name: ticketCount
+      optional: true
+      type: int
+memory:
+  args:
+    - number text
+  desc: '玩记忆游戏，记住序列。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '难度等级（easy、medium、hard）。'
+      name: difficulty
+      optional: true
+      type: string
+minesweeper:
+  args:
+    - number text
+  desc: '玩简化版扫雷游戏。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '网格大小（small、medium、large）。'
+      name: size
+      optional: true
+      type: string
+modifybalance:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '为用户余额增加金额'
+  params:
+    - desc: '要增加金额的用户。'
+      name: user
+      optional: false
+      type: user
+    - desc: '增加的金额，别太离谱哦。可以为负数。'
+      name: amount
+      optional: false
+      type: long
+    - desc: '这样做的原因，针对这个人、物或事的理由'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '为用户余额增加金额'
+  params:
+    - desc: '要增加金额的用户。'
+      name: user
+      optional: false
+      type: user
+    - desc: '增加的金额，别太离谱哦。可以为负数。'
+      name: amount
+      optional: false
+      type: long
+    - desc: '这样做的原因，针对这个人、物或事的理由'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_1:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '为用户余额增加金额'
+  params:
+    - desc: '要增加金额的用户。'
+      name: user
+      optional: false
+      type: user
+    - desc: '增加的金额，别太离谱哦。可以为负数。'
+      name: amount
+      optional: false
+      type: long
+    - desc: '这样做的原因，针对这个人、物或事的理由'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_2:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: '为用户余额增加金额'
+  params:
+    - desc: '要增加金额的用户。'
+      name: user
+      optional: false
+      type: user
+    - desc: '增加的金额，别太离谱哦。可以为负数。'
+      name: amount
+      optional: false
+      type: long
+    - desc: '这样做的原因，针对这个人、物或事的理由'
+      name: reason
+      optional: true
+      type: string
+plinko:
+  args:
+    - number number
+  desc: '玩弹珠游戏（Plinko）：让小球穿过钉子，获得随机倍数。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '钉子排数（5 至 10）。'
+      name: rows
+      optional: true
+      type: int
+roulette:
+  args:
+    - number text
+  desc: '以指定下注金额和类型玩一局轮盘。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_469
+      desc: '下注类型（例如 "red"、"black"、"even"、"odd"，或 0 至 36 的数字）。'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string:
+  args:
+    - number text
+  desc: '以指定下注金额和类型玩一局轮盘。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '下注类型（例如 "red"、"black"、"even"、"odd"，或 0 至 36 的数字）。'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_1:
+  args:
+    - number text
+  desc: '以指定下注金额和类型玩一局轮盘。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '下注类型（例如 "red"、"black"、"even"、"odd"，或 0 至 36 的数字）。'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_2:
+  args:
+    - number text
+  desc: '以指定下注金额和类型玩一局轮盘。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '下注类型（例如 "red"、"black"、"even"、"odd"，或 0 至 36 的数字）。'
+      name: betType
+      optional: false
+      type: string
+rps:
+  args:
+    - text 0
+    - text
+  desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+  params:
+    - &ref_470
+      desc: '你的选择（rock、paper、scissors、lizard 或 spock）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=:
+  args:
+    - text 0
+    - text
+  desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+  params:
+    - desc: '你的选择（rock、paper、scissors、lizard 或 spock）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_1:
+  args:
+    - text 0
+    - text
+  desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+  params:
+    - desc: '你的选择（rock、paper、scissors、lizard 或 spock）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_2:
+  args:
+    - text 0
+    - text
+  desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+  params:
+    - desc: '你的选择（rock、paper、scissors、lizard 或 spock）。'
+      name: choice
+      optional: false
+      type: string
+    - desc: '与机器人玩石头剪刀布蜥蜴斯波克，可选择是否下注。'
+      name: 0
+      optional: false
+      type: '='
+russianroulette:
+  args:
+    - number number
+  desc: '玩俄罗斯轮盘。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '子弹数量（1 至 5）。'
+      name: bullets
+      optional: true
+      type: int
+scratchcard:
+  args:
+    - text
+  desc: '玩刮刮卡游戏。'
+  params:
+    - desc: '要购买的卡片类型（bronze、silver、gold、diamond）。'
+      name: cardType
+      optional: true
+      type: string
+setdaily:
+  args:
+    - number time
+  desc: '设置服务器的每日奖励金额和冷却时间。'
+  params:
+    - &ref_499
+      desc: '每日奖励的金额。'
+      name: amount
+      optional: false
+      type: int
+    - &ref_500
+      desc: '领取每日奖励的冷却时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime:
+  args:
+    - number time
+  desc: '设置服务器的每日奖励金额和冷却时间。'
+  params:
+    - desc: '每日奖励的金额。'
+      name: amount
+      optional: false
+      type: int
+    - desc: '领取每日奖励的冷却时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_1:
+  args:
+    - number time
+  desc: '设置服务器的每日奖励金额和冷却时间。'
+  params:
+    - desc: '每日奖励的金额。'
+      name: amount
+      optional: false
+      type: int
+    - desc: '领取每日奖励的冷却时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_2:
+  args:
+    - number time
+  desc: '设置服务器的每日奖励金额和冷却时间。'
+  params:
+    - desc: '每日奖励的金额。'
+      name: amount
+      optional: false
+      type: int
+    - desc: '领取每日奖励的冷却时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+slot:
+  args:
+    - 10
+  desc: '以指定下注金额玩一次老虎机。'
+  params:
+    - desc: '以指定下注金额玩一次老虎机。'
+      name: 10
+      optional: false
+      type: '='
+spinwheel:
+  args:
+    - 0
+  desc: '转动转盘，有机会赢得或输掉货币。'
+  params:
+    - desc: '转动转盘，有机会赢得或输掉货币。'
+      name: 0
+      optional: false
+      type: '='
+stand:
+  args:
+    - ''
+  desc: '停牌并结束玩家回合，由庄家进行后续操作。'
+  params: [ ]
+transactions:
+  args:
+    - '@user'
+  desc: '获取并显示指定用户或当前用户的交易记录。'
+  params:
+    - desc: '要查看交易记录的用户。默认为当前用户。'
+      name: user
+      optional: true
+      type: IUser?
+triviachain:
+  args:
+    - number text
+  desc: '玩连续问答：连续回答问题以获得递增的奖励。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '问答类别。'
+      name: category
+      optional: true
+      type: string
+war:
+  args:
+    - number
+  desc: '与机器人玩一局战争（War）纸牌游戏。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+wheelfortune:
+  args:
+    - number text
+  desc: '玩增强版命运之轮，可自定义转盘分区。'
+  params:
+    - desc: '下注金额。'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: '转盘类型（classic、risky、balanced）。'
+      name: wheelType
+      optional: true
+      type: string
+work:
+  args:
+    - ''
+  desc: '工作一班，获得随机收入，冷却时间由服务器设置。'
+  params: [ ]
+crime:
+  args:
+    - ''
+  desc: '尝试犯罪，收益比工作更高，但可能被罚款。'
+  params: [ ]
+rob:
+  args:
+    - '@user'
+  desc: '尝试从其他用户的钱包中偷取货币。银行存款无法被偷。'
+  params:
+    - desc: '要抢劫的用户。'
+      name: target
+      optional: false
+      type: user
+pay:
+  args:
+    - '@user <amount>'
+  desc: '向其他用户转账货币，扣除服务器收取的转账税。'
+  params:
+    - desc: '接收货币的用户。'
+      name: target
+      optional: false
+      type: user
+    - desc: '税前转账金额。'
+      name: amount
+      optional: false
+      type: long
+bank:
+  args:
+    - ''
+    - '@user'
+  desc: '显示你的钱包和银行余额，并领取已累积的利息。'
+  params:
+    - desc: '要查看的用户。默认为你自己。'
+      name: user
+      optional: true
+      type: user
+deposit:
+  args:
+    - '<amount|all>'
+  desc: '将钱包中的货币存入银行，银行存款不会被抢劫。'
+  params:
+    - desc: '存入的金额，或使用 "all" 存入全部钱包余额。'
+      name: amount
+      optional: false
+      type: string
+withdraw:
+  args:
+    - '<amount|all>'
+  desc: '将银行中的货币取回钱包，以便花费。'
+  params:
+    - desc: '取出的金额，或使用 "all" 取出全部。'
+      name: amount
+      optional: false
+      type: string
+shop:
+  args:
+    - ''
+  desc: '列出服务器当前出售的所有商品。'
+  params: [ ]
+buy:
+  args:
+    - '<item name>'
+  desc: '从服务器商店购买商品。'
+  params:
+    - desc: '要购买的商品名称。'
+      name: name
+      optional: false
+      type: string
+inventory:
+  args:
+    - ''
+    - '@user'
+  desc: '显示用户拥有的商品。'
+  params:
+    - desc: '要查看库存的用户。默认为你自己。'
+      name: user
+      optional: true
+      type: user
+use:
+  args:
+    - '<item name>'
+  desc: '使用你拥有的一件消耗品。'
+  params:
+    - desc: '要使用的商品名称。'
+      name: name
+      optional: false
+      type: string
+shopaddrole:
+  args:
+    - '<price> @role <name>'
+  desc: '在商店中添加一个身份组，供用户购买。'
+  params:
+    - desc: '该身份组的价格。'
+      name: price
+      optional: false
+      type: long
+    - desc: '购买后授予的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '商店条目的显示名称。'
+      name: name
+      optional: false
+      type: string
+shopadditem:
+  args:
+    - '<price> <name>'
+  desc: '在商店中添加一个普通收藏品，购买时没有自动效果。'
+  params:
+    - desc: '该商品的价格。'
+      name: price
+      optional: false
+      type: long
+    - desc: '商店条目的显示名称。'
+      name: name
+      optional: false
+      type: string
+shopremove:
+  args:
+    - '<item name>'
+  desc: '从商店中移除商品，并移除所有人拥有的该商品。'
+  params:
+    - desc: '要移除的商品名称。'
+      name: name
+      optional: false
+      type: string
+shopprice:
+  args:
+    - '<price> <item name>'
+  desc: '设置现有商店商品的价格。'
+  params:
+    - desc: '新价格。'
+      name: price
+      optional: false
+      type: long
+    - desc: '要修改价格的商品名称。'
+      name: name
+      optional: false
+      type: string
+shopstock:
+  args:
+    - '<stock> <item name>'
+  desc: '设置商品的剩余可售数量。'
+  params:
+    - desc: '剩余库存，或使用 -1 表示无限。'
+      name: stock
+      optional: false
+      type: int
+    - desc: '要补充库存的商品名称。'
+      name: name
+      optional: false
+      type: string
+shopdesc:
+  args:
+    - '<item name> | <description>'
+  desc: '设置商店商品的描述。'
+  params:
+    - desc: '物品名称，后跟竖线和新的描述。'
+      name: name
+      optional: false
+      type: string
+shoptoggle:
+  args:
+    - '<item name>'
+  desc: '显示或隐藏商店物品，不会删除物品或任何人已拥有的副本。'
+  params:
+    - desc: '要切换状态的物品名称。'
+      name: name
+      optional: false
+      type: string
+economyconfig:
+  args:
+    - ''
+  desc: '显示所有经济设置及其当前值。'
+  params: [ ]
+economyset:
+  args:
+    - '<setting> <value>'
+  desc: '更改一项经济设置。运行 config 命令可查看所有可用的设置名称。'
+  params:
+    - desc: '要更改的设置。'
+      name: setting
+      optional: false
+      type: string
+    - desc: '新值。'
+      name: value
+      optional: false
+      type: string
+economyreset:
+  args:
+    - ''
+  desc: '将所有经济设置恢复为默认值。'
+  params: [ ]
+economystats:
+  args:
+    - ''
+  desc: '报告服务器货币供应的规模和集中程度。'
+  params: [ ]
+economyflow:
+  args:
+    - ''
+    - '<days>'
+  desc: '显示货币在流通中的流入和流出情况。'
+  params:
+    - desc: '向前统计的天数。默认为 7。'
+      name: days
+      optional: true
+      type: int
+gamestats:
+  args:
+    - ''
+    - '<days>'
+  desc: '显示每个游戏的实际返还与投入对比，以便根据真实结果而非猜测来调整奖励比例。'
+  params:
+    - desc: '向前统计的天数。默认为 7。'
+      name: days
+      optional: true
+      type: int
+cashleaderboard:
+  args:
+    - ''
+  desc: '显示净资产最高的用户排行榜。'
+  params: [ ]

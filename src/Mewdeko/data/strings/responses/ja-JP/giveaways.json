@@ -20,6 +20,7 @@
   "giveaway_entry_successful": "プレゼント企画への参加が完了しました！",
   "giveaway_guild_not_found": "このプレゼント企画のサーバーが見つかりませんでした。",
   "giveaway_host_message_removed": "プレゼント企画ホストのメッセージが削除されました。",
+  "giveaway_host_message_set": "ギブアウェイのホストメッセージを設定しました。",
   "giveaway_invalid_color": "無効なカラーです！正しいhex値（#で始まる）またはhtmlカラー名を使用してください！",
   "giveaway_invalid_emote": "そのエモートはプレゼント企画に使用できません！おそらくそのエモートがあるサーバーにいないためです。",
   "giveaway_invalid_emote_current": "現在のプレゼント企画絵文字が無効またはアクセスできません！再設定して新しいプレゼント企画を開始してください。",

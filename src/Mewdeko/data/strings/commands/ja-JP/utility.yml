@@ -1,0 +1,4732 @@
+activitygraph:
+  args:
+    - graphtype.days
+  desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+  params:
+    - &ref_4
+      desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=:
+  args:
+    - graphtype.days
+  desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+  params:
+    - desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_1:
+  args:
+    - graphtype.days
+  desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+  params:
+    - desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_2:
+  args:
+    - graphtype.days
+  desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+  params:
+    - desc: 'サーバーで最も混雑する時間帯と曜日をグラフで表示します。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+addautopublish:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を有効にします。'
+  params:
+    - &ref_5
+      desc: '自動公開を有効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を有効にします。'
+  params:
+    - desc: '自動公開を有効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を有効にします。'
+  params:
+    - desc: '自動公開を有効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を有効にします。'
+  params:
+    - desc: '自動公開を有効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - &ref_24
+      desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_23
+      desc: 'ブラックリストに追加する単語です。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ブラックリストに追加する単語です。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ブラックリストに追加する単語です。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ブラックリストに追加する単語です。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+  params:
+    - desc: '指定したチャンネルの自動公開のブラックリストに単語を追加します。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストを適用するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+aichannel:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'チャンネルの AI サービスを設定します'
+  params:
+    - desc: 'AI を設定するチャンネルです'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'AI を有効にするか無効にするかです'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'チャンネルの AI サービスを設定します'
+  params:
+    - desc: 'AI を設定するチャンネルです'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'AI を有効にするか無効にするかです'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_1:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'チャンネルの AI サービスを設定します'
+  params:
+    - desc: 'AI を設定するチャンネルです'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'AI を有効にするか無効にするかです'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_2:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'チャンネルの AI サービスを設定します'
+  params:
+    - desc: 'AI を設定するチャンネルです'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'AI を有効にするか無効にするかです'
+      name: enabled
+      optional: true
+      type: bool
+aiconfig:
+  args:
+    - ''
+  desc: '現在の AI 設定を表示します'
+  params: [ ]
+aicustomembed:
+  args:
+    - '[embedTemplate]'
+  desc: 'AI の応答に使用するカスタム埋め込みテンプレートを設定または表示します。埋め込み内で AI の応答を表示する位置は %airesponse% で指定します。'
+  params:
+    - desc: '省略可能な埋め込みテンプレートです。指定しない場合は、現在のテンプレートを表示します。'
+      name: embedTemplate
+      optional: true
+      type: string
+aikey:
+  args:
+    - ''
+  desc: 'AI サービスの API キーを設定します'
+  params: [ ]
+aimodel:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'AI のプロバイダーとモデルを設定します'
+  params:
+    - desc: '使用する AI プロバイダーです'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'モデル名です'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'AI のプロバイダーとモデルを設定します'
+  params:
+    - desc: '使用する AI プロバイダーです'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'モデル名です'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_1:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'AI のプロバイダーとモデルを設定します'
+  params:
+    - desc: '使用する AI プロバイダーです'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'モデル名です'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_2:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'AI のプロバイダーとモデルを設定します'
+  params:
+    - desc: '使用する AI プロバイダーです'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'モデル名です'
+      name: model
+      optional: true
+      type: string
+aiprompt:
+  args:
+    - text
+  desc: 'AI のシステムプロンプトを設定します'
+  params:
+    - &ref_59
+      desc: '使用するシステムプロンプトです'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string:
+  args:
+    - text
+  desc: 'AI のシステムプロンプトを設定します'
+  params:
+    - desc: '使用するシステムプロンプトです'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_1:
+  args:
+    - text
+  desc: 'AI のシステムプロンプトを設定します'
+  params:
+    - desc: '使用するシステムプロンプトです'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_2:
+  args:
+    - text
+  desc: 'AI のシステムプロンプトを設定します'
+  params:
+    - desc: '使用するシステムプロンプトです'
+      name: prompt
+      optional: false
+      type: string
+aiwebhook:
+  args:
+    - '[name] [avatar]'
+  desc: 'このサーバーの AI 応答用の Webhook を設定します。'
+  params:
+    - desc: 'Webhook の名前です。null の場合は、Webhook を無効にします。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook のアバターの URL です（省略可能）。'
+      name: avatar
+      optional: true
+      type: string
+aiwebsearch:
+  args:
+    - 'true'
+    - 'false'
+  desc: 'AI の Web 検索を有効または無効にします（Claude のみ）'
+  params:
+    - desc: 'Web 検索を有効にするか無効にするかです'
+      name: enabled
+      optional: false
+      type: bool
+alias:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'コマンドの新しいエイリアスを追加します。マッピングを指定しない場合は、既存のエイリアスを削除します。'
+  params:
+    - desc: 'エイリアスのトリガーとなる単語です。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'エイリアスに割り当てるコマンドです。null の場合は、エイリアスを削除します。'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'コマンドの新しいエイリアスを追加します。マッピングを指定しない場合は、既存のエイリアスを削除します。'
+  params:
+    - desc: 'エイリアスのトリガーとなる単語です。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'エイリアスに割り当てるコマンドです。null の場合は、エイリアスを削除します。'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_1:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'コマンドの新しいエイリアスを追加します。マッピングを指定しない場合は、既存のエイリアスを削除します。'
+  params:
+    - desc: 'エイリアスのトリガーとなる単語です。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'エイリアスに割り当てるコマンドです。null の場合は、エイリアスを削除します。'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_2:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'コマンドの新しいエイリアスを追加します。マッピングを指定しない場合は、既存のエイリアスを削除します。'
+  params:
+    - desc: 'エイリアスのトリガーとなる単語です。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'エイリアスに割り当てるコマンドです。null の場合は、エイリアスを削除します。'
+      name: mapping
+      optional: true
+      type: string
+aliasesclear:
+  args:
+    - ''
+  desc: 'サーバーのすべてのコマンドエイリアスを消去します。'
+  params: [ ]
+aliaslist:
+  args:
+    - ''
+  desc: '現在サーバーに設定されているすべてのコマンドエイリアスを一覧表示します。'
+  params: [ ]
+avatar:
+  args:
+    - '[@usr]'
+  desc: '指定したユーザーまたはコマンド実行者のアバターを表示します。利用可能な場合は、サーバーのアバターを表示するボタンがあります。'
+  params:
+    - desc: '省略可能です。アバターを表示するユーザーです。'
+      name: usr
+      optional: true
+      type: user
+banner:
+  args:
+    - '[@usr]'
+  desc: '指定したユーザーまたはコマンド実行者のバナーを表示します。'
+  params:
+    - desc: '省略可能です。バナーを表示するユーザーです。'
+      name: usr
+      optional: true
+      type: user
+calcops:
+  args:
+    - ''
+  desc: '数式で使用できる数学演算の一覧を表示します。'
+  params: [ ]
+calculate:
+  args:
+    - text
+  desc: '数式を評価し、結果を返します。'
+  params:
+    - &ref_118
+      desc: '評価する数式です。'
+      name: expression
+      optional: false
+      type: string
+calculate_string:
+  args:
+    - text
+  desc: '数式を評価し、結果を返します。'
+  params:
+    - desc: '評価する数式です。'
+      name: expression
+      optional: false
+      type: string
+calculate_string_1:
+  args:
+    - text
+  desc: '数式を評価し、結果を返します。'
+  params:
+    - desc: '評価する数式です。'
+      name: expression
+      optional: false
+      type: string
+calculate_string_2:
+  args:
+    - text
+  desc: '数式を評価し、結果を返します。'
+  params:
+    - desc: '評価する数式です。'
+      name: expression
+      optional: false
+      type: string
+channelid:
+  args:
+    - ''
+  desc: '現在のチャンネルのチャンネル ID を取得します。'
+  params: [ ]
+channelinfo:
+  args:
+    - '[@channel]'
+  desc: '指定したテキストチャンネルまたは現在のチャンネルの情報を表示します。'
+  params:
+    - desc: '省略可能です。情報を取得するテキストチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+channelmessages:
+  args:
+    - '[@channel]'
+  desc: '特定のチャンネルのメッセージ統計を取得します。'
+  params:
+    - desc: 'メッセージ統計を取得するチャンネルです。null の場合は、現在のチャンネルを使用します。'
+      name: channel
+      optional: true
+      type: channel
+channeltopic:
+  args:
+    - '[@channel]'
+  desc: '現在のチャンネルのトピックを取得します。チャンネルを指定した場合は、そのチャンネルのトピックを表示します。'
+  params:
+    - desc: 'トピックを取得するチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+convert:
+  args:
+    - text
+  desc: 'メディアファイルを別の形式に変換します。使用方法: .convert 変換先の形式（添付ファイルとともに使用）'
+  params:
+    - &ref_144
+      desc: '変換先の形式です（例: gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string:
+  args:
+    - text
+  desc: 'メディアファイルを別の形式に変換します。使用方法: .convert 変換先の形式（添付ファイルとともに使用）'
+  params:
+    - desc: '変換先の形式です（例: gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_1:
+  args:
+    - text
+  desc: 'メディアファイルを別の形式に変換します。使用方法: .convert 変換先の形式（添付ファイルとともに使用）'
+  params:
+    - desc: '変換先の形式です（例: gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_2:
+  args:
+    - text
+  desc: 'メディアファイルを別の形式に変換します。使用方法: .convert 変換先の形式（添付ファイルとともに使用）'
+  params:
+    - desc: '変換先の形式です（例: gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convertlist:
+  args:
+    - ''
+  desc: '変換可能なすべての単位を一覧表示します。'
+  params: [ ]
+convertunits:
+  args:
+    - text text number
+  desc: '指定した値を、ある単位から別の単位に変換します。'
+  params:
+    - &ref_145
+      desc: '値の元の単位です。'
+      name: origin
+      optional: false
+      type: string
+    - &ref_146
+      desc: '変換先の単位です。'
+      name: target
+      optional: false
+      type: string
+    - &ref_147
+      desc: '変換する値です。'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal:
+  args:
+    - text text number
+  desc: '指定した値を、ある単位から別の単位に変換します。'
+  params:
+    - desc: '値の元の単位です。'
+      name: origin
+      optional: false
+      type: string
+    - desc: '変換先の単位です。'
+      name: target
+      optional: false
+      type: string
+    - desc: '変換する値です。'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_1:
+  args:
+    - text text number
+  desc: '指定した値を、ある単位から別の単位に変換します。'
+  params:
+    - desc: '値の元の単位です。'
+      name: origin
+      optional: false
+      type: string
+    - desc: '変換先の単位です。'
+      name: target
+      optional: false
+      type: string
+    - desc: '変換する値です。'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_2:
+  args:
+    - text text number
+  desc: '指定した値を、ある単位から別の単位に変換します。'
+  params:
+    - desc: '値の元の単位です。'
+      name: origin
+      optional: false
+      type: string
+    - desc: '変換先の単位です。'
+      name: target
+      optional: false
+      type: string
+    - desc: '変換する値です。'
+      name: value
+      optional: false
+      type: decimal
+debugembed:
+  args:
+    - text
+  desc: '埋め込みの解析をテストするデバッグ用コマンドです。'
+  params:
+    - &ref_178
+      desc: '埋め込みとして解析するテキストです。'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string:
+  args:
+    - text
+  desc: '埋め込みの解析をテストするデバッグ用コマンドです。'
+  params:
+    - desc: '埋め込みとして解析するテキストです。'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_1:
+  args:
+    - text
+  desc: '埋め込みの解析をテストするデバッグ用コマンドです。'
+  params:
+    - desc: '埋め込みとして解析するテキストです。'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_2:
+  args:
+    - text
+  desc: '埋め込みの解析をテストするデバッグ用コマンドです。'
+  params:
+    - desc: '埋め込みとして解析するテキストです。'
+      name: embedText
+      optional: false
+      type: string
+delallquotes:
+  args:
+    - text
+  desc: '指定したキーワードに関連付けられたすべての引用を削除します。'
+  params:
+    - &ref_182
+      desc: '関連付けられた引用を削除するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string:
+  args:
+    - text
+  desc: '指定したキーワードに関連付けられたすべての引用を削除します。'
+  params:
+    - desc: '関連付けられた引用を削除するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_1:
+  args:
+    - text
+  desc: '指定したキーワードに関連付けられたすべての引用を削除します。'
+  params:
+    - desc: '関連付けられた引用を削除するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_2:
+  args:
+    - text
+  desc: '指定したキーワードに関連付けられたすべての引用を削除します。'
+  params:
+    - desc: '関連付けられた引用を削除するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+editsnipe:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params: [ ]
+editsnipe_ITextChannel:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - &ref_207
+      desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_1:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_2:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_3:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_208
+      desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_1:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_2:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_3:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_noparams:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params: [ ]
+editsnipe_noparams_1:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params: [ ]
+editsnipe_noparams_2:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを表示します（スナイプ）。'
+  params: [ ]
+editsnipelist:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - &ref_209
+      desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_1:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_2:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - &ref_210
+      desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_211
+      desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に編集したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+embeddelete:
+  args:
+    - name
+  desc: '個人用の埋め込みテンプレートを削除します。'
+  params:
+    - desc: '削除する埋め込みテンプレートの名前です。'
+      name: name
+      optional: false
+      type: string
+embedlist:
+  args:
+    - ''
+  desc: '個人用のすべての埋め込みテンプレートを一覧表示します。'
+  params: [ ]
+embedpreview:
+  args:
+    - name
+  desc: '埋め込みテンプレートをプレビューします。'
+  params:
+    - desc: 'プレビューする埋め込みテンプレートの名前です。'
+      name: name
+      optional: false
+      type: string
+embedsave:
+  args:
+    - name
+    - embedJson
+  desc: '個人用の埋め込みテンプレートを保存します。'
+  params:
+    - desc: '埋め込みテンプレートの名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '埋め込みの JSON 表現です。'
+      name: embedJson
+      optional: false
+      type: string
+emotelist:
+  args:
+    - '[emotetype]'
+  desc: 'サーバーの絵文字を取得します。絵文字の種類を指定すると、その種類の絵文字だけを一覧表示します。'
+  params:
+    - desc: '一覧表示する絵文字の種類（animated または nonanimated）です。'
+      name: emotetype
+      optional: true
+      type: string
+fetch:
+  args:
+    - id
+  desc: 'Discord ID でユーザーの情報を取得して表示します。'
+  params:
+    - &ref_217
+      desc: 'ユーザーの Discord ID です。'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong:
+  args:
+    - id
+  desc: 'Discord ID でユーザーの情報を取得して表示します。'
+  params:
+    - desc: 'ユーザーの Discord ID です。'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_1:
+  args:
+    - id
+  desc: 'Discord ID でユーザーの情報を取得して表示します。'
+  params:
+    - desc: 'ユーザーの Discord ID です。'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_2:
+  args:
+    - id
+  desc: 'Discord ID でユーザーの情報を取得して表示します。'
+  params:
+    - desc: 'ユーザーの Discord ID です。'
+      name: id
+      optional: false
+      type: ulong
+getautopublishes:
+  args:
+    - ''
+  desc: '自動公開が有効なチャンネルと、それに関連付けられたブラックリストの一覧を表示します。'
+  params: [ ]
+getjson:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+getjson_ITextChannel_ulong:
+  args:
+    - channel messageid
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_226
+      desc: 'JSON を取得するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_1:
+  args:
+    - channel messageid
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'JSON を取得するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_2:
+  args:
+    - channel messageid
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'JSON を取得するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_3:
+  args:
+    - channel messageid
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'JSON を取得するメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ulong_=:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_1:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_2:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+  params:
+    - desc: 'メッセージの Mewdeko 固有の JSON を取得します。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'メッセージのチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+graph:
+  args:
+    - text -10 10
+    - text
+  desc: '数式のグラフを描画します。'
+  params:
+    - &ref_234
+      desc: 'グラフに描画する関数です。'
+      name: function
+      optional: false
+      type: string
+    - &ref_235
+      desc: '数式のグラフを描画します。'
+      name: -10
+      optional: false
+      type: '='
+    - &ref_236
+      desc: '数式のグラフを描画します。'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=:
+  args:
+    - text -10 10
+    - text
+  desc: '数式のグラフを描画します。'
+  params:
+    - desc: 'グラフに描画する関数です。'
+      name: function
+      optional: false
+      type: string
+    - desc: '数式のグラフを描画します。'
+      name: -10
+      optional: false
+      type: '='
+    - desc: '数式のグラフを描画します。'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_1:
+  args:
+    - text -10 10
+    - text
+  desc: '数式のグラフを描画します。'
+  params:
+    - desc: 'グラフに描画する関数です。'
+      name: function
+      optional: false
+      type: string
+    - desc: '数式のグラフを描画します。'
+      name: -10
+      optional: false
+      type: '='
+    - desc: '数式のグラフを描画します。'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_2:
+  args:
+    - text -10 10
+    - text
+  desc: '数式のグラフを描画します。'
+  params:
+    - desc: 'グラフに描画する関数です。'
+      name: function
+      optional: false
+      type: string
+    - desc: '数式のグラフを描画します。'
+      name: -10
+      optional: false
+      type: '='
+    - desc: '数式のグラフを描画します。'
+      name: 10
+      optional: false
+      type: '='
+guildembeddelete:
+  args:
+    - name
+  desc: 'サーバーの埋め込みテンプレートを削除します（ManageMessages 権限が必要です）。'
+  params:
+    - desc: '削除する埋め込みテンプレートの名前です。'
+      name: name
+      optional: false
+      type: string
+guildembedlist:
+  args:
+    - ''
+  desc: 'サーバーのすべての埋め込みテンプレートを一覧表示します。'
+  params: [ ]
+guildembedsave:
+  args:
+    - name
+    - embedJson
+  desc: 'サーバーで使用する埋め込みテンプレートを保存します（ManageMessages 権限が必要です）。'
+  params:
+    - desc: '埋め込みテンプレートの名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '埋め込みの JSON 表現です。'
+      name: embedJson
+      optional: false
+      type: string
+inrole:
+  args:
+    - '@role'
+  desc: '指定したロールに所属するユーザーの一覧を表示します。'
+  params:
+    - &ref_253
+      desc: '検索するロールです。'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole:
+  args:
+    - '@role'
+  desc: '指定したロールに所属するユーザーの一覧を表示します。'
+  params:
+    - desc: '検索するロールです。'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したロールに所属するユーザーの一覧を表示します。'
+  params:
+    - desc: '検索するロールです。'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_2:
+  args:
+    - '@role'
+  desc: '指定したロールに所属するユーザーの一覧を表示します。'
+  params:
+    - desc: '検索するロールです。'
+      name: role
+      optional: false
+      type: IRole
+inroles:
+  args:
+    - '@role @role'
+  desc: '指定した複数のロールに所属するユーザーの一覧を表示します。'
+  params:
+    - &ref_254
+      desc: '検索する 1 つ目のロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_255
+      desc: '検索する 2 つ目のロールです。'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '指定した複数のロールに所属するユーザーの一覧を表示します。'
+  params:
+    - desc: '検索する 1 つ目のロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '検索する 2 つ目のロールです。'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '指定した複数のロールに所属するユーザーの一覧を表示します。'
+  params:
+    - desc: '検索する 1 つ目のロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '検索する 2 つ目のロールです。'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '指定した複数のロールに所属するユーザーの一覧を表示します。'
+  params:
+    - desc: '検索する 1 つ目のロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '検索する 2 つ目のロールです。'
+      name: role2
+      optional: false
+      type: IRole
+invite:
+  args:
+    - ''
+  desc: 'ボットの招待リンクを取得します。Web サイト、ドキュメント、サポートサーバーも表示します。'
+  params: [ ]
+invitedusers:
+  args:
+    - '[@user]'
+  desc: '特定のユーザーが招待したユーザーの一覧を表示します。'
+  params:
+    - desc: '招待を確認するユーザーです。null の場合は、コマンドを実行したユーザーを確認します。'
+      name: user
+      optional: true
+      type: user
+inviteleaderboard:
+  args:
+    - '[AllTime] [@role]'
+    - 'Weekly'
+  desc: '招待数が最も多いユーザーのリーダーボードを、通常・退出・偽・ボーナスの内訳とともに表示します。期間またはロールで絞り込むこともできます。'
+  params:
+    - desc: '期間です: AllTime（全期間）、Daily（日次）、Weekly（週次）、Monthly（月次）。'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'このロールを持つ招待者だけを対象にします。'
+      name: role
+      optional: true
+      type: IRole
+invites_=:
+  args:
+    - '[@user]'
+  desc: 'ユーザーの招待数を表示します。'
+  params:
+    - desc: '招待を確認するユーザーです。null の場合は、コマンドを実行したユーザーを確認します。'
+      name: user
+      optional: true
+      type: user
+invitesettings:
+  args:
+    - ''
+  desc: 'サーバーの現在の招待設定を表示します。'
+  params: [ ]
+joinstats:
+  args:
+    - ''
+  desc: 'サーバーの参加統計を示すグラフを生成して送信します。'
+  params: [ ]
+joinstatscolor:
+  args:
+    - number number number
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - &ref_257
+      desc: '色の赤の成分です。'
+      name: r
+      optional: false
+      type: int
+    - &ref_258
+      desc: '色の緑の成分です。'
+      name: g
+      optional: false
+      type: int
+    - &ref_259
+      desc: '色の青の成分です。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int:
+  args:
+    - number number number
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - desc: '色の赤の成分です。'
+      name: r
+      optional: false
+      type: int
+    - desc: '色の緑の成分です。'
+      name: g
+      optional: false
+      type: int
+    - desc: '色の青の成分です。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - desc: '色の赤の成分です。'
+      name: r
+      optional: false
+      type: int
+    - desc: '色の緑の成分です。'
+      name: g
+      optional: false
+      type: int
+    - desc: '色の青の成分です。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - desc: '色の赤の成分です。'
+      name: r
+      optional: false
+      type: int
+    - desc: '色の緑の成分です。'
+      name: g
+      optional: false
+      type: int
+    - desc: '色の青の成分です。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_noparams:
+  args:
+    - ''
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+joinstatscolor_noparams_1:
+  args:
+    - ''
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+joinstatscolor_noparams_2:
+  args:
+    - ''
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+joinstatscolor_noparams_3:
+  args:
+    - ''
+  desc: '参加統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+leavestats:
+  args:
+    - ''
+  desc: 'サーバーの退出統計を示すグラフを生成して送信します。'
+  params: [ ]
+leavestatscolor:
+  args:
+    - number number number
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - &ref_270
+      desc: '色の赤の成分です（0〜255）。'
+      name: r
+      optional: false
+      type: int
+    - &ref_271
+      desc: '色の緑の成分です（0〜255）。'
+      name: g
+      optional: false
+      type: int
+    - &ref_272
+      desc: '色の青の成分です（0〜255）。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int:
+  args:
+    - number number number
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - desc: '色の赤の成分です（0〜255）。'
+      name: r
+      optional: false
+      type: int
+    - desc: '色の緑の成分です（0〜255）。'
+      name: g
+      optional: false
+      type: int
+    - desc: '色の青の成分です（0〜255）。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - desc: '色の赤の成分です（0〜255）。'
+      name: r
+      optional: false
+      type: int
+    - desc: '色の緑の成分です（0〜255）。'
+      name: g
+      optional: false
+      type: int
+    - desc: '色の青の成分です（0〜255）。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params:
+    - desc: '色の赤の成分です（0〜255）。'
+      name: r
+      optional: false
+      type: int
+    - desc: '色の緑の成分です（0〜255）。'
+      name: g
+      optional: false
+      type: int
+    - desc: '色の青の成分です（0〜255）。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_noparams:
+  args:
+    - ''
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+leavestatscolor_noparams_1:
+  args:
+    - ''
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+leavestatscolor_noparams_2:
+  args:
+    - ''
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+leavestatscolor_noparams_3:
+  args:
+    - ''
+  desc: '退出統計グラフの既定の色をゴールドに設定します。RGB の入力なしで事前定義された色を適用する便利なコマンドです。'
+  params: [ ]
+listquotes:
+  args:
+    - ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - &ref_279
+      desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=:
+  args:
+    - ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_1:
+  args:
+    - ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_2:
+  args:
+    - ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=:
+  args:
+    - 1 ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_1:
+  args:
+    - 1 ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_2:
+  args:
+    - 1 ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_3:
+  args:
+    - 1 ordertype.keyword
+  desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+  params:
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'サーバーの引用を指定したページごとに一覧表示します。引用はキーワードまたは追加日順に並べ替えできます。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+minmessagecountlength:
+  args:
+    - 0
+  desc: 'メッセージとしてカウントされる最小の長さを設定します'
+  params:
+    - desc: 'メッセージとしてカウントされる最小の長さを設定します'
+      name: 0
+      optional: false
+      type: '='
+minmsglength:
+  args:
+    - length
+  desc: 'メッセージ数のカウントの最小長を設定します。'
+  params:
+    - desc: '最小のメッセージの長さです。'
+      name: length
+      optional: false
+      type: int
+owoify:
+  args:
+    - text
+  desc: '指定した入力を O-OwoIfy WoIfy で変換します。'
+  params:
+    - &ref_334
+      desc: 'owoify woify で変換する入力です。'
+      name: input
+      optional: false
+      type: string
+owoify_string:
+  args:
+    - text
+  desc: '指定した入力を O-OwoIfy WoIfy で変換します。'
+  params:
+    - desc: 'owoify woify で変換する入力です。'
+      name: input
+      optional: false
+      type: string
+owoify_string_1:
+  args:
+    - text
+  desc: '指定した入力を O-OwoIfy WoIfy で変換します。'
+  params:
+    - desc: 'owoify woify で変換する入力です。'
+      name: input
+      optional: false
+      type: string
+owoify_string_2:
+  args:
+    - text
+  desc: '指定した入力を O-OwoIfy WoIfy で変換します。'
+  params:
+    - desc: 'owoify woify で変換する入力です。'
+      name: input
+      optional: false
+      type: string
+ping:
+  args:
+    - ''
+  desc: 'ボットの Ping を表示します。'
+  params: [ ]
+pingip:
+  args:
+    - text 1
+    - text
+  desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+  params:
+    - &ref_345
+      desc: 'Ping を送信する IP アドレスです。'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=:
+  args:
+    - text 1
+    - text
+  desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+  params:
+    - desc: 'Ping を送信する IP アドレスです。'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_1:
+  args:
+    - text 1
+    - text
+  desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+  params:
+    - desc: ''
+      name: ip
+      optional: false
+      type: string
+    - desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_2:
+  args:
+    - text 1
+    - text
+  desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+  params:
+    - desc: 'Ping を送信する IP アドレスです。'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'IP アドレスに Ping を送信します。最大 10 回です。'
+      name: 1
+      optional: false
+      type: '='
+plot:
+  args:
+    - expression
+  desc: 'グラフを描画します。'
+  params:
+    - desc: '描画する数式です。'
+      name: expression
+      optional: false
+      type: string
+previewlinks:
+  args:
+    - text
+  desc: 'サーバーのリンクプレビューを有効または無効にします。'
+  params:
+    - &ref_355
+      desc: 'リンクプレビューを有効にする場合は "yes"、それ以外の任意の値を指定すると無効になります。'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string:
+  args:
+    - text
+  desc: 'サーバーのリンクプレビューを有効または無効にします。'
+  params:
+    - desc: 'リンクプレビューを有効にする場合は "yes"、それ以外の任意の値を指定すると無効になります。'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_1:
+  args:
+    - text
+  desc: 'サーバーのリンクプレビューを有効または無効にします。'
+  params:
+    - desc: 'リンクプレビューを有効にする場合は "yes"、それ以外の任意の値を指定すると無効になります。'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_2:
+  args:
+    - text
+  desc: 'サーバーのリンクプレビューを有効または無効にします。'
+  params:
+    - desc: 'リンクプレビューを有効にする場合は "yes"、それ以外の任意の値を指定すると無効になります。'
+      name: yesnt
+      optional: false
+      type: string
+quoteadd:
+  args:
+    - text text
+  desc: '指定したキーワードとテキストで新しい引用を追加します。'
+  params:
+    - &ref_367
+      desc: '引用に関連付けるキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_368
+      desc: '引用のテキストです。'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string:
+  args:
+    - text text
+  desc: '指定したキーワードとテキストで新しい引用を追加します。'
+  params:
+    - desc: '引用に関連付けるキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '引用のテキストです。'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_1:
+  args:
+    - text text
+  desc: '指定したキーワードとテキストで新しい引用を追加します。'
+  params:
+    - desc: '引用に関連付けるキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '引用のテキストです。'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_2:
+  args:
+    - text text
+  desc: '指定したキーワードとテキストで新しい引用を追加します。'
+  params:
+    - desc: '引用に関連付けるキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '引用のテキストです。'
+      name: text
+      optional: false
+      type: string
+quotedelete:
+  args:
+    - number
+  desc: '指定した ID の引用を削除します。'
+  params:
+    - &ref_369
+      desc: '削除する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quotedelete_int:
+  args:
+    - number
+  desc: '指定した ID の引用を削除します。'
+  params:
+    - desc: '削除する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_1:
+  args:
+    - number
+  desc: '指定した ID の引用を削除します。'
+  params:
+    - desc: '削除する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_2:
+  args:
+    - number
+  desc: '指定した ID の引用を削除します。'
+  params:
+    - desc: '削除する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quoteexport:
+  args: [ ]
+  desc: 'サーバーのすべての引用を JSON 形式でエクスポートします。'
+  params: [ ]
+quoteid:
+  args:
+    - number
+  desc: '指定した ID の引用を追加したユーザーを表示します。'
+  params:
+    - &ref_370
+      desc: '表示する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quoteid_int:
+  args:
+    - number
+  desc: '指定した ID の引用を追加したユーザーを表示します。'
+  params:
+    - desc: '表示する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quoteid_int_1:
+  args:
+    - number
+  desc: '指定した ID の引用を追加したユーザーを表示します。'
+  params:
+    - desc: '表示する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quoteid_int_2:
+  args:
+    - number
+  desc: '指定した ID の引用を追加したユーザーを表示します。'
+  params:
+    - desc: '表示する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+quoteimport:
+  args: [ ]
+  desc: 'JSON ファイルの添付ファイルから引用をインポートします。重複した引用も許可されます。'
+  params: [ ]
+quoteprint:
+  args:
+    - text
+  desc: '指定したキーワードに一致するランダムな引用を表示します。'
+  params:
+    - &ref_371
+      desc: '引用を検索するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string:
+  args:
+    - text
+  desc: '指定したキーワードに一致するランダムな引用を表示します。'
+  params:
+    - desc: '引用を検索するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_1:
+  args:
+    - text
+  desc: '指定したキーワードに一致するランダムな引用を表示します。'
+  params:
+    - desc: '引用を検索するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_2:
+  args:
+    - text
+  desc: '指定したキーワードに一致するランダムな引用を表示します。'
+  params:
+    - desc: '引用を検索するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+quotesearch:
+  args:
+    - text text
+  desc: 'キーワードとテキストの両方に一致する引用を検索して表示します。'
+  params:
+    - &ref_372
+      desc: '引用を照合するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_373
+      desc: '引用を照合するテキストです。'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string:
+  args:
+    - text text
+  desc: 'キーワードとテキストの両方に一致する引用を検索して表示します。'
+  params:
+    - desc: '引用を照合するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '引用を照合するテキストです。'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_1:
+  args:
+    - text text
+  desc: 'キーワードとテキストの両方に一致する引用を検索して表示します。'
+  params:
+    - desc: '引用を照合するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '引用を照合するテキストです。'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_2:
+  args:
+    - text text
+  desc: 'キーワードとテキストの両方に一致する引用を検索して表示します。'
+  params:
+    - desc: '引用を照合するキーワードです。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '引用を照合するテキストです。'
+      name: text
+      optional: false
+      type: string
+quoteshow:
+  args:
+    - number
+  desc: '指定した ID の引用を表示します。'
+  params:
+    - desc: '表示する引用の ID です。'
+      name: id
+      optional: false
+      type: int
+remind:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - &ref_388
+      desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - &ref_386
+      desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string:
+  args:
+    - channel text
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - &ref_387
+      desc: 'リマインダーを送信するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - desc: 'リマインダーを送信するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - desc: 'リマインダーを送信するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - desc: 'リマインダーを送信するテキストチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_1:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_2:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+  params:
+    - desc: '特定のテキストチャンネル向けのリマインダーを作成します。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'リマインダーのメッセージと時間の情報です。'
+      name: remindString
+      optional: false
+      type: string
+reminddelete:
+  args:
+    - number
+  desc: '特定のリマインダーを削除します。'
+  params:
+    - &ref_389
+      desc: '削除するリマインダーの番号です。'
+      name: index
+      optional: false
+      type: int
+reminddelete_int:
+  args:
+    - number
+  desc: '特定のリマインダーを削除します。'
+  params:
+    - desc: '削除するリマインダーの番号です。'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_1:
+  args:
+    - number
+  desc: '特定のリマインダーを削除します。'
+  params:
+    - desc: '削除するリマインダーの番号です。'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_2:
+  args:
+    - number
+  desc: '特定のリマインダーを削除します。'
+  params:
+    - desc: '削除するリマインダーの番号です。'
+      name: index
+      optional: false
+      type: int
+remindlist:
+  args:
+    - ''
+  desc: '現在のユーザーのすべてのリマインダーを一覧表示します。'
+  params: [ ]
+removeautopublish:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を無効にします。'
+  params:
+    - &ref_393
+      desc: '自動公開を無効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を無効にします。'
+  params:
+    - desc: '自動公開を無効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を無効にします。'
+  params:
+    - desc: '自動公開を無効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: '指定したサーバー内のニュースチャンネルで、自動公開を無効にします。'
+  params:
+    - desc: '自動公開を無効にするニュースチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - &ref_409
+      desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_407
+      desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_408
+      desc: 'ブラックリストから削除する単語です。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ブラックリストから削除する単語です。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ブラックリストから削除する単語です。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'ブラックリストから削除する単語です。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+  params:
+    - desc: '指定したチャンネルの自動公開のブラックリストから単語を削除します。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'ブラックリストを削除するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+repeat:
+  args:
+    - text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - &ref_427
+      desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string:
+  args:
+    - dt interval text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - &ref_428
+      desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - &ref_429
+      desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_1:
+  args:
+    - dt interval text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_2:
+  args:
+    - dt interval text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_3:
+  args:
+    - dt interval text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string:
+  args:
+    - dt text
+    - dt
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - &ref_430
+      desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_1:
+  args:
+    - dt text
+    - dt
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_2:
+  args:
+    - dt text
+    - dt
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_3:
+  args:
+    - dt text
+    - dt
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: 'リピーターを開始する時刻（省略可能）です。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string:
+  args:
+    - interval text
+    - interval
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - &ref_431
+      desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_1:
+  args:
+    - interval text
+    - interval
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_2:
+  args:
+    - interval text
+    - interval
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_3:
+  args:
+    - interval text
+    - interval
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: '繰り返し間の間隔（省略可能）です。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_string:
+  args:
+    - text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_string_1:
+  args:
+    - text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeat_string_2:
+  args:
+    - text
+  desc: '開始時刻と間隔（省略可能）を指定してリピーターを作成します。'
+  params:
+    - desc: '繰り返すメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeatactivity:
+  args:
+    - index threshold timeWindow
+  desc: 'リピーターのアクティビティのしきい値を設定します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'トリガーに必要なメッセージ数です。'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'アクティビティを検出する時間枠です（例: 5m、10s）。'
+      name: timeWindow
+      optional: false
+      type: stoopid time
+repeatchannel:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'リピーターがメッセージを送信するチャンネルを変更します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'リピーターの新しいチャンネルです。指定しない場合は、現在のチャンネルになります。'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'リピーターがメッセージを送信するチャンネルを変更します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'リピーターの新しいチャンネルです。指定しない場合は、現在のチャンネルになります。'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_1:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'リピーターがメッセージを送信するチャンネルを変更します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'リピーターの新しいチャンネルです。指定しない場合は、現在のチャンネルになります。'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_2:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'リピーターがメッセージを送信するチャンネルを変更します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'リピーターの新しいチャンネルです。指定しない場合は、現在のチャンネルになります。'
+      name: channel
+      optional: true
+      type: channel
+repeatconversation:
+  args:
+    - index
+  desc: 'リピーターの会話検出を切り替えます。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatforumtags:
+  args:
+    - index action tagType tags
+  desc: 'リピーターのフォーラムタグの条件を設定します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: '実行するアクション（add、remove、clear、list）です。'
+      name: action
+      optional: false
+      type: string
+    - desc: 'タグのルールの種類（required または excluded）です。'
+      name: tagType
+      optional: true
+      type: string
+    - desc: 'カンマ区切りのタグ名または ID の一覧です。'
+      name: tags
+      optional: true
+      type: string
+repeatinvoke:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを直ちにトリガーします。'
+  params:
+    - desc: 'トリガーするリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを直ちにトリガーします。'
+  params:
+    - desc: 'トリガーするリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_1:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを直ちにトリガーします。'
+  params:
+    - &ref_433
+      desc: 'トリガーするリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_2:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを直ちにトリガーします。'
+  params:
+    - desc: 'トリガーするリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatlist:
+  args:
+    - ''
+  desc: 'サーバーで稼働中のすべてのリピーターを一覧表示します。'
+  params: [ ]
+repeatmessage:
+  args:
+    - number text
+    - number
+  desc: '既存のリピーターのメッセージを更新します。'
+  params:
+    - &ref_434
+      desc: '更新するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - &ref_435
+      desc: 'リピーターの新しいメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string:
+  args:
+    - number text
+    - number
+  desc: '既存のリピーターのメッセージを更新します。'
+  params:
+    - desc: '更新するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'リピーターの新しいメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_1:
+  args:
+    - number text
+    - number
+  desc: '既存のリピーターのメッセージを更新します。'
+  params:
+    - desc: '更新するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'リピーターの新しいメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_2:
+  args:
+    - number text
+    - number
+  desc: '既存のリピーターのメッセージを更新します。'
+  params:
+    - desc: '更新するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'リピーターの新しいメッセージです。'
+      name: message
+      optional: true
+      type: string
+repeatpriority:
+  args:
+    - index priority
+  desc: 'リピーターの優先度を設定します（0〜100、値が大きいほど重要）。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: '優先度レベル（0〜100）です。'
+      name: priority
+      optional: false
+      type: int
+repeatredun:
+  args:
+    - action
+  desc: 'リピーターの冗長性を管理します。'
+  params:
+    - desc: '実行するアクションです。'
+      name: action
+      optional: false
+      type: string
+repeatredundant:
+  args:
+    - number
+  desc: 'リピーターの冗長性チェックを切り替えます。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatremove:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを削除します。'
+  params:
+    - desc: '削除するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatremove_int:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを削除します。'
+  params:
+    - desc: '削除するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_1:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを削除します。'
+  params:
+    - desc: '削除するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_2:
+  args:
+    - number
+  desc: '番号を指定して、リピーターを削除します。'
+  params:
+    - desc: '削除するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatschedule:
+  args:
+    - index preset
+  desc: 'リピーターの時間ベースのスケジュールを設定します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: '事前設定の時間条件（business、evening、weekend、none、disable）です。'
+      name: preset
+      optional: false
+      type: string
+repeatthreadautosticky:
+  args:
+    - index
+  desc: 'リピーターのスレッドの自動固定機能を切り替えます。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatthreadonly:
+  args:
+    - index
+  desc: 'リピーターのスレッド限定モードを切り替えます。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeatsuppressnotifications:
+  args:
+    - index
+  desc: 'リピーターの通知の抑制を切り替えます。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeattoggle:
+  args:
+    - index
+  desc: 'リピーターの有効状態を切り替えます。'
+  params:
+    - desc: '切り替えるリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+repeattriggermode:
+  args:
+    - index mode
+  desc: 'リピーターのトリガーモードを設定します。'
+  params:
+    - desc: '変更するリピーターの番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: '設定するトリガーモードです。'
+      name: mode
+      optional: false
+      type: string
+resetmessagecounts:
+  args:
+    - '[@user] [@channel]'
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+      name: user
+      optional: true
+      type: user
+    - desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=:
+  args:
+    - '[@user] [@channel]'
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+      name: user
+      optional: true
+      type: user
+    - desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_1:
+  args:
+    - '[@user] [@channel]'
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+      name: user
+      optional: true
+      type: user
+    - desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_2:
+  args:
+    - '[@user] [@channel]'
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+      name: user
+      optional: true
+      type: user
+    - desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_ITextChannel:
+  args:
+    - channel
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - &ref_439
+      desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_1:
+  args:
+    - channel
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_2:
+  args:
+    - channel
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_3:
+  args:
+    - channel
+  desc: 'ユーザー、チャンネル、またはその両方のメッセージ数をリセットします。'
+  params:
+    - desc: '省略可能です。メッセージ数をリセットするチャンネルです。'
+      name: channel
+      optional: true
+      type: ITextChannel
+rinfo:
+  args:
+    - '@role'
+  desc: 'サーバー内の指定したロールに関する情報を表示します。'
+  params:
+    - &ref_442
+      desc: '情報を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole:
+  args:
+    - '@role'
+  desc: 'サーバー内の指定したロールに関する情報を表示します。'
+  params:
+    - desc: '情報を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_1:
+  args:
+    - '@role'
+  desc: 'サーバー内の指定したロールに関する情報を表示します。'
+  params:
+    - desc: '情報を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_2:
+  args:
+    - '@role'
+  desc: 'サーバー内の指定したロールに関する情報を表示します。'
+  params:
+    - desc: '情報を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+roleid:
+  args:
+    - '@role'
+  desc: '指定したロールのロール ID を取得します。'
+  params:
+    - &ref_457
+      desc: 'ID を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole:
+  args:
+    - '@role'
+  desc: '指定したロールのロール ID を取得します。'
+  params:
+    - desc: 'ID を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_1:
+  args:
+    - '@role'
+  desc: '指定したロールのロール ID を取得します。'
+  params:
+    - desc: 'ID を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_2:
+  args:
+    - '@role'
+  desc: '指定したロールのロール ID を取得します。'
+  params:
+    - desc: 'ID を取得するロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolepermlist:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - &ref_460
+      desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - &ref_461
+      desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_1:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_2:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]:
+  args:
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_1:
+  args:
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_2:
+  args:
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_3:
+  args:
+    - perms
+  desc: '指定した権限を持つすべてのロールを一覧表示します。既定の検索方法は And です。'
+  params:
+    - desc: '検索する権限です。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+roles:
+  args:
+    - '[@target]'
+  desc: '現在のサーバーのロールの一覧を取得します。ユーザーを指定した場合は、そのユーザーのロールを表示します。'
+  params:
+    - desc: 'ロールを取得するユーザーです。'
+      name: target
+      optional: true
+      type: user
+roll:
+  args:
+    - number @user
+    - number
+    - '@user number'
+  desc: '指定した面数のサイコロを振ります。D&D のサイコロに対応しています。'
+  params:
+    - desc: '指定した面数のサイコロを振ります。D&D のサイコロに対応しています。'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_467
+      default: null
+      desc: '指定した面数のサイコロを振ります。D&D のサイコロに対応しています。'
+      name: user
+      optional: true
+      type: Transactions(IUser
+roll_string:
+  args:
+    - text
+  desc: '指定した面数のサイコロを振ります。D&D のサイコロに対応しています。'
+  params:
+    - &ref_468
+      desc: '振るロールです。'
+      name: roll
+      optional: false
+      type: string
+roll_string_1:
+  args:
+    - text
+  desc: '指定した面数のサイコロを振ります。D&D のサイコロに対応しています。'
+  params:
+    - desc: '振るロールです。'
+      name: roll
+      optional: false
+      type: string
+roll_string_2:
+  args:
+    - text
+  desc: '指定した面数のサイコロを振ります。D&D のサイコロに対応しています。'
+  params:
+    - desc: '振るロールです。'
+      name: roll
+      optional: false
+      type: string
+roll_string_3:
+  args:
+    - text
+  desc: '指定した面数のサイコロを振ります。D&D のサイコロに対応しています。'
+  params:
+    - desc: '振るロールです。'
+      name: roll
+      optional: false
+      type: string
+savechat:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+  params:
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+  params:
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_1:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+  params:
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_2:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+  params:
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'チャンネルのチャットログを保存します。Public Mewdeko では nginx の CDN に保存し、表示用の CDN リンクを送信します。'
+      name: channel
+      optional: true
+      type: channel
+say:
+  args:
+    - channel text
+    - channel
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - &ref_478
+      desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_479
+      desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+say_=:
+  args:
+    - '@channel [message]'
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+say_=_1:
+  args:
+    - '@channel [message]'
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+say_=_2:
+  args:
+    - '@channel [message]'
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+say_=_3:
+  args:
+    - '@channel [message]'
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string:
+  args:
+    - channel text
+    - channel
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_1:
+  args:
+    - channel text
+    - channel
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_2:
+  args:
+    - channel text
+    - channel
+  desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+  params:
+    - desc: 'ボットとしてメッセージを送信するか、埋め込みで送信します。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '送信するメッセージです。'
+      name: message
+      optional: true
+      type: string
+serverid_noparams:
+  args:
+    - ''
+  desc: '現在のサーバーのサーバー ID を取得します。'
+  params: [ ]
+serverinfo:
+  args:
+    - '[guildName]'
+  desc: 'サーバーの詳細情報を表示します。'
+  params:
+    - desc: '省略可能です。情報を表示するサーバーの名前です。'
+      name: guildName
+      optional: true
+      type: string
+servermessages:
+  args:
+    - ''
+  desc: 'サーバー全体のメッセージ統計を取得します。'
+  params: [ ]
+setminaccountage:
+  args:
+    - number
+  desc: '招待としてカウントされるために必要な、アカウントの最小年齢を設定します。'
+  params:
+    - &ref_505
+      desc: '最小年齢（日数）です。'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int:
+  args:
+    - number
+  desc: '招待としてカウントされるために必要な、アカウントの最小年齢を設定します。'
+  params:
+    - desc: '最小年齢（日数）です。'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_1:
+  args:
+    - number
+  desc: '招待としてカウントされるために必要な、アカウントの最小年齢を設定します。'
+  params:
+    - desc: '最小年齢（日数）です。'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_2:
+  args:
+    - number
+  desc: '招待としてカウントされるために必要な、アカウントの最小年齢を設定します。'
+  params:
+    - desc: '最小年齢（日数）です。'
+      name: days
+      optional: false
+      type: int
+showemojis:
+  args:
+    - text
+  desc: '指定した 1 つ以上の絵文字を拡大します。'
+  params:
+    - &ref_545
+      desc: '指定した 1 つ以上の絵文字を拡大します。'
+      name: _
+      optional: false
+      type: string
+showemojis_string:
+  args:
+    - text
+  desc: '指定した 1 つ以上の絵文字を拡大します。'
+  params:
+    - desc: '指定した 1 つ以上の絵文字を拡大します。'
+      name: _
+      optional: false
+      type: string
+showemojis_string_1:
+  args:
+    - text
+  desc: '指定した 1 つ以上の絵文字を拡大します。'
+  params:
+    - desc: '指定した 1 つ以上の絵文字を拡大します。'
+      name: _
+      optional: false
+      type: string
+showemojis_string_2:
+  args:
+    - text
+  desc: '指定した 1 つ以上の絵文字を拡大します。'
+  params:
+    - desc: '指定した 1 つ以上の絵文字を拡大します。'
+      name: _
+      optional: false
+      type: string
+snipe:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params: [ ]
+snipe_ITextChannel:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_1:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_2:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_3:
+  args:
+    - chan
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_1:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_2:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_3:
+  args:
+    - '@user'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_noparams:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params: [ ]
+snipe_noparams_1:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params: [ ]
+snipe_noparams_2:
+  args:
+    - ''
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを表示します（スナイプ）。'
+  params: [ ]
+snipelist:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_1:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_2:
+  args:
+    - 5
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+  params:
+    - desc: 'メッセージを取得するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '指定したチャンネルでユーザーが最後に削除したメッセージを、指定した数だけ取得します。'
+      name: 5
+      optional: false
+      type: '='
+snipeset:
+  args:
+    - value
+  desc: '削除されたメッセージのスナイプを有効または無効にします。既定では無効です。'
+  params:
+    - &ref_551
+      desc: '設定する値です。'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction:
+  args:
+    - value
+  desc: '削除されたメッセージのスナイプを有効または無効にします。既定では無効です。'
+  params:
+    - desc: '設定する値です。'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_1:
+  args:
+    - value
+  desc: '削除されたメッセージのスナイプを有効または無効にします。既定では無効です。'
+  params:
+    - desc: '設定する値です。'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_2:
+  args:
+    - value
+  desc: '削除されたメッセージのスナイプを有効または無効にします。既定では無効です。'
+  params:
+    - desc: '設定する値です。'
+      name: value
+      optional: false
+      type: PermissionAction
+stats:
+  args:
+    - ''
+  desc: 'ボットの統計を表示します。'
+  params: [ ]
+streamrole:
+  args:
+    - '@role @role'
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params:
+    - &ref_576
+      desc: '配信アクティビティを監視するロールです。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - &ref_577
+      desc: '配信を開始したユーザーに付与するロールです。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params:
+    - desc: '配信アクティビティを監視するロールです。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: '配信を開始したユーザーに付与するロールです。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params:
+    - desc: '配信アクティビティを監視するロールです。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: '配信を開始したユーザーに付与するロールです。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params:
+    - desc: '配信アクティビティを監視するロールです。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: '配信を開始したユーザーに付与するロールです。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_noparams:
+  args:
+    - ''
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params: [ ]
+streamrole_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params: [ ]
+streamrole_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params: [ ]
+streamrole_noparams_3:
+  args:
+    - ''
+  desc: 'サーバーの配信ロール機能を無効にします。'
+  params: [ ]
+streamroleblacklist:
+  args:
+    - action @user
+  desc: '配信ロール機能のブラックリストにユーザーを追加または削除します。'
+  params:
+    - &ref_578
+      desc: '実行するアクション（add または remove）です。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_579
+      desc: '一覧に追加または削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser:
+  args:
+    - action @user
+  desc: '配信ロール機能のブラックリストにユーザーを追加または削除します。'
+  params:
+    - desc: '実行するアクション（add または remove）です。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '一覧に追加または削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_1:
+  args:
+    - action @user
+  desc: '配信ロール機能のブラックリストにユーザーを追加または削除します。'
+  params:
+    - desc: '実行するアクション（add または remove）です。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '一覧に追加または削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_2:
+  args:
+    - action @user
+  desc: '配信ロール機能のブラックリストにユーザーを追加または削除します。'
+  params:
+    - desc: '実行するアクション（add または remove）です。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '一覧に追加または削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamrolekeyword:
+  args:
+    - '[keyword]'
+  desc: '配信ロール機能のキーワードを設定します。このキーワードを含む配信を行っているユーザーだけが配信ロールを受け取ります。'
+  params:
+    - desc: '配信ロール機能に設定するキーワードです。'
+      name: keyword
+      optional: true
+      type: string
+streamrolewhitelist:
+  args:
+    - action @user
+  desc: '配信ロール機能のホワイトリストにユーザーを追加または削除します。'
+  params:
+    - desc: '実行するアクション（add または remove）です。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '一覧に追加または削除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+sym:
+  args:
+    - expression
+  desc: '記号計算を行います。'
+  params:
+    - desc: '記号的に計算する数式です。'
+      name: expression
+      optional: false
+      type: string
+symbolic:
+  args:
+    - text
+  desc: '記号数学の演算を行います。'
+  params:
+    - &ref_592
+      desc: '評価または操作する記号数式です。'
+      name: expression
+      optional: false
+      type: string
+symbolic_string:
+  args:
+    - text
+  desc: '記号数学の演算を行います。'
+  params:
+    - desc: '評価または操作する記号数式です。'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_1:
+  args:
+    - text
+  desc: '記号数学の演算を行います。'
+  params:
+    - desc: '評価または操作する記号数式です。'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_2:
+  args:
+    - text
+  desc: '記号数学の演算を行います。'
+  params:
+    - desc: '評価または操作する記号数式です。'
+      name: expression
+      optional: false
+      type: string
+toggleinvitetracking:
+  args:
+    - ''
+  desc: 'サーバーの招待の追跡を切り替えます。'
+  params: [ ]
+togglemessagecount:
+  args:
+    - ''
+  desc: 'サーバーのメッセージカウントを切り替えます'
+  params: [ ]
+togglemsgcount:
+  args:
+    - ''
+  desc: 'メッセージカウントの追跡を切り替えます。'
+  params: [ ]
+toggleremoveinviteonleave:
+  args:
+    - ''
+  desc: 'ユーザーがサーバーから退出したときに、招待を削除するかどうかを切り替えます。'
+  params: [ ]
+topusers:
+  args:
+    - ''
+  desc: 'メッセージ数が多い上位 10 名のユーザーのリーダーボードを表示します。'
+  params: [ ]
+traceroute:
+  args:
+    - text
+  desc: '指定したホスト名へのトレースルートを実行し、パケットが IP アドレスまたはドメインに到達するまでの経路を表示します。'
+  params:
+    - &ref_626
+      desc: '経路をトレースする IP アドレスまたはドメイン名です。'
+      name: hostname
+      optional: false
+      type: string
+traceroute_string:
+  args:
+    - text
+  desc: '指定したホスト名へのトレースルートを実行し、パケットが IP アドレスまたはドメインに到達するまでの経路を表示します。'
+  params:
+    - desc: '経路をトレースする IP アドレスまたはドメイン名です。'
+      name: hostname
+      optional: false
+      type: string
+userid:
+  args:
+    - '[@target]'
+  desc: '指定したユーザーのユーザー ID を取得します。'
+  params:
+    - desc: 'ID を取得するユーザーです。'
+      name: target
+      optional: true
+      type: user
+userinfo:
+  args:
+    - '[@usr]'
+  desc: '指定したユーザーまたはコマンド実行者の詳細情報を表示します。'
+  params:
+    - desc: '省略可能です。情報を取得するユーザーです。'
+      name: usr
+      optional: true
+      type: user
+usermessages_=_1:
+  args:
+    - '[@user]'
+  desc: '特定のユーザーのメッセージ統計を取得します。'
+  params:
+    - desc: 'メッセージ統計を取得するユーザーです。null の場合は、コマンド実行者を使用します。'
+      name: user
+      optional: true
+      type: user
+vcheck:
+  args:
+    - '[url]'
+  desc: 'VirusTotal API を使用して URL にウイルスがないか確認します。'
+  params:
+    - desc: '確認する URL です。'
+      name: url
+      optional: true
+      type: string
+verboseerror:
+  args:
+    - '[newstate]'
+  desc: 'コマンドの詳細なエラーメッセージを切り替えます。'
+  params:
+    - desc: '詳細エラーの新しい状態です。null の場合は、状態を切り替えます。'
+      name: newstate
+      optional: true
+      type: bool
+vinfo:
+  args:
+    - '[channel]'
+  desc: '指定したボイスチャンネル、またはユーザーの現在のボイスチャンネルの情報を表示します。'
+  params:
+    - desc: '情報を取得するボイスチャンネルです（省略可能）。'
+      name: channel
+      optional: true
+      type: voice channel
+vote_noparams:
+  args:
+    - ''
+  desc: 'mewdeko に投票するためのリンクを表示します。'
+  params: [ ]
+whoinvited:
+  args:
+    - '[@user]'
+  desc: '特定のユーザーをサーバーに招待したユーザーを表示します。'
+  params:
+    - desc: '確認するユーザーです。null の場合は、コマンドを実行したユーザーを確認します。'
+      name: user
+      optional: true
+      type: user
+whosplaying:
+  args:
+    - text
+  desc: '指定したゲームをプレイしているユーザーの一覧を表示します。'
+  params:
+    - &ref_660
+      desc: '検索するゲームです。'
+      name: game
+      optional: true
+      type: string
+whosplaying_string:
+  args:
+    - text
+  desc: '指定したゲームをプレイしているユーザーの一覧を表示します。'
+  params:
+    - desc: '検索するゲームです。'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_1:
+  args:
+    - text
+  desc: '指定したゲームをプレイしているユーザーの一覧を表示します。'
+  params:
+    - desc: '検索するゲームです。'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_2:
+  args:
+    - text
+  desc: '指定したゲームをプレイしているユーザーの一覧を表示します。'
+  params:
+    - desc: '検索するゲームです。'
+      name: game
+      optional: true
+      type: string
+vote:
+  args:
+    - ''
+  desc: 'mewdeko に投票するためのリンクを表示します。'
+  params: [ ]
+serverid:
+  args:
+    - ''
+  desc: '現在のサーバーのサーバー ID を取得します。'
+  params: [ ]
+invites:
+  args:
+    - '[user]'
+    - user
+  desc: 'ユーザーの招待数を表示します。'
+  params:
+    - desc: '招待を確認するユーザーです。null の場合は、コマンドを実行したユーザーを確認します。'
+      name: user
+      optional: true
+      type: IUser
+usermessages:
+  args:
+    - '[user]'
+    - user
+  desc: '特定のユーザーのメッセージ統計を取得します。'
+  params:
+    - desc: 'メッセージ統計を取得するユーザーです。null の場合は、コマンド実行者を使用します。'
+      name: user
+      optional: true
+      type: IUser
+togglecountrejoins:
+  args:
+    - ''
+  desc: '再参加したメンバーが招待者に通常の招待を再び付与するか、代わりに偽の招待としてマークするかを切り替えます。'
+  params: [ ]
+togglefakenoavatar:
+  args:
+    - ''
+  desc: 'アバターのないユーザーが参加した場合に、偽の招待としてマークするかどうかを切り替えます。'
+  params: [ ]
+invitelinkchannel:
+  args:
+    - '[#channel]'
+  desc: '招待コマンドで作成した個人用の招待リンクの送信先チャンネルを設定します。チャンネルを省略するとシステムチャンネルを使用します。'
+  params:
+    - desc: 'チャンネルです。省略するとシステムチャンネルになります。'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitelogchannel:
+  args:
+    - '[#channel]'
+  desc: '追跡された参加と退出のたびに、誰が誰を、どのように招待したかを示す埋め込みを受け取るチャンネルを設定します。チャンネルを省略すると無効になります。'
+  params:
+    - desc: 'チャンネルです。無効にする場合は省略します。'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitestats:
+  args:
+    - '[Monthly]'
+    - 'Weekly'
+  desc: '指定期間の増加分析を表示します。参加数、退出数、純増数、定着率、偽の参加、参加経路、上位の招待者、上位の招待コードが含まれます。'
+  params:
+    - desc: '期間です: AllTime（全期間）、Daily（日次）、Weekly（週次）、Monthly（月次）。'
+      name: range
+      optional: true
+      type: StatsRange
+invitedbycode:
+  args:
+    - 'abc123'
+  desc: '特定の招待コードで参加したメンバーを一覧表示します。'
+  params:
+    - desc: '招待コードまたは URL です。'
+      name: code
+      optional: false
+      type: string
+invitedbylabel:
+  args:
+    - 'Twitter'
+  desc: 'ラベルが付いた任意の招待コードで参加したメンバーを一覧表示します。'
+  params:
+    - desc: 'ラベルです。'
+      name: label
+      optional: false
+      type: string
+invitecodes:
+  args:
+    - '[user]'
+  desc: 'ユーザーが作成した招待コードを、使用回数とともに一覧表示します。'
+  params:
+    - desc: 'ユーザーです。省略すると自分になります。'
+      name: user
+      optional: true
+      type: IUser
+invitelink:
+  args:
+    - ''
+  desc: '個人用の招待リンクを表示します。まだ持っていない場合は、永続的なリンクを作成します。このリンクから参加した場合、招待はあなたに付与されます。'
+  params: [ ]
+addinvites:
+  args:
+    - '@user 5'
+  desc: 'ユーザーに通常の招待を追加します。'
+  params:
+    - desc: 'ユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '追加する数です。'
+      name: amount
+      optional: false
+      type: int
+removeinvites:
+  args:
+    - '@user 5'
+  desc: 'ユーザーから通常の招待を削除します。'
+  params:
+    - desc: 'ユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '削除する数です。'
+      name: amount
+      optional: false
+      type: int
+addbonusinvites:
+  args:
+    - '@user 10'
+  desc: 'ユーザーにボーナス招待を付与します。ボーナス招待は合計に含まれますが、別に追跡されます。'
+  params:
+    - desc: 'ユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '付与する数です。'
+      name: amount
+      optional: false
+      type: int
+removebonusinvites:
+  args:
+    - '@user 10'
+  desc: 'ユーザーからボーナス招待を取り上げます。'
+  params:
+    - desc: 'ユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '削除する数です。'
+      name: amount
+      optional: false
+      type: int
+addfakeinvites:
+  args:
+    - '@user 3'
+  desc: 'ユーザーの招待の一部を偽としてマークし、合計を減らします。'
+  params:
+    - desc: 'ユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '偽としてマークする数です。'
+      name: amount
+      optional: false
+      type: int
+removefakeinvites:
+  args:
+    - '@user 3'
+  desc: 'ユーザーの偽の招待を消去し、合計を増やします。'
+  params:
+    - desc: 'ユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '消去する数です。'
+      name: amount
+      optional: false
+      type: int
+resetinvites:
+  args:
+    - '@user'
+    - 'Server'
+    - 'LeftMembers'
+  desc: '1 人のユーザー、サーバー内の全員、または既に退出した招待者だけの招待をリセットします。'
+  params:
+    - desc: 'リセットするユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '全員をリセットする場合は Server、退出したメンバーだけをリセットする場合は LeftMembers を指定します。'
+      name: scope
+      optional: false
+      type: InviteResetScope
+syncinvites:
+  args:
+    - '[user]'
+  desc: 'Discord から招待の使用回数をインポートし、各招待者の通常の合計を、そのコードの使用回数の合計まで引き上げます。合計が下がることはないため、複数回実行しても安全です。'
+  params:
+    - desc: 'このユーザーだけを同期します。省略すると全員を同期します。'
+      name: user
+      optional: true
+      type: IGuildUser
+deleteinvite:
+  args:
+    - 'abc123'
+  desc: 'サーバーから招待コードを削除します。'
+  params:
+    - desc: '招待コードまたは URL です。'
+      name: code
+      optional: false
+      type: string
+purgeinvites:
+  args:
+    - '[maxUses] [#channel]'
+    - '0 #general'
+  desc: '使用回数が指定した数以下の、ラベルのない招待コードをすべて削除します。チャンネルを指定して絞り込むこともできます。'
+  params:
+    - desc: 'この回数を超えて使用されたコードは残します。既定値は 0（未使用のコードのみ）です。'
+      name: maxUses
+      optional: true
+      type: int
+    - desc: 'このチャンネル向けのコードのみを削除します。'
+      name: channel
+      optional: true
+      type: ITextChannel
+inviteblacklist:
+  args:
+    - '@user'
+    - '@role'
+  desc: 'ユーザー、または特定のロールを持つすべてのメンバーが招待のクレジットを獲得できるかどうかを切り替えます。'
+  params:
+    - desc: '切り替えるユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '切り替えるロールです。'
+      name: role
+      optional: false
+      type: IRole
+invitehide:
+  args:
+    - '@user'
+  desc: 'ユーザーを招待のリーダーボードから非表示にするかどうかを切り替えます。招待は引き続き追跡されます。'
+  params:
+    - desc: 'ユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+inviteexclusions:
+  args:
+    - ''
+  desc: '招待のブラックリストに登録されたユーザー、ブラックリストに登録されたロール、リーダーボードから非表示のメンバーを一覧表示します。'
+  params: [ ]
+invitelabelset:
+  args:
+    - 'abc123 Twitter campaign'
+  desc: '招待コードにラベルを付けると、統計、エクスポート、挨拶のプレースホルダーで名前によって表示されるようになります。'
+  params:
+    - desc: '招待コードまたは URL です。'
+      name: code
+      optional: false
+      type: string
+    - desc: 'ラベルのテキストです（最大 64 文字）。'
+      name: label
+      optional: false
+      type: string
+invitelabelrole:
+  args:
+    - 'abc123 @role'
+    - 'abc123'
+  desc: 'ラベル付きの招待コードから参加したすべてのユーザーに付与されるロールを設定またはクリアします。'
+  params:
+    - desc: '招待コードまたは URL です。'
+      name: code
+      optional: false
+      type: string
+    - desc: 'ロールです。クリアする場合は省略します。'
+      name: role
+      optional: true
+      type: IRole
+invitelabelremove:
+  args:
+    - 'abc123'
+  desc: '招待コードからラベルを削除します。'
+  params:
+    - desc: '招待コードまたは URL です。'
+      name: code
+      optional: false
+      type: string
+invitelabels:
+  args:
+    - ''
+  desc: 'ロールと所有者とともに、ラベル付きの招待コードを一覧表示します。'
+  params: [ ]
+inviteexport:
+  args:
+    - '[AllTime]'
+  desc: '招待のリーダーボードを CSV ファイルとしてエクスポートします。'
+  params:
+    - desc: '期間です: AllTime（全期間）、Daily（日次）、Weekly（週次）、Monthly（月次）。'
+      name: range
+      optional: true
+      type: StatsRange
+invitedexport:
+  args:
+    - '[user]'
+  desc: 'ユーザーが招待したメンバー（またはすべての確認済みの参加）を CSV ファイルとしてエクスポートします。'
+  params:
+    - desc: '招待者です。省略するとすべての参加が対象になります。'
+      name: user
+      optional: true
+      type: IUser
+invitemassban:
+  args:
+    - '@user [reason]'
+  desc: 'ユーザーに招待され、まだサーバーに残っているすべてのメンバーをBANします。実行前に確認を求めます。'
+  params:
+    - desc: '招待者です。'
+      name: inviter
+      optional: false
+      type: IUser
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+invitemassbancode:
+  args:
+    - 'abc123 [reason]'
+  desc: '招待コードから参加し、まだサーバーに残っているすべてのメンバーをBANします。実行前に確認を求めます。'
+  params:
+    - desc: '招待コードまたは URL です。'
+      name: code
+      optional: false
+      type: string
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string

@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "Aucune action de bannissement nommée `{0}`. Actions connues : {1}",
+  "ban_prune_cleared": "Le paramètre de purge pour {0} dans {1} a été effacé.",
+  "ban_prune_cleared_none": "Il n'y avait aucun paramètre de purge pour {0} dans {1}.",
+  "ban_prune_current": "{0} : **{1}**",
+  "ban_prune_list_empty": "Aucun paramètre de purge configuré. Les bannissements utilisent la valeur par défaut de chaque action.",
+  "ban_prune_list_title": "Purge des messages lors d'un bannissement",
+  "ban_prune_reset": "{0} paramètres de purge supprimés. Chaque action est revenue à sa valeur par défaut.",
+  "ban_prune_scope_category": "la catégorie {0}",
+  "ban_prune_scope_channel": "le salon {0}",
+  "ban_prune_scope_guild": "ce serveur",
+  "ban_prune_set": "Les bannissements de {0} purgeront désormais **{1}** pour {2}.",
+  "ban_prune_set_all_actions": "toutes les actions de bannissement",
+  "ban_prune_days": "{0} jour(s) de messages",
+  "ban_prune_days_none": "aucun message",
+  "ban_prune_effective": "Un bannissement ici purgera actuellement **{0}**.",
+  "ban_prune_defaults_title": "Valeurs par défaut",
+  "ban_prune_overrides_title": "Exceptions"
+}

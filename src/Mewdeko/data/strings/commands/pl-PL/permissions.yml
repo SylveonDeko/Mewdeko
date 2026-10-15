@@ -1,0 +1,1475 @@
+allcatmdls:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów w danej kategorii.'
+  params:
+    - &ref_61
+      desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_62
+      desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów w danej kategorii.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_1:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów w danej kategorii.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_2:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów w danej kategorii.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allchnlmdls:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów na danym kanale.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_63
+      desc: 'Kanał, dla którego ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów na danym kanale.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kanał, dla którego ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_1:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów na danym kanale.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kanał, dla którego ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_2:
+  args:
+    - action chnl
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów na danym kanale.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kanał, dla którego ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allcmdcooldowns:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie polecenia z aktywnym cooldownem na serwerze.'
+  params: [ ]
+allrolemdls:
+  args:
+    - action @role
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danej roli.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_64
+      desc: 'Rola, dla której ustawić uprawnienia.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole:
+  args:
+    - action @role
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danej roli.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Rola, dla której ustawić uprawnienia.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_1:
+  args:
+    - action @role
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danej roli.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Rola, dla której ustawić uprawnienia.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_2:
+  args:
+    - action @role
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danej roli.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Rola, dla której ustawić uprawnienia.'
+      name: role
+      optional: false
+      type: IRole
+allsrvrmdls:
+  args:
+    - action
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla całego serwera.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+allusrmdls:
+  args:
+    - action @user
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danego użytkownika.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_65
+      desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser:
+  args:
+    - action @user
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danego użytkownika.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_1:
+  args:
+    - action @user
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danego użytkownika.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_2:
+  args:
+    - action @user
+  desc: 'Dodaje lub usuwa uprawnienia dla wszystkich modułów dla danego użytkownika.'
+  params:
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IUser
+autobanword:
+  args:
+    - text
+  desc: 'Przełącza słowo na automatycznej liście banów dla bieżącego serwera (dodaje lub usuwa).'
+  params:
+    - &ref_89
+      desc: 'Słowo do przełączenia na automatycznej liście banów.'
+      name: word
+      optional: false
+      type: string
+autobanword_string:
+  args:
+    - text
+  desc: 'Przełącza słowo na automatycznej liście banów dla bieżącego serwera (dodaje lub usuwa).'
+  params:
+    - desc: 'Słowo do przełączenia na automatycznej liście banów.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_1:
+  args:
+    - text
+  desc: 'Przełącza słowo na automatycznej liście banów dla bieżącego serwera (dodaje lub usuwa).'
+  params:
+    - desc: 'Słowo do przełączenia na automatycznej liście banów.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_2:
+  args:
+    - text
+  desc: 'Przełącza słowo na automatycznej liście banów dla bieżącego serwera (dodaje lub usuwa).'
+  params:
+    - desc: 'Słowo do przełączenia na automatycznej liście banów.'
+      name: word
+      optional: false
+      type: string
+autobanwordlist:
+  args:
+    - ''
+  desc: 'Wyświetla stronicowaną listę wszystkich słów z automatycznej listy banów dla bieżącego serwera.'
+  params: [ ]
+autobanwordlist_noparams:
+  args:
+    - ''
+  desc: 'Wyświetla stronicowaną listę wszystkich słów z automatycznej listy banów dla bieżącego serwera.'
+  params: [ ]
+autobanwordlist_noparams_1:
+  args:
+    - ''
+  desc: 'Wyświetla stronicowaną listę wszystkich słów z automatycznej listy banów dla bieżącego serwera.'
+  params: [ ]
+autobanwordlist_noparams_2:
+  args:
+    - ''
+  desc: 'Wyświetla stronicowaną listę wszystkich słów z automatycznej listy banów dla bieżącego serwera.'
+  params: [ ]
+catcmd:
+  args:
+    - command action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla polecenia w danej kategorii.'
+  params:
+    - &ref_120
+      desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - command action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla polecenia w danej kategorii.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - command action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla polecenia w danej kategorii.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - command action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla polecenia w danej kategorii.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl:
+  args:
+    - module action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla modułu w danej kategorii.'
+  params:
+    - &ref_121
+      desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - module action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla modułu w danej kategorii.'
+  params:
+    - desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - module action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla modułu w danej kategorii.'
+  params:
+    - desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - module action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla modułu w danej kategorii.'
+  params:
+    - desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kategoria, dla której ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+channelblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa kanał z czarnej listy na podstawie jego ID, z opcjonalnym powodem.'
+  params:
+    - &ref_122
+      desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_123
+      desc: 'ID kanału.'
+      name: id
+      optional: false
+      type: ulong
+    - &ref_124
+      desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa kanał z czarnej listy na podstawie jego ID, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ID kanału.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa kanał z czarnej listy na podstawie jego ID, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_638
+      desc: 'ID kanału.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa kanał z czarnej listy na podstawie jego ID, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'ID kanału.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+chnlcmd:
+  args:
+    - command action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla kanału dla danego polecenia.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kanał, dla którego ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+chnlfilterinv:
+  args:
+    - ''
+  desc: 'Przełącza filtr linków zaproszeń dla danego kanału.'
+  params: [ ]
+chnlfilterlin:
+  args:
+    - ''
+  desc: 'Przełącza filtr linków dla danego kanału.'
+  params: [ ]
+chnlfilterwords:
+  args:
+    - ''
+  desc: 'Przełącza filtr słów dla danego kanału.'
+  params: [ ]
+chnlmdl:
+  args:
+    - module action chnl
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla kanału dla danego modułu.'
+  params:
+    - desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Kanał, dla którego ustawić uprawnienia.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+cmdcooldown:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Ustawia lub czyści cooldown dla wskazanego polecenia na serwerze.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Czas trwania cooldownu. Domyślnie 0s, co czyści cooldown.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Ustawia lub czyści cooldown dla wskazanego polecenia na serwerze.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Czas trwania cooldownu. Domyślnie 0s, co czyści cooldown.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_1:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Ustawia lub czyści cooldown dla wskazanego polecenia na serwerze.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Czas trwania cooldownu. Domyślnie 0s, co czyści cooldown.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_2:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Ustawia lub czyści cooldown dla wskazanego polecenia na serwerze.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić cooldown.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Czas trwania cooldownu. Domyślnie 0s, co czyści cooldown.'
+      name: time
+      optional: true
+      type: duration
+filterword:
+  args:
+    - text
+  desc: 'Dodaje lub usuwa słowo z listy filtrowanych słów na bieżącym serwerze.'
+  params:
+    - &ref_218
+      desc: 'Słowo do przełączenia na liście filtrowanych słów.'
+      name: word
+      optional: true
+      type: string
+filterword_string:
+  args:
+    - text
+  desc: 'Dodaje lub usuwa słowo z listy filtrowanych słów na bieżącym serwerze.'
+  params:
+    - desc: 'Słowo do przełączenia na liście filtrowanych słów.'
+      name: word
+      optional: true
+      type: string
+filterword_string_1:
+  args:
+    - text
+  desc: 'Dodaje lub usuwa słowo z listy filtrowanych słów na bieżącym serwerze.'
+  params:
+    - desc: 'Słowo do przełączenia na liście filtrowanych słów.'
+      name: word
+      optional: true
+      type: string
+filterword_string_2:
+  args:
+    - text
+  desc: 'Dodaje lub usuwa słowo z listy filtrowanych słów na bieżącym serwerze.'
+  params:
+    - desc: 'Słowo do przełączenia na liście filtrowanych słów.'
+      name: word
+      optional: true
+      type: string
+fwarn:
+  args:
+    - text
+  desc: 'Włącza lub wyłącza ostrzeżenia dla filtrowanych słów na bieżącym serwerze.'
+  params:
+    - &ref_219
+      desc: 'Ciąg określający, czy włączyć („y”), czy wyłączyć („n”) ostrzeżenie.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string:
+  args:
+    - text
+  desc: 'Włącza lub wyłącza ostrzeżenia dla filtrowanych słów na bieżącym serwerze.'
+  params:
+    - desc: 'Ciąg określający, czy włączyć („y”), czy wyłączyć („n”) ostrzeżenie.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_1:
+  args:
+    - text
+  desc: 'Włącza lub wyłącza ostrzeżenia dla filtrowanych słów na bieżącym serwerze.'
+  params:
+    - desc: 'Ciąg określający, czy włączyć („y”), czy wyłączyć („n”) ostrzeżenie.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_2:
+  args:
+    - text
+  desc: 'Włącza lub wyłącza ostrzeżenia dla filtrowanych słów na bieżącym serwerze.'
+  params:
+    - desc: 'Ciąg określający, czy włączyć („y”), czy wyłączyć („n”) ostrzeżenie.'
+      name: yesnt
+      optional: false
+      type: string
+fwclear:
+  args:
+    - ''
+  desc: 'Czyści wszystkie filtrowane słowa na bieżącym serwerze.'
+  params: [ ]
+globalcommand:
+  args:
+    - cmd
+  desc: 'Przełącza polecenie na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - &ref_231
+      desc: 'Polecenie do przełączenia.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo:
+  args:
+    - cmd
+  desc: 'Przełącza polecenie na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - desc: 'Polecenie do przełączenia.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_1:
+  args:
+    - cmd
+  desc: 'Przełącza polecenie na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - desc: 'Polecenie do przełączenia.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_2:
+  args:
+    - cmd
+  desc: 'Przełącza polecenie na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - desc: 'Polecenie do przełączenia.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalmodule:
+  args:
+    - module
+  desc: 'Przełącza moduł na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - &ref_232
+      desc: 'Moduł do przełączenia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo:
+  args:
+    - module
+  desc: 'Przełącza moduł na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - desc: 'Moduł do przełączenia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_1:
+  args:
+    - module
+  desc: 'Przełącza moduł na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - desc: 'Moduł do przełączenia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_2:
+  args:
+    - module
+  desc: 'Przełącza moduł na globalnej liście blokad (dodaje lub usuwa).'
+  params:
+    - desc: 'Moduł do przełączenia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalpermlist:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie aktualnie zablokowane globalnie moduły i polecenia.'
+  params: [ ]
+globalpermlist_noparams:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie aktualnie zablokowane globalnie moduły i polecenia.'
+  params: [ ]
+globalpermlist_noparams_1:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie aktualnie zablokowane globalnie moduły i polecenia.'
+  params: [ ]
+globalpermlist_noparams_2:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie aktualnie zablokowane globalnie moduły i polecenia.'
+  params: [ ]
+invwarn:
+  args:
+    - text
+  desc: 'Włącza lub wyłącza ostrzeżenia dla linków zaproszeń wysyłanych na bieżącym serwerze.'
+  params:
+    - desc: 'Ciąg określający, czy włączyć („y”), czy wyłączyć („n”) ostrzeżenie.'
+      name: yesnt
+      optional: false
+      type: string
+listperms:
+  args:
+    - ''
+  desc: 'Wyświetla uprawnienia dla serwera.'
+  params: [ ]
+lstfilterwords:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie słowa aktualnie znajdujące się na liście filtrowanych słów na bieżącym serwerze.'
+  params: [ ]
+manualblacklistcheck:
+  args:
+    - ''
+  desc: 'Wykonuje ręczne sprawdzenie podmiotów z czarnej listy w zakresie działania bota.'
+  params: [ ]
+moveperm:
+  args:
+    - number number
+  desc: 'Przesuwa uprawnienie wyżej w hierarchii.'
+  params:
+    - &ref_297
+      desc: 'Indeks początkowy'
+      name: from
+      optional: false
+      type: int
+    - &ref_298
+      desc: 'Indeks zastępczy'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int:
+  args:
+    - number number
+  desc: 'Przesuwa uprawnienie wyżej w hierarchii.'
+  params:
+    - desc: 'Indeks początkowy'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Indeks zastępczy'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_1:
+  args:
+    - number number
+  desc: 'Przesuwa uprawnienie wyżej w hierarchii.'
+  params:
+    - desc: 'Indeks początkowy'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Indeks zastępczy'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_2:
+  args:
+    - number number
+  desc: 'Przesuwa uprawnienie wyżej w hierarchii.'
+  params:
+    - desc: 'Indeks początkowy'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Indeks zastępczy'
+      name: to
+      optional: false
+      type: int
+permrole:
+  args:
+    - '[@role]'
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - desc: 'Rola, jeśli jakaś, która ma zostać ustawiona jako rola uprawnień.'
+      name: role
+      optional: true
+      type: role
+permrole_=:
+  args:
+    - '[@role]'
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - desc: 'Rola, jeśli jakaś, która ma zostać ustawiona jako rola uprawnień.'
+      name: role
+      optional: true
+      type: role
+permrole_=_1:
+  args:
+    - '[@role]'
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - desc: 'Rola, jeśli jakaś, która ma zostać ustawiona jako rola uprawnień.'
+      name: role
+      optional: true
+      type: role
+permrole_=_2:
+  args:
+    - '[@role]'
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - desc: 'Rola, jeśli jakaś, która ma zostać ustawiona jako rola uprawnień.'
+      name: role
+      optional: true
+      type: role
+permrole_Reset:
+  args:
+    - reset
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - &ref_342
+      desc: 'Resetuje rolę uprawnień.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_1:
+  args:
+    - reset
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - desc: 'Resetuje rolę uprawnień.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_2:
+  args:
+    - reset
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - desc: 'Resetuje rolę uprawnień.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_3:
+  args:
+    - reset
+  desc: 'Resetuje rolę uprawnień.'
+  params:
+    - desc: 'Resetuje rolę uprawnień.'
+      name: _
+      optional: false
+      type: Reset
+removeperm:
+  args:
+    - number
+  desc: 'Usuwa uprawnienie z listy po jego indeksie.'
+  params:
+    - &ref_405
+      desc: 'Uprawnienie do usunięcia'
+      name: index
+      optional: false
+      type: int
+removeperm_int:
+  args:
+    - number
+  desc: 'Usuwa uprawnienie z listy po jego indeksie.'
+  params:
+    - desc: 'Uprawnienie do usunięcia'
+      name: index
+      optional: false
+      type: int
+removeperm_int_1:
+  args:
+    - number
+  desc: 'Usuwa uprawnienie z listy po jego indeksie.'
+  params:
+    - desc: 'Uprawnienie do usunięcia'
+      name: index
+      optional: false
+      type: int
+removeperm_int_2:
+  args:
+    - number
+  desc: 'Usuwa uprawnienie z listy po jego indeksie.'
+  params:
+    - desc: 'Uprawnienie do usunięcia'
+      name: index
+      optional: false
+      type: int
+resetglobalperms:
+  args:
+    - ''
+  desc: 'Resetuje wszystkie globalne uprawnienia, czyszcząc wszystkie globalne blokady poleceń i modułów.'
+  params: [ ]
+resetperms:
+  args:
+    - ''
+  desc: 'Resetuje uprawnienia dla serwera.'
+  params: [ ]
+rolecmd:
+  args:
+    - command action @role
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla roli dla danego polecenia.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Rola, dla której ustawić uprawnienia.'
+      name: role
+      optional: false
+      type: IRole
+rolemdl:
+  args:
+    - module action @role
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla roli dla danego modułu.'
+  params:
+    - desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Rola, dla której ustawić uprawnienia.'
+      name: role
+      optional: false
+      type: IRole
+serverblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_485
+      desc: 'Obiekt serwera.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_1:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Obiekt serwera.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_2:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Obiekt serwera.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_3:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Obiekt serwera.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa serwer z czarnej listy na podstawie obiektu serwera, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+srvrcmd:
+  args:
+    - command action
+  desc: 'Włącza lub wyłącza polecenie na serwerze.'
+  params:
+    - &ref_556
+      desc: 'Polecenie, na którym wykonać działanie'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_557
+      desc: 'Czy wyłączyć, czy włączyć polecenie'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction:
+  args:
+    - command action
+  desc: 'Włącza lub wyłącza polecenie na serwerze.'
+  params:
+    - desc: 'Polecenie, na którym wykonać działanie'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Czy wyłączyć, czy włączyć polecenie'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_1:
+  args:
+    - command action
+  desc: 'Włącza lub wyłącza polecenie na serwerze.'
+  params:
+    - desc: 'Polecenie, na którym wykonać działanie'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Czy wyłączyć, czy włączyć polecenie'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_2:
+  args:
+    - command action
+  desc: 'Włącza lub wyłącza polecenie na serwerze.'
+  params:
+    - desc: 'Polecenie, na którym wykonać działanie'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Czy wyłączyć, czy włączyć polecenie'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrfilterinv:
+  args:
+    - ''
+  desc: 'Przełącza filtr linków zaproszeń na poziomie całego serwera (włącza lub wyłącza).'
+  params: [ ]
+srvrfilterlin:
+  args:
+    - ''
+  desc: 'Przełącza filtr linków na poziomie całego serwera (włącza lub wyłącza).'
+  params: [ ]
+srvrfilterwords:
+  args:
+    - ''
+  desc: 'Przełącza filtr słów na poziomie całego serwera (włącza lub wyłącza).'
+  params: [ ]
+srvrmdl:
+  args:
+    - module action
+  desc: 'Dodaje lub usuwa uprawnienia na poziomie serwera dla danego modułu.'
+  params:
+    - desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+userblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_637
+      desc: 'Obiekt użytkownika.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_1:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Obiekt użytkownika.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_2:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Obiekt użytkownika.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_3:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Obiekt użytkownika.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+  params:
+    - desc: 'Określa, czy dodać, czy usunąć z czarnej listy.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Dodaje lub usuwa użytkownika z czarnej listy na podstawie obiektu użytkownika, z opcjonalnym powodem.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Powód operacji na czarnej liście.'
+      name: reason
+      optional: true
+      type: string
+usrcmd:
+  args:
+    - command action @user
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla użytkownika dla danego polecenia.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_639
+      desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser:
+  args:
+    - command action @user
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla użytkownika dla danego polecenia.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_1:
+  args:
+    - command action @user
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla użytkownika dla danego polecenia.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_2:
+  args:
+    - command action @user
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla użytkownika dla danego polecenia.'
+  params:
+    - desc: 'Polecenie, dla którego ustawić uprawnienia.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrmdl:
+  args:
+    - module action @user
+  desc: 'Dodaje lub usuwa uprawnienia specyficzne dla użytkownika dla danego modułu.'
+  params:
+    - desc: 'Moduł, dla którego ustawić uprawnienia.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Działanie do wykonania (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Użytkownik, dla którego ustawić uprawnienia.'
+      name: user
+      optional: false
+      type: IGuildUser
+verbose:
+  args:
+    - '[action]'
+  desc: 'Określa, czy polecenia mają zgłaszać błąd, w zależności od problemu podczas używania polecenia.'
+  params:
+    - desc: 'Tylko prawda lub fałsz. Dość bezużyteczne, skoro i tak to przełącznik.'
+      name: action
+      optional: true
+      type: action

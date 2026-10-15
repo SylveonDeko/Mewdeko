@@ -1,0 +1,2313 @@
+addmodalfield:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Bilet oluşturma modaline bir alan ekler'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Alanın etiketi'
+      name: label
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı yapılandırma seçenekleri'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Bilet oluşturma modaline bir alan ekler'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Alanın etiketi'
+      name: label
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı yapılandırma seçenekleri'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_1:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Bilet oluşturma modaline bir alan ekler'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Alanın etiketi'
+      name: label
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı yapılandırma seçenekleri'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_2:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Bilet oluşturma modaline bir alan ekler'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Alanın etiketi'
+      name: label
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı yapılandırma seçenekleri'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_3:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Bilet oluşturma modaline bir alan ekler'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Alanın etiketi'
+      name: label
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı yapılandırma seçenekleri'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_4:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Bilet oluşturma modaline bir alan ekler'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Alanın etiketi'
+      name: label
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı yapılandırma seçenekleri'
+      name: fieldConfig
+      optional: true
+      type: string
+addoption:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Mevcut bir seçim menüsüne seçenek ekler'
+  params:
+    - desc: 'Seçeneğin ekleneceği menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kullanıcılara gösterilen etiket'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Etiketin altında gösterilen isteğe bağlı açıklama'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Etiketin yanında gösterilen isteğe bağlı emoji'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Mevcut bir seçim menüsüne seçenek ekler'
+  params:
+    - desc: 'Seçeneğin ekleneceği menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kullanıcılara gösterilen etiket'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Etiketin altında gösterilen isteğe bağlı açıklama'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Etiketin yanında gösterilen isteğe bağlı emoji'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_1:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Mevcut bir seçim menüsüne seçenek ekler'
+  params:
+    - desc: 'Seçeneğin ekleneceği menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kullanıcılara gösterilen etiket'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Etiketin altında gösterilen isteğe bağlı açıklama'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Etiketin yanında gösterilen isteğe bağlı emoji'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_2:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Mevcut bir seçim menüsüne seçenek ekler'
+  params:
+    - desc: 'Seçeneğin ekleneceği menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kullanıcılara gösterilen etiket'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Etiketin altında gösterilen isteğe bağlı açıklama'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Etiketin yanında gösterilen isteğe bağlı emoji'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_3:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Mevcut bir seçim menüsüne seçenek ekler'
+  params:
+    - desc: 'Seçeneğin ekleneceği menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kullanıcılara gösterilen etiket'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Etiketin altında gösterilen isteğe bağlı açıklama'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Etiketin yanında gösterilen isteğe bağlı emoji'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_4:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Mevcut bir seçim menüsüne seçenek ekler'
+  params:
+    - desc: 'Seçeneğin ekleneceği menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kullanıcılara gösterilen etiket'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Etiketin altında gösterilen isteğe bağlı açıklama'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Etiketin yanında gösterilen isteğe bağlı emoji'
+      name: emoji
+      optional: true
+      type: string
+addselectmenu:
+  args:
+    - panelid
+  desc: 'Bir bilet paneline seçim menüsü ekler.'
+  params:
+    - &ref_31
+      desc: 'Menünün ekleneceği panelin ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong:
+  args:
+    - panelid
+  desc: 'Bir bilet paneline seçim menüsü ekler.'
+  params:
+    - desc: 'Menünün ekleneceği panelin ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_1:
+  args:
+    - panelid
+  desc: 'Bir bilet paneline seçim menüsü ekler.'
+  params:
+    - desc: 'Menünün ekleneceği panelin ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_2:
+  args:
+    - panelid
+  desc: 'Bir bilet paneline seçim menüsü ekler.'
+  params:
+    - desc: 'Menünün ekleneceği panelin ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_3:
+  args:
+    - panelid
+  desc: 'Bir bilet paneline seçim menüsü ekler.'
+  params:
+    - desc: 'Menünün ekleneceği panelin ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_4:
+  args:
+    - panelid
+  desc: 'Bir bilet paneline seçim menüsü ekler.'
+  params:
+    - desc: 'Menünün ekleneceği panelin ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+buttoninfo:
+  args:
+    - number
+  desc: 'Bir düğme hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - &ref_116
+      desc: 'Görüntülenecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int:
+  args:
+    - number
+  desc: 'Bir düğme hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_1:
+  args:
+    - number
+  desc: 'Bir düğme hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_2:
+  args:
+    - number
+  desc: 'Bir düğme hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_3:
+  args:
+    - number
+  desc: 'Bir düğme hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_4:
+  args:
+    - number
+  desc: 'Bir düğme hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+checkpanels:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm panelleri eksik mesajlar için kontrol eder.'
+  params: [ ]
+deletebutton:
+  args:
+    - number
+  desc: 'Bir panelden düğme siler.'
+  params:
+    - &ref_186
+      desc: 'Silinecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int:
+  args:
+    - number
+  desc: 'Bir panelden düğme siler.'
+  params:
+    - desc: 'Silinecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_1:
+  args:
+    - number
+  desc: 'Bir panelden düğme siler.'
+  params:
+    - desc: 'Silinecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_2:
+  args:
+    - number
+  desc: 'Bir panelden düğme siler.'
+  params:
+    - desc: 'Silinecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_3:
+  args:
+    - number
+  desc: 'Bir panelden düğme siler.'
+  params:
+    - desc: 'Silinecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_4:
+  args:
+    - number
+  desc: 'Bir panelden düğme siler.'
+  params:
+    - desc: 'Silinecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+deleteselectmenu:
+  args:
+    - number
+  desc: 'Bir panelden seçim menüsünü siler.'
+  params:
+    - desc: 'Silinecek seçim menüsünün ID''si.'
+      name: menuId
+      optional: false
+      type: int
+deleteselectoption:
+  args:
+    - number
+  desc: 'Bir seçim menüsünden belirli bir seçeneği siler.'
+  params:
+    - desc: 'Silinecek seçim menüsü seçeneğinin ID''si.'
+      name: optionId
+      optional: false
+      type: int
+listmodalfields:
+  args:
+    - number
+  desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+  params:
+    - &ref_277
+      desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int:
+  args:
+    - number
+  desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+  params:
+    - desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_1:
+  args:
+    - number
+  desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+  params:
+    - desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_2:
+  args:
+    - number
+  desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+  params:
+    - desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_3:
+  args:
+    - number
+  desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+  params:
+    - desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_4:
+  args:
+    - number
+  desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+  params:
+    - desc: 'Bir bilet oluşturma modalindeki tüm alanları listeler'
+      name: buttonId
+      optional: false
+      type: int
+listoptions:
+  args:
+    - text
+  desc: 'Bir seçim menüsündeki tüm seçenekleri listeler'
+  params:
+    - &ref_278
+      desc: 'Görüntülenecek menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string:
+  args:
+    - text
+  desc: 'Bir seçim menüsündeki tüm seçenekleri listeler'
+  params:
+    - desc: 'Görüntülenecek menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_1:
+  args:
+    - text
+  desc: 'Bir seçim menüsündeki tüm seçenekleri listeler'
+  params:
+    - desc: 'Görüntülenecek menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_2:
+  args:
+    - text
+  desc: 'Bir seçim menüsündeki tüm seçenekleri listeler'
+  params:
+    - desc: 'Görüntülenecek menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_3:
+  args:
+    - text
+  desc: 'Bir seçim menüsündeki tüm seçenekleri listeler'
+  params:
+    - desc: 'Görüntülenecek menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_4:
+  args:
+    - text
+  desc: 'Bir seçim menüsündeki tüm seçenekleri listeler'
+  params:
+    - desc: 'Görüntülenecek menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+panelinfo:
+  args:
+    - panelid
+  desc: 'Bir bilet paneli hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - &ref_335
+      desc: 'Görüntülenecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong:
+  args:
+    - panelid
+  desc: 'Bir bilet paneli hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_1:
+  args:
+    - panelid
+  desc: 'Bir bilet paneli hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_2:
+  args:
+    - panelid
+  desc: 'Bir bilet paneli hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_3:
+  args:
+    - panelid
+  desc: 'Bir bilet paneli hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_4:
+  args:
+    - panelid
+  desc: 'Bir bilet paneli hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'Görüntülenecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+panellist:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm bilet panellerini listeler.'
+  params: [ ]
+panellist_noparams:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm bilet panellerini listeler.'
+  params: [ ]
+panellist_noparams_1:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm bilet panellerini listeler.'
+  params: [ ]
+panellist_noparams_2:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm bilet panellerini listeler.'
+  params: [ ]
+panellist_noparams_3:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm bilet panellerini listeler.'
+  params: [ ]
+panellist_noparams_4:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm bilet panellerini listeler.'
+  params: [ ]
+recreateallpanels:
+  args:
+    - ''
+  desc: 'Eksik mesajı olan tüm panelleri yeniden oluşturur.'
+  params: [ ]
+recreatepanel:
+  args:
+    - number
+  desc: 'Silinmiş bir bilet panelini özgün kanalında yeniden oluşturur.'
+  params:
+    - desc: 'Yeniden oluşturulacak panelin mesaj ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+removemodalfield:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+  params:
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_401
+      desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+  params:
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_1:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+  params:
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_2:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+  params:
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_3:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+  params:
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_4:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+  params:
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Bir bilet oluşturma modalinden bir alanı kaldırır'
+      name: fieldId
+      optional: false
+      type: string
+removeoption:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünden bir seçeneği kaldırır'
+  params:
+    - &ref_403
+      desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_404
+      desc: 'Kaldırılacak seçeneğin değeri'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünden bir seçeneği kaldırır'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kaldırılacak seçeneğin değeri'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_1:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünden bir seçeneği kaldırır'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kaldırılacak seçeneğin değeri'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_2:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünden bir seçeneği kaldırır'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kaldırılacak seçeneğin değeri'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_3:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünden bir seçeneği kaldırır'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kaldırılacak seçeneğin değeri'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_4:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünden bir seçeneği kaldırır'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Kaldırılacak seçeneğin değeri'
+      name: optionValue
+      optional: false
+      type: string
+setautoclose:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için otomatik kapanma süresini ayarlar.'
+  params:
+    - &ref_487
+      desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_488
+      desc: 'Otomatik kapanmadan önceki hareketsizlik saat sayısı; devre dışı bırakmak için null.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için otomatik kapanma süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Otomatik kapanmadan önceki hareketsizlik saat sayısı; devre dışı bırakmak için null.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için otomatik kapanma süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Otomatik kapanmadan önceki hareketsizlik saat sayısı; devre dışı bırakmak için null.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için otomatik kapanma süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Otomatik kapanmadan önceki hareketsizlik saat sayısı; devre dışı bırakmak için null.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için otomatik kapanma süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Otomatik kapanmadan önceki hareketsizlik saat sayısı; devre dışı bırakmak için null.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için otomatik kapanma süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Otomatik kapanmadan önceki hareketsizlik saat sayısı; devre dışı bırakmak için null.'
+      name: hours
+      optional: true
+      type: int
+setmodaltitle:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modali için başlığı ayarlar'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_506
+      desc: 'Modalde gösterilecek başlık'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modali için başlığı ayarlar'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Modalde gösterilecek başlık'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_1:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modali için başlığı ayarlar'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Modalde gösterilecek başlık'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_2:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modali için başlığı ayarlar'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Modalde gösterilecek başlık'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_3:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modali için başlığı ayarlar'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Modalde gösterilecek başlık'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_4:
+  args:
+    - number text
+  desc: 'Bir bilet oluşturma modali için başlığı ayarlar'
+  params:
+    - desc: 'Yapılandırılacak düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Modalde gösterilecek başlık'
+      name: title
+      optional: false
+      type: string
+setpaneltranscripts:
+  args:
+    - panelid true|false
+  desc: 'Bir panel için transkript kaydetmeyi etkinleştirir veya devre dışı bırakır.'
+  params:
+    - &ref_510
+      desc: 'Değiştirilecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_511
+      desc: 'Transkript kaydının etkinleştirilip etkinleştirilmeyeceği.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool:
+  args:
+    - panelid true|false
+  desc: 'Bir panel için transkript kaydetmeyi etkinleştirir veya devre dışı bırakır.'
+  params:
+    - desc: 'Değiştirilecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Transkript kaydının etkinleştirilip etkinleştirilmeyeceği.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_1:
+  args:
+    - panelid true|false
+  desc: 'Bir panel için transkript kaydetmeyi etkinleştirir veya devre dışı bırakır.'
+  params:
+    - desc: 'Değiştirilecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Transkript kaydının etkinleştirilip etkinleştirilmeyeceği.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_2:
+  args:
+    - panelid true|false
+  desc: 'Bir panel için transkript kaydetmeyi etkinleştirir veya devre dışı bırakır.'
+  params:
+    - desc: 'Değiştirilecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Transkript kaydının etkinleştirilip etkinleştirilmeyeceği.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_3:
+  args:
+    - panelid true|false
+  desc: 'Bir panel için transkript kaydetmeyi etkinleştirir veya devre dışı bırakır.'
+  params:
+    - desc: 'Değiştirilecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Transkript kaydının etkinleştirilip etkinleştirilmeyeceği.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_4:
+  args:
+    - panelid true|false
+  desc: 'Bir panel için transkript kaydetmeyi etkinleştirir veya devre dışı bırakır.'
+  params:
+    - desc: 'Değiştirilecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Transkript kaydının etkinleştirilip etkinleştirilmeyeceği.'
+      name: enable
+      optional: false
+      type: bool
+setplaceholder:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünün yer tutucu metnini günceller'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_512
+      desc: 'Yeni yer tutucu metni'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünün yer tutucu metnini günceller'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Yeni yer tutucu metni'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_1:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünün yer tutucu metnini günceller'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Yeni yer tutucu metni'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_2:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünün yer tutucu metnini günceller'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Yeni yer tutucu metni'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_3:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünün yer tutucu metnini günceller'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Yeni yer tutucu metni'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_4:
+  args:
+    - text text
+  desc: 'Bir seçim menüsünün yer tutucu metnini günceller'
+  params:
+    - desc: 'Menünün ID''si'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Yeni yer tutucu metni'
+      name: placeholder
+      optional: false
+      type: string
+setresponsetime:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için gereken yanıt süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_518
+      desc: 'Dakika sayısı; devre dışı bırakmak için null.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için gereken yanıt süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Dakika sayısı; devre dışı bırakmak için null.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için gereken yanıt süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Dakika sayısı; devre dışı bırakmak için null.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için gereken yanıt süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Dakika sayısı; devre dışı bırakmak için null.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için gereken yanıt süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Dakika sayısı; devre dışı bırakmak için null.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Bir düğme tarafından oluşturulan biletler için gereken yanıt süresini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek düğmenin ID''si.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Dakika sayısı; devre dışı bırakmak için null.'
+      name: minutes
+      optional: true
+      type: int
+ticketaddbutton:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Mevcut bir bilet paneline düğme ekler.'
+  params:
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Mevcut bir bilet paneline düğme ekler.'
+  params:
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_1:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Mevcut bir bilet paneline düğme ekler.'
+  params:
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_2:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Mevcut bir bilet paneline düğme ekler.'
+  params:
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Mevcut bir bilet paneline düğme ekler.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddpriority:
+  args:
+    - text text text number true|false time text
+  desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+  params:
+    - &ref_599
+      desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - &ref_600
+      desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: emoji
+      optional: false
+      type: string
+    - &ref_601
+      desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: level
+      optional: false
+      type: int
+    - &ref_602
+      desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - &ref_603
+      desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - &ref_604
+      desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string:
+  args:
+    - text text text number true|false time text
+  desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+  params:
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_1:
+  args:
+    - text text text number true|false time text
+  desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+  params:
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_2:
+  args:
+    - text text text number true|false time text
+  desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+  params:
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Biletler için yeni bir öncelik seviyesi oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag:
+  args:
+    - text text text text
+  desc: 'Biletler için yeni bir etiket oluşturur.'
+  params:
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - &ref_605
+      desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string:
+  args:
+    - text text text text
+  desc: 'Biletler için yeni bir etiket oluşturur.'
+  params:
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_1:
+  args:
+    - text text text text
+  desc: 'Biletler için yeni bir etiket oluşturur.'
+  params:
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_2:
+  args:
+    - text text text text
+  desc: 'Biletler için yeni bir etiket oluşturur.'
+  params:
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Biletler için yeni bir etiket oluşturur.'
+      name: color
+      optional: false
+      type: string
+ticketaddtags:
+  args:
+    - text
+  desc: 'Mevcut bilete etiket ekler.'
+  params:
+    - &ref_606
+      desc: 'Mevcut bilete etiket ekler.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]:
+  args:
+    - text
+  desc: 'Mevcut bilete etiket ekler.'
+  params:
+    - desc: 'Mevcut bilete etiket ekler.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_1:
+  args:
+    - text
+  desc: 'Mevcut bilete etiket ekler.'
+  params:
+    - desc: 'Mevcut bilete etiket ekler.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_2:
+  args:
+    - text
+  desc: 'Mevcut bilete etiket ekler.'
+  params:
+    - desc: 'Mevcut bilete etiket ekler.'
+      name: tags
+      optional: false
+      type: string[]
+ticketarchive:
+  args:
+    - ''
+  desc: 'Bir bileti arşivler; ayarlandıysa arşiv kategorisine taşır.'
+  params: [ ]
+ticketarchivecategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Kapatılan biletlerin arşivleneceği kategoriyi ayarlar.'
+  params:
+    - desc: 'Kapatılan biletlerin arşivleneceği kategoriyi ayarlar.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Kapatılan biletlerin arşivleneceği kategoriyi ayarlar.'
+      name: category
+      optional: true
+      type: category
+ticketautoarchive:
+  args:
+    - number boolean
+  desc: 'Bir düğme için otomatik arşiv davranışını ayarlar'
+  params:
+    - desc: 'Otomatik arşivin yapılandırılacağı düğme ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Kapanışta otomatik arşivin etkinleştirilip etkinleştirilmeyeceği'
+      name: enabled
+      optional: true
+      type: bool
+ticketautoclose:
+  args:
+    - '<buttonId> [hours]'
+    - number
+  desc: 'Bir bilet türü için otomatik kapanma süresini ayarlar.'
+  params:
+    - desc: 'Bir bilet türü için otomatik kapanma süresini ayarlar.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Bir bilet türü için otomatik kapanma süresini ayarlar.'
+      name: hours
+      optional: true
+      type: int
+ticketblock:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Bir kullanıcının bilet oluşturmasını engeller.'
+  params:
+    - desc: 'Bir kullanıcının bilet oluşturmasını engeller.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Bir kullanıcının bilet oluşturmasını engeller.'
+      name: reason
+      optional: true
+      type: string
+ticketcategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Biletlerin oluşturulacağı kategoriyi ayarlar.'
+  params:
+    - desc: 'Biletlerin oluşturulacağı kategoriyi ayarlar.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Biletlerin oluşturulacağı kategoriyi ayarlar.'
+      name: category
+      optional: true
+      type: category
+ticketclaim:
+  args:
+    - ''
+  desc: 'Mevcut bileti yetkili olarak üstlenir.'
+  params: [ ]
+ticketclose:
+  args:
+    - ''
+  desc: 'Mevcut bileti kapatır.'
+  params: [ ]
+ticketclosebehavior:
+  args:
+    - number bool bool bool bool number
+  desc: 'Bir düğme için birden fazla kapatma davranışını aynı anda ayarlar'
+  params:
+    - desc: 'Kapatma davranışını ayarlamak istediğin düğmenin ID''si'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Kapatırken otomatik arşivlensin mi'
+      name: autoArchive
+      optional: true
+      type: bool?
+    - desc: 'Kapatırken bilet silinsin mi'
+      name: deleteOnClose
+      optional: true
+      type: bool?
+    - desc: 'Kapatırken bilet kilitlensin mi'
+      name: lockOnClose
+      optional: true
+      type: bool?
+    - desc: 'Kapatırken bilet yeniden adlandırılsın mı'
+      name: renameOnClose
+      optional: true
+      type: bool?
+    - desc: 'Silinmeden önce beklenecek dakika sayısı'
+      name: deleteDelayMinutes
+      optional: true
+      type: int?
+ticketcloseinactive:
+  args:
+    - number
+  desc: 'Hareketsiz biletleri kapatır.'
+  params:
+    - &ref_607
+      desc: 'Hareketsiz biletleri kapatır.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int:
+  args:
+    - number
+  desc: 'Hareketsiz biletleri kapatır.'
+  params:
+    - desc: 'Hareketsiz biletleri kapatır.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_1:
+  args:
+    - number
+  desc: 'Hareketsiz biletleri kapatır.'
+  params:
+    - desc: 'Hareketsiz biletleri kapatır.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_2:
+  args:
+    - number
+  desc: 'Hareketsiz biletleri kapatır.'
+  params:
+    - desc: 'Hareketsiz biletleri kapatır.'
+      name: hours
+      optional: false
+      type: int
+ticketcreatecase:
+  args:
+    - text text
+  desc: 'Yeni bir bilet talebi oluşturur.'
+  params:
+    - &ref_608
+      desc: 'Yeni bir bilet talebi oluşturur.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Yeni bir bilet talebi oluşturur.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string:
+  args:
+    - text text
+  desc: 'Yeni bir bilet talebi oluşturur.'
+  params:
+    - desc: 'Yeni bir bilet talebi oluşturur.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Yeni bir bilet talebi oluşturur.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_1:
+  args:
+    - text text
+  desc: 'Yeni bir bilet talebi oluşturur.'
+  params:
+    - desc: 'Yeni bir bilet talebi oluşturur.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Yeni bir bilet talebi oluşturur.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_2:
+  args:
+    - text text
+  desc: 'Yeni bir bilet talebi oluşturur.'
+  params:
+    - desc: 'Yeni bir bilet talebi oluşturur.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Yeni bir bilet talebi oluşturur.'
+      name: description
+      optional: false
+      type: string
+ticketduplicatepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Bir bilet panelini çoğaltır.'
+  params:
+    - desc: 'Bir bilet panelini çoğaltır.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_609
+      desc: 'Bir bilet panelini çoğaltır.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel:
+  args:
+    - panelid targetchannel
+  desc: 'Bir bilet panelini çoğaltır.'
+  params:
+    - desc: 'Bir bilet panelini çoğaltır.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Bir bilet panelini çoğaltır.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_1:
+  args:
+    - panelid targetchannel
+  desc: 'Bir bilet panelini çoğaltır.'
+  params:
+    - desc: 'Bir bilet panelini çoğaltır.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Bir bilet panelini çoğaltır.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_2:
+  args:
+    - panelid targetchannel
+  desc: 'Bir bilet panelini çoğaltır.'
+  params:
+    - desc: 'Bir bilet panelini çoğaltır.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Bir bilet panelini çoğaltır.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketlinkcase:
+  args:
+    - number
+  desc: 'Mevcut bileti bir vakaya bağlar.'
+  params:
+    - &ref_610
+      desc: 'Mevcut bileti bir vakaya bağlar.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int:
+  args:
+    - number
+  desc: 'Mevcut bileti bir vakaya bağlar.'
+  params:
+    - desc: 'Mevcut bileti bir vakaya bağlar.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_1:
+  args:
+    - number
+  desc: 'Mevcut bileti bir vakaya bağlar.'
+  params:
+    - desc: 'Mevcut bileti bir vakaya bağlar.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_2:
+  args:
+    - number
+  desc: 'Mevcut bileti bir vakaya bağlar.'
+  params:
+    - desc: 'Mevcut bileti bir vakaya bağlar.'
+      name: caseId
+      optional: false
+      type: int
+ticketlistpanel:
+  args:
+    - panelid
+  desc: 'Belirli bir bilet panelinin tüm bileşenlerini listeler'
+  params:
+    - &ref_611
+      desc: 'İncelenecek panelin mesaj ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong:
+  args:
+    - panelid
+  desc: 'Belirli bir bilet panelinin tüm bileşenlerini listeler'
+  params:
+    - desc: 'İncelenecek panelin mesaj ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_1:
+  args:
+    - panelid
+  desc: 'Belirli bir bilet panelinin tüm bileşenlerini listeler'
+  params:
+    - desc: 'İncelenecek panelin mesaj ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_2:
+  args:
+    - panelid
+  desc: 'Belirli bir bilet panelinin tüm bileşenlerini listeler'
+  params:
+    - desc: 'İncelenecek panelin mesaj ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_3:
+  args:
+    - panelid
+  desc: 'Belirli bir bilet panelinin tüm bileşenlerini listeler'
+  params:
+    - desc: 'İncelenecek panelin mesaj ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_4:
+  args:
+    - panelid
+  desc: 'Belirli bir bilet panelinin tüm bileşenlerini listeler'
+  params:
+    - desc: 'İncelenecek panelin mesaj ID''si'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanels:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm bilet panellerini listeler'
+  params: [ ]
+ticketlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'Biletler için kayıt kanalını ayarlar.'
+  params:
+    - desc: 'Biletler için kayıt kanalını ayarlar.'
+      name: channel
+      optional: true
+      type: channel
+ticketmoveall:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Tüm biletleri kategoriler arasında taşır.'
+  params:
+    - &ref_612
+      desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - &ref_613
+      desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Tüm biletleri kategoriler arasında taşır.'
+  params:
+    - desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_1:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Tüm biletleri kategoriler arasında taşır.'
+  params:
+    - desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_2:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Tüm biletleri kategoriler arasında taşır.'
+  params:
+    - desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Tüm biletleri kategoriler arasında taşır.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmovepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Bir bilet panelini başka bir kanala taşır.'
+  params:
+    - desc: 'Bir bilet panelini başka bir kanala taşır.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Bir bilet panelini başka bir kanala taşır.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketnote:
+  args:
+    - text
+  desc: 'Mevcut bilete not ekler.'
+  params:
+    - &ref_614
+      desc: 'Mevcut bilete not ekler.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string:
+  args:
+    - text
+  desc: 'Mevcut bilete not ekler.'
+  params:
+    - desc: 'Mevcut bilete not ekler.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_1:
+  args:
+    - text
+  desc: 'Mevcut bilete not ekler.'
+  params:
+    - desc: 'Mevcut bilete not ekler.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_2:
+  args:
+    - text
+  desc: 'Mevcut bilete not ekler.'
+  params:
+    - desc: 'Mevcut bilete not ekler.'
+      name: content
+      optional: false
+      type: string
+ticketpanel:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Bir bilet paneli oluşturur'
+  params:
+    - desc: 'Bir bilet paneli oluşturur'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Bir bilet paneli oluşturur'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Bir bilet paneli oluşturur'
+  params:
+    - desc: 'Bir bilet paneli oluşturur'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Bir bilet paneli oluşturur'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_1:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Bir bilet paneli oluşturur'
+  params:
+    - desc: 'Bir bilet paneli oluşturur'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Bir bilet paneli oluşturur'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_2:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Bir bilet paneli oluşturur'
+  params:
+    - desc: 'Bir bilet paneli oluşturur'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Bir bilet paneli oluşturur'
+      name: embedJson
+      optional: true
+      type: string
+ticketpaneldelete:
+  args:
+    - panelid
+  desc: 'Mevcut bir bilet panelini siler.'
+  params:
+    - desc: 'Silinecek panelin ID''si.'
+      name: panelId
+      optional: false
+      type: ulong
+ticketpriority:
+  args:
+    - text
+  desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+  params:
+    - &ref_615
+      desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string:
+  args:
+    - text
+  desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+  params:
+    - desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_1:
+  args:
+    - text
+  desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+  params:
+    - desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_2:
+  args:
+    - text
+  desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+  params:
+    - desc: 'Mevcut bilet için öncelik seviyesini ayarlar.'
+      name: priority
+      optional: false
+      type: string
+ticketremovepriority:
+  args:
+    - text
+  desc: 'Bir öncelik seviyesini siler.'
+  params:
+    - &ref_616
+      desc: 'Bir öncelik seviyesini siler.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string:
+  args:
+    - text
+  desc: 'Bir öncelik seviyesini siler.'
+  params:
+    - desc: 'Bir öncelik seviyesini siler.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_1:
+  args:
+    - text
+  desc: 'Bir öncelik seviyesini siler.'
+  params:
+    - desc: 'Bir öncelik seviyesini siler.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_2:
+  args:
+    - text
+  desc: 'Bir öncelik seviyesini siler.'
+  params:
+    - desc: 'Bir öncelik seviyesini siler.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovetag:
+  args:
+    - text
+  desc: 'Bir etiketi kaldırır.'
+  params:
+    - &ref_617
+      desc: 'Bir etiketi kaldırır.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string:
+  args:
+    - text
+  desc: 'Bir etiketi kaldırır.'
+  params:
+    - desc: 'Bir etiketi kaldırır.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_1:
+  args:
+    - text
+  desc: 'Bir etiketi kaldırır.'
+  params:
+    - desc: 'Bir etiketi kaldırır.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_2:
+  args:
+    - text
+  desc: 'Bir etiketi kaldırır.'
+  params:
+    - desc: 'Bir etiketi kaldırır.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetags:
+  args:
+    - text
+  desc: 'Mevcut biletten etiketleri kaldırır.'
+  params:
+    - desc: 'Mevcut biletten etiketleri kaldırır.'
+      name: tags
+      optional: false
+      type: string[]
+ticketresponsetime:
+  args:
+    - '<buttonId> [minutes]'
+    - number
+  desc: 'Bir bilet türü için gereken yanıt süresini ayarlar.'
+  params:
+    - desc: 'Bir bilet türü için gereken yanıt süresini ayarlar.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Bir bilet türü için gereken yanıt süresini ayarlar.'
+      name: minutes
+      optional: true
+      type: int
+ticketstats:
+  args:
+    - ''
+  desc: 'Sunucunun bilet istatistiklerini gösterir.'
+  params: [ ]
+tickettranscriptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Biletler için transkript kanalını ayarlar.'
+  params:
+    - desc: 'Biletler için transkript kanalını ayarlar.'
+      name: channel
+      optional: true
+      type: channel
+ticketunblock:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının bilet oluşturma engelini kaldırır.'
+  params:
+    - desc: 'Bir kullanıcının bilet oluşturma engelini kaldırır.'
+      name: user
+      optional: false
+      type: IGuildUser
+ticketunclaim:
+  args:
+    - ''
+  desc: 'Mevcut biletin üstlenilmesini bırakır.'
+  params: [ ]
+ticketunlinkcase:
+  args:
+    - ''
+  desc: 'Mevcut bileti bağlı olduğu vakadan ayırır.'
+  params: [ ]
+ticketupdatepanel:
+  args:
+    - panelid text
+  desc: 'Bir bilet panelinin embed''ini günceller.'
+  params:
+    - desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_618
+      desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string:
+  args:
+    - panelid text
+  desc: 'Bir bilet panelinin embed''ini günceller.'
+  params:
+    - desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_1:
+  args:
+    - panelid text
+  desc: 'Bir bilet panelinin embed''ini günceller.'
+  params:
+    - desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_2:
+  args:
+    - panelid text
+  desc: 'Bir bilet panelinin embed''ini günceller.'
+  params:
+    - desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Bir bilet panelinin embed''ini günceller.'
+      name: embedJson
+      optional: false
+      type: string
+ticketuserstats:
+  args:
+    - '[@user]'
+  desc: 'Bir kullanıcının bilet istatistiklerini gösterir.'
+  params:
+    - desc: 'Bir kullanıcının bilet istatistiklerini gösterir.'
+      name: user
+      optional: true
+      type: user

@@ -20,6 +20,7 @@
   "giveaway_entry_successful": "抽奖参与成功！",
   "giveaway_guild_not_found": "找不到此抽奖所在的服务器。",
   "giveaway_host_message_removed": "抽奖主持人消息已移除。",
+  "giveaway_host_message_set": "抽奖主持消息已设置。",
   "giveaway_invalid_color": "这不是有效的颜色！请使用正确的十六进制（以 # 开头）或使用 HTML 颜色名称！",
   "giveaway_invalid_emote": "我无法为抽奖使用该表情！最可能的原因是我不在拥有该表情的服务器中。",
   "giveaway_invalid_emote_current": "当前抽奖表情无效或我无法访问！请重新设置并开始新的抽奖。",

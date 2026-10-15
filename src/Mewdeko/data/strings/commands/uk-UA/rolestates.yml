@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Додає ролі до стану ролей користувача.'
+  params:
+    - &ref_26
+      desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'Ролі, які потрібно додати до стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Додає ролі до стану ролей користувача.'
+  params:
+    - &ref_27
+      desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Ролі, які потрібно додати до стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Додає ролі до стану ролей користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Ролі, які потрібно додати до стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Додає ролі до стану ролей користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Ролі, які потрібно додати до стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - &ref_191
+      desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Видаляє стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно видалити.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Знімає ролі зі стану ролей користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'Ролі, які потрібно зняти зі стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Знімає ролі зі стану ролей користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Ролі, які потрібно зняти зі стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Знімає ролі зі стану ролей користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Ролі, які потрібно зняти зі стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Знімає ролі зі стану ролей користувача.'
+  params:
+    - desc: 'Користувач, стан ролей якого потрібно змінити.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Ролі, які потрібно зняти зі стану ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Додає ролі до списку заборонених для функції станів ролей.'
+  params:
+    - &ref_463
+      desc: 'Ролі, які потрібно додати до списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Додає ролі до списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Ролі, які потрібно додати до списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Додає ролі до списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Ролі, які потрібно додати до списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Додає ролі до списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Ролі, які потрібно додати до списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Додає користувачів до списку заборонених для функції станів ролей.'
+  params:
+    - &ref_464
+      desc: 'Користувачі, яких потрібно додати до списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Додає користувачів до списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Користувачі, яких потрібно додати до списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Додає користувачів до списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Користувачі, яких потрібно додати до списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Додає користувачів до списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Користувачі, яких потрібно додати до списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Видаляє користувача зі станів ролей або забороняє йому їх.'
+  params:
+    - desc: 'Користувач, якого потрібно видалити або заборонити для станів ролей.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Видаляє ролі зі списку заборонених для функції станів ролей.'
+  params:
+    - &ref_465
+      desc: 'Ролі, які потрібно видалити зі списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Видаляє ролі зі списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Ролі, які потрібно видалити зі списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Видаляє ролі зі списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Ролі, які потрібно видалити зі списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Видаляє ролі зі списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Ролі, які потрібно видалити зі списку заборонених.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Видаляє користувачів зі списку заборонених для функції станів ролей.'
+  params:
+    - &ref_466
+      desc: 'Користувачі, яких потрібно видалити зі списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Видаляє користувачів зі списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Користувачі, яких потрібно видалити зі списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Видаляє користувачів зі списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Користувачі, яких потрібно видалити зі списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Видаляє користувачів зі списку заборонених для функції станів ролей.'
+  params:
+    - desc: 'Користувачі, яких потрібно видалити зі списку заборонених.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Зберігає стани ролей для всіх користувачів на сервері.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Встановлює стан ролей для конкретного користувача.'
+  params:
+    - &ref_529
+      desc: 'Користувач, для якого потрібно встановити стан ролей.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'Ролі, які мають бути у стані ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Встановлює стан ролей для конкретного користувача.'
+  params:
+    - &ref_531
+      desc: 'Користувач, для якого потрібно встановити стан ролей.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які мають бути у стані ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Встановлює стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, для якого потрібно встановити стан ролей.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які мають бути у стані ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Встановлює стан ролей для конкретного користувача.'
+  params:
+    - desc: 'Користувач, для якого потрібно встановити стан ролей.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ролі, які мають бути у стані ролей користувача.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Вмикає або вимикає функцію станів ролей.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Перемикає, чи очищувати стани ролей, коли користувача забанено.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Перемикає, чи ігнорувати ботів у функції станів ролей.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Перемикає, чи пропускати автоматичну видачу ролей для користувачів зі збереженими станами ролей.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Переносить стани ролей з поточного сервера на інший сервер.'
+  params:
+    - &ref_627
+      desc: 'ID цільового сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Переносить стани ролей з поточного сервера на інший сервер.'
+  params:
+    - desc: 'ID цільового сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Переносить стани ролей з поточного сервера на інший сервер.'
+  params:
+    - desc: 'ID цільового сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Переносить стани ролей з поточного сервера на інший сервер.'
+  params:
+    - desc: 'ID цільового сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Показує всі стани ролей користувачів на сервері.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Показує поточні налаштування функції станів ролей.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Показує стани ролей для всіх користувачів.'
+  params: [ ]

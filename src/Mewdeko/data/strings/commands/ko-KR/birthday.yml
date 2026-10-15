@@ -1,73 +1,69 @@
 birthdayannouncements:
   args:
     - ''
-  desc: '사용자의 생일 공지를 토글합니다.'
+  desc: '사용자의 생일 알림을 켜거나 꺼요.'
   params: [ ]
 birthdaychannel:
   args:
     - '#channel'
-  desc: '생일 공지 채널을 설정합니다.'
+  desc: '생일 알림 채널을 설정해요.'
   params:
-    - desc: >-
-        공지에 사용할 텍스트 채널입니다. 지정하지 않으면 현재 채널이
-        기본값입니다.
+    - desc: '알림을 보낼 텍스트 채널이에요. 지정하지 않으면 현재 채널을 사용해요.'
       name: channel
       optional: true
       type: ITextChannel
 birthdayconfig:
   args:
     - ''
-  desc: '현재 생일 구성을 확인합니다.'
+  desc: '현재 생일 설정을 보여줘요.'
   params: [ ]
 birthdaylist:
   args:
     - days
-  desc: '서버에서 다가오는 생일을 표시합니다.'
+  desc: '서버의 다가오는 생일을 보여줘요.'
   params:
-    - desc: 며칠 앞을 볼지. 기본 7, 최대 30.
+    - desc: '며칠 뒤까지 볼지 정해요. 기본값은 7, 최대 30이에요.'
       name: days
       optional: true
       type: int
 birthdaymessage:
   args:
     - message
-  desc: '사용자 정의 생일 메시지 템플릿을 설정합니다.'
+  desc: '사용자 지정 생일 메시지 템플릿을 설정해요.'
   params:
-    - desc: >-
-        메시지 템플릿. {user}를 사용하여 사용자를 언급하세요. 비워두면
-        현재 메시지를 표시합니다.
+    - desc: '메시지 템플릿이에요. {user}를 쓰면 사용자를 멘션해요. 비워두면 현재 메시지를 보여줘요.'
       name: message
       optional: true
       type: string
 birthdaypingrole:
   args:
     - '@role'
-  desc: '생일을 공지할 때 핑할 역할을 설정합니다.'
+  desc: '생일 알림에서 멘션할 역할을 설정해요.'
   params:
-    - desc: 핑할 역할. 비활성화하려면 역할을 제공하지 마세요.
+    - desc: '멘션할 역할이에요. 역할을 입력하지 않으면 이 기능을 꺼요.'
       name: role
       optional: true
       type: IRole
 birthdayrole:
   args:
     - '@role'
-  desc: '사용자가 생일에 받는 생일 역할을 설정합니다.'
+  desc: '사용자의 생일에 부여할 생일 역할을 설정해요.'
   params:
-    - desc: 사용자의 생일에 부여할 역할. 비활성화하려면 역할을 제공하지 마세요.
+    - desc: '사용자의 생일에 부여할 역할이에요. 역할을 입력하지 않으면 이 기능을 꺼요.'
       name: role
       optional: true
       type: IRole
 birthdaytimezone:
   args:
     - timezone
-  desc: '생일 계산을 위한 사용자의 시간대를 설정합니다.'
+  desc: '생일 계산에 사용할 사용자의 시간대를 설정해요.'
   params:
-    - desc: '설정할 시간대 (예: "America/New_York").'
+    - desc: '설정할 시간대예요. 예: "America/New_York"'
       name: timezone
       optional: false
       type: string
 birthdaytoday:
   args:
     - ''
-  desc: '오늘의 생일을 표시합니다.'
+  desc: '오늘의 생일을 보여줘요.'
   params: [ ]

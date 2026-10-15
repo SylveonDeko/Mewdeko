@@ -2,6 +2,7 @@
   "afk_already_in_list": "Keine Kanäle wurden hinzugefügt, da die von dir angegebenen Kanäle bereits in der Liste sind.",
   "afk_channels_updated": "{0} zur Liste der ignoriert AFK-Kanäle hinzugefügt",
   "afk_deletion_disabled": "Löschen der AFK-Nachricht wurde deaktiviert!",
+  "afk_deletion_invalid": "Die Löschzeit muss 0 oder eine positive Anzahl von Sekunden sein.",
   "afk_deletion_set": "AFK-Nachrichten werden jetzt nach {0} Sekunden gelöscht.",
   "afk_disabled": "AFK deaktiviert.",
   "afk_disabled_channels_none": "Du hast keine deaktivierten Kanäle!",

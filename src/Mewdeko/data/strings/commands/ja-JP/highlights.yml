@@ -5,13 +5,13 @@ highlight:
     - add
     - list
     - delete
-  desc: 'ハイライトを追加、一覧表示、削除、またはマッチします。'
+  desc: 'ハイライトを追加、一覧表示、削除、または照合します。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '実行するアクション: add、list、delete、match。'
       name: action
       optional: false
       type: highlightactions
-    - desc: '選択したアクションのパラメータ'
+    - desc: '選択した操作のパラメーターです。'
       name: words
       optional: true
       type: string
@@ -22,13 +22,13 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: 'ハイライトを追加、一覧表示、削除、またはマッチします。'
+  desc: 'ハイライトを追加、一覧表示、削除、または照合します。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '実行するアクション: add、list、delete、match。'
       name: action
       optional: false
       type: highlightactions
-    - desc: '選択したアクションのパラメータ'
+    - desc: '選択した操作のパラメーターです。'
       name: words
       optional: true
       type: string
@@ -39,13 +39,13 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: 'ハイライトを追加、一覧表示、削除、またはマッチします。'
+  desc: 'ハイライトを追加、一覧表示、削除、または照合します。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '実行するアクション: add、list、delete、match。'
       name: action
       optional: false
       type: highlightactions
-    - desc: '選択したアクションのパラメータ'
+    - desc: '選択した操作のパラメーターです。'
       name: words
       optional: true
       type: string
@@ -56,26 +56,26 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: 'ハイライトを追加、一覧表示、削除、またはマッチします。'
+  desc: 'ハイライトを追加、一覧表示、削除、または照合します。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '実行するアクション: add、list、delete、match。'
       name: action
       optional: false
       type: highlightactions
-    - desc: '選択したアクションのパラメータ'
+    - desc: '選択した操作のパラメーターです。'
       name: words
       optional: true
       type: string
 highlights:
   args:
     - action word
-  desc: ユーザーのハイライトを管理します。
+  desc: 'ユーザーのハイライトを管理します。'
   params:
-    - desc: ハイライトで実行するアクション。
+    - desc: 'ハイライトに対して実行する操作です。'
       name: action
       optional: false
       type: string
-    - desc: ハイライトする単語。
+    - desc: 'ハイライトする単語です。'
       name: word
       optional: true
       type: string

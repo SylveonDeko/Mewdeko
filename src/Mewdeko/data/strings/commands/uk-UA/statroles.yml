@@ -1,0 +1,206 @@
+statroleadd:
+  args:
+    - '@role Messages 500 [lookbackDays] [name]'
+    - '@role VoiceMinutes 600 30 Voice Regular'
+    - '@role Invites 10'
+  desc: 'Створює роль статистики з порогом: учасники з мінімальним значенням (Messages, VoiceMinutes, Invites, JoinedDays, AccountDays або ActivityMinutes) отримують роль і втрачають її, коли значення падає нижче порога, якщо роль не зроблено постійною. Для ActivityMinutes встановіть гру командою "statroleset <id> activity <назва>" або залиште будь-яку гру.'
+  params:
+    - desc: 'Роль для керування.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Що вимірювати: Messages, VoiceMinutes, Invites, JoinedDays, AccountDays або ActivityMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Мінімальне значення.'
+      name: minimum
+      optional: false
+      type: long
+    - desc: 'Період у днях або 0 для всього часу.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Відображувана назва.'
+      name: name
+      optional: true
+      type: string
+statroletop:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+    - '@role VoiceMinutes 3 7'
+  desc: 'Створює роль статистики за рейтингом: учасники з місцями від 1 до вказаного отримують роль.'
+  params:
+    - desc: 'Роль для керування.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Що вимірювати.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Найнижче місце, яке ще підходить.'
+      name: topEnd
+      optional: false
+      type: int
+    - desc: 'Період у днях або 0 для всього часу.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Відображувана назва.'
+      name: name
+      optional: true
+      type: string
+statrolepercent:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+  desc: 'Створює роль статистики за відсотком: учасники у верхньому вказаному відсотку серед ранжованих учасників отримують роль.'
+  params:
+    - desc: 'Роль для керування.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Що вимірювати.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Межа відсотка, від 1 до 100.'
+      name: topPercent
+      optional: false
+      type: int
+    - desc: 'Період у днях або 0 для всього часу.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Відображувана назва.'
+      name: name
+      optional: true
+      type: string
+statrolestreak:
+  args:
+    - '@role Messages 5 7 [lookbackDays] [name]'
+  desc: 'Створює роль статистики за серією днів: учасники, які досягли мінімуму за день щонайменше потрібну кількість днів у межах періоду, отримують роль.'
+  params:
+    - desc: 'Роль для керування.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Messages або VoiceMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Мінімум за день.'
+      name: perDay
+      optional: false
+      type: long
+    - desc: 'Скільки днів у періоді мають досягти мінімуму.'
+      name: requiredDays
+      optional: false
+      type: int
+    - desc: 'Період у днях.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Відображувана назва.'
+      name: name
+      optional: true
+      type: string
+statrolelist:
+  args:
+    - ''
+  desc: 'Показує ролі статистики з їхніми умовами.'
+  params: [ ]
+statroleinfo:
+  args:
+    - '3'
+  desc: 'Показує повну конфігурацію ролі статистики: умову, фільтри, сповіщення та розклад.'
+  params:
+    - desc: 'ID ролі статистики.'
+      name: id
+      optional: false
+      type: int
+statroleremove:
+  args:
+    - '3'
+  desc: 'Видаляє роль статистики. Учасники зберігають ролі, які вже мають.'
+  params:
+    - desc: 'ID ролі статистики.'
+      name: id
+      optional: false
+      type: int
+statroletoggle:
+  args:
+    - '3'
+  desc: 'Вмикає або вимикає роль статистики.'
+  params:
+    - desc: 'ID ролі статистики.'
+      name: id
+      optional: false
+      type: int
+statrolepreview:
+  args:
+    - '3'
+  desc: 'Показує, хто отримав би або втратив роль під час наступного запуску, нічого не змінюючи.'
+  params:
+    - desc: 'ID ролі статистики.'
+      name: id
+      optional: false
+      type: int
+statrolerun:
+  args:
+    - '3'
+  desc: 'Оцінює і застосовує роль статистики просто зараз, не чекаючи її розкладу.'
+  params:
+    - desc: 'ID ролі статистики.'
+      name: id
+      optional: false
+      type: int
+statroleset:
+  args:
+    - '3 permanent true'
+    - '3 lookback 30'
+    - '3 notifychannel #announcements'
+    - '3 message %user% just %action% %role%!'
+    - '3 activity Minecraft'
+  desc: 'Змінює один параметр ролі статистики. Параметри: name, min, max, lookback, topstart, topend, days, permanent, invert, bots, group, interval, notifychannel, notifydm, message, activity (назва гри або "any" для статистики ActivityMinutes). Використовуйте "none", щоб очистити max, group, notifychannel або message.'
+  params:
+    - desc: 'ID ролі статистики.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва налаштування.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'Нове значення.'
+      name: value
+      optional: false
+      type: string
+statrolefilter:
+  args:
+    - '3 #channel'
+    - '3 @role'
+    - '3 @role true'
+    - '3 @user'
+  desc: 'Перемикає фільтр ролі статистики: канал, для якого обмежується статистика, роль, яка потрібна учасникам (або, з true, яка їм не має бути), або учасника, якого роль ніколи не змінює.'
+  params:
+    - desc: 'ID ролі статистики.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Канал, до якого обмежити статистику.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Роль, яку потрібно вимагати або виключати.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'True, щоб перемкнути чорний список ролей замість білого.'
+      name: blacklist
+      optional: true
+      type: bool
+    - desc: 'Учасник, якого роль статистики ніколи не змінює.'
+      name: user
+      optional: false
+      type: IGuildUser

@@ -1,7 +1,7 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: 'Crée un nouveau canal vocal verrouillé affichant une statistique du serveur. Le bot créera et gérera le canal.'
+  desc: 'Crée un nouveau salon vocal verrouillé affichant une statistique du serveur. Le bot créera et gérera le salon.'
   params:
     - desc: 'Le type de statistique à afficher.'
       name: type
@@ -14,9 +14,9 @@ statchannelcreate:
 statchanneladd:
   args:
     - '#voice-channel TotalMembers [template]'
-  desc: 'Ajoute un canal vocal comme canal de statistiques. Types : TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  desc: 'Ajoute un salon vocal comme salon de statistiques. Types : TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
   params:
-    - desc: 'Le canal vocal à utiliser.'
+    - desc: 'Le salon vocal à utiliser.'
       name: channel
       optional: false
       type: IVoiceChannel
@@ -31,13 +31,13 @@ statchanneladd:
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Ajoute un canal de statistiques montrant combien de membres ont un rôle spécifique.'
+  desc: 'Ajoute un salon de statistiques indiquant le nombre de membres possédant un rôle précis.'
   params:
-    - desc: 'Le canal vocal à utiliser.'
+    - desc: 'Le salon vocal à utiliser.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Le rôle dont les membres seront comptés.'
+    - desc: 'Le rôle dont compter les membres.'
       name: role
       optional: false
       type: IRole
@@ -48,9 +48,9 @@ statchannelrole:
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Ajoute un canal de compte à rebours. Utilisez les espaces réservés %days% et %hours%.'
+  desc: 'Ajoute un salon de statistiques de compte à rebours. Utilisez les espaces réservés %days% et %hours%.'
   params:
-    - desc: 'Le canal vocal à utiliser.'
+    - desc: 'Le salon vocal à utiliser.'
       name: channel
       optional: false
       type: IVoiceChannel
@@ -65,13 +65,13 @@ statchannelcountdown:
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: 'Ajoute un canal d''objectif de membres. Utilisez %count%, %goal% et %goal.percent%.'
+  desc: 'Ajoute un salon de statistiques d''objectif de membres. Utilisez %count%, %goal% et %goal.percent%.'
   params:
-    - desc: 'Le canal vocal à utiliser.'
+    - desc: 'Le salon vocal à utiliser.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Le nombre de membres cible.'
+    - desc: 'Le nombre de membres visé.'
       name: goal
       optional: false
       type: int
@@ -82,14 +82,34 @@ statchannelgoal:
 statchannelremove:
   args:
     - '#voice-channel'
-  desc: 'Supprime un canal de statistiques.'
+  desc: 'Supprime un salon de statistiques.'
   params:
-    - desc: 'Le canal vocal à supprimer.'
+    - desc: 'Le salon vocal à supprimer.'
       name: channel
       optional: false
       type: IVoiceChannel
 statchannellist:
   args:
     - ''
-  desc: 'Liste tous les canaux de statistiques pour ce serveur.'
+  desc: 'Affiche tous les salons de statistiques de ce serveur.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Configure un salon de statistiques pour afficher un compteur Twitch.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Définit le mécanisme de mise à jour d''un salon de statistiques.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Définit le style d''affichage d''un salon de statistiques.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Affiche les paramètres par défaut des salons de statistiques.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Affiche les types de salons de statistiques disponibles.'

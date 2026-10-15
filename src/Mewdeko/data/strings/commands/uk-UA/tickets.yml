@@ -1,0 +1,2313 @@
+addmodalfield:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Додає поле до модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Напис для поля'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язкові параметри налаштування'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Додає поле до модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Напис для поля'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язкові параметри налаштування'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_1:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Додає поле до модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Напис для поля'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язкові параметри налаштування'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_2:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Додає поле до модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Напис для поля'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язкові параметри налаштування'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_3:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Додає поле до модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Напис для поля'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язкові параметри налаштування'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_4:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Додає поле до модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Напис для поля'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язкові параметри налаштування'
+      name: fieldConfig
+      optional: true
+      type: string
+addoption:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Додає варіант до наявного меню вибору'
+  params:
+    - desc: 'ID меню, до якого додати варіант'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Напис, який бачать користувачі'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис під написом'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Необов''язкове емодзі поруч із написом'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Додає варіант до наявного меню вибору'
+  params:
+    - desc: 'ID меню, до якого додати варіант'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Напис, який бачать користувачі'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис під написом'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Необов''язкове емодзі поруч із написом'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_1:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Додає варіант до наявного меню вибору'
+  params:
+    - desc: 'ID меню, до якого додати варіант'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Напис, який бачать користувачі'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис під написом'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Необов''язкове емодзі поруч із написом'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_2:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Додає варіант до наявного меню вибору'
+  params:
+    - desc: 'ID меню, до якого додати варіант'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Напис, який бачать користувачі'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис під написом'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Необов''язкове емодзі поруч із написом'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_3:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Додає варіант до наявного меню вибору'
+  params:
+    - desc: 'ID меню, до якого додати варіант'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Напис, який бачать користувачі'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис під написом'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Необов''язкове емодзі поруч із написом'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_4:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Додає варіант до наявного меню вибору'
+  params:
+    - desc: 'ID меню, до якого додати варіант'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Напис, який бачать користувачі'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Необов''язковий опис під написом'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Необов''язкове емодзі поруч із написом'
+      name: emoji
+      optional: true
+      type: string
+addselectmenu:
+  args:
+    - panelid
+  desc: 'Додає меню вибору до панелі тікетів.'
+  params:
+    - &ref_31
+      desc: 'ID панелі, до якої додати меню'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong:
+  args:
+    - panelid
+  desc: 'Додає меню вибору до панелі тікетів.'
+  params:
+    - desc: 'ID панелі, до якої додати меню'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_1:
+  args:
+    - panelid
+  desc: 'Додає меню вибору до панелі тікетів.'
+  params:
+    - desc: 'ID панелі, до якої додати меню'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_2:
+  args:
+    - panelid
+  desc: 'Додає меню вибору до панелі тікетів.'
+  params:
+    - desc: 'ID панелі, до якої додати меню'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_3:
+  args:
+    - panelid
+  desc: 'Додає меню вибору до панелі тікетів.'
+  params:
+    - desc: 'ID панелі, до якої додати меню'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_4:
+  args:
+    - panelid
+  desc: 'Додає меню вибору до панелі тікетів.'
+  params:
+    - desc: 'ID панелі, до якої додати меню'
+      name: panelId
+      optional: false
+      type: ulong
+buttoninfo:
+  args:
+    - number
+  desc: 'Показує детальну інформацію про кнопку.'
+  params:
+    - &ref_116
+      desc: 'ID кнопки для перегляду.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int:
+  args:
+    - number
+  desc: 'Показує детальну інформацію про кнопку.'
+  params:
+    - desc: 'ID кнопки для перегляду.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_1:
+  args:
+    - number
+  desc: 'Показує детальну інформацію про кнопку.'
+  params:
+    - desc: 'ID кнопки для перегляду.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_2:
+  args:
+    - number
+  desc: 'Показує детальну інформацію про кнопку.'
+  params:
+    - desc: 'ID кнопки для перегляду.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_3:
+  args:
+    - number
+  desc: 'Показує детальну інформацію про кнопку.'
+  params:
+    - desc: 'ID кнопки для перегляду.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_4:
+  args:
+    - number
+  desc: 'Показує детальну інформацію про кнопку.'
+  params:
+    - desc: 'ID кнопки для перегляду.'
+      name: buttonId
+      optional: false
+      type: int
+checkpanels:
+  args:
+    - ''
+  desc: 'Перевіряє всі панелі на сервері на відсутні повідомлення.'
+  params: [ ]
+deletebutton:
+  args:
+    - number
+  desc: 'Видаляє кнопку з панелі.'
+  params:
+    - &ref_186
+      desc: 'ID кнопки для видалення.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int:
+  args:
+    - number
+  desc: 'Видаляє кнопку з панелі.'
+  params:
+    - desc: 'ID кнопки для видалення.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_1:
+  args:
+    - number
+  desc: 'Видаляє кнопку з панелі.'
+  params:
+    - desc: 'ID кнопки для видалення.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_2:
+  args:
+    - number
+  desc: 'Видаляє кнопку з панелі.'
+  params:
+    - desc: 'ID кнопки для видалення.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_3:
+  args:
+    - number
+  desc: 'Видаляє кнопку з панелі.'
+  params:
+    - desc: 'ID кнопки для видалення.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_4:
+  args:
+    - number
+  desc: 'Видаляє кнопку з панелі.'
+  params:
+    - desc: 'ID кнопки для видалення.'
+      name: buttonId
+      optional: false
+      type: int
+deleteselectmenu:
+  args:
+    - number
+  desc: 'Видаляє меню вибору з панелі.'
+  params:
+    - desc: 'ID меню вибору для видалення.'
+      name: menuId
+      optional: false
+      type: int
+deleteselectoption:
+  args:
+    - number
+  desc: 'Видаляє конкретний варіант із меню вибору.'
+  params:
+    - desc: 'ID варіанта меню вибору для видалення.'
+      name: optionId
+      optional: false
+      type: int
+listmodalfields:
+  args:
+    - number
+  desc: 'Показує всі поля в модальному вікні створення тікета'
+  params:
+    - &ref_277
+      desc: 'Показує всі поля в модальному вікні створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int:
+  args:
+    - number
+  desc: 'Показує всі поля в модальному вікні створення тікета'
+  params:
+    - desc: 'Показує всі поля в модальному вікні створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_1:
+  args:
+    - number
+  desc: 'Показує всі поля в модальному вікні створення тікета'
+  params:
+    - desc: 'Показує всі поля в модальному вікні створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_2:
+  args:
+    - number
+  desc: 'Показує всі поля в модальному вікні створення тікета'
+  params:
+    - desc: 'Показує всі поля в модальному вікні створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_3:
+  args:
+    - number
+  desc: 'Показує всі поля в модальному вікні створення тікета'
+  params:
+    - desc: 'Показує всі поля в модальному вікні створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_4:
+  args:
+    - number
+  desc: 'Показує всі поля в модальному вікні створення тікета'
+  params:
+    - desc: 'Показує всі поля в модальному вікні створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+listoptions:
+  args:
+    - text
+  desc: 'Показує всі варіанти в меню вибору'
+  params:
+    - &ref_278
+      desc: 'ID меню для перегляду'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string:
+  args:
+    - text
+  desc: 'Показує всі варіанти в меню вибору'
+  params:
+    - desc: 'ID меню для перегляду'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_1:
+  args:
+    - text
+  desc: 'Показує всі варіанти в меню вибору'
+  params:
+    - desc: 'ID меню для перегляду'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_2:
+  args:
+    - text
+  desc: 'Показує всі варіанти в меню вибору'
+  params:
+    - desc: 'ID меню для перегляду'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_3:
+  args:
+    - text
+  desc: 'Показує всі варіанти в меню вибору'
+  params:
+    - desc: 'ID меню для перегляду'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_4:
+  args:
+    - text
+  desc: 'Показує всі варіанти в меню вибору'
+  params:
+    - desc: 'ID меню для перегляду'
+      name: menuId
+      optional: false
+      type: string
+panelinfo:
+  args:
+    - panelid
+  desc: 'Показує детальну інформацію про панель тікетів.'
+  params:
+    - &ref_335
+      desc: 'ID панелі для перегляду.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong:
+  args:
+    - panelid
+  desc: 'Показує детальну інформацію про панель тікетів.'
+  params:
+    - desc: 'ID панелі для перегляду.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_1:
+  args:
+    - panelid
+  desc: 'Показує детальну інформацію про панель тікетів.'
+  params:
+    - desc: 'ID панелі для перегляду.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_2:
+  args:
+    - panelid
+  desc: 'Показує детальну інформацію про панель тікетів.'
+  params:
+    - desc: 'ID панелі для перегляду.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_3:
+  args:
+    - panelid
+  desc: 'Показує детальну інформацію про панель тікетів.'
+  params:
+    - desc: 'ID панелі для перегляду.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_4:
+  args:
+    - panelid
+  desc: 'Показує детальну інформацію про панель тікетів.'
+  params:
+    - desc: 'ID панелі для перегляду.'
+      name: panelId
+      optional: false
+      type: ulong
+panellist:
+  args:
+    - ''
+  desc: 'Показує всі панелі тікетів на сервері.'
+  params: [ ]
+panellist_noparams:
+  args:
+    - ''
+  desc: 'Показує всі панелі тікетів на сервері.'
+  params: [ ]
+panellist_noparams_1:
+  args:
+    - ''
+  desc: 'Показує всі панелі тікетів на сервері.'
+  params: [ ]
+panellist_noparams_2:
+  args:
+    - ''
+  desc: 'Показує всі панелі тікетів на сервері.'
+  params: [ ]
+panellist_noparams_3:
+  args:
+    - ''
+  desc: 'Показує всі панелі тікетів на сервері.'
+  params: [ ]
+panellist_noparams_4:
+  args:
+    - ''
+  desc: 'Показує всі панелі тікетів на сервері.'
+  params: [ ]
+recreateallpanels:
+  args:
+    - ''
+  desc: 'Відновлює всі панелі з відсутніми повідомленнями.'
+  params: [ ]
+recreatepanel:
+  args:
+    - number
+  desc: 'Відновлює видалену панель тікетів у її початковому каналі.'
+  params:
+    - desc: 'ID повідомлення панелі для відновлення'
+      name: panelId
+      optional: false
+      type: ulong
+removemodalfield:
+  args:
+    - number text
+  desc: 'Видаляє поле з модального вікна створення тікета'
+  params:
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_401
+      desc: 'Видаляє поле з модального вікна створення тікета'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string:
+  args:
+    - number text
+  desc: 'Видаляє поле з модального вікна створення тікета'
+  params:
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_1:
+  args:
+    - number text
+  desc: 'Видаляє поле з модального вікна створення тікета'
+  params:
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_2:
+  args:
+    - number text
+  desc: 'Видаляє поле з модального вікна створення тікета'
+  params:
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_3:
+  args:
+    - number text
+  desc: 'Видаляє поле з модального вікна створення тікета'
+  params:
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_4:
+  args:
+    - number text
+  desc: 'Видаляє поле з модального вікна створення тікета'
+  params:
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Видаляє поле з модального вікна створення тікета'
+      name: fieldId
+      optional: false
+      type: string
+removeoption:
+  args:
+    - text text
+  desc: 'Видаляє варіант з меню вибору'
+  params:
+    - &ref_403
+      desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_404
+      desc: 'Значення варіанта для видалення'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string:
+  args:
+    - text text
+  desc: 'Видаляє варіант з меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Значення варіанта для видалення'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_1:
+  args:
+    - text text
+  desc: 'Видаляє варіант з меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Значення варіанта для видалення'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_2:
+  args:
+    - text text
+  desc: 'Видаляє варіант з меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Значення варіанта для видалення'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_3:
+  args:
+    - text text
+  desc: 'Видаляє варіант з меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Значення варіанта для видалення'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_4:
+  args:
+    - text text
+  desc: 'Видаляє варіант з меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Значення варіанта для видалення'
+      name: optionValue
+      optional: false
+      type: string
+setautoclose:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює час автоматичного закриття тікетів, створених кнопкою.'
+  params:
+    - &ref_487
+      desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_488
+      desc: 'Кількість годин неактивності до автоматичного закриття або null, щоб вимкнути.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює час автоматичного закриття тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість годин неактивності до автоматичного закриття або null, щоб вимкнути.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює час автоматичного закриття тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість годин неактивності до автоматичного закриття або null, щоб вимкнути.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює час автоматичного закриття тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість годин неактивності до автоматичного закриття або null, щоб вимкнути.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює час автоматичного закриття тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість годин неактивності до автоматичного закриття або null, щоб вимкнути.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює час автоматичного закриття тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість годин неактивності до автоматичного закриття або null, щоб вимкнути.'
+      name: hours
+      optional: true
+      type: int
+setmodaltitle:
+  args:
+    - number text
+  desc: 'Встановлює заголовок модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_506
+      desc: 'Заголовок, який відображатиметься у модальному вікні'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string:
+  args:
+    - number text
+  desc: 'Встановлює заголовок модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Заголовок, який відображатиметься у модальному вікні'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_1:
+  args:
+    - number text
+  desc: 'Встановлює заголовок модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Заголовок, який відображатиметься у модальному вікні'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_2:
+  args:
+    - number text
+  desc: 'Встановлює заголовок модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Заголовок, який відображатиметься у модальному вікні'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_3:
+  args:
+    - number text
+  desc: 'Встановлює заголовок модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Заголовок, який відображатиметься у модальному вікні'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_4:
+  args:
+    - number text
+  desc: 'Встановлює заголовок модального вікна створення тікета'
+  params:
+    - desc: 'ID кнопки для налаштування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Заголовок, який відображатиметься у модальному вікні'
+      name: title
+      optional: false
+      type: string
+setpaneltranscripts:
+  args:
+    - panelid true|false
+  desc: 'Вмикає або вимикає збереження транскриптів для панелі.'
+  params:
+    - &ref_510
+      desc: 'ID панелі для зміни.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_511
+      desc: 'Чи вмикати, чи вимикати збереження транскриптів.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool:
+  args:
+    - panelid true|false
+  desc: 'Вмикає або вимикає збереження транскриптів для панелі.'
+  params:
+    - desc: 'ID панелі для зміни.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Чи вмикати, чи вимикати збереження транскриптів.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_1:
+  args:
+    - panelid true|false
+  desc: 'Вмикає або вимикає збереження транскриптів для панелі.'
+  params:
+    - desc: 'ID панелі для зміни.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Чи вмикати, чи вимикати збереження транскриптів.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_2:
+  args:
+    - panelid true|false
+  desc: 'Вмикає або вимикає збереження транскриптів для панелі.'
+  params:
+    - desc: 'ID панелі для зміни.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Чи вмикати, чи вимикати збереження транскриптів.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_3:
+  args:
+    - panelid true|false
+  desc: 'Вмикає або вимикає збереження транскриптів для панелі.'
+  params:
+    - desc: 'ID панелі для зміни.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Чи вмикати, чи вимикати збереження транскриптів.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_4:
+  args:
+    - panelid true|false
+  desc: 'Вмикає або вимикає збереження транскриптів для панелі.'
+  params:
+    - desc: 'ID панелі для зміни.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Чи вмикати, чи вимикати збереження транскриптів.'
+      name: enable
+      optional: false
+      type: bool
+setplaceholder:
+  args:
+    - text text
+  desc: 'Оновлює текст-підказку для меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_512
+      desc: 'Новий текст-підказка'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string:
+  args:
+    - text text
+  desc: 'Оновлює текст-підказку для меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Новий текст-підказка'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_1:
+  args:
+    - text text
+  desc: 'Оновлює текст-підказку для меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Новий текст-підказка'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_2:
+  args:
+    - text text
+  desc: 'Оновлює текст-підказку для меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Новий текст-підказка'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_3:
+  args:
+    - text text
+  desc: 'Оновлює текст-підказку для меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Новий текст-підказка'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_4:
+  args:
+    - text text
+  desc: 'Оновлює текст-підказку для меню вибору'
+  params:
+    - desc: 'ID меню'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Новий текст-підказка'
+      name: placeholder
+      optional: false
+      type: string
+setresponsetime:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює необхідний час відповіді для тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_518
+      desc: 'Кількість хвилин або null, щоб вимкнути.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює необхідний час відповіді для тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість хвилин або null, щоб вимкнути.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює необхідний час відповіді для тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість хвилин або null, щоб вимкнути.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює необхідний час відповіді для тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість хвилин або null, щоб вимкнути.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює необхідний час відповіді для тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість хвилин або null, щоб вимкнути.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Встановлює необхідний час відповіді для тікетів, створених кнопкою.'
+  params:
+    - desc: 'ID кнопки для зміни.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Кількість хвилин або null, щоб вимкнути.'
+      name: minutes
+      optional: true
+      type: int
+ticketaddbutton:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Додає кнопку до наявної панелі тікетів.'
+  params:
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Додає кнопку до наявної панелі тікетів.'
+  params:
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_1:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Додає кнопку до наявної панелі тікетів.'
+  params:
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_2:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Додає кнопку до наявної панелі тікетів.'
+  params:
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Додає кнопку до наявної панелі тікетів.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddpriority:
+  args:
+    - text text text number true|false time text
+  desc: 'Створює новий рівень пріоритету для тікетів.'
+  params:
+    - &ref_599
+      desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - &ref_600
+      desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: emoji
+      optional: false
+      type: string
+    - &ref_601
+      desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: level
+      optional: false
+      type: int
+    - &ref_602
+      desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - &ref_603
+      desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - &ref_604
+      desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string:
+  args:
+    - text text text number true|false time text
+  desc: 'Створює новий рівень пріоритету для тікетів.'
+  params:
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_1:
+  args:
+    - text text text number true|false time text
+  desc: 'Створює новий рівень пріоритету для тікетів.'
+  params:
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_2:
+  args:
+    - text text text number true|false time text
+  desc: 'Створює новий рівень пріоритету для тікетів.'
+  params:
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Створює новий рівень пріоритету для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag:
+  args:
+    - text text text text
+  desc: 'Створює новий тег для тікетів.'
+  params:
+    - desc: 'Створює новий тег для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - &ref_605
+      desc: 'Створює новий тег для тікетів.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string:
+  args:
+    - text text text text
+  desc: 'Створює новий тег для тікетів.'
+  params:
+    - desc: 'Створює новий тег для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_1:
+  args:
+    - text text text text
+  desc: 'Створює новий тег для тікетів.'
+  params:
+    - desc: 'Створює новий тег для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_2:
+  args:
+    - text text text text
+  desc: 'Створює новий тег для тікетів.'
+  params:
+    - desc: 'Створює новий тег для тікетів.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Створює новий тег для тікетів.'
+      name: color
+      optional: false
+      type: string
+ticketaddtags:
+  args:
+    - text
+  desc: 'Додає теги до поточного тікета.'
+  params:
+    - &ref_606
+      desc: 'Додає теги до поточного тікета.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]:
+  args:
+    - text
+  desc: 'Додає теги до поточного тікета.'
+  params:
+    - desc: 'Додає теги до поточного тікета.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_1:
+  args:
+    - text
+  desc: 'Додає теги до поточного тікета.'
+  params:
+    - desc: 'Додає теги до поточного тікета.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_2:
+  args:
+    - text
+  desc: 'Додає теги до поточного тікета.'
+  params:
+    - desc: 'Додає теги до поточного тікета.'
+      name: tags
+      optional: false
+      type: string[]
+ticketarchive:
+  args:
+    - ''
+  desc: 'Архівує тікет, переміщуючи його до категорії архіву, якщо вона встановлена.'
+  params: [ ]
+ticketarchivecategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Встановлює категорію, куди архівуватимуться закриті тікети.'
+  params:
+    - desc: 'Встановлює категорію, куди архівуватимуться закриті тікети.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Встановлює категорію, куди архівуватимуться закриті тікети.'
+      name: category
+      optional: true
+      type: category
+ticketautoarchive:
+  args:
+    - number boolean
+  desc: 'Встановлює поведінку автоархівування для кнопки'
+  params:
+    - desc: 'ID кнопки, для якої налаштовується автоархівування'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Чи вмикати автоархівування після закриття'
+      name: enabled
+      optional: true
+      type: bool
+ticketautoclose:
+  args:
+    - '<buttonId> [hours]'
+    - number
+  desc: 'Встановлює час автозакриття для типу тікета.'
+  params:
+    - desc: 'Встановлює час автозакриття для типу тікета.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Встановлює час автозакриття для типу тікета.'
+      name: hours
+      optional: true
+      type: int
+ticketblock:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Блокує користувачеві можливість створювати тікети.'
+  params:
+    - desc: 'Блокує користувачеві можливість створювати тікети.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Блокує користувачеві можливість створювати тікети.'
+      name: reason
+      optional: true
+      type: string
+ticketcategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Встановлює категорію, у якій створюватимуться тикети.'
+  params:
+    - desc: 'Встановлює категорію, у якій створюватимуться тикети.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Встановлює категорію, у якій створюватимуться тикети.'
+      name: category
+      optional: true
+      type: category
+ticketclaim:
+  args:
+    - ''
+  desc: 'Призначає поточний тикет вам як членові персоналу.'
+  params: [ ]
+ticketclose:
+  args:
+    - ''
+  desc: 'Закриває поточний тикет.'
+  params: [ ]
+ticketclosebehavior:
+  args:
+    - number bool bool bool bool number
+  desc: 'Одночасно встановлює кілька варіантів поведінки при закритті для кнопки'
+  params:
+    - desc: 'ID кнопки, для якої налаштовується поведінка при закритті'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Чи автоматично архівувати при закритті'
+      name: autoArchive
+      optional: true
+      type: bool?
+    - desc: 'Чи видаляти тикет при закритті'
+      name: deleteOnClose
+      optional: true
+      type: bool?
+    - desc: 'Чи блокувати тикет при закритті'
+      name: lockOnClose
+      optional: true
+      type: bool?
+    - desc: 'Чи перейменовувати тикет при закритті'
+      name: renameOnClose
+      optional: true
+      type: bool?
+    - desc: 'Затримка в хвилинах перед видаленням'
+      name: deleteDelayMinutes
+      optional: true
+      type: int?
+ticketcloseinactive:
+  args:
+    - number
+  desc: 'Закриває неактивні тикети.'
+  params:
+    - &ref_607
+      desc: 'Закриває неактивні тикети.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int:
+  args:
+    - number
+  desc: 'Закриває неактивні тикети.'
+  params:
+    - desc: 'Закриває неактивні тикети.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_1:
+  args:
+    - number
+  desc: 'Закриває неактивні тикети.'
+  params:
+    - desc: 'Закриває неактивні тикети.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_2:
+  args:
+    - number
+  desc: 'Закриває неактивні тикети.'
+  params:
+    - desc: 'Закриває неактивні тикети.'
+      name: hours
+      optional: false
+      type: int
+ticketcreatecase:
+  args:
+    - text text
+  desc: 'Створює новий тикет-кейс.'
+  params:
+    - &ref_608
+      desc: 'Створює новий тикет-кейс.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Створює новий тикет-кейс.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string:
+  args:
+    - text text
+  desc: 'Створює новий тикет-кейс.'
+  params:
+    - desc: 'Створює новий тикет-кейс.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Створює новий тикет-кейс.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_1:
+  args:
+    - text text
+  desc: 'Створює новий тикет-кейс.'
+  params:
+    - desc: 'Створює новий тикет-кейс.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Створює новий тикет-кейс.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_2:
+  args:
+    - text text
+  desc: 'Створює новий тикет-кейс.'
+  params:
+    - desc: 'Створює новий тикет-кейс.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Створює новий тикет-кейс.'
+      name: description
+      optional: false
+      type: string
+ticketduplicatepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Дублює панель тикетів.'
+  params:
+    - desc: 'Дублює панель тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_609
+      desc: 'Дублює панель тикетів.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel:
+  args:
+    - panelid targetchannel
+  desc: 'Дублює панель тикетів.'
+  params:
+    - desc: 'Дублює панель тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Дублює панель тикетів.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_1:
+  args:
+    - panelid targetchannel
+  desc: 'Дублює панель тикетів.'
+  params:
+    - desc: 'Дублює панель тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Дублює панель тикетів.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_2:
+  args:
+    - panelid targetchannel
+  desc: 'Дублює панель тикетів.'
+  params:
+    - desc: 'Дублює панель тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Дублює панель тикетів.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketlinkcase:
+  args:
+    - number
+  desc: 'Прив''язує поточний тикет до кейсу.'
+  params:
+    - &ref_610
+      desc: 'Прив''язує поточний тикет до кейсу.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int:
+  args:
+    - number
+  desc: 'Прив''язує поточний тикет до кейсу.'
+  params:
+    - desc: 'Прив''язує поточний тикет до кейсу.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_1:
+  args:
+    - number
+  desc: 'Прив''язує поточний тикет до кейсу.'
+  params:
+    - desc: 'Прив''язує поточний тикет до кейсу.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_2:
+  args:
+    - number
+  desc: 'Прив''язує поточний тикет до кейсу.'
+  params:
+    - desc: 'Прив''язує поточний тикет до кейсу.'
+      name: caseId
+      optional: false
+      type: int
+ticketlistpanel:
+  args:
+    - panelid
+  desc: 'Показує всі компоненти конкретної панелі тикетів'
+  params:
+    - &ref_611
+      desc: 'ID повідомлення панелі, яку потрібно переглянути'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong:
+  args:
+    - panelid
+  desc: 'Показує всі компоненти конкретної панелі тикетів'
+  params:
+    - desc: 'ID повідомлення панелі, яку потрібно переглянути'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_1:
+  args:
+    - panelid
+  desc: 'Показує всі компоненти конкретної панелі тикетів'
+  params:
+    - desc: 'ID повідомлення панелі, яку потрібно переглянути'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_2:
+  args:
+    - panelid
+  desc: 'Показує всі компоненти конкретної панелі тикетів'
+  params:
+    - desc: 'ID повідомлення панелі, яку потрібно переглянути'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_3:
+  args:
+    - panelid
+  desc: 'Показує всі компоненти конкретної панелі тикетів'
+  params:
+    - desc: 'ID повідомлення панелі, яку потрібно переглянути'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_4:
+  args:
+    - panelid
+  desc: 'Показує всі компоненти конкретної панелі тикетів'
+  params:
+    - desc: 'ID повідомлення панелі, яку потрібно переглянути'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanels:
+  args:
+    - ''
+  desc: 'Показує всі панелі тикетів на сервері'
+  params: [ ]
+ticketlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал журналу для тикетів.'
+  params:
+    - desc: 'Встановлює канал журналу для тикетів.'
+      name: channel
+      optional: true
+      type: channel
+ticketmoveall:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Переносить усі тикети між категоріями.'
+  params:
+    - &ref_612
+      desc: 'Переносить усі тикети між категоріями.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - &ref_613
+      desc: 'Переносить усі тикети між категоріями.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Переносить усі тикети між категоріями.'
+  params:
+    - desc: 'Переносить усі тикети між категоріями.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Переносить усі тикети між категоріями.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_1:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Переносить усі тикети між категоріями.'
+  params:
+    - desc: 'Переносить усі тикети між категоріями.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Переносить усі тикети між категоріями.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_2:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Переносить усі тикети між категоріями.'
+  params:
+    - desc: 'Переносить усі тикети між категоріями.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Переносить усі тикети між категоріями.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmovepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Переносить панель тикетів в інший канал.'
+  params:
+    - desc: 'Переносить панель тикетів в інший канал.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Переносить панель тикетів в інший канал.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketnote:
+  args:
+    - text
+  desc: 'Додає нотатку до поточного тикета.'
+  params:
+    - &ref_614
+      desc: 'Додає нотатку до поточного тикета.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string:
+  args:
+    - text
+  desc: 'Додає нотатку до поточного тикета.'
+  params:
+    - desc: 'Додає нотатку до поточного тикета.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_1:
+  args:
+    - text
+  desc: 'Додає нотатку до поточного тикета.'
+  params:
+    - desc: 'Додає нотатку до поточного тикета.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_2:
+  args:
+    - text
+  desc: 'Додає нотатку до поточного тикета.'
+  params:
+    - desc: 'Додає нотатку до поточного тикета.'
+      name: content
+      optional: false
+      type: string
+ticketpanel:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Створює панель тикетів'
+  params:
+    - desc: 'Створює панель тикетів'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює панель тикетів'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Створює панель тикетів'
+  params:
+    - desc: 'Створює панель тикетів'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює панель тикетів'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_1:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Створює панель тикетів'
+  params:
+    - desc: 'Створює панель тикетів'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює панель тикетів'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_2:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Створює панель тикетів'
+  params:
+    - desc: 'Створює панель тикетів'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Створює панель тикетів'
+      name: embedJson
+      optional: true
+      type: string
+ticketpaneldelete:
+  args:
+    - panelid
+  desc: 'Видаляє наявну панель тикетів.'
+  params:
+    - desc: 'ID панелі, яку потрібно видалити.'
+      name: panelId
+      optional: false
+      type: ulong
+ticketpriority:
+  args:
+    - text
+  desc: 'Встановлює рівень пріоритету для поточного тикета.'
+  params:
+    - &ref_615
+      desc: 'Встановлює рівень пріоритету для поточного тикета.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string:
+  args:
+    - text
+  desc: 'Встановлює рівень пріоритету для поточного тикета.'
+  params:
+    - desc: 'Встановлює рівень пріоритету для поточного тикета.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_1:
+  args:
+    - text
+  desc: 'Встановлює рівень пріоритету для поточного тикета.'
+  params:
+    - desc: 'Встановлює рівень пріоритету для поточного тикета.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_2:
+  args:
+    - text
+  desc: 'Встановлює рівень пріоритету для поточного тикета.'
+  params:
+    - desc: 'Встановлює рівень пріоритету для поточного тикета.'
+      name: priority
+      optional: false
+      type: string
+ticketremovepriority:
+  args:
+    - text
+  desc: 'Видаляє рівень пріоритету.'
+  params:
+    - &ref_616
+      desc: 'Видаляє рівень пріоритету.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string:
+  args:
+    - text
+  desc: 'Видаляє рівень пріоритету.'
+  params:
+    - desc: 'Видаляє рівень пріоритету.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_1:
+  args:
+    - text
+  desc: 'Видаляє рівень пріоритету.'
+  params:
+    - desc: 'Видаляє рівень пріоритету.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_2:
+  args:
+    - text
+  desc: 'Видаляє рівень пріоритету.'
+  params:
+    - desc: 'Видаляє рівень пріоритету.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovetag:
+  args:
+    - text
+  desc: 'Видаляє тег.'
+  params:
+    - &ref_617
+      desc: 'Видаляє тег.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string:
+  args:
+    - text
+  desc: 'Видаляє тег.'
+  params:
+    - desc: 'Видаляє тег.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_1:
+  args:
+    - text
+  desc: 'Видаляє тег.'
+  params:
+    - desc: 'Видаляє тег.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_2:
+  args:
+    - text
+  desc: 'Видаляє тег.'
+  params:
+    - desc: 'Видаляє тег.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetags:
+  args:
+    - text
+  desc: 'Видаляє теги з поточного тикета.'
+  params:
+    - desc: 'Видаляє теги з поточного тикета.'
+      name: tags
+      optional: false
+      type: string[]
+ticketresponsetime:
+  args:
+    - '<buttonId> [minutes]'
+    - number
+  desc: 'Встановлює необхідний час відповіді для типу тикета.'
+  params:
+    - desc: 'Встановлює необхідний час відповіді для типу тикета.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Встановлює необхідний час відповіді для типу тикета.'
+      name: minutes
+      optional: true
+      type: int
+ticketstats:
+  args:
+    - ''
+  desc: 'Показує статистику тикетів на сервері.'
+  params: [ ]
+tickettranscriptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал стенограм для тикетів.'
+  params:
+    - desc: 'Встановлює канал стенограм для тикетів.'
+      name: channel
+      optional: true
+      type: channel
+ticketunblock:
+  args:
+    - '@user'
+  desc: 'Знімає блокування з користувача, щоб той міг створювати тикети.'
+  params:
+    - desc: 'Знімає блокування з користувача, щоб той міг створювати тикети.'
+      name: user
+      optional: false
+      type: IGuildUser
+ticketunclaim:
+  args:
+    - ''
+  desc: 'Знімає призначення з поточного тикета.'
+  params: [ ]
+ticketunlinkcase:
+  args:
+    - ''
+  desc: 'Відв''язує поточний тикет від кейсу.'
+  params: [ ]
+ticketupdatepanel:
+  args:
+    - panelid text
+  desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+  params:
+    - desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_618
+      desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string:
+  args:
+    - panelid text
+  desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+  params:
+    - desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_1:
+  args:
+    - panelid text
+  desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+  params:
+    - desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_2:
+  args:
+    - panelid text
+  desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+  params:
+    - desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Оновлює вбудоване повідомлення (embed) панелі тикетів.'
+      name: embedJson
+      optional: false
+      type: string
+ticketuserstats:
+  args:
+    - '[@user]'
+  desc: 'Показує статистику тикетів для користувача.'
+  params:
+    - desc: 'Показує статистику тикетів для користувача.'
+      name: user
+      optional: true
+      type: user

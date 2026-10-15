@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "`{0}` 이라는 차단 동작은 없어요. 알려진 동작: {1}",
+  "ban_prune_cleared": "{1}의 {0}에 대한 메시지 삭제 설정을 지웠어요.",
+  "ban_prune_cleared_none": "{1}의 {0}에 대한 메시지 삭제 설정이 없었어요.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "설정된 메시지 삭제 옵션이 없어요. 차단은 각 동작의 기본값을 사용해요.",
+  "ban_prune_list_title": "차단 메시지 삭제",
+  "ban_prune_reset": "메시지 삭제 설정 {0}개를 제거했어요. 모든 동작이 기본값으로 돌아갔어요.",
+  "ban_prune_scope_category": "카테고리 {0}",
+  "ban_prune_scope_channel": "채널 {0}",
+  "ban_prune_scope_guild": "이 서버",
+  "ban_prune_set": "{0}에서의 차단은 이제 {2}에 대해 **{1}**의 메시지를 삭제해요.",
+  "ban_prune_set_all_actions": "모든 차단 동작",
+  "ban_prune_days": "{0}일 치 메시지",
+  "ban_prune_days_none": "메시지 없음",
+  "ban_prune_effective": "지금 여기서 차단하면 **{0}**을(를) 삭제해요.",
+  "ban_prune_defaults_title": "기본값",
+  "ban_prune_overrides_title": "개별 설정"
+}

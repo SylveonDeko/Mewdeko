@@ -243,7 +243,7 @@ afktype:
   desc: 'Stelt het type AFK-gedrag voor de server in.'
   params:
     - &ref_54
-      desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+      desc: 'Het type AFK-gedrag om in te stellen.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -255,7 +255,7 @@ afktype_AfkTypeEnum:
     - ontype
   desc: 'Stelt het type AFK-gedrag voor de server in.'
   params:
-    - desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+    - desc: 'Het type AFK-gedrag om in te stellen.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -267,7 +267,7 @@ afktype_AfkTypeEnum_1:
     - ontype
   desc: 'Stelt het type AFK-gedrag voor de server in.'
   params:
-    - desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+    - desc: 'Het type AFK-gedrag om in te stellen.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -279,7 +279,7 @@ afktype_AfkTypeEnum_2:
     - ontype
   desc: 'Stelt het type AFK-gedrag voor de server in.'
   params:
-    - desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+    - desc: 'Het type AFK-gedrag om in te stellen.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum

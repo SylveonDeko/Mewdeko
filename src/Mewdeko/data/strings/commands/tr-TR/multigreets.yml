@@ -1,7 +1,7 @@
 multigreetadd:
   args:
     - '[@channel]'
-  desc: 'Coklu Selamlama kanali ekler.'
+  desc: 'Bir MultiGreet kanalı ekler.'
   params:
     - desc: 'Eklenecek kanal'
       name: channel
@@ -10,308 +10,308 @@ multigreetadd:
 multigreetdelete:
   args:
     - number time
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
     - &ref_303
-      desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
     - &ref_305
-      desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+      desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime:
   args:
     - number time
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+    - desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime_1:
   args:
     - number time
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+    - desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime_2:
   args:
     - number time
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+    - desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_int:
   args:
     - number number
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
     - &ref_304
-      desc: 'Mesajin silinecegi sure (saniye)'
+      desc: 'Mesajın silineceği süre, saniye cinsinden'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_1:
   args:
     - number number
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Mesajin silinecegi sure (saniye)'
+    - desc: 'Mesajın silineceği süre, saniye cinsinden'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_2:
   args:
     - number number
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Mesajin silinecegi sure (saniye)'
+    - desc: 'Mesajın silineceği süre, saniye cinsinden'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_3:
   args:
     - number number
-  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  desc: 'Bir MultiGreet mesajının silinme süresini saniye cinsinden değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Mesajin silinecegi sure (saniye)'
+    - desc: 'Mesajın silineceği süre, saniye cinsinden'
       name: howlong
       optional: false
       type: int
 multigreetdisable:
   args:
     - number true|false
-  desc: 'Coklu Selamlama devre disi birakilir.'
+  desc: 'Bir MultiGreet''i devre dışı bırakır.'
   params:
     - &ref_306
-      desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+      desc: 'Devre dışı bırakılacak MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
     - &ref_307
-      desc: 'Coklu Selamlama devre disi birakilsin mi'
+      desc: 'MultiGreet''in devre dışı bırakılıp bırakılmayacağı'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool:
   args:
     - number true|false
-  desc: 'Coklu Selamlama devre disi birakilir.'
+  desc: 'Bir MultiGreet''i devre dışı bırakır.'
   params:
-    - desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+    - desc: 'Devre dışı bırakılacak MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
-    - desc: 'Coklu Selamlama devre disi birakilsin mi'
+    - desc: 'MultiGreet''in devre dışı bırakılıp bırakılmayacağı'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool_1:
   args:
     - number true|false
-  desc: 'Coklu Selamlama devre disi birakilir.'
+  desc: 'Bir MultiGreet''i devre dışı bırakır.'
   params:
-    - desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+    - desc: 'Devre dışı bırakılacak MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
-    - desc: 'Coklu Selamlama devre disi birakilsin mi'
+    - desc: 'MultiGreet''in devre dışı bırakılıp bırakılmayacağı'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool_2:
   args:
     - number true|false
-  desc: 'Coklu Selamlama devre disi birakilir.'
+  desc: 'Bir MultiGreet''i devre dışı bırakır.'
   params:
-    - desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+    - desc: 'Devre dışı bırakılacak MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
-    - desc: 'Coklu Selamlama devre disi birakilsin mi'
+    - desc: 'MultiGreet''in devre dışı bırakılıp bırakılmayacağı'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots:
   args:
     - number true|false
-  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  desc: 'Bir MultiGreet''in botları selamlayıp selamlamayacağını değiştirir.'
   params:
     - &ref_308
-      desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
     - &ref_309
-      desc: 'Botlar selamlansin mi'
+      desc: 'Botlar selamlansın mı'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool:
   args:
     - number true|false
-  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  desc: 'Bir MultiGreet''in botları selamlayıp selamlamayacağını değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
-    - desc: 'Botlar selamlansin mi'
+    - desc: 'Botlar selamlansın mı'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool_1:
   args:
     - number true|false
-  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  desc: 'Bir MultiGreet''in botları selamlayıp selamlamayacağını değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
-    - desc: 'Botlar selamlansin mi'
+    - desc: 'Botlar selamlansın mı'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool_2:
   args:
     - number true|false
-  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  desc: 'Bir MultiGreet''in botları selamlayıp selamlamayacağını değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: num
       optional: false
       type: int
-    - desc: 'Botlar selamlansin mi'
+    - desc: 'Botlar selamlansın mı'
       name: enabled
       optional: false
       type: bool
 multigreetlist:
   args:
     - ''
-  desc: 'Tum Coklu Selamalari listeler.'
+  desc: 'Tüm MultiGreet''leri listeler.'
   params: [ ]
 multigreetmessage:
   args:
     - '<id> [embedTemplate]'
     - number
-  desc: 'Coklu Selamlama mesajini degistirir.'
+  desc: 'Bir MultiGreet''in mesajını değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Ayarlanacak mesaj/gomulu sablon'
+    - desc: 'Ayarlanacak mesaj/embed şablonu'
       name: embedTemplate
       optional: true
       type: embedtemplateresult
 multigreetremove:
   args:
     - number
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
     - &ref_310
-      desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+      desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
       name: id
       optional: false
       type: int
 multigreetremove_ITextChannel:
   args:
     - channel
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
     - &ref_311
-      desc: 'Coklu Selamalarin kaldirilacagi kanal'
+      desc: 'MultiGreet''lerin kaldırılacağı kanal'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_1:
   args:
     - channel
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
-    - desc: 'Coklu Selamalarin kaldirilacagi kanal'
+    - desc: 'MultiGreet''lerin kaldırılacağı kanal'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_2:
   args:
     - channel
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
-    - desc: 'Coklu Selamalarin kaldirilacagi kanal'
+    - desc: 'MultiGreet''lerin kaldırılacağı kanal'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_3:
   args:
     - channel
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
-    - desc: 'Coklu Selamalarin kaldirilacagi kanal'
+    - desc: 'MultiGreet''lerin kaldırılacağı kanal'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_int:
   args:
     - number
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
-    - desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+    - desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
       name: id
       optional: false
       type: int
 multigreetremove_int_1:
   args:
     - number
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
-    - desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+    - desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
       name: id
       optional: false
       type: int
 multigreetremove_int_2:
   args:
     - number
-  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
   params:
-    - desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+    - desc: 'Bir kanaldaki tüm MultiGreet''leri kaldırır.'
       name: id
       optional: false
       type: int
@@ -321,10 +321,10 @@ multigreettype:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Coklu Selamlama turunu degistirir.'
+  desc: 'Bir MultiGreet''in türünü değiştirir.'
   params:
     - &ref_312
-      desc: 'Ayarlanacak Coklu Selamlama turu'
+      desc: 'Ayarlanacak MultiGreet türü'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -334,9 +334,9 @@ multigreettype_MultiGreetTypes:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Coklu Selamlama turunu degistirir.'
+  desc: 'Bir MultiGreet''in türünü değiştirir.'
   params:
-    - desc: 'Ayarlanacak Coklu Selamlama turu'
+    - desc: 'Ayarlanacak MultiGreet türü'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -346,9 +346,9 @@ multigreettype_MultiGreetTypes_1:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Coklu Selamlama turunu degistirir.'
+  desc: 'Bir MultiGreet''in türünü değiştirir.'
   params:
-    - desc: 'Ayarlanacak Coklu Selamlama turu'
+    - desc: 'Ayarlanacak MultiGreet türü'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -358,9 +358,9 @@ multigreettype_MultiGreetTypes_2:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Coklu Selamlama turunu degistirir.'
+  desc: 'Bir MultiGreet''in türünü değiştirir.'
   params:
-    - desc: 'Ayarlanacak Coklu Selamlama turu'
+    - desc: 'Ayarlanacak MultiGreet türü'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -368,17 +368,17 @@ multigreetwebhook:
   args:
     - '<id> [name] [avatar]'
     - number
-  desc: 'Coklu Selamlama webhook adresini degistirir.'
+  desc: 'Bir MultiGreet''in webhook''unu değiştirir.'
   params:
-    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+    - desc: 'Değiştirilecek MultiGreet''in kimliği'
       name: id
       optional: false
       type: int
-    - desc: 'Webhook adi'
+    - desc: 'Webhook''un adı'
       name: name
       optional: true
       type: string
-    - desc: 'Webhook avatari'
+    - desc: 'Webhook''un avatarı'
       name: avatar
       optional: true
       type: string

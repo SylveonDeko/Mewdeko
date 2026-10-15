@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "anal".'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+  params:
+    - &ref_90
+      desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+  params:
+    - desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+  params:
+    - desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+  params:
+    - desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "boobs" a intervalos definidos en el canal del servidor actual.'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "butts" a intervalos definidos en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW del subreddit "butts" a intervalos definidos en el canal del servidor actual o en mensajes directos.'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW a intervalos definidos en el canal del servidor actual.'
+  params:
+    - desc: 'El intervalo en segundos entre cada publicación automática. Ponlo en 0 para detener la publicación automática.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW. Separa varias etiquetas con ''|''. Déjalo en blanco para contenido NSFW aleatorio.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW a intervalos definidos en el canal del servidor actual.'
+  params:
+    - desc: 'El intervalo en segundos entre cada publicación automática. Ponlo en 0 para detener la publicación automática.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW. Separa varias etiquetas con ''|''. Déjalo en blanco para contenido NSFW aleatorio.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW a intervalos definidos en el canal del servidor actual.'
+  params:
+    - desc: 'El intervalo en segundos entre cada publicación automática. Ponlo en 0 para detener la publicación automática.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW. Separa varias etiquetas con ''|''. Déjalo en blanco para contenido NSFW aleatorio.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando para iniciar o detener la publicación automática de contenido NSFW a intervalos definidos en el canal del servidor actual.'
+  params:
+    - desc: 'El intervalo en segundos entre cada publicación automática. Ponlo en 0 para detener la publicación automática.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW. Separa varias etiquetas con ''|''. Déjalo en blanco para contenido NSFW aleatorio.'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "bondage".'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "boobs" en el canal del servidor actual o en mensajes directos.'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "ass" en el canal del servidor actual o en mensajes directos.'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Danbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_176
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Danbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Danbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Danbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Derpibooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_200
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Derpibooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Derpibooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Derpibooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes E621, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_203
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes E621, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes E621, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes E621, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes E621.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Gelbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_222
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Gelbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Gelbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Gelbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "hentai", con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_245
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "hentai", con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "hentai", con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "hentai", con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: 'Comando para lanzar una "hentai bomb", que obtiene y muestra contenido NSFW de varias fuentes con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW de cada fuente.'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "HENTAI_GIF".'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Konachan, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_263
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Konachan, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Konachan, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Konachan, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: 'Comando para obtener y mostrar información sobre un manga de la web NHentai.'
+  params:
+    - &ref_327
+      desc: 'El número de identificación del manga a obtener.'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: 'Comando para obtener y mostrar información sobre un manga de la web NHentai.'
+  params:
+    - desc: 'El número de identificación del manga a obtener.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: 'Comando para obtener y mostrar información sobre un manga de la web NHentai.'
+  params:
+    - desc: 'El número de identificación del manga a obtener.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: 'Comando para obtener y mostrar información sobre un manga de la web NHentai.'
+  params:
+    - desc: 'El número de identificación del manga a obtener.'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - &ref_328
+      desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'El número de página para la búsqueda en NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'El tipo de búsqueda en NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: 'Comando para buscar mangas hentai en NHentai según la búsqueda, el número de página, el tipo y la lista negra indicados.'
+  params:
+    - desc: 'El término de búsqueda para NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La lista negra para la búsqueda en NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: 'Gestiona la lista negra de etiquetas NSFW.'
+  params:
+    - desc: 'La acción a realizar (add/remove).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'La etiqueta a añadir a la lista negra.'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: 'Comando para gestionar la lista negra de etiquetas NSFW en el servidor actual.'
+  params:
+    - desc: 'Etiqueta opcional para añadir o quitar de la lista negra. Si no se indica, muestra la lista actual de etiquetas bloqueadas.'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "porn".'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: 'Comando para lanzar una "porn bomb", que obtiene y muestra contenido NSFW de una fuente RealBooru con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_352
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW de la fuente RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: 'Comando para lanzar una "porn bomb", que obtiene y muestra contenido NSFW de una fuente RealBooru con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW de la fuente RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: 'Comando para lanzar una "porn bomb", que obtiene y muestra contenido NSFW de una fuente RealBooru con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW de la fuente RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: 'Comando para lanzar una "porn bomb", que obtiene y muestra contenido NSFW de una fuente RealBooru con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW de la fuente RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: 'Comando para obtener y mostrar contenido NSFW del subreddit "pussy".'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Realbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_383
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Realbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Realbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Realbooru, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: 'Comando para obtener contenido NSFW de un subreddit concreto.'
+  params:
+    - &ref_384
+      desc: 'El nombre del subreddit del que obtener el contenido.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: 'Comando para obtener contenido NSFW de un subreddit concreto.'
+  params:
+    - desc: 'El nombre del subreddit del que obtener el contenido.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: 'Comando para obtener contenido NSFW de un subreddit concreto.'
+  params:
+    - desc: 'El nombre del subreddit del que obtener el contenido.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: 'Comando para obtener contenido NSFW de un subreddit concreto.'
+  params:
+    - desc: 'El nombre del subreddit del que obtener el contenido.'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Rule34, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_472
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Rule34, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Rule34, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Rule34, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Sankaku, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_474
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Sankaku, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Sankaku, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Sankaku, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Yandere, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - &ref_674
+      desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Yandere, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Yandere, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: 'Comando para obtener y mostrar contenido NSFW del tablón de imágenes Yandere, con etiquetas opcionales, en el canal del servidor actual o en mensajes directos.'
+  params:
+    - desc: 'Etiquetas opcionales para filtrar el contenido NSFW del tablón de imágenes Yandere.'
+      name: tags
+      optional: false
+      type: string[]

@@ -1,10 +1,10 @@
 addrolestorolestate:
   args:
     - '@user @role'
-  desc: 'Agrega roles al estado de roles de un usuario.'
+  desc: 'Añade roles al estado de roles de un usuario.'
   params:
     - &ref_26
-      desc: 'El usuario cuyo estado de roles debe modificarse.'
+      desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
@@ -16,10 +16,10 @@ addrolestorolestate:
 addrolestorolestate_IUser_IRole[]:
   args:
     - '@user @role'
-  desc: 'Agrega roles al estado de roles de un usuario.'
+  desc: 'Añade roles al estado de roles de un usuario.'
   params:
     - &ref_27
-      desc: 'El usuario cuyo estado de roles debe modificarse.'
+      desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
@@ -30,9 +30,9 @@ addrolestorolestate_IUser_IRole[]:
 addrolestorolestate_IUser_IRole[]_1:
   args:
     - '@user @role'
-  desc: 'Agrega roles al estado de roles de un usuario.'
+  desc: 'Añade roles al estado de roles de un usuario.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe modificarse.'
+    - desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
@@ -43,9 +43,9 @@ addrolestorolestate_IUser_IRole[]_1:
 addrolestorolestate_IUser_IRole[]_2:
   args:
     - '@user @role'
-  desc: 'Agrega roles al estado de roles de un usuario.'
+  desc: 'Añade roles al estado de roles de un usuario.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe modificarse.'
+    - desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
@@ -56,283 +56,283 @@ addrolestorolestate_IUser_IRole[]_2:
 deleteuserrolestate:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
     - &ref_191
-      desc: 'El usuario cuyo estado de roles debe eliminarse.'
+      desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IGuildUser
 deleteuserrolestate_IGuildUser:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe eliminarse.'
+    - desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IGuildUser
 deleteuserrolestate_IGuildUser_1:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe eliminarse.'
+    - desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IGuildUser
 deleteuserrolestate_IGuildUser_2:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe eliminarse.'
+    - desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IGuildUser
 deleteuserrolestate_IUser:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe eliminarse.'
+    - desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IUser
 deleteuserrolestate_IUser_1:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe eliminarse.'
+    - desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IUser
 deleteuserrolestate_IUser_2:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe eliminarse.'
+    - desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IUser
 deleteuserrolestate_IUser_3:
   args:
     - '@user'
-  desc: 'Elimina el estado de roles de un usuario específico.'
+  desc: 'Elimina el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe eliminarse.'
+    - desc: 'El usuario cuyo estado de roles se va a eliminar.'
       name: user
       optional: false
       type: IUser
 removerolesfromrolestate:
   args:
     - '@user @role'
-  desc: 'Elimina roles del estado de roles de un usuario.'
+  desc: 'Quita roles del estado de roles de un usuario.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe modificarse.'
+    - desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
     - &ref_414
-      desc: 'Los roles que se eliminarán del estado de roles del usuario.'
+      desc: 'Los roles que se quitarán del estado de roles del usuario.'
       name: roles
       optional: false
       type: IRole[]
 removerolesfromrolestate_IUser_IRole[]:
   args:
     - '@user @role'
-  desc: 'Elimina roles del estado de roles de un usuario.'
+  desc: 'Quita roles del estado de roles de un usuario.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe modificarse.'
+    - desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
-    - desc: 'Los roles que se eliminarán del estado de roles del usuario.'
+    - desc: 'Los roles que se quitarán del estado de roles del usuario.'
       name: roles
       optional: false
       type: IRole[]
 removerolesfromrolestate_IUser_IRole[]_1:
   args:
     - '@user @role'
-  desc: 'Elimina roles del estado de roles de un usuario.'
+  desc: 'Quita roles del estado de roles de un usuario.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe modificarse.'
+    - desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
-    - desc: 'Los roles que se eliminarán del estado de roles del usuario.'
+    - desc: 'Los roles que se quitarán del estado de roles del usuario.'
       name: roles
       optional: false
       type: IRole[]
 removerolesfromrolestate_IUser_IRole[]_2:
   args:
     - '@user @role'
-  desc: 'Elimina roles del estado de roles de un usuario.'
+  desc: 'Quita roles del estado de roles de un usuario.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe modificarse.'
+    - desc: 'El usuario cuyo estado de roles se va a modificar.'
       name: user
       optional: false
       type: IUser
-    - desc: 'Los roles que se eliminarán del estado de roles del usuario.'
+    - desc: 'Los roles que se quitarán del estado de roles del usuario.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyrole:
   args:
     - '@role'
-  desc: 'Agrega roles a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade roles a la lista de denegados de la función de estados de roles.'
   params:
     - &ref_463
-      desc: 'Los roles que se añadirán a la lista de denegación.'
+      desc: 'Los roles que se añadirán a la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyrole_IRole[]:
   args:
     - '@role'
-  desc: 'Agrega roles a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade roles a la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los roles que se añadirán a la lista de denegación.'
+    - desc: 'Los roles que se añadirán a la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyrole_IRole[]_1:
   args:
     - '@role'
-  desc: 'Agrega roles a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade roles a la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los roles que se añadirán a la lista de denegación.'
+    - desc: 'Los roles que se añadirán a la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyrole_IRole[]_2:
   args:
     - '@role'
-  desc: 'Agrega roles a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade roles a la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los roles que se añadirán a la lista de denegación.'
+    - desc: 'Los roles que se añadirán a la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesadddenyuser:
   args:
     - '@user'
-  desc: 'Agrega usuarios a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade usuarios a la lista de denegados de la función de estados de roles.'
   params:
     - &ref_464
-      desc: 'Los usuarios que se añadirán a la lista de denegación.'
+      desc: 'Los usuarios que se añadirán a la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesadddenyuser_IGuildUser[]:
   args:
     - '@user'
-  desc: 'Agrega usuarios a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade usuarios a la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los usuarios que se añadirán a la lista de denegación.'
+    - desc: 'Los usuarios que se añadirán a la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesadddenyuser_IGuildUser[]_1:
   args:
     - '@user'
-  desc: 'Agrega usuarios a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade usuarios a la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los usuarios que se añadirán a la lista de denegación.'
+    - desc: 'Los usuarios que se añadirán a la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesadddenyuser_IGuildUser[]_2:
   args:
     - '@user'
-  desc: 'Agrega usuarios a la lista de denegación de la función de estados de roles.'
+  desc: 'Añade usuarios a la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los usuarios que se añadirán a la lista de denegación.'
+    - desc: 'Los usuarios que se añadirán a la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremoveadduser:
   args:
     - user
-  desc: 'Elimina o deniega a un usuario de los estados de roles.'
+  desc: 'Quita o deniega a un usuario los estados de roles.'
   params:
-    - desc: 'El usuario a eliminar/denegar de los estados de roles.'
+    - desc: 'El usuario al que quitar o denegar los estados de roles.'
       name: user
       optional: false
       type: IUser
 rolestatesremovedenyrole:
   args:
     - '@role'
-  desc: 'Elimina roles de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita roles de la lista de denegados de la función de estados de roles.'
   params:
     - &ref_465
-      desc: 'Los roles que se eliminarán de la lista de denegación.'
+      desc: 'Los roles que se quitarán de la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyrole_IRole[]:
   args:
     - '@role'
-  desc: 'Elimina roles de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita roles de la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los roles que se eliminarán de la lista de denegación.'
+    - desc: 'Los roles que se quitarán de la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyrole_IRole[]_1:
   args:
     - '@role'
-  desc: 'Elimina roles de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita roles de la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los roles que se eliminarán de la lista de denegación.'
+    - desc: 'Los roles que se quitarán de la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyrole_IRole[]_2:
   args:
     - '@role'
-  desc: 'Elimina roles de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita roles de la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los roles que se eliminarán de la lista de denegación.'
+    - desc: 'Los roles que se quitarán de la lista de denegados.'
       name: roles
       optional: false
       type: IRole[]
 rolestatesremovedenyuser:
   args:
     - '@user'
-  desc: 'Elimina usuarios de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita usuarios de la lista de denegados de la función de estados de roles.'
   params:
     - &ref_466
-      desc: 'Los usuarios que se eliminarán de la lista de denegación.'
+      desc: 'Los usuarios que se quitarán de la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremovedenyuser_IGuildUser[]:
   args:
     - '@user'
-  desc: 'Elimina usuarios de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita usuarios de la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los usuarios que se eliminarán de la lista de denegación.'
+    - desc: 'Los usuarios que se quitarán de la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremovedenyuser_IGuildUser[]_1:
   args:
     - '@user'
-  desc: 'Elimina usuarios de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita usuarios de la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los usuarios que se eliminarán de la lista de denegación.'
+    - desc: 'Los usuarios que se quitarán de la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
 rolestatesremovedenyuser_IGuildUser[]_2:
   args:
     - '@user'
-  desc: 'Elimina usuarios de la lista de denegación de la función de estados de roles.'
+  desc: 'Quita usuarios de la lista de denegados de la función de estados de roles.'
   params:
-    - desc: 'Los usuarios que se eliminarán de la lista de denegación.'
+    - desc: 'Los usuarios que se quitarán de la lista de denegados.'
       name: users
       optional: false
       type: IGuildUser[]
@@ -344,10 +344,10 @@ saveallrolestates:
 setuserrolestate:
   args:
     - '@user @role'
-  desc: 'Establece el estado de roles de un usuario específico.'
+  desc: 'Establece el estado de roles de un usuario concreto.'
   params:
     - &ref_529
-      desc: 'El usuario cuyo estado de roles debe establecerse.'
+      desc: 'El usuario cuyo estado de roles se va a establecer.'
       name: user
       optional: false
       type: IGuildUser
@@ -359,10 +359,10 @@ setuserrolestate:
 setuserrolestate_IGuildUser_IRole[]:
   args:
     - '@user @role'
-  desc: 'Establece el estado de roles de un usuario específico.'
+  desc: 'Establece el estado de roles de un usuario concreto.'
   params:
     - &ref_531
-      desc: 'El usuario cuyo estado de roles debe establecerse.'
+      desc: 'El usuario cuyo estado de roles se va a establecer.'
       name: user
       optional: false
       type: IGuildUser
@@ -373,9 +373,9 @@ setuserrolestate_IGuildUser_IRole[]:
 setuserrolestate_IGuildUser_IRole[]_1:
   args:
     - '@user @role'
-  desc: 'Establece el estado de roles de un usuario específico.'
+  desc: 'Establece el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe establecerse.'
+    - desc: 'El usuario cuyo estado de roles se va a establecer.'
       name: user
       optional: false
       type: IGuildUser
@@ -386,9 +386,9 @@ setuserrolestate_IGuildUser_IRole[]_1:
 setuserrolestate_IGuildUser_IRole[]_2:
   args:
     - '@user @role'
-  desc: 'Establece el estado de roles de un usuario específico.'
+  desc: 'Establece el estado de roles de un usuario concreto.'
   params:
-    - desc: 'El usuario cuyo estado de roles debe establecerse.'
+    - desc: 'El usuario cuyo estado de roles se va a establecer.'
       name: user
       optional: false
       type: IGuildUser
@@ -404,22 +404,22 @@ togglerolestates:
 togglerolestatesclearonban:
   args:
     - ''
-  desc: 'Alterna si los estados de roles deben borrarse cuando un usuario es baneado.'
+  desc: 'Activa o desactiva que los estados de roles se borren cuando un usuario es baneado.'
   params: [ ]
 togglerolestatesignorebots:
   args:
     - ''
-  desc: 'Alterna si los bots deben ser ignorados por la función de estados de roles.'
+  desc: 'Activa o desactiva que la función de estados de roles ignore a los bots.'
   params: [ ]
 togglerolestatesskipautoassign:
   args:
     - ''
-  desc: 'Alterna si los roles de asignación automática deben omitirse para usuarios con estados de roles guardados.'
+  desc: 'Activa o desactiva que se omitan los roles de asignación automática a los usuarios con estados de roles guardados.'
   params: [ ]
 transferrolestates:
   args:
     - serverid
-  desc: 'Transfiere estados de roles del servidor actual a otro servidor.'
+  desc: 'Transfiere los estados de roles del servidor actual a otro servidor.'
   params:
     - &ref_627
       desc: 'El ID del servidor de destino.'
@@ -429,7 +429,7 @@ transferrolestates:
 transferrolestates_ulong:
   args:
     - serverid
-  desc: 'Transfiere estados de roles del servidor actual a otro servidor.'
+  desc: 'Transfiere los estados de roles del servidor actual a otro servidor.'
   params:
     - desc: 'El ID del servidor de destino.'
       name: serverId
@@ -438,7 +438,7 @@ transferrolestates_ulong:
 transferrolestates_ulong_1:
   args:
     - serverid
-  desc: 'Transfiere estados de roles del servidor actual a otro servidor.'
+  desc: 'Transfiere los estados de roles del servidor actual a otro servidor.'
   params:
     - desc: 'El ID del servidor de destino.'
       name: serverId
@@ -447,7 +447,7 @@ transferrolestates_ulong_1:
 transferrolestates_ulong_2:
   args:
     - serverid
-  desc: 'Transfiere estados de roles del servidor actual a otro servidor.'
+  desc: 'Transfiere los estados de roles del servidor actual a otro servidor.'
   params:
     - desc: 'El ID del servidor de destino.'
       name: serverId
@@ -456,7 +456,7 @@ transferrolestates_ulong_2:
 viewrolestates:
   args:
     - ''
-  desc: 'Muestra todos los estados de roles de usuarios en el servidor.'
+  desc: 'Muestra todos los estados de roles de los usuarios del servidor.'
   params: [ ]
 viewrolestatessettings:
   args:

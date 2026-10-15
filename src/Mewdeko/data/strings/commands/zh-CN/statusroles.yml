@@ -38,15 +38,15 @@ addstatusrole_string_2:
 liststatusroles:
   args:
     - ''
-  desc: '列出所有当前状态身份组及其详细信息。'
+  desc: '列出所有当前的状态身份组及其详细信息。'
   params: [ ]
 removeaddroles:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  desc: '设置用户拥有所选状态时要移除的身份组。'
   params:
     - &ref_390
-      desc: '状态身份组的索引。'
+      desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -58,9 +58,9 @@ removeaddroles:
 removeaddroles_int_IRole[]:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  desc: '设置用户拥有所选状态时要移除的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -71,9 +71,9 @@ removeaddroles_int_IRole[]:
 removeaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  desc: '设置用户拥有所选状态时要移除的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -84,9 +84,9 @@ removeaddroles_int_IRole[]_1:
 removeaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  desc: '设置用户拥有所选状态时要移除的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -97,10 +97,9 @@ removeaddroles_int_IRole[]_2:
 removeremoveroles:
   args:
     - number @role
-  desc: >-
-    从用户拥有所选状态时添加的身份组中移除一个或多个身份组。
+  desc: '从用户拥有所选状态时添加的身份组中移除一个或多个身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -113,16 +112,16 @@ removestatusrole:
     - number
   desc: '移除状态身份组配置。'
   params:
-    - desc: '要移除的状态身份组的索引。'
+    - desc: '要移除的状态身份组序号。'
       name: index
       optional: false
       type: int
 setaddroles:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  desc: '设置用户拥有所选状态时要添加的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -134,9 +133,9 @@ setaddroles:
 setaddroles_int_IRole[]:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  desc: '设置用户拥有所选状态时要添加的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -147,9 +146,9 @@ setaddroles_int_IRole[]:
 setaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  desc: '设置用户拥有所选状态时要添加的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -160,9 +159,9 @@ setaddroles_int_IRole[]_1:
 setaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  desc: '设置用户拥有所选状态时要添加的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -173,9 +172,9 @@ setaddroles_int_IRole[]_2:
 setremoveroles:
   args:
     - number @role
-  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  desc: '设置用户拥有所选状态时要移除的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -188,7 +187,7 @@ setstatusrolechannel:
     - number channel
   desc: '为特定状态身份组设置频道。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -202,7 +201,7 @@ setstatusrolechannel_int_ITextChannel:
     - number channel
   desc: '为特定状态身份组设置频道。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -215,7 +214,7 @@ setstatusrolechannel_int_ITextChannel_1:
     - number channel
   desc: '为特定状态身份组设置频道。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -228,7 +227,7 @@ setstatusrolechannel_int_ITextChannel_2:
     - number channel
   desc: '为特定状态身份组设置频道。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -242,7 +241,7 @@ setstatusroleembed:
     - number
   desc: '设置或预览特定状态身份组的嵌入文本。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
@@ -253,19 +252,18 @@ setstatusroleembed:
 togglereaddremoved:
   args:
     - number
-  desc: '切换状态被移除时是否移除已添加的身份组。'
+  desc: '切换状态被移除时是否同时移除所添加的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int
 toggleremoveadded:
   args:
     - number
-  desc: >-
-    根据提供的索引，切换用户不再拥有该状态时是否移除已添加的身份组。
+  desc: '切换当用户不再拥有该序号对应的状态时，是否移除所添加的身份组。'
   params:
-    - desc: '状态身份组的索引。'
+    - desc: '状态身份组的序号。'
       name: index
       optional: false
       type: int

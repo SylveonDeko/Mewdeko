@@ -1,0 +1,2459 @@
+anime:
+  args:
+    - text
+  desc: '搜索动漫并显示搜索结果的信息。'
+  params:
+    - &ref_66
+      desc: '要搜索的关键词。'
+      name: query
+      optional: false
+      type: string
+anime_string:
+  args:
+    - text
+  desc: '搜索动漫并显示搜索结果的信息。'
+  params:
+    - desc: '要搜索的关键词。'
+      name: query
+      optional: false
+      type: string
+anime_string_1:
+  args:
+    - text
+  desc: '搜索动漫并显示搜索结果的信息。'
+  params:
+    - desc: '要搜索的关键词。'
+      name: query
+      optional: false
+      type: string
+anime_string_2:
+  args:
+    - text
+  desc: '搜索动漫并显示搜索结果的信息。'
+  params:
+    - desc: '要搜索的关键词。'
+      name: query
+      optional: false
+      type: string
+autotranslang:
+  args:
+    - '[langs]'
+  desc: '设置或移除用户在当前频道中自动翻译的首选语言对。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对，或设为 null 以移除该设置。'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=:
+  args:
+    - '[langs]'
+  desc: '设置或移除用户在当前频道中自动翻译的首选语言对。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对，或设为 null 以移除该设置。'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_1:
+  args:
+    - '[langs]'
+  desc: '设置或移除用户在当前频道中自动翻译的首选语言对。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对，或设为 null 以移除该设置。'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_2:
+  args:
+    - '[langs]'
+  desc: '设置或移除用户在当前频道中自动翻译的首选语言对。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对，或设为 null 以移除该设置。'
+      name: langs
+      optional: true
+      type: string
+autotranslate:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+  params:
+    - &ref_97
+      desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+  params:
+    - desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_1:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+  params:
+    - desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_2:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+  params:
+    - desc: '切换当前频道的自动翻译，可选择是否自动删除原始消息。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+baka:
+  args:
+    - text
+  desc: '叫某人笨蛋。'
+  params:
+    - &ref_98
+      desc: '要叫笨蛋的人。'
+      name: toShow
+      optional: false
+      type: string
+baka_string:
+  args:
+    - text
+  desc: '叫某人笨蛋。'
+  params:
+    - &ref_99
+      desc: '要叫笨蛋的人。'
+      name: toShow
+      optional: false
+      type: string
+baka_string_1:
+  args:
+    - text
+  desc: '叫某人笨蛋。'
+  params:
+    - desc: '要叫笨蛋的人。'
+      name: toShow
+      optional: false
+      type: string
+baka_string_2:
+  args:
+    - text
+  desc: '叫某人笨蛋。'
+  params:
+    - desc: '要叫笨蛋的人。'
+      name: toShow
+      optional: false
+      type: string
+bible:
+  args:
+    - text text
+  desc: '根据书卷、章节和经文搜索并显示圣经经文。'
+  params:
+    - &ref_111
+      desc: '圣经的书卷。'
+      name: book
+      optional: false
+      type: string
+    - &ref_112
+      desc: '格式为 "章:节" 的章节和经文。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string:
+  args:
+    - text text
+  desc: '根据书卷、章节和经文搜索并显示圣经经文。'
+  params:
+    - desc: '圣经的书卷。'
+      name: book
+      optional: false
+      type: string
+    - desc: '格式为 "章:节" 的章节和经文。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_1:
+  args:
+    - text text
+  desc: '根据书卷、章节和经文搜索并显示圣经经文。'
+  params:
+    - desc: '圣经的书卷。'
+      name: book
+      optional: false
+      type: string
+    - desc: '格式为 "章:节" 的章节和经文。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_2:
+  args:
+    - text text
+  desc: '根据书卷、章节和经文搜索并显示圣经经文。'
+  params:
+    - desc: '圣经的书卷。'
+      name: book
+      optional: false
+      type: string
+    - desc: '格式为 "章:节" 的章节和经文。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bite:
+  args:
+    - text
+  desc: '咬某人。'
+  params:
+    - desc: '要咬的人。'
+      name: toShow
+      optional: false
+      type: string
+blush:
+  args:
+    - '[toShow]'
+  desc: '脸红。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+bored:
+  args:
+    - '[toShow]'
+  desc: '表示无聊。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+catfact:
+  args:
+    - ''
+  desc: '获取并分享一条随机猫咪小知识。'
+  params: [ ]
+charinfo:
+  args:
+    - text
+  desc: '检索并显示角色信息。'
+  params:
+    - &ref_125
+      desc: '要搜索的角色名称。'
+      name: chara
+      optional: false
+      type: string
+charinfo_string:
+  args:
+    - text
+  desc: '检索并显示角色信息。'
+  params:
+    - desc: '要搜索的角色名称。'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_1:
+  args:
+    - text
+  desc: '检索并显示角色信息。'
+  params:
+    - desc: '要搜索的角色名称。'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_2:
+  args:
+    - text
+  desc: '检索并显示角色信息。'
+  params:
+    - desc: '要搜索的角色名称。'
+      name: chara
+      optional: false
+      type: string
+chucknorris:
+  args:
+    - ''
+  desc: '获取一条查克·诺里斯笑话。'
+  params: [ ]
+color:
+  args:
+    - colors
+  desc: '根据提供的十六进制颜色代码显示色块。'
+  params:
+    - &ref_137
+      desc: '表示要显示的颜色的 SKColor 对象数组。'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]:
+  args:
+    - colors
+  desc: '根据提供的十六进制颜色代码显示色块。'
+  params:
+    - desc: '表示要显示的颜色的 SKColor 对象数组。'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_1:
+  args:
+    - colors
+  desc: '根据提供的十六进制颜色代码显示色块。'
+  params:
+    - desc: '表示要显示的颜色的 SKColor 对象数组。'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_2:
+  args:
+    - colors
+  desc: '根据提供的十六进制颜色代码显示色块。'
+  params:
+    - desc: '表示要显示的颜色的 SKColor 对象数组。'
+      name: colors
+      optional: false
+      type: SKColor[]
+cry:
+  args:
+    - '[toShow]'
+  desc: '哭。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+cuddle:
+  args:
+    - text
+  desc: '和某人贴贴。'
+  params:
+    - &ref_170
+      desc: '要贴贴的人。'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string:
+  args:
+    - text
+  desc: '和某人贴贴。'
+  params:
+    - &ref_171
+      desc: '要贴贴的人。'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_1:
+  args:
+    - text
+  desc: '和某人贴贴。'
+  params:
+    - desc: '要贴贴的人。'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_2:
+  args:
+    - text
+  desc: '和某人贴贴。'
+  params:
+    - desc: '要贴贴的人。'
+      name: toShow
+      optional: false
+      type: string
+dance:
+  args:
+    - '[toShow]'
+  desc: '跳舞。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+define:
+  args:
+    - text
+  desc: '获取并显示 Pearson 词典中的释义。'
+  params:
+    - &ref_179
+      desc: '要查询释义的单词。'
+      name: word
+      optional: false
+      type: string
+define_string:
+  args:
+    - text
+  desc: '获取并显示 Pearson 词典中的释义。'
+  params:
+    - desc: '要查询释义的单词。'
+      name: word
+      optional: false
+      type: string
+define_string_1:
+  args:
+    - text
+  desc: '获取并显示 Pearson 词典中的释义。'
+  params:
+    - desc: '要查询释义的单词。'
+      name: word
+      optional: false
+      type: string
+define_string_2:
+  args:
+    - text
+  desc: '获取并显示 Pearson 词典中的释义。'
+  params:
+    - desc: '要查询释义的单词。'
+      name: word
+      optional: false
+      type: string
+facepalm:
+  args:
+    - '[toShow]'
+  desc: '扶额。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+feed:
+  args:
+    - text
+  desc: '喂某人吃东西。'
+  params:
+    - &ref_213
+      desc: '要喂食的人。'
+      name: toShow
+      optional: false
+      type: string
+feed_string:
+  args:
+    - text
+  desc: '喂某人吃东西。'
+  params:
+    - desc: '要喂食的人。'
+      name: toShow
+      optional: false
+      type: string
+feed_string_1:
+  args:
+    - text
+  desc: '喂某人吃东西。'
+  params:
+    - desc: '要喂食的人。'
+      name: toShow
+      optional: false
+      type: string
+feed_string_2:
+  args:
+    - text
+  desc: '喂某人吃东西。'
+  params:
+    - desc: '要喂食的人。'
+      name: toShow
+      optional: false
+      type: string
+feedadd:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '向服务器的订阅列表中添加新的 RSS 订阅源。'
+  params:
+    - desc: 'RSS 订阅源的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '接收订阅更新的频道（可选，默认为当前频道）。'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '向服务器的订阅列表中添加新的 RSS 订阅源。'
+  params:
+    - desc: 'RSS 订阅源的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '接收订阅更新的频道（可选，默认为当前频道）。'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_1:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '向服务器的订阅列表中添加新的 RSS 订阅源。'
+  params:
+    - desc: 'RSS 订阅源的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '接收订阅更新的频道（可选，默认为当前频道）。'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_2:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: '向服务器的订阅列表中添加新的 RSS 订阅源。'
+  params:
+    - desc: 'RSS 订阅源的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '接收订阅更新的频道（可选，默认为当前频道）。'
+      name: channel
+      optional: true
+      type: channel
+feedlist:
+  args:
+    - ''
+  desc: '列出服务器添加的所有 RSS 订阅源。'
+  params: [ ]
+feedmessage:
+  args:
+    - number text
+  desc: '为指定频道的订阅更新设置自定义消息格式。'
+  params:
+    - &ref_215
+      desc: '订阅源在列表中的序号。'
+      name: index
+      optional: false
+      type: int
+    - &ref_216
+      desc: '自定义消息格式。'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string:
+  args:
+    - number text
+  desc: '为指定频道的订阅更新设置自定义消息格式。'
+  params:
+    - desc: '订阅源在列表中的序号。'
+      name: index
+      optional: false
+      type: int
+    - desc: '自定义消息格式。'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_1:
+  args:
+    - number text
+  desc: '为指定频道的订阅更新设置自定义消息格式。'
+  params:
+    - desc: '订阅源在列表中的序号。'
+      name: index
+      optional: false
+      type: int
+    - desc: '自定义消息格式。'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_2:
+  args:
+    - number text
+  desc: '为指定频道的订阅更新设置自定义消息格式。'
+  params:
+    - desc: '订阅源在列表中的序号。'
+      name: index
+      optional: false
+      type: int
+    - desc: '自定义消息格式。'
+      name: message
+      optional: false
+      type: string
+feedremove:
+  args:
+    - number
+  desc: '从服务器的订阅列表中移除一个 RSS 订阅源。'
+  params:
+    - desc: '订阅源在列表中的序号。'
+      name: index
+      optional: false
+      type: int
+findanime:
+  args:
+    - '[e]'
+  desc: '根据图片查找动漫信息。'
+  params:
+    - desc: '用于搜索的图片 URL 或附件图片。'
+      name: e
+      optional: true
+      type: string
+gatari:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu!Gatari 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu!Gatari 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu!Gatari 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu!Gatari 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu!Gatari 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu!Gatari 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu!Gatari 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu!Gatari 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+google:
+  args:
+    - '[query]'
+  desc: '使用 Google 或 DuckDuckGo 搜索引擎进行综合搜索并显示结果。'
+  params:
+    - desc: '搜索关键词。'
+      name: query
+      optional: true
+      type: string
+google_=:
+  args:
+    - '[query]'
+  desc: '使用 Google 或 DuckDuckGo 搜索引擎进行综合搜索并显示结果。'
+  params:
+    - desc: '搜索关键词。'
+      name: query
+      optional: true
+      type: string
+google_=_1:
+  args:
+    - '[query]'
+  desc: '使用 Google 或 DuckDuckGo 搜索引擎进行综合搜索并显示结果。'
+  params:
+    - desc: '搜索关键词。'
+      name: query
+      optional: true
+      type: string
+google_=_2:
+  args:
+    - '[query]'
+  desc: '使用 Google 或 DuckDuckGo 搜索引擎进行综合搜索并显示结果。'
+  params:
+    - desc: '搜索关键词。'
+      name: query
+      optional: true
+      type: string
+handhold:
+  args:
+    - text
+  desc: '牵某人的手。'
+  params:
+    - &ref_242
+      desc: '要牵手的人。'
+      name: toShow
+      optional: false
+      type: string
+handhold_string:
+  args:
+    - text
+  desc: '牵某人的手。'
+  params:
+    - desc: '要牵手的人。'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_1:
+  args:
+    - text
+  desc: '牵某人的手。'
+  params:
+    - &ref_243
+      desc: '要牵手的人。'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_2:
+  args:
+    - text
+  desc: '牵某人的手。'
+  params:
+    - desc: '要牵手的人。'
+      name: toShow
+      optional: false
+      type: string
+happy:
+  args:
+    - '[toShow]'
+  desc: '表达开心。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+highfive:
+  args:
+    - text
+  desc: '和某人击掌。'
+  params:
+    - desc: '要击掌的人。'
+      name: toShow
+      optional: false
+      type: string
+hug:
+  args:
+    - text
+  desc: '拥抱某人。'
+  params:
+    - desc: '要拥抱的人。'
+      name: toShow
+      optional: false
+      type: string
+hug_string:
+  args:
+    - text
+  desc: '拥抱某人。'
+  params:
+    - desc: '要拥抱的人。'
+      name: toShow
+      optional: false
+      type: string
+hug_string_1:
+  args:
+    - text
+  desc: '拥抱某人。'
+  params:
+    - desc: '要拥抱的人。'
+      name: toShow
+      optional: false
+      type: string
+hug_string_2:
+  args:
+    - text
+  desc: '拥抱某人。'
+  params:
+    - desc: '要拥抱的人。'
+      name: toShow
+      optional: false
+      type: string
+image:
+  args:
+    - text
+  desc: '使用 Google 和 DuckDuckGo 进行图片搜索，并过滤掉 NSFW 结果。'
+  params:
+    - &ref_251
+      desc: '图片的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+image_string:
+  args:
+    - text
+  desc: '使用 Google 和 DuckDuckGo 进行图片搜索，并过滤掉 NSFW 结果。'
+  params:
+    - &ref_252
+      desc: '图片的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+image_string_1:
+  args:
+    - text
+  desc: '使用 Google 和 DuckDuckGo 进行图片搜索，并过滤掉 NSFW 结果。'
+  params:
+    - desc: '图片的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+image_string_2:
+  args:
+    - text
+  desc: '使用 Google 和 DuckDuckGo 进行图片搜索，并过滤掉 NSFW 结果。'
+  params:
+    - desc: '图片的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+kiss:
+  args:
+    - text
+  desc: '亲吻某人。'
+  params:
+    - desc: '要亲吻的人。'
+      name: toShow
+      optional: false
+      type: string
+kiss_string:
+  args:
+    - text
+  desc: '亲吻某人。'
+  params:
+    - desc: '要亲吻的人。'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_1:
+  args:
+    - text
+  desc: '亲吻某人。'
+  params:
+    - desc: '要亲吻的人。'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_2:
+  args:
+    - text
+  desc: '亲吻某人。'
+  params:
+    - desc: '要亲吻的人。'
+      name: toShow
+      optional: false
+      type: string
+laugh:
+  args:
+    - '[toShow]'
+  desc: '大笑。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+magicitem:
+  args:
+    - ''
+  desc: '获取与魔兽世界相关的魔法物品描述。'
+  params: [ ]
+mal:
+  args:
+    - text
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - &ref_288
+      desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+      name: name
+      optional: true
+      type: string
+mal_IGuildUser:
+  args:
+    - '@user'
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - &ref_287
+      desc: '要获取 MyAnimeList 资料信息的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - desc: '要获取 MyAnimeList 资料信息的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - desc: '要获取 MyAnimeList 资料信息的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_3:
+  args:
+    - '@user'
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - desc: '要获取 MyAnimeList 资料信息的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_string:
+  args:
+    - text
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+      name: name
+      optional: true
+      type: string
+mal_string_1:
+  args:
+    - text
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+      name: name
+      optional: true
+      type: string
+mal_string_2:
+  args:
+    - text
+  desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+  params:
+    - desc: '检索并显示当前服务器中指定用户的 MyAnimeList 资料信息。'
+      name: name
+      optional: true
+      type: string
+manga:
+  args:
+    - text
+  desc: '搜索漫画并显示搜索结果的信息。'
+  params:
+    - desc: '要搜索的关键词。'
+      name: query
+      optional: false
+      type: string
+meme:
+  args:
+    - ''
+  desc: '从 Reddit 获取并显示一张随机梗图。'
+  params: [ ]
+meme_noparams:
+  args:
+    - ''
+  desc: '从 Reddit 获取并显示一张随机梗图。'
+  params: [ ]
+meme_noparams_1:
+  args:
+    - ''
+  desc: '从 Reddit 获取并显示一张随机梗图。'
+  params: [ ]
+meme_noparams_2:
+  args:
+    - ''
+  desc: '从 Reddit 获取并显示一张随机梗图。'
+  params: [ ]
+memegen:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '使用指定模板和文字生成梗图。'
+  params:
+    - desc: '梗图模板的名称。'
+      name: meme
+      optional: false
+      type: string
+    - desc: '梗图中包含的文字（可选）。'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '使用指定模板和文字生成梗图。'
+  params:
+    - desc: '梗图模板的名称。'
+      name: meme
+      optional: false
+      type: string
+    - desc: '梗图中包含的文字（可选）。'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_1:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '使用指定模板和文字生成梗图。'
+  params:
+    - desc: '梗图模板的名称。'
+      name: meme
+      optional: false
+      type: string
+    - desc: '梗图中包含的文字（可选）。'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_2:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '使用指定模板和文字生成梗图。'
+  params:
+    - desc: '梗图模板的名称。'
+      name: meme
+      optional: false
+      type: string
+    - desc: '梗图中包含的文字（可选）。'
+      name: memeText
+      optional: true
+      type: string
+memelist:
+  args:
+    - ''
+  desc: '列出可用的梗图模板。'
+  params: [ ]
+movie:
+  args:
+    - '[query]'
+  desc: '根据提供的关键词从 IMDb 获取并显示电影信息。'
+  params:
+    - desc: '要在 IMDb 上搜索的电影名称。'
+      name: query
+      optional: true
+      type: string
+movie_=:
+  args:
+    - '[query]'
+  desc: '根据提供的关键词从 IMDb 获取并显示电影信息。'
+  params:
+    - desc: '要在 IMDb 上搜索的电影名称。'
+      name: query
+      optional: true
+      type: string
+movie_=_1:
+  args:
+    - '[query]'
+  desc: '根据提供的关键词从 IMDb 获取并显示电影信息。'
+  params:
+    - desc: '要在 IMDb 上搜索的电影名称。'
+      name: query
+      optional: true
+      type: string
+movie_=_2:
+  args:
+    - '[query]'
+  desc: '根据提供的关键词从 IMDb 获取并显示电影信息。'
+  params:
+    - desc: '要在 IMDb 上搜索的电影名称。'
+      name: query
+      optional: true
+      type: string
+osu:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu! 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+osu5:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取用户最好的 5 次 osu! 成绩。'
+  params:
+    - desc: '要查询成绩的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询成绩的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取用户最好的 5 次 osu! 成绩。'
+  params:
+    - desc: '要查询成绩的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询成绩的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取用户最好的 5 次 osu! 成绩。'
+  params:
+    - desc: '要查询成绩的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询成绩的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取用户最好的 5 次 osu! 成绩。'
+  params:
+    - desc: '要查询成绩的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询成绩的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+osu_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu! 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu! 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: '获取 osu! 用户资料信息。'
+  params:
+    - desc: '要查询信息的 osu! 用户名。'
+      name: user
+      optional: false
+      type: string
+    - desc: '要查询的游戏模式（standard、taiko、catch、mania）（可选）。'
+      name: mode
+      optional: true
+      type: string
+pat:
+  args:
+    - text
+  desc: '摸摸某人的头。'
+  params:
+    - desc: '要摸头的人。'
+      name: toShow
+      optional: false
+      type: string
+pat_string:
+  args:
+    - text
+  desc: '摸摸某人的头。'
+  params:
+    - &ref_336
+      desc: '要摸头的人。'
+      name: toShow
+      optional: false
+      type: string
+pat_string_1:
+  args:
+    - text
+  desc: '摸摸某人的头。'
+  params:
+    - desc: '要摸头的人。'
+      name: toShow
+      optional: false
+      type: string
+pat_string_2:
+  args:
+    - text
+  desc: '摸摸某人的头。'
+  params:
+    - desc: '要摸头的人。'
+      name: toShow
+      optional: false
+      type: string
+poke:
+  args:
+    - text
+  desc: '戳某人。'
+  params:
+    - desc: '要戳的人。'
+      name: toShow
+      optional: false
+      type: string
+poke_string:
+  args:
+    - text
+  desc: '戳某人。'
+  params:
+    - desc: '要戳的人。'
+      name: toShow
+      optional: false
+      type: string
+poke_string_1:
+  args:
+    - text
+  desc: '戳某人。'
+  params:
+    - desc: '要戳的人。'
+      name: toShow
+      optional: false
+      type: string
+poke_string_2:
+  args:
+    - text
+  desc: '戳某人。'
+  params:
+    - desc: '要戳的人。'
+      name: toShow
+      optional: false
+      type: string
+pokemon:
+  args:
+    - text
+  desc: '获取宝可梦的信息。'
+  params:
+    - &ref_348
+      desc: '宝可梦的名称。'
+      name: name
+      optional: false
+      type: string
+pokemon_string:
+  args:
+    - text
+  desc: '获取宝可梦的信息。'
+  params:
+    - desc: '宝可梦的名称。'
+      name: name
+      optional: false
+      type: string
+pokemon_string_1:
+  args:
+    - text
+  desc: '获取宝可梦的信息。'
+  params:
+    - desc: '宝可梦的名称。'
+      name: name
+      optional: false
+      type: string
+pokemon_string_2:
+  args:
+    - text
+  desc: '获取宝可梦的信息。'
+  params:
+    - desc: '宝可梦的名称。'
+      name: name
+      optional: false
+      type: string
+pout:
+  args:
+    - '[toShow]'
+  desc: '撅嘴。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+punch:
+  args:
+    - text
+  desc: '揍某人。'
+  params:
+    - desc: '要揍的人。'
+      name: toShow
+      optional: false
+      type: string
+punch_string:
+  args:
+    - text
+  desc: '揍某人。'
+  params:
+    - desc: '要揍的人。'
+      name: toShow
+      optional: false
+      type: string
+punch_string_1:
+  args:
+    - text
+  desc: '揍某人。'
+  params:
+    - desc: '要揍的人。'
+      name: toShow
+      optional: false
+      type: string
+punch_string_2:
+  args:
+    - text
+  desc: '揍某人。'
+  params:
+    - desc: '要揍的人。'
+      name: toShow
+      optional: false
+      type: string
+randjoke:
+  args:
+    - ''
+  desc: '获取一个随机笑话。'
+  params: [ ]
+randombird:
+  args:
+    - ''
+  desc: '显示小鸟图片。'
+  params: [ ]
+randomcat:
+  args:
+    - ''
+  desc: '显示一张随机猫咪图片。'
+  params: [ ]
+randomdog:
+  args:
+    - ''
+  desc: '显示一张随机狗狗图片。'
+  params: [ ]
+randomfood:
+  args:
+    - ''
+  desc: '显示一张随机食物图片。'
+  params: [ ]
+randomkitsune:
+  args:
+    - ''
+  desc: '发送一张随机狐娘图片。'
+  params: [ ]
+randomneko:
+  args:
+    - ''
+  desc: '发送一张随机猫娘图片。'
+  params: [ ]
+randomreddit:
+  args:
+    - text
+  desc: '从指定子版块获取并显示一条随机帖子。'
+  params:
+    - &ref_374
+      desc: '用于获取随机帖子的子版块。'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string:
+  args:
+    - text
+  desc: '从指定子版块获取并显示一条随机帖子。'
+  params:
+    - desc: '用于获取随机帖子的子版块。'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_1:
+  args:
+    - text
+  desc: '从指定子版块获取并显示一条随机帖子。'
+  params:
+    - desc: '用于获取随机帖子的子版块。'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_2:
+  args:
+    - text
+  desc: '从指定子版块获取并显示一条随机帖子。'
+  params:
+    - desc: '用于获取随机帖子的子版块。'
+      name: subreddit
+      optional: false
+      type: string
+randomwaifu:
+  args:
+    - ''
+  desc: '发送一张随机老婆图片。'
+  params: [ ]
+resolvetonetags:
+  args:
+    - text
+  desc: '解析消息中的语气标签，并对每个识别出的标签给出解释。'
+  params:
+    - &ref_441
+      desc: '包含待解析语气标签的消息。'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string:
+  args:
+    - text
+  desc: '解析消息中的语气标签，并对每个识别出的标签给出解释。'
+  params:
+    - desc: '包含待解析语气标签的消息。'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_1:
+  args:
+    - text
+  desc: '解析消息中的语气标签，并对每个识别出的标签给出解释。'
+  params:
+    - desc: '包含待解析语气标签的消息。'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_2:
+  args:
+    - text
+  desc: '解析消息中的语气标签，并对每个识别出的标签给出解释。'
+  params:
+    - desc: '包含待解析语气标签的消息。'
+      name: tag
+      optional: false
+      type: string
+revav:
+  args:
+    - '[@usr]'
+  desc: '使用头像链接进行以图搜图。'
+  params:
+    - desc: '要以头像进行反向搜索的用户。'
+      name: usr
+      optional: true
+      type: user
+revimg:
+  args:
+    - '[imageLink]'
+  desc: '使用提供的图片链接进行以图搜图。'
+  params:
+    - desc: '要搜索的图片的直接 URL。'
+      name: imageLink
+      optional: true
+      type: string
+rip:
+  args:
+    - '@user'
+  desc: '显示带有用户名和头像的 RIP 图片。'
+  params:
+    - &ref_443
+      desc: '要生成 RIP 图片的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser:
+  args:
+    - '@user'
+  desc: '显示带有用户名和头像的 RIP 图片。'
+  params:
+    - desc: '要生成 RIP 图片的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '显示带有用户名和头像的 RIP 图片。'
+  params:
+    - desc: '要生成 RIP 图片的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '显示带有用户名和头像的 RIP 图片。'
+  params:
+    - desc: '要生成 RIP 图片的用户。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rsstest:
+  args:
+    - number
+  desc: '测试获取 RSS 订阅源，以检查更新。'
+  params:
+    - desc: '订阅源在列表中的序号。'
+      name: index
+      optional: false
+      type: int
+safebooru:
+  args:
+    - text
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_=:
+  args:
+    - '<tags>'
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_1:
+  args:
+    - '<tags>'
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_2:
+  args:
+    - '<tags>'
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_3:
+  args:
+    - '<tags>'
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_string[]:
+  args:
+    - text
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_1:
+  args:
+    - text
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_2:
+  args:
+    - text
+  desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+  params:
+    - desc: '根据提供的标签从 Safebooru 搜索并显示图片。'
+      name: tags
+      optional: false
+      type: string[]
+ship:
+  args:
+    - '@user @user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - &ref_540
+      desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_541
+      desc: '根据当前用户与另一用户的契合度发送配对图片。'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser:
+  args:
+    - '@user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_1:
+  args:
+    - '@user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_2:
+  args:
+    - '@user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_3:
+  args:
+    - '@user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_IUser:
+  args:
+    - '@user @user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '根据当前用户与另一用户的契合度发送配对图片。'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_1:
+  args:
+    - '@user @user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - &ref_542
+      desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '根据当前用户与另一用户的契合度发送配对图片。'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_2:
+  args:
+    - '@user @user'
+  desc: '根据当前用户与另一用户的契合度发送配对图片。'
+  params:
+    - desc: '要与当前用户进行比较的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '根据当前用户与另一用户的契合度发送配对图片。'
+      name: user2
+      optional: false
+      type: IUser
+shoot:
+  args:
+    - text
+  desc: '射击某人。'
+  params:
+    - desc: '要射击的人。'
+      name: toShow
+      optional: false
+      type: string
+shoot_string:
+  args:
+    - text
+  desc: '射击某人。'
+  params:
+    - desc: '要射击的人。'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_1:
+  args:
+    - text
+  desc: '射击某人。'
+  params:
+    - desc: '要射击的人。'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_2:
+  args:
+    - text
+  desc: '射击某人。'
+  params:
+    - desc: '要射击的人。'
+      name: toShow
+      optional: false
+      type: string
+shorten:
+  args:
+    - text
+  desc: '使用 goolnk.com API 缩短提供的 URL。'
+  params:
+    - &ref_543
+      desc: '要缩短的 URL。'
+      name: query
+      optional: false
+      type: string
+shorten_string:
+  args:
+    - text
+  desc: '使用 goolnk.com API 缩短提供的 URL。'
+  params:
+    - desc: '要缩短的 URL。'
+      name: query
+      optional: false
+      type: string
+shorten_string_1:
+  args:
+    - text
+  desc: '使用 goolnk.com API 缩短提供的 URL。'
+  params:
+    - desc: '要缩短的 URL。'
+      name: query
+      optional: false
+      type: string
+shorten_string_2:
+  args:
+    - text
+  desc: '使用 goolnk.com API 缩短提供的 URL。'
+  params:
+    - desc: '要缩短的 URL。'
+      name: query
+      optional: false
+      type: string
+shrug:
+  args:
+    - '[toShow]'
+  desc: '耸肩。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+slap:
+  args:
+    - text
+  desc: '扇某人耳光。'
+  params:
+    - &ref_546
+      desc: '要扇耳光的人。'
+      name: toShow
+      optional: false
+      type: string
+slap_string:
+  args:
+    - text
+  desc: '扇某人耳光。'
+  params:
+    - desc: '要扇耳光的人。'
+      name: toShow
+      optional: false
+      type: string
+slap_string_1:
+  args:
+    - text
+  desc: '扇某人耳光。'
+  params:
+    - desc: '要扇耳光的人。'
+      name: toShow
+      optional: false
+      type: string
+slap_string_2:
+  args:
+    - text
+  desc: '扇某人耳光。'
+  params:
+    - desc: '要扇耳光的人。'
+      name: toShow
+      optional: false
+      type: string
+sleep:
+  args:
+    - '[toShow]'
+  desc: '睡觉。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+smile:
+  args:
+    - '[toShow]'
+  desc: '微笑。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+smug:
+  args:
+    - '[toShow]'
+  desc: '得意地笑。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+stare:
+  args:
+    - '[toShow]'
+  desc: '盯着看。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+steam:
+  args:
+    - text
+  desc: '按名称在 Steam 上搜索游戏，并提供其 Steam 商店页面链接。'
+  params:
+    - &ref_567
+      desc: '要在 Steam 上搜索的游戏名称。'
+      name: query
+      optional: false
+      type: string
+steam_string:
+  args:
+    - text
+  desc: '按名称在 Steam 上搜索游戏，并提供其 Steam 商店页面链接。'
+  params:
+    - desc: '要在 Steam 上搜索的游戏名称。'
+      name: query
+      optional: false
+      type: string
+steam_string_1:
+  args:
+    - text
+  desc: '按名称在 Steam 上搜索游戏，并提供其 Steam 商店页面链接。'
+  params:
+    - desc: '要在 Steam 上搜索的游戏名称。'
+      name: query
+      optional: false
+      type: string
+steam_string_2:
+  args:
+    - text
+  desc: '按名称在 Steam 上搜索游戏，并提供其 Steam 商店页面链接。'
+  params:
+    - desc: '要在 Steam 上搜索的游戏名称。'
+      name: query
+      optional: false
+      type: string
+streamadd:
+  args:
+    - text
+  desc: '向当前服务器的通知列表中添加新的直播间。'
+  params:
+    - &ref_571
+      desc: '要添加的直播间链接。'
+      name: link
+      optional: false
+      type: string
+streamadd_string:
+  args:
+    - text
+  desc: '向当前服务器的通知列表中添加新的直播间。'
+  params:
+    - desc: '要添加的直播间链接。'
+      name: link
+      optional: false
+      type: string
+streamadd_string_1:
+  args:
+    - text
+  desc: '向当前服务器的通知列表中添加新的直播间。'
+  params:
+    - desc: '要添加的直播间链接。'
+      name: link
+      optional: false
+      type: string
+streamadd_string_2:
+  args:
+    - text
+  desc: '向当前服务器的通知列表中添加新的直播间。'
+  params:
+    - desc: '要添加的直播间链接。'
+      name: link
+      optional: false
+      type: string
+streamcheck:
+  args:
+    - text
+  desc: '通过 URL 检查直播间的实时状态。'
+  params:
+    - &ref_572
+      desc: '要检查的直播间 URL。'
+      name: url
+      optional: false
+      type: string
+streamcheck_string:
+  args:
+    - text
+  desc: '通过 URL 检查直播间的实时状态。'
+  params:
+    - desc: '要检查的直播间 URL。'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_1:
+  args:
+    - text
+  desc: '通过 URL 检查直播间的实时状态。'
+  params:
+    - desc: '要检查的直播间 URL。'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_2:
+  args:
+    - text
+  desc: '通过 URL 检查直播间的实时状态。'
+  params:
+    - desc: '要检查的直播间 URL。'
+      name: url
+      optional: false
+      type: string
+streamlist:
+  args:
+    - ''
+  desc: '列出服务器当前关注的所有直播间。'
+  params: [ ]
+streammessage:
+  args:
+    - number text
+  desc: '为服务器通知列表中的指定直播间设置自定义通知消息。'
+  params:
+    - &ref_573
+      desc: '要设置消息的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - &ref_574
+      desc: '直播开始时发送的自定义消息。留空则重置为默认消息。'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string:
+  args:
+    - number text
+  desc: '为服务器通知列表中的指定直播间设置自定义通知消息。'
+  params:
+    - desc: '要设置消息的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '直播开始时发送的自定义消息。留空则重置为默认消息。'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_1:
+  args:
+    - number text
+  desc: '为服务器通知列表中的指定直播间设置自定义通知消息。'
+  params:
+    - desc: '要设置消息的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '直播开始时发送的自定义消息。留空则重置为默认消息。'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_2:
+  args:
+    - number text
+  desc: '为服务器通知列表中的指定直播间设置自定义通知消息。'
+  params:
+    - desc: '要设置消息的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '直播开始时发送的自定义消息。留空则重置为默认消息。'
+      name: message
+      optional: false
+      type: string
+streamoffline:
+  args:
+    - ''
+  desc: '切换当关注的直播间下线时是否通知服务器。'
+  params: [ ]
+streamofflinemessage:
+  args:
+    - number
+    - text
+  desc: '为指定直播间设置下线消息。'
+  params:
+    - desc: '直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '带占位符的下线消息模板。'
+      name: message
+      optional: false
+      type: string
+streamremove:
+  args:
+    - number
+  desc: '根据序号从通知列表中移除一个直播间。'
+  params:
+    - &ref_575
+      desc: '要从通知列表中移除的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+streamremove_int:
+  args:
+    - number
+  desc: '根据序号从通知列表中移除一个直播间。'
+  params:
+    - desc: '要从通知列表中移除的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+streamremove_int_1:
+  args:
+    - number
+  desc: '根据序号从通知列表中移除一个直播间。'
+  params:
+    - desc: '要从通知列表中移除的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+streamremove_int_2:
+  args:
+    - number
+  desc: '根据序号从通知列表中移除一个直播间。'
+  params:
+    - desc: '要从通知列表中移除的直播间序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+streamsclear:
+  args:
+    - ''
+  desc: '清空服务器通知列表中的所有直播间。'
+  params: [ ]
+streamtemplate:
+  args:
+    - text
+  desc: '为服务器中的所有直播间设置或显示自定义直播通知消息模板。'
+  params:
+    - desc: '带占位符的自定义消息模板。留空则显示当前模板；使用 "reset" 可禁用自定义消息。'
+      name: template
+      optional: true
+      type: string
+think:
+  args:
+    - '[toShow]'
+  desc: '思考。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+thumbsup:
+  args:
+    - '[toShow]'
+  desc: '竖起大拇指。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+tickle:
+  args:
+    - text
+  desc: '挠某人痒痒。'
+  params:
+    - desc: '要挠痒痒的人。'
+      name: toShow
+      optional: false
+      type: string
+tickle_string:
+  args:
+    - text
+  desc: '挠某人痒痒。'
+  params:
+    - desc: '要挠痒痒的人。'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_1:
+  args:
+    - text
+  desc: '挠某人痒痒。'
+  params:
+    - desc: '要挠痒痒的人。'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_2:
+  args:
+    - text
+  desc: '挠某人痒痒。'
+  params:
+    - desc: '要挠痒痒的人。'
+      name: toShow
+      optional: false
+      type: string
+time:
+  args:
+    - text
+  desc: '显示指定地点的当前时间。'
+  params:
+    - &ref_620
+      desc: '用于查询当前时间的地点。'
+      name: query
+      optional: false
+      type: string
+time_string:
+  args:
+    - text
+  desc: '显示指定地点的当前时间。'
+  params:
+    - desc: '用于查询当前时间的地点。'
+      name: query
+      optional: false
+      type: string
+time_string_1:
+  args:
+    - text
+  desc: '显示指定地点的当前时间。'
+  params:
+    - desc: '用于查询当前时间的地点。'
+      name: query
+      optional: false
+      type: string
+time_string_2:
+  args:
+    - text
+  desc: '显示指定地点的当前时间。'
+  params:
+    - desc: '用于查询当前时间的地点。'
+      name: query
+      optional: false
+      type: string
+translangs:
+  args:
+    - ''
+  desc: '列出所有可用的翻译语言。'
+  params: [ ]
+translate:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '将文本从一种语言翻译为用户指定的另一种语言。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '要翻译的文本。'
+      name: text
+      optional: true
+      type: string
+translate_string_=:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '将文本从一种语言翻译为用户指定的另一种语言。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '要翻译的文本。'
+      name: text
+      optional: true
+      type: string
+translate_string_=_1:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '将文本从一种语言翻译为用户指定的另一种语言。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '要翻译的文本。'
+      name: text
+      optional: true
+      type: string
+translate_string_=_2:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: '将文本从一种语言翻译为用户指定的另一种语言。'
+  params:
+    - desc: '格式为 ''from>to'' 的语言对。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '要翻译的文本。'
+      name: text
+      optional: true
+      type: string
+urbandict:
+  args:
+    - '[query]'
+  desc: '搜索 Urban Dictionary 并显示给定词条的释义。'
+  params:
+    - desc: '要在 Urban Dictionary 上搜索的词条。'
+      name: query
+      optional: true
+      type: string
+wave:
+  args:
+    - '[toShow]'
+  desc: '挥手。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+weather:
+  args:
+    - text
+  desc: '显示指定地点的交互式天气信息。'
+  params:
+    - &ref_659
+      desc: '用于查询天气信息的地点。'
+      name: query
+      optional: false
+      type: string
+weather_string:
+  args:
+    - text
+  desc: '显示指定地点的交互式天气信息。'
+  params:
+    - desc: '用于查询天气信息的地点。'
+      name: query
+      optional: false
+      type: string
+weather_string_1:
+  args:
+    - text
+  desc: '显示指定地点的交互式天气信息。'
+  params:
+    - desc: '用于查询天气信息的地点。'
+      name: query
+      optional: false
+      type: string
+weather_string_2:
+  args:
+    - text
+  desc: '显示指定地点的交互式天气信息。'
+  params:
+    - desc: '用于查询天气信息的地点。'
+      name: query
+      optional: false
+      type: string
+wiki:
+  args:
+    - '[query]'
+  desc: '根据提供的关键词搜索并显示维基百科信息。'
+  params:
+    - desc: '维基百科的搜索关键词。'
+      name: query
+      optional: true
+      type: string
+wikia:
+  args:
+    - text text
+  desc: '从 wikia 获取并显示特定主题的详细信息。'
+  params:
+    - &ref_661
+      desc: '目标 wikia 站点。'
+      name: target
+      optional: false
+      type: string
+    - &ref_662
+      desc: 'wikia 的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+wikia_string_string:
+  args:
+    - text text
+  desc: '从 wikia 获取并显示特定主题的详细信息。'
+  params:
+    - desc: '目标 wikia 站点。'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia 的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_1:
+  args:
+    - text text
+  desc: '从 wikia 获取并显示特定主题的详细信息。'
+  params:
+    - desc: '目标 wikia 站点。'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia 的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_2:
+  args:
+    - text text
+  desc: '从 wikia 获取并显示特定主题的详细信息。'
+  params:
+    - desc: '目标 wikia 站点。'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia 的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+wink:
+  args:
+    - '[toShow]'
+  desc: '眨眼。'
+  params:
+    - desc: '附加文字（可选）。'
+      name: toShow
+      optional: true
+      type: string
+wowjoke:
+  args:
+    - ''
+  desc: '获取一条与魔兽世界相关的笑话。'
+  params: [ ]
+xkcd:
+  args:
+    - '[arg]'
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - desc: '按编号获取并显示 XKCD 漫画。'
+      name: arg
+      optional: true
+      type: string
+xkcd_=:
+  args:
+    - '[arg]'
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - desc: '按编号获取并显示 XKCD 漫画。'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_1:
+  args:
+    - '[arg]'
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - desc: '按编号获取并显示 XKCD 漫画。'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_2:
+  args:
+    - '[arg]'
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - desc: '按编号获取并显示 XKCD 漫画。'
+      name: arg
+      optional: true
+      type: string
+xkcd_int:
+  args:
+    - number
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - &ref_663
+      desc: '要获取的 XKCD 漫画编号。'
+      name: num
+      optional: false
+      type: int
+xkcd_int_1:
+  args:
+    - number
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - desc: '要获取的 XKCD 漫画编号。'
+      name: num
+      optional: false
+      type: int
+xkcd_int_2:
+  args:
+    - number
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - desc: '要获取的 XKCD 漫画编号。'
+      name: num
+      optional: false
+      type: int
+xkcd_int_3:
+  args:
+    - number
+  desc: '按编号获取并显示 XKCD 漫画。'
+  params:
+    - desc: '要获取的 XKCD 漫画编号。'
+      name: num
+      optional: false
+      type: int
+yomama:
+  args:
+    - ''
+  desc: '获取一条 Yo Mama 笑话。'
+  params: [ ]
+youtube:
+  args:
+    - text
+  desc: '根据提供的查询搜索 YouTube 视频并显示结果。'
+  params:
+    - &ref_675
+      desc: '用于查找 YouTube 视频的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+youtube_string:
+  args:
+    - text
+  desc: '根据提供的查询搜索 YouTube 视频并显示结果。'
+  params:
+    - desc: '用于查找 YouTube 视频的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+youtube_string_1:
+  args:
+    - text
+  desc: '根据提供的查询搜索 YouTube 视频并显示结果。'
+  params:
+    - desc: '用于查找 YouTube 视频的搜索关键词。'
+      name: query
+      optional: false
+      type: string
+youtube_string_2:
+  args:
+    - text
+  desc: '根据提供的查询搜索 YouTube 视频并显示结果。'
+  params:
+    - desc: '用于查找 YouTube 视频的搜索关键词。'
+      name: query
+      optional: false
+      type: string

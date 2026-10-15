@@ -1,0 +1,892 @@
+baccarat:
+  args:
+    - number text
+  desc: 'Jouez une partie de Baccarat.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le type de pari (player, banker, tie).'
+      name: betType
+      optional: true
+      type: string
+bingo:
+  args:
+    - number text
+  desc: 'Jouez une partie de Bingo avec tirage de numéros.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le type de carte de bingo (small, large).'
+      name: cardType
+      optional: true
+      type: string
+blackjack:
+  args:
+    - number
+  desc: 'Lance une nouvelle partie de Blackjack ou rejoint une partie en cours.'
+  params:
+    - &ref_113
+      desc: 'Le montant de la mise du joueur.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long:
+  args:
+    - number
+  desc: 'Lance une nouvelle partie de Blackjack ou rejoint une partie en cours.'
+  params:
+    - desc: 'Le montant de la mise du joueur.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_1:
+  args:
+    - number
+  desc: 'Lance une nouvelle partie de Blackjack ou rejoint une partie en cours.'
+  params:
+    - desc: 'Le montant de la mise du joueur.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_2:
+  args:
+    - number
+  desc: 'Lance une nouvelle partie de Blackjack ou rejoint une partie en cours.'
+  params:
+    - desc: 'Le montant de la mise du joueur.'
+      name: amount
+      optional: false
+      type: long
+cash:
+  args:
+    - ''
+  desc: 'Vérifie le solde actuel de l''utilisateur.'
+  params: [ ]
+challengeleaderboard:
+  args:
+    - ''
+  desc: 'Affiche le classement du défi quotidien.'
+  params: [ ]
+claimchallenge:
+  args:
+    - ''
+  desc: 'Récupère la récompense de votre défi quotidien terminé.'
+  params: [ ]
+coinflip:
+  args:
+    - number text
+  desc: 'Permet à l''utilisateur de lancer une pièce avec un montant de mise et un pronostic.'
+  params:
+    - &ref_135
+      desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_136
+      desc: 'Le pronostic de l''utilisateur ("heads" ou "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string:
+  args:
+    - number text
+  desc: 'Permet à l''utilisateur de lancer une pièce avec un montant de mise et un pronostic.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le pronostic de l''utilisateur ("heads" ou "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_1:
+  args:
+    - number text
+  desc: 'Permet à l''utilisateur de lancer une pièce avec un montant de mise et un pronostic.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le pronostic de l''utilisateur ("heads" ou "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_2:
+  args:
+    - number text
+  desc: 'Permet à l''utilisateur de lancer une pièce avec un montant de mise et un pronostic.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le pronostic de l''utilisateur ("heads" ou "tails").'
+      name: guess
+      optional: false
+      type: string
+craps:
+  args:
+    - number text
+  desc: 'Jouez une partie de Craps.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le type de pari (pass, dontpass, field, any).'
+      name: betType
+      optional: true
+      type: string
+crash:
+  args:
+    - number number
+  desc: 'Jouez à Crash : pariez sur un multiplicateur qui peut s''effondrer à tout moment.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le multiplicateur auquel encaisser (1.1x - 10.0x).'
+      name: targetMultiplier
+      optional: true
+      type: double
+dailychallenge:
+  args:
+    - ''
+  desc: 'Affiche votre défi quotidien en cours.'
+  params: [ ]
+dailyreward:
+  args:
+    - ''
+  desc: 'Permet à l''utilisateur de réclamer sa récompense quotidienne.'
+  params: [ ]
+diceduel:
+  args:
+    - '@user number'
+  desc: 'Défiez un autre joueur à un duel de dés.'
+  params:
+    - desc: 'L''utilisateur à défier.'
+      name: opponent
+      optional: false
+      type: IUser
+    - desc: 'Le montant misé par chaque joueur.'
+      name: betAmount
+      optional: false
+      type: long
+duckrace:
+  args:
+    - number
+  desc: 'Lance une course de canards, similaire à une course de chevaux.'
+  params:
+    - desc: 'Le montant à miser sur la course de canards.'
+      name: betAmount
+      optional: false
+      type: long
+highlow:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Affiche un nombre de 1 à 10 et vous rapporte des gains si vous prédisez correctement si le suivant sera plus haut ou plus bas. Les nombres identiques restituent la mise.'
+  params:
+    - &ref_247
+      desc: 'Le pronostic de l''utilisateur ("higher" ou "lower").'
+      name: guess
+      optional: false
+      type: string
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: true
+      type: long
+highlow_string:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Affiche un nombre de 1 à 10 et vous rapporte des gains si vous prédisez correctement si le suivant sera plus haut ou plus bas. Les nombres identiques restituent la mise.'
+  params:
+    - desc: 'Le pronostic de l''utilisateur ("higher" ou "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_1:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Affiche un nombre de 1 à 10 et vous rapporte des gains si vous prédisez correctement si le suivant sera plus haut ou plus bas. Les nombres identiques restituent la mise.'
+  params:
+    - desc: 'Le pronostic de l''utilisateur ("higher" ou "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_2:
+  args:
+    - 'text'
+    - 'text number'
+  desc: 'Affiche un nombre de 1 à 10 et vous rapporte des gains si vous prédisez correctement si le suivant sera plus haut ou plus bas. Les nombres identiques restituent la mise.'
+  params:
+    - desc: 'Le pronostic de l''utilisateur ("higher" ou "lower").'
+      name: guess
+      optional: false
+      type: string
+hit:
+  args:
+    - ''
+  desc: 'Tire une nouvelle carte pour le joueur.'
+  params: [ ]
+horserace:
+  args:
+    - number
+  desc: 'Rejoint ou lance une course de chevaux avec un montant de mise précis.'
+  params:
+    - &ref_248
+      desc: 'Le montant de monnaie à miser sur la course.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int:
+  args:
+    - number
+  desc: 'Rejoint ou lance une course de chevaux avec un montant de mise précis.'
+  params:
+    - desc: 'Le montant de monnaie à miser sur la course.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_1:
+  args:
+    - number
+  desc: 'Rejoint ou lance une course de chevaux avec un montant de mise précis.'
+  params:
+    - desc: 'Le montant de monnaie à miser sur la course.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_2:
+  args:
+    - number
+  desc: 'Rejoint ou lance une course de chevaux avec un montant de mise précis.'
+  params:
+    - desc: 'Le montant de monnaie à miser sur la course.'
+      name: betAmount
+      optional: false
+      type: int
+keno:
+  args:
+    - number text
+  desc: 'Jouez au Keno en sélectionnant des nombres et en voyant combien correspondent aux nombres tirés.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Jusqu''à 10 nombres entre 1 et 80, séparés par des espaces.'
+      name: numbers
+      optional: false
+      type: string
+lottery:
+  args:
+    - number
+  desc: 'Achetez des tickets de loterie.'
+  params:
+    - desc: 'Nombre de tickets à acheter (1-10).'
+      name: ticketCount
+      optional: true
+      type: int
+memory:
+  args:
+    - number text
+  desc: 'Jouez à un jeu de mémoire en retenant des séquences.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le niveau de difficulté (easy, medium, hard).'
+      name: difficulty
+      optional: true
+      type: string
+minesweeper:
+  args:
+    - number text
+  desc: 'Jouez à une version simplifiée du Démineur.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Taille de la grille (small, medium, large).'
+      name: size
+      optional: true
+      type: string
+modifybalance:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Ajoute de l''argent au solde d''un utilisateur'
+  params:
+    - desc: 'L''utilisateur à qui l''ajouter.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Le montant à ajouter, ne soyez pas trop fou lol. Peut être négatif'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'La raison de cette action sur cette personne, ce truc, peu importe'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Ajoute de l''argent au solde d''un utilisateur'
+  params:
+    - desc: 'L''utilisateur à qui l''ajouter.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Le montant à ajouter, ne soyez pas trop fou lol. Peut être négatif'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'La raison de cette action sur cette personne, ce truc, peu importe'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_1:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Ajoute de l''argent au solde d''un utilisateur'
+  params:
+    - desc: 'L''utilisateur à qui l''ajouter.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Le montant à ajouter, ne soyez pas trop fou lol. Peut être négatif'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'La raison de cette action sur cette personne, ce truc, peu importe'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_2:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Ajoute de l''argent au solde d''un utilisateur'
+  params:
+    - desc: 'L''utilisateur à qui l''ajouter.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Le montant à ajouter, ne soyez pas trop fou lol. Peut être négatif'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'La raison de cette action sur cette personne, ce truc, peu importe'
+      name: reason
+      optional: true
+      type: string
+plinko:
+  args:
+    - number number
+  desc: 'Jouez au Plinko en faisant tomber une bille à travers des picots pour obtenir des multiplicateurs aléatoires.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Nombre de rangées de picots (5-10).'
+      name: rows
+      optional: true
+      type: int
+roulette:
+  args:
+    - number text
+  desc: 'Jouez à la roulette avec un montant et un type de mise précis.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_469
+      desc: 'Le type de pari (par ex. "red", "black", "even", "odd", ou un nombre de 0 à 36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string:
+  args:
+    - number text
+  desc: 'Jouez à la roulette avec un montant et un type de mise précis.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le type de pari (par ex. "red", "black", "even", "odd", ou un nombre de 0 à 36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_1:
+  args:
+    - number text
+  desc: 'Jouez à la roulette avec un montant et un type de mise précis.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le type de pari (par ex. "red", "black", "even", "odd", ou un nombre de 0 à 36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_2:
+  args:
+    - number text
+  desc: 'Jouez à la roulette avec un montant et un type de mise précis.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le type de pari (par ex. "red", "black", "even", "odd", ou un nombre de 0 à 36).'
+      name: betType
+      optional: false
+      type: string
+rps:
+  args:
+    - text 0
+    - text
+  desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+  params:
+    - &ref_470
+      desc: 'Votre choix (rock, paper, scissors, lizard ou spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=:
+  args:
+    - text 0
+    - text
+  desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+  params:
+    - desc: 'Votre choix (rock, paper, scissors, lizard ou spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_1:
+  args:
+    - text 0
+    - text
+  desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+  params:
+    - desc: 'Votre choix (rock, paper, scissors, lizard ou spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_2:
+  args:
+    - text 0
+    - text
+  desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+  params:
+    - desc: 'Votre choix (rock, paper, scissors, lizard ou spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Jouez à Pierre-Feuille-Ciseaux-Lézard-Spock contre le bot, avec ou sans mise.'
+      name: 0
+      optional: false
+      type: '='
+russianroulette:
+  args:
+    - number number
+  desc: 'Jouez à la roulette russe.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Nombre de balles (1-5).'
+      name: bullets
+      optional: true
+      type: int
+scratchcard:
+  args:
+    - text
+  desc: 'Jouez à un jeu de carte à gratter.'
+  params:
+    - desc: 'Le type de carte à acheter (bronze, silver, gold, diamond).'
+      name: cardType
+      optional: true
+      type: string
+setdaily:
+  args:
+    - number time
+  desc: 'Définit le montant de la récompense quotidienne et le délai d''attente pour le serveur.'
+  params:
+    - &ref_499
+      desc: 'Le montant de la récompense quotidienne.'
+      name: amount
+      optional: false
+      type: int
+    - &ref_500
+      desc: 'Le délai d''attente avant de réclamer la récompense quotidienne.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Définit le montant de la récompense quotidienne et le délai d''attente pour le serveur.'
+  params:
+    - desc: 'Le montant de la récompense quotidienne.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Le délai d''attente avant de réclamer la récompense quotidienne.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Définit le montant de la récompense quotidienne et le délai d''attente pour le serveur.'
+  params:
+    - desc: 'Le montant de la récompense quotidienne.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Le délai d''attente avant de réclamer la récompense quotidienne.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Définit le montant de la récompense quotidienne et le délai d''attente pour le serveur.'
+  params:
+    - desc: 'Le montant de la récompense quotidienne.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Le délai d''attente avant de réclamer la récompense quotidienne.'
+      name: time
+      optional: false
+      type: StoopidTime
+slot:
+  args:
+    - 10
+  desc: 'Joue à une machine à sous avec un montant de mise précis.'
+  params:
+    - desc: 'Joue à une machine à sous avec un montant de mise précis.'
+      name: 10
+      optional: false
+      type: '='
+spinwheel:
+  args:
+    - 0
+  desc: 'Permet à l''utilisateur de faire tourner la roue pour avoir une chance de gagner ou de perdre des crédits.'
+  params:
+    - desc: 'Permet à l''utilisateur de faire tourner la roue pour avoir une chance de gagner ou de perdre des crédits.'
+      name: 0
+      optional: false
+      type: '='
+stand:
+  args:
+    - ''
+  desc: 'Reste et met fin au tour du joueur, en gérant le tour du croupier.'
+  params: [ ]
+transactions:
+  args:
+    - '@user'
+  desc: 'Récupère et affiche les transactions d''un utilisateur précis ou de l''utilisateur actuel.'
+  params:
+    - desc: 'L''utilisateur dont afficher les transactions. Par défaut, l''utilisateur actuel.'
+      name: user
+      optional: true
+      type: IUser?
+triviachain:
+  args:
+    - number text
+  desc: 'Jouez à une chaîne de quiz où vous répondez aux questions à la suite pour des récompenses croissantes.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'La catégorie du quiz.'
+      name: category
+      optional: true
+      type: string
+war:
+  args:
+    - number
+  desc: 'Jouez à la bataille (War) contre le bot.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+wheelfortune:
+  args:
+    - number text
+  desc: 'Jouez à une Roue de la Fortune améliorée avec des segments personnalisables.'
+  params:
+    - desc: 'Le montant à miser.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'Le type de roue (classic, risky, balanced).'
+      name: wheelType
+      optional: true
+      type: string
+work:
+  args:
+    - ''
+  desc: 'Effectuez un quart de travail pour un gain aléatoire, avec un délai d''attente défini par le serveur.'
+  params: [ ]
+crime:
+  args:
+    - ''
+  desc: 'Tentez un crime pour un gain plus élevé que le travail, au risque d''être amendé.'
+  params: [ ]
+rob:
+  args:
+    - '@user'
+  desc: 'Tentez de voler le portefeuille d''un autre utilisateur. La monnaie en banque est hors de portée.'
+  params:
+    - desc: 'L''utilisateur à voler.'
+      name: target
+      optional: false
+      type: user
+pay:
+  args:
+    - '@user <amount>'
+  desc: 'Envoie de la monnaie à un autre utilisateur, moins la taxe de transfert éventuelle du serveur.'
+  params:
+    - desc: 'L''utilisateur à qui envoyer la monnaie.'
+      name: target
+      optional: false
+      type: user
+    - desc: 'Le montant à envoyer avant taxe.'
+      name: amount
+      optional: false
+      type: long
+bank:
+  args:
+    - ''
+    - '@user'
+  desc: 'Affiche le solde de votre portefeuille et de votre banque, en récupérant les intérêts accumulés.'
+  params:
+    - desc: 'L''utilisateur à consulter. Par défaut, vous.'
+      name: user
+      optional: true
+      type: user
+deposit:
+  args:
+    - '<amount|all>'
+  desc: 'Transfère de la monnaie de votre portefeuille vers la banque, où elle est à l''abri des vols.'
+  params:
+    - desc: 'Le montant à déposer, ou "all" pour déposer tout le portefeuille.'
+      name: amount
+      optional: false
+      type: string
+withdraw:
+  args:
+    - '<amount|all>'
+  desc: 'Transfère de la monnaie de la banque vers votre portefeuille pour pouvoir la dépenser.'
+  params:
+    - desc: 'Le montant à retirer, ou "all" pour tout retirer.'
+      name: amount
+      optional: false
+      type: string
+shop:
+  args:
+    - ''
+  desc: 'Liste tout ce que le serveur vend actuellement.'
+  params: [ ]
+buy:
+  args:
+    - '<item name>'
+  desc: 'Achète un article dans la boutique du serveur.'
+  params:
+    - desc: 'Le nom de l''article à acheter.'
+      name: name
+      optional: false
+      type: string
+inventory:
+  args:
+    - ''
+    - '@user'
+  desc: 'Affiche les articles possédés par un utilisateur.'
+  params:
+    - desc: 'L''utilisateur dont afficher l''inventaire. Par défaut, vous.'
+      name: user
+      optional: true
+      type: user
+use:
+  args:
+    - '<item name>'
+  desc: 'Utilise un exemplaire d''un article consommable que vous possédez.'
+  params:
+    - desc: 'Le nom de l''article à utiliser.'
+      name: name
+      optional: false
+      type: string
+shopaddrole:
+  args:
+    - '<price> @role <name>'
+  desc: 'Ajoute un rôle à la boutique pour que les utilisateurs puissent l''acheter.'
+  params:
+    - desc: 'Le prix du rôle.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Le rôle accordé à l''achat.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Le nom affiché de l''entrée de la boutique.'
+      name: name
+      optional: false
+      type: string
+shopadditem:
+  args:
+    - '<price> <name>'
+  desc: 'Ajoute un article de collection simple à la boutique, sans effet automatique à l''achat.'
+  params:
+    - desc: 'Le prix de l''article.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Le nom affiché de l''entrée de la boutique.'
+      name: name
+      optional: false
+      type: string
+shopremove:
+  args:
+    - '<item name>'
+  desc: 'Retire un article de la boutique, ainsi que les exemplaires de chacun.'
+  params:
+    - desc: 'Le nom de l''article à retirer.'
+      name: name
+      optional: false
+      type: string
+shopprice:
+  args:
+    - '<price> <item name>'
+  desc: 'Définit le prix d''un article existant de la boutique.'
+  params:
+    - desc: 'Le nouveau prix.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'Le nom de l''article dont modifier le prix.'
+      name: name
+      optional: false
+      type: string
+shopstock:
+  args:
+    - '<stock> <item name>'
+  desc: 'Définit le nombre d''exemplaires d''un article encore en vente.'
+  params:
+    - desc: 'Le stock restant, ou -1 pour illimité.'
+      name: stock
+      optional: false
+      type: int
+    - desc: 'Le nom de l''article à réapprovisionner.'
+      name: name
+      optional: false
+      type: string
+shopdesc:
+  args:
+    - '<item name> | <description>'
+  desc: 'Définit la description affichée pour un article de la boutique.'
+  params:
+    - desc: 'Le nom de l''article, suivi d''une barre verticale et de la nouvelle description.'
+      name: name
+      optional: false
+      type: string
+shoptoggle:
+  args:
+    - '<item name>'
+  desc: 'Affiche ou masque un article de la boutique sans supprimer l''article ni les exemplaires des membres.'
+  params:
+    - desc: 'Le nom de l''article à basculer.'
+      name: name
+      optional: false
+      type: string
+economyconfig:
+  args:
+    - ''
+  desc: 'Affiche tous les paramètres de l''économie et leur valeur actuelle.'
+  params: [ ]
+economyset:
+  args:
+    - '<setting> <value>'
+  desc: 'Modifie un paramètre de l''économie. Exécutez la commande de configuration pour voir tous les noms de paramètres disponibles.'
+  params:
+    - desc: 'Le paramètre à modifier.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'La nouvelle valeur.'
+      name: value
+      optional: false
+      type: string
+economyreset:
+  args:
+    - ''
+  desc: 'Restaure tous les paramètres de l''économie à leur valeur par défaut.'
+  params: [ ]
+economystats:
+  args:
+    - ''
+  desc: 'Affiche la taille et la concentration de la masse monétaire du serveur.'
+  params: [ ]
+economyflow:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Affiche d''où la monnaie entre dans la circulation et d''où elle en sort.'
+  params:
+    - desc: 'Nombre de jours en arrière à prendre en compte. Par défaut 7.'
+      name: days
+      optional: true
+      type: int
+gamestats:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Affiche, pour chaque jeu, les gains reversés par rapport aux mises encaissées, afin d''ajuster les taux de gains à partir de résultats réels plutôt qu''au hasard.'
+  params:
+    - desc: 'Nombre de jours en arrière à prendre en compte. Par défaut 7.'
+      name: days
+      optional: true
+      type: int
+cashleaderboard:
+  args:
+    - ''
+  desc: 'Affiche le classement des utilisateurs ayant la plus grande valeur nette.'
+  params: [ ]

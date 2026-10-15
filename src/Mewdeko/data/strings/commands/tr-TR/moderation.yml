@@ -1,0 +1,3385 @@
+banprune:
+  args:
+    - ''
+  desc: 'Bu kanalda verilen bir yasaklamanın kullanacağı temizliği ve yapılandırılmış tüm ayarları gösterir.'
+  params:
+    - { }
+banpruneset:
+  args:
+    - '<action> <days> [#channel]'
+  desc: 'Tek bir yasaklama işleminin kaç gün mesajı temizleyeceğini ayarlar. Tüm işlemler için "all" kullanın; yalnızca bu kapsamı geçersiz kılmak için bir kanal ya da kategori belirtin.'
+  params:
+    - desc: 'İşlem anahtarı ya da tüm işlemleri kapsamak için "all".'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Gün cinsinden temizlik, 0 ile 7 arasında'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Ayarın uygulanacağı bir kanal veya kategori; sunucu varsayılanı için boş bırakın'
+      name: target
+      optional: true
+      type: channel
+banpruneclear:
+  args:
+    - '<action> [#channel]'
+  desc: 'Temizleme ayarını kaldırır; böylece işlem daha geniş bir kapsama veya varsayılana döner.'
+  params:
+    - desc: 'İşlem anahtarı ya da tüm işlemleri kapsayan ayar için "all"'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Ayarın bulunduğu kanal veya kategori; sunucu varsayılanı için boş bırakın'
+      name: target
+      optional: true
+      type: channel
+banprunereset:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm temizleme ayarlarını kaldırır.'
+  params:
+    - { }
+ban:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+  params:
+    - desc: 'Bir kullanıcıyı belirtilen sebep ve mesaj temizleme gün sayısıyla yasaklar.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'Mesajları temizlemek için süre'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Yasaklanacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Yasağın sebebi'
+      name: msg
+      optional: true
+      type: string
+banmessage:
+  args:
+    - '[message]'
+  desc: 'Yasaklanan kullanıcılara DM ile gönderilecek mesajı ayarlar.'
+  params:
+    - desc: 'Ayarlanacak mesaj; embed kodu da olabilir'
+      name: message
+      optional: true
+      type: string
+banmessagetest:
+  args:
+    - '<duration> [reason]'
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=:
+  args:
+    - '<duration> [reason]'
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_1:
+  args:
+    - '<duration> [reason]'
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_2:
+  args:
+    - '<duration> [reason]'
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_1:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_2:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_3:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'Yasak mesajını test eder. Şaka yapmak için kullan!'
+  params:
+    - desc: 'Yasağın süresi'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'Yasağın sebebi'
+      name: reason
+      optional: true
+      type: string
+banmsgreset:
+  args:
+    - ''
+  desc: 'Yasak mesajını varsayılan mesaja sıfırlar.'
+  params: [ ]
+banmsgtest:
+  args:
+    - user
+  desc: 'Yasak mesajı işlevini test eder.'
+  params:
+    - desc: 'Yasak mesajını test edecek kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+chatmute:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - &ref_127
+      desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - &ref_126
+      desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - &ref_128
+      desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - &ref_129
+      desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+  params:
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için kanalda (ses değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+chatunmute:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcının kanaldaki susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının kanaldaki susturmasını kaldırır.'
+      name: '""'
+      optional: false
+      type: '='
+dehoist:
+  args:
+    - '@user'
+  desc: 'Özel karakterleri kullanıcı adlarından değiştirerek kullanıcının listenin üstünde görünmesini engeller.'
+  params:
+    - &ref_180
+      desc: 'Dehoist edilecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Özel karakterleri kullanıcı adlarından değiştirerek kullanıcının listenin üstünde görünmesini engeller.'
+  params:
+    - desc: 'Dehoist edilecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Özel karakterleri kullanıcı adlarından değiştirerek kullanıcının listenin üstünde görünmesini engeller.'
+  params:
+    - desc: 'Dehoist edilecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Özel karakterleri kullanıcı adlarından değiştirerek kullanıcının listenin üstünde görünmesini engeller.'
+  params:
+    - desc: 'Dehoist edilecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoistall:
+  args:
+    - false
+  desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+  params:
+    - &ref_181
+      desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=:
+  args:
+    - false
+  desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+  params:
+    - desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_1:
+  args:
+    - false
+  desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+  params:
+    - desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_2:
+  args:
+    - false
+  desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+  params:
+    - desc: 'Sunucudaki tüm kullanıcıların takma adlarındaki özel karakterleri değiştirerek listenin üstünde görünmelerini engeller.'
+      name: false
+      optional: false
+      type: '='
+kick:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı atar.'
+  params:
+    - desc: 'Bir kullanıcıyı atar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Atılma sebebi'
+      name: msg
+      optional: true
+      type: string
+masskick:
+  args:
+    - '@user'
+  desc: 'Birden fazla kullanıcıyı atar.'
+  params:
+    - &ref_289
+      desc: 'Atılacak kullanıcılar'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]:
+  args:
+    - '@user'
+  desc: 'Birden fazla kullanıcıyı atar.'
+  params:
+    - desc: 'Atılacak kullanıcılar'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_1:
+  args:
+    - '@user'
+  desc: 'Birden fazla kullanıcıyı atar.'
+  params:
+    - desc: 'Atılacak kullanıcılar'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_2:
+  args:
+    - '@user'
+  desc: 'Birden fazla kullanıcıyı atar.'
+  params:
+    - desc: 'Atılacak kullanıcılar'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskill:
+  args:
+    - text
+  desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+  params:
+    - &ref_290
+      desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+      name: people
+      optional: false
+      type: string
+masskill_string:
+  args:
+    - text
+  desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+  params:
+    - desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+      name: people
+      optional: false
+      type: string
+masskill_string_1:
+  args:
+    - text
+  desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+  params:
+    - desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+      name: people
+      optional: false
+      type: string
+masskill_string_2:
+  args:
+    - text
+  desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+  params:
+    - desc: 'Kullanıcıları toplu olarak yasaklar. Birden fazla kullanıcıyı aynı anda yasaklamak için kullanın. Ayrıca botun kara listesine de ekler.'
+      name: people
+      optional: false
+      type: string
+massnickprogress:
+  args:
+    - ''
+  desc: 'Toplu takma ad işleminin ilerlemesini gösterir.'
+  params: [ ]
+massnickstop:
+  args:
+    - ''
+  desc: 'Toplu takma ad işlemini durdurur.'
+  params: [ ]
+mute:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - &ref_313
+      desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_1:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_2:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_3:
+  args:
+    - '@user time ""'
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+  params:
+    - desc: 'Kullanıcının susturulacağı süre'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için susturur.'
+      name: '""'
+      optional: false
+      type: '='
+muterole:
+  args:
+    - '[@role]'
+  desc: 'Sunucunun susturma rolünü ayarlar.'
+  params:
+    - desc: 'Sunucunun susturma rolünü ayarlar.'
+      name: role
+      optional: true
+      type: role
+mwarn:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Bir kullanıcıya mini uyarı verir.'
+  params:
+    - desc: 'Uyarılacak kullanıcı'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Uyarının sebebi'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Bir kullanıcıya mini uyarı verir.'
+  params:
+    - desc: 'Uyarılacak kullanıcı'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Uyarının sebebi'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_1:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Bir kullanıcıya mini uyarı verir.'
+  params:
+    - desc: 'Uyarılacak kullanıcı'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Uyarının sebebi'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_2:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Bir kullanıcıya mini uyarı verir.'
+  params:
+    - desc: 'Uyarılacak kullanıcı'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Uyarının sebebi'
+      name: reason
+      optional: true
+      type: string
+mwarnclear:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - &ref_315
+      desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=:
+  args:
+    - userid 0
+    - userid
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - &ref_316
+      desc: 'Uyarıları temizlenecek kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_1:
+  args:
+    - userid 0
+    - userid
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Uyarıları temizlenecek kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_2:
+  args:
+    - userid 0
+    - userid
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Uyarıları temizlenecek kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_3:
+  args:
+    - userid 0
+    - userid
+  desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Uyarıları temizlenecek kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'Bir kullanıcının mini uyarılarını temizler. Dizin belirtilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+mwarnexpire:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Mini uyarıların sona erme süresini ayarlar.'
+  params:
+    - &ref_317
+      desc: 'Ayarlanacak gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - &ref_318
+      desc: 'Mini uyarıların sona erme süresini ayarlar.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Mini uyarıların sona erme süresini ayarlar.'
+  params:
+    - desc: 'Ayarlanacak gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Mini uyarıların sona erme süresini ayarlar.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_1:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Mini uyarıların sona erme süresini ayarlar.'
+  params:
+    - desc: 'Ayarlanacak gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Mini uyarıların sona erme süresini ayarlar.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_2:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: 'Mini uyarıların sona erme süresini ayarlar.'
+  params:
+    - desc: 'Ayarlanacak gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Mini uyarıların sona erme süresini ayarlar.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnlog:
+  args:
+    - number @user
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - &ref_319
+      desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - &ref_320
+      desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_=:
+  args:
+    - '<page> @user'
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_1:
+  args:
+    - '<page> @user'
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_2:
+  args:
+    - '<page> @user'
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_3:
+  args:
+    - '<page> @user'
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_int_IGuildUser:
+  args:
+    - number @user
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_1:
+  args:
+    - number @user
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_2:
+  args:
+    - number @user
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_ulong:
+  args:
+    - number userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - &ref_321
+      desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_1:
+  args:
+    - number userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_2:
+  args:
+    - number userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_3:
+  args:
+    - number userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong:
+  args:
+    - userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_1:
+  args:
+    - userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_2:
+  args:
+    - userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_3:
+  args:
+    - userid
+  desc: 'Bir kullanıcının mini uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Uyarı günlüğü alınacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlogall:
+  args:
+    - ''
+  desc: 'Tüm kullanıcılar için mini uyarı günlüğünü getirir.'
+  params: [ ]
+mwarnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int:
+  args:
+    - number
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_1:
+  args:
+    - number
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_2:
+  args:
+    - number
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_3:
+  args:
+    - number
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Bir mini uyarı cezasını kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bir mini uyarı cezasını kaldırır.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunishlist:
+  args:
+    - ''
+  desc: 'Mini uyarı cezalarını listeler.'
+  params: [ ]
+purge:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_=:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_=_1:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_=_2:
+  args:
+    - '@user [count] [parameter]'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+  params:
+    - desc: 'Mevcut kanaldaki belirli bir kullanıcı kimliğine ve miktara sahip mesajları siler.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Silinecek mesaj sayısı'
+      name: count
+      optional: true
+      type: ulong
+    - desc: 'Kullanılacak parametre'
+      name: parameter
+      optional: true
+      type: string
+purgeuser:
+  args:
+    - '@user number'
+  desc: 'Erişilebilir tüm kanallardaki bir kullanıcının tüm mesajlarını siler.'
+  params:
+    - &ref_365
+      desc: 'Mesajları silinecek kullanıcı'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_366
+      desc: 'Aranacak mesaj sayısı'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int:
+  args:
+    - '@user number'
+  desc: 'Erişilebilir tüm kanallardaki bir kullanıcının tüm mesajlarını siler.'
+  params:
+    - desc: 'Mesajları silinecek kullanıcı'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Aranacak mesaj sayısı'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_1:
+  args:
+    - '@user number'
+  desc: 'Erişilebilir tüm kanallardaki bir kullanıcının tüm mesajlarını siler.'
+  params:
+    - desc: 'Mesajları silinecek kullanıcı'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Aranacak mesaj sayısı'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_2:
+  args:
+    - '@user number'
+  desc: 'Erişilebilir tüm kanallardaki bir kullanıcının tüm mesajlarını siler.'
+  params:
+    - desc: 'Mesajları silinecek kullanıcı'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Aranacak mesaj sayısı'
+      name: messageCount
+      optional: false
+      type: int
+removeonmute:
+  args:
+    - text
+  desc: 'Susturulunca rollerin kaldırılıp kaldırılmayacağını değiştirir'
+  params:
+    - &ref_402
+      desc: 'Etkinleştirmek için y, devre dışı bırakmak için n.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string:
+  args:
+    - text
+  desc: 'Susturulunca rollerin kaldırılıp kaldırılmayacağını değiştirir'
+  params:
+    - desc: 'Etkinleştirmek için y, devre dışı bırakmak için n.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_1:
+  args:
+    - text
+  desc: 'Susturulunca rollerin kaldırılıp kaldırılmayacağını değiştirir'
+  params:
+    - desc: 'Etkinleştirmek için y, devre dışı bırakmak için n.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_2:
+  args:
+    - text
+  desc: 'Susturulunca rollerin kaldırılıp kaldırılmayacağını değiştirir'
+  params:
+    - desc: 'Etkinleştirmek için y, devre dışı bırakmak için n.'
+      name: yesnt
+      optional: false
+      type: string
+sanitize:
+  args:
+    - '@user'
+  desc: 'Kullanıcı adındaki özel karakterleri değiştirerek kullanıcıyı temizler.'
+  params:
+    - &ref_473
+      desc: 'Temizlenecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Kullanıcı adındaki özel karakterleri değiştirerek kullanıcıyı temizler.'
+  params:
+    - desc: 'Temizlenecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Kullanıcı adındaki özel karakterleri değiştirerek kullanıcıyı temizler.'
+  params:
+    - desc: 'Temizlenecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Kullanıcı adındaki özel karakterleri değiştirerek kullanıcıyı temizler.'
+  params:
+    - desc: 'Temizlenecek kullanıcı'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitizeall:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm kullanıcıların kullanıcı adlarındaki özel karakterleri değiştirerek hepsini temizler.'
+  params: [ ]
+setmwarnchannel:
+  args:
+    - channel
+  desc: 'Mini uyarı günlüğü kanalını ayarlar.'
+  params:
+    - &ref_507
+      desc: 'Ayarlanacak kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel:
+  args:
+    - channel
+  desc: 'Mini uyarı günlüğü kanalını ayarlar.'
+  params:
+    - desc: 'Ayarlanacak kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Mini uyarı günlüğü kanalını ayarlar.'
+  params:
+    - desc: 'Ayarlanacak kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Mini uyarı günlüğü kanalını ayarlar.'
+  params:
+    - desc: 'Ayarlanacak kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+setwarnchannel:
+  args:
+    - channel
+  desc: 'Sunucunun uyarı günlüğü kanalını ayarlar.'
+  params:
+    - desc: 'Sunucunun uyarı günlüğü kanalını ayarlar.'
+      name: channel
+      optional: false
+      type: ITextChannel
+softban:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+  params:
+    - desc: 'Bir kullanıcıyı softban yapar. Kullanıcıyı atmak ve mesajlarını silmek için kullanın.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Softban sebebi'
+      name: msg
+      optional: true
+      type: string
+stfu:
+  args:
+    - time @user
+    - time
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - &ref_569
+      desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_568
+      desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_IGuildUser_=:
+  args:
+    - '<time> [@user]'
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_1:
+  args:
+    - '<time> [@user]'
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_2:
+  args:
+    - '<time> [@user]'
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_3:
+  args:
+    - '<time> [@user]'
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+stfu_StoopidTime_IGuildUser:
+  args:
+    - time @user
+    - time
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_1:
+  args:
+    - time @user
+    - time
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_2:
+  args:
+    - time @user
+    - time
+  desc: 'Anlaşılmayacak ne var ki? Bir kullanıcıyı susturur.'
+  params:
+    - desc: 'Kullanıcıyı ne kadar süreyle susturacağın.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+timeout:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Bir kullanıcıya belirli bir süre için zaman aşımı uygular.'
+  params:
+    - desc: 'Kullanıcıya uygulanacak zaman aşımı süresi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Zaman aşımına uğratılacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Zaman aşımının sebebi'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Bir kullanıcıya belirli bir süre için zaman aşımı uygular.'
+  params:
+    - desc: 'Kullanıcıya uygulanacak zaman aşımı süresi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Zaman aşımına uğratılacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Zaman aşımının sebebi'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Bir kullanıcıya belirli bir süre için zaman aşımı uygular.'
+  params:
+    - desc: 'Kullanıcıya uygulanacak zaman aşımı süresi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Zaman aşımına uğratılacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Zaman aşımının sebebi'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: 'Bir kullanıcıya belirli bir süre için zaman aşımı uygular.'
+  params:
+    - desc: 'Kullanıcıya uygulanacak zaman aşımı süresi'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Zaman aşımına uğratılacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Zaman aşımının sebebi'
+      name: reason
+      optional: true
+      type: string
+unban:
+  args:
+    - text
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - &ref_633
+      desc: 'Bir kullanıcının yasağını kaldırır.'
+      name: user
+      optional: false
+      type: string
+unban_string:
+  args:
+    - text
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - desc: 'Bir kullanıcının yasağını kaldırır.'
+      name: user
+      optional: false
+      type: string
+unban_string_1:
+  args:
+    - text
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - desc: 'Bir kullanıcının yasağını kaldırır.'
+      name: user
+      optional: false
+      type: string
+unban_string_2:
+  args:
+    - text
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - desc: 'Bir kullanıcının yasağını kaldırır.'
+      name: user
+      optional: false
+      type: string
+unban_ulong:
+  args:
+    - userid
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - &ref_634
+      desc: 'Yasağı kaldırılacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_1:
+  args:
+    - userid
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - desc: 'Yasağı kaldırılacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_2:
+  args:
+    - userid
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - desc: 'Yasağı kaldırılacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_3:
+  args:
+    - userid
+  desc: 'Bir kullanıcının yasağını kaldırır.'
+  params:
+    - desc: 'Yasağı kaldırılacak kullanıcının kimliği'
+      name: userId
+      optional: false
+      type: ulong
+unmute:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcının susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının susturmasını kaldırır.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcının susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının susturmasını kaldırır.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcının susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının susturmasını kaldırır.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcının susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının susturmasını kaldırır.'
+      name: '""'
+      optional: false
+      type: '='
+unmuteall:
+  args:
+    - '[reason]'
+  desc: 'Sunucudaki tüm kullanıcıların susturmasını kaldırır. TEHLİKELİ!!!!!!!!!!!!!!!!'
+  params:
+    - desc: 'Böyle bir vahşeti yapmak isteyebileceğin sebep!'
+      name: reason
+      optional: true
+      type: string
+unstfu:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kanaldaki susturmasını kaldırır.'
+  params:
+    - &ref_635
+      desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kanaldaki susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kanaldaki susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kanaldaki susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının zaman aşımını kaldırır.'
+  params:
+    - &ref_636
+      desc: 'Zaman aşımı kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının zaman aşımını kaldırır.'
+  params:
+    - desc: 'Zaman aşımı kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının zaman aşımını kaldırır.'
+  params:
+    - desc: 'Zaman aşımı kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının zaman aşımını kaldırır.'
+  params:
+    - desc: 'Zaman aşımı kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+voicemute:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_3:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+  params:
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Susturulacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcıyı belirli bir süre için seste (kanal değil) susturur.'
+      name: '""'
+      optional: false
+      type: '='
+voiceunmute:
+  args:
+    - '@user ""'
+  desc: 'Bir kullanıcının sesteki susturmasını kaldırır.'
+  params:
+    - desc: 'Susturması kaldırılacak kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının sesteki susturmasını kaldırır.'
+      name: '""'
+      optional: false
+      type: '='
+warn:
+  args:
+    - '[@user] [reason]'
+  desc: 'İsteğe bağlı sebeple bir kullanıcıya uyarı verir.'
+  params:
+    - desc: 'Uyarılacak kullanıcı'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Uyarının sebebi'
+      name: reason
+      optional: true
+      type: string
+warnclear:
+  args:
+    - '@user 0'
+  desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+  params:
+    - &ref_652
+      desc: 'Uyarıları temizlenecek kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+  desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Uyarıları temizlenecek kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+  desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Uyarıları temizlenecek kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+  desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+  params:
+    - desc: 'Uyarıları temizlenecek kullanıcı'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Bir kullanıcının uyarılarını temizler. Dizin verilirse yalnızca o uyarıyı temizler.'
+      name: 0
+      optional: false
+      type: '='
+warnexpire:
+  args:
+    - number options
+  desc: 'Uyarıların sona erme süresini ayarlar.'
+  params:
+    - &ref_653
+      desc: 'Uyarıların sona ermesine kadar geçecek gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - &ref_654
+      desc: 'Bir uyarının sona erdiğinde yapılacak işlem'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction:
+  args:
+    - number options
+  desc: 'Uyarıların sona erme süresini ayarlar.'
+  params:
+    - desc: 'Uyarıların sona ermesine kadar geçecek gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Bir uyarının sona erdiğinde yapılacak işlem'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_1:
+  args:
+    - number options
+  desc: 'Uyarıların sona erme süresini ayarlar.'
+  params:
+    - desc: 'Uyarıların sona ermesine kadar geçecek gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Bir uyarının sona erdiğinde yapılacak işlem'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_2:
+  args:
+    - number options
+  desc: 'Uyarıların sona erme süresini ayarlar.'
+  params:
+    - desc: 'Uyarıların sona ermesine kadar geçecek gün sayısı'
+      name: days
+      optional: false
+      type: int
+    - desc: 'Bir uyarının sona erdiğinde yapılacak işlem'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnlog:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_ulong:
+  args:
+    - userid
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - &ref_655
+      desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_1:
+  args:
+    - userid
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_2:
+  args:
+    - userid
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_3:
+  args:
+    - userid
+  desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+  params:
+    - desc: 'Bir kullanıcının kimliğine göre uyarı günlüğünü getirir.'
+      name: userId
+      optional: false
+      type: ulong
+warnlogall:
+  args:
+    - ''
+  desc: 'Her kullanıcının kaç uyarısı olduğunu gösterir.'
+  params: [ ]
+warnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int:
+  args:
+    - number
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_1:
+  args:
+    - number
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_2:
+  args:
+    - number
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_3:
+  args:
+    - number
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+  params:
+    - desc: 'Uyarı sayısı'
+      name: number
+      optional: false
+      type: int
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Belirli sayıda uyarı için bir cezayı kaldırır.'
+      name: time
+      optional: true
+      type: duration
+warnpunishlist:
+  args:
+    - ''
+  desc: 'Sunucunun uyarı cezalarını listeler.'
+  params: [ ]

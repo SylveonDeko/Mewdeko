@@ -1,0 +1,3385 @@
+banprune:
+  args:
+    - ''
+  desc: '显示在此频道中封禁用户将使用的清除设置，以及所有已配置的设置。'
+  params:
+    - { }
+banpruneset:
+  args:
+    - '<action> <days> [#channel]'
+  desc: '设置一次封禁操作清除多少天的消息。使用 "all" 表示所有操作，并可指定频道或分类以仅覆盖该范围。'
+  params:
+    - desc: '操作键，或使用 "all" 涵盖所有操作'
+      name: action
+      optional: false
+      type: string
+    - desc: '清除天数，0 至 7'
+      name: days
+      optional: false
+      type: int
+    - desc: '要应用该设置的频道或分类，或留空以使用服务器默认值'
+      name: target
+      optional: true
+      type: channel
+banpruneclear:
+  args:
+    - '<action> [#channel]'
+  desc: '删除清除设置，使操作回退到更宽泛的范围或其默认值。'
+  params:
+    - desc: '操作键，或使用 "all" 表示涵盖所有操作的设置'
+      name: action
+      optional: false
+      type: string
+    - desc: '设置所在的频道或分类，或留空以使用服务器默认值'
+      name: target
+      optional: true
+      type: channel
+banprunereset:
+  args:
+    - ''
+  desc: '删除服务器中的所有清除设置。'
+  params:
+    - { }
+ban:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '封禁用户，并指定原因和清除消息的天数。'
+  params:
+    - desc: '封禁用户，并指定原因和清除消息的天数。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '清除消息的时间范围'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要封禁的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '封禁原因'
+      name: msg
+      optional: true
+      type: string
+banmessage:
+  args:
+    - '[message]'
+  desc: '设置用户被封禁时收到的私信内容。'
+  params:
+    - desc: '要设置的消息，也可以是 embedcode'
+      name: message
+      optional: true
+      type: string
+banmessagetest:
+  args:
+    - '<duration> [reason]'
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=:
+  args:
+    - '<duration> [reason]'
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_1:
+  args:
+    - '<duration> [reason]'
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_2:
+  args:
+    - '<duration> [reason]'
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_1:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_2:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_3:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '测试封禁消息。可以拿来恶作剧！'
+  params:
+    - desc: '封禁时长'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '封禁原因'
+      name: reason
+      optional: true
+      type: string
+banmsgreset:
+  args:
+    - ''
+  desc: '将封禁消息重置为默认消息。'
+  params: [ ]
+banmsgtest:
+  args:
+    - user
+  desc: '测试封禁消息功能。'
+  params:
+    - desc: '用于测试封禁消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+chatmute:
+  args:
+    - '@user ""'
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - &ref_127
+      desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - &ref_126
+      desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - &ref_128
+      desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - &ref_129
+      desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+  params:
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在文字频道中禁言用户（不影响语音），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+chatunmute:
+  args:
+    - '@user ""'
+  desc: '解除用户在文字频道中的禁言。'
+  params:
+    - desc: '要解除禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '解除用户在文字频道中的禁言。'
+      name: '""'
+      optional: false
+      type: '='
+dehoist:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符，取消其用户名的排前显示。'
+  params:
+    - &ref_180
+      desc: '要取消排前显示的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符，取消其用户名的排前显示。'
+  params:
+    - desc: '要取消排前显示的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符，取消其用户名的排前显示。'
+  params:
+    - desc: '要取消排前显示的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符，取消其用户名的排前显示。'
+  params:
+    - desc: '要取消排前显示的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoistall:
+  args:
+    - false
+  desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+  params:
+    - &ref_181
+      desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=:
+  args:
+    - false
+  desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+  params:
+    - desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_1:
+  args:
+    - false
+  desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+  params:
+    - desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_2:
+  args:
+    - false
+  desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+  params:
+    - desc: '通过替换昵称中的特殊字符，取消服务器中所有用户的排前显示。'
+      name: false
+      optional: false
+      type: '='
+kick:
+  args:
+    - '[@user] [msg]'
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '踢出用户。'
+  params:
+    - desc: '踢出用户。'
+      name: user
+      optional: true
+      type: user
+    - desc: '踢出原因'
+      name: msg
+      optional: true
+      type: string
+masskick:
+  args:
+    - '@user'
+  desc: '踢出多名用户。'
+  params:
+    - &ref_289
+      desc: '要踢出的用户'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]:
+  args:
+    - '@user'
+  desc: '踢出多名用户。'
+  params:
+    - desc: '要踢出的用户'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_1:
+  args:
+    - '@user'
+  desc: '踢出多名用户。'
+  params:
+    - desc: '要踢出的用户'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_2:
+  args:
+    - '@user'
+  desc: '踢出多名用户。'
+  params:
+    - desc: '要踢出的用户'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskill:
+  args:
+    - text
+  desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+  params:
+    - &ref_290
+      desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+      name: people
+      optional: false
+      type: string
+masskill_string:
+  args:
+    - text
+  desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+  params:
+    - desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+      name: people
+      optional: false
+      type: string
+masskill_string_1:
+  args:
+    - text
+  desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+  params:
+    - desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+      name: people
+      optional: false
+      type: string
+masskill_string_2:
+  args:
+    - text
+  desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+  params:
+    - desc: '批量封禁用户。用于一次封禁多名用户，同时也会将其加入机器人黑名单。'
+      name: people
+      optional: false
+      type: string
+massnickprogress:
+  args:
+    - ''
+  desc: '获取批量修改昵称操作的进度。'
+  params: [ ]
+massnickstop:
+  args:
+    - ''
+  desc: '停止批量修改昵称操作。'
+  params: [ ]
+mute:
+  args:
+    - '@user ""'
+  desc: '禁言用户指定时长。'
+  params:
+    - &ref_313
+      desc: '禁言用户指定时长。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '禁言用户指定时长。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '禁言用户指定时长。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '禁言用户指定时长。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=:
+  args:
+    - '@user time ""'
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_1:
+  args:
+    - '@user time ""'
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_2:
+  args:
+    - '@user time ""'
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_3:
+  args:
+    - '@user time ""'
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: '禁言用户指定时长。'
+  params:
+    - desc: '禁言用户的时长'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '禁言用户指定时长。'
+      name: '""'
+      optional: false
+      type: '='
+muterole:
+  args:
+    - '[@role]'
+  desc: '设置服务器的禁言身份组。'
+  params:
+    - desc: '设置服务器的禁言身份组。'
+      name: role
+      optional: true
+      type: role
+mwarn:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '对用户进行迷你警告。'
+  params:
+    - desc: '要警告的用户'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告原因'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '对用户进行迷你警告。'
+  params:
+    - desc: '要警告的用户'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告原因'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_1:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '对用户进行迷你警告。'
+  params:
+    - desc: '要警告的用户'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告原因'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_2:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '对用户进行迷你警告。'
+  params:
+    - desc: '要警告的用户'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告原因'
+      name: reason
+      optional: true
+      type: string
+mwarnclear:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - &ref_315
+      desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=:
+  args:
+    - userid 0
+    - userid
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - &ref_316
+      desc: '要清除警告的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_1:
+  args:
+    - userid 0
+    - userid
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - desc: '要清除警告的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_2:
+  args:
+    - userid 0
+    - userid
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - desc: '要清除警告的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_3:
+  args:
+    - userid 0
+    - userid
+  desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+  params:
+    - desc: '要清除警告的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '清除用户的迷你警告。如果指定了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+mwarnexpire:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '设置迷你警告的过期时间。'
+  params:
+    - &ref_317
+      desc: '要设置的天数'
+      name: days
+      optional: false
+      type: int
+    - &ref_318
+      desc: '设置迷你警告的过期时间。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '设置迷你警告的过期时间。'
+  params:
+    - desc: '要设置的天数'
+      name: days
+      optional: false
+      type: int
+    - desc: '设置迷你警告的过期时间。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_1:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '设置迷你警告的过期时间。'
+  params:
+    - desc: '要设置的天数'
+      name: days
+      optional: false
+      type: int
+    - desc: '设置迷你警告的过期时间。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_2:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '设置迷你警告的过期时间。'
+  params:
+    - desc: '要设置的天数'
+      name: days
+      optional: false
+      type: int
+    - desc: '设置迷你警告的过期时间。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnlog:
+  args:
+    - number @user
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - &ref_319
+      desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - &ref_320
+      desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_=:
+  args:
+    - '<page> @user'
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_1:
+  args:
+    - '<page> @user'
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_2:
+  args:
+    - '<page> @user'
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_3:
+  args:
+    - '<page> @user'
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_int_IGuildUser:
+  args:
+    - number @user
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_1:
+  args:
+    - number @user
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_2:
+  args:
+    - number @user
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '获取用户的迷你警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_ulong:
+  args:
+    - number userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - &ref_321
+      desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_1:
+  args:
+    - number userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_2:
+  args:
+    - number userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_3:
+  args:
+    - number userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '获取用户的迷你警告日志。'
+      name: page
+      optional: false
+      type: int
+    - desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong:
+  args:
+    - userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_1:
+  args:
+    - userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_2:
+  args:
+    - userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_3:
+  args:
+    - userid
+  desc: '获取用户的迷你警告日志。'
+  params:
+    - desc: '要获取警告日志的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlogall:
+  args:
+    - ''
+  desc: '获取所有用户的迷你警告日志。'
+  params: [ ]
+mwarnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int:
+  args:
+    - number
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_1:
+  args:
+    - number
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_2:
+  args:
+    - number
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_3:
+  args:
+    - number
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除迷你警告处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除迷你警告处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除迷你警告处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除迷你警告处罚。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunishlist:
+  args:
+    - ''
+  desc: '列出迷你警告处罚。'
+  params: [ ]
+purge:
+  args:
+    - '@user [count] [parameter]'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_=:
+  args:
+    - '@user [count] [parameter]'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_=_1:
+  args:
+    - '@user [count] [parameter]'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_=_2:
+  args:
+    - '@user [count] [parameter]'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '清除当前频道中指定用户 ID 及数量的消息。'
+  params:
+    - desc: '清除当前频道中指定用户 ID 及数量的消息。'
+      name: user
+      optional: false
+      type: user
+    - desc: '要清除的消息数量'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '要使用的参数'
+      name: parameter
+      optional: true
+      type: string
+purgeuser:
+  args:
+    - '@user number'
+  desc: '清除所有可访问频道中某用户的全部消息。'
+  params:
+    - &ref_365
+      desc: '要清除其消息的用户'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_366
+      desc: '要搜索的消息数量'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int:
+  args:
+    - '@user number'
+  desc: '清除所有可访问频道中某用户的全部消息。'
+  params:
+    - desc: '要清除其消息的用户'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要搜索的消息数量'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_1:
+  args:
+    - '@user number'
+  desc: '清除所有可访问频道中某用户的全部消息。'
+  params:
+    - desc: '要清除其消息的用户'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要搜索的消息数量'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_2:
+  args:
+    - '@user number'
+  desc: '清除所有可访问频道中某用户的全部消息。'
+  params:
+    - desc: '要清除其消息的用户'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要搜索的消息数量'
+      name: messageCount
+      optional: false
+      type: int
+removeonmute:
+  args:
+    - text
+  desc: '切换禁言时是否移除身份组'
+  params:
+    - &ref_402
+      desc: 'y 为启用，n 为禁用。'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string:
+  args:
+    - text
+  desc: '切换禁言时是否移除身份组'
+  params:
+    - desc: 'y 为启用，n 为禁用。'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_1:
+  args:
+    - text
+  desc: '切换禁言时是否移除身份组'
+  params:
+    - desc: 'y 为启用，n 为禁用。'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_2:
+  args:
+    - text
+  desc: '切换禁言时是否移除身份组'
+  params:
+    - desc: 'y 为启用，n 为禁用。'
+      name: yesnt
+      optional: false
+      type: string
+sanitize:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符来清理用户。'
+  params:
+    - &ref_473
+      desc: '要清理的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符来清理用户。'
+  params:
+    - desc: '要清理的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符来清理用户。'
+  params:
+    - desc: '要清理的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '通过替换用户名中的特殊字符来清理用户。'
+  params:
+    - desc: '要清理的用户'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitizeall:
+  args:
+    - ''
+  desc: '通过替换用户名中的特殊字符来清理服务器中的所有用户。'
+  params: [ ]
+setmwarnchannel:
+  args:
+    - channel
+  desc: '设置迷你警告日志频道。'
+  params:
+    - &ref_507
+      desc: '要设置的频道'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel:
+  args:
+    - channel
+  desc: '设置迷你警告日志频道。'
+  params:
+    - desc: '要设置的频道'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: '设置迷你警告日志频道。'
+  params:
+    - desc: '要设置的频道'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: '设置迷你警告日志频道。'
+  params:
+    - desc: '要设置的频道'
+      name: channel
+      optional: false
+      type: ITextChannel
+setwarnchannel:
+  args:
+    - channel
+  desc: '设置服务器的警告日志频道。'
+  params:
+    - desc: '设置服务器的警告日志频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+softban:
+  args:
+    - '[@user] [msg]'
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '软封禁用户。用于踢出用户并删除其消息。'
+  params:
+    - desc: '软封禁用户。用于踢出用户并删除其消息。'
+      name: user
+      optional: true
+      type: user
+    - desc: '软封禁原因'
+      name: msg
+      optional: true
+      type: string
+stfu:
+  args:
+    - time @user
+    - time
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - &ref_569
+      desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_568
+      desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_IGuildUser_=:
+  args:
+    - '<time> [@user]'
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_1:
+  args:
+    - '<time> [@user]'
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_2:
+  args:
+    - '<time> [@user]'
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_3:
+  args:
+    - '<time> [@user]'
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: user
+stfu_StoopidTime_IGuildUser:
+  args:
+    - time @user
+    - time
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_1:
+  args:
+    - time @user
+    - time
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_2:
+  args:
+    - time @user
+    - time
+  desc: '有什么不懂的？让某人闭嘴。'
+  params:
+    - desc: '让用户闭嘴的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要让其闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+timeout:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '禁言用户指定时长（超时）。'
+  params:
+    - desc: '禁言用户的时间'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '禁言原因'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '禁言用户指定时长（超时）。'
+  params:
+    - desc: '禁言用户的时间'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '禁言原因'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '禁言用户指定时长（超时）。'
+  params:
+    - desc: '禁言用户的时间'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '禁言原因'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '禁言用户指定时长（超时）。'
+  params:
+    - desc: '禁言用户的时间'
+      name: time
+      optional: false
+      type: duration
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '禁言原因'
+      name: reason
+      optional: true
+      type: string
+unban:
+  args:
+    - text
+  desc: '解封用户。'
+  params:
+    - &ref_633
+      desc: '解封用户。'
+      name: user
+      optional: false
+      type: string
+unban_string:
+  args:
+    - text
+  desc: '解封用户。'
+  params:
+    - desc: '解封用户。'
+      name: user
+      optional: false
+      type: string
+unban_string_1:
+  args:
+    - text
+  desc: '解封用户。'
+  params:
+    - desc: '解封用户。'
+      name: user
+      optional: false
+      type: string
+unban_string_2:
+  args:
+    - text
+  desc: '解封用户。'
+  params:
+    - desc: '解封用户。'
+      name: user
+      optional: false
+      type: string
+unban_ulong:
+  args:
+    - userid
+  desc: '解封用户。'
+  params:
+    - &ref_634
+      desc: '要解封的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_1:
+  args:
+    - userid
+  desc: '解封用户。'
+  params:
+    - desc: '要解封的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_2:
+  args:
+    - userid
+  desc: '解封用户。'
+  params:
+    - desc: '要解封的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_3:
+  args:
+    - userid
+  desc: '解封用户。'
+  params:
+    - desc: '要解封的用户 ID'
+      name: userId
+      optional: false
+      type: ulong
+unmute:
+  args:
+    - '@user ""'
+  desc: '解除用户禁言。'
+  params:
+    - desc: '要解除禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '解除用户禁言。'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '解除用户禁言。'
+  params:
+    - desc: '要解除禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '解除用户禁言。'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '解除用户禁言。'
+  params:
+    - desc: '要解除禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '解除用户禁言。'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '解除用户禁言。'
+  params:
+    - desc: '要解除禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '解除用户禁言。'
+      name: '""'
+      optional: false
+      type: '='
+unmuteall:
+  args:
+    - '[reason]'
+  desc: '解除服务器中所有用户的禁言。危险！！！！！！！！！！！！！！！！'
+  params:
+    - desc: '你为什么要做这种暴行！'
+      name: reason
+      optional: true
+      type: string
+unstfu:
+  args:
+    - '@user'
+  desc: '解除用户在频道中的闭嘴状态。'
+  params:
+    - &ref_635
+      desc: '要解除闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser:
+  args:
+    - '@user'
+  desc: '解除用户在频道中的闭嘴状态。'
+  params:
+    - desc: '要解除闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '解除用户在频道中的闭嘴状态。'
+  params:
+    - desc: '要解除闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '解除用户在频道中的闭嘴状态。'
+  params:
+    - desc: '要解除闭嘴的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout:
+  args:
+    - '@user'
+  desc: '移除用户的超时。'
+  params:
+    - &ref_636
+      desc: '要移除超时的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser:
+  args:
+    - '@user'
+  desc: '移除用户的超时。'
+  params:
+    - desc: '要移除超时的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '移除用户的超时。'
+  params:
+    - desc: '要移除超时的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '移除用户的超时。'
+  params:
+    - desc: '要移除超时的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+voicemute:
+  args:
+    - time @user ""
+    - time
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_3:
+  args:
+    - '@user ""'
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+  params:
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '在语音中禁言用户（不影响文字），持续指定时间。'
+      name: '""'
+      optional: false
+      type: '='
+voiceunmute:
+  args:
+    - '@user ""'
+  desc: '解除用户在语音中的禁言。'
+  params:
+    - desc: '要解除禁言的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '解除用户在语音中的禁言。'
+      name: '""'
+      optional: false
+      type: '='
+warn:
+  args:
+    - '[@user] [reason]'
+  desc: '警告用户，可附带原因。'
+  params:
+    - desc: '要警告的用户'
+      name: user
+      optional: true
+      type: user
+    - desc: '警告原因'
+      name: reason
+      optional: true
+      type: string
+warnclear:
+  args:
+    - '@user 0'
+  desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+  params:
+    - &ref_652
+      desc: '要清除警告的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+  desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+  params:
+    - desc: '要清除警告的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+  desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+  params:
+    - desc: '要清除警告的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+  desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+  params:
+    - desc: '要清除警告的用户'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '清除用户的警告。如果提供了索引，则仅清除该条警告。'
+      name: 0
+      optional: false
+      type: '='
+warnexpire:
+  args:
+    - number options
+  desc: '设置警告的过期时间。'
+  params:
+    - &ref_653
+      desc: '警告过期前的天数'
+      name: days
+      optional: false
+      type: int
+    - &ref_654
+      desc: '警告过期时采取的操作'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction:
+  args:
+    - number options
+  desc: '设置警告的过期时间。'
+  params:
+    - desc: '警告过期前的天数'
+      name: days
+      optional: false
+      type: int
+    - desc: '警告过期时采取的操作'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_1:
+  args:
+    - number options
+  desc: '设置警告的过期时间。'
+  params:
+    - desc: '警告过期前的天数'
+      name: days
+      optional: false
+      type: int
+    - desc: '警告过期时采取的操作'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_2:
+  args:
+    - number options
+  desc: '设置警告的过期时间。'
+  params:
+    - desc: '警告过期前的天数'
+      name: days
+      optional: false
+      type: int
+    - desc: '警告过期时采取的操作'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnlog:
+  args:
+    - '@user'
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - desc: '通过用户 ID 获取用户的警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser:
+  args:
+    - '@user'
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - desc: '通过用户 ID 获取用户的警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - desc: '通过用户 ID 获取用户的警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - desc: '通过用户 ID 获取用户的警告日志。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_ulong:
+  args:
+    - userid
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - &ref_655
+      desc: '通过用户 ID 获取用户的警告日志。'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_1:
+  args:
+    - userid
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - desc: '通过用户 ID 获取用户的警告日志。'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_2:
+  args:
+    - userid
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - desc: '通过用户 ID 获取用户的警告日志。'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_3:
+  args:
+    - userid
+  desc: '通过用户 ID 获取用户的警告日志。'
+  params:
+    - desc: '通过用户 ID 获取用户的警告日志。'
+      name: userId
+      optional: false
+      type: ulong
+warnlogall:
+  args:
+    - ''
+  desc: '获取每位用户的警告次数。'
+  params: [ ]
+warnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int:
+  args:
+    - number
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_1:
+  args:
+    - number
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_2:
+  args:
+    - number
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_3:
+  args:
+    - number
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '删除达到特定警告次数的处罚。'
+  params:
+    - desc: '警告次数'
+      name: number
+      optional: false
+      type: int
+    - desc: '删除达到特定警告次数的处罚。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '删除达到特定警告次数的处罚。'
+      name: role
+      optional: false
+      type: role
+    - desc: '删除达到特定警告次数的处罚。'
+      name: time
+      optional: true
+      type: duration
+warnpunishlist:
+  args:
+    - ''
+  desc: '列出服务器的警告处罚。'
+  params: [ ]

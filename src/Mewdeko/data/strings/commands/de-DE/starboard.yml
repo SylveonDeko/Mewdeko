@@ -1,7 +1,7 @@
 addstarboardemote:
   args:
     - number emote
-  desc: 'Fügt einem vorhandenen Starboard-Konfiguration einen Emote hinzu.'
+  desc: 'Fügt einer bestehenden Starboard-Konfiguration ein Emote hinzu.'
   params:
     - &ref_415
       desc: 'Die ID der Starboard-Konfiguration.'
@@ -9,7 +9,7 @@ addstarboardemote:
       optional: false
       type: int
     - &ref_516
-      desc: 'Der hinzuzufügende Emote.'
+      desc: 'Das Emote, das hinzugefügt wird.'
       name: emote
       optional: false
       type: IEmote
@@ -20,12 +20,12 @@ createstarboard:
   desc: 'Erstellt eine neue Starboard-Konfiguration für den Server.'
   params:
     - &ref_156
-      desc: 'Der Kanal, in dem markierte Nachrichten gepostet werden.'
+      desc: 'Der Kanal, in dem markierte Nachrichten veröffentlicht werden.'
       name: channel
       optional: false
       type: ITextChannel
     - &ref_157
-      desc: 'Der Emote zum Markieren von Nachrichten.'
+      desc: 'Das Emote, das zum Markieren von Nachrichten verwendet wird.'
       name: emote
       optional: false
       type: IEmote
@@ -39,11 +39,11 @@ createstarboard_ITextChannel_IEmote_=:
     - channel emote
   desc: 'Erstellt eine neue Starboard-Konfiguration für den Server.'
   params:
-    - desc: 'Der Kanal, in dem markierte Nachrichten gepostet werden.'
+    - desc: 'Der Kanal, in dem markierte Nachrichten veröffentlicht werden.'
       name: channel
       optional: false
       type: ITextChannel
-    - desc: 'Der Emote zum Markieren von Nachrichten.'
+    - desc: 'Das Emote, das zum Markieren von Nachrichten verwendet wird.'
       name: emote
       optional: false
       type: IEmote
@@ -57,11 +57,11 @@ createstarboard_ITextChannel_IEmote_=_1:
     - channel emote
   desc: 'Erstellt eine neue Starboard-Konfiguration für den Server.'
   params:
-    - desc: 'Der Kanal, in dem markierte Nachrichten gepostet werden.'
+    - desc: 'Der Kanal, in dem markierte Nachrichten veröffentlicht werden.'
       name: channel
       optional: false
       type: ITextChannel
-    - desc: 'Der Emote zum Markieren von Nachrichten.'
+    - desc: 'Das Emote, das zum Markieren von Nachrichten verwendet wird.'
       name: emote
       optional: false
       type: IEmote
@@ -75,11 +75,11 @@ createstarboard_ITextChannel_IEmote_=_2:
     - channel emote
   desc: 'Erstellt eine neue Starboard-Konfiguration für den Server.'
   params:
-    - desc: 'Der Kanal, in dem markierte Nachrichten gepostet werden.'
+    - desc: 'Der Kanal, in dem markierte Nachrichten veröffentlicht werden.'
       name: channel
       optional: false
       type: ITextChannel
-    - desc: 'Der Emote zum Markieren von Nachrichten.'
+    - desc: 'Das Emote, das zum Markieren von Nachrichten verwendet wird.'
       name: emote
       optional: false
       type: IEmote
@@ -93,7 +93,7 @@ deletestarboard:
   desc: 'Entfernt eine Starboard-Konfiguration vom Server.'
   params:
     - &ref_190
-      desc: 'Die ID des zu entfernenden Starboards.'
+      desc: 'Die ID des Starboards, das entfernt wird.'
       name: starboardId
       optional: false
       type: int
@@ -102,7 +102,7 @@ deletestarboard_int:
     - number
   desc: 'Entfernt eine Starboard-Konfiguration vom Server.'
   params:
-    - desc: 'Die ID des zu entfernenden Starboards.'
+    - desc: 'Die ID des Starboards, das entfernt wird.'
       name: starboardId
       optional: false
       type: int
@@ -111,7 +111,7 @@ deletestarboard_int_1:
     - number
   desc: 'Entfernt eine Starboard-Konfiguration vom Server.'
   params:
-    - desc: 'Die ID des zu entfernenden Starboards.'
+    - desc: 'Die ID des Starboards, das entfernt wird.'
       name: starboardId
       optional: false
       type: int
@@ -120,78 +120,78 @@ deletestarboard_int_2:
     - number
   desc: 'Entfernt eine Starboard-Konfiguration vom Server.'
   params:
-    - desc: 'Die ID des zu entfernenden Starboards.'
+    - desc: 'Die ID des Starboards, das entfernt wird.'
       name: starboardId
       optional: false
       type: int
 liststarboards:
   args:
     - ''
-  desc: 'Listet alle Starboard-Konfigurationen des Servers auf.'
+  desc: 'Listet alle Starboard-Konfigurationen auf dem Server auf.'
   params: [ ]
 removestarboardemote:
   args:
     - number emote
-  desc: 'Entfernt einen Emote aus einer vorhandenen Starboard-Konfiguration.'
+  desc: 'Entfernt ein Emote aus einer bestehenden Starboard-Konfiguration.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der zu entfernende Emote.'
+    - desc: 'Das Emote, das entfernt wird.'
       name: emote
       optional: false
       type: IEmote
 setrepostthreshold:
   args:
     - number number
-  desc: 'Legt den Repost-Schwellenwert für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Schwellenwert für erneute Veröffentlichungen einer Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der festzulegende Repost-Schwellenwert.'
+    - desc: 'Der Schwellenwert für erneute Veröffentlichungen, der festgelegt wird.'
       name: threshold
       optional: false
       type: int
 setrepostthreshold_int_int:
   args:
     - number number
-  desc: 'Legt den Repost-Schwellenwert für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Schwellenwert für erneute Veröffentlichungen einer Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
     - &ref_517
-      desc: 'Der festzulegende Repost-Schwellenwert.'
+      desc: 'Der Schwellenwert für erneute Veröffentlichungen, der festgelegt wird.'
       name: threshold
       optional: false
       type: int
 setrepostthreshold_int_int_1:
   args:
     - number number
-  desc: 'Legt den Repost-Schwellenwert für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Schwellenwert für erneute Veröffentlichungen einer Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Legt den Repost-Schwellenwert für eine Starboard-Konfiguration fest.'
+    - desc: 'Legt den Schwellenwert für erneute Veröffentlichungen einer Starboard-Konfiguration fest.'
       name: emote
       optional: false
       type: IEmote
 setrepostthreshold_int_int_2:
   args:
     - number number
-  desc: 'Legt den Repost-Schwellenwert für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Schwellenwert für erneute Veröffentlichungen einer Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der festzulegende Repost-Schwellenwert.'
+    - desc: 'Der Schwellenwert für erneute Veröffentlichungen, der festgelegt wird.'
       name: threshold
       optional: false
       type: int
@@ -204,61 +204,61 @@ setstarthreshold:
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der festzulegende Stern-Schwellenwert.'
+    - desc: 'Der Stern-Schwellenwert, der festgelegt wird.'
       name: threshold
       optional: false
       type: int
 starboardallowbots:
   args:
     - number true|false
-  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard gezählt werden dürfen.'
+  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard mitgezählt werden dürfen.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
     - &ref_558
-      desc: 'Ob Bots gezählt werden dürfen.'
+      desc: 'Ob Bots mitgezählt werden dürfen.'
       name: enabled
       optional: false
       type: bool
 starboardallowbots_int_bool:
   args:
     - number true|false
-  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard gezählt werden dürfen.'
+  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard mitgezählt werden dürfen.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
     - &ref_559
-      desc: 'Ob Bots gezählt werden dürfen.'
+      desc: 'Ob Bots mitgezählt werden dürfen.'
       name: enabled
       optional: false
       type: bool
 starboardallowbots_int_bool_1:
   args:
     - number true|false
-  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard gezählt werden dürfen.'
+  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard mitgezählt werden dürfen.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Ob Bots gezählt werden dürfen.'
+    - desc: 'Ob Bots mitgezählt werden dürfen.'
       name: enabled
       optional: false
       type: bool
 starboardallowbots_int_bool_2:
   args:
     - number true|false
-  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard gezählt werden dürfen.'
+  desc: 'Legt fest, ob Bots für ein bestimmtes Starboard mitgezählt werden dürfen.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Ob Bots gezählt werden dürfen.'
+    - desc: 'Ob Bots mitgezählt werden dürfen.'
       name: enabled
       optional: false
       type: bool
@@ -272,7 +272,7 @@ starboardchtoggle:
       optional: false
       type: int
     - &ref_560
-      desc: 'Der umzuschaltende Kanal.'
+      desc: 'Der Kanal, der umgeschaltet wird.'
       name: channel
       optional: false
       type: ITextChannel
@@ -285,7 +285,7 @@ starboardchtoggle_int_ITextChannel:
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der umzuschaltende Kanal.'
+    - desc: 'Der Kanal, der umgeschaltet wird.'
       name: channel
       optional: false
       type: ITextChannel
@@ -298,7 +298,7 @@ starboardchtoggle_int_ITextChannel_1:
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der umzuschaltende Kanal.'
+    - desc: 'Der Kanal, der umgeschaltet wird.'
       name: channel
       optional: false
       type: ITextChannel
@@ -311,7 +311,7 @@ starboardchtoggle_int_ITextChannel_2:
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der umzuschaltende Kanal.'
+    - desc: 'Der Kanal, der umgeschaltet wird.'
       name: channel
       optional: false
       type: ITextChannel
@@ -371,81 +371,81 @@ starboardremoveonbelowthreshold_int_bool_2:
 starboardremoveondelete:
   args:
     - number true|false
-  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
     - &ref_562
-      desc: 'Ob Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+      desc: 'Ob Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
       name: enabled
       optional: false
       type: bool
 starboardremoveondelete_int_bool:
   args:
     - number true|false
-  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Ob Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+    - desc: 'Ob Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
       name: enabled
       optional: false
       type: bool
 starboardremoveondelete_int_bool_1:
   args:
     - number true|false
-  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Ob Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+    - desc: 'Ob Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
       name: enabled
       optional: false
       type: bool
 starboardremoveondelete_int_bool_2:
   args:
     - number true|false
-  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Ob Beiträge entfernt werden, wenn die ursprüngliche Nachricht gelöscht wird.'
+    - desc: 'Ob Beiträge entfernt werden, wenn die Originalnachricht gelöscht wird.'
       name: enabled
       optional: false
       type: bool
 starboardremoveonreactionsclear:
   args:
     - number true|false
-  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn Reaktionen gelöscht werden.'
+  desc: 'Legt fest, ob Starboard-Beiträge entfernt werden, wenn Reaktionen entfernt werden.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Ob Beiträge entfernt werden, wenn Reaktionen gelöscht werden.'
+    - desc: 'Ob Beiträge entfernt werden, wenn Reaktionen entfernt werden.'
       name: enabled
       optional: false
       type: bool
 starboardstats:
   args:
     - ''
-  desc: 'Zeigt Starboard-Statistiken für den Server.'
+  desc: 'Zeigt Starboard-Statistiken für den Server an.'
   params: [ ]
 starboarduserstats:
   args:
     - '@user'
     - ''
-  desc: 'Zeigt Starboard-Statistiken für einen bestimmten Benutzer.'
+  desc: 'Zeigt Starboard-Statistiken für einen bestimmten User an.'
   params:
-    - desc: 'Der Benutzer, dessen Statistiken angezeigt werden sollen. Standard ist der Befehlsaufrufer.'
+    - desc: 'Der User, dessen Statistiken angezeigt werden. Standardmäßig der Ausführende.'
       name: user
       optional: true
       type: IUser
@@ -455,14 +455,14 @@ starboardwlmode:
     - whitelist
     - wl
     - white
-  desc: 'Legt den Whitelist/Blacklist-Modus für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Whitelist-/Blacklist-Modus für eine Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
     - &ref_563
-      desc: 'Der festzulegende Whitelist/Blacklist-Modus.'
+      desc: 'Der Whitelist-/Blacklist-Modus, der festgelegt wird.'
       name: mode
       optional: false
       type: WhitelistMode
@@ -472,13 +472,13 @@ starboardwlmode_int_WhitelistMode:
     - whitelist
     - wl
     - white
-  desc: 'Legt den Whitelist/Blacklist-Modus für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Whitelist-/Blacklist-Modus für eine Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der festzulegende Whitelist/Blacklist-Modus.'
+    - desc: 'Der Whitelist-/Blacklist-Modus, der festgelegt wird.'
       name: mode
       optional: false
       type: WhitelistMode
@@ -488,13 +488,13 @@ starboardwlmode_int_WhitelistMode_1:
     - whitelist
     - wl
     - white
-  desc: 'Legt den Whitelist/Blacklist-Modus für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Whitelist-/Blacklist-Modus für eine Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der festzulegende Whitelist/Blacklist-Modus.'
+    - desc: 'Der Whitelist-/Blacklist-Modus, der festgelegt wird.'
       name: mode
       optional: false
       type: WhitelistMode
@@ -504,13 +504,13 @@ starboardwlmode_int_WhitelistMode_2:
     - whitelist
     - wl
     - white
-  desc: 'Legt den Whitelist/Blacklist-Modus für eine Starboard-Konfiguration fest.'
+  desc: 'Legt den Whitelist-/Blacklist-Modus für eine Starboard-Konfiguration fest.'
   params:
     - desc: 'Die ID der Starboard-Konfiguration.'
       name: starboardId
       optional: false
       type: int
-    - desc: 'Der festzulegende Whitelist/Blacklist-Modus.'
+    - desc: 'Der Whitelist-/Blacklist-Modus, der festgelegt wird.'
       name: mode
       optional: false
       type: WhitelistMode

@@ -2,6 +2,7 @@
   "afk_already_in_list": "Aucun salon n'a été ajouté car les salons spécifiés sont déjà dans la liste.",
   "afk_channels_updated": "{0} ajouté à la liste des salons ignorés par l'AFK.",
   "afk_deletion_disabled": "La suppression du message AFK a été désactivée !",
+  "afk_deletion_invalid": "Le délai de suppression doit être 0 ou un nombre positif de secondes.",
   "afk_deletion_set": "Les messages AFK seront supprimés après {0} secondes.",
   "afk_disabled": "AFK désactivé.",
   "afk_disabled_channels_none": "Vous n'avez aucun salon désactivé !",

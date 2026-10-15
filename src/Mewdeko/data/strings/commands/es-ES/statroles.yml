@@ -1,0 +1,206 @@
+statroleadd:
+  args:
+    - '@role Messages 500 [lookbackDays] [name]'
+    - '@role VoiceMinutes 600 30 Voice Regular'
+    - '@role Invites 10'
+  desc: 'Crea un rol de estadísticas por umbral: los miembros con al menos el mínimo (Messages, VoiceMinutes, Invites, JoinedDays, AccountDays o ActivityMinutes) reciben el rol, y lo pierden si bajan del umbral, a menos que sea permanente. Para ActivityMinutes, define el juego con "statroleset <id> activity <nombre>" o déjalo en cualquier juego.'
+  params:
+    - desc: 'El rol a gestionar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Lo que se mide: Messages, VoiceMinutes, Invites, JoinedDays, AccountDays o ActivityMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'El valor mínimo.'
+      name: minimum
+      optional: false
+      type: long
+    - desc: 'El periodo en días, o 0 para todo el tiempo.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Un nombre para mostrar.'
+      name: name
+      optional: true
+      type: string
+statroletop:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+    - '@role VoiceMinutes 3 7'
+  desc: 'Crea un rol de estadísticas por ranking superior: los miembros situados entre el puesto 1 y el indicado reciben el rol.'
+  params:
+    - desc: 'El rol a gestionar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Lo que se mide.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'El peor puesto que todavía cumple los requisitos.'
+      name: topEnd
+      optional: false
+      type: int
+    - desc: 'El periodo en días, o 0 para todo el tiempo.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Un nombre para mostrar.'
+      name: name
+      optional: true
+      type: string
+statrolepercent:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+  desc: 'Crea un rol de estadísticas por porcentaje superior: los miembros que estén en el porcentaje indicado superior de los miembros clasificados reciben el rol.'
+  params:
+    - desc: 'El rol a gestionar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Lo que se mide.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'El corte de percentil, de 1 a 100.'
+      name: topPercent
+      optional: false
+      type: int
+    - desc: 'El periodo en días, o 0 para todo el tiempo.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Un nombre para mostrar.'
+      name: name
+      optional: true
+      type: string
+statrolestreak:
+  args:
+    - '@role Messages 5 7 [lookbackDays] [name]'
+  desc: 'Crea un rol de estadísticas de racha diaria: los miembros que alcancen el mínimo diario en al menos el número de días requerido dentro del periodo reciben el rol.'
+  params:
+    - desc: 'El rol a gestionar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Messages o VoiceMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'El mínimo diario.'
+      name: perDay
+      optional: false
+      type: long
+    - desc: 'Cuántos días dentro del periodo deben cumplirlo.'
+      name: requiredDays
+      optional: false
+      type: int
+    - desc: 'El periodo en días.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Un nombre para mostrar.'
+      name: name
+      optional: true
+      type: string
+statrolelist:
+  args:
+    - ''
+  desc: 'Muestra los roles de estadísticas con sus condiciones.'
+  params: [ ]
+statroleinfo:
+  args:
+    - '3'
+  desc: 'Muestra la configuración completa de un rol de estadísticas: condición, filtros, notificaciones y programación.'
+  params:
+    - desc: 'El ID del rol de estadísticas.'
+      name: id
+      optional: false
+      type: int
+statroleremove:
+  args:
+    - '3'
+  desc: 'Elimina un rol de estadísticas. Los miembros conservan lo que tengan actualmente.'
+  params:
+    - desc: 'El ID del rol de estadísticas.'
+      name: id
+      optional: false
+      type: int
+statroletoggle:
+  args:
+    - '3'
+  desc: 'Activa o desactiva un rol de estadísticas.'
+  params:
+    - desc: 'El ID del rol de estadísticas.'
+      name: id
+      optional: false
+      type: int
+statrolepreview:
+  args:
+    - '3'
+  desc: 'Muestra quién ganaría y quién perdería el rol en la próxima ejecución, sin cambiar nada.'
+  params:
+    - desc: 'El ID del rol de estadísticas.'
+      name: id
+      optional: false
+      type: int
+statrolerun:
+  args:
+    - '3'
+  desc: 'Evalúa y aplica un rol de estadísticas ahora mismo, en lugar de esperar a su programación.'
+  params:
+    - desc: 'El ID del rol de estadísticas.'
+      name: id
+      optional: false
+      type: int
+statroleset:
+  args:
+    - '3 permanent true'
+    - '3 lookback 30'
+    - '3 notifychannel #announcements'
+    - '3 message %user% just %action% %role%!'
+    - '3 activity Minecraft'
+  desc: 'Cambia un ajuste de un rol de estadísticas. Ajustes: name, min, max, lookback, topstart, topend, days, permanent, invert, bots, group, interval, notifychannel, notifydm, message, activity (nombre de un juego o "any" para la estadística ActivityMinutes). Usa "none" para borrar max, group, notifychannel o message.'
+  params:
+    - desc: 'El ID del rol de estadísticas.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nombre del ajuste.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'El nuevo valor.'
+      name: value
+      optional: false
+      type: string
+statrolefilter:
+  args:
+    - '3 #channel'
+    - '3 @role'
+    - '3 @role true'
+    - '3 @user'
+  desc: 'Activa o desactiva un filtro en un rol de estadísticas: un canal al que se limita la estadística, un rol que los miembros necesitan (o, con true, no deben tener), o un miembro al que el rol nunca afecta.'
+  params:
+    - desc: 'El ID del rol de estadísticas.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Un canal al que limitar la estadística.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Un rol que se requiere o se excluye.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'True para activar la lista negra de roles en lugar de la lista blanca.'
+      name: blacklist
+      optional: true
+      type: bool
+    - desc: 'Un miembro al que el rol de estadísticas nunca afecta.'
+      name: user
+      optional: false
+      type: IGuildUser

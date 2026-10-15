@@ -1,22 +1,22 @@
 mcstatus:
   args:
     - '[server name or address]'
-  desc: 'Controlla lo stato di un server Minecraft. Usa un nome di server registrato, un indirizzo diretto, o lascia vuoto per il server predefinito.'
+  desc: 'Controlla lo stato di un server Minecraft. Usa un nome di server registrato, un indirizzo diretto o lascia vuoto per il server predefinito.'
   params:
-    - desc: 'Il nome del server registrato o indirizzo diretto (es. play.example.com:25565).'
+    - desc: 'Il nome del server registrato o l''indirizzo diretto (ad esempio play.example.com:25565).'
       name: serverName
       optional: true
       type: string
 mcadd:
   args:
     - name address
-  desc: 'Aggiunge un server Minecraft alla gilda. Anteponi bedrock: all''indirizzo per server Bedrock.'
+  desc: 'Aggiunge un server Minecraft alla gilda. Anteponi bedrock: all''indirizzo per i server Bedrock.'
   params:
     - desc: 'Un''etichetta per il server.'
       name: name
       optional: false
       type: string
-    - desc: 'L''indirizzo del server, opzionalmente con porta (es. play.example.com:25565 o bedrock:play.example.com).'
+    - desc: 'L''indirizzo del server, con porta facoltativa (ad esempio play.example.com:25565 o bedrock:play.example.com).'
       name: address
       optional: false
       type: string
@@ -46,64 +46,64 @@ mcdefault:
 mcwatch:
   args:
     - name '#channel'
-  desc: 'Imposta un canale per ricevere aggiornamenti periodici dello stato di un server. Ometti il canale per disabilitare.'
+  desc: 'Imposta un canale per ricevere aggiornamenti periodici sullo stato di un server. Ometti il canale per disattivarlo.'
   params:
     - desc: 'Il nome del server da monitorare.'
       name: serverName
       optional: false
       type: string
-    - desc: 'Il canale dove pubblicare aggiornamenti.'
+    - desc: 'Il canale in cui pubblicare gli aggiornamenti.'
       name: channel
       optional: true
       type: ITextChannel
 mcwatchmode:
   args:
     - name embed|topic|both
-  desc: 'Imposta come viene mostrato lo stato del server: embed (modifica sul posto), argomento del canale, o entrambi.'
+  desc: 'Imposta come viene mostrato lo stato del server: embed (modificato sul posto), argomento del canale o entrambi.'
   params:
     - desc: 'Il nome del server.'
       name: serverName
       optional: false
       type: string
-    - desc: 'La modalità di monitoraggio: Embed, ChannelTopic, o Both.'
+    - desc: 'La modalità di monitoraggio: Embed, ChannelTopic o Both.'
       name: mode
       optional: false
       type: McWatchMode
 mcembed:
   args:
     - name template
-  desc: 'Imposta un template embed personalizzato per un server monitorato. Usa "-" per ripristinare. Segnaposto: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  desc: 'Imposta un modello di embed personalizzato per un server monitorato. Usa "-" per ripristinare. Segnaposto: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
   params:
     - desc: 'Il nome del server.'
       name: serverName
       optional: false
       type: string
-    - desc: 'Il JSON del template embed, o "-" per ripristinare al predefinito.'
+    - desc: 'Il JSON del modello embed, oppure "-" per ripristinare il valore predefinito.'
       name: template
       optional: true
       type: string
 mcplayer:
   args:
     - username
-  desc: 'Cerca un giocatore Minecraft per username e mostra il suo profilo e skin.'
+  desc: 'Cerca un giocatore Minecraft per nome utente e mostra il suo profilo e la sua skin.'
   params:
-    - desc: 'Lo username Minecraft da cercare.'
+    - desc: 'Il nome utente Minecraft da cercare.'
       name: username
       optional: false
       type: string
 mcskin:
   args:
     - username
-  desc: 'Mostra il render dello skin di un giocatore Minecraft.'
+  desc: 'Mostra il render della skin di un giocatore Minecraft.'
   params:
-    - desc: 'Lo username Minecraft.'
+    - desc: 'Il nome utente Minecraft.'
       name: username
       optional: false
       type: string
 mcrcon:
   args:
     - name command
-  desc: 'Invia un comando RCON a un server Minecraft registrato. RCON deve essere configurato dalla dashboard.'
+  desc: 'Invia un comando RCON a un server Minecraft registrato. RCON deve essere configurato tramite la dashboard.'
   params:
     - desc: 'Il nome del server.'
       name: serverName
@@ -116,7 +116,7 @@ mcrcon:
 mcwhitelist:
   args:
     - name add|remove|list|on|off|reload [player]
-  desc: 'Gestisce la whitelist su un server Minecraft via RCON. Richiede RCON configurato.'
+  desc: 'Gestisce la whitelist di un server Minecraft tramite RCON. Richiede che RCON sia configurato.'
   params:
     - desc: 'Il nome del server.'
       name: serverName

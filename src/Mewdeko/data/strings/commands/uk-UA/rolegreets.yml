@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Додає нове привітання для вказаної ролі. Якщо канал не вказано, використовується поточний канал.'
+  params:
+    - desc: 'Роль, для якої встановлюється привітання.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Текстовий канал, куди надсилатиметься привітання. Необов''язково.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Додає нове привітання для вказаної ролі. Якщо канал не вказано, використовується поточний канал.'
+  params:
+    - desc: 'Роль, для якої встановлюється привітання.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Текстовий канал, куди надсилатиметься привітання. Необов''язково.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Додає нове привітання для вказаної ролі. Якщо канал не вказано, використовується поточний канал.'
+  params:
+    - desc: 'Роль, для якої встановлюється привітання.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Текстовий канал, куди надсилатиметься привітання. Необов''язково.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Додає нове привітання для вказаної ролі. Якщо канал не вказано, використовується поточний канал.'
+  params:
+    - desc: 'Роль, для якої встановлюється привітання.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Текстовий канал, куди надсилатиметься привітання. Необов''язково.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - &ref_448
+      desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'Час у секундах, після якого привітання буде видалено.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Час у секундах, після якого привітання буде видалено.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Час у секундах, після якого привітання буде видалено.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Оновлює привітання для ролі, щоб воно автоматично видалялося через вказаний проміжок часу.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Час у секундах, після якого привітання буде видалено.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання для ролі.'
+  params:
+    - &ref_451
+      desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Чи вмикати, чи вимикати привітання.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання для ролі.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вмикати, чи вимикати привітання.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання для ролі.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вмикати, чи вимикати привітання.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання для ролі.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вмикати, чи вимикати привітання.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання ботів для конкретного привітання ролі.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Чи вмикати, чи вимикати привітання ботів.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання ботів для конкретного привітання ролі.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вмикати, чи вимикати привітання ботів.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання ботів для конкретного привітання ролі.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вмикати, чи вимикати привітання ботів.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Вмикає або вимикає привітання ботів для конкретного привітання ролі.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вмикати, чи вимикати привітання ботів.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Показує всі привітання ролей на сервері з детальною інформацією про кожне.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Оновлює текст привітання ролі. Якщо повідомлення не вказано, пропонує переглянути його як є або як звичайний текст.'
+  params:
+    - desc: 'ID привітання ролі, яке потрібно оновити, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Новий текст повідомлення. Необов''язково.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - &ref_454
+      desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - desc: 'Роль, для якої видалити привітання.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - desc: 'Роль, для якої видалити привітання.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - desc: 'Роль, для якої видалити привітання.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - desc: 'Роль, для якої видалити привітання.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+  params:
+    - desc: 'Видаляє привітання ролей, пов''язані з вказаним ID ролі.'
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Налаштовує вебхук для привітання ролі, що дозволяє задати власне ім''я та аватар. Якщо ім''я не вказано, вебхук вимикається.'
+  params:
+    - desc: 'ID привітання ролі, для якого налаштовується вебхук, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва вебхука. Необов''язково.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'URL аватара для вебхука. Необов''язково.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Налаштовує вебхук для привітання ролі, що дозволяє задати власне ім''я та аватар. Якщо ім''я не вказано, вебхук вимикається.'
+  params:
+    - desc: 'ID привітання ролі, для якого налаштовується вебхук, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва вебхука. Необов''язково.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'URL аватара для вебхука. Необов''язково.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Налаштовує вебхук для привітання ролі, що дозволяє задати власне ім''я та аватар. Якщо ім''я не вказано, вебхук вимикається.'
+  params:
+    - desc: 'ID привітання ролі, для якого налаштовується вебхук, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва вебхука. Необов''язково.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'URL аватара для вебхука. Необов''язково.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Налаштовує вебхук для привітання ролі, що дозволяє задати власне ім''я та аватар. Якщо ім''я не вказано, вебхук вимикається.'
+  params:
+    - desc: 'ID привітання ролі, для якого налаштовується вебхук, за його позицією в списку всіх привітань.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва вебхука. Необов''язково.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'URL аватара для вебхука. Необов''язково.'
+      name: avatar
+      optional: true
+      type: string

@@ -1,19 +1,19 @@
 setupvoicehub:
   args:
     - ''
-  desc: 'Richtet einen Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle ein.'
+  desc: 'Richtet einen Sprachkanal als Hub zum Erstellen eigener Sprachkanäle ein.'
   params: [ ]
 setvoicehub:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
   params:
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: category
       optional: true
       type: category
@@ -21,13 +21,13 @@ setvoicehub_IVoiceChannel_=:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
   params:
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: category
       optional: true
       type: category
@@ -35,13 +35,13 @@ setvoicehub_IVoiceChannel_=_1:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
   params:
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: category
       optional: true
       type: category
@@ -49,257 +49,257 @@ setvoicehub_IVoiceChannel_=_2:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+  desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
   params:
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen benutzerdefinierter Sprachkanäle fest.'
+    - desc: 'Legt einen bestimmten Sprachkanal als Hub zum Erstellen eigener Sprachkanäle fest.'
       name: category
       optional: true
       type: category
 voiceallow:
   args:
     - '@user'
-  desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+  desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
   params:
     - &ref_642
-      desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+      desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser:
   args:
     - '@user'
-  desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+  desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
   params:
-    - desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+    - desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_1:
   args:
     - '@user'
-  desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+  desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
   params:
-    - desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+    - desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_2:
   args:
     - '@user'
-  desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+  desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
   params:
-    - desc: 'Erlaubt einem bestimmten Benutzer, Ihrem gesperrten Sprachkanal beizutreten.'
+    - desc: 'Erlaubt einem bestimmten Nutzer, deinem gesperrten Sprachkanal beizutreten.'
       name: target
       optional: false
       type: IGuildUser
 voicebitrate:
   args:
     - number
-  desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
   params:
     - &ref_643
-      desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+      desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int:
   args:
     - number
-  desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
   params:
-    - desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+    - desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int_1:
   args:
     - number
-  desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
   params:
-    - desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+    - desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
       name: bitrate
       optional: false
       type: int
 voicebitrate_int_2:
   args:
     - number
-  desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
   params:
-    - desc: 'Legt die Bitrate für Ihren benutzerdefinierten Sprachkanal fest.'
+    - desc: 'Legt die Bitrate für deinen eigenen Sprachkanal fest.'
       name: bitrate
       optional: false
       type: int
 voicechannels:
   args:
     - ''
-  desc: 'Listet aktive benutzerdefinierte Sprachkanäle auf.'
+  desc: 'Listet aktive eigene Sprachkanäle auf.'
   params: [ ]
 voiceclaim:
   args:
     - ''
-  desc: 'Beansprucht die Eigentümerschaft eines benutzerdefinierten Sprachkanals, wenn der Eigentümer nicht anwesend ist.'
+  desc: 'Beansprucht den Besitz eines eigenen Sprachkanals, wenn der Besitzer nicht anwesend ist.'
   params: [ ]
 voiceconfig:
   args:
     - '[setting] [value]'
-  desc: 'Konfiguriert die benutzerdefinierten Spracheinstellungen.'
+  desc: 'Konfiguriert die Einstellungen für eigene Sprachkanäle.'
   params:
-    - desc: 'Konfiguriert die benutzerdefinierten Spracheinstellungen.'
+    - desc: 'Konfiguriert die Einstellungen für eigene Sprachkanäle.'
       name: setting
       optional: true
       type: string
-    - desc: 'Konfiguriert die benutzerdefinierten Spracheinstellungen.'
+    - desc: 'Konfiguriert die Einstellungen für eigene Sprachkanäle.'
       name: value
       optional: true
       type: string
 voicecontrols:
   args:
     - ''
-  desc: 'Zeigt interaktive Steuerelemente zur Verwaltung Ihres benutzerdefinierten Sprachkanals an.'
+  desc: 'Zeigt interaktive Steuerelemente zur Verwaltung deines eigenen Sprachkanals.'
   params: [ ]
 voicedeny:
   args:
     - '@user'
-  desc: 'Verweigert einem bestimmten Benutzer den Beitritt zu Ihrem Sprachkanal.'
+  desc: 'Verweigert einem bestimmten Nutzer den Beitritt zu deinem Sprachkanal.'
   params:
-    - desc: 'Verweigert einem bestimmten Benutzer den Beitritt zu Ihrem Sprachkanal.'
+    - desc: 'Verweigert einem bestimmten Nutzer den Beitritt zu deinem Sprachkanal.'
       name: target
       optional: false
       type: IGuildUser
 voicekeepalive:
   args:
     - true
-  desc: 'Hält den Kanal aktiv, auch wenn er leer ist.'
+  desc: 'Legt fest, dass der Kanal auch im leeren Zustand erhalten bleibt.'
   params:
-    - desc: 'Hält den Kanal aktiv, auch wenn er leer ist.'
+    - desc: 'Legt fest, dass der Kanal auch im leeren Zustand erhalten bleibt.'
       name: true
       optional: false
       type: '='
 voicelimit:
   args:
     - number
-  desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
   params:
     - &ref_644
-      desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+      desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
       name: limit
       optional: false
       type: int
 voicelimit_int:
   args:
     - number
-  desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
   params:
-    - desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+    - desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
       name: limit
       optional: false
       type: int
 voicelimit_int_1:
   args:
     - number
-  desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
   params:
-    - desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+    - desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
       name: limit
       optional: false
       type: int
 voicelimit_int_2:
   args:
     - number
-  desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+  desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
   params:
-    - desc: 'Legt das Benutzerlimit für Ihren benutzerdefinierten Sprachkanal fest.'
+    - desc: 'Legt das Nutzerlimit für deinen eigenen Sprachkanal fest.'
       name: limit
       optional: false
       type: int
 voicelock:
   args:
     - true
-  desc: 'Sperrt oder entsperrt Ihren benutzerdefinierten Sprachkanal.'
+  desc: 'Sperrt oder entsperrt deinen eigenen Sprachkanal.'
   params:
-    - desc: 'Sperrt oder entsperrt Ihren benutzerdefinierten Sprachkanal.'
+    - desc: 'Sperrt oder entsperrt deinen eigenen Sprachkanal.'
       name: true
       optional: false
       type: '='
 voicepreferences:
   args:
     - ''
-  desc: 'Legt Ihre Sprachkanaleinstellungen fest.'
+  desc: 'Legt deine Sprachkanal-Einstellungen fest.'
   params: [ ]
 voiceprefsbitrate:
   args:
     - '[bitrate]'
-  desc: 'Legt Ihre bevorzugte Bitrate für benutzerdefinierte Sprachkanäle fest.'
+  desc: 'Legt deine bevorzugte Bitrate für eigene Sprachkanäle fest.'
   params:
-    - desc: 'Legt Ihre bevorzugte Bitrate für benutzerdefinierte Sprachkanäle fest.'
+    - desc: 'Legt deine bevorzugte Bitrate für eigene Sprachkanäle fest.'
       name: bitrate
       optional: true
       type: int
 voiceprefskeepalive:
   args:
     - '[keepAlive]'
-  desc: 'Legt Ihre bevorzugte Keep-alive-Einstellung für benutzerdefinierte Sprachkanäle fest.'
+  desc: 'Legt deinen bevorzugten Dauerhaft-Status für eigene Sprachkanäle fest.'
   params:
-    - desc: 'Legt Ihre bevorzugte Keep-alive-Einstellung für benutzerdefinierte Sprachkanäle fest.'
+    - desc: 'Legt deinen bevorzugten Dauerhaft-Status für eigene Sprachkanäle fest.'
       name: keepAlive
       optional: true
       type: bool
 voiceprefslimit:
   args:
     - '[limit]'
-  desc: 'Legt Ihr bevorzugtes Benutzerlimit für benutzerdefinierte Sprachkanäle fest.'
+  desc: 'Legt dein bevorzugtes Nutzerlimit für eigene Sprachkanäle fest.'
   params:
-    - desc: 'Legt Ihr bevorzugtes Benutzerlimit für benutzerdefinierte Sprachkanäle fest.'
+    - desc: 'Legt dein bevorzugtes Nutzerlimit für eigene Sprachkanäle fest.'
       name: limit
       optional: true
       type: int
 voiceprefslock:
   args:
     - '[locked]'
-  desc: 'Legt Ihre bevorzugte Sperrstatus-Einstellung für benutzerdefinierte Sprachkanäle fest.'
+  desc: 'Legt deinen bevorzugten Sperrstatus für eigene Sprachkanäle fest.'
   params:
-    - desc: 'Legt Ihre bevorzugte Sperrstatus-Einstellung für benutzerdefinierte Sprachkanäle fest.'
+    - desc: 'Legt deinen bevorzugten Sperrstatus für eigene Sprachkanäle fest.'
       name: locked
       optional: true
       type: bool
 voiceprefsname:
   args:
     - '[format]'
-  desc: 'Legt Ihr bevorzugtes Namensformat für benutzerdefinierte Sprachkanäle fest.'
+  desc: 'Legt dein bevorzugtes Namensformat für eigene Sprachkanäle fest.'
   params:
-    - desc: 'Legt Ihr bevorzugtes Namensformat für benutzerdefinierte Sprachkanäle fest.'
+    - desc: 'Legt dein bevorzugtes Namensformat für eigene Sprachkanäle fest.'
       name: format
       optional: true
       type: string
 voiceprefsreset:
   args:
     - ''
-  desc: 'Setzt alle Ihre Sprachkanaleinstellungen zurück.'
+  desc: 'Setzt alle deine Sprachkanal-Einstellungen zurück.'
   params: [ ]
 voicerename:
   args:
     - text
-  desc: 'Benennt Ihren benutzerdefinierten Sprachkanal um.'
+  desc: 'Benennt deinen eigenen Sprachkanal um.'
   params:
-    - desc: 'Benennt Ihren benutzerdefinierten Sprachkanal um.'
+    - desc: 'Benennt deinen eigenen Sprachkanal um.'
       name: name
       optional: false
       type: string
 voicetransfer:
   args:
     - '@user'
-  desc: 'Überträgt das Eigentum Ihres benutzerdefinierten Sprachkanals auf einen anderen Benutzer.'
+  desc: 'Überträgt den Besitz deines eigenen Sprachkanals auf einen anderen Nutzer.'
   params:
-    - desc: 'Überträgt das Eigentum Ihres benutzerdefinierten Sprachkanals auf einen anderen Benutzer.'
+    - desc: 'Überträgt den Besitz deines eigenen Sprachkanals auf einen anderen Nutzer.'
       name: target
       optional: false
       type: IGuildUser
 voiceunlock:
   args:
     - ''
-  desc: 'Entsperrt Ihren benutzerdefinierten Sprachkanal.'
+  desc: 'Entsperrt deinen eigenen Sprachkanal.'
   params: [ ]

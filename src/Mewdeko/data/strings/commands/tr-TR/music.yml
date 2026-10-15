@@ -1,0 +1,953 @@
+activefilters:
+  args:
+    - ''
+  desc: 'Şu anda etkin olan tüm ses filtrelerini gösterir.'
+  params: [ ]
+autoplay:
+  args:
+    - number
+  desc: 'Sunucudaki otomatik oynatma miktarını ayarlar. Spotify API''sini kullanır, bu yüzden istemci sırrı ve kimliği geçerli olmalıdır.'
+  params:
+    - &ref_96
+      desc: 'Otomatik oynatılacak parça sayısı. En fazla 5'
+      name: amount
+      optional: false
+      type: int
+autoplay_int:
+  args:
+    - number
+  desc: 'Sunucudaki otomatik oynatma miktarını ayarlar. Spotify API''sini kullanır, bu yüzden istemci sırrı ve kimliği geçerli olmalıdır.'
+  params:
+    - desc: 'Otomatik oynatılacak parça sayısı. En fazla 5'
+      name: amount
+      optional: false
+      type: int
+bass:
+  args:
+    - 0
+  desc: 'Mevcut parça için bas güçlendirme seviyesini ayarlar.'
+  params:
+    - desc: 'Mevcut parça için bas güçlendirme seviyesini ayarlar.'
+      name: 0
+      optional: false
+      type: '='
+clearqueue:
+  args:
+    - ''
+  desc: 'Müzik kuyruğunu temizler.'
+  params: [ ]
+deleteplaylist:
+  args:
+    - text
+  desc: 'Kayıtlı bir çalma listesini kaldırır.'
+  params:
+    - &ref_187
+      desc: 'Kaldırılacak çalma listesinin adı.'
+      name: name
+      optional: false
+      type: string
+deleteplaylist_string:
+  args:
+    - text
+  desc: 'Kayıtlı bir çalma listesini kaldırır.'
+  params:
+    - desc: 'Kaldırılacak çalma listesinin adı.'
+      name: name
+      optional: false
+      type: string
+distortion:
+  args:
+    - true
+  desc: 'Sese bir bozulma efekti uygular.'
+  params:
+    - desc: 'Sese bir bozulma efekti uygular.'
+      name: true
+      optional: false
+      type: '='
+echo:
+  args:
+    - 1 0.5
+    - 0
+  desc: 'Mevcut parçaya yankı efekti uygular. Lavalink düğümünde echo filtre eklentisi gerektirir.'
+  params:
+    - desc: '0.1 ile 5 saniye arasında yankı gecikmesi. 0 efekti devre dışı bırakır.'
+      name: delay
+      optional: true
+      type: float
+    - desc: 'Her yankının ne kadar soluklaşacağı, 0 ile 1 arasında.'
+      name: decay
+      optional: true
+      type: float
+eightd:
+  args:
+    - true
+  desc: 'Dinleyicinin etrafında sesi döndüren 8D ses efekti uygular.'
+  params:
+    - desc: 'Dinleyicinin etrafında sesi döndüren 8D ses efekti uygular.'
+      name: true
+      optional: false
+      type: '='
+join:
+  args:
+    - ''
+  desc: 'Müzik çalarını alır ve ses kanalına katılmaya çalışır.'
+  params: [ ]
+karaoke:
+  args:
+    - true
+  desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=:
+  args:
+    - true
+  desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_1:
+  args:
+    - true
+  desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_2:
+  args:
+    - true
+  desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Parçadan vokalleri çıkarmaya çalışan karaoke filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+leave:
+  args:
+    - ''
+  desc: 'Botu ses kanalından çıkarır.'
+  params: [ ]
+loadplaylist:
+  args:
+    - text false
+    - text
+  desc: 'Daha önce kaydedilmiş bir çalma listesini kuyruğa yükler.'
+  params:
+    - &ref_280
+      desc: 'Yüklenecek çalma listesinin adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Daha önce kaydedilmiş bir çalma listesini kuyruğa yükler.'
+      name: false
+      optional: false
+      type: '='
+loadplaylist_string_=:
+  args:
+    - text false
+    - text
+  desc: 'Daha önce kaydedilmiş bir çalma listesini kuyruğa yükler.'
+  params:
+    - desc: 'Yüklenecek çalma listesinin adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Daha önce kaydedilmiş bir çalma listesini kuyruğa yükler.'
+      name: false
+      optional: false
+      type: '='
+loop:
+  args:
+    - repeattype
+  desc: 'Botun döngüye girip girmeyeceğini ve nasıl gireceğini ayarlar.'
+  params:
+    - &ref_286
+      desc: 'Tekrar türü.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+loop_PlayerRepeatType:
+  args:
+    - repeattype
+  desc: 'Botun döngüye girip girmeyeceğini ve nasıl gireceğini ayarlar.'
+  params:
+    - desc: 'Tekrar türü.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+lowpass:
+  args:
+    - 20
+    - 0
+  desc: 'Yüksek frekansları keserek sesi boğan alçak geçiren filtre uygular.'
+  params:
+    - desc: '1 ile 100 arasında yumuşatma miktarı. Yüksek değerler daha fazla tizi keser. 0 filtreyi devre dışı bırakır.'
+      name: smoothing
+      optional: true
+      type: float
+movesong:
+  args:
+    - number number
+  desc: 'Kuyruktaki bir şarkıyı yeni bir konuma taşır.'
+  params:
+    - &ref_299
+      desc: 'Şarkının mevcut konumu'
+      name: from
+      optional: false
+      type: int
+    - &ref_300
+      desc: 'Şarkının yeni konumu'
+      name: to
+      optional: false
+      type: int
+movesong_int_int:
+  args:
+    - number number
+  desc: 'Kuyruktaki bir şarkıyı yeni bir konuma taşır.'
+  params:
+    - desc: 'Şarkının mevcut konumu'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Şarkının yeni konumu'
+      name: to
+      optional: false
+      type: int
+musiclinkchannel:
+  args:
+    - ''
+    - '[@channel]'
+  desc: 'Bir kanal için müzik bağlantısı dönüşümünü açıp kapatır. Etkinleştirildiğinde, o kanala gönderilen Apple Music, Spotify, YouTube Music veya diğer desteklenen müzik bağlantıları parça adı, sanatçı, kapak resmi ve diğer platformlardaki eşdeğer bağlantılarla bir yanıt embed''i alır.'
+  params:
+    - desc: 'Açıp kapatılacak kanal. Varsayılan olarak mevcut kanal.'
+      name: channel
+      optional: true
+      type: channel
+musiclinkchannels:
+  args:
+    - ''
+  desc: 'Bu sunucuda müzik bağlantısı dönüşümünün açık olduğu kanalları listeler.'
+  params: [ ]
+musicsettings:
+  args:
+    - ''
+  desc: 'Sunucunun müzik için mevcut ayarlarını gösterir.'
+  params: [ ]
+nightcore:
+  args:
+    - true
+  desc: 'Mevcut parça için nightcore efektini açıp kapatır.'
+  params:
+    - desc: 'Mevcut parça için nightcore efektini açıp kapatır.'
+      name: true
+      optional: false
+      type: '='
+normalize:
+  args:
+    - ''
+    - false
+  desc: 'Yüksek ve düşük kısımları eşitleyen ses normalleştirmeyi açıp kapatır. Lavalink düğümünde normalleştirme filtre eklentisi gerektirir.'
+  params:
+    - desc: 'Normalleştirmenin açılıp kapatılacağı. Varsayılan true.'
+      name: enable
+      optional: true
+      type: bool
+nowplaying:
+  args:
+    - ''
+  desc: 'Varsa şu an çalan parçayı gösterir.'
+  params: [ ]
+pause:
+  args:
+    - ''
+  desc: 'Oynatıcıyı mevcut duruma göre duraklatır ya da devam ettirir.'
+  params: [ ]
+play:
+  args:
+    - number
+  desc: 'YouTube, Spotify ve doğrudan aramalar dahil çeşitli kaynaklardan müzik çalar. Desteklenen platformlardaki parçaları, çalma listelerini ve albümleri destekler.'
+  params:
+    - &ref_346
+      desc: 'YouTube, Spotify ve doğrudan aramalar dahil çeşitli kaynaklardan müzik çalar. Desteklenen platformlardaki parçaları, çalma listelerini ve albümleri destekler.'
+      name: queueNumber
+      optional: false
+      type: int
+play_int:
+  args:
+    - number
+  desc: 'YouTube, Spotify ve doğrudan aramalar dahil çeşitli kaynaklardan müzik çalar. Desteklenen platformlardaki parçaları, çalma listelerini ve albümleri destekler.'
+  params:
+    - desc: 'YouTube, Spotify ve doğrudan aramalar dahil çeşitli kaynaklardan müzik çalar. Desteklenen platformlardaki parçaları, çalma listelerini ve albümleri destekler.'
+      name: queueNumber
+      optional: false
+      type: int
+play_string:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'Bir URL''den ya da arama sorgusundan müzik çalar. Lavalink düğümünde etkin olan herhangi bir kaynaktan (YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit ve daha fazlası) gelen URL''ler doğrudan yüklenir. Düz metin aramaları, sorgu "spotify:", "deezer:", "applemusic:", "soundcloud:" veya "youtube:" gibi bir kaynak önekiyle başlamadığı sürece yapılandırılmış varsayılan kaynakta arar.'
+  params:
+    - &ref_347
+      desc: 'Çalınacak müziğin URL''si veya arama sorgusu; isteğe bağlı olarak kaynak adı önekiyle'
+      name: query
+      optional: false
+      type: string
+play_string_1:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'Bir URL''den ya da arama sorgusundan müzik çalar. Lavalink düğümünde etkin olan herhangi bir kaynaktan (YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit ve daha fazlası) gelen URL''ler doğrudan yüklenir. Düz metin aramaları, sorgu "spotify:", "deezer:", "applemusic:", "soundcloud:" veya "youtube:" gibi bir kaynak önekiyle başlamadığı sürece yapılandırılmış varsayılan kaynakta arar.'
+  params:
+    - desc: 'Çalınacak müziğin URL''si veya arama sorgusu; isteğe bağlı olarak kaynak adı önekiyle'
+      name: query
+      optional: false
+      type: string
+playlists:
+  args:
+    - ''
+  desc: 'Sunucu için kaydedilmiş tüm çalma listelerini listeler.'
+  params: [ ]
+queue:
+  args:
+    - ''
+  desc: 'Müzik kuyruğu.'
+  params: [ ]
+resetfilters:
+  args:
+    - ''
+  desc: 'Mevcut parçadaki tüm aktif ses filtrelerini kaldırır.'
+  params: [ ]
+saveplaylist:
+  args:
+    - text
+  desc: 'Mevcut kuyruğu adlandırılmış bir çalma listesi olarak kaydeder.'
+  params:
+    - &ref_477
+      desc: 'Çalma listesinin kaydedileceği ad.'
+      name: name
+      optional: false
+      type: string
+saveplaylist_string:
+  args:
+    - text
+  desc: 'Mevcut kuyruğu adlandırılmış bir çalma listesi olarak kaydeder.'
+  params:
+    - desc: 'Çalma listesinin kaydedileceği ad.'
+      name: name
+      optional: false
+      type: string
+search:
+  args:
+    - text
+    - 'spotify: text'
+  desc: 'Parçaları otomatik çalmadan arar. Sorgu "spotify:", "deezer:" veya "soundcloud:" gibi bir kaynak önekiyle başlamadığı sürece varsayılan kaynakta arar.'
+  params:
+    - &ref_480
+      desc: 'Arama sorgusu; isteğe bağlı olarak kaynak adı önekiyle'
+      name: query
+      optional: false
+      type: string
+search_string:
+  args:
+    - text
+    - 'spotify: text'
+  desc: 'Parçaları otomatik çalmadan arar. Sorgu "spotify:", "deezer:" veya "soundcloud:" gibi bir kaynak önekiyle başlamadığı sürece varsayılan kaynakta arar.'
+  params:
+    - desc: 'Arama sorgusu; isteğe bağlı olarak kaynak adı önekiyle'
+      name: query
+      optional: false
+      type: string
+seek:
+  args:
+    - text
+  desc: 'Mevcut parçada belirli bir konuma atlar.'
+  params:
+    - &ref_482
+      desc: 'mm:ss biçiminde atlanacak süre'
+      name: timeSpan
+      optional: false
+      type: string
+seek_string:
+  args:
+    - text
+  desc: 'Mevcut parçada belirli bir konuma atlar.'
+  params:
+    - desc: 'mm:ss biçiminde atlanacak süre'
+      name: timeSpan
+      optional: false
+      type: string
+setdjrole:
+  args:
+    - '[@role]'
+  desc: 'Yükseltilmiş izin gerektiren müzik komutları için DJ rolünü ayarlar.'
+  params:
+    - desc: 'DJ olarak ayarlanacak rol. Boşsa DJ rolünü kaldırır.'
+      name: role
+      optional: true
+      type: role
+setmusicchannel:
+  args:
+    - '[@channel]'
+  desc: 'Müzik olaylarının gönderileceği kanalı ayarlar.'
+  params:
+    - desc: 'Müzik olaylarının gönderileceği kanal.'
+      name: channel
+      optional: true
+      type: channel
+shuffle:
+  args:
+    - ''
+  desc: 'Mevcut müzik kuyruğunu karıştırır.'
+  params: [ ]
+skip:
+  args:
+    - ''
+  desc: 'Sonraki parçaya geçer.'
+  params: [ ]
+songremove:
+  args:
+    - number
+  desc: 'Seçilen parçayı kuyruktan kaldırır. Seçilen parça mevcut parçaysa atlanır. Sonraki parça yoksa oynatıcı durur.'
+  params:
+    - &ref_554
+      desc: 'Kaldırılacak kuyruk numarası.'
+      name: queueNumber
+      optional: false
+      type: int
+songremove_int:
+  args:
+    - number
+  desc: 'Seçilen parçayı kuyruktan kaldırır. Seçilen parça mevcut parçaysa atlanır. Sonraki parça yoksa oynatıcı durur.'
+  params:
+    - desc: 'Kaldırılacak kuyruk numarası.'
+      name: queueNumber
+      optional: false
+      type: int
+stereowiden:
+  args:
+    - true
+  desc: 'Ses sahnesini genişletmek için stereo genişletme efekti uygular.'
+  params:
+    - desc: 'Ses sahnesini genişletmek için stereo genişletme efekti uygular.'
+      name: true
+      optional: false
+      type: '='
+tremolo:
+  args:
+    - true
+  desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=:
+  args:
+    - true
+  desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_1:
+  args:
+    - true
+  desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_2:
+  args:
+    - true
+  desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Ses seviyesinde dalgalanma efekti oluşturan tremolo filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+vaporwave:
+  args:
+    - true
+  desc: 'Mevcut parça için vaporwave efektini açıp kapatır.'
+  params:
+    - desc: 'Mevcut parça için vaporwave efektini açıp kapatır.'
+      name: true
+      optional: false
+      type: '='
+vibrato:
+  args:
+    - true
+  desc: 'Perdede dalgalanma efekti oluşturan vibrato filtresini uygular ya da kaldırır.'
+  params:
+    - desc: 'Perdede dalgalanma efekti oluşturan vibrato filtresini uygular ya da kaldırır.'
+      name: true
+      optional: false
+      type: '='
+volume:
+  args:
+    - number
+  desc: 'Oynatıcının ses seviyesini ayarlar'
+  params:
+    - &ref_645
+      desc: 'Ayarlanacak ses seviyesi'
+      name: volume
+      optional: false
+      type: int
+volume_int:
+  args:
+    - number
+  desc: 'Oynatıcının ses seviyesini ayarlar'
+  params:
+    - desc: 'Ayarlanacak ses seviyesi'
+      name: volume
+      optional: false
+      type: int
+voteskip:
+  args:
+    - ''
+  desc: 'Mevcut parçayı atlamak için oylama başlatır ya da oylamaya katılır.'
+  params: [ ]
+lastfmlink:
+  args: [ ]
+  desc: 'Kullanıcının Last.fm hesabını scrobbling için bağlar.'
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: 'Kullanıcının Last.fm hesabını scrobbling için bağlar.'
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: 'Kullanıcının Last.fm hesabının bağlantısını kaldırır.'
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: 'Kullanıcının Last.fm hesabının bağlantısını kaldırır.'
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: 'Last.fm scrobbling''i açar veya kapatır.'
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: 'Last.fm scrobbling''i açar veya kapatır.'
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: 'Kullanıcının Last.fm hesap durumunu gösterir.'
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: 'Kullanıcının Last.fm hesap durumunu gösterir.'
+  params: [ ]
+fm:
+  args:
+    - '[@user]'
+  desc: 'Last.fm''den mevcut ya da son çalınan parçayı gösterir; bağlı değilse Discord Spotify durumuna döner.'
+  params:
+    - desc: 'Kontrol edilecek kullanıcı. Varsayılan olarak komutu çalıştıran kişi.'
+      name: user
+      optional: true
+      type: user
+fmrecent:
+  args:
+    - '[@user]'
+  desc: 'Bir kullanıcının Last.fm''den son çaldığı parçaları gösterir.'
+  params:
+    - desc: 'Kontrol edilecek kullanıcı. Varsayılan olarak komutu çalıştıran kişi.'
+      name: user
+      optional: true
+      type: user
+fmtopartists:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Belirli bir zaman dilimi için bir kullanıcının Last.fm''deki en çok dinlediği sanatçıları gösterir.'
+  params:
+    - desc: 'Zaman dilimi: week, month, quarter, half, year veya overall (varsayılan).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Kontrol edilecek kullanıcı. Varsayılan olarak komutu çalıştıran kişi.'
+      name: user
+      optional: true
+      type: user
+fmtopalbums:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Belirli bir zaman dilimi için bir kullanıcının Last.fm''deki en çok dinlediği albümleri gösterir.'
+  params:
+    - desc: 'Zaman dilimi: week, month, quarter, half, year veya overall (varsayılan).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Kontrol edilecek kullanıcı. Varsayılan olarak komutu çalıştıran kişi.'
+      name: user
+      optional: true
+      type: user
+fmtoptracks:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Belirli bir zaman dilimi için bir kullanıcının Last.fm''deki en çok dinlediği parçaları gösterir.'
+  params:
+    - desc: 'Zaman dilimi: week, month, quarter, half, year veya overall (varsayılan).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Kontrol edilecek kullanıcı. Varsayılan olarak komutu çalıştıran kişi.'
+      name: user
+      optional: true
+      type: user
+fmartist:
+  args:
+    - '[artist]'
+  desc: 'Bir sanatçının Last.fm bilgilerini, sizin o sanatçıyı dinleme sayınızla birlikte gösterir.'
+  params:
+    - desc: 'Sanatçı adı. Varsayılan olarak şu an veya en son çalınan sanatçı.'
+      name: artist
+      optional: true
+      type: string
+fmalbum:
+  args:
+    - '[artist | album]'
+  desc: 'Bir albümün Last.fm bilgilerini, sizin o albümü dinleme sayınızla birlikte gösterir.'
+  params:
+    - desc: 'Aranacak albüm, ''sanatçı | albüm'' biçiminde. Varsayılan olarak şu an veya en son çalınan albüm.'
+      name: query
+      optional: true
+      type: string
+fmwhoknows:
+  args:
+    - '[artist]'
+  desc: 'Bağlı tüm sunucu üyelerini bir sanatçıyı dinleme sayısına göre sıralar.'
+  params:
+    - desc: 'Kontrol edilecek sanatçı. Varsayılan olarak şu an veya en son çalınan sanatçı.'
+      name: artist
+      optional: true
+      type: string
+fmwhoknowsalbum:
+  args:
+    - 'artist | album'
+  desc: 'Bağlı tüm sunucu üyelerini bir albümü dinleme sayısına göre sıralar.'
+  params:
+    - desc: 'Kontrol edilecek albüm, ''sanatçı | albüm'' biçiminde.'
+      name: query
+      optional: false
+      type: string
+fmwhoknowstrack:
+  args:
+    - 'artist | track'
+  desc: 'Bağlı tüm sunucu üyelerini bir parçayı dinleme sayısına göre sıralar.'
+  params:
+    - desc: 'Kontrol edilecek parça, ''sanatçı | parça'' biçiminde.'
+      name: query
+      optional: false
+      type: string
+fmcrowns:
+  args:
+    - '[artist]'
+  desc: 'Bu sunucuda bir sanatçının "sahibini" (en çok dinlenme sayısına sahip kişiyi) gösterir.'
+  params:
+    - desc: 'Kontrol edilecek sanatçı. Varsayılan olarak şu an veya en son çalınan sanatçı.'
+      name: artist
+      optional: true
+      type: string
+fmtaste:
+  args:
+    - '@user'
+  desc: 'En çok dinlediğiniz sanatçıları başka bir kullanıcının listesiyle karşılaştırarak zevkinizin ne kadar örtüştüğünü gösterir.'
+  params:
+    - desc: 'Karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: user
+fmchart:
+  args:
+    - '[size]'
+    - '[period]'
+    - '[@user]'
+  desc: 'Bir kullanıcının Last.fm''deki en çok dinlediği albümlerinden bir resim ızgarası oluşturur.'
+  params:
+    - desc: 'Izgara boyutu (boyut x boyut). 2 ile 5 arasında olmalıdır. Varsayılan 3.'
+      name: size
+      optional: true
+      type: int
+    - desc: 'Zaman dilimi: week, month, quarter, half, year veya overall (varsayılan).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Kontrol edilecek kullanıcı. Varsayılan olarak komutu çalıştıran kişi.'
+      name: user
+      optional: true
+      type: user
+ttsenable:
+  args:
+    - ''
+  desc: 'Şu an bulunduğunuz ses kanalı için TTS''yi açıp kapatır.'
+  params: [ ]
+ttslink:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Bir metin kanalını mevcut ses kanalı için TTS''ye bağlar. Bağlı kanaldaki mesajlar sesli okunur. Bağlantıyı kaldırmak için argümansız kullanın.'
+  params:
+    - desc: 'Bağlanacak metin kanalı. Bağlantıyı kaldırmak için boş bırakın.'
+      name: channel
+      optional: true
+      type: channel
+ttslink_ITextChannel:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Bir metin kanalını mevcut ses kanalı için TTS''ye bağlar. Bağlı kanaldaki mesajlar sesli okunur. Bağlantıyı kaldırmak için argümansız kullanın.'
+  params:
+    - desc: 'Bağlanacak metin kanalı. Bağlantıyı kaldırmak için boş bırakın.'
+      name: channel
+      optional: true
+      type: channel
+ttsannounce:
+  args:
+    - ''
+  desc: 'Mevcut ses kanalı için katılma/ayrılma duyurularını açıp kapatır.'
+  params: [ ]
+ttsautojoin:
+  args:
+    - ''
+  desc: 'Bulunduğunuz ses kanalı için otomatik katılmayı açıp kapatır. Açıkken, bir üye kanala girdiğinde bot (seste değilse) kendiliğinden katılır ve kanal boşalınca ayrılır. Bot bağlı olmadan da çalışır.'
+  params: [ ]
+ttsjoinformat:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Katılma duyurusu biçimini ayarlar. %user.name%, %user.mention%, %server.name% gibi yer tutucuları destekler. Varsayılana dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Katılma biçimi metni. Varsayılana dönmek için boş bırakın.'
+      name: format
+      optional: true
+      type: string
+ttsjoinformat_string:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Katılma duyurusu biçimini ayarlar. %user.name%, %user.mention%, %server.name% gibi yer tutucuları destekler. Varsayılana dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Katılma biçimi metni. Varsayılana dönmek için boş bırakın.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Ayrılma duyurusu biçimini ayarlar. %user.name%, %user.mention%, %server.name% gibi yer tutucuları destekler. Varsayılana dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Ayrılma biçimi metni. Varsayılana dönmek için boş bırakın.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat_string:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Ayrılma duyurusu biçimini ayarlar. %user.name%, %user.mention%, %server.name% gibi yer tutucuları destekler. Varsayılana dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Ayrılma biçimi metni. Varsayılana dönmek için boş bırakın.'
+      name: format
+      optional: true
+      type: string
+ttsvolume:
+  args:
+    - '75'
+  desc: 'TTS ses seviyesini (0-100) ayarlar. Müzik ses seviyesinden ayrıdır.'
+  params:
+    - desc: '0 ile 100 arasında ses seviyesi.'
+      name: volume
+      optional: false
+      type: int
+ttsvolume_int:
+  args:
+    - '75'
+  desc: 'TTS ses seviyesini (0-100) ayarlar. Müzik ses seviyesinden ayrıdır.'
+  params:
+    - desc: '0 ile 100 arasında ses seviyesi.'
+      name: volume
+      optional: false
+      type: int
+ttsspeed:
+  args:
+    - '1.5'
+  desc: 'TTS oynatma hızını (0.5-2.0) ayarlar.'
+  params:
+    - desc: '0.5 ile 2.0 arasında hız çarpanı.'
+      name: speed
+      optional: false
+      type: float
+ttsspeed_float:
+  args:
+    - '1.5'
+  desc: 'TTS oynatma hızını (0.5-2.0) ayarlar.'
+  params:
+    - desc: '0.5 ile 2.0 arasında hız çarpanı.'
+      name: speed
+      optional: false
+      type: float
+ttsdefaultvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Sunucunun varsayılan TTS sesini ayarlar. Sistem varsayılanına dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Ses adı. Sıfırlamak için boş bırakın.'
+      name: voice
+      optional: true
+      type: string
+ttsdefaultvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Sunucunun varsayılan TTS sesini ayarlar. Sistem varsayılanına dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Ses adı. Sıfırlamak için boş bırakın.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Bu sunucu için kişisel TTS sesinizi ayarlar. Sunucu varsayılanına dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Ses adı. Sıfırlamak için boş bırakın.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Bu sunucu için kişisel TTS sesinizi ayarlar. Sunucu varsayılanına dönmek için argümansız kullanın.'
+  params:
+    - desc: 'Ses adı. Sıfırlamak için boş bırakın.'
+      name: voice
+      optional: true
+      type: string
+ttsvoices:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'TTS seslerini ada, dile, cinsiyete veya kaynağa göre arar. Sonuçlar sayfalara bölünür.'
+  params:
+    - desc: 'Arama terimi (ses adı, dil, cinsiyet veya kaynak).'
+      name: search
+      optional: false
+      type: string
+ttsvoices_string:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'TTS seslerini ada, dile, cinsiyete veya kaynağa göre arar. Sonuçlar sayfalara bölünür.'
+  params:
+    - desc: 'Arama terimi (ses adı, dil, cinsiyet veya kaynak).'
+      name: search
+      optional: false
+      type: string
+ttsblock:
+  args:
+    - '@user'
+  desc: 'Bu sunucuda bir kullanıcının TTS kullanmasını engeller ya da engelini kaldırır. Engel durumunu değiştirir.'
+  params:
+    - desc: 'TTS engeli eklenecek ya da kaldırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: user
+ttsblock_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Bu sunucuda bir kullanıcının TTS kullanmasını engeller ya da engelini kaldırır. Engel durumunu değiştirir.'
+  params:
+    - desc: 'TTS engeli eklenecek ya da kaldırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: user
+ttsblocklist:
+  args:
+    - ''
+  desc: 'Bu sunucuda TTS''den engellenmiş tüm kullanıcıları listeler.'
+  params: [ ]
+ttsrole:
+  args:
+    - '@role'
+    - ''
+  desc: 'TTS kullanmak için gereken rolü ayarlar. Kısıtlamayı kaldırmak için argümansız kullanın.'
+  params:
+    - desc: 'Gerekli rol. Kısıtlamayı kaldırmak için boş bırakın.'
+      name: role
+      optional: true
+      type: role
+ttsrole_IRole:
+  args:
+    - '@role'
+    - ''
+  desc: 'TTS kullanmak için gereken rolü ayarlar. Kısıtlamayı kaldırmak için argümansız kullanın.'
+  params:
+    - desc: 'Gerekli rol. Kısıtlamayı kaldırmak için boş bırakın.'
+      name: role
+      optional: true
+      type: role
+ttsreplycontext:
+  args:
+    - ''
+  desc: 'TTS''nin yanıt bağlamını (ör. "User kullanıcısına yanıt veriyor") okuyup okumayacağını açıp kapatır.'
+  params: [ ]
+ttsattachmentnarration:
+  args:
+    - ''
+  desc: 'TTS''nin ekleri (ör. "bir resim gönderdi") seslendirip seslendirmeyeceğini açıp kapatır.'
+  params: [ ]
+ttsconsecutivegrouping:
+  args:
+    - ''
+  desc: 'Aynı kullanıcıdan art arda gelen mesajların isim önekini atlayıp atlamayacağını açıp kapatır.'
+  params: [ ]
+ttsmaxqueue:
+  args:
+    - '20'
+  desc: 'En fazla TTS kuyruk boyutunu ayarlar (1-50).'
+  params:
+    - desc: '1 ile 50 arasında en fazla kuyruk boyutu.'
+      name: size
+      optional: false
+      type: int
+ttsmaxqueue_int:
+  args:
+    - '20'
+  desc: 'En fazla TTS kuyruk boyutunu ayarlar (1-50).'
+  params:
+    - desc: '1 ile 50 arasında en fazla kuyruk boyutu.'
+      name: size
+      optional: false
+      type: int
+ttssettings:
+  args:
+    - ''
+  desc: 'Bu sunucu ve ses kanalı için mevcut TTS ayarlarını gösterir.'
+  params: [ ]
+ttsremove:
+  args:
+    - ''
+  desc: 'Mevcut ses kanalının tüm TTS ayarlarını kaldırır.'
+  params: [ ]

@@ -1,0 +1,953 @@
+activefilters:
+  args:
+    - ''
+  desc: 'Zeigt alle aktuell aktiven Audiofilter.'
+  params: [ ]
+autoplay:
+  args:
+    - number
+  desc: 'Legt die Autoplay-Anzahl auf dem Server fest. Nutzt die Spotify-API, daher müssen Client-Secret und ID gültig sein.'
+  params:
+    - &ref_96
+      desc: 'Die Anzahl der automatisch abzuspielenden Titel. Maximal 5.'
+      name: amount
+      optional: false
+      type: int
+autoplay_int:
+  args:
+    - number
+  desc: 'Legt die Autoplay-Anzahl auf dem Server fest. Nutzt die Spotify-API, daher müssen Client-Secret und ID gültig sein.'
+  params:
+    - desc: 'Die Anzahl der automatisch abzuspielenden Titel. Maximal 5.'
+      name: amount
+      optional: false
+      type: int
+bass:
+  args:
+    - 0
+  desc: 'Legt die Bassverstärkung für den aktuellen Titel fest.'
+  params:
+    - desc: 'Legt die Bassverstärkung für den aktuellen Titel fest.'
+      name: 0
+      optional: false
+      type: '='
+clearqueue:
+  args:
+    - ''
+  desc: 'Leert die Musikwarteschlange.'
+  params: [ ]
+deleteplaylist:
+  args:
+    - text
+  desc: 'Entfernt eine gespeicherte Playlist.'
+  params:
+    - &ref_187
+      desc: 'Der Name der zu entfernenden Playlist.'
+      name: name
+      optional: false
+      type: string
+deleteplaylist_string:
+  args:
+    - text
+  desc: 'Entfernt eine gespeicherte Playlist.'
+  params:
+    - desc: 'Der Name der zu entfernenden Playlist.'
+      name: name
+      optional: false
+      type: string
+distortion:
+  args:
+    - true
+  desc: 'Wendet einen Verzerrungseffekt auf das Audio an.'
+  params:
+    - desc: 'Wendet einen Verzerrungseffekt auf das Audio an.'
+      name: true
+      optional: false
+      type: '='
+echo:
+  args:
+    - 1 0.5
+    - 0
+  desc: 'Wendet einen Echo-Effekt auf den aktuellen Titel an. Erfordert das Echo-Filter-Plugin auf dem Lavalink-Node.'
+  params:
+    - desc: 'Die Echo-Verzögerung in Sekunden zwischen 0,1 und 5. 0 deaktiviert den Effekt.'
+      name: delay
+      optional: true
+      type: float
+    - desc: 'Wie stark jedes Echo abklingt, zwischen 0 und 1.'
+      name: decay
+      optional: true
+      type: float
+eightd:
+  args:
+    - true
+  desc: 'Wendet einen 8D-Audioeffekt an, der das Audio um den Zuhörer kreisen lässt.'
+  params:
+    - desc: 'Wendet einen 8D-Audioeffekt an, der das Audio um den Zuhörer kreisen lässt.'
+      name: true
+      optional: false
+      type: '='
+join:
+  args:
+    - ''
+  desc: 'Ruft den Musikplayer ab und versucht, dem Sprachkanal beizutreten.'
+  params: [ ]
+karaoke:
+  args:
+    - true
+  desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+  params:
+    - desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=:
+  args:
+    - true
+  desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+  params:
+    - desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_1:
+  args:
+    - true
+  desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+  params:
+    - desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_2:
+  args:
+    - true
+  desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+  params:
+    - desc: 'Aktiviert oder entfernt einen Karaoke-Filter, der versucht, Gesang aus dem Titel zu entfernen.'
+      name: true
+      optional: false
+      type: '='
+leave:
+  args:
+    - ''
+  desc: 'Trennt den Bot vom Sprachkanal.'
+  params: [ ]
+loadplaylist:
+  args:
+    - text false
+    - text
+  desc: 'Lädt eine zuvor gespeicherte Playlist in die Warteschlange.'
+  params:
+    - &ref_280
+      desc: 'Der Name der zu ladenden Playlist.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Lädt eine zuvor gespeicherte Playlist in die Warteschlange.'
+      name: false
+      optional: false
+      type: '='
+loadplaylist_string_=:
+  args:
+    - text false
+    - text
+  desc: 'Lädt eine zuvor gespeicherte Playlist in die Warteschlange.'
+  params:
+    - desc: 'Der Name der zu ladenden Playlist.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Lädt eine zuvor gespeicherte Playlist in die Warteschlange.'
+      name: false
+      optional: false
+      type: '='
+loop:
+  args:
+    - repeattype
+  desc: 'Legt fest, ob und wie der Bot wiederholen soll.'
+  params:
+    - &ref_286
+      desc: 'Der Wiederholungstyp.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+loop_PlayerRepeatType:
+  args:
+    - repeattype
+  desc: 'Legt fest, ob und wie der Bot wiederholen soll.'
+  params:
+    - desc: 'Der Wiederholungstyp.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+lowpass:
+  args:
+    - 20
+    - 0
+  desc: 'Wendet einen Tiefpassfilter an, der das Audio dumpfer macht, indem hohe Frequenzen abgeschnitten werden.'
+  params:
+    - desc: 'Die Glättungsstärke zwischen 1 und 100. Höhere Werte schneiden mehr Höhen ab. 0 deaktiviert den Filter.'
+      name: smoothing
+      optional: true
+      type: float
+movesong:
+  args:
+    - number number
+  desc: 'Verschiebt einen Titel in der Warteschlange an eine neue Position.'
+  params:
+    - &ref_299
+      desc: 'Die aktuelle Position des Titels.'
+      name: from
+      optional: false
+      type: int
+    - &ref_300
+      desc: 'Die neue Position des Titels.'
+      name: to
+      optional: false
+      type: int
+movesong_int_int:
+  args:
+    - number number
+  desc: 'Verschiebt einen Titel in der Warteschlange an eine neue Position.'
+  params:
+    - desc: 'Die aktuelle Position des Titels.'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Die neue Position des Titels.'
+      name: to
+      optional: false
+      type: int
+musiclinkchannel:
+  args:
+    - ''
+    - '[@channel]'
+  desc: 'Schaltet die automatische Umwandlung von Musiklinks für einen Kanal um. Ist sie aktiviert, erhält jeder Apple-Music-, Spotify-, YouTube-Music- oder anderer unterstützter Musiklink, der in diesem Kanal gepostet wird, ein Antwort-Embed mit Titel, Künstler, Cover und den entsprechenden Links zu anderen Anbietern.'
+  params:
+    - desc: 'Der Kanal, der umgeschaltet werden soll. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: channel
+musiclinkchannels:
+  args:
+    - ''
+  desc: 'Listet die Kanäle auf diesem Server auf, in denen die Umwandlung von Musiklinks aktiviert ist.'
+  params: [ ]
+musicsettings:
+  args:
+    - ''
+  desc: 'Zeigt die aktuellen Musik-Einstellungen des Servers.'
+  params: [ ]
+nightcore:
+  args:
+    - true
+  desc: 'Schaltet den Nightcore-Effekt für den aktuellen Titel um.'
+  params:
+    - desc: 'Schaltet den Nightcore-Effekt für den aktuellen Titel um.'
+      name: true
+      optional: false
+      type: '='
+normalize:
+  args:
+    - ''
+    - false
+  desc: 'Schaltet die Lautstärke-Normalisierung um, die laute und leise Passagen angleicht. Erfordert das Normalisierungs-Filter-Plugin auf dem Lavalink-Node.'
+  params:
+    - desc: 'Ob die Normalisierung aktiviert oder deaktiviert werden soll. Standard ist true.'
+      name: enable
+      optional: true
+      type: bool
+nowplaying:
+  args:
+    - ''
+  desc: 'Zeigt den aktuell laufenden Titel, falls vorhanden.'
+  params: [ ]
+pause:
+  args:
+    - ''
+  desc: 'Pausiert oder setzt den Player fort, je nach aktuellem Status.'
+  params: [ ]
+play:
+  args:
+    - number
+  desc: 'Spielt Musik aus verschiedenen Quellen ab, u. a. YouTube, Spotify und direkte Suchen. Unterstützt Titel, Playlists und Alben von unterstützten Plattformen.'
+  params:
+    - &ref_346
+      desc: 'Spielt Musik aus verschiedenen Quellen ab, u. a. YouTube, Spotify und direkte Suchen. Unterstützt Titel, Playlists und Alben von unterstützten Plattformen.'
+      name: queueNumber
+      optional: false
+      type: int
+play_int:
+  args:
+    - number
+  desc: 'Spielt Musik aus verschiedenen Quellen ab, u. a. YouTube, Spotify und direkte Suchen. Unterstützt Titel, Playlists und Alben von unterstützten Plattformen.'
+  params:
+    - desc: 'Spielt Musik aus verschiedenen Quellen ab, u. a. YouTube, Spotify und direkte Suchen. Unterstützt Titel, Playlists und Alben von unterstützten Plattformen.'
+      name: queueNumber
+      optional: false
+      type: int
+play_string:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'Spielt Musik aus einer URL oder einer Suchanfrage ab. URLs aus allen auf dem Lavalink-Node aktivierten Quellen (YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit und mehr) werden direkt geladen. Reiner Text durchsucht die konfigurierte Standardquelle, außer die Anfrage beginnt mit einem Quellpräfix wie "spotify:", "deezer:", "applemusic:", "soundcloud:" oder "youtube:".'
+  params:
+    - &ref_347
+      desc: 'URL oder Suchanfrage für die Musik, optional mit vorangestelltem Quellnamen.'
+      name: query
+      optional: false
+      type: string
+play_string_1:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'Spielt Musik aus einer URL oder einer Suchanfrage ab. URLs aus allen auf dem Lavalink-Node aktivierten Quellen (YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit und mehr) werden direkt geladen. Reiner Text durchsucht die konfigurierte Standardquelle, außer die Anfrage beginnt mit einem Quellpräfix wie "spotify:", "deezer:", "applemusic:", "soundcloud:" oder "youtube:".'
+  params:
+    - desc: 'URL oder Suchanfrage für die Musik, optional mit vorangestelltem Quellnamen.'
+      name: query
+      optional: false
+      type: string
+playlists:
+  args:
+    - ''
+  desc: 'Listet alle gespeicherten Playlists des Servers auf.'
+  params: [ ]
+queue:
+  args:
+    - ''
+  desc: 'Die Musikwarteschlange.'
+  params: [ ]
+resetfilters:
+  args:
+    - ''
+  desc: 'Entfernt alle aktiven Audiofilter vom aktuellen Titel.'
+  params: [ ]
+saveplaylist:
+  args:
+    - text
+  desc: 'Speichert die aktuelle Warteschlange als benannte Playlist.'
+  params:
+    - &ref_477
+      desc: 'Der Name, unter dem die Playlist gespeichert wird.'
+      name: name
+      optional: false
+      type: string
+saveplaylist_string:
+  args:
+    - text
+  desc: 'Speichert die aktuelle Warteschlange als benannte Playlist.'
+  params:
+    - desc: 'Der Name, unter dem die Playlist gespeichert wird.'
+      name: name
+      optional: false
+      type: string
+search:
+  args:
+    - text
+    - 'spotify: text'
+  desc: 'Sucht nach Titeln, ohne sie automatisch abzuspielen. Durchsucht die konfigurierte Standardquelle, außer die Anfrage beginnt mit einem Quellpräfix wie "spotify:", "deezer:" oder "soundcloud:".'
+  params:
+    - &ref_480
+      desc: 'Die Suchanfrage, optional mit vorangestelltem Quellnamen.'
+      name: query
+      optional: false
+      type: string
+search_string:
+  args:
+    - text
+    - 'spotify: text'
+  desc: 'Sucht nach Titeln, ohne sie automatisch abzuspielen. Durchsucht die konfigurierte Standardquelle, außer die Anfrage beginnt mit einem Quellpräfix wie "spotify:", "deezer:" oder "soundcloud:".'
+  params:
+    - desc: 'Die Suchanfrage, optional mit vorangestelltem Quellnamen.'
+      name: query
+      optional: false
+      type: string
+seek:
+  args:
+    - text
+  desc: 'Springt zu einer bestimmten Position im aktuellen Titel.'
+  params:
+    - &ref_482
+      desc: 'Zeit, zu der gesprungen werden soll, im Format mm:ss.'
+      name: timeSpan
+      optional: false
+      type: string
+seek_string:
+  args:
+    - text
+  desc: 'Springt zu einer bestimmten Position im aktuellen Titel.'
+  params:
+    - desc: 'Zeit, zu der gesprungen werden soll, im Format mm:ss.'
+      name: timeSpan
+      optional: false
+      type: string
+setdjrole:
+  args:
+    - '[@role]'
+  desc: 'Legt die DJ-Rolle für Musikbefehle fest, die erhöhte Rechte erfordern.'
+  params:
+    - desc: 'Die Rolle, die als DJ gesetzt werden soll. Bei null wird die DJ-Rolle entfernt.'
+      name: role
+      optional: true
+      type: role
+setmusicchannel:
+  args:
+    - '[@channel]'
+  desc: 'Legt den Kanal fest, in dem Musikereignisse gesendet werden.'
+  params:
+    - desc: 'Der Kanal, in dem Musikereignisse gesendet werden.'
+      name: channel
+      optional: true
+      type: channel
+shuffle:
+  args:
+    - ''
+  desc: 'Mischt die aktuelle Musikwarteschlange.'
+  params: [ ]
+skip:
+  args:
+    - ''
+  desc: 'Springt zum nächsten Titel.'
+  params: [ ]
+songremove:
+  args:
+    - number
+  desc: 'Entfernt den ausgewählten Titel aus der Warteschlange. Ist es der aktuelle Titel, wird er übersprungen. Ist kein nächster Titel verfügbar, stoppt der Player.'
+  params:
+    - &ref_554
+      desc: 'Die Nummer des Warteschlangeneintrags, der entfernt werden soll.'
+      name: queueNumber
+      optional: false
+      type: int
+songremove_int:
+  args:
+    - number
+  desc: 'Entfernt den ausgewählten Titel aus der Warteschlange. Ist es der aktuelle Titel, wird er übersprungen. Ist kein nächster Titel verfügbar, stoppt der Player.'
+  params:
+    - desc: 'Die Nummer des Warteschlangeneintrags, der entfernt werden soll.'
+      name: queueNumber
+      optional: false
+      type: int
+stereowiden:
+  args:
+    - true
+  desc: 'Wendet einen Stereo-Verbreiterungseffekt an, um die räumliche Klangbühne zu verbessern.'
+  params:
+    - desc: 'Wendet einen Stereo-Verbreiterungseffekt an, um die räumliche Klangbühne zu verbessern.'
+      name: true
+      optional: false
+      type: '='
+tremolo:
+  args:
+    - true
+  desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+  params:
+    - desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=:
+  args:
+    - true
+  desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+  params:
+    - desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_1:
+  args:
+    - true
+  desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+  params:
+    - desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_2:
+  args:
+    - true
+  desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+  params:
+    - desc: 'Wendet einen Tremolo-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Lautstärke.'
+      name: true
+      optional: false
+      type: '='
+vaporwave:
+  args:
+    - true
+  desc: 'Schaltet den Vaporwave-Effekt für den aktuellen Titel um.'
+  params:
+    - desc: 'Schaltet den Vaporwave-Effekt für den aktuellen Titel um.'
+      name: true
+      optional: false
+      type: '='
+vibrato:
+  args:
+    - true
+  desc: 'Wendet einen Vibrato-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Tonhöhe.'
+  params:
+    - desc: 'Wendet einen Vibrato-Filter an bzw. entfernt ihn; er erzeugt ein Schwanken der Tonhöhe.'
+      name: true
+      optional: false
+      type: '='
+volume:
+  args:
+    - number
+  desc: 'Legt die Lautstärke des Players fest.'
+  params:
+    - &ref_645
+      desc: 'Die festzulegende Lautstärke.'
+      name: volume
+      optional: false
+      type: int
+volume_int:
+  args:
+    - number
+  desc: 'Legt die Lautstärke des Players fest.'
+  params:
+    - desc: 'Die festzulegende Lautstärke.'
+      name: volume
+      optional: false
+      type: int
+voteskip:
+  args:
+    - ''
+  desc: 'Startet eine Abstimmung zum Überspringen des aktuellen Titels oder nimmt an einer teil.'
+  params: [ ]
+lastfmlink:
+  args: [ ]
+  desc: 'Verknüpft das Last.fm-Konto des Nutzers für Scrobbling.'
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: 'Verknüpft das Last.fm-Konto des Nutzers für Scrobbling.'
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: 'Trennt das Last.fm-Konto des Nutzers.'
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: 'Trennt das Last.fm-Konto des Nutzers.'
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: 'Schaltet Last.fm-Scrobbling ein oder aus.'
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: 'Schaltet Last.fm-Scrobbling ein oder aus.'
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: 'Zeigt den Status des Last.fm-Kontos des Nutzers.'
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: 'Zeigt den Status des Last.fm-Kontos des Nutzers.'
+  params: [ ]
+fm:
+  args:
+    - '[@user]'
+  desc: 'Zeigt den aktuellen oder zuletzt gespielten Titel von Last.fm; fällt auf den Discord-Spotify-Status zurück, falls nicht verknüpft.'
+  params:
+    - desc: 'Der Nutzer, der geprüft werden soll. Standard ist der Befehlsausführende.'
+      name: user
+      optional: true
+      type: user
+fmrecent:
+  args:
+    - '[@user]'
+  desc: 'Zeigt die zuletzt gespielten Titel eines Nutzers von Last.fm.'
+  params:
+    - desc: 'Der Nutzer, der geprüft werden soll. Standard ist der Befehlsausführende.'
+      name: user
+      optional: true
+      type: user
+fmtopartists:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Zeigt die Top-Künstler eines Nutzers auf Last.fm für einen bestimmten Zeitraum.'
+  params:
+    - desc: 'Der Zeitraum: week, month, quarter, half, year oder overall (Standard).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Der Nutzer, der geprüft werden soll. Standard ist der Befehlsausführende.'
+      name: user
+      optional: true
+      type: user
+fmtopalbums:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Zeigt die Top-Alben eines Nutzers auf Last.fm für einen bestimmten Zeitraum.'
+  params:
+    - desc: 'Der Zeitraum: week, month, quarter, half, year oder overall (Standard).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Der Nutzer, der geprüft werden soll. Standard ist der Befehlsausführende.'
+      name: user
+      optional: true
+      type: user
+fmtoptracks:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Zeigt die Top-Titel eines Nutzers auf Last.fm für einen bestimmten Zeitraum.'
+  params:
+    - desc: 'Der Zeitraum: week, month, quarter, half, year oder overall (Standard).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Der Nutzer, der geprüft werden soll. Standard ist der Befehlsausführende.'
+      name: user
+      optional: true
+      type: user
+fmartist:
+  args:
+    - '[artist]'
+  desc: 'Zeigt Last.fm-Informationen zu einem Künstler zusammen mit deiner Anzahl an Wiedergaben.'
+  params:
+    - desc: 'Der Künstlername. Standard ist dein aktuell oder zuletzt gespielter Künstler.'
+      name: artist
+      optional: true
+      type: string
+fmalbum:
+  args:
+    - '[artist | album]'
+  desc: 'Zeigt Last.fm-Informationen zu einem Album zusammen mit deiner Anzahl an Wiedergaben.'
+  params:
+    - desc: 'Das nachzuschlagende Album im Format „Künstler | Album“. Standard ist dein aktuell oder zuletzt gespieltes Album.'
+      name: query
+      optional: true
+      type: string
+fmwhoknows:
+  args:
+    - '[artist]'
+  desc: 'Ordnet alle verknüpften Servermitglieder nach ihrer Anzahl an Wiedergaben eines Künstlers.'
+  params:
+    - desc: 'Der zu prüfende Künstler. Standard ist dein aktuell oder zuletzt gespielter Künstler.'
+      name: artist
+      optional: true
+      type: string
+fmwhoknowsalbum:
+  args:
+    - 'artist | album'
+  desc: 'Ordnet alle verknüpften Servermitglieder nach ihrer Anzahl an Wiedergaben eines Albums.'
+  params:
+    - desc: 'Das zu prüfende Album im Format „Künstler | Album“.'
+      name: query
+      optional: false
+      type: string
+fmwhoknowstrack:
+  args:
+    - 'artist | track'
+  desc: 'Ordnet alle verknüpften Servermitglieder nach ihrer Anzahl an Wiedergaben eines Titels.'
+  params:
+    - desc: 'Der zu prüfende Titel im Format „Künstler | Titel“.'
+      name: query
+      optional: false
+      type: string
+fmcrowns:
+  args:
+    - '[artist]'
+  desc: 'Zeigt, wer auf diesem Server die meisten Wiedergaben eines Künstlers hat („besitzt“ ihn).'
+  params:
+    - desc: 'Der zu prüfende Künstler. Standard ist dein aktuell oder zuletzt gespielter Künstler.'
+      name: artist
+      optional: true
+      type: string
+fmtaste:
+  args:
+    - '@user'
+  desc: 'Vergleicht deine Top-Künstler mit denen eines anderen Nutzers, um zu sehen, wie stark sich euer Geschmack überschneidet.'
+  params:
+    - desc: 'Der Nutzer, mit dem verglichen werden soll.'
+      name: user
+      optional: false
+      type: user
+fmchart:
+  args:
+    - '[size]'
+    - '[period]'
+    - '[@user]'
+  desc: 'Erstellt ein Bildraster mit den Top-Alben eines Nutzers auf Last.fm.'
+  params:
+    - desc: 'Die Rastergröße (Größe x Größe). Muss zwischen 2 und 5 liegen. Standard ist 3.'
+      name: size
+      optional: true
+      type: int
+    - desc: 'Der Zeitraum: week, month, quarter, half, year oder overall (Standard).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'Der Nutzer, der geprüft werden soll. Standard ist der Befehlsausführende.'
+      name: user
+      optional: true
+      type: user
+ttsenable:
+  args:
+    - ''
+  desc: 'Schaltet TTS für den Sprachkanal um, in dem du dich gerade befindest.'
+  params: [ ]
+ttslink:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Verknüpft einen Textkanal mit dem aktuellen Sprachkanal für TTS. Nachrichten im verknüpften Kanal werden vorgelesen. Ohne Argumente verwenden, um die Verknüpfung zu entfernen.'
+  params:
+    - desc: 'Der zu verknüpfende Textkanal. Weglassen, um die Verknüpfung zu entfernen.'
+      name: channel
+      optional: true
+      type: channel
+ttslink_ITextChannel:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Verknüpft einen Textkanal mit dem aktuellen Sprachkanal für TTS. Nachrichten im verknüpften Kanal werden vorgelesen. Ohne Argumente verwenden, um die Verknüpfung zu entfernen.'
+  params:
+    - desc: 'Der zu verknüpfende Textkanal. Weglassen, um die Verknüpfung zu entfernen.'
+      name: channel
+      optional: true
+      type: channel
+ttsannounce:
+  args:
+    - ''
+  desc: 'Schaltet Beitritts- und Austrittsansagen für den aktuellen Sprachkanal um.'
+  params: [ ]
+ttsautojoin:
+  args:
+    - ''
+  desc: 'Schaltet das automatische Beitreten für den Sprachkanal um, in dem du dich befindest. Ist es aktiv, tritt der Bot diesem Kanal selbst bei, wenn ein Mitglied eintritt (sofern er nicht schon im Sprachchat ist), und verlässt ihn, sobald er leer ist. Funktioniert auch, ohne dass der Bot verbunden ist.'
+  params: [ ]
+ttsjoinformat:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Legt das Format der Beitrittsansage fest. Unterstützt Platzhalter wie %user.name%, %user.mention%, %server.name%. Ohne Argumente verwenden, um zurückzusetzen.'
+  params:
+    - desc: 'Der Beitritts-Formatstring. Weglassen, um auf den Standard zurückzusetzen.'
+      name: format
+      optional: true
+      type: string
+ttsjoinformat_string:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Legt das Format der Beitrittsansage fest. Unterstützt Platzhalter wie %user.name%, %user.mention%, %server.name%. Ohne Argumente verwenden, um zurückzusetzen.'
+  params:
+    - desc: 'Der Beitritts-Formatstring. Weglassen, um auf den Standard zurückzusetzen.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Legt das Format der Austrittsansage fest. Unterstützt Platzhalter wie %user.name%, %user.mention%, %server.name%. Ohne Argumente verwenden, um zurückzusetzen.'
+  params:
+    - desc: 'Der Austritts-Formatstring. Weglassen, um auf den Standard zurückzusetzen.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat_string:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Legt das Format der Austrittsansage fest. Unterstützt Platzhalter wie %user.name%, %user.mention%, %server.name%. Ohne Argumente verwenden, um zurückzusetzen.'
+  params:
+    - desc: 'Der Austritts-Formatstring. Weglassen, um auf den Standard zurückzusetzen.'
+      name: format
+      optional: true
+      type: string
+ttsvolume:
+  args:
+    - '75'
+  desc: 'Legt die TTS-Lautstärke (0–100) fest. Getrennt von der Musiklautstärke.'
+  params:
+    - desc: 'Lautstärke von 0 bis 100.'
+      name: volume
+      optional: false
+      type: int
+ttsvolume_int:
+  args:
+    - '75'
+  desc: 'Legt die TTS-Lautstärke (0–100) fest. Getrennt von der Musiklautstärke.'
+  params:
+    - desc: 'Lautstärke von 0 bis 100.'
+      name: volume
+      optional: false
+      type: int
+ttsspeed:
+  args:
+    - '1.5'
+  desc: 'Legt die TTS-Wiedergabegeschwindigkeit (0,5–2,0) fest.'
+  params:
+    - desc: 'Geschwindigkeitsfaktor von 0,5 bis 2,0.'
+      name: speed
+      optional: false
+      type: float
+ttsspeed_float:
+  args:
+    - '1.5'
+  desc: 'Legt die TTS-Wiedergabegeschwindigkeit (0,5–2,0) fest.'
+  params:
+    - desc: 'Geschwindigkeitsfaktor von 0,5 bis 2,0.'
+      name: speed
+      optional: false
+      type: float
+ttsdefaultvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Legt die Standard-TTS-Stimme des Servers fest. Ohne Argumente verwenden, um auf die Systemstandardstimme zurückzusetzen.'
+  params:
+    - desc: 'Der Stimmenname. Weglassen, um zurückzusetzen.'
+      name: voice
+      optional: true
+      type: string
+ttsdefaultvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Legt die Standard-TTS-Stimme des Servers fest. Ohne Argumente verwenden, um auf die Systemstandardstimme zurückzusetzen.'
+  params:
+    - desc: 'Der Stimmenname. Weglassen, um zurückzusetzen.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Legt deine persönliche TTS-Stimme für diesen Server fest. Ohne Argumente verwenden, um auf die Server-Standardstimme zurückzusetzen.'
+  params:
+    - desc: 'Der Stimmenname. Weglassen, um zurückzusetzen.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Legt deine persönliche TTS-Stimme für diesen Server fest. Ohne Argumente verwenden, um auf die Server-Standardstimme zurückzusetzen.'
+  params:
+    - desc: 'Der Stimmenname. Weglassen, um zurückzusetzen.'
+      name: voice
+      optional: true
+      type: string
+ttsvoices:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'Durchsucht verfügbare TTS-Stimmen nach Name, Sprache, Geschlecht oder Quelle. Die Ergebnisse sind seitenweise aufgeteilt.'
+  params:
+    - desc: 'Suchbegriff (Stimmenname, Sprache, Geschlecht oder Quelle).'
+      name: search
+      optional: false
+      type: string
+ttsvoices_string:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'Durchsucht verfügbare TTS-Stimmen nach Name, Sprache, Geschlecht oder Quelle. Die Ergebnisse sind seitenweise aufgeteilt.'
+  params:
+    - desc: 'Suchbegriff (Stimmenname, Sprache, Geschlecht oder Quelle).'
+      name: search
+      optional: false
+      type: string
+ttsblock:
+  args:
+    - '@user'
+  desc: 'Sperrt einen Nutzer von der TTS-Nutzung auf diesem Server oder hebt die Sperre auf. Schaltet den Sperrstatus um.'
+  params:
+    - desc: 'Der Nutzer, der gesperrt oder entsperrt werden soll.'
+      name: user
+      optional: false
+      type: user
+ttsblock_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Sperrt einen Nutzer von der TTS-Nutzung auf diesem Server oder hebt die Sperre auf. Schaltet den Sperrstatus um.'
+  params:
+    - desc: 'Der Nutzer, der gesperrt oder entsperrt werden soll.'
+      name: user
+      optional: false
+      type: user
+ttsblocklist:
+  args:
+    - ''
+  desc: 'Listet alle Nutzer auf, die auf diesem Server von TTS gesperrt sind.'
+  params: [ ]
+ttsrole:
+  args:
+    - '@role'
+    - ''
+  desc: 'Legt die Rolle fest, die zur Nutzung von TTS benötigt wird. Ohne Argumente verwenden, um die Einschränkung aufzuheben.'
+  params:
+    - desc: 'Die erforderliche Rolle. Weglassen, um die Einschränkung aufzuheben.'
+      name: role
+      optional: true
+      type: role
+ttsrole_IRole:
+  args:
+    - '@role'
+    - ''
+  desc: 'Legt die Rolle fest, die zur Nutzung von TTS benötigt wird. Ohne Argumente verwenden, um die Einschränkung aufzuheben.'
+  params:
+    - desc: 'Die erforderliche Rolle. Weglassen, um die Einschränkung aufzuheben.'
+      name: role
+      optional: true
+      type: role
+ttsreplycontext:
+  args:
+    - ''
+  desc: 'Schaltet um, ob TTS den Antwortkontext vorliest (z. B. „antwortet auf Nutzer“).'
+  params: [ ]
+ttsattachmentnarration:
+  args:
+    - ''
+  desc: 'Schaltet um, ob TTS Anhänge ansagt (z. B. „hat ein Bild gesendet“).'
+  params: [ ]
+ttsconsecutivegrouping:
+  args:
+    - ''
+  desc: 'Schaltet um, ob aufeinanderfolgende Nachrichten desselben Nutzers den Namenspräfix auslassen.'
+  params: [ ]
+ttsmaxqueue:
+  args:
+    - '20'
+  desc: 'Legt die maximale TTS-Warteschlangengröße fest (1–50).'
+  params:
+    - desc: 'Maximale Warteschlangengröße von 1 bis 50.'
+      name: size
+      optional: false
+      type: int
+ttsmaxqueue_int:
+  args:
+    - '20'
+  desc: 'Legt die maximale TTS-Warteschlangengröße fest (1–50).'
+  params:
+    - desc: 'Maximale Warteschlangengröße von 1 bis 50.'
+      name: size
+      optional: false
+      type: int
+ttssettings:
+  args:
+    - ''
+  desc: 'Zeigt die aktuellen TTS-Einstellungen für diesen Server und Sprachkanal.'
+  params: [ ]
+ttsremove:
+  args:
+    - ''
+  desc: 'Entfernt alle TTS-Einstellungen für den aktuellen Sprachkanal.'
+  params: [ ]

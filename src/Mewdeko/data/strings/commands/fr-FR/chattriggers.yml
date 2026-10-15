@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat.'
+  params:
+    - &ref_9
+      desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat.'
+  params:
+    - desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat.'
+  params:
+    - desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat.'
+  params:
+    - desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat avec prise en charge des regex.'
+  params:
+    - desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat avec prise en charge des regex.'
+  params:
+    - desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat avec prise en charge des regex.'
+  params:
+    - desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Ajoute un nouveau déclencheur de chat avec prise en charge des regex.'
+  params:
+    - desc: 'La clé du déclencheur de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Le message associé au déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Ajoute un nouveau déclencheur de chat basé sur les réactions.'
+  params:
+    - desc: 'L''emoji de réaction déclencheur.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'Le message à envoyer lorsque le déclencheur est activé.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Définit le type d''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - &ref_130
+      desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'Le type d''attribution de rôle à définir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Définit le type d''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type d''attribution de rôle à définir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Définit le type d''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type d''attribution de rôle à définir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Définit le type d''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type d''attribution de rôle à définir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Définit le salon de republication croisée pour un déclencheur de chat.'
+  params:
+    - desc: 'Le salon de republication croisée.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Définit le webhook de republication croisée pour un déclencheur de chat.'
+  params:
+    - desc: 'L''URL du webhook de republication croisée.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Définit si un déclencheur de chat est valide pour un type de déclencheur précis.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'Le type de déclencheur pour lequel définir la validité.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Indique si le type de déclencheur doit être activé ou désactivé.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Définit si un déclencheur de chat est valide pour un type de déclencheur précis.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type de déclencheur pour lequel définir la validité.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Indique si le type de déclencheur doit être activé ou désactivé.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Définit si un déclencheur de chat est valide pour un type de déclencheur précis.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type de déclencheur pour lequel définir la validité.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Indique si le type de déclencheur doit être activé ou désactivé.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Définit si un déclencheur de chat est valide pour un type de déclencheur précis.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type de déclencheur pour lequel définir la validité.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Indique si le type de déclencheur doit être activé ou désactivé.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il se supprime automatiquement après son activation.'
+  params:
+    - &ref_162
+      desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il se supprime automatiquement après son activation.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il se supprime automatiquement après son activation.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il se supprime automatiquement après son activation.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il permette le ciblage.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il se déclenche si le texte est présent n''importe où dans le message.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Définit le salon de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'Le salon à définir pour la republication croisée.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Définit le salon de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le salon à définir pour la republication croisée.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Définit le salon de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le salon à définir pour la republication croisée.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Définit le salon de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le salon à définir pour la republication croisée.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Définit l''URL du webhook de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'L''URL du webhook à définir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Définit l''URL du webhook de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'L''URL du webhook à définir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Définit l''URL du webhook de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'L''URL du webhook à définir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Définit l''URL du webhook de republication croisée d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'L''URL du webhook à définir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il envoie un message privé en réponse.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Définit si la réponse à l''interaction doit être éphémère pour un déclencheur de chat. Pour ne pas montrer mes souffrances aux autres avec la doc !'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'True si la réponse doit être éphémère, false sinon.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Définit si la réponse à l''interaction doit être éphémère pour un déclencheur de chat. Pour ne pas montrer mes souffrances aux autres avec la doc !'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True si la réponse doit être éphémère, false sinon.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Définit si la réponse à l''interaction doit être éphémère pour un déclencheur de chat. Pour ne pas montrer mes souffrances aux autres avec la doc !'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True si la réponse doit être éphémère, false sinon.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Définit si la réponse à l''interaction doit être éphémère pour un déclencheur de chat. Pour ne pas montrer mes souffrances aux autres avec la doc !'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True si la réponse doit être éphémère, false sinon.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Affiche les erreurs d''interaction des déclencheurs de chat.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il ne réponde pas.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Définit le préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'Le nouveau préfixe à définir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Définit le préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le nouveau préfixe à définir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Définit le préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le nouveau préfixe à définir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Définit le préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le nouveau préfixe à définir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Définit le type de préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'Le type de préfixe à définir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Définit le type de préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type de préfixe à définir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Définit le type de préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type de préfixe à définir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Définit le type de préfixe d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type de préfixe à définir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Définit les réactions d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Les emojis à définir comme réactions.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Définit les réactions d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Les emojis à définir comme réactions.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Définit les réactions d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Les emojis à définir comme réactions.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Définit les réactions d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Les emojis à définir comme réactions.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Active ou désactive l''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'Le rôle à basculer.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Active ou désactive l''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le rôle à basculer.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Active ou désactive l''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le rôle à basculer.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Active ou désactive l''attribution de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le rôle à basculer.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Active ou désactive le retrait de rôle pour un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le rôle à basculer.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Supprime tous les déclencheurs de chat.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Exporte les paramètres des déclencheurs de chat du serveur actuel.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Migre les anciens déclencheurs de chat au format CrEmbed vers le nouveau format d''embed. Exporte d''abord une sauvegarde, puis convertit tous les déclencheurs.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Importe les paramètres des déclencheurs de chat du serveur actuel.'
+  params:
+    - desc: 'L''entrée contenant les paramètres des réactions personnalisées.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Recharge les déclencheurs de chat.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Supprime un déclencheur de chat par son ID.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à supprimer.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Modifie un déclencheur de chat existant.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le nouveau message du déclencheur de chat.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Liste tous les déclencheurs de chat.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Liste tous les déclencheurs de chat regroupés par déclencheur.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Définit un déclencheur de chat pour qu''il réagisse au déclencheur.'
+  params:
+    - desc: 'L''ID du déclencheur de chat à modifier.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Définit la description de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'La description à définir pour l''interaction.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Définit la description de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La description à définir pour l''interaction.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Définit la description de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La description à définir pour l''interaction.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Définit la description de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La description à définir pour l''interaction.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Définit le nom de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'Le nom à définir pour l''interaction.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Définit le nom de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le nom à définir pour l''interaction.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Définit le nom de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le nom à définir pour l''interaction.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Définit le nom de l''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le nom à définir pour l''interaction.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Définit le type d''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'Le type d''interaction à définir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Définit le type d''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type d''interaction à définir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Définit le type d''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type d''interaction à définir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Définit le type d''interaction d''un déclencheur de chat.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le type d''interaction à définir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Affiche les détails d''un déclencheur de chat précis.'
+  params:
+    - &ref_544
+      desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Affiche les détails d''un déclencheur de chat précis.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Affiche les détails d''un déclencheur de chat précis.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Affiche les détails d''un déclencheur de chat précis.'
+  params:
+    - desc: 'L''ID du déclencheur de chat.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Définit l''événement qui peut déclencher un déclencheur de chat.'
+cteventchannel:
+  desc: 'Définit le salon où un événement de déclencheur de chat est traité.'
+ctreply:
+  desc: 'Définit le message auquel un déclencheur de chat répond.'
+ctdeleteafter:
+  desc: 'Définit le délai avant la suppression de la réponse d''un déclencheur de chat après son envoi.'
+ctcooldown:
+  desc: 'Définit un délai d''attente (cooldown) pour un déclencheur de chat.'
+ctrequirecounter:
+  desc: 'Définit une condition de compteur pour un déclencheur de chat.'
+ctcategory:
+  desc: 'Définit la catégorie d''un déclencheur de chat.'
+ctcategorytoggle:
+  desc: 'Active ou désactive une catégorie de déclencheurs de chat.'
+cttest:
+  desc: 'Teste si un message d''exemple déclencherait un déclencheur de chat.'
+ctstats:
+  desc: 'Affiche les statistiques d''activité des déclencheurs de chat.'
+ctchain:
+  desc: 'Définit un déclencheur de chat qui s''exécute après un autre déclencheur.'
+ctallowbots:
+  desc: 'Détermine si un déclencheur de chat répond aux bots.'
+ctcounters:
+  desc: 'Liste les compteurs des déclencheurs de chat.'
+ctcounterset:
+  desc: 'Définit la valeur d''un compteur de déclencheur de chat.'
+ctcounterdelete:
+  desc: 'Supprime un compteur de déclencheur de chat.'
+ctplaceholders:
+  desc: 'Liste les placeholders disponibles pour les déclencheurs de chat.'
+cttime:
+  desc: 'Définit la plage horaire d''activité d''un déclencheur de chat.'
+ctexpiry:
+  desc: 'Définit une date d''expiration pour un déclencheur de chat.'
+ctmaxuses:
+  desc: 'Définit le nombre maximal d''exécutions d''un déclencheur de chat.'
+ctminage:
+  desc: 'Définit un âge minimum de compte pour un déclencheur de chat.'
+ctminmember:
+  desc: 'Définit une ancienneté minimale sur le serveur pour un déclencheur de chat.'
+cttoggle:
+  desc: 'Active ou désactive un déclencheur de chat.'
+ctaddresponse:
+  desc: 'Ajoute une réponse supplémentaire à un déclencheur de chat.'
+ctclearresponses:
+  desc: 'Retire des réponses supplémentaires d''un déclencheur de chat.'
+ctresponsemode:
+  desc: 'Définit la manière dont un déclencheur de chat choisit ses réponses.'
+ctcost:
+  desc: 'Définit le coût en monnaie d''un déclencheur de chat.'
+ctreward:
+  desc: 'Définit la récompense en monnaie d''un déclencheur de chat.'
+ctxpreward:
+  desc: 'Définit la récompense en XP d''un déclencheur de chat.'
+ctreqlevel:
+  desc: 'Définit le niveau d''XP requis pour un déclencheur de chat.'
+ctreqmsg:
+  desc: 'Définit le message d''échec de condition pour un déclencheur de chat.'

@@ -1,0 +1,1475 @@
+allcatmdls:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Kategorie hinzu oder entfernt sie.'
+  params:
+    - &ref_61
+      desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_62
+      desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_1:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allcatmdls_PermissionAction_ICategoryChannel_2:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+allchnlmdls:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Kanals hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_63
+      desc: 'Der Kanal, für den Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Kanals hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Kanal, für den Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_1:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Kanals hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Kanal, für den Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allchnlmdls_PermissionAction_ITextChannel_2:
+  args:
+    - action chnl
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Kanals hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Kanal, für den Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+allcmdcooldowns:
+  args:
+    - ''
+  desc: 'Zeigt alle Befehle mit aktiver Abklingzeit auf dem Server.'
+  params: [ ]
+allrolemdls:
+  args:
+    - action @role
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Rolle hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_64
+      desc: 'Die Rolle, für die Berechtigungen gesetzt werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole:
+  args:
+    - action @role
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Rolle hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Rolle, für die Berechtigungen gesetzt werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_1:
+  args:
+    - action @role
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Rolle hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Rolle, für die Berechtigungen gesetzt werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+allrolemdls_PermissionAction_IRole_2:
+  args:
+    - action @role
+  desc: 'Fügt Berechtigungen für alle Module einer bestimmten Rolle hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Rolle, für die Berechtigungen gesetzt werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+allsrvrmdls:
+  args:
+    - action
+  desc: 'Fügt Berechtigungen für alle Module für den gesamten Server hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+allusrmdls:
+  args:
+    - action @user
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Nutzers hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_65
+      desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser:
+  args:
+    - action @user
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Nutzers hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_1:
+  args:
+    - action @user
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Nutzers hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IUser
+allusrmdls_PermissionAction_IUser_2:
+  args:
+    - action @user
+  desc: 'Fügt Berechtigungen für alle Module eines bestimmten Nutzers hinzu oder entfernt sie.'
+  params:
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IUser
+autobanword:
+  args:
+    - text
+  desc: 'Schaltet ein Wort auf der automatischen Sperrliste des aktuellen Servers ein oder aus.'
+  params:
+    - &ref_89
+      desc: 'Das Wort, das auf der automatischen Sperrliste ein- oder ausgeschaltet werden soll.'
+      name: word
+      optional: false
+      type: string
+autobanword_string:
+  args:
+    - text
+  desc: 'Schaltet ein Wort auf der automatischen Sperrliste des aktuellen Servers ein oder aus.'
+  params:
+    - desc: 'Das Wort, das auf der automatischen Sperrliste ein- oder ausgeschaltet werden soll.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_1:
+  args:
+    - text
+  desc: 'Schaltet ein Wort auf der automatischen Sperrliste des aktuellen Servers ein oder aus.'
+  params:
+    - desc: 'Das Wort, das auf der automatischen Sperrliste ein- oder ausgeschaltet werden soll.'
+      name: word
+      optional: false
+      type: string
+autobanword_string_2:
+  args:
+    - text
+  desc: 'Schaltet ein Wort auf der automatischen Sperrliste des aktuellen Servers ein oder aus.'
+  params:
+    - desc: 'Das Wort, das auf der automatischen Sperrliste ein- oder ausgeschaltet werden soll.'
+      name: word
+      optional: false
+      type: string
+autobanwordlist:
+  args:
+    - ''
+  desc: 'Zeigt eine seitenweise Liste aller Wörter auf der automatischen Sperrliste des aktuellen Servers an.'
+  params: [ ]
+autobanwordlist_noparams:
+  args:
+    - ''
+  desc: 'Zeigt eine seitenweise Liste aller Wörter auf der automatischen Sperrliste des aktuellen Servers an.'
+  params: [ ]
+autobanwordlist_noparams_1:
+  args:
+    - ''
+  desc: 'Zeigt eine seitenweise Liste aller Wörter auf der automatischen Sperrliste des aktuellen Servers an.'
+  params: [ ]
+autobanwordlist_noparams_2:
+  args:
+    - ''
+  desc: 'Zeigt eine seitenweise Liste aller Wörter auf der automatischen Sperrliste des aktuellen Servers an.'
+  params: [ ]
+catcmd:
+  args:
+    - command action chnl
+  desc: 'Fügt befehlsspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - &ref_120
+      desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - command action chnl
+  desc: 'Fügt befehlsspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - command action chnl
+  desc: 'Fügt befehlsspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catcmd_CommandOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - command action chnl
+  desc: 'Fügt befehlsspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl:
+  args:
+    - module action chnl
+  desc: 'Fügt modulspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - &ref_121
+      desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel:
+  args:
+    - module action chnl
+  desc: 'Fügt modulspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_1:
+  args:
+    - module action chnl
+  desc: 'Fügt modulspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+catmdl_ModuleOrCrInfo_PermissionAction_ICategoryChannel_2:
+  args:
+    - module action chnl
+  desc: 'Fügt modulspezifische Berechtigungen für eine bestimmte Kategorie hinzu oder entfernt sie.'
+  params:
+    - desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Kategorie, für die Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ICategoryChannel
+channelblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Kanal anhand seiner ID auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - &ref_122
+      desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_123
+      desc: 'Die ID des Kanals.'
+      name: id
+      optional: false
+      type: ulong
+    - &ref_124
+      desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Kanal anhand seiner ID auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Die ID des Kanals.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Kanal anhand seiner ID auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_638
+      desc: 'Die ID des Kanals.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+channelblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Kanal anhand seiner ID auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Die ID des Kanals.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+chnlcmd:
+  args:
+    - command action chnl
+  desc: 'Fügt kanalspezifische Berechtigungen für einen bestimmten Befehl hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Kanal, für den Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+chnlfilterinv:
+  args:
+    - ''
+  desc: 'Schaltet den Einladungslink-Filter für einen bestimmten Kanal ein oder aus.'
+  params: [ ]
+chnlfilterlin:
+  args:
+    - ''
+  desc: 'Schaltet den Linkfilter für einen bestimmten Kanal ein oder aus.'
+  params: [ ]
+chnlfilterwords:
+  args:
+    - ''
+  desc: 'Schaltet den Wortfilter für einen bestimmten Kanal ein oder aus.'
+  params: [ ]
+chnlmdl:
+  args:
+    - module action chnl
+  desc: 'Fügt kanalspezifische Berechtigungen für ein bestimmtes Modul hinzu oder entfernt sie.'
+  params:
+    - desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Kanal, für den Berechtigungen gesetzt werden sollen.'
+      name: chnl
+      optional: false
+      type: ITextChannel
+cmdcooldown:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Setzt oder löscht die Abklingzeit für einen bestimmten Befehl auf dem Server.'
+  params:
+    - desc: 'Der Befehl, für den die Abklingzeit gesetzt werden soll.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Die Dauer der Abklingzeit. Standard ist 0s, was die Abklingzeit löscht.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Setzt oder löscht die Abklingzeit für einen bestimmten Befehl auf dem Server.'
+  params:
+    - desc: 'Der Befehl, für den die Abklingzeit gesetzt werden soll.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Die Dauer der Abklingzeit. Standard ist 0s, was die Abklingzeit löscht.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_1:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Setzt oder löscht die Abklingzeit für einen bestimmten Befehl auf dem Server.'
+  params:
+    - desc: 'Der Befehl, für den die Abklingzeit gesetzt werden soll.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Die Dauer der Abklingzeit. Standard ist 0s, was die Abklingzeit löscht.'
+      name: time
+      optional: true
+      type: duration
+cmdcooldown_CommandOrCrInfo_=_2:
+  args:
+    - '<command> [time]'
+    - command
+  desc: 'Setzt oder löscht die Abklingzeit für einen bestimmten Befehl auf dem Server.'
+  params:
+    - desc: 'Der Befehl, für den die Abklingzeit gesetzt werden soll.'
+      name: command
+      optional: false
+      type: commandorcrinfo
+    - desc: 'Die Dauer der Abklingzeit. Standard ist 0s, was die Abklingzeit löscht.'
+      name: time
+      optional: true
+      type: duration
+filterword:
+  args:
+    - text
+  desc: 'Fügt ein Wort zur Liste der gefilterten Wörter auf dem aktuellen Server hinzu oder entfernt es.'
+  params:
+    - &ref_218
+      desc: 'Das Wort, das in der Liste der gefilterten Wörter umgeschaltet werden soll.'
+      name: word
+      optional: true
+      type: string
+filterword_string:
+  args:
+    - text
+  desc: 'Fügt ein Wort zur Liste der gefilterten Wörter auf dem aktuellen Server hinzu oder entfernt es.'
+  params:
+    - desc: 'Das Wort, das in der Liste der gefilterten Wörter umgeschaltet werden soll.'
+      name: word
+      optional: true
+      type: string
+filterword_string_1:
+  args:
+    - text
+  desc: 'Fügt ein Wort zur Liste der gefilterten Wörter auf dem aktuellen Server hinzu oder entfernt es.'
+  params:
+    - desc: 'Das Wort, das in der Liste der gefilterten Wörter umgeschaltet werden soll.'
+      name: word
+      optional: true
+      type: string
+filterword_string_2:
+  args:
+    - text
+  desc: 'Fügt ein Wort zur Liste der gefilterten Wörter auf dem aktuellen Server hinzu oder entfernt es.'
+  params:
+    - desc: 'Das Wort, das in der Liste der gefilterten Wörter umgeschaltet werden soll.'
+      name: word
+      optional: true
+      type: string
+fwarn:
+  args:
+    - text
+  desc: 'Aktiviert oder deaktiviert Warnungen für gefilterte Wörter auf dem aktuellen Server.'
+  params:
+    - &ref_219
+      desc: 'Eine Zeichenfolge, die angibt, ob die Warnung aktiviert ("y") oder deaktiviert ("n") wird.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string:
+  args:
+    - text
+  desc: 'Aktiviert oder deaktiviert Warnungen für gefilterte Wörter auf dem aktuellen Server.'
+  params:
+    - desc: 'Eine Zeichenfolge, die angibt, ob die Warnung aktiviert ("y") oder deaktiviert ("n") wird.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_1:
+  args:
+    - text
+  desc: 'Aktiviert oder deaktiviert Warnungen für gefilterte Wörter auf dem aktuellen Server.'
+  params:
+    - desc: 'Eine Zeichenfolge, die angibt, ob die Warnung aktiviert ("y") oder deaktiviert ("n") wird.'
+      name: yesnt
+      optional: false
+      type: string
+fwarn_string_2:
+  args:
+    - text
+  desc: 'Aktiviert oder deaktiviert Warnungen für gefilterte Wörter auf dem aktuellen Server.'
+  params:
+    - desc: 'Eine Zeichenfolge, die angibt, ob die Warnung aktiviert ("y") oder deaktiviert ("n") wird.'
+      name: yesnt
+      optional: false
+      type: string
+fwclear:
+  args:
+    - ''
+  desc: 'Löscht alle gefilterten Wörter des aktuellen Servers.'
+  params: [ ]
+globalcommand:
+  args:
+    - cmd
+  desc: 'Schaltet einen Befehl auf der globalen Blockliste ein oder aus.'
+  params:
+    - &ref_231
+      desc: 'Der umzuschaltende Befehl.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo:
+  args:
+    - cmd
+  desc: 'Schaltet einen Befehl auf der globalen Blockliste ein oder aus.'
+  params:
+    - desc: 'Der umzuschaltende Befehl.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_1:
+  args:
+    - cmd
+  desc: 'Schaltet einen Befehl auf der globalen Blockliste ein oder aus.'
+  params:
+    - desc: 'Der umzuschaltende Befehl.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalcommand_CommandOrCrInfo_2:
+  args:
+    - cmd
+  desc: 'Schaltet einen Befehl auf der globalen Blockliste ein oder aus.'
+  params:
+    - desc: 'Der umzuschaltende Befehl.'
+      name: cmd
+      optional: false
+      type: CommandOrCrInfo
+globalmodule:
+  args:
+    - module
+  desc: 'Schaltet ein Modul auf der globalen Blockliste ein oder aus.'
+  params:
+    - &ref_232
+      desc: 'Das umzuschaltende Modul.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo:
+  args:
+    - module
+  desc: 'Schaltet ein Modul auf der globalen Blockliste ein oder aus.'
+  params:
+    - desc: 'Das umzuschaltende Modul.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_1:
+  args:
+    - module
+  desc: 'Schaltet ein Modul auf der globalen Blockliste ein oder aus.'
+  params:
+    - desc: 'Das umzuschaltende Modul.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalmodule_ModuleOrCrInfo_2:
+  args:
+    - module
+  desc: 'Schaltet ein Modul auf der globalen Blockliste ein oder aus.'
+  params:
+    - desc: 'Das umzuschaltende Modul.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+globalpermlist:
+  args:
+    - ''
+  desc: 'Listet alle aktuell global gesperrten Module und Befehle auf.'
+  params: [ ]
+globalpermlist_noparams:
+  args:
+    - ''
+  desc: 'Listet alle aktuell global gesperrten Module und Befehle auf.'
+  params: [ ]
+globalpermlist_noparams_1:
+  args:
+    - ''
+  desc: 'Listet alle aktuell global gesperrten Module und Befehle auf.'
+  params: [ ]
+globalpermlist_noparams_2:
+  args:
+    - ''
+  desc: 'Listet alle aktuell global gesperrten Module und Befehle auf.'
+  params: [ ]
+invwarn:
+  args:
+    - text
+  desc: 'Aktiviert oder deaktiviert Warnungen für Einladungslinks, die auf dem aktuellen Server gepostet werden.'
+  params:
+    - desc: 'Eine Zeichenfolge, die angibt, ob die Warnung aktiviert ("y") oder deaktiviert ("n") wird.'
+      name: yesnt
+      optional: false
+      type: string
+listperms:
+  args:
+    - ''
+  desc: 'Listet die Berechtigungen des Servers auf.'
+  params: [ ]
+lstfilterwords:
+  args:
+    - ''
+  desc: 'Listet alle Wörter auf, die aktuell auf der Liste der gefilterten Wörter des aktuellen Servers stehen.'
+  params: [ ]
+manualblacklistcheck:
+  args:
+    - ''
+  desc: 'Führt eine manuelle Prüfung auf Blacklist-Einträge im Geltungsbereich des Bots durch.'
+  params: [ ]
+moveperm:
+  args:
+    - number number
+  desc: 'Verschiebt eine Berechtigung in der Hierarchie nach oben.'
+  params:
+    - &ref_297
+      desc: 'Ausgangsindex'
+      name: from
+      optional: false
+      type: int
+    - &ref_298
+      desc: 'Ersatzindex'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int:
+  args:
+    - number number
+  desc: 'Verschiebt eine Berechtigung in der Hierarchie nach oben.'
+  params:
+    - desc: 'Ausgangsindex'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Ersatzindex'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_1:
+  args:
+    - number number
+  desc: 'Verschiebt eine Berechtigung in der Hierarchie nach oben.'
+  params:
+    - desc: 'Ausgangsindex'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Ersatzindex'
+      name: to
+      optional: false
+      type: int
+moveperm_int_int_2:
+  args:
+    - number number
+  desc: 'Verschiebt eine Berechtigung in der Hierarchie nach oben.'
+  params:
+    - desc: 'Ausgangsindex'
+      name: from
+      optional: false
+      type: int
+    - desc: 'Ersatzindex'
+      name: to
+      optional: false
+      type: int
+permrole:
+  args:
+    - '[@role]'
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - desc: 'Die Rolle, falls vorhanden, die als Berechtigungsrolle gesetzt werden soll.'
+      name: role
+      optional: true
+      type: role
+permrole_=:
+  args:
+    - '[@role]'
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - desc: 'Die Rolle, falls vorhanden, die als Berechtigungsrolle gesetzt werden soll.'
+      name: role
+      optional: true
+      type: role
+permrole_=_1:
+  args:
+    - '[@role]'
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - desc: 'Die Rolle, falls vorhanden, die als Berechtigungsrolle gesetzt werden soll.'
+      name: role
+      optional: true
+      type: role
+permrole_=_2:
+  args:
+    - '[@role]'
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - desc: 'Die Rolle, falls vorhanden, die als Berechtigungsrolle gesetzt werden soll.'
+      name: role
+      optional: true
+      type: role
+permrole_Reset:
+  args:
+    - reset
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - &ref_342
+      desc: 'Setzt die Berechtigungsrolle zurück.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_1:
+  args:
+    - reset
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - desc: 'Setzt die Berechtigungsrolle zurück.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_2:
+  args:
+    - reset
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - desc: 'Setzt die Berechtigungsrolle zurück.'
+      name: _
+      optional: false
+      type: Reset
+permrole_Reset_3:
+  args:
+    - reset
+  desc: 'Setzt die Berechtigungsrolle zurück.'
+  params:
+    - desc: 'Setzt die Berechtigungsrolle zurück.'
+      name: _
+      optional: false
+      type: Reset
+removeperm:
+  args:
+    - number
+  desc: 'Entfernt eine Berechtigung aus der Liste anhand ihres Index.'
+  params:
+    - &ref_405
+      desc: 'Die zu entfernende Berechtigung.'
+      name: index
+      optional: false
+      type: int
+removeperm_int:
+  args:
+    - number
+  desc: 'Entfernt eine Berechtigung aus der Liste anhand ihres Index.'
+  params:
+    - desc: 'Die zu entfernende Berechtigung.'
+      name: index
+      optional: false
+      type: int
+removeperm_int_1:
+  args:
+    - number
+  desc: 'Entfernt eine Berechtigung aus der Liste anhand ihres Index.'
+  params:
+    - desc: 'Die zu entfernende Berechtigung.'
+      name: index
+      optional: false
+      type: int
+removeperm_int_2:
+  args:
+    - number
+  desc: 'Entfernt eine Berechtigung aus der Liste anhand ihres Index.'
+  params:
+    - desc: 'Die zu entfernende Berechtigung.'
+      name: index
+      optional: false
+      type: int
+resetglobalperms:
+  args:
+    - ''
+  desc: 'Setzt alle globalen Berechtigungen zurück und löscht alle globalen Befehls- und Modulsperren.'
+  params: [ ]
+resetperms:
+  args:
+    - ''
+  desc: 'Setzt die Berechtigungen des Servers zurück.'
+  params: [ ]
+rolecmd:
+  args:
+    - command action @role
+  desc: 'Fügt rollenspezifische Berechtigungen für einen bestimmten Befehl hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Rolle, für die Berechtigungen gesetzt werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+rolemdl:
+  args:
+    - module action @role
+  desc: 'Fügt rollenspezifische Berechtigungen für ein bestimmtes Modul hinzu oder entfernt sie.'
+  params:
+    - desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Die Rolle, für die Berechtigungen gesetzt werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+serverblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_485
+      desc: 'Das Guild-Objekt.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_1:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Das Guild-Objekt.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_2:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Das Guild-Objekt.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_IGuild_string_3:
+  args:
+    - action guild text
+    - action guild
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Das Guild-Objekt.'
+      name: guild
+      optional: false
+      type: IGuild
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+serverblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Server anhand seines Guild-Objekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+srvrcmd:
+  args:
+    - command action
+  desc: 'Aktiviert oder deaktiviert einen Befehl auf dem Server.'
+  params:
+    - &ref_556
+      desc: 'Der Befehl, auf den eine Aktion angewendet werden soll.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - &ref_557
+      desc: 'Ob der Befehl deaktiviert oder aktiviert werden soll.'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction:
+  args:
+    - command action
+  desc: 'Aktiviert oder deaktiviert einen Befehl auf dem Server.'
+  params:
+    - desc: 'Der Befehl, auf den eine Aktion angewendet werden soll.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Ob der Befehl deaktiviert oder aktiviert werden soll.'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_1:
+  args:
+    - command action
+  desc: 'Aktiviert oder deaktiviert einen Befehl auf dem Server.'
+  params:
+    - desc: 'Der Befehl, auf den eine Aktion angewendet werden soll.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Ob der Befehl deaktiviert oder aktiviert werden soll.'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrcmd_CommandOrCrInfo_PermissionAction_2:
+  args:
+    - command action
+  desc: 'Aktiviert oder deaktiviert einen Befehl auf dem Server.'
+  params:
+    - desc: 'Der Befehl, auf den eine Aktion angewendet werden soll.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Ob der Befehl deaktiviert oder aktiviert werden soll.'
+      name: action
+      optional: false
+      type: PermissionAction
+srvrfilterinv:
+  args:
+    - ''
+  desc: 'Schaltet den serverweiten Einladungslink-Filter ein oder aus.'
+  params: [ ]
+srvrfilterlin:
+  args:
+    - ''
+  desc: 'Schaltet den serverweiten Linkfilter ein oder aus.'
+  params: [ ]
+srvrfilterwords:
+  args:
+    - ''
+  desc: 'Schaltet den serverweiten Wortfilter ein oder aus.'
+  params: [ ]
+srvrmdl:
+  args:
+    - module action
+  desc: 'Fügt serverweite Berechtigungen für ein bestimmtes Modul hinzu oder entfernt sie.'
+  params:
+    - desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+userblacklist:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_637
+      desc: 'Das Nutzerobjekt.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_1:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Das Nutzerobjekt.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_2:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Das Nutzerobjekt.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_IUser_string_3:
+  args:
+    - action @user text
+    - action @user
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Das Nutzerobjekt.'
+      name: usr
+      optional: false
+      type: IUser
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_1:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+userblacklist_AddRemove_ulong_string_2:
+  args:
+    - action id text
+    - action id
+  desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+  params:
+    - desc: 'Legt fest, ob zur Blacklist hinzugefügt oder davon entfernt werden soll.'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Setzt einen Nutzer anhand seines Nutzerobjekts auf die Blacklist oder entfernt ihn davon, optional mit Grund.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Der Grund für die Blacklist-Aktion.'
+      name: reason
+      optional: true
+      type: string
+usrcmd:
+  args:
+    - command action @user
+  desc: 'Fügt nutzerspezifische Berechtigungen für einen bestimmten Befehl hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - &ref_639
+      desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser:
+  args:
+    - command action @user
+  desc: 'Fügt nutzerspezifische Berechtigungen für einen bestimmten Befehl hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_1:
+  args:
+    - command action @user
+  desc: 'Fügt nutzerspezifische Berechtigungen für einen bestimmten Befehl hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrcmd_CommandOrCrInfo_PermissionAction_IGuildUser_2:
+  args:
+    - command action @user
+  desc: 'Fügt nutzerspezifische Berechtigungen für einen bestimmten Befehl hinzu oder entfernt sie.'
+  params:
+    - desc: 'Der Befehl, für den Berechtigungen gesetzt werden sollen.'
+      name: command
+      optional: false
+      type: CommandOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IGuildUser
+usrmdl:
+  args:
+    - module action @user
+  desc: 'Fügt nutzerspezifische Berechtigungen für ein bestimmtes Modul hinzu oder entfernt sie.'
+  params:
+    - desc: 'Das Modul, für das Berechtigungen gesetzt werden sollen.'
+      name: module
+      optional: false
+      type: ModuleOrCrInfo
+    - desc: 'Die auszuführende Aktion (enable/disable).'
+      name: action
+      optional: false
+      type: PermissionAction
+    - desc: 'Der Nutzer, für den Berechtigungen gesetzt werden sollen.'
+      name: user
+      optional: false
+      type: IGuildUser
+verbose:
+  args:
+    - '[action]'
+  desc: 'Legt fest, ob Befehle je nach Problem bei der Verwendung einen Fehler auslösen sollen.'
+  params:
+    - desc: 'Nur ein Wahr-oder-Falsch-Schalter. Eigentlich ziemlich nutzlos, da es ohnehin nur ein Umschalter ist.'
+      name: action
+      optional: true
+      type: action

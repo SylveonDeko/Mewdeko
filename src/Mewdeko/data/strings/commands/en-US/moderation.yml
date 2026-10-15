@@ -2241,7 +2241,7 @@ removeonmute:
   desc: 'Toggles whether to remove roles on mute'
   params:
     - &ref_402
-      desc: 'Nosnt'
+      desc: 'y to enable, n to disable.'
       name: yesnt
       optional: false
       type: string
@@ -2250,7 +2250,7 @@ removeonmute_string:
     - text
   desc: 'Toggles whether to remove roles on mute'
   params:
-    - desc: 'Nosnt'
+    - desc: 'y to enable, n to disable.'
       name: yesnt
       optional: false
       type: string
@@ -2259,7 +2259,7 @@ removeonmute_string_1:
     - text
   desc: 'Toggles whether to remove roles on mute'
   params:
-    - desc: 'Nosnt'
+    - desc: 'y to enable, n to disable.'
       name: yesnt
       optional: false
       type: string
@@ -2268,7 +2268,7 @@ removeonmute_string_2:
     - text
   desc: 'Toggles whether to remove roles on mute'
   params:
-    - desc: 'Nosnt'
+    - desc: 'y to enable, n to disable.'
       name: yesnt
       optional: false
       type: string

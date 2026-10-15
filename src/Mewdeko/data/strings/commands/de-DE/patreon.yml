@@ -1,7 +1,7 @@
 patreonanalytics:
   args:
     - ''
-  desc: 'Zeigt detaillierte Patreon-Analysen an.'
+  desc: 'Zeigt detaillierte Patreon-Analysen.'
   params: [ ]
 patreonannounce:
   args:
@@ -11,11 +11,9 @@ patreonannounce:
 patreonch:
   args:
     - '#channel'
-  desc: Legt den Patreon-Ankündigungskanal fest oder zeigt ihn an.
+  desc: 'Legt den Patreon-Ankündigungskanal fest oder zeigt ihn an.'
   params:
-    - desc: >-
-        Der Kanal für Patreon-Ankündigungen. Wenn null, wird der aktuelle
-        Kanal angezeigt.
+    - desc: 'Der Kanal für Patreon-Ankündigungen. Bei null wird der aktuelle Kanal angezeigt.'
       name: channel
       optional: true
       type: ITextChannel?
@@ -27,11 +25,9 @@ patreonconfig:
 patreonday:
   args:
     - number
-  desc: 'Legt den Tag des Monats für Patreon-Ankündigungen fest.'
+  desc: 'Legt den Tag im Monat für Patreon-Ankündigungen fest.'
   params:
-    - desc: >-
-        Der Tag des Monats (1-28) für Ankündigungen. Wenn null, wird
-        der aktuelle Tag angezeigt.
+    - desc: 'Der Tag im Monat (1–28) für Ankündigungen. Bei null wird der aktuelle Tag angezeigt.'
       name: day
       optional: true
       type: int?
@@ -43,55 +39,53 @@ patreondisable:
 patreonhelp:
   args:
     - ''
-  desc: 'Zeigt Informationen zum Patreon-Modul und verfügbare Platzhalter.'
+  desc: 'Zeigt Informationen zum Patreon-Modul und die verfügbaren Platzhalter.'
   params: [ ]
 patreonlink:
   args:
     - '@user text'
-  desc: 'Verknüpft einen Discord-Benutzer mit einem Patreon-Unterstützer.'
+  desc: 'Verknüpft einen Discord-Nutzer mit einem Patreon-Unterstützer.'
   params:
-    - desc: Der zu verknüpfende Discord-Benutzer.
+    - desc: 'Der zu verknüpfende Discord-Nutzer.'
       name: user
       optional: false
       type: IGuildUser
-    - desc: Die zu verknüpfende Patreon-Benutzer-ID.
+    - desc: 'Die Patreon-Nutzer-ID, mit der verknüpft werden soll.'
       name: patreonUserId
       optional: false
       type: string
 patreonmsg:
   args:
     - text
-  desc: Legt eine benutzerdefinierte Nachricht für Patreon-Ankündigungen fest.
+  desc: 'Legt eine eigene Nachricht für Patreon-Ankündigungen fest.'
   params:
-    - desc: >-
-        Die benutzerdefinierte Nachricht. Verwende Platzhalter wie %server.name%,
-        %month% usw. Verwende "-" zum Zurücksetzen auf Standard.
+    - desc: 'Die eigene Nachricht. Verwende Platzhalter wie %server.name%, %month% usw. Mit "-" wird auf den Standard zurückgesetzt.'
       name: message
       optional: true
       type: string?
 patreonrecognize:
   args:
     - '#channel'
-  desc: 'Sendet Anerkennungsnachrichten für neue Unterstützer.'
+  desc: 'Sendet Dankesnachrichten für neue Unterstützer.'
   params:
-    - desc: Der Kanal, in dem Anerkennungsnachrichten gesendet werden.
+    - desc: 'Der Kanal, in den Dankesnachrichten gesendet werden.'
       name: channel
       optional: true
       type: ITextChannel?
 patreonroles:
   args:
     - ''
-  desc: 'Listet Patreon-Tier-zu-Rollen-Zuordnungen auf.'
+  desc: 'Listet die Zuordnungen von Patreon-Stufen zu Rollen auf.'
   params: [ ]
 patreonrolesync:
   args:
     - ''
-  desc: 'Schaltet die automatische Rollensynchronisation um.'
+  desc: 'Schaltet die automatische Rollensynchronisierung um.'
   params: [ ]
 patreonstats:
   args:
     - ''
-  desc: 'Zeigt Patreon-Unterstützerstatistiken an.'
+  desc: 'Zeigt Statistiken zu Patreon-Unterstützern.'
   params: [ ]
 patreonsupporters:
   args:
@@ -106,18 +100,18 @@ patreonsync:
 patreonsyncall:
   args:
     - ''
-  desc: 'Synchronisiert Rollen für alle verknüpften Unterstützer.'
+  desc: 'Synchronisiert die Rollen aller verknüpften Unterstützer.'
   params: [ ]
 patreontiermap:
   args:
     - text @role
-  desc: 'Ordnet einen Patreon-Tier einer Discord-Rolle zu.'
+  desc: 'Ordnet eine Patreon-Stufe einer Discord-Rolle zu.'
   params:
-    - desc: Die Patreon-Tier-ID.
+    - desc: 'Die Patreon-Stufen-ID.'
       name: tierId
       optional: false
       type: string
-    - desc: Die Discord-Rolle, die dem Tier zugeordnet werden soll.
+    - desc: 'Die Discord-Rolle, der die Stufe zugeordnet wird.'
       name: role
       optional: false
       type: IRole
@@ -129,9 +123,9 @@ patreontoggle:
 patreontop:
   args:
     - number
-  desc: 'Zeigt die Top-Patreon-Unterstützer an.'
+  desc: 'Zeigt die Top-Patreon-Unterstützer.'
   params:
-    - desc: Anzahl der anzuzeigenden Top-Unterstützer (1-20).
+    - desc: 'Anzahl der anzuzeigenden Top-Unterstützer (1–20).'
       name: count
       optional: true
       type: int

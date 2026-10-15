@@ -7,7 +7,7 @@
   "copr_monitor_list_title": "Moniteurs COPR",
   "copr_monitor_toggled": "Le moniteur pour **{0}/{1}** est maintenant {2}.",
   "copr_invalid_format": "Format invalide ! Utilisez : `propriétaire/projet` (ex. : `linux4switch/l4s`)",
-  "copr_notify_toggled": "Notifications for **{0}/{1}** {2} builds are now **{3}**.",
+  "copr_notify_toggled": "Les notifications des builds **{0}/{1}** {2} sont désormais **{3}**.",
   "copr_filter_set": "Filtre de paquets pour **{0}/{1}** défini à : {2}",
   "copr_filter_cleared": "Filtre de paquets effacé pour **{0}/{1}**. Tous les paquets sont désormais surveillés.",
   "copr_succeeded_message_updated": "Message de build réussi mis à jour !",
@@ -24,6 +24,10 @@
   "copr_skipped_message_default": "Les messages de build ignoré utiliseront le format par défaut.",
   "copr_default_message_updated": "Message de build par défaut mis à jour !",
   "copr_default_message_default": "Les messages de build par défaut utiliseront le format par défaut.",
+  "copr_template_updated": "{0} Modèle de build mis à jour !",
+  "copr_template_reset": "{0} Les messages de build utiliseront le format par défaut.",
+  "copr_template_none": "Aucun modèle {0} personnalisé n'est défini, le format par défaut sera utilisé.",
+  "copr_template_show_title": "Modèle {0}/{1} {2}",
   "copr_build_title": "Build COPR {0}",
   "copr_build_default_desc": "**Projet :** {0}/{1}\n**Paquet :** {2}\n**ID de build :** {3}\n**Chroot :** {4}"
 }

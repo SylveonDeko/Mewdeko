@@ -1,0 +1,4732 @@
+activitygraph:
+  args:
+    - graphtype.days
+  desc: '显示服务器中最繁忙的时段和日期的图表。'
+  params:
+    - &ref_4
+      desc: '显示服务器中最繁忙的时段和日期的图表。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=:
+  args:
+    - graphtype.days
+  desc: '显示服务器中最繁忙的时段和日期的图表。'
+  params:
+    - desc: '显示服务器中最繁忙的时段和日期的图表。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_1:
+  args:
+    - graphtype.days
+  desc: '显示服务器中最繁忙的时段和日期的图表。'
+  params:
+    - desc: '显示服务器中最繁忙的时段和日期的图表。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_2:
+  args:
+    - graphtype.days
+  desc: '显示服务器中最繁忙的时段和日期的图表。'
+  params:
+    - desc: '显示服务器中最繁忙的时段和日期的图表。'
+      name: GraphType.Days
+      optional: false
+      type: '='
+addautopublish:
+  args:
+    - channel
+  desc: '为服务器中指定的新闻频道启用自动发布。'
+  params:
+    - &ref_5
+      desc: '要启用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel:
+  args:
+    - channel
+  desc: '为服务器中指定的新闻频道启用自动发布。'
+  params:
+    - desc: '要启用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: '为服务器中指定的新闻频道启用自动发布。'
+  params:
+    - desc: '要启用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: '为服务器中指定的新闻频道启用自动发布。'
+  params:
+    - desc: '要启用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist:
+  args:
+    - '@user channel'
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - &ref_24
+      desc: '为指定频道添加自动发布黑名单词。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_23
+      desc: '要加入黑名单的词。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要加入黑名单的词。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要加入黑名单的词。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要加入黑名单的词。'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - desc: '为指定频道添加自动发布黑名单词。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - desc: '为指定频道添加自动发布黑名单词。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: '为指定频道添加自动发布黑名单词。'
+  params:
+    - desc: '为指定频道添加自动发布黑名单词。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要应用黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+aichannel:
+  args:
+    - '[@channel] [enabled]'
+  desc: '为频道配置 AI 服务'
+  params:
+    - desc: '要配置 AI 的频道'
+      name: channel
+      optional: true
+      type: channel
+    - desc: '启用或禁用 AI'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=:
+  args:
+    - '[@channel] [enabled]'
+  desc: '为频道配置 AI 服务'
+  params:
+    - desc: '要配置 AI 的频道'
+      name: channel
+      optional: true
+      type: channel
+    - desc: '启用或禁用 AI'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_1:
+  args:
+    - '[@channel] [enabled]'
+  desc: '为频道配置 AI 服务'
+  params:
+    - desc: '要配置 AI 的频道'
+      name: channel
+      optional: true
+      type: channel
+    - desc: '启用或禁用 AI'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_2:
+  args:
+    - '[@channel] [enabled]'
+  desc: '为频道配置 AI 服务'
+  params:
+    - desc: '要配置 AI 的频道'
+      name: channel
+      optional: true
+      type: channel
+    - desc: '启用或禁用 AI'
+      name: enabled
+      optional: true
+      type: bool
+aiconfig:
+  args:
+    - ''
+  desc: '显示当前 AI 配置'
+  params: [ ]
+aicustomembed:
+  args:
+    - '[embedTemplate]'
+  desc: '设置或显示 AI 回复的自定义嵌入模板。使用 %airesponse% 指定 AI 回复在嵌入中的位置。'
+  params:
+    - desc: '可选的嵌入模板。未提供时显示当前模板。'
+      name: embedTemplate
+      optional: true
+      type: string
+aikey:
+  args:
+    - ''
+  desc: '设置 AI 服务的 API 密钥'
+  params: [ ]
+aimodel:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: '设置 AI 提供商和模型'
+  params:
+    - desc: '要使用的 AI 提供商'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: '模型名称'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: '设置 AI 提供商和模型'
+  params:
+    - desc: '要使用的 AI 提供商'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: '模型名称'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_1:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: '设置 AI 提供商和模型'
+  params:
+    - desc: '要使用的 AI 提供商'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: '模型名称'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_2:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: '设置 AI 提供商和模型'
+  params:
+    - desc: '要使用的 AI 提供商'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: '模型名称'
+      name: model
+      optional: true
+      type: string
+aiprompt:
+  args:
+    - text
+  desc: '设置 AI 的系统提示词'
+  params:
+    - &ref_59
+      desc: '要使用的系统提示词'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string:
+  args:
+    - text
+  desc: '设置 AI 的系统提示词'
+  params:
+    - desc: '要使用的系统提示词'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_1:
+  args:
+    - text
+  desc: '设置 AI 的系统提示词'
+  params:
+    - desc: '要使用的系统提示词'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_2:
+  args:
+    - text
+  desc: '设置 AI 的系统提示词'
+  params:
+    - desc: '要使用的系统提示词'
+      name: prompt
+      optional: false
+      type: string
+aiwebhook:
+  args:
+    - '[name] [avatar]'
+  desc: '设置本服务器中 AI 回复所用的 Webhook。'
+  params:
+    - desc: 'Webhook 的名称。若为空，则禁用该 Webhook。'
+      name: name
+      optional: true
+      type: string
+    - desc: '可选的 Webhook 头像链接。'
+      name: avatar
+      optional: true
+      type: string
+aiwebsearch:
+  args:
+    - 'true'
+    - 'false'
+  desc: '启用或禁用 AI 联网搜索（仅限 Claude）'
+  params:
+    - desc: '是否启用或禁用联网搜索'
+      name: enabled
+      optional: false
+      type: bool
+alias:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: '为命令添加新的别名；若未提供映射，则删除已有别名。'
+  params:
+    - desc: '别名的触发词。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: '别名对应的命令。若为空，则删除该别名。'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: '为命令添加新的别名；若未提供映射，则删除已有别名。'
+  params:
+    - desc: '别名的触发词。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: '别名对应的命令。若为空，则删除该别名。'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_1:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: '为命令添加新的别名；若未提供映射，则删除已有别名。'
+  params:
+    - desc: '别名的触发词。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: '别名对应的命令。若为空，则删除该别名。'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_2:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: '为命令添加新的别名；若未提供映射，则删除已有别名。'
+  params:
+    - desc: '别名的触发词。'
+      name: trigger
+      optional: false
+      type: string
+    - desc: '别名对应的命令。若为空，则删除该别名。'
+      name: mapping
+      optional: true
+      type: string
+aliasesclear:
+  args:
+    - ''
+  desc: '清除服务器的所有命令别名。'
+  params: [ ]
+aliaslist:
+  args:
+    - ''
+  desc: '列出服务器当前设置的所有命令别名。'
+  params: [ ]
+avatar:
+  args:
+    - '[@usr]'
+  desc: '显示指定用户或命令调用者的头像。若有服务器头像，则提供查看服务器头像的按钮。'
+  params:
+    - desc: '可选。要显示头像的用户。'
+      name: usr
+      optional: true
+      type: user
+banner:
+  args:
+    - '[@usr]'
+  desc: '显示指定用户或命令调用者的横幅。'
+  params:
+    - desc: '可选。要显示横幅的用户。'
+      name: usr
+      optional: true
+      type: user
+calcops:
+  args:
+    - ''
+  desc: '列出可在表达式中使用的数学运算。'
+  params: [ ]
+calculate:
+  args:
+    - text
+  desc: '计算数学表达式并返回结果。'
+  params:
+    - &ref_118
+      desc: '要计算的表达式。'
+      name: expression
+      optional: false
+      type: string
+calculate_string:
+  args:
+    - text
+  desc: '计算数学表达式并返回结果。'
+  params:
+    - desc: '要计算的表达式。'
+      name: expression
+      optional: false
+      type: string
+calculate_string_1:
+  args:
+    - text
+  desc: '计算数学表达式并返回结果。'
+  params:
+    - desc: '要计算的表达式。'
+      name: expression
+      optional: false
+      type: string
+calculate_string_2:
+  args:
+    - text
+  desc: '计算数学表达式并返回结果。'
+  params:
+    - desc: '要计算的表达式。'
+      name: expression
+      optional: false
+      type: string
+channelid:
+  args:
+    - ''
+  desc: '获取当前频道的 ID。'
+  params: [ ]
+channelinfo:
+  args:
+    - '[@channel]'
+  desc: '显示指定文字频道或当前频道的信息。'
+  params:
+    - desc: '可选。要查看信息的文字频道。'
+      name: channel
+      optional: true
+      type: channel
+channelmessages:
+  args:
+    - '[@channel]'
+  desc: '获取指定频道的消息统计数据。'
+  params:
+    - desc: '要获取消息统计的频道。若为空，则使用当前频道。'
+      name: channel
+      optional: true
+      type: channel
+channeltopic:
+  args:
+    - '[@channel]'
+  desc: '获取当前频道的主题。若指定了频道，则显示该频道的主题。'
+  params:
+    - desc: '要获取主题的频道。'
+      name: channel
+      optional: true
+      type: channel
+convert:
+  args:
+    - text
+  desc: '将媒体文件转换为其他格式。用法：.convert 目标格式（需附带文件）'
+  params:
+    - &ref_144
+      desc: '要转换为的格式（例如 gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string:
+  args:
+    - text
+  desc: '将媒体文件转换为其他格式。用法：.convert 目标格式（需附带文件）'
+  params:
+    - desc: '要转换为的格式（例如 gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_1:
+  args:
+    - text
+  desc: '将媒体文件转换为其他格式。用法：.convert 目标格式（需附带文件）'
+  params:
+    - desc: '要转换为的格式（例如 gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_2:
+  args:
+    - text
+  desc: '将媒体文件转换为其他格式。用法：.convert 目标格式（需附带文件）'
+  params:
+    - desc: '要转换为的格式（例如 gif、mp4、mp3、jpg、png）'
+      name: targetFormat
+      optional: false
+      type: string
+convertlist:
+  args:
+    - ''
+  desc: '列出所有可进行转换的单位。'
+  params: [ ]
+convertunits:
+  args:
+    - text text number
+  desc: '将指定数值从一个单位转换为另一个单位。'
+  params:
+    - &ref_145
+      desc: '数值的原始单位。'
+      name: origin
+      optional: false
+      type: string
+    - &ref_146
+      desc: '要转换为的目标单位。'
+      name: target
+      optional: false
+      type: string
+    - &ref_147
+      desc: '要转换的数值。'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal:
+  args:
+    - text text number
+  desc: '将指定数值从一个单位转换为另一个单位。'
+  params:
+    - desc: '数值的原始单位。'
+      name: origin
+      optional: false
+      type: string
+    - desc: '要转换为的目标单位。'
+      name: target
+      optional: false
+      type: string
+    - desc: '要转换的数值。'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_1:
+  args:
+    - text text number
+  desc: '将指定数值从一个单位转换为另一个单位。'
+  params:
+    - desc: '数值的原始单位。'
+      name: origin
+      optional: false
+      type: string
+    - desc: '要转换为的目标单位。'
+      name: target
+      optional: false
+      type: string
+    - desc: '要转换的数值。'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_2:
+  args:
+    - text text number
+  desc: '将指定数值从一个单位转换为另一个单位。'
+  params:
+    - desc: '数值的原始单位。'
+      name: origin
+      optional: false
+      type: string
+    - desc: '要转换为的目标单位。'
+      name: target
+      optional: false
+      type: string
+    - desc: '要转换的数值。'
+      name: value
+      optional: false
+      type: decimal
+debugembed:
+  args:
+    - text
+  desc: '调试命令，用于测试嵌入内容的解析。'
+  params:
+    - &ref_178
+      desc: '要解析为嵌入内容的文本。'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string:
+  args:
+    - text
+  desc: '调试命令，用于测试嵌入内容的解析。'
+  params:
+    - desc: '要解析为嵌入内容的文本。'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_1:
+  args:
+    - text
+  desc: '调试命令，用于测试嵌入内容的解析。'
+  params:
+    - desc: '要解析为嵌入内容的文本。'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_2:
+  args:
+    - text
+  desc: '调试命令，用于测试嵌入内容的解析。'
+  params:
+    - desc: '要解析为嵌入内容的文本。'
+      name: embedText
+      optional: false
+      type: string
+delallquotes:
+  args:
+    - text
+  desc: '删除与指定关键词关联的所有语录。'
+  params:
+    - &ref_182
+      desc: '要删除其关联语录的关键词。'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string:
+  args:
+    - text
+  desc: '删除与指定关键词关联的所有语录。'
+  params:
+    - desc: '要删除其关联语录的关键词。'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_1:
+  args:
+    - text
+  desc: '删除与指定关键词关联的所有语录。'
+  params:
+    - desc: '要删除其关联语录的关键词。'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_2:
+  args:
+    - text
+  desc: '删除与指定关键词关联的所有语录。'
+  params:
+    - desc: '要删除其关联语录的关键词。'
+      name: keyword
+      optional: false
+      type: string
+editsnipe:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params: [ ]
+editsnipe_ITextChannel:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - &ref_207
+      desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_1:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_2:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_3:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_208
+      desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_1:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_2:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_3:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_noparams:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params: [ ]
+editsnipe_noparams_1:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params: [ ]
+editsnipe_noparams_2:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后编辑过的消息。'
+  params: [ ]
+editsnipelist:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - &ref_209
+      desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_1:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_2:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - &ref_210
+      desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_211
+      desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条编辑过的消息。'
+      name: 5
+      optional: false
+      type: '='
+embeddelete:
+  args:
+    - name
+  desc: '删除一个个人嵌入模板。'
+  params:
+    - desc: '要删除的嵌入模板名称。'
+      name: name
+      optional: false
+      type: string
+embedlist:
+  args:
+    - ''
+  desc: '列出所有个人嵌入模板。'
+  params: [ ]
+embedpreview:
+  args:
+    - name
+  desc: '预览一个嵌入模板。'
+  params:
+    - desc: '要预览的嵌入模板名称。'
+      name: name
+      optional: false
+      type: string
+embedsave:
+  args:
+    - name
+    - embedJson
+  desc: '保存一个供个人使用的嵌入模板。'
+  params:
+    - desc: '嵌入模板的名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '嵌入内容的 JSON 表示。'
+      name: embedJson
+      optional: false
+      type: string
+emotelist:
+  args:
+    - '[emotetype]'
+  desc: '获取服务器中的表情。若指定了表情类型，则只列出该类型的表情。'
+  params:
+    - desc: '要列出的表情类型（动态或非动态）。'
+      name: emotetype
+      optional: true
+      type: string
+fetch:
+  args:
+    - id
+  desc: '通过 Discord ID 获取并显示用户信息。'
+  params:
+    - &ref_217
+      desc: '用户的 Discord ID。'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong:
+  args:
+    - id
+  desc: '通过 Discord ID 获取并显示用户信息。'
+  params:
+    - desc: '用户的 Discord ID。'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_1:
+  args:
+    - id
+  desc: '通过 Discord ID 获取并显示用户信息。'
+  params:
+    - desc: '用户的 Discord ID。'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_2:
+  args:
+    - id
+  desc: '通过 Discord ID 获取并显示用户信息。'
+  params:
+    - desc: '用户的 Discord ID。'
+      name: id
+      optional: false
+      type: ulong
+getautopublishes:
+  args:
+    - ''
+  desc: '显示已启用自动发布的频道列表及其关联的黑名单。'
+  params: [ ]
+getjson:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '获取消息的 Mewdeko 专用 JSON。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: true
+      type: channel
+getjson_ITextChannel_ulong:
+  args:
+    - channel messageid
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_226
+      desc: '要获取 JSON 的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_1:
+  args:
+    - channel messageid
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取 JSON 的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_2:
+  args:
+    - channel messageid
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取 JSON 的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_3:
+  args:
+    - channel messageid
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取 JSON 的消息 ID。'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ulong_=:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '获取消息的 Mewdeko 专用 JSON。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_1:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '获取消息的 Mewdeko 专用 JSON。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_2:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: '获取消息的 Mewdeko 专用 JSON。'
+  params:
+    - desc: '获取消息的 Mewdeko 专用 JSON。'
+      name: id
+      optional: false
+      type: ulong
+    - desc: '消息所在的频道。'
+      name: channel
+      optional: true
+      type: channel
+graph:
+  args:
+    - text -10 10
+    - text
+  desc: '绘制数学函数图像。'
+  params:
+    - &ref_234
+      desc: '要绘制的函数。'
+      name: function
+      optional: false
+      type: string
+    - &ref_235
+      desc: '绘制数学函数图像。'
+      name: -10
+      optional: false
+      type: '='
+    - &ref_236
+      desc: '绘制数学函数图像。'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=:
+  args:
+    - text -10 10
+    - text
+  desc: '绘制数学函数图像。'
+  params:
+    - desc: '要绘制的函数。'
+      name: function
+      optional: false
+      type: string
+    - desc: '绘制数学函数图像。'
+      name: -10
+      optional: false
+      type: '='
+    - desc: '绘制数学函数图像。'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_1:
+  args:
+    - text -10 10
+    - text
+  desc: '绘制数学函数图像。'
+  params:
+    - desc: '要绘制的函数。'
+      name: function
+      optional: false
+      type: string
+    - desc: '绘制数学函数图像。'
+      name: -10
+      optional: false
+      type: '='
+    - desc: '绘制数学函数图像。'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_2:
+  args:
+    - text -10 10
+    - text
+  desc: '绘制数学函数图像。'
+  params:
+    - desc: '要绘制的函数。'
+      name: function
+      optional: false
+      type: string
+    - desc: '绘制数学函数图像。'
+      name: -10
+      optional: false
+      type: '='
+    - desc: '绘制数学函数图像。'
+      name: 10
+      optional: false
+      type: '='
+guildembeddelete:
+  args:
+    - name
+  desc: '删除服务器嵌入模板（需要管理消息权限）。'
+  params:
+    - desc: '要删除的嵌入模板名称。'
+      name: name
+      optional: false
+      type: string
+guildembedlist:
+  args:
+    - ''
+  desc: '列出所有服务器嵌入模板。'
+  params: [ ]
+guildembedsave:
+  args:
+    - name
+    - embedJson
+  desc: '保存供服务器使用的嵌入模板（需要管理消息权限）。'
+  params:
+    - desc: '嵌入模板的名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '嵌入内容的 JSON 表示。'
+      name: embedJson
+      optional: false
+      type: string
+inrole:
+  args:
+    - '@role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - &ref_253
+      desc: '要查找的身份组。'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole:
+  args:
+    - '@role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - desc: '要查找的身份组。'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_1:
+  args:
+    - '@role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - desc: '要查找的身份组。'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_2:
+  args:
+    - '@role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - desc: '要查找的身份组。'
+      name: role
+      optional: false
+      type: IRole
+inroles:
+  args:
+    - '@role @role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - &ref_254
+      desc: '要查找的第一个身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_255
+      desc: '要查找的第二个身份组。'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - desc: '要查找的第一个身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要查找的第二个身份组。'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - desc: '要查找的第一个身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要查找的第二个身份组。'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '显示指定身份组中的用户列表。'
+  params:
+    - desc: '要查找的第一个身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要查找的第二个身份组。'
+      name: role2
+      optional: false
+      type: IRole
+invite:
+  args:
+    - ''
+  desc: '获取机器人的邀请链接，并显示网站、文档和支持服务器。'
+  params: [ ]
+invitedusers:
+  args:
+    - '[@user]'
+  desc: '显示由指定用户邀请的用户列表。'
+  params:
+    - desc: '要查看邀请记录的用户。若为空，则查看命令调用者。'
+      name: user
+      optional: true
+      type: user
+inviteleaderboard:
+  args:
+    - '[AllTime] [@role]'
+    - 'Weekly'
+  desc: '显示邀请人数排行榜，包括常规/已离开/虚假/奖励的细分。可选择限定时间范围或身份组。'
+  params:
+    - desc: '时间窗口：AllTime、Daily、Weekly 或 Monthly。'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: '仅统计拥有此身份组的邀请人。'
+      name: role
+      optional: true
+      type: IRole
+invites_=:
+  args:
+    - '[@user]'
+  desc: '显示用户的邀请人数。'
+  params:
+    - desc: '要查看邀请人数的用户。若为空，则查看命令调用者。'
+      name: user
+      optional: true
+      type: user
+invitesettings:
+  args:
+    - ''
+  desc: '显示服务器当前的邀请设置。'
+  params: [ ]
+joinstats:
+  args:
+    - ''
+  desc: '生成并发送显示服务器加入统计数据的图表。'
+  params: [ ]
+joinstatscolor:
+  args:
+    - number number number
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - &ref_257
+      desc: '颜色的红色分量。'
+      name: r
+      optional: false
+      type: int
+    - &ref_258
+      desc: '颜色的绿色分量。'
+      name: g
+      optional: false
+      type: int
+    - &ref_259
+      desc: '颜色的蓝色分量。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int:
+  args:
+    - number number number
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - desc: '颜色的红色分量。'
+      name: r
+      optional: false
+      type: int
+    - desc: '颜色的绿色分量。'
+      name: g
+      optional: false
+      type: int
+    - desc: '颜色的蓝色分量。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - desc: '颜色的红色分量。'
+      name: r
+      optional: false
+      type: int
+    - desc: '颜色的绿色分量。'
+      name: g
+      optional: false
+      type: int
+    - desc: '颜色的蓝色分量。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - desc: '颜色的红色分量。'
+      name: r
+      optional: false
+      type: int
+    - desc: '颜色的绿色分量。'
+      name: g
+      optional: false
+      type: int
+    - desc: '颜色的蓝色分量。'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_noparams:
+  args:
+    - ''
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+joinstatscolor_noparams_1:
+  args:
+    - ''
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+joinstatscolor_noparams_2:
+  args:
+    - ''
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+joinstatscolor_noparams_3:
+  args:
+    - ''
+  desc: '将加入统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+leavestats:
+  args:
+    - ''
+  desc: '生成并发送显示服务器离开统计数据的图表。'
+  params: [ ]
+leavestatscolor:
+  args:
+    - number number number
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - &ref_270
+      desc: '颜色的红色分量，范围 0 到 255。'
+      name: r
+      optional: false
+      type: int
+    - &ref_271
+      desc: '颜色的绿色分量，范围 0 到 255。'
+      name: g
+      optional: false
+      type: int
+    - &ref_272
+      desc: '颜色的蓝色分量，范围 0 到 255。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int:
+  args:
+    - number number number
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - desc: '颜色的红色分量，范围 0 到 255。'
+      name: r
+      optional: false
+      type: int
+    - desc: '颜色的绿色分量，范围 0 到 255。'
+      name: g
+      optional: false
+      type: int
+    - desc: '颜色的蓝色分量，范围 0 到 255。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - desc: '颜色的红色分量，范围 0 到 255。'
+      name: r
+      optional: false
+      type: int
+    - desc: '颜色的绿色分量，范围 0 到 255。'
+      name: g
+      optional: false
+      type: int
+    - desc: '颜色的蓝色分量，范围 0 到 255。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params:
+    - desc: '颜色的红色分量，范围 0 到 255。'
+      name: r
+      optional: false
+      type: int
+    - desc: '颜色的绿色分量，范围 0 到 255。'
+      name: g
+      optional: false
+      type: int
+    - desc: '颜色的蓝色分量，范围 0 到 255。'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_noparams:
+  args:
+    - ''
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+leavestatscolor_noparams_1:
+  args:
+    - ''
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+leavestatscolor_noparams_2:
+  args:
+    - ''
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+leavestatscolor_noparams_3:
+  args:
+    - ''
+  desc: '将离开统计图表的默认颜色设为金色。这是一个便捷命令，无需输入 RGB 即可应用预设颜色。'
+  params: [ ]
+listquotes:
+  args:
+    - ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - &ref_279
+      desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=:
+  args:
+    - ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_1:
+  args:
+    - ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_2:
+  args:
+    - ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=:
+  args:
+    - 1 ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_1:
+  args:
+    - 1 ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_2:
+  args:
+    - 1 ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_3:
+  args:
+    - 1 ordertype.keyword
+  desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+  params:
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: 1
+      optional: false
+      type: '='
+    - desc: '按页列出服务器中的语录。语录可按关键词或添加日期排序。'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+minmessagecountlength:
+  args:
+    - 0
+  desc: '设置消息计入统计所需的最小长度'
+  params:
+    - desc: '设置消息计入统计所需的最小长度'
+      name: 0
+      optional: false
+      type: '='
+minmsglength:
+  args:
+    - length
+  desc: '设置消息计数的最小长度。'
+  params:
+    - desc: '最小消息长度。'
+      name: length
+      optional: false
+      type: int
+owoify:
+  args:
+    - text
+  desc: '将指定输入转换为 OwO 风格的文本。'
+  params:
+    - &ref_334
+      desc: '要转换为 OwO 风格的输入。'
+      name: input
+      optional: false
+      type: string
+owoify_string:
+  args:
+    - text
+  desc: '将指定输入转换为 OwO 风格的文本。'
+  params:
+    - desc: '要转换为 OwO 风格的输入。'
+      name: input
+      optional: false
+      type: string
+owoify_string_1:
+  args:
+    - text
+  desc: '将指定输入转换为 OwO 风格的文本。'
+  params:
+    - desc: '要转换为 OwO 风格的输入。'
+      name: input
+      optional: false
+      type: string
+owoify_string_2:
+  args:
+    - text
+  desc: '将指定输入转换为 OwO 风格的文本。'
+  params:
+    - desc: '要转换为 OwO 风格的输入。'
+      name: input
+      optional: false
+      type: string
+ping:
+  args:
+    - ''
+  desc: '显示机器人的延迟。'
+  params: [ ]
+pingip:
+  args:
+    - text 1
+    - text
+  desc: '对 IP 地址进行 Ping。最多 10 次。'
+  params:
+    - &ref_345
+      desc: '要 Ping 的 IP 地址。'
+      name: ip
+      optional: false
+      type: string
+    - desc: '对 IP 地址进行 Ping。最多 10 次。'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=:
+  args:
+    - text 1
+    - text
+  desc: '对 IP 地址进行 Ping。最多 10 次。'
+  params:
+    - desc: '要 Ping 的 IP 地址。'
+      name: ip
+      optional: false
+      type: string
+    - desc: '对 IP 地址进行 Ping。最多 10 次。'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_1:
+  args:
+    - text 1
+    - text
+  desc: '对 IP 地址进行 Ping。最多 10 次。'
+  params:
+    - desc: ''
+      name: ip
+      optional: false
+      type: string
+    - desc: '对 IP 地址进行 Ping。最多 10 次。'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_2:
+  args:
+    - text 1
+    - text
+  desc: '对 IP 地址进行 Ping。最多 10 次。'
+  params:
+    - desc: '要 Ping 的 IP 地址。'
+      name: ip
+      optional: false
+      type: string
+    - desc: '对 IP 地址进行 Ping。最多 10 次。'
+      name: 1
+      optional: false
+      type: '='
+plot:
+  args:
+    - expression
+  desc: '创建图表。'
+  params:
+    - desc: '要绘制的数学表达式。'
+      name: expression
+      optional: false
+      type: string
+previewlinks:
+  args:
+    - text
+  desc: '切换服务器的链接预览开关。'
+  params:
+    - &ref_355
+      desc: '输入 "yes" 以启用链接预览，输入其他任何内容则禁用。'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string:
+  args:
+    - text
+  desc: '切换服务器的链接预览开关。'
+  params:
+    - desc: '输入 "yes" 以启用链接预览，输入其他任何内容则禁用。'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_1:
+  args:
+    - text
+  desc: '切换服务器的链接预览开关。'
+  params:
+    - desc: '输入 "yes" 以启用链接预览，输入其他任何内容则禁用。'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_2:
+  args:
+    - text
+  desc: '切换服务器的链接预览开关。'
+  params:
+    - desc: '输入 "yes" 以启用链接预览，输入其他任何内容则禁用。'
+      name: yesnt
+      optional: false
+      type: string
+quoteadd:
+  args:
+    - text text
+  desc: '添加一条带有指定关键词和文本的新语录。'
+  params:
+    - &ref_367
+      desc: '与语录关联的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_368
+      desc: '语录的文本。'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string:
+  args:
+    - text text
+  desc: '添加一条带有指定关键词和文本的新语录。'
+  params:
+    - desc: '与语录关联的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '语录的文本。'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_1:
+  args:
+    - text text
+  desc: '添加一条带有指定关键词和文本的新语录。'
+  params:
+    - desc: '与语录关联的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '语录的文本。'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_2:
+  args:
+    - text text
+  desc: '添加一条带有指定关键词和文本的新语录。'
+  params:
+    - desc: '与语录关联的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '语录的文本。'
+      name: text
+      optional: false
+      type: string
+quotedelete:
+  args:
+    - number
+  desc: '删除指定 ID 的语录。'
+  params:
+    - &ref_369
+      desc: '要删除的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quotedelete_int:
+  args:
+    - number
+  desc: '删除指定 ID 的语录。'
+  params:
+    - desc: '要删除的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_1:
+  args:
+    - number
+  desc: '删除指定 ID 的语录。'
+  params:
+    - desc: '要删除的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_2:
+  args:
+    - number
+  desc: '删除指定 ID 的语录。'
+  params:
+    - desc: '要删除的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quoteexport:
+  args: [ ]
+  desc: '以 JSON 格式导出服务器中的所有语录。'
+  params: [ ]
+quoteid:
+  args:
+    - number
+  desc: '显示添加指定 ID 语录的用户。'
+  params:
+    - &ref_370
+      desc: '要显示的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quoteid_int:
+  args:
+    - number
+  desc: '显示添加指定 ID 语录的用户。'
+  params:
+    - desc: '要显示的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quoteid_int_1:
+  args:
+    - number
+  desc: '显示添加指定 ID 语录的用户。'
+  params:
+    - desc: '要显示的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quoteid_int_2:
+  args:
+    - number
+  desc: '显示添加指定 ID 语录的用户。'
+  params:
+    - desc: '要显示的语录 ID。'
+      name: id
+      optional: false
+      type: int
+quoteimport:
+  args: [ ]
+  desc: '从 JSON 文件附件导入语录。允许重复语录。'
+  params: [ ]
+quoteprint:
+  args:
+    - text
+  desc: '显示与指定关键词匹配的随机语录。'
+  params:
+    - &ref_371
+      desc: '在语录中搜索的关键词。'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string:
+  args:
+    - text
+  desc: '显示与指定关键词匹配的随机语录。'
+  params:
+    - desc: '在语录中搜索的关键词。'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_1:
+  args:
+    - text
+  desc: '显示与指定关键词匹配的随机语录。'
+  params:
+    - desc: '在语录中搜索的关键词。'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_2:
+  args:
+    - text
+  desc: '显示与指定关键词匹配的随机语录。'
+  params:
+    - desc: '在语录中搜索的关键词。'
+      name: keyword
+      optional: false
+      type: string
+quotesearch:
+  args:
+    - text text
+  desc: '搜索并显示同时匹配关键词和文本查询的语录。'
+  params:
+    - &ref_372
+      desc: '在语录中匹配的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_373
+      desc: '在语录中匹配的文本。'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string:
+  args:
+    - text text
+  desc: '搜索并显示同时匹配关键词和文本查询的语录。'
+  params:
+    - desc: '在语录中匹配的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '在语录中匹配的文本。'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_1:
+  args:
+    - text text
+  desc: '搜索并显示同时匹配关键词和文本查询的语录。'
+  params:
+    - desc: '在语录中匹配的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '在语录中匹配的文本。'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_2:
+  args:
+    - text text
+  desc: '搜索并显示同时匹配关键词和文本查询的语录。'
+  params:
+    - desc: '在语录中匹配的关键词。'
+      name: keyword
+      optional: false
+      type: string
+    - desc: '在语录中匹配的文本。'
+      name: text
+      optional: false
+      type: string
+quoteshow:
+  args:
+    - number
+  desc: '显示指定 ID 的语录。'
+  params:
+    - desc: '要显示的语录 ID。'
+      name: id
+      optional: false
+      type: int
+remind:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - &ref_388
+      desc: '为指定文字频道创建提醒。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - &ref_386
+      desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string:
+  args:
+    - channel text
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - &ref_387
+      desc: '发送提醒的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - desc: '发送提醒的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - desc: '发送提醒的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - desc: '发送提醒的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - desc: '为指定文字频道创建提醒。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_1:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - desc: '为指定文字频道创建提醒。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_2:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: '为指定文字频道创建提醒。'
+  params:
+    - desc: '为指定文字频道创建提醒。'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: '提醒内容和时间信息。'
+      name: remindString
+      optional: false
+      type: string
+reminddelete:
+  args:
+    - number
+  desc: '删除指定的提醒。'
+  params:
+    - &ref_389
+      desc: '要删除的提醒序号。'
+      name: index
+      optional: false
+      type: int
+reminddelete_int:
+  args:
+    - number
+  desc: '删除指定的提醒。'
+  params:
+    - desc: '要删除的提醒序号。'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_1:
+  args:
+    - number
+  desc: '删除指定的提醒。'
+  params:
+    - desc: '要删除的提醒序号。'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_2:
+  args:
+    - number
+  desc: '删除指定的提醒。'
+  params:
+    - desc: '要删除的提醒序号。'
+      name: index
+      optional: false
+      type: int
+remindlist:
+  args:
+    - ''
+  desc: '列出当前用户的所有提醒。'
+  params: [ ]
+removeautopublish:
+  args:
+    - channel
+  desc: '禁用服务器中指定新闻频道的自动发布。'
+  params:
+    - &ref_393
+      desc: '要禁用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel:
+  args:
+    - channel
+  desc: '禁用服务器中指定新闻频道的自动发布。'
+  params:
+    - desc: '要禁用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: '禁用服务器中指定新闻频道的自动发布。'
+  params:
+    - desc: '要禁用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: '禁用服务器中指定新闻频道的自动发布。'
+  params:
+    - desc: '要禁用自动发布的新闻频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist:
+  args:
+    - '@user channel'
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - &ref_409
+      desc: '从指定频道的自动发布黑名单中移除一个词。'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_407
+      desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_408
+      desc: '要移出黑名单的词。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要移出黑名单的词。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要移出黑名单的词。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要移出黑名单的词。'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - desc: '从指定频道的自动发布黑名单中移除一个词。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - desc: '从指定频道的自动发布黑名单中移除一个词。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: '从指定频道的自动发布黑名单中移除一个词。'
+  params:
+    - desc: '从指定频道的自动发布黑名单中移除一个词。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要移除黑名单的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+repeat:
+  args:
+    - text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - &ref_427
+      desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string:
+  args:
+    - dt interval text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - &ref_428
+      desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - &ref_429
+      desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_1:
+  args:
+    - dt interval text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_2:
+  args:
+    - dt interval text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_3:
+  args:
+    - dt interval text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string:
+  args:
+    - dt text
+    - dt
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - &ref_430
+      desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_1:
+  args:
+    - dt text
+    - dt
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_2:
+  args:
+    - dt text
+    - dt
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_3:
+  args:
+    - dt text
+    - dt
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复消息的开始时间（一天中的时刻）。'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string:
+  args:
+    - interval text
+    - interval
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - &ref_431
+      desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_1:
+  args:
+    - interval text
+    - interval
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_2:
+  args:
+    - interval text
+    - interval
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_3:
+  args:
+    - interval text
+    - interval
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '可选。重复发送的间隔。'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_string:
+  args:
+    - text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_string_1:
+  args:
+    - text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeat_string_2:
+  args:
+    - text
+  desc: '创建重复消息，可选设置开始时间和间隔。'
+  params:
+    - desc: '要重复发送的消息。'
+      name: message
+      optional: true
+      type: string
+repeatactivity:
+  args:
+    - index threshold timeWindow
+  desc: '设置重复消息的活跃度阈值。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '触发所需的消息数量。'
+      name: threshold
+      optional: false
+      type: int
+    - desc: '活跃度检测的时间窗口（例如 5m、10s）。'
+      name: timeWindow
+      optional: false
+      type: stoopid time
+repeatchannel:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: '更改重复消息发送的频道。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '重复消息的新频道。若未指定，则默认为当前频道。'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: '更改重复消息发送的频道。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '重复消息的新频道。若未指定，则默认为当前频道。'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_1:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: '更改重复消息发送的频道。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '重复消息的新频道。若未指定，则默认为当前频道。'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_2:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: '更改重复消息发送的频道。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '重复消息的新频道。若未指定，则默认为当前频道。'
+      name: channel
+      optional: true
+      type: channel
+repeatconversation:
+  args:
+    - index
+  desc: '切换重复消息的对话检测。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatforumtags:
+  args:
+    - index action tagType tags
+  desc: '为重复消息设置论坛标签条件。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要执行的操作（add、remove、clear、list）。'
+      name: action
+      optional: false
+      type: string
+    - desc: '标签规则类型（required 或 excluded）。'
+      name: tagType
+      optional: true
+      type: string
+    - desc: '以逗号分隔的标签名称或 ID 列表。'
+      name: tags
+      optional: true
+      type: string
+repeatinvoke:
+  args:
+    - number
+  desc: '通过序号立即触发一条重复消息。'
+  params:
+    - desc: '要触发的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int:
+  args:
+    - number
+  desc: '通过序号立即触发一条重复消息。'
+  params:
+    - desc: '要触发的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_1:
+  args:
+    - number
+  desc: '通过序号立即触发一条重复消息。'
+  params:
+    - &ref_433
+      desc: '要触发的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_2:
+  args:
+    - number
+  desc: '通过序号立即触发一条重复消息。'
+  params:
+    - desc: '要触发的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatlist:
+  args:
+    - ''
+  desc: '列出服务器中所有活跃的重复消息。'
+  params: [ ]
+repeatmessage:
+  args:
+    - number text
+    - number
+  desc: '更新已有重复消息的内容。'
+  params:
+    - &ref_434
+      desc: '要更新的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - &ref_435
+      desc: '重复消息的新内容。'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string:
+  args:
+    - number text
+    - number
+  desc: '更新已有重复消息的内容。'
+  params:
+    - desc: '要更新的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '重复消息的新内容。'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_1:
+  args:
+    - number text
+    - number
+  desc: '更新已有重复消息的内容。'
+  params:
+    - desc: '要更新的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '重复消息的新内容。'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_2:
+  args:
+    - number text
+    - number
+  desc: '更新已有重复消息的内容。'
+  params:
+    - desc: '要更新的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '重复消息的新内容。'
+      name: message
+      optional: true
+      type: string
+repeatpriority:
+  args:
+    - index priority
+  desc: '设置重复消息的优先级（0-100，数值越高越重要）。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '优先级（0-100）。'
+      name: priority
+      optional: false
+      type: int
+repeatredun:
+  args:
+    - action
+  desc: '管理重复消息的冗余检查。'
+  params:
+    - desc: '要执行的操作。'
+      name: action
+      optional: false
+      type: string
+repeatredundant:
+  args:
+    - number
+  desc: '切换重复消息的冗余检查。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatremove:
+  args:
+    - number
+  desc: '通过序号删除重复消息。'
+  params:
+    - desc: '要删除的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatremove_int:
+  args:
+    - number
+  desc: '通过序号删除重复消息。'
+  params:
+    - desc: '要删除的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_1:
+  args:
+    - number
+  desc: '通过序号删除重复消息。'
+  params:
+    - desc: '要删除的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_2:
+  args:
+    - number
+  desc: '通过序号删除重复消息。'
+  params:
+    - desc: '要删除的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatschedule:
+  args:
+    - index preset
+  desc: '为重复消息设置基于时间的调度。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '预设时间条件（business、evening、weekend、none、disable）。'
+      name: preset
+      optional: false
+      type: string
+repeatthreadautosticky:
+  args:
+    - index
+  desc: '切换重复消息的子区自动置顶功能。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatthreadonly:
+  args:
+    - index
+  desc: '切换重复消息的仅子区模式。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeatsuppressnotifications:
+  args:
+    - index
+  desc: '切换重复消息的通知抑制。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeattoggle:
+  args:
+    - index
+  desc: '切换重复消息的启用状态。'
+  params:
+    - desc: '要切换的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+repeattriggermode:
+  args:
+    - index mode
+  desc: '设置重复消息的触发模式。'
+  params:
+    - desc: '要修改的重复消息序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要设置的触发模式。'
+      name: mode
+      optional: false
+      type: string
+resetmessagecounts:
+  args:
+    - '[@user] [@channel]'
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - desc: '重置用户、频道或两者的消息计数。'
+      name: user
+      optional: true
+      type: user
+    - desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=:
+  args:
+    - '[@user] [@channel]'
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - desc: '重置用户、频道或两者的消息计数。'
+      name: user
+      optional: true
+      type: user
+    - desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_1:
+  args:
+    - '[@user] [@channel]'
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - desc: '重置用户、频道或两者的消息计数。'
+      name: user
+      optional: true
+      type: user
+    - desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_2:
+  args:
+    - '[@user] [@channel]'
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - desc: '重置用户、频道或两者的消息计数。'
+      name: user
+      optional: true
+      type: user
+    - desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_ITextChannel:
+  args:
+    - channel
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - &ref_439
+      desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_1:
+  args:
+    - channel
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_2:
+  args:
+    - channel
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_3:
+  args:
+    - channel
+  desc: '重置用户、频道或两者的消息计数。'
+  params:
+    - desc: '可选：要重置消息计数的频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+rinfo:
+  args:
+    - '@role'
+  desc: '显示服务器中指定身份组的信息。'
+  params:
+    - &ref_442
+      desc: '要查看信息的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole:
+  args:
+    - '@role'
+  desc: '显示服务器中指定身份组的信息。'
+  params:
+    - desc: '要查看信息的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_1:
+  args:
+    - '@role'
+  desc: '显示服务器中指定身份组的信息。'
+  params:
+    - desc: '要查看信息的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_2:
+  args:
+    - '@role'
+  desc: '显示服务器中指定身份组的信息。'
+  params:
+    - desc: '要查看信息的身份组。'
+      name: role
+      optional: false
+      type: IRole
+roleid:
+  args:
+    - '@role'
+  desc: '获取指定身份组的 ID。'
+  params:
+    - &ref_457
+      desc: '要获取 ID 的身份组。'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole:
+  args:
+    - '@role'
+  desc: '获取指定身份组的 ID。'
+  params:
+    - desc: '要获取 ID 的身份组。'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_1:
+  args:
+    - '@role'
+  desc: '获取指定身份组的 ID。'
+  params:
+    - desc: '要获取 ID 的身份组。'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_2:
+  args:
+    - '@role'
+  desc: '获取指定身份组的 ID。'
+  params:
+    - desc: '要获取 ID 的身份组。'
+      name: role
+      optional: false
+      type: IRole
+rolepermlist:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - &ref_460
+      desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - &ref_461
+      desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_1:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_2:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]:
+  args:
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_1:
+  args:
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_2:
+  args:
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_3:
+  args:
+    - perms
+  desc: '列出拥有指定权限的所有身份组。默认搜索类型为 And。'
+  params:
+    - desc: '要搜索的权限。'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+roles:
+  args:
+    - '[@target]'
+  desc: '获取当前服务器的身份组列表。若指定了用户，则显示该用户的身份组。'
+  params:
+    - desc: '要获取身份组的用户。'
+      name: target
+      optional: true
+      type: user
+roll:
+  args:
+    - number @user
+    - number
+    - '@user number'
+  desc: '掷出指定面数的骰子。支持 DnD 骰子。'
+  params:
+    - desc: '掷出指定面数的骰子。支持 DnD 骰子。'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_467
+      default: null
+      desc: '掷出指定面数的骰子。支持 DnD 骰子。'
+      name: user
+      optional: true
+      type: Transactions(IUser
+roll_string:
+  args:
+    - text
+  desc: '掷出指定面数的骰子。支持 DnD 骰子。'
+  params:
+    - &ref_468
+      desc: '要掷的骰子表达式。'
+      name: roll
+      optional: false
+      type: string
+roll_string_1:
+  args:
+    - text
+  desc: '掷出指定面数的骰子。支持 DnD 骰子。'
+  params:
+    - desc: '要掷的骰子表达式。'
+      name: roll
+      optional: false
+      type: string
+roll_string_2:
+  args:
+    - text
+  desc: '掷出指定面数的骰子。支持 DnD 骰子。'
+  params:
+    - desc: '要掷的骰子表达式。'
+      name: roll
+      optional: false
+      type: string
+roll_string_3:
+  args:
+    - text
+  desc: '掷出指定面数的骰子。支持 DnD 骰子。'
+  params:
+    - desc: '要掷的骰子表达式。'
+      name: roll
+      optional: false
+      type: string
+savechat:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+  params:
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+  params:
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_1:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+  params:
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_2:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+  params:
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '保存频道的聊天记录。公共 Mewdeko 会将其保存到 nginx CDN，然后发送一个可在 CDN 上查看的链接。'
+      name: channel
+      optional: true
+      type: channel
+say:
+  args:
+    - channel text
+    - channel
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - &ref_478
+      desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_479
+      desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+say_=:
+  args:
+    - '@channel [message]'
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+say_=_1:
+  args:
+    - '@channel [message]'
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+say_=_2:
+  args:
+    - '@channel [message]'
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+say_=_3:
+  args:
+    - '@channel [message]'
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string:
+  args:
+    - channel text
+    - channel
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_1:
+  args:
+    - channel text
+    - channel
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_2:
+  args:
+    - channel text
+    - channel
+  desc: '以机器人身份发送普通消息或嵌入消息。'
+  params:
+    - desc: '以机器人身份发送普通消息或嵌入消息。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要发送的消息。'
+      name: message
+      optional: true
+      type: string
+serverid_noparams:
+  args:
+    - ''
+  desc: '获取当前服务器的 ID。'
+  params: [ ]
+serverinfo:
+  args:
+    - '[guildName]'
+  desc: '显示服务器的详细信息。'
+  params:
+    - desc: '可选。要查看信息的服务器名称。'
+      name: guildName
+      optional: true
+      type: string
+servermessages:
+  args:
+    - ''
+  desc: '获取整个服务器的消息统计数据。'
+  params: [ ]
+setminaccountage:
+  args:
+    - number
+  desc: '设置邀请计入统计所需的最短账号年龄。'
+  params:
+    - &ref_505
+      desc: '最短年龄（天）。'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int:
+  args:
+    - number
+  desc: '设置邀请计入统计所需的最短账号年龄。'
+  params:
+    - desc: '最短年龄（天）。'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_1:
+  args:
+    - number
+  desc: '设置邀请计入统计所需的最短账号年龄。'
+  params:
+    - desc: '最短年龄（天）。'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_2:
+  args:
+    - number
+  desc: '设置邀请计入统计所需的最短账号年龄。'
+  params:
+    - desc: '最短年龄（天）。'
+      name: days
+      optional: false
+      type: int
+showemojis:
+  args:
+    - text
+  desc: '放大一个或多个指定的表情。'
+  params:
+    - &ref_545
+      desc: '放大一个或多个指定的表情。'
+      name: _
+      optional: false
+      type: string
+showemojis_string:
+  args:
+    - text
+  desc: '放大一个或多个指定的表情。'
+  params:
+    - desc: '放大一个或多个指定的表情。'
+      name: _
+      optional: false
+      type: string
+showemojis_string_1:
+  args:
+    - text
+  desc: '放大一个或多个指定的表情。'
+  params:
+    - desc: '放大一个或多个指定的表情。'
+      name: _
+      optional: false
+      type: string
+showemojis_string_2:
+  args:
+    - text
+  desc: '放大一个或多个指定的表情。'
+  params:
+    - desc: '放大一个或多个指定的表情。'
+      name: _
+      optional: false
+      type: string
+snipe:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params: [ ]
+snipe_ITextChannel:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_1:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_2:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_3:
+  args:
+    - chan
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_1:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_2:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_3:
+  args:
+    - '@user'
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user1
+      optional: false
+      type: IUser
+snipe_noparams:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params: [ ]
+snipe_noparams_1:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params: [ ]
+snipe_noparams_2:
+  args:
+    - ''
+  desc: '获取指定频道中某用户最后删除的消息。'
+  params: [ ]
+snipelist:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_1:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_2:
+  args:
+    - 5
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+  params:
+    - desc: '要获取消息的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '获取指定频道中某用户最近 x 条被删除的消息。'
+      name: 5
+      optional: false
+      type: '='
+snipeset:
+  args:
+    - value
+  desc: '启用或禁用已删除消息的记录功能。默认禁用。'
+  params:
+    - &ref_551
+      desc: '要设置的值。'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction:
+  args:
+    - value
+  desc: '启用或禁用已删除消息的记录功能。默认禁用。'
+  params:
+    - desc: '要设置的值。'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_1:
+  args:
+    - value
+  desc: '启用或禁用已删除消息的记录功能。默认禁用。'
+  params:
+    - desc: '要设置的值。'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_2:
+  args:
+    - value
+  desc: '启用或禁用已删除消息的记录功能。默认禁用。'
+  params:
+    - desc: '要设置的值。'
+      name: value
+      optional: false
+      type: PermissionAction
+stats:
+  args:
+    - ''
+  desc: '显示机器人的统计数据。'
+  params: [ ]
+streamrole:
+  args:
+    - '@role @role'
+  desc: '禁用服务器中的直播身份组功能。'
+  params:
+    - &ref_576
+      desc: '要监控直播活动的身份组。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - &ref_577
+      desc: '分配给开始直播用户的身份组。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '禁用服务器中的直播身份组功能。'
+  params:
+    - desc: '要监控直播活动的身份组。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: '分配给开始直播用户的身份组。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '禁用服务器中的直播身份组功能。'
+  params:
+    - desc: '要监控直播活动的身份组。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: '分配给开始直播用户的身份组。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '禁用服务器中的直播身份组功能。'
+  params:
+    - desc: '要监控直播活动的身份组。'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: '分配给开始直播用户的身份组。'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_noparams:
+  args:
+    - ''
+  desc: '禁用服务器中的直播身份组功能。'
+  params: [ ]
+streamrole_noparams_1:
+  args:
+    - ''
+  desc: '禁用服务器中的直播身份组功能。'
+  params: [ ]
+streamrole_noparams_2:
+  args:
+    - ''
+  desc: '禁用服务器中的直播身份组功能。'
+  params: [ ]
+streamrole_noparams_3:
+  args:
+    - ''
+  desc: '禁用服务器中的直播身份组功能。'
+  params: [ ]
+streamroleblacklist:
+  args:
+    - action @user
+  desc: '将用户添加到直播身份组功能的黑名单或从中移除。'
+  params:
+    - &ref_578
+      desc: '要执行的操作（add 或 remove）。'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_579
+      desc: '要添加到列表或从列表中移除的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser:
+  args:
+    - action @user
+  desc: '将用户添加到直播身份组功能的黑名单或从中移除。'
+  params:
+    - desc: '要执行的操作（add 或 remove）。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '要添加到列表或从列表中移除的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_1:
+  args:
+    - action @user
+  desc: '将用户添加到直播身份组功能的黑名单或从中移除。'
+  params:
+    - desc: '要执行的操作（add 或 remove）。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '要添加到列表或从列表中移除的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_2:
+  args:
+    - action @user
+  desc: '将用户添加到直播身份组功能的黑名单或从中移除。'
+  params:
+    - desc: '要执行的操作（add 或 remove）。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '要添加到列表或从列表中移除的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+streamrolekeyword:
+  args:
+    - '[keyword]'
+  desc: '为直播身份组功能设置关键词。只有直播内容包含此关键词的用户才会获得直播身份组。'
+  params:
+    - desc: '为直播身份组功能设置的关键词。'
+      name: keyword
+      optional: true
+      type: string
+streamrolewhitelist:
+  args:
+    - action @user
+  desc: '将用户添加到直播身份组功能的白名单或从中移除。'
+  params:
+    - desc: '要执行的操作（add 或 remove）。'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: '要添加到列表或从列表中移除的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+sym:
+  args:
+    - expression
+  desc: '执行符号计算。'
+  params:
+    - desc: '要进行符号计算的表达式。'
+      name: expression
+      optional: false
+      type: string
+symbolic:
+  args:
+    - text
+  desc: '执行符号数学运算。'
+  params:
+    - &ref_592
+      desc: '要计算或处理的符号表达式。'
+      name: expression
+      optional: false
+      type: string
+symbolic_string:
+  args:
+    - text
+  desc: '执行符号数学运算。'
+  params:
+    - desc: '要计算或处理的符号表达式。'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_1:
+  args:
+    - text
+  desc: '执行符号数学运算。'
+  params:
+    - desc: '要计算或处理的符号表达式。'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_2:
+  args:
+    - text
+  desc: '执行符号数学运算。'
+  params:
+    - desc: '要计算或处理的符号表达式。'
+      name: expression
+      optional: false
+      type: string
+toggleinvitetracking:
+  args:
+    - ''
+  desc: '切换服务器的邀请追踪。'
+  params: [ ]
+togglemessagecount:
+  args:
+    - ''
+  desc: '切换服务器的消息计数'
+  params: [ ]
+togglemsgcount:
+  args:
+    - ''
+  desc: '切换消息计数追踪。'
+  params: [ ]
+toggleremoveinviteonleave:
+  args:
+    - ''
+  desc: '切换用户离开服务器时是否删除其邀请。'
+  params: [ ]
+topusers:
+  args:
+    - ''
+  desc: '显示消息数量排名前 10 的用户排行榜。'
+  params: [ ]
+traceroute:
+  args:
+    - text
+  desc: '对指定主机名执行路由追踪，显示数据包到达 IP 地址或域名所经过的路由。'
+  params:
+    - &ref_626
+      desc: '要追踪路由的 IP 地址或域名。'
+      name: hostname
+      optional: false
+      type: string
+traceroute_string:
+  args:
+    - text
+  desc: '对指定主机名执行路由追踪，显示数据包到达 IP 地址或域名所经过的路由。'
+  params:
+    - desc: '要追踪路由的 IP 地址或域名。'
+      name: hostname
+      optional: false
+      type: string
+userid:
+  args:
+    - '[@target]'
+  desc: '获取指定用户的 ID。'
+  params:
+    - desc: '要获取 ID 的用户。'
+      name: target
+      optional: true
+      type: user
+userinfo:
+  args:
+    - '[@usr]'
+  desc: '显示指定用户或命令调用者的详细信息。'
+  params:
+    - desc: '可选。要查看信息的用户。'
+      name: usr
+      optional: true
+      type: user
+usermessages_=_1:
+  args:
+    - '[@user]'
+  desc: '获取指定用户的消息统计数据。'
+  params:
+    - desc: '要获取消息统计的用户。若为空，则使用命令调用者。'
+      name: user
+      optional: true
+      type: user
+vcheck:
+  args:
+    - '[url]'
+  desc: '使用 VirusTotal API 检查网址是否含有病毒。'
+  params:
+    - desc: '要检查的网址。'
+      name: url
+      optional: true
+      type: string
+verboseerror:
+  args:
+    - '[newstate]'
+  desc: '切换命令的详细错误信息。'
+  params:
+    - desc: '详细错误的新状态。若为空，则切换当前状态。'
+      name: newstate
+      optional: true
+      type: bool
+vinfo:
+  args:
+    - '[channel]'
+  desc: '显示指定语音频道或用户当前所在语音频道的信息。'
+  params:
+    - desc: '可选。要查看信息的语音频道。'
+      name: channel
+      optional: true
+      type: voice channel
+vote_noparams:
+  args:
+    - ''
+  desc: '显示为 Mewdeko 投票的链接。'
+  params: [ ]
+whoinvited:
+  args:
+    - '[@user]'
+  desc: '显示邀请指定用户加入服务器的人。'
+  params:
+    - desc: '要查询的用户。若为空，则查询命令调用者。'
+      name: user
+      optional: true
+      type: user
+whosplaying:
+  args:
+    - text
+  desc: '显示正在玩指定游戏的用户列表。'
+  params:
+    - &ref_660
+      desc: '要搜索的游戏。'
+      name: game
+      optional: true
+      type: string
+whosplaying_string:
+  args:
+    - text
+  desc: '显示正在玩指定游戏的用户列表。'
+  params:
+    - desc: '要搜索的游戏。'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_1:
+  args:
+    - text
+  desc: '显示正在玩指定游戏的用户列表。'
+  params:
+    - desc: '要搜索的游戏。'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_2:
+  args:
+    - text
+  desc: '显示正在玩指定游戏的用户列表。'
+  params:
+    - desc: '要搜索的游戏。'
+      name: game
+      optional: true
+      type: string
+vote:
+  args:
+    - ''
+  desc: '显示为 Mewdeko 投票的链接。'
+  params: [ ]
+serverid:
+  args:
+    - ''
+  desc: '获取当前服务器的 ID。'
+  params: [ ]
+invites:
+  args:
+    - '[user]'
+    - user
+  desc: '显示用户的邀请人数。'
+  params:
+    - desc: '要查看邀请人数的用户。若为空，则查看命令调用者。'
+      name: user
+      optional: true
+      type: IUser
+usermessages:
+  args:
+    - '[user]'
+    - user
+  desc: '获取指定用户的消息统计数据。'
+  params:
+    - desc: '要获取消息统计的用户。若为空，则使用命令调用者。'
+      name: user
+      optional: true
+      type: IUser
+togglecountrejoins:
+  args:
+    - ''
+  desc: '切换重新加入的成员是否为邀请人重新计入一次常规邀请，还是改为标记为虚假邀请。'
+  params: [ ]
+togglefakenoavatar:
+  args:
+    - ''
+  desc: '切换未设置头像即加入的成员是否标记为虚假邀请。'
+  params: [ ]
+invitelinkchannel:
+  args:
+    - '[#channel]'
+  desc: '设置个人邀请链接（来自 invitelink 命令）指向的频道。省略频道则使用系统频道。'
+  params:
+    - desc: '频道；省略则使用系统频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitelogchannel:
+  args:
+    - '[#channel]'
+  desc: '设置一个频道，用于接收每次被追踪的加入和离开事件的嵌入消息，显示谁邀请了谁以及方式。省略频道则禁用。'
+  params:
+    - desc: '频道；省略则禁用。'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitestats:
+  args:
+    - '[Monthly]'
+    - 'Weekly'
+  desc: '显示指定时段的增长分析：加入数、离开数、净增长、留存率、虚假加入、加入来源、邀请人排行和热门邀请码。'
+  params:
+    - desc: '时间窗口：AllTime、Daily、Weekly 或 Monthly。'
+      name: range
+      optional: true
+      type: StatsRange
+invitedbycode:
+  args:
+    - 'abc123'
+  desc: '列出通过指定邀请码加入的成员。'
+  params:
+    - desc: '邀请码或链接。'
+      name: code
+      optional: false
+      type: string
+invitedbylabel:
+  args:
+    - 'Twitter'
+  desc: '列出通过任何带有指定标签的邀请码加入的成员。'
+  params:
+    - desc: '标签。'
+      name: label
+      optional: false
+      type: string
+invitecodes:
+  args:
+    - '[user]'
+  desc: '列出用户创建的邀请码及其使用次数。'
+  params:
+    - desc: '用户；省略则为你自己。'
+      name: user
+      optional: true
+      type: IUser
+invitelink:
+  args:
+    - ''
+  desc: '显示你的个人邀请链接；若你还没有，则为你创建一个永久链接。通过该链接的加入将计入你的名下。'
+  params: [ ]
+addinvites:
+  args:
+    - '@user 5'
+  desc: '为用户添加常规邀请。'
+  params:
+    - desc: '用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要添加的数量。'
+      name: amount
+      optional: false
+      type: int
+removeinvites:
+  args:
+    - '@user 5'
+  desc: '从用户处移除常规邀请。'
+  params:
+    - desc: '用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要移除的数量。'
+      name: amount
+      optional: false
+      type: int
+addbonusinvites:
+  args:
+    - '@user 10'
+  desc: '为用户授予奖励邀请。奖励邀请计入总数，但单独追踪。'
+  params:
+    - desc: '用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要授予的数量。'
+      name: amount
+      optional: false
+      type: int
+removebonusinvites:
+  args:
+    - '@user 10'
+  desc: '收回用户的奖励邀请。'
+  params:
+    - desc: '用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要移除的数量。'
+      name: amount
+      optional: false
+      type: int
+addfakeinvites:
+  args:
+    - '@user 3'
+  desc: '将用户的部分邀请标记为虚假邀请，从而降低其总数。'
+  params:
+    - desc: '用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要标记的数量。'
+      name: amount
+      optional: false
+      type: int
+removefakeinvites:
+  args:
+    - '@user 3'
+  desc: '清除用户的虚假邀请，从而提高其总数。'
+  params:
+    - desc: '用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要清除的数量。'
+      name: amount
+      optional: false
+      type: int
+resetinvites:
+  args:
+    - '@user'
+    - 'Server'
+    - 'LeftMembers'
+  desc: '重置一位用户的邀请，或服务器中所有人的邀请，或仅重置已离开服务器的邀请人。'
+  params:
+    - desc: '要重置的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Server 表示重置所有人，LeftMembers 表示仅重置已离开的邀请人。'
+      name: scope
+      optional: false
+      type: InviteResetScope
+syncinvites:
+  args:
+    - '[user]'
+  desc: '从 Discord 导入邀请使用次数，将每位邀请人的常规总数提高到其所有邀请码使用次数之和。总数不会降低，因此可以安全地多次运行。'
+  params:
+    - desc: '仅同步该用户；省略则同步所有人。'
+      name: user
+      optional: true
+      type: IGuildUser
+deleteinvite:
+  args:
+    - 'abc123'
+  desc: '从服务器中删除一个邀请码。'
+  params:
+    - desc: '邀请码或链接。'
+      name: code
+      optional: false
+      type: string
+purgeinvites:
+  args:
+    - '[maxUses] [#channel]'
+    - '0 #general'
+  desc: '删除所有未设置标签且使用次数不超过指定值的邀请码，可选择仅针对某个频道。'
+  params:
+    - desc: '使用次数超过此值的邀请码将被保留。默认为 0（仅删除未使用的邀请码）。'
+      name: maxUses
+      optional: true
+      type: int
+    - desc: '仅清理指向此频道的邀请码。'
+      name: channel
+      optional: true
+      type: ITextChannel
+inviteblacklist:
+  args:
+    - '@user'
+    - '@role'
+  desc: '切换某位用户或某身份组的所有成员是否可以获得邀请计数。'
+  params:
+    - desc: '要切换的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要切换的身份组。'
+      name: role
+      optional: false
+      type: IRole
+invitehide:
+  args:
+    - '@user'
+  desc: '切换某位用户是否在邀请排行榜中隐藏。其邀请仍会被追踪。'
+  params:
+    - desc: '用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+inviteexclusions:
+  args:
+    - ''
+  desc: '列出被拉黑的邀请人、被拉黑的身份组以及在排行榜中隐藏的成员。'
+  params: [ ]
+invitelabelset:
+  args:
+    - 'abc123 Twitter campaign'
+  desc: '为邀请码添加标签，使其在统计、导出和欢迎消息占位符中以名称显示。'
+  params:
+    - desc: '邀请码或链接。'
+      name: code
+      optional: false
+      type: string
+    - desc: '标签文本，最多 64 个字符。'
+      name: label
+      optional: false
+      type: string
+invitelabelrole:
+  args:
+    - 'abc123 @role'
+    - 'abc123'
+  desc: '设置或清除通过带标签邀请码加入的所有人将获得的身份组。'
+  params:
+    - desc: '邀请码或链接。'
+      name: code
+      optional: false
+      type: string
+    - desc: '身份组；省略则清除。'
+      name: role
+      optional: true
+      type: IRole
+invitelabelremove:
+  args:
+    - 'abc123'
+  desc: '移除邀请码的标签。'
+  params:
+    - desc: '邀请码或链接。'
+      name: code
+      optional: false
+      type: string
+invitelabels:
+  args:
+    - ''
+  desc: '列出带标签的邀请码及其身份组和所有者。'
+  params: [ ]
+inviteexport:
+  args:
+    - '[AllTime]'
+  desc: '将邀请排行榜导出为 CSV 文件。'
+  params:
+    - desc: '时间窗口：AllTime、Daily、Weekly 或 Monthly。'
+      name: range
+      optional: true
+      type: StatsRange
+invitedexport:
+  args:
+    - '[user]'
+  desc: '将某位用户邀请的成员（或所有已追踪的加入记录）导出为 CSV 文件。'
+  params:
+    - desc: '邀请人；省略则导出所有加入记录。'
+      name: user
+      optional: true
+      type: IUser
+invitemassban:
+  args:
+    - '@user [reason]'
+  desc: '封禁所有仍在服务器中且由某用户邀请的成员。执行前会要求确认。'
+  params:
+    - desc: '邀请人。'
+      name: inviter
+      optional: false
+      type: IUser
+    - desc: '封禁原因。'
+      name: reason
+      optional: true
+      type: string
+invitemassbancode:
+  args:
+    - 'abc123 [reason]'
+  desc: '封禁所有仍在服务器中且通过某个邀请码加入的成员。执行前会要求确认。'
+  params:
+    - desc: '邀请码或链接。'
+      name: code
+      optional: false
+      type: string
+    - desc: '封禁原因。'
+      name: reason
+      optional: true
+      type: string

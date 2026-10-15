@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: '添加一个新的聊天触发器。'
+  params:
+    - &ref_9
+      desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: '添加一个新的聊天触发器。'
+  params:
+    - desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: '添加一个新的聊天触发器。'
+  params:
+    - desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: '添加一个新的聊天触发器。'
+  params:
+    - desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: '添加一个支持正则表达式的新聊天触发器。'
+  params:
+    - desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: '添加一个支持正则表达式的新聊天触发器。'
+  params:
+    - desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: '添加一个支持正则表达式的新聊天触发器。'
+  params:
+    - desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: '添加一个支持正则表达式的新聊天触发器。'
+  params:
+    - desc: '聊天触发器的键。'
+      name: key
+      optional: false
+      type: string
+    - desc: '与聊天触发器关联的消息。'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: '添加一个基于表情回应的新聊天触发器。'
+  params:
+    - desc: '用于触发的表情回应。'
+      name: reaction
+      optional: false
+      type: string
+    - desc: '触发时发送的消息。'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: '设置聊天触发器的身份组授予类型。'
+  params:
+    - &ref_130
+      desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: '要设置的身份组授予类型。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: '设置聊天触发器的身份组授予类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的身份组授予类型。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: '设置聊天触发器的身份组授予类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的身份组授予类型。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: '设置聊天触发器的身份组授予类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的身份组授予类型。'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: '设置聊天触发器的跨服发布频道。'
+  params:
+    - desc: '用于跨服发布的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: '设置聊天触发器的跨服发布 Webhook。'
+  params:
+    - desc: '用于跨服发布的 Webhook 链接。'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: '设置聊天触发器是否对特定触发类型有效。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: '要设置有效性的触发类型。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: '是否启用或禁用该触发类型。'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: '设置聊天触发器是否对特定触发类型有效。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置有效性的触发类型。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: '是否启用或禁用该触发类型。'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: '设置聊天触发器是否对特定触发类型有效。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置有效性的触发类型。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: '是否启用或禁用该触发类型。'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: '设置聊天触发器是否对特定触发类型有效。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置有效性的触发类型。'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: '是否启用或禁用该触发类型。'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: '设置聊天触发器在触发后自动删除。'
+  params:
+    - &ref_162
+      desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: '设置聊天触发器在触发后自动删除。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: '设置聊天触发器在触发后自动删除。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: '设置聊天触发器在触发后自动删除。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: '设置聊天触发器允许指定目标。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: '设置聊天触发器匹配消息中的任意位置。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: '设置聊天触发器的跨服发布频道。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: '要设置为跨服发布的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: '设置聊天触发器的跨服发布频道。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置为跨服发布的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '设置聊天触发器的跨服发布频道。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置为跨服发布的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '设置聊天触发器的跨服发布频道。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置为跨服发布的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: '设置聊天触发器跨服发布的 Webhook 链接。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: '要设置的 Webhook 链接。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: '设置聊天触发器跨服发布的 Webhook 链接。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的 Webhook 链接。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: '设置聊天触发器跨服发布的 Webhook 链接。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的 Webhook 链接。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: '设置聊天触发器跨服发布的 Webhook 链接。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的 Webhook 链接。'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: '设置聊天触发器以私信方式回复。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: '设置聊天触发器的交互回复是否仅本人可见。别让别人看到我为文档所受的折磨！'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: '如果回复应仅本人可见则为 true，否则为 false。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: '设置聊天触发器的交互回复是否仅本人可见。别让别人看到我为文档所受的折磨！'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '如果回复应仅本人可见则为 true，否则为 false。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: '设置聊天触发器的交互回复是否仅本人可见。别让别人看到我为文档所受的折磨！'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '如果回复应仅本人可见则为 true，否则为 false。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: '设置聊天触发器的交互回复是否仅本人可见。别让别人看到我为文档所受的折磨！'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '如果回复应仅本人可见则为 true，否则为 false。'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: '显示聊天触发器的交互错误。'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: '设置聊天触发器不做回复。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: '设置聊天触发器的前缀。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: '要设置的新前缀。'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: '设置聊天触发器的前缀。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的新前缀。'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: '设置聊天触发器的前缀。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的新前缀。'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: '设置聊天触发器的前缀。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的新前缀。'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: '设置聊天触发器的前缀类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: '要设置的前缀类型。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: '设置聊天触发器的前缀类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的前缀类型。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: '设置聊天触发器的前缀类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的前缀类型。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: '设置聊天触发器的前缀类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的前缀类型。'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: '设置聊天触发器的表情回应。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: '要设为表情回应的表情字符串。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: '设置聊天触发器的表情回应。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设为表情回应的表情字符串。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: '设置聊天触发器的表情回应。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设为表情回应的表情字符串。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: '设置聊天触发器的表情回应。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设为表情回应的表情字符串。'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: '切换聊天触发器的身份组授予功能。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: '要切换的身份组。'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: '切换聊天触发器的身份组授予功能。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要切换的身份组。'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: '切换聊天触发器的身份组授予功能。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要切换的身份组。'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: '切换聊天触发器的身份组授予功能。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要切换的身份组。'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: '切换聊天触发器的身份组移除功能。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要切换的身份组。'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: '清除所有聊天触发器。'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: '导出当前服务器的聊天触发器设置。'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: '将旧版 CrEmbed 格式的聊天触发器迁移为新的嵌入格式。会先导出备份，然后转换所有触发器。'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: '导入当前服务器的聊天触发器设置。'
+  params:
+    - desc: '包含自定义反应设置的输入内容。'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: '重新加载聊天触发器。'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: '按 ID 删除聊天触发器。'
+  params:
+    - desc: '要删除的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: '编辑现有的聊天触发器。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '聊天触发器的新消息。'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: '列出所有聊天触发器。'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: '按触发器分组列出所有聊天触发器。'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: '设置聊天触发器对该触发作出表情回应。'
+  params:
+    - desc: '要编辑的聊天触发器 ID。'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的描述。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: '要设置的交互描述。'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的描述。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互描述。'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的描述。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互描述。'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的描述。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互描述。'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的名称。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: '要设置的交互名称。'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的名称。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互名称。'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的名称。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互名称。'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: '设置聊天触发器交互的名称。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互名称。'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: '设置聊天触发器的交互类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: '要设置的交互类型。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: '设置聊天触发器的交互类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互类型。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: '设置聊天触发器的交互类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互类型。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: '设置聊天触发器的交互类型。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+    - desc: '要设置的交互类型。'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: '显示指定聊天触发器的详细信息。'
+  params:
+    - &ref_544
+      desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: '显示指定聊天触发器的详细信息。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: '显示指定聊天触发器的详细信息。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: '显示指定聊天触发器的详细信息。'
+  params:
+    - desc: '聊天触发器的 ID。'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: '设置可触发聊天触发器的事件。'
+cteventchannel:
+  desc: '设置处理聊天触发器事件的频道。'
+ctreply:
+  desc: '设置聊天触发器回复的消息。'
+ctdeleteafter:
+  desc: '设置聊天触发器回复发送后多久自动删除。'
+ctcooldown:
+  desc: '为聊天触发器设置冷却时间。'
+ctrequirecounter:
+  desc: '为聊天触发器设置计数要求。'
+ctcategory:
+  desc: '设置聊天触发器的分类。'
+ctcategorytoggle:
+  desc: '启用或禁用聊天触发器分类。'
+cttest:
+  desc: '测试示例消息是否会触发聊天触发器。'
+ctstats:
+  desc: '显示聊天触发器的活动统计。'
+ctchain:
+  desc: '设置在另一个触发器之后运行的聊天触发器。'
+ctallowbots:
+  desc: '控制聊天触发器是否对机器人作出回应。'
+ctcounters:
+  desc: '列出聊天触发器计数器。'
+ctcounterset:
+  desc: '设置聊天触发器计数器的值。'
+ctcounterdelete:
+  desc: '删除聊天触发器计数器。'
+ctplaceholders:
+  desc: '列出聊天触发器可用的占位符。'
+cttime:
+  desc: '设置聊天触发器的生效时间范围。'
+ctexpiry:
+  desc: '为聊天触发器设置到期时间。'
+ctmaxuses:
+  desc: '设置聊天触发器可运行的最大次数。'
+ctminage:
+  desc: '为聊天触发器设置最低账号年龄。'
+ctminmember:
+  desc: '为聊天触发器设置最低服务器加入时长。'
+cttoggle:
+  desc: '启用或禁用聊天触发器。'
+ctaddresponse:
+  desc: '为聊天触发器添加一条额外回复。'
+ctclearresponses:
+  desc: '从聊天触发器中移除额外回复。'
+ctresponsemode:
+  desc: '设置聊天触发器如何选择回复内容。'
+ctcost:
+  desc: '为聊天触发器设置货币消耗。'
+ctreward:
+  desc: '为聊天触发器设置货币奖励。'
+ctxpreward:
+  desc: '为聊天触发器设置经验值奖励。'
+ctreqlevel:
+  desc: '为聊天触发器设置所需的经验等级。'
+ctreqmsg:
+  desc: '为聊天触发器设置条件不满足时的提示消息。'

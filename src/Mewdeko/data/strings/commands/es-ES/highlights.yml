@@ -5,13 +5,13 @@ highlight:
     - add
     - list
     - delete
-  desc: 'Añade, lista, elimina o coincide destacados.'
+  desc: 'Añade, lista, elimina o comprueba los destacados.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'La acción a realizar: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parámetros para la acción seleccionada'
+    - desc: 'Parámetros de la acción seleccionada'
       name: words
       optional: true
       type: string
@@ -22,13 +22,13 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: 'Añade, lista, elimina o coincide destacados.'
+  desc: 'Añade, lista, elimina o comprueba los destacados.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'La acción a realizar: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parámetros para la acción seleccionada'
+    - desc: 'Parámetros de la acción seleccionada'
       name: words
       optional: true
       type: string
@@ -39,13 +39,13 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: 'Añade, lista, elimina o coincide destacados.'
+  desc: 'Añade, lista, elimina o comprueba los destacados.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'La acción a realizar: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parámetros para la acción seleccionada'
+    - desc: 'Parámetros de la acción seleccionada'
       name: words
       optional: true
       type: string
@@ -56,26 +56,26 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: 'Añade, lista, elimina o coincide destacados.'
+  desc: 'Añade, lista, elimina o comprueba los destacados.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'La acción a realizar: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parámetros para la acción seleccionada'
+    - desc: 'Parámetros de la acción seleccionada'
       name: words
       optional: true
       type: string
 highlights:
   args:
     - action word
-  desc: Gestiona los destacados del usuario.
+  desc: 'Gestiona los destacados de usuario.'
   params:
-    - desc: La acción a realizar con los destacados.
+    - desc: 'La acción a realizar con los destacados.'
       name: action
       optional: false
       type: string
-    - desc: La palabra a destacar.
+    - desc: 'La palabra a destacar.'
       name: word
       optional: true
       type: string

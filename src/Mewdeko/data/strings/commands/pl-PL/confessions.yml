@@ -1,7 +1,7 @@
 confess:
   args:
     - serverid text
-  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  desc: 'Pozwala użytkownikom wyznawać anonimowo.'
   params:
     - &ref_139
       desc: 'ID serwera.'
@@ -9,71 +9,71 @@ confess:
       optional: false
       type: ulong
     - &ref_140
-      desc: 'Wiadomość spowiedzi'
+      desc: 'Treść wyznania.'
       name: confession
       optional: false
       type: string
 confess_ulong_string:
   args:
     - serverid text
-  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  desc: 'Pozwala użytkownikom wyznawać anonimowo.'
   params:
     - desc: 'ID serwera.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Wiadomość spowiedzi'
+    - desc: 'Treść wyznania.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_1:
   args:
     - serverid text
-  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  desc: 'Pozwala użytkownikom wyznawać anonimowo.'
   params:
     - desc: 'ID serwera.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Wiadomość spowiedzi'
+    - desc: 'Treść wyznania.'
       name: confession
       optional: false
       type: string
 confess_ulong_string_2:
   args:
     - serverid text
-  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  desc: 'Pozwala użytkownikom wyznawać anonimowo.'
   params:
     - desc: 'ID serwera.'
       name: serverId
       optional: false
       type: ulong
-    - desc: 'Wiadomość spowiedzi'
+    - desc: 'Treść wyznania.'
       name: confession
       optional: false
       type: string
 confessblacklist:
   args:
     - user
-  desc: 'Dodaje użytkownika do czarnej listy spowiedzi.'
+  desc: 'Dodaje użytkownika do czarnej listy wyznań.'
   params:
-    - desc: 'Użytkownik do umieszczenia na czarnej liście spowiedzi.'
+    - desc: 'Użytkownik do zablokowania w wyznaniach.'
       name: user
       optional: false
       type: IUser
 confesschannel:
   args:
     - channel
-  desc: 'Ustawia kanał spowiedzi.'
+  desc: 'Ustawia kanał wyznań.'
   params:
-    - desc: 'Kanał, który ma zostać ustawiony dla spowiedzi.'
+    - desc: 'Kanał do ustawienia dla wyznań.'
       name: channel
       optional: true
       type: ITextChannel
 confessionblacklist:
   args:
     - '@user'
-  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  desc: 'Dodaje użytkownika do czarnej listy wyznań lub go z niej usuwa.'
   params:
     - &ref_141
       desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
@@ -83,7 +83,7 @@ confessionblacklist:
 confessionblacklist_IUser:
   args:
     - '@user'
-  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  desc: 'Dodaje użytkownika do czarnej listy wyznań lub go z niej usuwa.'
   params:
     - &ref_142
       desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
@@ -93,7 +93,7 @@ confessionblacklist_IUser:
 confessionblacklist_IUser_1:
   args:
     - '@user'
-  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  desc: 'Dodaje użytkownika do czarnej listy wyznań lub go z niej usuwa.'
   params:
     - desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
       name: user
@@ -102,7 +102,7 @@ confessionblacklist_IUser_1:
 confessionblacklist_IUser_2:
   args:
     - '@user'
-  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  desc: 'Dodaje użytkownika do czarnej listy wyznań lub go z niej usuwa.'
   params:
     - desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
       name: user
@@ -111,27 +111,25 @@ confessionblacklist_IUser_2:
 confessionchannel:
   args:
     - '[@channel]'
-  desc: 'Ustawia kanał spowiedzi dla anonimowych spowiedzi.'
+  desc: 'Ustawia kanał wyznań dla anonimowych wyznań.'
   params:
-    - desc: 'Kanał spowiedzi (opcjonalny).'
+    - desc: 'Kanał wyznań (opcjonalny).'
       name: channel
       optional: true
       type: channel
 confessionlogchannel:
   args:
     - '[@channel]'
-  desc: >-
-    Ustawia kanał logu spowiedzi do logowania spowiedzi. Niewłaściwe użycie tej
-    funkcji skończy się tym, że będę 2 m od twojego domu.
+  desc: 'Ustawia kanał logów wyznań do zapisywania wyznań. Nadużycie tej funkcji skończy się tym, że znajdę się 2 minuty od twojego domu.'
   params:
-    - desc: 'Kanał logu spowiedzi (opcjonalny).'
+    - desc: 'Kanał logów wyznań (opcjonalny).'
       name: channel
       optional: true
       type: channel
 confessionunblacklist:
   args:
     - '@user'
-  desc: 'Usuwa użytkownika z czarnej listy spowiedzi.'
+  desc: 'Usuwa użytkownika z czarnej listy wyznań.'
   params:
     - desc: 'Użytkownik do usunięcia z czarnej listy.'
       name: user
@@ -140,18 +138,18 @@ confessionunblacklist:
 confesslogchannel:
   args:
     - channel
-  desc: 'Ustawia kanał logu spowiedzi.'
+  desc: 'Ustawia kanał logów wyznań.'
   params:
-    - desc: 'Kanał, na którym mają być logowane spowiedzi.'
+    - desc: 'Kanał, na który mają być zapisywane wyznania.'
       name: channel
       optional: true
       type: ITextChannel
 confessunblacklist:
   args:
     - user
-  desc: 'Usuwa użytkownika z czarnej listy spowiedzi.'
+  desc: 'Usuwa użytkownika z czarnej listy wyznań.'
   params:
-    - desc: 'Użytkownik do usunięcia z czarnej listy spowiedzi.'
+    - desc: 'Użytkownik do zdjęcia z czarnej listy wyznań.'
       name: user
       optional: false
       type: IUser

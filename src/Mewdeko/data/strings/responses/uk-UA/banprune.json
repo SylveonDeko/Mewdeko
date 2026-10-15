@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "Немає дії бану з назвою `{0}`. Відомі дії: {1}",
+  "ban_prune_cleared": "Очищено налаштування очищення для {0} у {1}.",
+  "ban_prune_cleared_none": "Для {0} у {1} не було налаштування очищення.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "Налаштувань очищення не задано. Для банів використовується вбудований стандарт кожної дії.",
+  "ban_prune_list_title": "Очищення повідомлень при банах",
+  "ban_prune_reset": "Видалено налаштувань очищення: {0}. Кожна дія повернулася до стандартної.",
+  "ban_prune_scope_category": "категорія {0}",
+  "ban_prune_scope_channel": "канал {0}",
+  "ban_prune_scope_guild": "цей сервер",
+  "ban_prune_set": "Бани з {0} тепер очищатимуть **{1}** для {2}.",
+  "ban_prune_set_all_actions": "кожна дія бану",
+  "ban_prune_days": "повідомлення за {0} дн.",
+  "ban_prune_days_none": "без повідомлень",
+  "ban_prune_effective": "Бан тут зараз очищатиме **{0}**.",
+  "ban_prune_defaults_title": "Стандартні",
+  "ban_prune_overrides_title": "Перевизначення"
+}

@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie menu ról na tym serwerze wraz z kanałem, typem, liczbą opcji i statusem.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Pokazuje wszystkie informacje o jednym menu ról: kanał, typ, zasady wyboru, wymaganą rolę, potwierdzenie i opcje.'
+  params:
+    - desc: 'ID menu z rolemenus.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Publikuje nowe menu ról na kanale, z jedną opcją dla każdej roli. Członkowie wybierają z listy rozwijanej lub przycisków, aby otrzymać lub oddać te role.'
+  params:
+    - desc: 'Kanał, na którym ma zostać opublikowane menu.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'dropdown lub buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: 'Jedna lub więcej ról, maksymalnie 25.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Dodaje rolę do menu, z opcjonalnym emoji i nazwą, i aktualizuje opublikowaną wiadomość.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Rola, którą nadaje nowa opcja.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Opcjonalne emoji, po którym następuje nazwa wyświetlana w menu. Domyślnie nazwa roli.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Usuwa rolę z menu i aktualizuje opublikowaną wiadomość.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Rola do usunięcia z menu.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Zmienia nazwę menu. Nazwa jest tytułem domyślnej wiadomości i pojawia się na listach.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Nowa nazwa, maksymalnie 100 znaków.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Ustawia tekst nad menu, jako zwykły tekst lub JSON embeda z kreatora embedów. Podaj tylko ID, aby zobaczyć obecną wiadomość, lub "clear", aby wrócić do domyślnej listy opcji.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Wiadomość, "clear" lub nic, aby wyświetlić.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Przełącza menu między listą rozwijaną a przyciskami.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'dropdown lub buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Ustawia, czy członkowie wybierają jedną rolę (wybór innej ją zamienia), czy dowolną liczbę ról z menu.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'exclusive dla wyboru jednej roli, multi dla wyboru dowolnej liczby.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Ustawia, ile ról z menu członek musi zachować i może posiadać. Maksimum 0 oznacza brak limitu.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Najmniejsza liczba ról, którą członek musi zachować po dokonaniu wyboru.'
+      name: min
+      optional: false
+      type: int
+    - desc: 'Największa liczba ról, jaką członek może posiadać; 0 oznacza brak limitu.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Pozwala korzystać z menu tylko członkom z określoną rolą. Pomiń rolę, aby pozwolić wszystkim.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Rola wymagana do korzystania z menu. Pomiń, aby wyczyścić.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Wybiera, czy członkowie dostają prywatną notatkę z listą zdobytych i utraconych ról, czy brak notatki.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private lub silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Wstrzymuje menu, wyszarzając jego listę rozwijaną lub przyciski, albo wznawia je, jeśli jest wstrzymane.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Publikuje świeżą kopię menu na tym samym lub innym kanale i usuwa starą wiadomość.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Gdzie opublikować. Domyślnie obecny kanał.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Usuwa menu i jego wiadomość. Członkowie zachowują role, które już wybrali.'
+  params:
+    - desc: 'ID menu.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Przenosi starszą konfigurację ról za pomocą emoji z wiadomości do nowego menu ról na tym samym kanale, a następnie wycofuje starą konfigurację.'
+  params:
+    - desc: 'ID wiadomości ze starszą konfiguracją.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown lub buttons. Domyślnie dropdown.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

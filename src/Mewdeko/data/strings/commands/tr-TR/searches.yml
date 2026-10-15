@@ -1,0 +1,2459 @@
+anime:
+  args:
+    - text
+  desc: 'Anime arar ve arama sonuçlarının bilgilerini gösterir.'
+  params:
+    - &ref_66
+      desc: 'Aranacak sorgu.'
+      name: query
+      optional: false
+      type: string
+anime_string:
+  args:
+    - text
+  desc: 'Anime arar ve arama sonuçlarının bilgilerini gösterir.'
+  params:
+    - desc: 'Aranacak sorgu.'
+      name: query
+      optional: false
+      type: string
+anime_string_1:
+  args:
+    - text
+  desc: 'Anime arar ve arama sonuçlarının bilgilerini gösterir.'
+  params:
+    - desc: 'Aranacak sorgu.'
+      name: query
+      optional: false
+      type: string
+anime_string_2:
+  args:
+    - text
+  desc: 'Anime arar ve arama sonuçlarının bilgilerini gösterir.'
+  params:
+    - desc: 'Aranacak sorgu.'
+      name: query
+      optional: false
+      type: string
+autotranslang:
+  args:
+    - '[langs]'
+  desc: 'Mevcut kanaldaki kullanıcı için otomatik çeviri dil çiftini ayarlar veya kaldırır.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti veya ayarı kaldırmak için null.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=:
+  args:
+    - '[langs]'
+  desc: 'Mevcut kanaldaki kullanıcı için otomatik çeviri dil çiftini ayarlar veya kaldırır.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti veya ayarı kaldırmak için null.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_1:
+  args:
+    - '[langs]'
+  desc: 'Mevcut kanaldaki kullanıcı için otomatik çeviri dil çiftini ayarlar veya kaldırır.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti veya ayarı kaldırmak için null.'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_2:
+  args:
+    - '[langs]'
+  desc: 'Mevcut kanaldaki kullanıcı için otomatik çeviri dil çiftini ayarlar veya kaldırır.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti veya ayarı kaldırmak için null.'
+      name: langs
+      optional: true
+      type: string
+autotranslate:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+  params:
+    - &ref_97
+      desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+  params:
+    - desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_1:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+  params:
+    - desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_2:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+  params:
+    - desc: 'Mevcut kanal için otomatik çeviriyi açar veya kapatır; isteğe bağlı olarak orijinal mesajın otomatik silinmesini de etkinleştirir.'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+baka:
+  args:
+    - text
+  desc: 'Birini baka diye çağırır.'
+  params:
+    - &ref_98
+      desc: 'Baka diye çağrılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+baka_string:
+  args:
+    - text
+  desc: 'Birini baka diye çağırır.'
+  params:
+    - &ref_99
+      desc: 'Baka diye çağrılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_1:
+  args:
+    - text
+  desc: 'Birini baka diye çağırır.'
+  params:
+    - desc: 'Baka diye çağrılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+baka_string_2:
+  args:
+    - text
+  desc: 'Birini baka diye çağırır.'
+  params:
+    - desc: 'Baka diye çağrılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+bible:
+  args:
+    - text text
+  desc: 'Kitap, bölüm ve ayete göre İncil ayetlerini arar ve gösterir.'
+  params:
+    - &ref_111
+      desc: 'İncil''deki kitap.'
+      name: book
+      optional: false
+      type: string
+    - &ref_112
+      desc: '"Bölüm:Ayet" biçimindeki bölüm ve ayet.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string:
+  args:
+    - text text
+  desc: 'Kitap, bölüm ve ayete göre İncil ayetlerini arar ve gösterir.'
+  params:
+    - desc: 'İncil''deki kitap.'
+      name: book
+      optional: false
+      type: string
+    - desc: '"Bölüm:Ayet" biçimindeki bölüm ve ayet.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_1:
+  args:
+    - text text
+  desc: 'Kitap, bölüm ve ayete göre İncil ayetlerini arar ve gösterir.'
+  params:
+    - desc: 'İncil''deki kitap.'
+      name: book
+      optional: false
+      type: string
+    - desc: '"Bölüm:Ayet" biçimindeki bölüm ve ayet.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_2:
+  args:
+    - text text
+  desc: 'Kitap, bölüm ve ayete göre İncil ayetlerini arar ve gösterir.'
+  params:
+    - desc: 'İncil''deki kitap.'
+      name: book
+      optional: false
+      type: string
+    - desc: '"Bölüm:Ayet" biçimindeki bölüm ve ayet.'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bite:
+  args:
+    - text
+  desc: 'Birini ısırır.'
+  params:
+    - desc: 'Isırılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+blush:
+  args:
+    - '[toShow]'
+  desc: 'Kızarır.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+bored:
+  args:
+    - '[toShow]'
+  desc: 'Sıkıldığını belirtir.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+catfact:
+  args:
+    - ''
+  desc: 'Rastgele bir kedi gerçeği getirir ve paylaşır.'
+  params: [ ]
+charinfo:
+  args:
+    - text
+  desc: 'Bir karakter hakkında bilgi alır ve gösterir.'
+  params:
+    - &ref_125
+      desc: 'Aranacak karakterin adı.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string:
+  args:
+    - text
+  desc: 'Bir karakter hakkında bilgi alır ve gösterir.'
+  params:
+    - desc: 'Aranacak karakterin adı.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_1:
+  args:
+    - text
+  desc: 'Bir karakter hakkında bilgi alır ve gösterir.'
+  params:
+    - desc: 'Aranacak karakterin adı.'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_2:
+  args:
+    - text
+  desc: 'Bir karakter hakkında bilgi alır ve gösterir.'
+  params:
+    - desc: 'Aranacak karakterin adı.'
+      name: chara
+      optional: false
+      type: string
+chucknorris:
+  args:
+    - ''
+  desc: 'Rastgele bir Chuck Norris şakası getirir.'
+  params: [ ]
+color:
+  args:
+    - colors
+  desc: 'Verilen onaltılık renk kodlarına göre bir renk örneği gösterir.'
+  params:
+    - &ref_137
+      desc: 'Gösterilecek renkleri temsil eden SKColor nesnelerinin dizisi.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]:
+  args:
+    - colors
+  desc: 'Verilen onaltılık renk kodlarına göre bir renk örneği gösterir.'
+  params:
+    - desc: 'Gösterilecek renkleri temsil eden SKColor nesnelerinin dizisi.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_1:
+  args:
+    - colors
+  desc: 'Verilen onaltılık renk kodlarına göre bir renk örneği gösterir.'
+  params:
+    - desc: 'Gösterilecek renkleri temsil eden SKColor nesnelerinin dizisi.'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_2:
+  args:
+    - colors
+  desc: 'Verilen onaltılık renk kodlarına göre bir renk örneği gösterir.'
+  params:
+    - desc: 'Gösterilecek renkleri temsil eden SKColor nesnelerinin dizisi.'
+      name: colors
+      optional: false
+      type: SKColor[]
+cry:
+  args:
+    - '[toShow]'
+  desc: 'Ağlar.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+cuddle:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - &ref_170
+      desc: 'Sarılınacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - &ref_171
+      desc: 'Sarılınacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_1:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - desc: 'Sarılınacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_2:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - desc: 'Sarılınacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+dance:
+  args:
+    - '[toShow]'
+  desc: 'Dans eder.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+define:
+  args:
+    - text
+  desc: 'Pearson sözlüğünden bir tanım getirir ve gösterir.'
+  params:
+    - &ref_179
+      desc: 'Tanımı aranacak kelime.'
+      name: word
+      optional: false
+      type: string
+define_string:
+  args:
+    - text
+  desc: 'Pearson sözlüğünden bir tanım getirir ve gösterir.'
+  params:
+    - desc: 'Tanımı aranacak kelime.'
+      name: word
+      optional: false
+      type: string
+define_string_1:
+  args:
+    - text
+  desc: 'Pearson sözlüğünden bir tanım getirir ve gösterir.'
+  params:
+    - desc: 'Tanımı aranacak kelime.'
+      name: word
+      optional: false
+      type: string
+define_string_2:
+  args:
+    - text
+  desc: 'Pearson sözlüğünden bir tanım getirir ve gösterir.'
+  params:
+    - desc: 'Tanımı aranacak kelime.'
+      name: word
+      optional: false
+      type: string
+facepalm:
+  args:
+    - '[toShow]'
+  desc: 'Alnına el vurur.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+feed:
+  args:
+    - text
+  desc: 'Birini besler.'
+  params:
+    - &ref_213
+      desc: 'Beslenecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+feed_string:
+  args:
+    - text
+  desc: 'Birini besler.'
+  params:
+    - desc: 'Beslenecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_1:
+  args:
+    - text
+  desc: 'Birini besler.'
+  params:
+    - desc: 'Beslenecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+feed_string_2:
+  args:
+    - text
+  desc: 'Birini besler.'
+  params:
+    - desc: 'Beslenecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+feedadd:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Sunucunun feed listesine yeni bir RSS feed ekler.'
+  params:
+    - desc: 'RSS feed''in URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Feed güncellemelerinin gönderileceği kanal (isteğe bağlı, varsayılan olarak mevcut kanal).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Sunucunun feed listesine yeni bir RSS feed ekler.'
+  params:
+    - desc: 'RSS feed''in URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Feed güncellemelerinin gönderileceği kanal (isteğe bağlı, varsayılan olarak mevcut kanal).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_1:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Sunucunun feed listesine yeni bir RSS feed ekler.'
+  params:
+    - desc: 'RSS feed''in URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Feed güncellemelerinin gönderileceği kanal (isteğe bağlı, varsayılan olarak mevcut kanal).'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_2:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'Sunucunun feed listesine yeni bir RSS feed ekler.'
+  params:
+    - desc: 'RSS feed''in URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Feed güncellemelerinin gönderileceği kanal (isteğe bağlı, varsayılan olarak mevcut kanal).'
+      name: channel
+      optional: true
+      type: channel
+feedlist:
+  args:
+    - ''
+  desc: 'Sunucuya eklenmiş tüm RSS feed''lerini listeler.'
+  params: [ ]
+feedmessage:
+  args:
+    - number text
+  desc: 'Belirli bir kanaldaki feed güncellemeleri için özel mesaj biçimi ayarlar.'
+  params:
+    - &ref_215
+      desc: 'Feed''in listedeki sırası.'
+      name: index
+      optional: false
+      type: int
+    - &ref_216
+      desc: 'Özel mesaj biçimi.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string:
+  args:
+    - number text
+  desc: 'Belirli bir kanaldaki feed güncellemeleri için özel mesaj biçimi ayarlar.'
+  params:
+    - desc: 'Feed''in listedeki sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Özel mesaj biçimi.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_1:
+  args:
+    - number text
+  desc: 'Belirli bir kanaldaki feed güncellemeleri için özel mesaj biçimi ayarlar.'
+  params:
+    - desc: 'Feed''in listedeki sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Özel mesaj biçimi.'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_2:
+  args:
+    - number text
+  desc: 'Belirli bir kanaldaki feed güncellemeleri için özel mesaj biçimi ayarlar.'
+  params:
+    - desc: 'Feed''in listedeki sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Özel mesaj biçimi.'
+      name: message
+      optional: false
+      type: string
+feedremove:
+  args:
+    - number
+  desc: 'Sunucunun feed listesinden bir RSS feed''i kaldırır.'
+  params:
+    - desc: 'Feed''in listedeki sırası.'
+      name: index
+      optional: false
+      type: int
+findanime:
+  args:
+    - '[e]'
+  desc: 'Bir görsele göre anime bilgisi bulur.'
+  params:
+    - desc: 'Arama için kullanılacak görsel URL''si veya eklenmiş bir görsel.'
+      name: e
+      optional: true
+      type: string
+gatari:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu!Gatari kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu!Gatari kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu!Gatari kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu!Gatari kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+google:
+  args:
+    - '[query]'
+  desc: 'Google veya DuckDuckGo arama motorunu kullanarak genel arama yapar ve sonuçları gösterir.'
+  params:
+    - desc: 'Arama sorgusu.'
+      name: query
+      optional: true
+      type: string
+google_=:
+  args:
+    - '[query]'
+  desc: 'Google veya DuckDuckGo arama motorunu kullanarak genel arama yapar ve sonuçları gösterir.'
+  params:
+    - desc: 'Arama sorgusu.'
+      name: query
+      optional: true
+      type: string
+google_=_1:
+  args:
+    - '[query]'
+  desc: 'Google veya DuckDuckGo arama motorunu kullanarak genel arama yapar ve sonuçları gösterir.'
+  params:
+    - desc: 'Arama sorgusu.'
+      name: query
+      optional: true
+      type: string
+google_=_2:
+  args:
+    - '[query]'
+  desc: 'Google veya DuckDuckGo arama motorunu kullanarak genel arama yapar ve sonuçları gösterir.'
+  params:
+    - desc: 'Arama sorgusu.'
+      name: query
+      optional: true
+      type: string
+handhold:
+  args:
+    - text
+  desc: 'Birinin elini tutar.'
+  params:
+    - &ref_242
+      desc: 'El ele tutuşulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string:
+  args:
+    - text
+  desc: 'Birinin elini tutar.'
+  params:
+    - desc: 'El ele tutuşulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_1:
+  args:
+    - text
+  desc: 'Birinin elini tutar.'
+  params:
+    - &ref_243
+      desc: 'El ele tutuşulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_2:
+  args:
+    - text
+  desc: 'Birinin elini tutar.'
+  params:
+    - desc: 'El ele tutuşulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+happy:
+  args:
+    - '[toShow]'
+  desc: 'Mutluluğunu ifade eder.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+highfive:
+  args:
+    - text
+  desc: 'Birine yüksek beş verir.'
+  params:
+    - desc: 'Yüksek beş verilecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+hug:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - desc: 'Sarılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+hug_string:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - desc: 'Sarılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_1:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - desc: 'Sarılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+hug_string_2:
+  args:
+    - text
+  desc: 'Birine sarılır.'
+  params:
+    - desc: 'Sarılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+image:
+  args:
+    - text
+  desc: 'Google ve DuckDuckGo''da görsel araması yapar, ardından NSFW sonuçları filtreler.'
+  params:
+    - &ref_251
+      desc: 'Görsel için arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+image_string:
+  args:
+    - text
+  desc: 'Google ve DuckDuckGo''da görsel araması yapar, ardından NSFW sonuçları filtreler.'
+  params:
+    - &ref_252
+      desc: 'Görsel için arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+image_string_1:
+  args:
+    - text
+  desc: 'Google ve DuckDuckGo''da görsel araması yapar, ardından NSFW sonuçları filtreler.'
+  params:
+    - desc: 'Görsel için arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+image_string_2:
+  args:
+    - text
+  desc: 'Google ve DuckDuckGo''da görsel araması yapar, ardından NSFW sonuçları filtreler.'
+  params:
+    - desc: 'Görsel için arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+kiss:
+  args:
+    - text
+  desc: 'Birini öper.'
+  params:
+    - desc: 'Öpülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string:
+  args:
+    - text
+  desc: 'Birini öper.'
+  params:
+    - desc: 'Öpülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_1:
+  args:
+    - text
+  desc: 'Birini öper.'
+  params:
+    - desc: 'Öpülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_2:
+  args:
+    - text
+  desc: 'Birini öper.'
+  params:
+    - desc: 'Öpülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+laugh:
+  args:
+    - '[toShow]'
+  desc: 'Güler.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+magicitem:
+  args:
+    - ''
+  desc: 'World of Warcraft ile ilgili bir büyülü eşya açıklaması getirir.'
+  params: [ ]
+mal:
+  args:
+    - text
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - &ref_288
+      desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+      name: name
+      optional: true
+      type: string
+mal_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - &ref_287
+      desc: 'MyAnimeList profil bilgileri getirilecek kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'MyAnimeList profil bilgileri getirilecek kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'MyAnimeList profil bilgileri getirilecek kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_3:
+  args:
+    - '@user'
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'MyAnimeList profil bilgileri getirilecek kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_string:
+  args:
+    - text
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+      name: name
+      optional: true
+      type: string
+mal_string_1:
+  args:
+    - text
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+      name: name
+      optional: true
+      type: string
+mal_string_2:
+  args:
+    - text
+  desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'Belirtilen kullanıcının bu sunucudaki MyAnimeList profili hakkında bilgi getirir ve gösterir.'
+      name: name
+      optional: true
+      type: string
+manga:
+  args:
+    - text
+  desc: 'Manga arar ve arama sonuçlarının bilgilerini gösterir.'
+  params:
+    - desc: 'Aranacak sorgu.'
+      name: query
+      optional: false
+      type: string
+meme:
+  args:
+    - ''
+  desc: 'Reddit''ten rastgele bir mem getirir ve gösterir.'
+  params: [ ]
+meme_noparams:
+  args:
+    - ''
+  desc: 'Reddit''ten rastgele bir mem getirir ve gösterir.'
+  params: [ ]
+meme_noparams_1:
+  args:
+    - ''
+  desc: 'Reddit''ten rastgele bir mem getirir ve gösterir.'
+  params: [ ]
+meme_noparams_2:
+  args:
+    - ''
+  desc: 'Reddit''ten rastgele bir mem getirir ve gösterir.'
+  params: [ ]
+memegen:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Belirtilen şablon ve metinle bir mem oluşturur.'
+  params:
+    - desc: 'Mem şablonunun adı.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Memde kullanılacak metin (isteğe bağlı).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Belirtilen şablon ve metinle bir mem oluşturur.'
+  params:
+    - desc: 'Mem şablonunun adı.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Memde kullanılacak metin (isteğe bağlı).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_1:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Belirtilen şablon ve metinle bir mem oluşturur.'
+  params:
+    - desc: 'Mem şablonunun adı.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Memde kullanılacak metin (isteğe bağlı).'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_2:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: 'Belirtilen şablon ve metinle bir mem oluşturur.'
+  params:
+    - desc: 'Mem şablonunun adı.'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'Memde kullanılacak metin (isteğe bağlı).'
+      name: memeText
+      optional: true
+      type: string
+memelist:
+  args:
+    - ''
+  desc: 'Mevcut mem şablonlarını listeler.'
+  params: [ ]
+movie:
+  args:
+    - '[query]'
+  desc: 'Verilen sorguya göre IMDb''den bir film hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'IMDb''de aranacak film adı.'
+      name: query
+      optional: true
+      type: string
+movie_=:
+  args:
+    - '[query]'
+  desc: 'Verilen sorguya göre IMDb''den bir film hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'IMDb''de aranacak film adı.'
+      name: query
+      optional: true
+      type: string
+movie_=_1:
+  args:
+    - '[query]'
+  desc: 'Verilen sorguya göre IMDb''den bir film hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'IMDb''de aranacak film adı.'
+      name: query
+      optional: true
+      type: string
+movie_=_2:
+  args:
+    - '[query]'
+  desc: 'Verilen sorguya göre IMDb''den bir film hakkında bilgi getirir ve gösterir.'
+  params:
+    - desc: 'IMDb''de aranacak film adı.'
+      name: query
+      optional: true
+      type: string
+osu:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+osu5:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Bir kullanıcının en iyi 5 osu! oyununu getirir.'
+  params:
+    - desc: 'Oyunları getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Oyunları getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Bir kullanıcının en iyi 5 osu! oyununu getirir.'
+  params:
+    - desc: 'Oyunları getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Oyunları getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Bir kullanıcının en iyi 5 osu! oyununu getirir.'
+  params:
+    - desc: 'Oyunları getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Oyunları getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'Bir kullanıcının en iyi 5 osu! oyununu getirir.'
+  params:
+    - desc: 'Oyunları getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Oyunları getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! kullanıcı profil bilgilerini getirir.'
+  params:
+    - desc: 'Bilgileri getirilecek osu! kullanıcı adı.'
+      name: user
+      optional: false
+      type: string
+    - desc: 'Bilgileri getirilecek oyun modu (standard, taiko, catch, mania) (isteğe bağlı).'
+      name: mode
+      optional: true
+      type: string
+pat:
+  args:
+    - text
+  desc: 'Birini okşar.'
+  params:
+    - desc: 'Okşanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+pat_string:
+  args:
+    - text
+  desc: 'Birini okşar.'
+  params:
+    - &ref_336
+      desc: 'Okşanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_1:
+  args:
+    - text
+  desc: 'Birini okşar.'
+  params:
+    - desc: 'Okşanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+pat_string_2:
+  args:
+    - text
+  desc: 'Birini okşar.'
+  params:
+    - desc: 'Okşanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+poke:
+  args:
+    - text
+  desc: 'Birini dürtükler.'
+  params:
+    - desc: 'Dürtülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+poke_string:
+  args:
+    - text
+  desc: 'Birini dürtükler.'
+  params:
+    - desc: 'Dürtülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_1:
+  args:
+    - text
+  desc: 'Birini dürtükler.'
+  params:
+    - desc: 'Dürtülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+poke_string_2:
+  args:
+    - text
+  desc: 'Birini dürtükler.'
+  params:
+    - desc: 'Dürtülecek kişi.'
+      name: toShow
+      optional: false
+      type: string
+pokemon:
+  args:
+    - text
+  desc: 'Bir Pokémon hakkında bilgi getirir.'
+  params:
+    - &ref_348
+      desc: 'Pokémon''un adı.'
+      name: name
+      optional: false
+      type: string
+pokemon_string:
+  args:
+    - text
+  desc: 'Bir Pokémon hakkında bilgi getirir.'
+  params:
+    - desc: 'Pokémon''un adı.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_1:
+  args:
+    - text
+  desc: 'Bir Pokémon hakkında bilgi getirir.'
+  params:
+    - desc: 'Pokémon''un adı.'
+      name: name
+      optional: false
+      type: string
+pokemon_string_2:
+  args:
+    - text
+  desc: 'Bir Pokémon hakkında bilgi getirir.'
+  params:
+    - desc: 'Pokémon''un adı.'
+      name: name
+      optional: false
+      type: string
+pout:
+  args:
+    - '[toShow]'
+  desc: 'Somurtur.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+punch:
+  args:
+    - text
+  desc: 'Birine yumruk atar.'
+  params:
+    - desc: 'Yumruk atılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+punch_string:
+  args:
+    - text
+  desc: 'Birine yumruk atar.'
+  params:
+    - desc: 'Yumruk atılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_1:
+  args:
+    - text
+  desc: 'Birine yumruk atar.'
+  params:
+    - desc: 'Yumruk atılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+punch_string_2:
+  args:
+    - text
+  desc: 'Birine yumruk atar.'
+  params:
+    - desc: 'Yumruk atılacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+randjoke:
+  args:
+    - ''
+  desc: 'Rastgele bir şaka getirir.'
+  params: [ ]
+randombird:
+  args:
+    - ''
+  desc: 'Birb gösterir.'
+  params: [ ]
+randomcat:
+  args:
+    - ''
+  desc: 'Rastgele bir kedi resmi gösterir.'
+  params: [ ]
+randomdog:
+  args:
+    - ''
+  desc: 'Rastgele bir köpek resmi gösterir.'
+  params: [ ]
+randomfood:
+  args:
+    - ''
+  desc: 'Rastgele bir yiyecek resmi gösterir.'
+  params: [ ]
+randomkitsune:
+  args:
+    - ''
+  desc: 'Rastgele bir kitsune resmi gönderir.'
+  params: [ ]
+randomneko:
+  args:
+    - ''
+  desc: 'Rastgele bir neko resmi gönderir.'
+  params: [ ]
+randomreddit:
+  args:
+    - text
+  desc: 'Belirtilen subreddit''ten rastgele bir gönderi getirir ve gösterir.'
+  params:
+    - &ref_374
+      desc: 'Rastgele gönderinin getirileceği subreddit.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string:
+  args:
+    - text
+  desc: 'Belirtilen subreddit''ten rastgele bir gönderi getirir ve gösterir.'
+  params:
+    - desc: 'Rastgele gönderinin getirileceği subreddit.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_1:
+  args:
+    - text
+  desc: 'Belirtilen subreddit''ten rastgele bir gönderi getirir ve gösterir.'
+  params:
+    - desc: 'Rastgele gönderinin getirileceği subreddit.'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_2:
+  args:
+    - text
+  desc: 'Belirtilen subreddit''ten rastgele bir gönderi getirir ve gösterir.'
+  params:
+    - desc: 'Rastgele gönderinin getirileceği subreddit.'
+      name: subreddit
+      optional: false
+      type: string
+randomwaifu:
+  args:
+    - ''
+  desc: 'Rastgele bir waifu resmi gönderir.'
+  params: [ ]
+resolvetonetags:
+  args:
+    - text
+  desc: 'Bir mesajdaki ton etiketlerini çözer ve her bulunan etiket için açıklama verir.'
+  params:
+    - &ref_441
+      desc: 'Ton etiketlerini içeren mesaj.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string:
+  args:
+    - text
+  desc: 'Bir mesajdaki ton etiketlerini çözer ve her bulunan etiket için açıklama verir.'
+  params:
+    - desc: 'Ton etiketlerini içeren mesaj.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_1:
+  args:
+    - text
+  desc: 'Bir mesajdaki ton etiketlerini çözer ve her bulunan etiket için açıklama verir.'
+  params:
+    - desc: 'Ton etiketlerini içeren mesaj.'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_2:
+  args:
+    - text
+  desc: 'Bir mesajdaki ton etiketlerini çözer ve her bulunan etiket için açıklama verir.'
+  params:
+    - desc: 'Ton etiketlerini içeren mesaj.'
+      name: tag
+      optional: false
+      type: string
+revav:
+  args:
+    - '[@usr]'
+  desc: 'Bir avatar linkiyle ters görsel araması yapar.'
+  params:
+    - desc: 'Ters görsel araması yapılacak kullanıcının avatarı.'
+      name: usr
+      optional: true
+      type: user
+revimg:
+  args:
+    - '[imageLink]'
+  desc: 'Verilen görsel linkiyle ters görsel araması yapar.'
+  params:
+    - desc: 'Aranacak görselin doğrudan URL''si.'
+      name: imageLink
+      optional: true
+      type: string
+rip:
+  args:
+    - '@user'
+  desc: 'Kullanıcının adı ve avatarı ile bir RIP görseli gösterir.'
+  params:
+    - &ref_443
+      desc: 'RIP görseli oluşturulacak kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Kullanıcının adı ve avatarı ile bir RIP görseli gösterir.'
+  params:
+    - desc: 'RIP görseli oluşturulacak kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Kullanıcının adı ve avatarı ile bir RIP görseli gösterir.'
+  params:
+    - desc: 'RIP görseli oluşturulacak kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Kullanıcının adı ve avatarı ile bir RIP görseli gösterir.'
+  params:
+    - desc: 'RIP görseli oluşturulacak kullanıcı.'
+      name: usr
+      optional: false
+      type: IGuildUser
+rsstest:
+  args:
+    - number
+  desc: 'Güncellemeleri kontrol etmek için bir RSS feed''in alınmasını test eder.'
+  params:
+    - desc: 'Feed''in listedeki sırası.'
+      name: index
+      optional: false
+      type: int
+safebooru:
+  args:
+    - text
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_=:
+  args:
+    - '<tags>'
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_1:
+  args:
+    - '<tags>'
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_2:
+  args:
+    - '<tags>'
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_3:
+  args:
+    - '<tags>'
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_string[]:
+  args:
+    - text
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_1:
+  args:
+    - text
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_2:
+  args:
+    - text
+  desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+  params:
+    - desc: 'Safebooru''dan verilen etiketle bir görsel arar ve gösterir.'
+      name: tags
+      optional: false
+      type: string[]
+ship:
+  args:
+    - '@user @user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - &ref_540
+      desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_541
+      desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser:
+  args:
+    - '@user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_1:
+  args:
+    - '@user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_2:
+  args:
+    - '@user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_3:
+  args:
+    - '@user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_IUser:
+  args:
+    - '@user @user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_1:
+  args:
+    - '@user @user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - &ref_542
+      desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_2:
+  args:
+    - '@user @user'
+  desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+  params:
+    - desc: 'Mevcut kullanıcıyla karşılaştırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Mevcut kullanıcı ile başka bir kullanıcı arasındaki uyuma göre bir shipping görseli gönderir.'
+      name: user2
+      optional: false
+      type: IUser
+shoot:
+  args:
+    - text
+  desc: 'Birini vurur.'
+  params:
+    - desc: 'Vurulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string:
+  args:
+    - text
+  desc: 'Birini vurur.'
+  params:
+    - desc: 'Vurulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_1:
+  args:
+    - text
+  desc: 'Birini vurur.'
+  params:
+    - desc: 'Vurulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_2:
+  args:
+    - text
+  desc: 'Birini vurur.'
+  params:
+    - desc: 'Vurulacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+shorten:
+  args:
+    - text
+  desc: 'Verilen URL''yi goolnk.com API''si ile kısaltır.'
+  params:
+    - &ref_543
+      desc: 'Kısaltılacak URL.'
+      name: query
+      optional: false
+      type: string
+shorten_string:
+  args:
+    - text
+  desc: 'Verilen URL''yi goolnk.com API''si ile kısaltır.'
+  params:
+    - desc: 'Kısaltılacak URL.'
+      name: query
+      optional: false
+      type: string
+shorten_string_1:
+  args:
+    - text
+  desc: 'Verilen URL''yi goolnk.com API''si ile kısaltır.'
+  params:
+    - desc: 'Kısaltılacak URL.'
+      name: query
+      optional: false
+      type: string
+shorten_string_2:
+  args:
+    - text
+  desc: 'Verilen URL''yi goolnk.com API''si ile kısaltır.'
+  params:
+    - desc: 'Kısaltılacak URL.'
+      name: query
+      optional: false
+      type: string
+shrug:
+  args:
+    - '[toShow]'
+  desc: 'Omuz silker.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+slap:
+  args:
+    - text
+  desc: 'Birini tokatlar.'
+  params:
+    - &ref_546
+      desc: 'Tokatlanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+slap_string:
+  args:
+    - text
+  desc: 'Birini tokatlar.'
+  params:
+    - desc: 'Tokatlanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_1:
+  args:
+    - text
+  desc: 'Birini tokatlar.'
+  params:
+    - desc: 'Tokatlanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+slap_string_2:
+  args:
+    - text
+  desc: 'Birini tokatlar.'
+  params:
+    - desc: 'Tokatlanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+sleep:
+  args:
+    - '[toShow]'
+  desc: 'Uyur.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+smile:
+  args:
+    - '[toShow]'
+  desc: 'Gülümser.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+smug:
+  args:
+    - '[toShow]'
+  desc: 'Kendini beğenmiş görünür.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+stare:
+  args:
+    - '[toShow]'
+  desc: 'Bakar.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+steam:
+  args:
+    - text
+  desc: 'Steam''de adına göre bir oyun arar ve Steam Mağazası sayfasının bağlantısını verir.'
+  params:
+    - &ref_567
+      desc: 'Steam''de aranacak oyunun adı.'
+      name: query
+      optional: false
+      type: string
+steam_string:
+  args:
+    - text
+  desc: 'Steam''de adına göre bir oyun arar ve Steam Mağazası sayfasının bağlantısını verir.'
+  params:
+    - desc: 'Steam''de aranacak oyunun adı.'
+      name: query
+      optional: false
+      type: string
+steam_string_1:
+  args:
+    - text
+  desc: 'Steam''de adına göre bir oyun arar ve Steam Mağazası sayfasının bağlantısını verir.'
+  params:
+    - desc: 'Steam''de aranacak oyunun adı.'
+      name: query
+      optional: false
+      type: string
+steam_string_2:
+  args:
+    - text
+  desc: 'Steam''de adına göre bir oyun arar ve Steam Mağazası sayfasının bağlantısını verir.'
+  params:
+    - desc: 'Steam''de aranacak oyunun adı.'
+      name: query
+      optional: false
+      type: string
+streamadd:
+  args:
+    - text
+  desc: 'Sunucunun bildirim listesine yeni bir yayın ekler.'
+  params:
+    - &ref_571
+      desc: 'Eklenecek yayının bağlantısı.'
+      name: link
+      optional: false
+      type: string
+streamadd_string:
+  args:
+    - text
+  desc: 'Sunucunun bildirim listesine yeni bir yayın ekler.'
+  params:
+    - desc: 'Eklenecek yayının bağlantısı.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_1:
+  args:
+    - text
+  desc: 'Sunucunun bildirim listesine yeni bir yayın ekler.'
+  params:
+    - desc: 'Eklenecek yayının bağlantısı.'
+      name: link
+      optional: false
+      type: string
+streamadd_string_2:
+  args:
+    - text
+  desc: 'Sunucunun bildirim listesine yeni bir yayın ekler.'
+  params:
+    - desc: 'Eklenecek yayının bağlantısı.'
+      name: link
+      optional: false
+      type: string
+streamcheck:
+  args:
+    - text
+  desc: 'Bir yayının canlı durumunu URL''siyle kontrol eder.'
+  params:
+    - &ref_572
+      desc: 'Kontrol edilecek yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string:
+  args:
+    - text
+  desc: 'Bir yayının canlı durumunu URL''siyle kontrol eder.'
+  params:
+    - desc: 'Kontrol edilecek yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_1:
+  args:
+    - text
+  desc: 'Bir yayının canlı durumunu URL''siyle kontrol eder.'
+  params:
+    - desc: 'Kontrol edilecek yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_2:
+  args:
+    - text
+  desc: 'Bir yayının canlı durumunu URL''siyle kontrol eder.'
+  params:
+    - desc: 'Kontrol edilecek yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+streamlist:
+  args:
+    - ''
+  desc: 'Sunucunun şu anda takip ettiği tüm yayınları listeler.'
+  params: [ ]
+streammessage:
+  args:
+    - number text
+  desc: 'Sunucunun bildirim listesindeki belirli bir yayın için özel bildirim mesajı ayarlar.'
+  params:
+    - &ref_573
+      desc: 'Mesajın ayarlanacağı yayının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - &ref_574
+      desc: 'Yayın başladığında gönderilecek özel mesaj. Boş mesaj varsayılana sıfırlar.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string:
+  args:
+    - number text
+  desc: 'Sunucunun bildirim listesindeki belirli bir yayın için özel bildirim mesajı ayarlar.'
+  params:
+    - desc: 'Mesajın ayarlanacağı yayının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Yayın başladığında gönderilecek özel mesaj. Boş mesaj varsayılana sıfırlar.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_1:
+  args:
+    - number text
+  desc: 'Sunucunun bildirim listesindeki belirli bir yayın için özel bildirim mesajı ayarlar.'
+  params:
+    - desc: 'Mesajın ayarlanacağı yayının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Yayın başladığında gönderilecek özel mesaj. Boş mesaj varsayılana sıfırlar.'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_2:
+  args:
+    - number text
+  desc: 'Sunucunun bildirim listesindeki belirli bir yayın için özel bildirim mesajı ayarlar.'
+  params:
+    - desc: 'Mesajın ayarlanacağı yayının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Yayın başladığında gönderilecek özel mesaj. Boş mesaj varsayılana sıfırlar.'
+      name: message
+      optional: false
+      type: string
+streamoffline:
+  args:
+    - ''
+  desc: 'Takip edilen bir yayın çevrimdışı olduğunda sunucuya bildirim gönderme ayarını değiştirir.'
+  params: [ ]
+streamofflinemessage:
+  args:
+    - number
+    - text
+  desc: 'Belirli bir yayın için çevrimdışı mesajı ayarlar.'
+  params:
+    - desc: 'Yayının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Yer tutuculu çevrimdışı mesaj şablonu.'
+      name: message
+      optional: false
+      type: string
+streamremove:
+  args:
+    - number
+  desc: 'Bildirim listesindeki yayını sırasına göre kaldırır.'
+  params:
+    - &ref_575
+      desc: 'Kaldırılacak yayının bildirim listesindeki 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+streamremove_int:
+  args:
+    - number
+  desc: 'Bildirim listesindeki yayını sırasına göre kaldırır.'
+  params:
+    - desc: 'Kaldırılacak yayının bildirim listesindeki 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+streamremove_int_1:
+  args:
+    - number
+  desc: 'Bildirim listesindeki yayını sırasına göre kaldırır.'
+  params:
+    - desc: 'Kaldırılacak yayının bildirim listesindeki 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+streamremove_int_2:
+  args:
+    - number
+  desc: 'Bildirim listesindeki yayını sırasına göre kaldırır.'
+  params:
+    - desc: 'Kaldırılacak yayının bildirim listesindeki 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+streamsclear:
+  args:
+    - ''
+  desc: 'Sunucunun bildirim listesindeki tüm yayınları temizler.'
+  params: [ ]
+streamtemplate:
+  args:
+    - text
+  desc: 'Sunucudaki tüm yayınlar için özel yayın bildirim mesajı şablonunu ayarlar veya gösterir.'
+  params:
+    - desc: 'Yer tutuculu özel mesaj şablonu. Mevcut şablonu görmek için boş bırak, özel mesajları devre dışı bırakmak için "reset" kullan.'
+      name: template
+      optional: true
+      type: string
+think:
+  args:
+    - '[toShow]'
+  desc: 'Düşünür.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+thumbsup:
+  args:
+    - '[toShow]'
+  desc: 'Beğeni işareti verir.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+tickle:
+  args:
+    - text
+  desc: 'Birini gıdıklar.'
+  params:
+    - desc: 'Gıdıklanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string:
+  args:
+    - text
+  desc: 'Birini gıdıklar.'
+  params:
+    - desc: 'Gıdıklanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_1:
+  args:
+    - text
+  desc: 'Birini gıdıklar.'
+  params:
+    - desc: 'Gıdıklanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_2:
+  args:
+    - text
+  desc: 'Birini gıdıklar.'
+  params:
+    - desc: 'Gıdıklanacak kişi.'
+      name: toShow
+      optional: false
+      type: string
+time:
+  args:
+    - text
+  desc: 'Belirtilen konumdaki geçerli saati gösterir.'
+  params:
+    - &ref_620
+      desc: 'Saat bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+time_string:
+  args:
+    - text
+  desc: 'Belirtilen konumdaki geçerli saati gösterir.'
+  params:
+    - desc: 'Saat bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+time_string_1:
+  args:
+    - text
+  desc: 'Belirtilen konumdaki geçerli saati gösterir.'
+  params:
+    - desc: 'Saat bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+time_string_2:
+  args:
+    - text
+  desc: 'Belirtilen konumdaki geçerli saati gösterir.'
+  params:
+    - desc: 'Saat bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+translangs:
+  args:
+    - ''
+  desc: 'Çeviri için kullanılabilen tüm dilleri listeler.'
+  params: [ ]
+translate:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Metni kullanıcının belirttiği bir dilden başka bir dile çevirir.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Çevrilecek metin.'
+      name: text
+      optional: true
+      type: string
+translate_string_=:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Metni kullanıcının belirttiği bir dilden başka bir dile çevirir.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Çevrilecek metin.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_1:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Metni kullanıcının belirttiği bir dilden başka bir dile çevirir.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Çevrilecek metin.'
+      name: text
+      optional: true
+      type: string
+translate_string_=_2:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'Metni kullanıcının belirttiği bir dilden başka bir dile çevirir.'
+  params:
+    - desc: '''from>to'' biçimindeki dil çifti.'
+      name: langs
+      optional: false
+      type: string
+    - desc: 'Çevrilecek metin.'
+      name: text
+      optional: true
+      type: string
+urbandict:
+  args:
+    - '[query]'
+  desc: 'Urban Dictionary''de verilen terimi arar ve tanımlarını gösterir.'
+  params:
+    - desc: 'Urban Dictionary''de aranacak terim.'
+      name: query
+      optional: true
+      type: string
+wave:
+  args:
+    - '[toShow]'
+  desc: 'El sallar.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+weather:
+  args:
+    - text
+  desc: 'Belirtilen konum için etkileşimli hava durumu bilgisi gösterir.'
+  params:
+    - &ref_659
+      desc: 'Hava durumu bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+weather_string:
+  args:
+    - text
+  desc: 'Belirtilen konum için etkileşimli hava durumu bilgisi gösterir.'
+  params:
+    - desc: 'Hava durumu bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+weather_string_1:
+  args:
+    - text
+  desc: 'Belirtilen konum için etkileşimli hava durumu bilgisi gösterir.'
+  params:
+    - desc: 'Hava durumu bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+weather_string_2:
+  args:
+    - text
+  desc: 'Belirtilen konum için etkileşimli hava durumu bilgisi gösterir.'
+  params:
+    - desc: 'Hava durumu bilgisi için aranacak konum.'
+      name: query
+      optional: false
+      type: string
+wiki:
+  args:
+    - '[query]'
+  desc: 'Verilen sorguya göre Wikipedia bilgisi arar ve gösterir.'
+  params:
+    - desc: 'Wikipedia için arama terimi.'
+      name: query
+      optional: true
+      type: string
+wikia:
+  args:
+    - text text
+  desc: 'Bir wikia''dan belirli bir konu hakkında ayrıntılı bilgi getirir ve gösterir.'
+  params:
+    - &ref_661
+      desc: 'Hedef wikia sitesi.'
+      name: target
+      optional: false
+      type: string
+    - &ref_662
+      desc: 'Wikia için arama terimi.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string:
+  args:
+    - text text
+  desc: 'Bir wikia''dan belirli bir konu hakkında ayrıntılı bilgi getirir ve gösterir.'
+  params:
+    - desc: 'Hedef wikia sitesi.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Wikia için arama terimi.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_1:
+  args:
+    - text text
+  desc: 'Bir wikia''dan belirli bir konu hakkında ayrıntılı bilgi getirir ve gösterir.'
+  params:
+    - desc: 'Hedef wikia sitesi.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Wikia için arama terimi.'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_2:
+  args:
+    - text text
+  desc: 'Bir wikia''dan belirli bir konu hakkında ayrıntılı bilgi getirir ve gösterir.'
+  params:
+    - desc: 'Hedef wikia sitesi.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Wikia için arama terimi.'
+      name: query
+      optional: false
+      type: string
+wink:
+  args:
+    - '[toShow]'
+  desc: 'Göz kırpar.'
+  params:
+    - desc: 'Ek metin (isteğe bağlı).'
+      name: toShow
+      optional: true
+      type: string
+wowjoke:
+  args:
+    - ''
+  desc: 'World of Warcraft ile ilgili bir şaka getirir.'
+  params: [ ]
+xkcd:
+  args:
+    - '[arg]'
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=:
+  args:
+    - '[arg]'
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_1:
+  args:
+    - '[arg]'
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_2:
+  args:
+    - '[arg]'
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+      name: arg
+      optional: true
+      type: string
+xkcd_int:
+  args:
+    - number
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - &ref_663
+      desc: 'Getirilecek XKCD çizgi romanının numarası.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_1:
+  args:
+    - number
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - desc: 'Getirilecek XKCD çizgi romanının numarası.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_2:
+  args:
+    - number
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - desc: 'Getirilecek XKCD çizgi romanının numarası.'
+      name: num
+      optional: false
+      type: int
+xkcd_int_3:
+  args:
+    - number
+  desc: 'Numarasına göre bir XKCD çizgi romanı getirir ve gösterir.'
+  params:
+    - desc: 'Getirilecek XKCD çizgi romanının numarası.'
+      name: num
+      optional: false
+      type: int
+yomama:
+  args:
+    - ''
+  desc: 'Rastgele bir Yo Mama şakası getirir.'
+  params: [ ]
+youtube:
+  args:
+    - text
+  desc: 'Verilen sorguya göre YouTube videolarını arar ve sonuçları gösterir.'
+  params:
+    - &ref_675
+      desc: 'YouTube videolarını bulmak için arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+youtube_string:
+  args:
+    - text
+  desc: 'Verilen sorguya göre YouTube videolarını arar ve sonuçları gösterir.'
+  params:
+    - desc: 'YouTube videolarını bulmak için arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+youtube_string_1:
+  args:
+    - text
+  desc: 'Verilen sorguya göre YouTube videolarını arar ve sonuçları gösterir.'
+  params:
+    - desc: 'YouTube videolarını bulmak için arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+youtube_string_2:
+  args:
+    - text
+  desc: 'Verilen sorguya göre YouTube videolarını arar ve sonuçları gösterir.'
+  params:
+    - desc: 'YouTube videolarını bulmak için arama sorgusu.'
+      name: query
+      optional: false
+      type: string

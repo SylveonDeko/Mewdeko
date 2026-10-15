@@ -5,9 +5,9 @@ highlight:
     - add
     - list
     - delete
-  desc: '添加、列出、移除或匹配关键词高亮。'
+  desc: '添加、列出、删除或匹配高亮词。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '要执行的操作：add、list、delete 或 match。'
       name: action
       optional: false
       type: highlightactions
@@ -22,9 +22,9 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: '添加、列出、移除或匹配关键词高亮。'
+  desc: '添加、列出、删除或匹配高亮词。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '要执行的操作：add、list、delete 或 match。'
       name: action
       optional: false
       type: highlightactions
@@ -39,9 +39,9 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: '添加、列出、移除或匹配关键词高亮。'
+  desc: '添加、列出、删除或匹配高亮词。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '要执行的操作：add、list、delete 或 match。'
       name: action
       optional: false
       type: highlightactions
@@ -56,9 +56,9 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: '添加、列出、移除或匹配关键词高亮。'
+  desc: '添加、列出、删除或匹配高亮词。'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: '要执行的操作：add、list、delete 或 match。'
       name: action
       optional: false
       type: highlightactions
@@ -69,13 +69,13 @@ highlight_HighlightActions_=_2:
 highlights:
   args:
     - action word
-  desc: 管理用户的关键词高亮。
+  desc: '管理用户高亮词。'
   params:
-    - desc: 要对关键词高亮执行的操作。
+    - desc: '对高亮词执行的操作。'
       name: action
       optional: false
       type: string
-    - desc: 要高亮的单词。
+    - desc: '要高亮的词。'
       name: word
       optional: true
       type: string

@@ -8,9 +8,7 @@ birthdaychannel:
     - '#channel'
   desc: 'Ustawia kanał ogłoszeń urodzinowych.'
   params:
-    - desc: >-
-        Kanał tekstowy używany do ogłoszeń. Domyślnie kanał aktualny,
-        jeśli nie określono.
+    - desc: 'Kanał tekstowy do ogłoszeń. Jeśli nie podano, używany jest bieżący kanał.'
       name: channel
       optional: true
       type: ITextChannel
@@ -24,7 +22,7 @@ birthdaylist:
     - days
   desc: 'Pokazuje nadchodzące urodziny na serwerze.'
   params:
-    - desc: Ile dni do przodu sprawdzić. Domyślnie 7, maksymalnie 30.
+    - desc: 'Ile dni wyprzedzić. Domyślnie 7, maksymalnie 30.'
       name: days
       optional: true
       type: int
@@ -33,36 +31,34 @@ birthdaymessage:
     - message
   desc: 'Ustawia niestandardowy szablon wiadomości urodzinowej.'
   params:
-    - desc: >-
-        Szablon wiadomości. Użyj {user} aby wspomnieć użytkownika.
-        Pokazuje aktualną wiadomość, jeśli zostawione puste.
+    - desc: 'Szablon wiadomości. Użyj {user}, aby oznaczyć użytkownika. Jeśli pole jest puste, pokazuje aktualną wiadomość.'
       name: message
       optional: true
       type: string
 birthdaypingrole:
   args:
     - '@role'
-  desc: 'Ustawia rolę do pingnięcia podczas ogłaszania urodzin.'
+  desc: 'Ustawia rolę, którą oznaczać przy ogłaszaniu urodzin.'
   params:
-    - desc: Rola do pingnięcia. Nie podawaj roli, aby wyłączyć.
+    - desc: 'Rola do oznaczenia. Nie podawaj roli, aby to wyłączyć.'
       name: role
       optional: true
       type: IRole
 birthdayrole:
   args:
     - '@role'
-  desc: 'Ustawia rolę urodzinową, którą użytkownicy otrzymują w swoje urodziny.'
+  desc: 'Ustawia rolę urodzinową, którą użytkownicy otrzymują w dniu swoich urodzin.'
   params:
-    - desc: Rola przypisywana w urodziny użytkownika. Nie podawaj roli, aby wyłączyć.
+    - desc: 'Rola przypisywana w dniu urodzin użytkownika. Nie podawaj roli, aby to wyłączyć.'
       name: role
       optional: true
       type: IRole
 birthdaytimezone:
   args:
     - timezone
-  desc: 'Ustawia strefę czasową użytkownika do obliczeń urodzin.'
+  desc: 'Ustawia strefę czasową użytkownika do obliczeń urodzinowych.'
   params:
-    - desc: Strefa czasowa do ustawienia (np. "America/New_York").
+    - desc: 'Strefa czasowa do ustawienia (np. „America/New_York”).'
       name: timezone
       optional: false
       type: string

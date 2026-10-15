@@ -6,11 +6,9 @@ birthdayannouncements:
 birthdaychannel:
   args:
     - '#channel'
-  desc: 'Définit le canal des annonces d''anniversaire.'
+  desc: 'Définit le salon des annonces d''anniversaire.'
   params:
-    - desc: >-
-        Le canal textuel à utiliser pour les annonces. Par défaut le canal
-        actuel si non spécifié.
+    - desc: 'Le salon textuel à utiliser pour les annonces. Par défaut, le salon actuel si rien n''est indiqué.'
       name: channel
       optional: true
       type: ITextChannel
@@ -22,9 +20,9 @@ birthdayconfig:
 birthdaylist:
   args:
     - days
-  desc: 'Affiche les anniversaires à venir dans le serveur.'
+  desc: 'Affiche les prochains anniversaires du serveur.'
   params:
-    - desc: Combien de jours regarder en avance. Par défaut 7, maximum 30.
+    - desc: 'Nombre de jours à anticiper. Par défaut 7, maximum 30.'
       name: days
       optional: true
       type: int
@@ -33,18 +31,16 @@ birthdaymessage:
     - message
   desc: 'Définit un modèle de message d''anniversaire personnalisé.'
   params:
-    - desc: >-
-        Le modèle de message. Utilisez {user} pour mentionner l'utilisateur.
-        Affiche le message actuel si laissé vide.
+    - desc: 'Le modèle de message. Utilisez {user} pour mentionner l''utilisateur. Affiche le message actuel si ce champ est vide.'
       name: message
       optional: true
       type: string
 birthdaypingrole:
   args:
     - '@role'
-  desc: 'Définit le rôle à mentionner lors de l''annonce des anniversaires.'
+  desc: 'Définit le rôle à mentionner lors des annonces d''anniversaire.'
   params:
-    - desc: Le rôle à mentionner. Ne fournissez aucun rôle pour désactiver.
+    - desc: 'Le rôle à mentionner. Ne fournissez aucun rôle pour le désactiver.'
       name: role
       optional: true
       type: IRole
@@ -53,7 +49,7 @@ birthdayrole:
     - '@role'
   desc: 'Définit le rôle d''anniversaire que les utilisateurs reçoivent le jour de leur anniversaire.'
   params:
-    - desc: Le rôle à attribuer le jour d'anniversaire d'un utilisateur. Ne fournissez aucun rôle pour désactiver.
+    - desc: 'Le rôle à attribuer le jour de l''anniversaire d''un utilisateur. Ne fournissez aucun rôle pour le désactiver.'
       name: role
       optional: true
       type: IRole
@@ -62,12 +58,12 @@ birthdaytimezone:
     - timezone
   desc: 'Définit le fuseau horaire de l''utilisateur pour le calcul des anniversaires.'
   params:
-    - desc: Le fuseau horaire à définir (ex., "America/New_York").
+    - desc: 'Le fuseau horaire à définir (par ex. "America/New_York").'
       name: timezone
       optional: false
       type: string
 birthdaytoday:
   args:
     - ''
-  desc: 'Affiche les anniversaires d''aujourd''hui.'
+  desc: 'Affiche les anniversaires du jour.'
   params: [ ]

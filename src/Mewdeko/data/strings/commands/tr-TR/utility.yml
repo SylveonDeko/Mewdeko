@@ -1,0 +1,4732 @@
+activitygraph:
+  args:
+    - graphtype.days
+  desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+  params:
+    - &ref_4
+      desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=:
+  args:
+    - graphtype.days
+  desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+  params:
+    - desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_1:
+  args:
+    - graphtype.days
+  desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+  params:
+    - desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+activitygraph_=_2:
+  args:
+    - graphtype.days
+  desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+  params:
+    - desc: 'Sunucudaki en yoğun saat ve günleri gösteren bir grafik çizer.'
+      name: GraphType.Days
+      optional: false
+      type: '='
+addautopublish:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı etkinleştirir.'
+  params:
+    - &ref_5
+      desc: 'Otomatik yayımlaması etkinleştirilecek haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı etkinleştirir.'
+  params:
+    - desc: 'Otomatik yayımlaması etkinleştirilecek haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı etkinleştirir.'
+  params:
+    - desc: 'Otomatik yayımlaması etkinleştirilecek haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı etkinleştirir.'
+  params:
+    - desc: 'Otomatik yayımlaması etkinleştirilecek haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - &ref_24
+      desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_23
+      desc: 'Kara listeye eklenecek kelime.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Kara listeye eklenecek kelime.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Kara listeye eklenecek kelime.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Kara listeye eklenecek kelime.'
+      name: word
+      optional: false
+      type: string
+addpublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+addpublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+  params:
+    - desc: 'Belirtilen kanal için otomatik yayımlama kara listesine bir kelime ekler.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kara listenin uygulanacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+aichannel:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Bir kanal için yapay zeka servisini yapılandırır'
+  params:
+    - desc: 'Yapay zekanın yapılandırılacağı kanal'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Yapay zekanın etkinleştirilip etkinleştirilmeyeceği'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Bir kanal için yapay zeka servisini yapılandırır'
+  params:
+    - desc: 'Yapay zekanın yapılandırılacağı kanal'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Yapay zekanın etkinleştirilip etkinleştirilmeyeceği'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_1:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Bir kanal için yapay zeka servisini yapılandırır'
+  params:
+    - desc: 'Yapay zekanın yapılandırılacağı kanal'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Yapay zekanın etkinleştirilip etkinleştirilmeyeceği'
+      name: enabled
+      optional: true
+      type: bool
+aichannel_=_=_2:
+  args:
+    - '[@channel] [enabled]'
+  desc: 'Bir kanal için yapay zeka servisini yapılandırır'
+  params:
+    - desc: 'Yapay zekanın yapılandırılacağı kanal'
+      name: channel
+      optional: true
+      type: channel
+    - desc: 'Yapay zekanın etkinleştirilip etkinleştirilmeyeceği'
+      name: enabled
+      optional: true
+      type: bool
+aiconfig:
+  args:
+    - ''
+  desc: 'Mevcut yapay zeka yapılandırmasını gösterir'
+  params: [ ]
+aicustomembed:
+  args:
+    - '[embedTemplate]'
+  desc: 'Yapay zeka yanıtları için özel embed şablonunu ayarlar veya gösterir. Yapay zeka yanıtının embed içinde nereye geleceğini belirtmek için %airesponse% kullan.'
+  params:
+    - desc: 'İsteğe bağlı embed şablonu. Verilmezse mevcut şablonu gösterir.'
+      name: embedTemplate
+      optional: true
+      type: string
+aikey:
+  args:
+    - ''
+  desc: 'Yapay zeka servisi için API anahtarını ayarlar'
+  params: [ ]
+aimodel:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Yapay zeka sağlayıcısını ve modelini ayarlar'
+  params:
+    - desc: 'Kullanılacak yapay zeka sağlayıcısı'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Model adı'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Yapay zeka sağlayıcısını ve modelini ayarlar'
+  params:
+    - desc: 'Kullanılacak yapay zeka sağlayıcısı'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Model adı'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_1:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Yapay zeka sağlayıcısını ve modelini ayarlar'
+  params:
+    - desc: 'Kullanılacak yapay zeka sağlayıcısı'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Model adı'
+      name: model
+      optional: true
+      type: string
+aimodel_AiService_AiProvider_=_2:
+  args:
+    - '<provider> [model]'
+    - provider
+  desc: 'Yapay zeka sağlayıcısını ve modelini ayarlar'
+  params:
+    - desc: 'Kullanılacak yapay zeka sağlayıcısı'
+      name: provider
+      optional: false
+      type: aiservice.aiprovider
+    - desc: 'Model adı'
+      name: model
+      optional: true
+      type: string
+aiprompt:
+  args:
+    - text
+  desc: 'Yapay zeka için sistem istemini ayarlar'
+  params:
+    - &ref_59
+      desc: 'Kullanılacak sistem istemi'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string:
+  args:
+    - text
+  desc: 'Yapay zeka için sistem istemini ayarlar'
+  params:
+    - desc: 'Kullanılacak sistem istemi'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_1:
+  args:
+    - text
+  desc: 'Yapay zeka için sistem istemini ayarlar'
+  params:
+    - desc: 'Kullanılacak sistem istemi'
+      name: prompt
+      optional: false
+      type: string
+aiprompt_string_2:
+  args:
+    - text
+  desc: 'Yapay zeka için sistem istemini ayarlar'
+  params:
+    - desc: 'Kullanılacak sistem istemi'
+      name: prompt
+      optional: false
+      type: string
+aiwebhook:
+  args:
+    - '[name] [avatar]'
+  desc: 'Bu sunucuda yapay zeka yanıtları için webhook''u ayarlar.'
+  params:
+    - desc: 'Webhook''un adı. Boş bırakılırsa webhook''u devre dışı bırakır.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook avatarı için isteğe bağlı URL.'
+      name: avatar
+      optional: true
+      type: string
+aiwebsearch:
+  args:
+    - 'true'
+    - 'false'
+  desc: 'Yapay zeka için web aramasını etkinleştirir veya devre dışı bırakır (yalnızca Claude)'
+  params:
+    - desc: 'Web aramasının etkinleştirilip etkinleştirilmeyeceği'
+      name: enabled
+      optional: false
+      type: bool
+alias:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Bir komut için yeni takma ad ekler; eşleme verilmezse mevcut takma adı kaldırır.'
+  params:
+    - desc: 'Takma ad için tetikleyici kelime.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Takma adla eşleştirilecek komut. Boş bırakılırsa takma ad kaldırılır.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Bir komut için yeni takma ad ekler; eşleme verilmezse mevcut takma adı kaldırır.'
+  params:
+    - desc: 'Takma ad için tetikleyici kelime.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Takma adla eşleştirilecek komut. Boş bırakılırsa takma ad kaldırılır.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_1:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Bir komut için yeni takma ad ekler; eşleme verilmezse mevcut takma adı kaldırır.'
+  params:
+    - desc: 'Takma ad için tetikleyici kelime.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Takma adla eşleştirilecek komut. Boş bırakılırsa takma ad kaldırılır.'
+      name: mapping
+      optional: true
+      type: string
+alias_string_=_2:
+  args:
+    - '<trigger> [mapping]'
+    - text
+  desc: 'Bir komut için yeni takma ad ekler; eşleme verilmezse mevcut takma adı kaldırır.'
+  params:
+    - desc: 'Takma ad için tetikleyici kelime.'
+      name: trigger
+      optional: false
+      type: string
+    - desc: 'Takma adla eşleştirilecek komut. Boş bırakılırsa takma ad kaldırılır.'
+      name: mapping
+      optional: true
+      type: string
+aliasesclear:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm komut takma adlarını temizler.'
+  params: [ ]
+aliaslist:
+  args:
+    - ''
+  desc: 'Sunucuda şu anda tanımlı tüm komut takma adlarını listeler.'
+  params: [ ]
+avatar:
+  args:
+    - '[@usr]'
+  desc: 'Belirtilen kullanıcının veya komutu kullananın avatarını gösterir. Varsa sunucu avatarını görmek için bir düğme içerir.'
+  params:
+    - desc: 'İsteğe bağlı. Avatarı gösterilecek kullanıcı.'
+      name: usr
+      optional: true
+      type: user
+banner:
+  args:
+    - '[@usr]'
+  desc: 'Belirtilen kullanıcının veya komutu kullananın bannerını gösterir.'
+  params:
+    - desc: 'İsteğe bağlı. Bannerı gösterilecek kullanıcı.'
+      name: usr
+      optional: true
+      type: user
+calcops:
+  args:
+    - ''
+  desc: 'İfadelerde kullanılabilecek matematiksel işlemleri listeler.'
+  params: [ ]
+calculate:
+  args:
+    - text
+  desc: 'Matematiksel bir ifadeyi değerlendirir ve sonucu döndürür.'
+  params:
+    - &ref_118
+      desc: 'Değerlendirilecek ifade.'
+      name: expression
+      optional: false
+      type: string
+calculate_string:
+  args:
+    - text
+  desc: 'Matematiksel bir ifadeyi değerlendirir ve sonucu döndürür.'
+  params:
+    - desc: 'Değerlendirilecek ifade.'
+      name: expression
+      optional: false
+      type: string
+calculate_string_1:
+  args:
+    - text
+  desc: 'Matematiksel bir ifadeyi değerlendirir ve sonucu döndürür.'
+  params:
+    - desc: 'Değerlendirilecek ifade.'
+      name: expression
+      optional: false
+      type: string
+calculate_string_2:
+  args:
+    - text
+  desc: 'Matematiksel bir ifadeyi değerlendirir ve sonucu döndürür.'
+  params:
+    - desc: 'Değerlendirilecek ifade.'
+      name: expression
+      optional: false
+      type: string
+channelid:
+  args:
+    - ''
+  desc: 'Mevcut kanalın kanal ID''sini verir.'
+  params: [ ]
+channelinfo:
+  args:
+    - '[@channel]'
+  desc: 'Belirtilen metin kanalı veya mevcut kanal hakkında bilgi gösterir.'
+  params:
+    - desc: 'İsteğe bağlı. Hakkında bilgi alınacak metin kanalı.'
+      name: channel
+      optional: true
+      type: channel
+channelmessages:
+  args:
+    - '[@channel]'
+  desc: 'Belirli bir kanalın mesaj istatistiklerini getirir.'
+  params:
+    - desc: 'Mesaj istatistikleri alınacak kanal. Boş bırakılırsa mevcut kanal kullanılır.'
+      name: channel
+      optional: true
+      type: channel
+channeltopic:
+  args:
+    - '[@channel]'
+  desc: 'Mevcut kanalın konusunu gösterir. Belirtilen bir kanal varsa onun konusunu gösterir.'
+  params:
+    - desc: 'Konusu alınacak kanal.'
+      name: channel
+      optional: true
+      type: channel
+convert:
+  args:
+    - text
+  desc: 'Medya dosyalarını farklı formatlara dönüştürür. Kullanım: .convert dönüştürülecek_format (dosya ekiyle)'
+  params:
+    - &ref_144
+      desc: 'Dönüştürülecek format (ör. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string:
+  args:
+    - text
+  desc: 'Medya dosyalarını farklı formatlara dönüştürür. Kullanım: .convert dönüştürülecek_format (dosya ekiyle)'
+  params:
+    - desc: 'Dönüştürülecek format (ör. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_1:
+  args:
+    - text
+  desc: 'Medya dosyalarını farklı formatlara dönüştürür. Kullanım: .convert dönüştürülecek_format (dosya ekiyle)'
+  params:
+    - desc: 'Dönüştürülecek format (ör. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convert_string_2:
+  args:
+    - text
+  desc: 'Medya dosyalarını farklı formatlara dönüştürür. Kullanım: .convert dönüştürülecek_format (dosya ekiyle)'
+  params:
+    - desc: 'Dönüştürülecek format (ör. gif, mp4, mp3, jpg, png)'
+      name: targetFormat
+      optional: false
+      type: string
+convertlist:
+  args:
+    - ''
+  desc: 'Dönüştürülebilecek tüm birimleri listeler.'
+  params: [ ]
+convertunits:
+  args:
+    - text text number
+  desc: 'Belirtilen bir değeri bir birimden diğerine dönüştürür.'
+  params:
+    - &ref_145
+      desc: 'Değerin özgün birimi.'
+      name: origin
+      optional: false
+      type: string
+    - &ref_146
+      desc: 'Dönüştürülecek hedef birim.'
+      name: target
+      optional: false
+      type: string
+    - &ref_147
+      desc: 'Dönüştürülecek değer.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal:
+  args:
+    - text text number
+  desc: 'Belirtilen bir değeri bir birimden diğerine dönüştürür.'
+  params:
+    - desc: 'Değerin özgün birimi.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'Dönüştürülecek hedef birim.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Dönüştürülecek değer.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_1:
+  args:
+    - text text number
+  desc: 'Belirtilen bir değeri bir birimden diğerine dönüştürür.'
+  params:
+    - desc: 'Değerin özgün birimi.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'Dönüştürülecek hedef birim.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Dönüştürülecek değer.'
+      name: value
+      optional: false
+      type: decimal
+convertunits_string_string_decimal_2:
+  args:
+    - text text number
+  desc: 'Belirtilen bir değeri bir birimden diğerine dönüştürür.'
+  params:
+    - desc: 'Değerin özgün birimi.'
+      name: origin
+      optional: false
+      type: string
+    - desc: 'Dönüştürülecek hedef birim.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'Dönüştürülecek değer.'
+      name: value
+      optional: false
+      type: decimal
+debugembed:
+  args:
+    - text
+  desc: 'Embed ayrıştırmasını test etmek için hata ayıklama komutu.'
+  params:
+    - &ref_178
+      desc: 'Embed olarak ayrıştırılacak metin.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string:
+  args:
+    - text
+  desc: 'Embed ayrıştırmasını test etmek için hata ayıklama komutu.'
+  params:
+    - desc: 'Embed olarak ayrıştırılacak metin.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_1:
+  args:
+    - text
+  desc: 'Embed ayrıştırmasını test etmek için hata ayıklama komutu.'
+  params:
+    - desc: 'Embed olarak ayrıştırılacak metin.'
+      name: embedText
+      optional: false
+      type: string
+debugembed_string_2:
+  args:
+    - text
+  desc: 'Embed ayrıştırmasını test etmek için hata ayıklama komutu.'
+  params:
+    - desc: 'Embed olarak ayrıştırılacak metin.'
+      name: embedText
+      optional: false
+      type: string
+delallquotes:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle ilişkili tüm alıntıları siler.'
+  params:
+    - &ref_182
+      desc: 'İlişkili alıntıları silinecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle ilişkili tüm alıntıları siler.'
+  params:
+    - desc: 'İlişkili alıntıları silinecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_1:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle ilişkili tüm alıntıları siler.'
+  params:
+    - desc: 'İlişkili alıntıları silinecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+delallquotes_string_2:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle ilişkili tüm alıntıları siler.'
+  params:
+    - desc: 'İlişkili alıntıları silinecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+editsnipe:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params: [ ]
+editsnipe_ITextChannel:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - &ref_207
+      desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_1:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_2:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_3:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+editsnipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_208
+      desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_1:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_2:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_IUser_3:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+editsnipe_noparams:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params: [ ]
+editsnipe_noparams_1:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params: [ ]
+editsnipe_noparams_2:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son düzenlediği mesajı yakalar.'
+  params: [ ]
+editsnipelist:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - &ref_209
+      desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_1:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_=_2:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - &ref_210
+      desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_211
+      desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+editsnipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x düzenlenmiş mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+embeddelete:
+  args:
+    - name
+  desc: 'Kişisel bir embed şablonunu siler.'
+  params:
+    - desc: 'Silinecek embed şablonunun adı.'
+      name: name
+      optional: false
+      type: string
+embedlist:
+  args:
+    - ''
+  desc: 'Tüm kişisel embed şablonlarını listeler.'
+  params: [ ]
+embedpreview:
+  args:
+    - name
+  desc: 'Bir embed şablonunun önizlemesini gösterir.'
+  params:
+    - desc: 'Önizlemesi gösterilecek embed şablonunun adı.'
+      name: name
+      optional: false
+      type: string
+embedsave:
+  args:
+    - name
+    - embedJson
+  desc: 'Kişisel kullanım için bir embed şablonu kaydeder.'
+  params:
+    - desc: 'Embed şablonunun adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Embed''in JSON gösterimi.'
+      name: embedJson
+      optional: false
+      type: string
+emotelist:
+  args:
+    - '[emotetype]'
+  desc: 'Bir sunucudaki emojileri getirir. Bir emoji türü belirtilirse yalnızca o türdeki emojileri listeler.'
+  params:
+    - desc: 'Listelenecek emoji türü (hareketli veya hareketsiz).'
+      name: emotetype
+      optional: true
+      type: string
+fetch:
+  args:
+    - id
+  desc: 'Bir kullanıcının Discord ID''sine göre kullanıcı bilgilerini getirir ve gösterir.'
+  params:
+    - &ref_217
+      desc: 'Kullanıcının Discord ID''si.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong:
+  args:
+    - id
+  desc: 'Bir kullanıcının Discord ID''sine göre kullanıcı bilgilerini getirir ve gösterir.'
+  params:
+    - desc: 'Kullanıcının Discord ID''si.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_1:
+  args:
+    - id
+  desc: 'Bir kullanıcının Discord ID''sine göre kullanıcı bilgilerini getirir ve gösterir.'
+  params:
+    - desc: 'Kullanıcının Discord ID''si.'
+      name: id
+      optional: false
+      type: ulong
+fetch_ulong_2:
+  args:
+    - id
+  desc: 'Bir kullanıcının Discord ID''sine göre kullanıcı bilgilerini getirir ve gösterir.'
+  params:
+    - desc: 'Kullanıcının Discord ID''si.'
+      name: id
+      optional: false
+      type: ulong
+getautopublishes:
+  args:
+    - ''
+  desc: 'Otomatik yayımlaması açık kanalların ve ilişkili kara listelerinin listesini gösterir.'
+  params: [ ]
+getjson:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ITextChannel_ulong:
+  args:
+    - channel messageid
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_226
+      desc: 'JSON''u alınacak mesajın ID''si.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_1:
+  args:
+    - channel messageid
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'JSON''u alınacak mesajın ID''si.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_2:
+  args:
+    - channel messageid
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'JSON''u alınacak mesajın ID''si.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ITextChannel_ulong_3:
+  args:
+    - channel messageid
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'JSON''u alınacak mesajın ID''si.'
+      name: messageId
+      optional: false
+      type: ulong
+getjson_ulong_=:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_1:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: true
+      type: channel
+getjson_ulong_=_2:
+  args:
+    - '<id> [@channel]'
+    - id
+  desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+  params:
+    - desc: 'Bir mesajın Mewdeko''ya özgü JSON''unu getirir.'
+      name: id
+      optional: false
+      type: ulong
+    - desc: 'Mesajın kanalı.'
+      name: channel
+      optional: true
+      type: channel
+graph:
+  args:
+    - text -10 10
+    - text
+  desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+  params:
+    - &ref_234
+      desc: 'Grafiği çizilecek fonksiyon.'
+      name: function
+      optional: false
+      type: string
+    - &ref_235
+      desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: -10
+      optional: false
+      type: '='
+    - &ref_236
+      desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=:
+  args:
+    - text -10 10
+    - text
+  desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+  params:
+    - desc: 'Grafiği çizilecek fonksiyon.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_1:
+  args:
+    - text -10 10
+    - text
+  desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+  params:
+    - desc: 'Grafiği çizilecek fonksiyon.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: 10
+      optional: false
+      type: '='
+graph_string_=_=_2:
+  args:
+    - text -10 10
+    - text
+  desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+  params:
+    - desc: 'Grafiği çizilecek fonksiyon.'
+      name: function
+      optional: false
+      type: string
+    - desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: -10
+      optional: false
+      type: '='
+    - desc: 'Bir matematiksel fonksiyonun grafiğini çizer.'
+      name: 10
+      optional: false
+      type: '='
+guildembeddelete:
+  args:
+    - name
+  desc: 'Bir sunucu embed şablonunu siler (ManageMessages yetkisi gerekir).'
+  params:
+    - desc: 'Silinecek embed şablonunun adı.'
+      name: name
+      optional: false
+      type: string
+guildembedlist:
+  args:
+    - ''
+  desc: 'Tüm sunucu embed şablonlarını listeler.'
+  params: [ ]
+guildembedsave:
+  args:
+    - name
+    - embedJson
+  desc: 'Sunucu kullanımı için bir embed şablonu kaydeder (ManageMessages yetkisi gerekir).'
+  params:
+    - desc: 'Embed şablonunun adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Embed''in JSON gösterimi.'
+      name: embedJson
+      optional: false
+      type: string
+inrole:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir roldeki kullanıcıların listesini gösterir.'
+  params:
+    - &ref_253
+      desc: 'Aranacak rol.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir roldeki kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak rol.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir roldeki kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak rol.'
+      name: role
+      optional: false
+      type: IRole
+inrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir roldeki kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak rol.'
+      name: role
+      optional: false
+      type: IRole
+inroles:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen rollerdeki kullanıcıların listesini gösterir.'
+  params:
+    - &ref_254
+      desc: 'Aranacak ilk rol.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_255
+      desc: 'Aranacak ikinci rol.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen rollerdeki kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak ilk rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Aranacak ikinci rol.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen rollerdeki kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak ilk rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Aranacak ikinci rol.'
+      name: role2
+      optional: false
+      type: IRole
+inroles_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen rollerdeki kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak ilk rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Aranacak ikinci rol.'
+      name: role2
+      optional: false
+      type: IRole
+invite:
+  args:
+    - ''
+  desc: 'Botun davet bağlantısını getirir. Ayrıca web sitesini, dokümanları ve destek sunucusunu gösterir.'
+  params: [ ]
+invitedusers:
+  args:
+    - '[@user]'
+  desc: 'Belirli bir kullanıcının davet ettiği kişilerin listesini gösterir.'
+  params:
+    - desc: 'Davetleri kontrol edilecek kullanıcı. Boş bırakılırsa komutu kullanan kişi kontrol edilir.'
+      name: user
+      optional: true
+      type: user
+inviteleaderboard:
+  args:
+    - '[AllTime] [@role]'
+    - 'Weekly'
+  desc: 'En çok davet getiren kullanıcıların sıralamasını normal/ayrılan/sahte/bonus dökümüyle gösterir. İsteğe bağlı olarak bir zaman aralığı veya rolle sınırlanabilir.'
+  params:
+    - desc: 'Zaman aralığı: AllTime, Daily, Weekly veya Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Yalnızca bu role sahip davet edenleri dahil et.'
+      name: role
+      optional: true
+      type: IRole
+invites_=:
+  args:
+    - '[@user]'
+  desc: 'Bir kullanıcının davet sayısını gösterir.'
+  params:
+    - desc: 'Davetleri kontrol edilecek kullanıcı. Boş bırakılırsa komutu kullanan kişi kontrol edilir.'
+      name: user
+      optional: true
+      type: user
+invitesettings:
+  args:
+    - ''
+  desc: 'Sunucunun mevcut davet ayarlarını gösterir.'
+  params: [ ]
+joinstats:
+  args:
+    - ''
+  desc: 'Sunucunun katılım istatistiklerini gösteren bir grafik oluşturup gönderir.'
+  params: [ ]
+joinstatscolor:
+  args:
+    - number number number
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - &ref_257
+      desc: 'Rengin kırmızı bileşeni.'
+      name: r
+      optional: false
+      type: int
+    - &ref_258
+      desc: 'Rengin yeşil bileşeni.'
+      name: g
+      optional: false
+      type: int
+    - &ref_259
+      desc: 'Rengin mavi bileşeni.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int:
+  args:
+    - number number number
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - desc: 'Rengin kırmızı bileşeni.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Rengin yeşil bileşeni.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Rengin mavi bileşeni.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - desc: 'Rengin kırmızı bileşeni.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Rengin yeşil bileşeni.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Rengin mavi bileşeni.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - desc: 'Rengin kırmızı bileşeni.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Rengin yeşil bileşeni.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Rengin mavi bileşeni.'
+      name: b
+      optional: false
+      type: int
+joinstatscolor_noparams:
+  args:
+    - ''
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+joinstatscolor_noparams_1:
+  args:
+    - ''
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+joinstatscolor_noparams_2:
+  args:
+    - ''
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+joinstatscolor_noparams_3:
+  args:
+    - ''
+  desc: 'Katılım istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+leavestats:
+  args:
+    - ''
+  desc: 'Sunucunun ayrılma istatistiklerini gösteren bir grafik oluşturup gönderir.'
+  params: [ ]
+leavestatscolor:
+  args:
+    - number number number
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - &ref_270
+      desc: 'Rengin kırmızı bileşeni, 0 ile 255 arasında.'
+      name: r
+      optional: false
+      type: int
+    - &ref_271
+      desc: 'Rengin yeşil bileşeni, 0 ile 255 arasında.'
+      name: g
+      optional: false
+      type: int
+    - &ref_272
+      desc: 'Rengin mavi bileşeni, 0 ile 255 arasında.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int:
+  args:
+    - number number number
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - desc: 'Rengin kırmızı bileşeni, 0 ile 255 arasında.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Rengin yeşil bileşeni, 0 ile 255 arasında.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Rengin mavi bileşeni, 0 ile 255 arasında.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_1:
+  args:
+    - number number number
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - desc: 'Rengin kırmızı bileşeni, 0 ile 255 arasında.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Rengin yeşil bileşeni, 0 ile 255 arasında.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Rengin mavi bileşeni, 0 ile 255 arasında.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_int_int_int_2:
+  args:
+    - number number number
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params:
+    - desc: 'Rengin kırmızı bileşeni, 0 ile 255 arasında.'
+      name: r
+      optional: false
+      type: int
+    - desc: 'Rengin yeşil bileşeni, 0 ile 255 arasında.'
+      name: g
+      optional: false
+      type: int
+    - desc: 'Rengin mavi bileşeni, 0 ile 255 arasında.'
+      name: b
+      optional: false
+      type: int
+leavestatscolor_noparams:
+  args:
+    - ''
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+leavestatscolor_noparams_1:
+  args:
+    - ''
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+leavestatscolor_noparams_2:
+  args:
+    - ''
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+leavestatscolor_noparams_3:
+  args:
+    - ''
+  desc: 'Ayrılma istatistik grafiğinin varsayılan rengini altın olarak ayarlar. Bu, RGB girişi gerektirmeden önceden tanımlı bir rengi uygulayan kolaylık komutudur.'
+  params: [ ]
+listquotes:
+  args:
+    - ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - &ref_279
+      desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=:
+  args:
+    - ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_1:
+  args:
+    - ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_2:
+  args:
+    - ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_1:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_2:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+listquotes_=_=_3:
+  args:
+    - 1 ordertype.keyword
+  desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+  params:
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: 1
+      optional: false
+      type: '='
+    - desc: 'Sunucudaki alıntıları belirli bir sayfada listeler. Alıntılar anahtar kelimeye veya eklenme tarihine göre sıralanabilir.'
+      name: OrderType.Keyword
+      optional: false
+      type: '='
+minmessagecountlength:
+  args:
+    - 0
+  desc: 'Bir mesajın sayılması için minimum uzunluk'
+  params:
+    - desc: 'Bir mesajın sayılması için minimum uzunluk'
+      name: 0
+      optional: false
+      type: '='
+minmsglength:
+  args:
+    - length
+  desc: 'Minimum mesaj sayısı uzunluğunu ayarlar.'
+  params:
+    - desc: 'Minimum mesaj uzunluğu.'
+      name: length
+      optional: false
+      type: int
+owoify:
+  args:
+    - text
+  desc: 'Belirtilen metni OwO''laştırır.'
+  params:
+    - &ref_334
+      desc: 'OwO''laştırılacak metin.'
+      name: input
+      optional: false
+      type: string
+owoify_string:
+  args:
+    - text
+  desc: 'Belirtilen metni OwO''laştırır.'
+  params:
+    - desc: 'OwO''laştırılacak metin.'
+      name: input
+      optional: false
+      type: string
+owoify_string_1:
+  args:
+    - text
+  desc: 'Belirtilen metni OwO''laştırır.'
+  params:
+    - desc: 'OwO''laştırılacak metin.'
+      name: input
+      optional: false
+      type: string
+owoify_string_2:
+  args:
+    - text
+  desc: 'Belirtilen metni OwO''laştırır.'
+  params:
+    - desc: 'OwO''laştırılacak metin.'
+      name: input
+      optional: false
+      type: string
+ping:
+  args:
+    - ''
+  desc: 'Botun pingini gösterir.'
+  params: [ ]
+pingip:
+  args:
+    - text 1
+    - text
+  desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+  params:
+    - &ref_345
+      desc: 'Ping atılacak IP adresi.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=:
+  args:
+    - text 1
+    - text
+  desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+  params:
+    - desc: 'Ping atılacak IP adresi.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_1:
+  args:
+    - text 1
+    - text
+  desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+  params:
+    - desc: ''
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+pingip_string_=_2:
+  args:
+    - text 1
+    - text
+  desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+  params:
+    - desc: 'Ping atılacak IP adresi.'
+      name: ip
+      optional: false
+      type: string
+    - desc: 'Bir IP adresine ping atar. En fazla 10 ping.'
+      name: 1
+      optional: false
+      type: '='
+plot:
+  args:
+    - expression
+  desc: 'Bir grafik çizimi oluşturur.'
+  params:
+    - desc: 'Çizilecek matematiksel ifade.'
+      name: expression
+      optional: false
+      type: string
+previewlinks:
+  args:
+    - text
+  desc: 'Sunucu için bağlantı önizlemelerini açar veya kapatır.'
+  params:
+    - &ref_355
+      desc: 'Bağlantı önizlemelerini etkinleştirmek için "yes", devre dışı bırakmak için başka herhangi bir şey.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string:
+  args:
+    - text
+  desc: 'Sunucu için bağlantı önizlemelerini açar veya kapatır.'
+  params:
+    - desc: 'Bağlantı önizlemelerini etkinleştirmek için "yes", devre dışı bırakmak için başka herhangi bir şey.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_1:
+  args:
+    - text
+  desc: 'Sunucu için bağlantı önizlemelerini açar veya kapatır.'
+  params:
+    - desc: 'Bağlantı önizlemelerini etkinleştirmek için "yes", devre dışı bırakmak için başka herhangi bir şey.'
+      name: yesnt
+      optional: false
+      type: string
+previewlinks_string_2:
+  args:
+    - text
+  desc: 'Sunucu için bağlantı önizlemelerini açar veya kapatır.'
+  params:
+    - desc: 'Bağlantı önizlemelerini etkinleştirmek için "yes", devre dışı bırakmak için başka herhangi bir şey.'
+      name: yesnt
+      optional: false
+      type: string
+quoteadd:
+  args:
+    - text text
+  desc: 'Belirtilen anahtar kelime ve metinle yeni bir alıntı ekler.'
+  params:
+    - &ref_367
+      desc: 'Alıntıyla ilişkili anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_368
+      desc: 'Alıntının metni.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string:
+  args:
+    - text text
+  desc: 'Belirtilen anahtar kelime ve metinle yeni bir alıntı ekler.'
+  params:
+    - desc: 'Alıntıyla ilişkili anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Alıntının metni.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_1:
+  args:
+    - text text
+  desc: 'Belirtilen anahtar kelime ve metinle yeni bir alıntı ekler.'
+  params:
+    - desc: 'Alıntıyla ilişkili anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Alıntının metni.'
+      name: text
+      optional: false
+      type: string
+quoteadd_string_string_2:
+  args:
+    - text text
+  desc: 'Belirtilen anahtar kelime ve metinle yeni bir alıntı ekler.'
+  params:
+    - desc: 'Alıntıyla ilişkili anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Alıntının metni.'
+      name: text
+      optional: false
+      type: string
+quotedelete:
+  args:
+    - number
+  desc: 'Belirtilen ID''ye sahip alıntıyı siler.'
+  params:
+    - &ref_369
+      desc: 'Silinecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int:
+  args:
+    - number
+  desc: 'Belirtilen ID''ye sahip alıntıyı siler.'
+  params:
+    - desc: 'Silinecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_1:
+  args:
+    - number
+  desc: 'Belirtilen ID''ye sahip alıntıyı siler.'
+  params:
+    - desc: 'Silinecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quotedelete_int_2:
+  args:
+    - number
+  desc: 'Belirtilen ID''ye sahip alıntıyı siler.'
+  params:
+    - desc: 'Silinecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quoteexport:
+  args: [ ]
+  desc: 'Sunucudaki tüm alıntıları JSON formatında dışa aktarır.'
+  params: [ ]
+quoteid:
+  args:
+    - number
+  desc: 'Belirtilen ID''li alıntıyı kimin eklediğini gösterir.'
+  params:
+    - &ref_370
+      desc: 'Gösterilecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quoteid_int:
+  args:
+    - number
+  desc: 'Belirtilen ID''li alıntıyı kimin eklediğini gösterir.'
+  params:
+    - desc: 'Gösterilecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quoteid_int_1:
+  args:
+    - number
+  desc: 'Belirtilen ID''li alıntıyı kimin eklediğini gösterir.'
+  params:
+    - desc: 'Gösterilecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quoteid_int_2:
+  args:
+    - number
+  desc: 'Belirtilen ID''li alıntıyı kimin eklediğini gösterir.'
+  params:
+    - desc: 'Gösterilecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+quoteimport:
+  args: [ ]
+  desc: 'Bir JSON dosya ekinden alıntıları içe aktarır. Yinelenen alıntılara izin verilir.'
+  params: [ ]
+quoteprint:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle eşleşen rastgele bir alıntı gösterir.'
+  params:
+    - &ref_371
+      desc: 'Alıntılarda aranacak anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle eşleşen rastgele bir alıntı gösterir.'
+  params:
+    - desc: 'Alıntılarda aranacak anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_1:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle eşleşen rastgele bir alıntı gösterir.'
+  params:
+    - desc: 'Alıntılarda aranacak anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+quoteprint_string_2:
+  args:
+    - text
+  desc: 'Belirtilen anahtar kelimeyle eşleşen rastgele bir alıntı gösterir.'
+  params:
+    - desc: 'Alıntılarda aranacak anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+quotesearch:
+  args:
+    - text text
+  desc: 'Hem anahtar kelimeyle hem de metin sorgusuyla eşleşen bir alıntıyı arar ve gösterir.'
+  params:
+    - &ref_372
+      desc: 'Alıntılarda eşleştirilecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - &ref_373
+      desc: 'Alıntılarda eşleştirilecek metin.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string:
+  args:
+    - text text
+  desc: 'Hem anahtar kelimeyle hem de metin sorgusuyla eşleşen bir alıntıyı arar ve gösterir.'
+  params:
+    - desc: 'Alıntılarda eşleştirilecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Alıntılarda eşleştirilecek metin.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_1:
+  args:
+    - text text
+  desc: 'Hem anahtar kelimeyle hem de metin sorgusuyla eşleşen bir alıntıyı arar ve gösterir.'
+  params:
+    - desc: 'Alıntılarda eşleştirilecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Alıntılarda eşleştirilecek metin.'
+      name: text
+      optional: false
+      type: string
+quotesearch_string_string_2:
+  args:
+    - text text
+  desc: 'Hem anahtar kelimeyle hem de metin sorgusuyla eşleşen bir alıntıyı arar ve gösterir.'
+  params:
+    - desc: 'Alıntılarda eşleştirilecek anahtar kelime.'
+      name: keyword
+      optional: false
+      type: string
+    - desc: 'Alıntılarda eşleştirilecek metin.'
+      name: text
+      optional: false
+      type: string
+quoteshow:
+  args:
+    - number
+  desc: 'Belirtilen ID''li alıntıyı gösterir.'
+  params:
+    - desc: 'Gösterilecek alıntının ID''si.'
+      name: id
+      optional: false
+      type: int
+remind:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - &ref_388
+      desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - &ref_386
+      desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - &ref_387
+      desc: 'Hatırlatıcının gönderileceği metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - desc: 'Hatırlatıcının gönderileceği metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - desc: 'Hatırlatıcının gönderileceği metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+remind_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - desc: 'Hatırlatıcının gönderileceği metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_1:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+remind_MeOrHere_string_2:
+  args:
+    - me|here text
+    - me
+    - here
+  desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+  params:
+    - desc: 'Belirli bir metin kanalı için hatırlatıcı oluşturur.'
+      name: meorhere
+      optional: false
+      type: MeOrHere
+    - desc: 'Hatırlatıcı mesajı ve zamanlama bilgisi.'
+      name: remindString
+      optional: false
+      type: string
+reminddelete:
+  args:
+    - number
+  desc: 'Belirli bir hatırlatıcıyı siler.'
+  params:
+    - &ref_389
+      desc: 'Silinecek hatırlatıcının sırası.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int:
+  args:
+    - number
+  desc: 'Belirli bir hatırlatıcıyı siler.'
+  params:
+    - desc: 'Silinecek hatırlatıcının sırası.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_1:
+  args:
+    - number
+  desc: 'Belirli bir hatırlatıcıyı siler.'
+  params:
+    - desc: 'Silinecek hatırlatıcının sırası.'
+      name: index
+      optional: false
+      type: int
+reminddelete_int_2:
+  args:
+    - number
+  desc: 'Belirli bir hatırlatıcıyı siler.'
+  params:
+    - desc: 'Silinecek hatırlatıcının sırası.'
+      name: index
+      optional: false
+      type: int
+remindlist:
+  args:
+    - ''
+  desc: 'Mevcut kullanıcının tüm hatırlatıcılarını listeler.'
+  params: [ ]
+removeautopublish:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı devre dışı bırakır.'
+  params:
+    - &ref_393
+      desc: 'Otomatik yayımlaması devre dışı bırakılacak haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı devre dışı bırakır.'
+  params:
+    - desc: 'Otomatik yayımlaması devre dışı bırakılacak haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı devre dışı bırakır.'
+  params:
+    - desc: 'Otomatik yayımlaması devre dışı bırakılacak haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removeautopublish_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Sunucudaki belirli bir haber kanalında otomatik yayımlamayı devre dışı bırakır.'
+  params:
+    - desc: 'Otomatik yayımlaması devre dışı bırakılacak haber kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - &ref_409
+      desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_407
+      desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_ITextChannel_string:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_408
+      desc: 'Kara listeden çıkarılacak kelime.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_1:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Kara listeden çıkarılacak kelime.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_2:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Kara listeden çıkarılacak kelime.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_ITextChannel_string_3:
+  args:
+    - channel text
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Kara listeden çıkarılacak kelime.'
+      name: word
+      optional: false
+      type: string
+removepublishblacklist_IUser_ITextChannel:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+removepublishblacklist_IUser_ITextChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+  params:
+    - desc: 'Belirtilen kanal için otomatik yayımlama kara listesinden bir kelimeyi kaldırır.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kara listesinden çıkarılacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+repeat:
+  args:
+    - text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - &ref_427
+      desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string:
+  args:
+    - dt interval text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - &ref_428
+      desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - &ref_429
+      desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_1:
+  args:
+    - dt interval text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_2:
+  args:
+    - dt interval text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_StoopidTime_string_3:
+  args:
+    - dt interval text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: true
+      type: GuildDateTime
+    - desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: true
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string:
+  args:
+    - dt text
+    - dt
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - &ref_430
+      desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_1:
+  args:
+    - dt text
+    - dt
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_2:
+  args:
+    - dt text
+    - dt
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_GuildDateTime_string_3:
+  args:
+    - dt text
+    - dt
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlayıcının başlayacağı isteğe bağlı gün saati.'
+      name: dt
+      optional: false
+      type: GuildDateTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string:
+  args:
+    - interval text
+    - interval
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - &ref_431
+      desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_1:
+  args:
+    - interval text
+    - interval
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_2:
+  args:
+    - interval text
+    - interval
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_StoopidTime_string_3:
+  args:
+    - interval text
+    - interval
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlar arasındaki isteğe bağlı aralık.'
+      name: interval
+      optional: false
+      type: StoopidTime
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_string:
+  args:
+    - text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_string_1:
+  args:
+    - text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeat_string_2:
+  args:
+    - text
+  desc: 'İsteğe bağlı başlangıç saati ve aralıkla bir tekrarlayıcı oluşturur.'
+  params:
+    - desc: 'Tekrarlanacak mesaj.'
+      name: message
+      optional: true
+      type: string
+repeatactivity:
+  args:
+    - index threshold timeWindow
+  desc: 'Bir tekrarlayıcı için etkinlik eşiğini ayarlar.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tetiklemek için gereken mesaj sayısı.'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Etkinlik algılama zaman aralığı (ör. 5m, 10s).'
+      name: timeWindow
+      optional: false
+      type: stoopid time
+repeatchannel:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Bir tekrarlayıcının mesajlarını gönderdiği kanalı değiştirir.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tekrarlayıcının yeni kanalı. Belirtilmezse mevcut kanal kullanılır.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Bir tekrarlayıcının mesajlarını gönderdiği kanalı değiştirir.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tekrarlayıcının yeni kanalı. Belirtilmezse mevcut kanal kullanılır.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_1:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Bir tekrarlayıcının mesajlarını gönderdiği kanalı değiştirir.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tekrarlayıcının yeni kanalı. Belirtilmezse mevcut kanal kullanılır.'
+      name: channel
+      optional: true
+      type: channel
+repeatchannel_int_=_2:
+  args:
+    - '<index> [@channel]'
+    - number
+  desc: 'Bir tekrarlayıcının mesajlarını gönderdiği kanalı değiştirir.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tekrarlayıcının yeni kanalı. Belirtilmezse mevcut kanal kullanılır.'
+      name: channel
+      optional: true
+      type: channel
+repeatconversation:
+  args:
+    - index
+  desc: 'Bir tekrarlayıcı için sohbet algılamayı açar veya kapatır.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatforumtags:
+  args:
+    - index action tagType tags
+  desc: 'Bir tekrarlayıcı için forum etiketi koşullarını ayarlar.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Yapılacak işlem (add, remove, clear, list).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Etiket kuralı türü (required veya excluded).'
+      name: tagType
+      optional: true
+      type: string
+    - desc: 'Virgülle ayrılmış etiket adları veya ID''leri listesi.'
+      name: tags
+      optional: true
+      type: string
+repeatinvoke:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı hemen tetikler.'
+  params:
+    - desc: 'Tetiklenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı hemen tetikler.'
+  params:
+    - desc: 'Tetiklenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_1:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı hemen tetikler.'
+  params:
+    - &ref_433
+      desc: 'Tetiklenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatinvoke_int_2:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı hemen tetikler.'
+  params:
+    - desc: 'Tetiklenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatlist:
+  args:
+    - ''
+  desc: 'Sunucudaki tüm aktif tekrarlayıcıları listeler.'
+  params: [ ]
+repeatmessage:
+  args:
+    - number text
+    - number
+  desc: 'Mevcut bir tekrarlayıcının mesajını günceller.'
+  params:
+    - &ref_434
+      desc: 'Güncellenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - &ref_435
+      desc: 'Tekrarlayıcı için yeni mesaj.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string:
+  args:
+    - number text
+    - number
+  desc: 'Mevcut bir tekrarlayıcının mesajını günceller.'
+  params:
+    - desc: 'Güncellenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tekrarlayıcı için yeni mesaj.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_1:
+  args:
+    - number text
+    - number
+  desc: 'Mevcut bir tekrarlayıcının mesajını günceller.'
+  params:
+    - desc: 'Güncellenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tekrarlayıcı için yeni mesaj.'
+      name: message
+      optional: true
+      type: string
+repeatmessage_int_string_2:
+  args:
+    - number text
+    - number
+  desc: 'Mevcut bir tekrarlayıcının mesajını günceller.'
+  params:
+    - desc: 'Güncellenecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Tekrarlayıcı için yeni mesaj.'
+      name: message
+      optional: true
+      type: string
+repeatpriority:
+  args:
+    - index priority
+  desc: 'Bir tekrarlayıcı için öncelik ayarlar (0-100, yüksek = daha önemli).'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Öncelik seviyesi (0-100).'
+      name: priority
+      optional: false
+      type: int
+repeatredun:
+  args:
+    - action
+  desc: 'Tekrar fazlalığını yönetir.'
+  params:
+    - desc: 'Yapılacak işlem.'
+      name: action
+      optional: false
+      type: string
+repeatredundant:
+  args:
+    - number
+  desc: 'Bir tekrarlayıcı için fazlalık kontrolünü açar veya kapatır.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatremove:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı kaldırır.'
+  params:
+    - desc: 'Kaldırılacak tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatremove_int:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı kaldırır.'
+  params:
+    - desc: 'Kaldırılacak tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_1:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı kaldırır.'
+  params:
+    - desc: 'Kaldırılacak tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatremove_int_2:
+  args:
+    - number
+  desc: 'Sıra numarasıyla bir tekrarlayıcıyı kaldırır.'
+  params:
+    - desc: 'Kaldırılacak tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatschedule:
+  args:
+    - index preset
+  desc: 'Bir tekrarlayıcı için zaman tabanlı zamanlama ayarlar.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Hazır zaman koşulu (business, evening, weekend, none, disable).'
+      name: preset
+      optional: false
+      type: string
+repeatthreadautosticky:
+  args:
+    - index
+  desc: 'Bir tekrarlayıcı için dizi otomatik sabitleme özelliğini açar veya kapatır.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatthreadonly:
+  args:
+    - index
+  desc: 'Bir tekrarlayıcı için yalnızca dizi modunu açar veya kapatır.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeatsuppressnotifications:
+  args:
+    - index
+  desc: 'Bir tekrarlayıcı için bildirim bastırmayı açar veya kapatır.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeattoggle:
+  args:
+    - index
+  desc: 'Bir tekrarlayıcının etkin durumunu açar veya kapatır.'
+  params:
+    - desc: 'Durumu değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+repeattriggermode:
+  args:
+    - index mode
+  desc: 'Bir tekrarlayıcı için tetikleme modunu ayarlar.'
+  params:
+    - desc: 'Değiştirilecek tekrarlayıcının 1''den başlayan sırası.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak tetikleme modu.'
+      name: mode
+      optional: false
+      type: string
+resetmessagecounts:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_1:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_=_=_2:
+  args:
+    - '[@user] [@channel]'
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: channel
+resetmessagecounts_ITextChannel:
+  args:
+    - channel
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - &ref_439
+      desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+resetmessagecounts_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Bir kullanıcının, bir kanalın veya her ikisinin mesaj sayılarını sıfırlar.'
+  params:
+    - desc: 'İsteğe bağlı: Mesaj sayılarının sıfırlanacağı kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rinfo:
+  args:
+    - '@role'
+  desc: 'Sunucudaki belirli bir rol hakkında bilgi gösterir.'
+  params:
+    - &ref_442
+      desc: 'Hakkında bilgi alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole:
+  args:
+    - '@role'
+  desc: 'Sunucudaki belirli bir rol hakkında bilgi gösterir.'
+  params:
+    - desc: 'Hakkında bilgi alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_1:
+  args:
+    - '@role'
+  desc: 'Sunucudaki belirli bir rol hakkında bilgi gösterir.'
+  params:
+    - desc: 'Hakkında bilgi alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+rinfo_IRole_2:
+  args:
+    - '@role'
+  desc: 'Sunucudaki belirli bir rol hakkında bilgi gösterir.'
+  params:
+    - desc: 'Hakkında bilgi alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+roleid:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir rolün ID''sini verir.'
+  params:
+    - &ref_457
+      desc: 'ID''si alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir rolün ID''sini verir.'
+  params:
+    - desc: 'ID''si alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_1:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir rolün ID''sini verir.'
+  params:
+    - desc: 'ID''si alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+roleid_IRole_2:
+  args:
+    - '@role'
+  desc: 'Belirtilen bir rolün ID''sini verir.'
+  params:
+    - desc: 'ID''si alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+rolepermlist:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - &ref_460
+      desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - &ref_461
+      desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_1:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_=_GuildPermission[]_2:
+  args:
+    - permissiontype.and perms
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+      name: PermissionType.And
+      optional: false
+      type: '='
+    - desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]:
+  args:
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_1:
+  args:
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_2:
+  args:
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+rolepermlist_GuildPermission[]_3:
+  args:
+    - perms
+  desc: 'Belirtilen izinlere sahip tüm rolleri listeler. Varsayılan arama türü And''dir.'
+  params:
+    - desc: 'Aranacak izinler.'
+      name: perms
+      optional: false
+      type: GuildPermission[]
+roles:
+  args:
+    - '[@target]'
+  desc: 'Sunucudaki rollerin listesini getirir. Bir kullanıcı belirtilirse o kullanıcının rollerini gösterir.'
+  params:
+    - desc: 'Rolleri alınacak kullanıcı.'
+      name: target
+      optional: true
+      type: user
+roll:
+  args:
+    - number @user
+    - number
+    - '@user number'
+  desc: 'Belirtilen sayıda yüzlü zar atar. DnD zarları desteklenir.'
+  params:
+    - desc: 'Belirtilen sayıda yüzlü zar atar. DnD zarları desteklenir.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_467
+      default: null
+      desc: 'Belirtilen sayıda yüzlü zar atar. DnD zarları desteklenir.'
+      name: user
+      optional: true
+      type: Transactions(IUser
+roll_string:
+  args:
+    - text
+  desc: 'Belirtilen sayıda yüzlü zar atar. DnD zarları desteklenir.'
+  params:
+    - &ref_468
+      desc: 'Yapılacak zar atışı.'
+      name: roll
+      optional: false
+      type: string
+roll_string_1:
+  args:
+    - text
+  desc: 'Belirtilen sayıda yüzlü zar atar. DnD zarları desteklenir.'
+  params:
+    - desc: 'Yapılacak zar atışı.'
+      name: roll
+      optional: false
+      type: string
+roll_string_2:
+  args:
+    - text
+  desc: 'Belirtilen sayıda yüzlü zar atar. DnD zarları desteklenir.'
+  params:
+    - desc: 'Yapılacak zar atışı.'
+      name: roll
+      optional: false
+      type: string
+roll_string_3:
+  args:
+    - text
+  desc: 'Belirtilen sayıda yüzlü zar atar. DnD zarları desteklenir.'
+  params:
+    - desc: 'Yapılacak zar atışı.'
+      name: roll
+      optional: false
+      type: string
+savechat:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+  params:
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+  params:
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_1:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+  params:
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: channel
+      optional: true
+      type: channel
+savechat_StoopidTime_=_2:
+  args:
+    - '<time> [@channel]'
+    - time
+  desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+  params:
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'Bir kanalın sohbet kaydını kaydeder. Public mewdeko bunu nginx CDN''e kaydeder ve CDN''de görüntülemeniz için bir bağlantı gönderir.'
+      name: channel
+      optional: true
+      type: channel
+say:
+  args:
+    - channel text
+    - channel
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - &ref_478
+      desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_479
+      desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+say_=:
+  args:
+    - '@channel [message]'
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+say_=_1:
+  args:
+    - '@channel [message]'
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+say_=_2:
+  args:
+    - '@channel [message]'
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+say_=_3:
+  args:
+    - '@channel [message]'
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string:
+  args:
+    - channel text
+    - channel
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_1:
+  args:
+    - channel text
+    - channel
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+say_ITextChannel_string_2:
+  args:
+    - channel text
+    - channel
+  desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+  params:
+    - desc: 'Botun bir mesajı normal veya embed olarak göndermesi için kullanılır.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string
+serverid_noparams:
+  args:
+    - ''
+  desc: 'Mevcut sunucunun ID''sini verir.'
+  params: [ ]
+serverinfo:
+  args:
+    - '[guildName]'
+  desc: 'Sunucu hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'İsteğe bağlı. Hakkında bilgi gösterilecek sunucunun adı.'
+      name: guildName
+      optional: true
+      type: string
+servermessages:
+  args:
+    - ''
+  desc: 'Tüm sunucunun mesaj istatistiklerini getirir.'
+  params: [ ]
+setminaccountage:
+  args:
+    - number
+  desc: 'Bir davetin sayılması için gereken minimum hesap yaşını ayarlar.'
+  params:
+    - &ref_505
+      desc: 'Gün cinsinden minimum yaş.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int:
+  args:
+    - number
+  desc: 'Bir davetin sayılması için gereken minimum hesap yaşını ayarlar.'
+  params:
+    - desc: 'Gün cinsinden minimum yaş.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_1:
+  args:
+    - number
+  desc: 'Bir davetin sayılması için gereken minimum hesap yaşını ayarlar.'
+  params:
+    - desc: 'Gün cinsinden minimum yaş.'
+      name: days
+      optional: false
+      type: int
+setminaccountage_int_2:
+  args:
+    - number
+  desc: 'Bir davetin sayılması için gereken minimum hesap yaşını ayarlar.'
+  params:
+    - desc: 'Gün cinsinden minimum yaş.'
+      name: days
+      optional: false
+      type: int
+showemojis:
+  args:
+    - text
+  desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+  params:
+    - &ref_545
+      desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+      name: _
+      optional: false
+      type: string
+showemojis_string:
+  args:
+    - text
+  desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+  params:
+    - desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+      name: _
+      optional: false
+      type: string
+showemojis_string_1:
+  args:
+    - text
+  desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+  params:
+    - desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+      name: _
+      optional: false
+      type: string
+showemojis_string_2:
+  args:
+    - text
+  desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+  params:
+    - desc: 'Belirtilen bir veya daha fazla emojiyi büyütür.'
+      name: _
+      optional: false
+      type: string
+snipe:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params: [ ]
+snipe_ITextChannel:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_1:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_2:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_3:
+  args:
+    - chan
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+snipe_ITextChannel_IUser:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_1:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_2:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_ITextChannel_IUser_3:
+  args:
+    - chan @user
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kanal.'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_1:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_2:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_IUser_3:
+  args:
+    - '@user'
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params:
+    - desc: 'Mesajın alınacağı kullanıcı.'
+      name: user1
+      optional: false
+      type: IUser
+snipe_noparams:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params: [ ]
+snipe_noparams_1:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params: [ ]
+snipe_noparams_2:
+  args:
+    - ''
+  desc: 'Belirli bir kanalda bir kullanıcının son silinen mesajını yakalar.'
+  params: [ ]
+snipelist:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_1:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_=_2:
+  args:
+    - 5
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_1:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_2:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_=_3:
+  args:
+    - channel 5
+    - channel
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_1:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_2:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_ITextChannel_IUser_=_3:
+  args:
+    - channel @user 5
+    - channel @user
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_1:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_2:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipelist_IUser_=_3:
+  args:
+    - '@user 5'
+    - '@user'
+    - '@user number'
+  desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+  params:
+    - desc: 'Mesajların alınacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Belirli bir kanalda bir kullanıcının son x silinen mesajını alır.'
+      name: 5
+      optional: false
+      type: '='
+snipeset:
+  args:
+    - value
+  desc: 'Silinen mesajların yakalanmasını açar veya kapatır. Varsayılan kapalıdır.'
+  params:
+    - &ref_551
+      desc: 'Ayarlanacak değer.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction:
+  args:
+    - value
+  desc: 'Silinen mesajların yakalanmasını açar veya kapatır. Varsayılan kapalıdır.'
+  params:
+    - desc: 'Ayarlanacak değer.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_1:
+  args:
+    - value
+  desc: 'Silinen mesajların yakalanmasını açar veya kapatır. Varsayılan kapalıdır.'
+  params:
+    - desc: 'Ayarlanacak değer.'
+      name: value
+      optional: false
+      type: PermissionAction
+snipeset_PermissionAction_2:
+  args:
+    - value
+  desc: 'Silinen mesajların yakalanmasını açar veya kapatır. Varsayılan kapalıdır.'
+  params:
+    - desc: 'Ayarlanacak değer.'
+      name: value
+      optional: false
+      type: PermissionAction
+stats:
+  args:
+    - ''
+  desc: 'Botun istatistiklerini gösterir.'
+  params: [ ]
+streamrole:
+  args:
+    - '@role @role'
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params:
+    - &ref_576
+      desc: 'Yayın etkinliğini izleyecek rol.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - &ref_577
+      desc: 'Yayına başlayan kullanıcılara verilecek rol.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params:
+    - desc: 'Yayın etkinliğini izleyecek rol.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Yayına başlayan kullanıcılara verilecek rol.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params:
+    - desc: 'Yayın etkinliğini izleyecek rol.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Yayına başlayan kullanıcılara verilecek rol.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params:
+    - desc: 'Yayın etkinliğini izleyecek rol.'
+      name: fromRole
+      optional: false
+      type: IRole
+    - desc: 'Yayına başlayan kullanıcılara verilecek rol.'
+      name: addRole
+      optional: false
+      type: IRole
+streamrole_noparams:
+  args:
+    - ''
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params: [ ]
+streamrole_noparams_1:
+  args:
+    - ''
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params: [ ]
+streamrole_noparams_2:
+  args:
+    - ''
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params: [ ]
+streamrole_noparams_3:
+  args:
+    - ''
+  desc: 'Sunucuda yayın rolü özelliğini devre dışı bırakır.'
+  params: [ ]
+streamroleblacklist:
+  args:
+    - action @user
+  desc: 'Yayın rolü özelliği için kara listeye bir kullanıcı ekler veya kara listeden çıkarır.'
+  params:
+    - &ref_578
+      desc: 'Yapılacak işlem (add veya remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - &ref_579
+      desc: 'Listeye eklenecek veya listeden çıkarılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser:
+  args:
+    - action @user
+  desc: 'Yayın rolü özelliği için kara listeye bir kullanıcı ekler veya kara listeden çıkarır.'
+  params:
+    - desc: 'Yapılacak işlem (add veya remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Listeye eklenecek veya listeden çıkarılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_1:
+  args:
+    - action @user
+  desc: 'Yayın rolü özelliği için kara listeye bir kullanıcı ekler veya kara listeden çıkarır.'
+  params:
+    - desc: 'Yapılacak işlem (add veya remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Listeye eklenecek veya listeden çıkarılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamroleblacklist_AddRemove_IGuildUser_2:
+  args:
+    - action @user
+  desc: 'Yayın rolü özelliği için kara listeye bir kullanıcı ekler veya kara listeden çıkarır.'
+  params:
+    - desc: 'Yapılacak işlem (add veya remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Listeye eklenecek veya listeden çıkarılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+streamrolekeyword:
+  args:
+    - '[keyword]'
+  desc: 'Yayın rolü özelliği için bir anahtar kelime ayarlar. Yalnızca yayın başlığında bu anahtar kelime geçen kullanıcılar yayın rolünü alır.'
+  params:
+    - desc: 'Yayın rolü özelliği için ayarlanacak anahtar kelime.'
+      name: keyword
+      optional: true
+      type: string
+streamrolewhitelist:
+  args:
+    - action @user
+  desc: 'Yayın rolü özelliği için beyaz listeye bir kullanıcı ekler veya beyaz listeden çıkarır.'
+  params:
+    - desc: 'Yapılacak işlem (add veya remove).'
+      name: action
+      optional: false
+      type: AddRemove
+    - desc: 'Listeye eklenecek veya listeden çıkarılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+sym:
+  args:
+    - expression
+  desc: 'Sembolik hesaplamalar yapar.'
+  params:
+    - desc: 'Sembolik olarak hesaplanacak ifade.'
+      name: expression
+      optional: false
+      type: string
+symbolic:
+  args:
+    - text
+  desc: 'Sembolik matematik işlemleri yapar.'
+  params:
+    - &ref_592
+      desc: 'Değerlendirilecek veya işlenecek sembolik ifade.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string:
+  args:
+    - text
+  desc: 'Sembolik matematik işlemleri yapar.'
+  params:
+    - desc: 'Değerlendirilecek veya işlenecek sembolik ifade.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_1:
+  args:
+    - text
+  desc: 'Sembolik matematik işlemleri yapar.'
+  params:
+    - desc: 'Değerlendirilecek veya işlenecek sembolik ifade.'
+      name: expression
+      optional: false
+      type: string
+symbolic_string_2:
+  args:
+    - text
+  desc: 'Sembolik matematik işlemleri yapar.'
+  params:
+    - desc: 'Değerlendirilecek veya işlenecek sembolik ifade.'
+      name: expression
+      optional: false
+      type: string
+toggleinvitetracking:
+  args:
+    - ''
+  desc: 'Sunucu için davet takibini açar veya kapatır.'
+  params: [ ]
+togglemessagecount:
+  args:
+    - ''
+  desc: 'Sunucuda mesaj sayımını açar veya kapatır'
+  params: [ ]
+togglemsgcount:
+  args:
+    - ''
+  desc: 'Mesaj sayım takibini açar veya kapatır.'
+  params: [ ]
+toggleremoveinviteonleave:
+  args:
+    - ''
+  desc: 'Bir kullanıcı sunucudan ayrıldığında davetlerinin silinip silinmeyeceğini açar veya kapatır.'
+  params: [ ]
+topusers:
+  args:
+    - ''
+  desc: 'Mesaj sayısına göre ilk 10 kullanıcının sıralamasını gösterir.'
+  params: [ ]
+traceroute:
+  args:
+    - text
+  desc: 'Belirtilen ana bilgisayara traceroute işlemi yapar; paketlerin bir IP adresine veya alan adına ulaşırken izlediği yolu gösterir.'
+  params:
+    - &ref_626
+      desc: 'Yolu izlenecek IP adresi veya alan adı.'
+      name: hostname
+      optional: false
+      type: string
+traceroute_string:
+  args:
+    - text
+  desc: 'Belirtilen ana bilgisayara traceroute işlemi yapar; paketlerin bir IP adresine veya alan adına ulaşırken izlediği yolu gösterir.'
+  params:
+    - desc: 'Yolu izlenecek IP adresi veya alan adı.'
+      name: hostname
+      optional: false
+      type: string
+userid:
+  args:
+    - '[@target]'
+  desc: 'Belirtilen bir kullanıcının ID''sini verir.'
+  params:
+    - desc: 'ID''si alınacak kullanıcı.'
+      name: target
+      optional: true
+      type: user
+userinfo:
+  args:
+    - '[@usr]'
+  desc: 'Belirtilen kullanıcı veya komutu kullanan hakkında ayrıntılı bilgi gösterir.'
+  params:
+    - desc: 'İsteğe bağlı. Hakkında bilgi alınacak kullanıcı.'
+      name: usr
+      optional: true
+      type: user
+usermessages_=_1:
+  args:
+    - '[@user]'
+  desc: 'Belirli bir kullanıcının mesaj istatistiklerini getirir.'
+  params:
+    - desc: 'Mesaj istatistikleri alınacak kullanıcı. Boş bırakılırsa komutu kullanan kişi.'
+      name: user
+      optional: true
+      type: user
+vcheck:
+  args:
+    - '[url]'
+  desc: 'Bir URL''yi VirusTotal API ile virüs taramasından geçirir.'
+  params:
+    - desc: 'Kontrol edilecek URL.'
+      name: url
+      optional: true
+      type: string
+verboseerror:
+  args:
+    - '[newstate]'
+  desc: 'Komutlar için ayrıntılı hata mesajlarını açar veya kapatır.'
+  params:
+    - desc: 'Ayrıntılı hataların yeni durumu. Boş bırakılırsa durum değiştirilir.'
+      name: newstate
+      optional: true
+      type: bool
+vinfo:
+  args:
+    - '[channel]'
+  desc: 'Belirtilen ses kanalı veya kullanıcının bulunduğu ses kanalı hakkında bilgi gösterir.'
+  params:
+    - desc: 'Hakkında bilgi alınacak ses kanalı, isteğe bağlı.'
+      name: channel
+      optional: true
+      type: voice channel
+vote_noparams:
+  args:
+    - ''
+  desc: 'Mewdeko''ya oy vermek için bir bağlantı gösterir.'
+  params: [ ]
+whoinvited:
+  args:
+    - '[@user]'
+  desc: 'Belirli bir kullanıcıyı sunucuya kimin davet ettiğini gösterir.'
+  params:
+    - desc: 'Kontrol edilecek kullanıcı. Boş bırakılırsa komutu kullanan kişi kontrol edilir.'
+      name: user
+      optional: true
+      type: user
+whosplaying:
+  args:
+    - text
+  desc: 'Belirtilen bir oyunu oynayan kullanıcıların listesini gösterir.'
+  params:
+    - &ref_660
+      desc: 'Aranacak oyun.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string:
+  args:
+    - text
+  desc: 'Belirtilen bir oyunu oynayan kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak oyun.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_1:
+  args:
+    - text
+  desc: 'Belirtilen bir oyunu oynayan kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak oyun.'
+      name: game
+      optional: true
+      type: string
+whosplaying_string_2:
+  args:
+    - text
+  desc: 'Belirtilen bir oyunu oynayan kullanıcıların listesini gösterir.'
+  params:
+    - desc: 'Aranacak oyun.'
+      name: game
+      optional: true
+      type: string
+vote:
+  args:
+    - ''
+  desc: 'Mewdeko''ya oy vermek için bir bağlantı gösterir.'
+  params: [ ]
+serverid:
+  args:
+    - ''
+  desc: 'Mevcut sunucunun ID''sini verir.'
+  params: [ ]
+invites:
+  args:
+    - '[user]'
+    - user
+  desc: 'Bir kullanıcının davet sayısını gösterir.'
+  params:
+    - desc: 'Davetleri kontrol edilecek kullanıcı. Boş bırakılırsa komutu kullanan kişi kontrol edilir.'
+      name: user
+      optional: true
+      type: IUser
+usermessages:
+  args:
+    - '[user]'
+    - user
+  desc: 'Belirli bir kullanıcının mesaj istatistiklerini getirir.'
+  params:
+    - desc: 'Mesaj istatistikleri alınacak kullanıcı. Boş bırakılırsa komutu kullanan kişi.'
+      name: user
+      optional: true
+      type: IUser
+togglecountrejoins:
+  args:
+    - ''
+  desc: 'Sunucuya tekrar katılan üyelerin davet ettiği kişiye normal bir davet kredisi verip vermeyeceğini, yoksa sahte davet olarak mı işaretleneceğini değiştirir.'
+  params: [ ]
+togglefakenoavatar:
+  args:
+    - ''
+  desc: 'Avatarsız katılan üyelerin sahte davet olarak işaretlenip işaretlenmeyeceğini değiştirir.'
+  params: [ ]
+invitelinkchannel:
+  args:
+    - '[#channel]'
+  desc: 'Kişisel davet bağlantılarının (invitelink komutundan) yönlendireceği kanalı ayarlar. Sistem kanalını kullanmak için kanalı boş bırakın.'
+  params:
+    - desc: 'Kanal veya sistem kanalı için boş bırakın.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitelogchannel:
+  args:
+    - '[#channel]'
+  desc: 'Takip edilen her katılım ve ayrılma için kimin kimi nasıl davet ettiğini gösteren bir embed alacak kanalı ayarlar. Devre dışı bırakmak için kanalı boş bırakın.'
+  params:
+    - desc: 'Kanal; devre dışı bırakmak için boş bırak.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitestats:
+  args:
+    - '[Monthly]'
+    - 'Weekly'
+  desc: 'Bir zaman aralığı için büyüme analizlerini gösterir: katılımlar, ayrılmalar, net büyüme, tutma, sahte katılımlar, katılım kaynakları, en çok davet edenler ve en çok kullanılan davet kodları.'
+  params:
+    - desc: 'Zaman aralığı: AllTime, Daily, Weekly veya Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedbycode:
+  args:
+    - 'abc123'
+  desc: 'Belirli bir davet koduyla katılan üyeleri listeler.'
+  params:
+    - desc: 'Davet kodu veya URL''si.'
+      name: code
+      optional: false
+      type: string
+invitedbylabel:
+  args:
+    - 'Twitter'
+  desc: 'Herhangi bir etiketli davet koduyla katılan üyeleri listeler.'
+  params:
+    - desc: 'Etiket.'
+      name: label
+      optional: false
+      type: string
+invitecodes:
+  args:
+    - '[user]'
+  desc: 'Bir kullanıcının oluşturduğu davet kodlarını ve kullanım sayılarını listeler.'
+  params:
+    - desc: 'Kullanıcı veya kendiniz için boş bırakın.'
+      name: user
+      optional: true
+      type: IUser
+invitelink:
+  args:
+    - ''
+  desc: 'Kişisel davet bağlantınızı gösterir; henüz yoksa sizin için kalıcı bir tane oluşturur. Bu bağlantıyla yapılan katılımlar size yazılır.'
+  params: [ ]
+addinvites:
+  args:
+    - '@user 5'
+  desc: 'Bir kullanıcıya normal davet ekler.'
+  params:
+    - desc: 'Kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kaç tane ekleneceği.'
+      name: amount
+      optional: false
+      type: int
+removeinvites:
+  args:
+    - '@user 5'
+  desc: 'Bir kullanıcıdan normal davet çıkarır.'
+  params:
+    - desc: 'Kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kaç tane çıkarılacağı.'
+      name: amount
+      optional: false
+      type: int
+addbonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Bir kullanıcıya bonus davet verir. Bonus davetler toplama dahil edilir ancak ayrı olarak takip edilir.'
+  params:
+    - desc: 'Kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kaç tane verileceği.'
+      name: amount
+      optional: false
+      type: int
+removebonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Bir kullanıcının bonus davetlerini alır.'
+  params:
+    - desc: 'Kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kaç tane çıkarılacağı.'
+      name: amount
+      optional: false
+      type: int
+addfakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Bir kullanıcının bazı davetlerini sahte olarak işaretler ve toplamını düşürür.'
+  params:
+    - desc: 'Kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kaç tane işaretleneceği.'
+      name: amount
+      optional: false
+      type: int
+removefakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Bir kullanıcının sahte davetlerini temizler ve toplamını yükseltir.'
+  params:
+    - desc: 'Kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kaç tane temizleneceği.'
+      name: amount
+      optional: false
+      type: int
+resetinvites:
+  args:
+    - '@user'
+    - 'Server'
+    - 'LeftMembers'
+  desc: 'Tek bir kullanıcının, sunucudaki herkesin veya yalnızca sonradan ayrılmış davet edenlerin davetlerini sıfırlar.'
+  params:
+    - desc: 'Sıfırlanacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Herkesi sıfırlamak için Server, yalnızca ayrılan üyeleri sıfırlamak için LeftMembers.'
+      name: scope
+      optional: false
+      type: InviteResetScope
+syncinvites:
+  args:
+    - '[user]'
+  desc: 'Discord''dan davet kullanım sayılarını içe aktarır; her davet edenin normal toplamını, kodlarındaki kullanımların toplamına yükseltir. Toplamlar hiçbir zaman düşürülmez, bu yüzden birden fazla çalıştırmak güvenlidir.'
+  params:
+    - desc: 'Yalnızca bu kullanıcıyı senkronize et; boş bırakılırsa herkes.'
+      name: user
+      optional: true
+      type: IGuildUser
+deleteinvite:
+  args:
+    - 'abc123'
+  desc: 'Sunucudan bir davet kodunu siler.'
+  params:
+    - desc: 'Davet kodu veya URL''si.'
+      name: code
+      optional: false
+      type: string
+purgeinvites:
+  args:
+    - '[maxUses] [#channel]'
+    - '0 #general'
+  desc: 'En fazla verilen sayıda kullanılmış, etiketsiz tüm davet kodlarını siler; isteğe bağlı olarak yalnızca tek bir kanal için.'
+  params:
+    - desc: 'Bundan fazla kullanılan kodlar korunur. Varsayılan 0''dır (yalnızca kullanılmamış kodlar).'
+      name: maxUses
+      optional: true
+      type: int
+    - desc: 'Yalnızca bu kanala yönlendiren kodları temizle.'
+      name: channel
+      optional: true
+      type: ITextChannel
+inviteblacklist:
+  args:
+    - '@user'
+    - '@role'
+  desc: 'Bir kullanıcının veya bir rolün tüm sahiplerinin davet kredisi kazanıp kazanamayacağını açar veya kapatır.'
+  params:
+    - desc: 'Değiştirilecek kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Açılıp kapatılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+invitehide:
+  args:
+    - '@user'
+  desc: 'Bir kullanıcının davet liderlik tablolarında gizlenip gizlenmeyeceğini açar veya kapatır. Davetleri yine de takip edilir.'
+  params:
+    - desc: 'Kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+inviteexclusions:
+  args:
+    - ''
+  desc: 'Kara listedeki davet ediciler, kara listedeki roller ve liderlik tablosunda gizlenen üyeleri listeler.'
+  params: [ ]
+invitelabelset:
+  args:
+    - 'abc123 Twitter campaign'
+  desc: 'Bir davet kodunu etiketler; böylece istatistiklerde, dışa aktarmalarda ve karşılama yer tutucularında adıyla görünür.'
+  params:
+    - desc: 'Davet kodu veya URL''si.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Etiket metni, en fazla 64 karakter.'
+      name: label
+      optional: false
+      type: string
+invitelabelrole:
+  args:
+    - 'abc123 @role'
+    - 'abc123'
+  desc: 'Etiketli bir davet koduyla katılan herkese verilecek rolü ayarlar veya temizler.'
+  params:
+    - desc: 'Davet kodu veya URL''si.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Rol; temizlemek için boş bırakın.'
+      name: role
+      optional: true
+      type: IRole
+invitelabelremove:
+  args:
+    - 'abc123'
+  desc: 'Bir davet kodundan etiketi kaldırır.'
+  params:
+    - desc: 'Davet kodu veya URL''si.'
+      name: code
+      optional: false
+      type: string
+invitelabels:
+  args:
+    - ''
+  desc: 'Etiketli davet kodlarını, rolleri ve sahipleriyle birlikte listeler.'
+  params: [ ]
+inviteexport:
+  args:
+    - '[AllTime]'
+  desc: 'Davet liderlik tablosunu CSV dosyası olarak dışa aktarır.'
+  params:
+    - desc: 'Zaman aralığı: AllTime, Daily, Weekly veya Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedexport:
+  args:
+    - '[user]'
+  desc: 'Bir kullanıcının davet ettiği üyeleri (veya kaydedilen tüm katılımları) CSV dosyası olarak dışa aktarır.'
+  params:
+    - desc: 'Davet eden; tüm katılımlar için boş bırakın.'
+      name: user
+      optional: true
+      type: IUser
+invitemassban:
+  args:
+    - '@user [reason]'
+  desc: 'Bir kullanıcının davet ettiği ve hâlâ sunucuda bulunan tüm üyeleri yasaklar. Önce onay ister.'
+  params:
+    - desc: 'Davet eden.'
+      name: inviter
+      optional: false
+      type: IUser
+    - desc: 'Yasaklama nedeni.'
+      name: reason
+      optional: true
+      type: string
+invitemassbancode:
+  args:
+    - 'abc123 [reason]'
+  desc: 'Bir davet koduyla katılan ve hâlâ sunucuda bulunan tüm üyeleri yasaklar. Önce onay ister.'
+  params:
+    - desc: 'Davet kodu veya URL''si.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'Yasaklama nedeni.'
+      name: reason
+      optional: true
+      type: string

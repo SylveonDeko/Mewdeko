@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "Não existe ação de banimento chamada `{0}`. Ações conhecidas: {1}",
+  "ban_prune_cleared": "Configuração de limpeza para {0} em {1} foi removida.",
+  "ban_prune_cleared_none": "Não havia configuração de limpeza para {0} em {1}.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "Nenhuma configuração de limpeza definida. Os banimentos usam o padrão embutido de cada ação.",
+  "ban_prune_list_title": "Limpeza de mensagens em banimentos",
+  "ban_prune_reset": "{0} configurações de limpeza removidas. Todas as ações voltaram ao padrão.",
+  "ban_prune_scope_category": "categoria {0}",
+  "ban_prune_scope_channel": "canal {0}",
+  "ban_prune_scope_guild": "este servidor",
+  "ban_prune_set": "Banimentos de {0} agora apagam **{1}** de {2}.",
+  "ban_prune_set_all_actions": "todas as ações de banimento",
+  "ban_prune_days": "{0} dia(s) de mensagens",
+  "ban_prune_days_none": "nenhuma mensagem",
+  "ban_prune_effective": "Um banimento aqui agora apagaria **{0}**.",
+  "ban_prune_defaults_title": "Padrões",
+  "ban_prune_overrides_title": "Substituições"
+}

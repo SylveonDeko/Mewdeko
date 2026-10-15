@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Acrophobia.'
+  params:
+    - &ref_3
+      desc: 'Argomenti passati al comando.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Acrophobia.'
+  params:
+    - desc: 'Argomenti passati al comando.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Acrophobia.'
+  params:
+    - desc: 'Argomenti passati al comando.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Acrophobia.'
+  params:
+    - desc: 'Argomenti passati al comando.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: 'Comando per scegliere a caso da un elenco di opzioni.'
+  params:
+    - desc: 'L''elenco delle opzioni separate da punto e virgola.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'Comando per attivare o disattivare lo stato drago dell''utente. Di solito usato per i comandi beta.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'Comando per consultare la palla magica 8 per una risposta.'
+  params:
+    - desc: 'La domanda da porre.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: 'Avvia una partita di impiccato del tipo indicato.'
+  params:
+    - &ref_244
+      desc: 'Avvia una partita di impiccato del tipo indicato.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: 'Avvia una partita di impiccato del tipo indicato.'
+  params:
+    - desc: 'Avvia una partita di impiccato del tipo indicato.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: 'Avvia una partita di impiccato del tipo indicato.'
+  params:
+    - desc: 'Avvia una partita di impiccato del tipo indicato.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: 'Avvia una partita di impiccato del tipo indicato.'
+  params:
+    - desc: 'Avvia una partita di impiccato del tipo indicato.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: 'Elenca i tipi di impiccato disponibili nella gilda attuale.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: 'Ferma la partita di impiccato in corso nel canale attuale.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Kaladont.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Comando per avviare una partita di Kaladont.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Comando per avviare una partita di Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: 'Comando per fermare la partita di Kaladont in corso.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: 'Imposta un canale Kaladont permanente.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Imposta un canale Kaladont permanente.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: 'Imposta un canale Kaladont permanente.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: 'Imposta un canale Kaladont permanente.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: 'Imposta un canale Kaladont permanente.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: 'Disattiva il canale Kaladont permanente.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: 'Comando divertente che interviene con un comando Linux'
+  params:
+    - &ref_275
+      desc: 'Il nome con cui sostituire "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: 'Il nome con cui sostituire "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: 'Comando divertente che interviene con un comando Linux'
+  params:
+    - desc: 'Il nome con cui sostituire "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Il nome con cui sostituire "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: 'Comando divertente che interviene con un comando Linux'
+  params:
+    - desc: 'Il nome con cui sostituire "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Il nome con cui sostituire "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: 'Comando divertente che interviene con un comando Linux'
+  params:
+    - desc: 'Il nome con cui sostituire "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Il nome con cui sostituire "Linux".'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Avvia o si unisce a una partita di Nunchi.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - &ref_351
+      desc: 'Crea un semplice sondaggio sì/no.'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - &ref_349
+      desc: 'Crea un semplice sondaggio sì/no.'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'Crea un semplice sondaggio sì/no.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'Crea un semplice sondaggio sì/no.'
+  params:
+    - desc: 'Crea un semplice sondaggio sì/no.'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: 'Crea un sondaggio anonimo in cui l''identità dei votanti è nascosta.'
+  params:
+    - desc: 'Domanda del sondaggio e opzioni separate da punto e virgola.'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: 'Crea un sondaggio personalizzato con più opzioni.'
+  params:
+    - desc: 'Domanda del sondaggio e opzioni separate da punto e virgola.'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'Crea un sondaggio a scelta multipla in cui gli utenti possono selezionare più opzioni.'
+  params:
+    - desc: 'Domanda del sondaggio e opzioni separate da punto e virgola.'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'Crea un sondaggio da un modello.'
+  params:
+    - desc: 'Il nome del modello da usare.'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'Elenca tutti i modelli di sondaggio disponibili nella gilda.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: 'Comando che in passato esisteva. Chiamava le persone trans con un insulto in NadekoBot. Lo tengo qui come promemoria e come un vaffanculo a NadekoBot.'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'Avvia una partita di TicTacToe.'
+  params:
+    - &ref_619
+      desc: 'Opzioni per ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'Avvia una partita di TicTacToe.'
+  params:
+    - desc: 'Opzioni per ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'Avvia una partita di TicTacToe.'
+  params:
+    - desc: 'Opzioni per ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'Avvia una partita di TicTacToe.'
+  params:
+    - desc: 'Opzioni per ttt'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: 'Mostra la classifica attuale del quiz.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: 'Ferma il quiz in corso.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'Avvia un quiz.'
+  params:
+    - &ref_629
+      desc: 'Argomenti facoltativi per il quiz'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'Avvia un quiz.'
+  params:
+    - desc: 'Argomenti facoltativi per il quiz'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'Avvia un quiz.'
+  params:
+    - desc: 'Argomenti facoltativi per il quiz'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'Avvia un quiz.'
+  params:
+    - desc: 'Argomenti facoltativi per il quiz'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo articolo per il gioco di digitazione.'
+  params:
+    - &ref_630
+      desc: 'Il testo dell''articolo da aggiungere.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo articolo per il gioco di digitazione.'
+  params:
+    - desc: 'Il testo dell''articolo da aggiungere.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo articolo per il gioco di digitazione.'
+  params:
+    - desc: 'Il testo dell''articolo da aggiungere.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'Aggiunge un nuovo articolo per il gioco di digitazione.'
+  params:
+    - desc: 'Il testo dell''articolo da aggiungere.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'Elimina un articolo di digitazione tramite il suo indice.'
+  params:
+    - &ref_631
+      desc: 'L''indice dell''articolo da eliminare.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'Elimina un articolo di digitazione tramite il suo indice.'
+  params:
+    - desc: 'L''indice dell''articolo da eliminare.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'Elimina un articolo di digitazione tramite il suo indice.'
+  params:
+    - desc: 'L''indice dell''articolo da eliminare.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'Elimina un articolo di digitazione tramite il suo indice.'
+  params:
+    - desc: 'L''indice dell''articolo da eliminare.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'Elenca gli articoli disponibili per il gioco di digitazione.'
+  params:
+    - desc: 'Elenca gli articoli disponibili per il gioco di digitazione.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'Avvia un gioco di digitazione veloce.'
+  params:
+    - &ref_632
+      desc: 'Argomenti per configurare la partita.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'Avvia un gioco di digitazione veloce.'
+  params:
+    - desc: 'Argomenti per configurare la partita.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'Avvia un gioco di digitazione veloce.'
+  params:
+    - desc: 'Argomenti per configurare la partita.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'Avvia un gioco di digitazione veloce.'
+  params:
+    - desc: 'Argomenti per configurare la partita.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: 'Ferma il gioco di digitazione veloce in corso.'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: 'Comando per scegliere a caso da un elenco di opzioni.'
+  params:
+    - desc: 'L''elenco delle opzioni separate da punto e virgola.'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: 'Ferma la partita di impiccato in corso nel canale attuale.'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Avvia o si unisce a una partita di Nunchi.'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: 'Mostra la classifica attuale del quiz.'
+  params: [ ]

@@ -5,9 +5,9 @@ highlight:
     - add
     - list
     - delete
-  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  desc: 'Aggiunge, elenca, rimuove o verifica le evidenziazioni.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''azione da eseguire: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
@@ -22,9 +22,9 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  desc: 'Aggiunge, elenca, rimuove o verifica le evidenziazioni.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''azione da eseguire: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
@@ -39,9 +39,9 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  desc: 'Aggiunge, elenca, rimuove o verifica le evidenziazioni.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''azione da eseguire: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
@@ -56,9 +56,9 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  desc: 'Aggiunge, elenca, rimuove o verifica le evidenziazioni.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'L''azione da eseguire: add, list, delete o match.'
       name: action
       optional: false
       type: highlightactions
@@ -69,13 +69,13 @@ highlight_HighlightActions_=_2:
 highlights:
   args:
     - action word
-  desc: Gestisce le evidenziazioni dell'utente.
+  desc: 'Gestisce le evidenziazioni degli utenti.'
   params:
-    - desc: L'azione da eseguire con le evidenziazioni.
+    - desc: 'L''azione da eseguire con le evidenziazioni.'
       name: action
       optional: false
       type: string
-    - desc: La parola da evidenziare.
+    - desc: 'La parola da evidenziare.'
       name: word
       optional: true
       type: string

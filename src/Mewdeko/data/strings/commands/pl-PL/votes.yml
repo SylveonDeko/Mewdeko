@@ -1,79 +1,65 @@
 votechannel:
   args:
     - channel
-  desc: >-
-    Ustawia wskazany kanał tekstowy jako kanał głosowania, gdzie będą wysyłane
-    wszystkie potwierdzenia głosów.
+  desc: 'Ustawia wskazany kanał tekstowy jako kanał głosowań, na który będą wysyłane wszystkie potwierdzenia głosów.'
   params:
     - &ref_646
-      desc: 'Kanał tekstowy do ustawienia jako kanał głosowania.'
+      desc: 'Kanał tekstowy do ustawienia jako kanał głosowań.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel:
   args:
     - channel
-  desc: >-
-    Ustawia wskazany kanał tekstowy jako kanał głosowania, gdzie będą wysyłane
-    wszystkie potwierdzenia głosów.
+  desc: 'Ustawia wskazany kanał tekstowy jako kanał głosowań, na który będą wysyłane wszystkie potwierdzenia głosów.'
   params:
-    - desc: 'Kanał tekstowy do ustawienia jako kanał głosowania.'
+    - desc: 'Kanał tekstowy do ustawienia jako kanał głosowań.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_1:
   args:
     - channel
-  desc: >-
-    Ustawia wskazany kanał tekstowy jako kanał głosowania, gdzie będą wysyłane
-    wszystkie potwierdzenia głosów.
+  desc: 'Ustawia wskazany kanał tekstowy jako kanał głosowań, na który będą wysyłane wszystkie potwierdzenia głosów.'
   params:
-    - desc: 'Kanał tekstowy do ustawienia jako kanał głosowania.'
+    - desc: 'Kanał tekstowy do ustawienia jako kanał głosowań.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_2:
   args:
     - channel
-  desc: >-
-    Ustawia wskazany kanał tekstowy jako kanał głosowania, gdzie będą wysyłane
-    wszystkie potwierdzenia głosów.
+  desc: 'Ustawia wskazany kanał tekstowy jako kanał głosowań, na który będą wysyłane wszystkie potwierdzenia głosów.'
   params:
-    - desc: 'Kanał tekstowy do ustawienia jako kanał głosowania.'
+    - desc: 'Kanał tekstowy do ustawienia jako kanał głosowań.'
       name: channel
       optional: false
       type: ITextChannel
 votemessage:
   args:
     - '[message]'
-  desc: >-
-    Ustawia niestandardową wiadomość wysyłaną gdy użytkownik głosuje lub
-    podgląda aktualną wiadomość głosowania.
+  desc: 'Ustawia własną wiadomość wysyłaną, gdy użytkownik zagłosuje, lub wyświetla podgląd obecnej wiadomości o głosowaniu.'
   params:
-    - desc: 'Niestandardowa wiadomość dla głosowań. Użyj "-" aby zresetować do domyślnej. Jeśli null, podgląda aktualną wiadomość głosowania.'
+    - desc: 'Własna wiadomość dla głosów. Użyj "-", aby przywrócić domyślną. Jeśli null, wyświetla podgląd obecnej wiadomości.'
       name: message
       optional: true
       type: string
 votepassword:
   args:
     - ''
-  desc: >-
-    Inicjuje proces potwierdzenia ustawienia nowego hasła głosowania, ostrzegając
-    użytkownika o jego bezpieczeństwie.
+  desc: 'Rozpoczyna proces potwierdzenia ustawienia nowego hasła do głosowania i ostrzega użytkownika o jego bezpieczeństwie.'
   params: [ ]
 voteroleadd:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Dodaje rolę przyznawaną użytkownikom gdy głosują, z opcjonalnym czasem
-    trwania do automatycznego usunięcia roli.
+  desc: 'Dodaje rolę, która zostanie przyznana użytkownikom po oddaniu głosu, z opcjonalnym czasem trwania, po którym rola zostanie automatycznie usunięta.'
   params:
     - desc: 'Rola do dodania jako nagroda za głosowanie.'
       name: role
       optional: false
       type: role
-    - desc: 'Czas trwania przyznania roli. Null dla bezterminowego.'
+    - desc: 'Czas, przez jaki rola będzie przyznana. Null oznacza bezterminowo.'
       name: time
       optional: true
       type: duration
@@ -81,15 +67,13 @@ voteroleadd_IRole_=:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Dodaje rolę przyznawaną użytkownikom gdy głosują, z opcjonalnym czasem
-    trwania do automatycznego usunięcia roli.
+  desc: 'Dodaje rolę, która zostanie przyznana użytkownikom po oddaniu głosu, z opcjonalnym czasem trwania, po którym rola zostanie automatycznie usunięta.'
   params:
     - desc: 'Rola do dodania jako nagroda za głosowanie.'
       name: role
       optional: false
       type: role
-    - desc: 'Czas trwania przyznania roli. Null dla bezterminowego.'
+    - desc: 'Czas, przez jaki rola będzie przyznana. Null oznacza bezterminowo.'
       name: time
       optional: true
       type: duration
@@ -97,15 +81,13 @@ voteroleadd_IRole_=_1:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Dodaje rolę przyznawaną użytkownikom gdy głosują, z opcjonalnym czasem
-    trwania do automatycznego usunięcia roli.
+  desc: 'Dodaje rolę, która zostanie przyznana użytkownikom po oddaniu głosu, z opcjonalnym czasem trwania, po którym rola zostanie automatycznie usunięta.'
   params:
     - desc: 'Rola do dodania jako nagroda za głosowanie.'
       name: role
       optional: false
       type: role
-    - desc: 'Czas trwania przyznania roli. Null dla bezterminowego.'
+    - desc: 'Czas, przez jaki rola będzie przyznana. Null oznacza bezterminowo.'
       name: time
       optional: true
       type: duration
@@ -113,22 +95,20 @@ voteroleadd_IRole_=_2:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Dodaje rolę przyznawaną użytkownikom gdy głosują, z opcjonalnym czasem
-    trwania do automatycznego usunięcia roli.
+  desc: 'Dodaje rolę, która zostanie przyznana użytkownikom po oddaniu głosu, z opcjonalnym czasem trwania, po którym rola zostanie automatycznie usunięta.'
   params:
     - desc: 'Rola do dodania jako nagroda za głosowanie.'
       name: role
       optional: false
       type: role
-    - desc: 'Czas trwania przyznania roli. Null dla bezterminowego.'
+    - desc: 'Czas, przez jaki rola będzie przyznana. Null oznacza bezterminowo.'
       name: time
       optional: true
       type: duration
 voteroleedit:
   args:
     - '@role time'
-  desc: 'Edytuje czas trwania przyznania roli głosowania użytkownikom.'
+  desc: 'Edytuje czas, przez jaki rola za głosowanie jest przyznawana użytkownikom.'
   params:
     - &ref_648
       desc: 'Rola do edycji.'
@@ -136,53 +116,53 @@ voteroleedit:
       optional: false
       type: IRole
     - &ref_649
-      desc: 'Nowy czas trwania przyznania roli.'
+      desc: 'Nowy czas, przez jaki rola będzie przyznana.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime:
   args:
     - '@role time'
-  desc: 'Edytuje czas trwania przyznania roli głosowania użytkownikom.'
+  desc: 'Edytuje czas, przez jaki rola za głosowanie jest przyznawana użytkownikom.'
   params:
     - desc: 'Rola do edycji.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Nowy czas trwania przyznania roli.'
+    - desc: 'Nowy czas, przez jaki rola będzie przyznana.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_1:
   args:
     - '@role time'
-  desc: 'Edytuje czas trwania przyznania roli głosowania użytkownikom.'
+  desc: 'Edytuje czas, przez jaki rola za głosowanie jest przyznawana użytkownikom.'
   params:
     - desc: 'Rola do edycji.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Nowy czas trwania przyznania roli.'
+    - desc: 'Nowy czas, przez jaki rola będzie przyznana.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_2:
   args:
     - '@role time'
-  desc: 'Edytuje czas trwania przyznania roli głosowania użytkownikom.'
+  desc: 'Edytuje czas, przez jaki rola za głosowanie jest przyznawana użytkownikom.'
   params:
     - desc: 'Rola do edycji.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Nowy czas trwania przyznania roli.'
+    - desc: 'Nowy czas, przez jaki rola będzie przyznana.'
       name: time
       optional: false
       type: StoopidTime
 voteroleremove:
   args:
     - '@role'
-  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom gdy głosują.'
+  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom po oddaniu głosu.'
   params:
     - &ref_650
       desc: 'Rola do usunięcia z nagród za głosowanie.'
@@ -192,7 +172,7 @@ voteroleremove:
 voteroleremove_IRole:
   args:
     - '@role'
-  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom gdy głosują.'
+  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom po oddaniu głosu.'
   params:
     - desc: 'Rola do usunięcia z nagród za głosowanie.'
       name: role
@@ -201,7 +181,7 @@ voteroleremove_IRole:
 voteroleremove_IRole_1:
   args:
     - '@role'
-  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom gdy głosują.'
+  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom po oddaniu głosu.'
   params:
     - desc: 'Rola do usunięcia z nagród za głosowanie.'
       name: role
@@ -210,7 +190,7 @@ voteroleremove_IRole_1:
 voteroleremove_IRole_2:
   args:
     - '@role'
-  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom gdy głosują.'
+  desc: 'Usuwa rolę z listy ról przyznawanych użytkownikom po oddaniu głosu.'
   params:
     - desc: 'Rola do usunięcia z nagród za głosowanie.'
       name: role
@@ -219,34 +199,28 @@ voteroleremove_IRole_2:
 voterolesclear:
   args:
     - ''
-  desc: 'Usuwa wszystkie role przyznawane użytkownikom gdy głosują.'
+  desc: 'Usuwa wszystkie role przyznawane użytkownikom po oddaniu głosu.'
   params: [ ]
 voteroleslist:
   args:
     - ''
-  desc: 'Wyświetla wszystkie role przyznawane użytkownikom gdy głosują.'
+  desc: 'Wyświetla wszystkie role przyznawane użytkownikom po oddaniu głosu.'
   params: [ ]
 votes:
   args:
     - '[@user]'
-  desc: >-
-    Wyświetla całkowitą liczbę głosów oddanych przez konkretnego użytkownika
-    lub wywołującego polecenie.
+  desc: 'Wyświetla łączną liczbę głosów oddanych przez wskazanego użytkownika lub osobę wywołującą komendę.'
   params:
-    - desc: 'Użytkownik, którego głosy zliczać. Jeśli null, zlicza głosy wywołującego polecenie.'
+    - desc: 'Użytkownik, którego głosy policzyć. Jeśli null, liczy głosy osoby wywołującej komendę.'
       name: user
       optional: true
       type: user
 votesleaderboard:
   args:
     - false
-  desc: >-
-    Wyświetla ranking użytkowników na podstawie liczby głosów, opcjonalnie
-    filtrując głosy z bieżącego miesiąca.
+  desc: 'Wyświetla ranking użytkowników według liczby głosów, opcjonalnie filtrując głosy oddane w bieżącym miesiącu.'
   params:
-    - desc: >-
-        Wyświetla ranking użytkowników na podstawie liczby głosów, opcjonalnie
-        filtrując głosy z bieżącego miesiąca.
+    - desc: 'Wyświetla ranking użytkowników według liczby głosów, opcjonalnie filtrując głosy oddane w bieżącym miesiącu.'
       name: false
       optional: false
       type: '='

@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: '"anal" 서브레딧에서 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - &ref_90
+      desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '현재 서버 채널에 지정한 간격으로 "boobs" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: '현재 서버 채널 또는 DM에 지정한 간격으로 "butts" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '현재 서버 채널 또는 DM에 지정한 간격으로 "butts" 서브레딧의 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: '현재 서버 채널에 지정한 간격으로 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '자동 게시 사이의 간격(초)입니다. 0으로 설정하면 자동 게시를 중지합니다.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW 콘텐츠를 필터링할 선택 태그입니다. 여러 태그는 ''|''로 구분합니다. 비워 두면 무작위 NSFW 콘텐츠를 보여줍니다.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: '현재 서버 채널에 지정한 간격으로 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '자동 게시 사이의 간격(초)입니다. 0으로 설정하면 자동 게시를 중지합니다.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW 콘텐츠를 필터링할 선택 태그입니다. 여러 태그는 ''|''로 구분합니다. 비워 두면 무작위 NSFW 콘텐츠를 보여줍니다.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: '현재 서버 채널에 지정한 간격으로 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '자동 게시 사이의 간격(초)입니다. 0으로 설정하면 자동 게시를 중지합니다.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW 콘텐츠를 필터링할 선택 태그입니다. 여러 태그는 ''|''로 구분합니다. 비워 두면 무작위 NSFW 콘텐츠를 보여줍니다.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: '현재 서버 채널에 지정한 간격으로 NSFW 콘텐츠를 자동으로 게시하거나 중지하는 명령어입니다.'
+  params:
+    - desc: '자동 게시 사이의 간격(초)입니다. 0으로 설정하면 자동 게시를 중지합니다.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'NSFW 콘텐츠를 필터링할 선택 태그입니다. 여러 태그는 ''|''로 구분합니다. 비워 두면 무작위 NSFW 콘텐츠를 보여줍니다.'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: '"bondage" 서브레딧에서 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: '현재 서버 채널 또는 DM에서 "boobs" 서브레딧의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: '현재 서버 채널 또는 DM에서 "ass" 서브레딧의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Danbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_176
+      desc: 'Danbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Danbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Danbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Danbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Danbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Danbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Danbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Derpibooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_200
+      desc: 'Derpibooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Derpibooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Derpibooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Derpibooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Derpibooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Derpibooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Derpibooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 E621 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_203
+      desc: 'E621 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 E621 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'E621 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 E621 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'E621 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 E621 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'E621 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Gelbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_222
+      desc: 'Gelbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Gelbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Gelbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Gelbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Gelbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Gelbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Gelbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 "hentai" 서브레딧의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_245
+      desc: '"hentai" 서브레딧의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 "hentai" 서브레딧의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: '"hentai" 서브레딧의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 "hentai" 서브레딧의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: '"hentai" 서브레딧의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 "hentai" 서브레딧의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: '"hentai" 서브레딧의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 여러 소스의 NSFW 콘텐츠를 가져와 보여주는 "hentai bomb"을 실행하는 명령어입니다.'
+  params:
+    - desc: '각 소스의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: '"HENTAI_GIF" 서브레딧에서 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Konachan 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_263
+      desc: 'Konachan 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Konachan 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Konachan 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Konachan 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Konachan 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Konachan 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Konachan 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: 'NHentai 웹사이트에서 만화 정보를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_327
+      desc: '가져올 만화의 식별 번호입니다.'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: 'NHentai 웹사이트에서 만화 정보를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: '가져올 만화의 식별 번호입니다.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: 'NHentai 웹사이트에서 만화 정보를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: '가져올 만화의 식별 번호입니다.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: 'NHentai 웹사이트에서 만화 정보를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: '가져올 만화의 식별 번호입니다.'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - &ref_328
+      desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 페이지 번호입니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 검색 유형입니다.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: '검색어, 페이지 번호, 유형, 블랙리스트를 기반으로 NHentai에서 헨타이 만화를 검색하는 명령어입니다.'
+  params:
+    - desc: 'NHentai 검색어입니다.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 검색의 블랙리스트입니다.'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: 'NSFW 태그 블랙리스트를 관리합니다.'
+  params:
+    - desc: '수행할 작업입니다(add/remove).'
+      name: action
+      optional: false
+      type: string
+    - desc: '블랙리스트에 추가할 태그입니다.'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: '현재 서버의 NSFW 태그 블랙리스트를 관리하는 명령어입니다.'
+  params:
+    - desc: '블랙리스트에 추가하거나 제거할 선택 태그입니다. 입력하지 않으면 현재 블랙리스트 태그 목록을 보여줍니다.'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: '"porn" 서브레딧에서 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 RealBooru 소스의 NSFW 콘텐츠를 가져와 보여주는 "porn bomb"을 실행하는 명령어입니다.'
+  params:
+    - &ref_352
+      desc: 'RealBooru 소스의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 RealBooru 소스의 NSFW 콘텐츠를 가져와 보여주는 "porn bomb"을 실행하는 명령어입니다.'
+  params:
+    - desc: 'RealBooru 소스의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 RealBooru 소스의 NSFW 콘텐츠를 가져와 보여주는 "porn bomb"을 실행하는 명령어입니다.'
+  params:
+    - desc: 'RealBooru 소스의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 RealBooru 소스의 NSFW 콘텐츠를 가져와 보여주는 "porn bomb"을 실행하는 명령어입니다.'
+  params:
+    - desc: 'RealBooru 소스의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: '"pussy" 서브레딧에서 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Realbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_383
+      desc: 'Realbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Realbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Realbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Realbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Realbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Realbooru 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Realbooru 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 NSFW 콘텐츠를 가져오는 명령어입니다.'
+  params:
+    - &ref_384
+      desc: '콘텐츠를 가져올 서브레딧의 이름입니다.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 NSFW 콘텐츠를 가져오는 명령어입니다.'
+  params:
+    - desc: '콘텐츠를 가져올 서브레딧의 이름입니다.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 NSFW 콘텐츠를 가져오는 명령어입니다.'
+  params:
+    - desc: '콘텐츠를 가져올 서브레딧의 이름입니다.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: '지정한 서브레딧에서 NSFW 콘텐츠를 가져오는 명령어입니다.'
+  params:
+    - desc: '콘텐츠를 가져올 서브레딧의 이름입니다.'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Rule34 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_472
+      desc: 'Rule34 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Rule34 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Rule34 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Rule34 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Rule34 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Rule34 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Rule34 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Sankaku 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_474
+      desc: 'Sankaku 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Sankaku 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Sankaku 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Sankaku 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Sankaku 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Sankaku 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Sankaku 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Yandere 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - &ref_674
+      desc: 'Yandere 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Yandere 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Yandere 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Yandere 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Yandere 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: '현재 서버 채널 또는 DM에서 선택 태그와 함께 Yandere 이미지 보드의 NSFW 콘텐츠를 가져와 보여주는 명령어입니다.'
+  params:
+    - desc: 'Yandere 이미지 보드의 NSFW 콘텐츠를 필터링할 선택 태그입니다.'
+      name: tags
+      optional: false
+      type: string[]

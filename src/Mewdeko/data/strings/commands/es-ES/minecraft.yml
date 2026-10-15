@@ -1,29 +1,29 @@
 mcstatus:
   args:
     - '[server name or address]'
-  desc: 'Verifica el estado de un servidor de Minecraft. Usa un nombre registrado, una dirección directa, o déjalo vacío para el servidor predeterminado.'
+  desc: 'Comprueba el estado de un servidor de Minecraft. Usa el nombre de un servidor registrado, una dirección directa o déjalo en blanco para el servidor predeterminado.'
   params:
-    - desc: 'El nombre registrado del servidor o dirección directa (ej. play.example.com:25565).'
+    - desc: 'El nombre del servidor registrado o la dirección directa (por ejemplo, play.example.com:25565).'
       name: serverName
       optional: true
       type: string
 mcadd:
   args:
     - name address
-  desc: 'Añade un servidor de Minecraft al gremio. Antepón bedrock: a la dirección para servidores Bedrock.'
+  desc: 'Añade un servidor de Minecraft al servidor de Discord. Antepón bedrock: a la dirección para servidores Bedrock.'
   params:
     - desc: 'Una etiqueta para el servidor.'
       name: name
       optional: false
       type: string
-    - desc: 'La dirección del servidor, opcionalmente con puerto (ej. play.example.com:25565 o bedrock:play.example.com).'
+    - desc: 'La dirección del servidor, opcionalmente con puerto (por ejemplo, play.example.com:25565 o bedrock:play.example.com).'
       name: address
       optional: false
       type: string
 mcremove:
   args:
     - name
-  desc: 'Elimina un servidor de Minecraft del gremio.'
+  desc: 'Elimina un servidor de Minecraft del servidor de Discord.'
   params:
     - desc: 'El nombre del servidor a eliminar.'
       name: name
@@ -32,60 +32,60 @@ mcremove:
 mclist:
   args:
     - ''
-  desc: 'Lista todos los servidores de Minecraft registrados para este gremio.'
+  desc: 'Lista todos los servidores de Minecraft registrados en este servidor.'
   params: [ ]
 mcdefault:
   args:
     - name
-  desc: 'Establece un servidor como el predeterminado para comandos de estado.'
+  desc: 'Define un servidor como predeterminado para los comandos de estado.'
   params:
-    - desc: 'El nombre del servidor a establecer como predeterminado.'
+    - desc: 'El nombre del servidor a definir como predeterminado.'
       name: name
       optional: false
       type: string
 mcwatch:
   args:
     - name '#channel'
-  desc: 'Establece un canal para recibir actualizaciones periódicas de estado de un servidor. Omite el canal para desactivar.'
+  desc: 'Define un canal que recibirá actualizaciones periódicas del estado de un servidor. Omite el canal para desactivarlo.'
   params:
     - desc: 'El nombre del servidor a vigilar.'
       name: serverName
       optional: false
       type: string
-    - desc: 'El canal donde publicar actualizaciones.'
+    - desc: 'El canal donde publicar las actualizaciones.'
       name: channel
       optional: true
       type: ITextChannel
 mcwatchmode:
   args:
     - name embed|topic|both
-  desc: 'Establece cómo se muestra el estado del servidor: embed (edición en sitio), tema del canal, o ambos.'
+  desc: 'Define cómo se muestra el estado del servidor: embed (se edita en el mismo mensaje), tema del canal o ambos.'
   params:
     - desc: 'El nombre del servidor.'
       name: serverName
       optional: false
       type: string
-    - desc: 'El modo de vigilancia: Embed, ChannelTopic, o Both.'
+    - desc: 'El modo de vigilancia: Embed, ChannelTopic o Both.'
       name: mode
       optional: false
       type: McWatchMode
 mcembed:
   args:
     - name template
-  desc: 'Establece una plantilla embed personalizada para un servidor vigilado. Usa "-" para reiniciar. Marcadores: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  desc: 'Define una plantilla de embed personalizada para un servidor vigilado. Usa "-" para restablecerla. Marcadores: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
   params:
     - desc: 'El nombre del servidor.'
       name: serverName
       optional: false
       type: string
-    - desc: 'El JSON de la plantilla embed, o "-" para reiniciar al predeterminado.'
+    - desc: 'El JSON de la plantilla de embed, o "-" para volver al predeterminado.'
       name: template
       optional: true
       type: string
 mcplayer:
   args:
     - username
-  desc: 'Busca un jugador de Minecraft por nombre de usuario y muestra su perfil y skin.'
+  desc: 'Busca un jugador de Minecraft por nombre de usuario y muestra su perfil y su skin.'
   params:
     - desc: 'El nombre de usuario de Minecraft a buscar.'
       name: username
@@ -94,7 +94,7 @@ mcplayer:
 mcskin:
   args:
     - username
-  desc: 'Muestra el render del skin de un jugador de Minecraft.'
+  desc: 'Muestra el render de la skin de un jugador de Minecraft.'
   params:
     - desc: 'El nombre de usuario de Minecraft.'
       name: username
@@ -103,7 +103,7 @@ mcskin:
 mcrcon:
   args:
     - name command
-  desc: 'Envía un comando RCON a un servidor de Minecraft registrado. RCON debe estar configurado mediante el panel.'
+  desc: 'Envía un comando RCON a un servidor de Minecraft registrado. RCON debe configurarse desde el panel.'
   params:
     - desc: 'El nombre del servidor.'
       name: serverName
@@ -116,7 +116,7 @@ mcrcon:
 mcwhitelist:
   args:
     - name add|remove|list|on|off|reload [player]
-  desc: 'Administra la whitelist en un servidor de Minecraft mediante RCON. Requiere RCON configurado.'
+  desc: 'Gestiona la lista blanca de un servidor de Minecraft mediante RCON. Requiere RCON configurado.'
   params:
     - desc: 'El nombre del servidor.'
       name: serverName

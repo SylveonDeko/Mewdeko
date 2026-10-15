@@ -3,17 +3,17 @@ todoadd:
     - listId
     - title
     - description
-  desc: 'Fuegt ein neues Aufgabenelement zu einer bestimmten Liste hinzu'
+  desc: 'Fügt einer angegebenen Liste einen neuen To-do-Eintrag hinzu'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
-    - desc: 'Der Titel des Aufgabenelements.'
+    - desc: 'Der Titel des To-do-Eintrags.'
       name: title
       optional: false
       type: string
-    - desc: 'Optionale Beschreibung des Elements.'
+    - desc: 'Optionale Beschreibung für den Eintrag.'
       name: description
       optional: true
       type: string
@@ -23,21 +23,21 @@ todoaddpriority:
     - priority
     - title
     - description
-  desc: 'Fuegt ein Aufgabenelement mit Prioritaet und optionalem Faelligkeitsdatum hinzu'
+  desc: 'Fügt einen To-do-Eintrag mit Priorität und optionalem Fälligkeitsdatum hinzu'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
-    - desc: 'Prioritaetsstufe (1=Niedrig, 2=Mittel, 3=Hoch, 4=Kritisch).'
+    - desc: 'Prioritätsstufe (1=Niedrig, 2=Mittel, 3=Hoch, 4=Kritisch).'
       name: priority
       optional: false
       type: int
-    - desc: 'Der Titel des Aufgabenelements.'
+    - desc: 'Der Titel des To-do-Eintrags.'
       name: title
       optional: false
       type: string
-    - desc: 'Optionale Beschreibung des Elements.'
+    - desc: 'Optionale Beschreibung für den Eintrag.'
       name: description
       optional: true
       type: string
@@ -45,40 +45,40 @@ todoaddtag:
   args:
     - itemId
     - tag
-  desc: 'Fuegt einem Aufgabenelement ein Tag hinzu'
+  desc: 'Fügt einem To-do-Eintrag einen Tag hinzu'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Das hinzuzufuegende Tag.'
+    - desc: 'Der Tag, der hinzugefügt wird.'
       name: tag
       optional: false
       type: string
 todocleardue:
   args:
     - itemId
-  desc: 'Entfernt das Faelligkeitsdatum eines Aufgabenelements'
+  desc: 'Entfernt das Fälligkeitsdatum von einem To-do-Eintrag'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
 todoclearreminder:
   args:
     - itemId
-  desc: 'Entfernt die Erinnerung eines Aufgabenelements'
+  desc: 'Entfernt die Erinnerung von einem To-do-Eintrag'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
 todocomplete:
   args:
     - itemId
-  desc: 'Markiert ein Aufgabenelement als abgeschlossen'
+  desc: 'Schließt einen To-do-Eintrag ab'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
@@ -86,13 +86,13 @@ todocreatelist:
   args:
     - name
     - description
-  desc: 'Erstellt eine neue Aufgabenliste'
+  desc: 'Erstellt eine neue To-do-Liste'
   params:
-    - desc: 'Der Name der Aufgabenliste.'
+    - desc: 'Der Name der To-do-Liste.'
       name: name
       optional: false
       type: string
-    - desc: 'Optionale Beschreibung der Liste.'
+    - desc: 'Optionale Beschreibung für die Liste.'
       name: description
       optional: true
       type: string
@@ -100,31 +100,31 @@ todocreateserverlist:
   args:
     - name
     - description
-  desc: 'Erstellt eine neue serverweite Aufgabenliste (nur Admins)'
+  desc: 'Erstellt eine neue serverweite To-do-Liste (nur für Admins)'
   params:
-    - desc: 'Der Name der Server-Aufgabenliste.'
+    - desc: 'Der Name der serverweiten To-do-Liste.'
       name: name
       optional: false
       type: string
-    - desc: 'Optionale Beschreibung der Liste.'
+    - desc: 'Optionale Beschreibung für die Liste.'
       name: description
       optional: true
       type: string
 tododelete:
   args:
     - itemId
-  desc: 'Loescht ein Aufgabenelement'
+  desc: 'Löscht einen To-do-Eintrag'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
 tododeletelist:
   args:
     - listId
-  desc: 'Loescht eine gesamte Aufgabenliste'
+  desc: 'Löscht eine komplette To-do-Liste'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
@@ -133,9 +133,9 @@ todoedit:
     - itemId
     - title
     - description
-  desc: 'Bearbeitet Titel und Beschreibung eines Aufgabenelements'
+  desc: 'Bearbeitet Titel und Beschreibung eines To-do-Eintrags'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
@@ -152,17 +152,17 @@ todofilter:
     - listId
     - filter
     - value
-  desc: 'Filtert Aufgabenelemente nach Tag oder Prioritaet'
+  desc: 'Filtert To-do-Einträge nach Tag oder Priorität'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
-    - desc: 'Filtertyp (Tag oder Prioritaet).'
+    - desc: 'Filtertyp (tag oder priority).'
       name: filter
       optional: false
       type: string
-    - desc: 'Der Filterwert.'
+    - desc: 'Der Wert, nach dem gefiltert wird.'
       name: value
       optional: true
       type: string
@@ -171,35 +171,35 @@ todogrant:
     - listId
     - '@user'
     - permissions
-  desc: 'Erteilt einem Nutzer Berechtigungen fuer eine Aufgabenliste (nur Eigentueumer/Admin)'
+  desc: 'Gewährt einem User Berechtigungen für eine To-do-Liste (nur Listeninhaber oder Admins)'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
-    - desc: 'Der Nutzer, dem Berechtigungen erteilt werden.'
+    - desc: 'Der User, dem Berechtigungen gewährt werden.'
       name: user
       optional: false
       type: IUser
-    - desc: 'Kommagetrennte Berechtigungen (view,add,edit,complete,delete,manage,all).'
+    - desc: 'Durch Kommas getrennte Berechtigungen (view,add,edit,complete,delete,manage,all).'
       name: permissions
       optional: false
       type: string
 todolists:
   args:
     - includeServer
-  desc: 'Listet alle fuer den Nutzer zugaenglichen Aufgabenlisten auf'
+  desc: 'Listet alle To-do-Listen auf, auf die der User zugreifen kann'
   params:
-    - desc: 'Ob serverweite Listen einbezogen werden sollen.'
+    - desc: 'Ob serverweite Listen eingeschlossen werden sollen.'
       name: includeServer
       optional: true
       type: bool
 todopermissions:
   args:
     - listId
-  desc: 'Zeigt alle Berechtigungen einer Aufgabenliste'
+  desc: 'Zeigt alle Berechtigungen für eine To-do-Liste an'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
@@ -207,13 +207,13 @@ todoremovetag:
   args:
     - itemId
     - tag
-  desc: 'Entfernt ein Tag von einem Aufgabenelement'
+  desc: 'Entfernt einen Tag von einem To-do-Eintrag'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Das zu entfernende Tag.'
+    - desc: 'Der Tag, der entfernt wird.'
       name: tag
       optional: false
       type: string
@@ -221,9 +221,9 @@ todoreorder:
   args:
     - itemId
     - newPosition
-  desc: 'Ordnet ein Aufgabenelement an eine neue Position um'
+  desc: 'Verschiebt einen To-do-Eintrag an eine neue Position'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
@@ -235,13 +235,13 @@ todorevoke:
   args:
     - listId
     - '@user'
-  desc: 'Entzieht einem Nutzer alle Berechtigungen fuer eine Aufgabenliste'
+  desc: 'Entzieht einem User alle Berechtigungen für eine To-do-Liste'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
-    - desc: 'Der Nutzer, dem die Berechtigungen entzogen werden.'
+    - desc: 'Der User, dem Berechtigungen entzogen werden.'
       name: user
       optional: false
       type: IUser
@@ -249,9 +249,9 @@ todosearch:
   args:
     - listId
     - query
-  desc: 'Sucht nach Aufgabenelementen innerhalb einer Liste'
+  desc: 'Sucht nach To-do-Einträgen innerhalb einer Liste'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
@@ -263,13 +263,13 @@ todosetcolor:
   args:
     - listId
     - color
-  desc: 'Setzt die Farbe einer Aufgabenliste'
+  desc: 'Legt die Farbe für eine To-do-Liste fest'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
-    - desc: 'Hexadezimaler Farbcode (z.B.,'
+    - desc: 'Hex-Farbcode, z. B. #ff0000.'
       name: color
       optional: false
       type: string
@@ -277,13 +277,13 @@ todosetdue:
   args:
     - itemId
     - dateString
-  desc: 'Setzt das Faelligkeitsdatum eines Aufgabenelements'
+  desc: 'Legt das Fälligkeitsdatum für einen To-do-Eintrag fest'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Das Faelligkeitsdatum und die Uhrzeit.'
+    - desc: 'Das Fälligkeitsdatum und die Uhrzeit.'
       name: dateString
       optional: false
       type: string
@@ -291,13 +291,13 @@ todosetreminder:
   args:
     - itemId
     - dateString
-  desc: 'Setzt eine Erinnerungszeit fuer ein Aufgabenelement'
+  desc: 'Legt eine Erinnerungszeit für einen To-do-Eintrag fest'
   params:
-    - desc: 'Die ID des Aufgabenelements.'
+    - desc: 'Die ID des To-do-Eintrags.'
       name: itemId
       optional: false
       type: int
-    - desc: 'Das Erinnerungsdatum und die Uhrzeit.'
+    - desc: 'Das Datum und die Uhrzeit der Erinnerung.'
       name: dateString
       optional: false
       type: string
@@ -305,22 +305,22 @@ todoshow:
   args:
     - listId
     - includeCompleted
-  desc: 'Zeigt alle Elemente einer Aufgabenliste'
+  desc: 'Zeigt alle Einträge einer To-do-Liste an'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int
-    - desc: 'Ob abgeschlossene Elemente einbezogen werden sollen.'
+    - desc: 'Ob abgeschlossene Einträge eingeschlossen werden sollen.'
       name: includeCompleted
       optional: true
       type: bool
 todotoggleprivacy:
   args:
     - listId
-  desc: 'Schaltet die Datenschutzeinstellung einer Aufgabenliste um'
+  desc: 'Schaltet die Datenschutzeinstellung für eine To-do-Liste um'
   params:
-    - desc: 'Die ID der Aufgabenliste.'
+    - desc: 'Die ID der To-do-Liste.'
       name: listId
       optional: false
       type: int

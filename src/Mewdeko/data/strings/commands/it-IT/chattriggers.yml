@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat.'
+  params:
+    - &ref_9
+      desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat.'
+  params:
+    - desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat.'
+  params:
+    - desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat.'
+  params:
+    - desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat con supporto regex.'
+  params:
+    - desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat con supporto regex.'
+  params:
+    - desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat con supporto regex.'
+  params:
+    - desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Aggiunge un nuovo trigger di chat con supporto regex.'
+  params:
+    - desc: 'La chiave del trigger di chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Il messaggio associato al trigger di chat.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Aggiunge un nuovo trigger di chat basato su reazioni.'
+  params:
+    - desc: 'L''emoji di reazione che fa scattare il trigger.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'Il messaggio da inviare quando il trigger scatta.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Imposta il tipo di assegnazione del ruolo per un trigger di chat.'
+  params:
+    - &ref_130
+      desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'Il tipo di assegnazione del ruolo da impostare.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Imposta il tipo di assegnazione del ruolo per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di assegnazione del ruolo da impostare.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Imposta il tipo di assegnazione del ruolo per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di assegnazione del ruolo da impostare.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Imposta il tipo di assegnazione del ruolo per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di assegnazione del ruolo da impostare.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Imposta il canale per la ripubblicazione dei trigger di chat.'
+  params:
+    - desc: 'Il canale per la ripubblicazione.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Imposta il webhook per la ripubblicazione dei trigger di chat.'
+  params:
+    - desc: 'L''URL del webhook per la ripubblicazione.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Imposta se un trigger di chat è valido per uno specifico tipo di trigger.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'Il tipo di trigger per cui impostare la validità.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Se il tipo di trigger deve essere attivato o disattivato.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Imposta se un trigger di chat è valido per uno specifico tipo di trigger.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di trigger per cui impostare la validità.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Se il tipo di trigger deve essere attivato o disattivato.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Imposta se un trigger di chat è valido per uno specifico tipo di trigger.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di trigger per cui impostare la validità.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Se il tipo di trigger deve essere attivato o disattivato.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Imposta se un trigger di chat è valido per uno specifico tipo di trigger.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di trigger per cui impostare la validità.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Se il tipo di trigger deve essere attivato o disattivato.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per eliminarsi automaticamente dopo essere scattato.'
+  params:
+    - &ref_162
+      desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per eliminarsi automaticamente dopo essere scattato.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per eliminarsi automaticamente dopo essere scattato.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per eliminarsi automaticamente dopo essere scattato.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per consentire il targeting.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per essere contenuto in qualsiasi punto del messaggio.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Imposta il canale di ripubblicazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'Il canale da impostare per la ripubblicazione.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Imposta il canale di ripubblicazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il canale da impostare per la ripubblicazione.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Imposta il canale di ripubblicazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il canale da impostare per la ripubblicazione.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Imposta il canale di ripubblicazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il canale da impostare per la ripubblicazione.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Imposta l''URL del webhook per la ripubblicazione di un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'L''URL del webhook da impostare.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Imposta l''URL del webhook per la ripubblicazione di un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'L''URL del webhook da impostare.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Imposta l''URL del webhook per la ripubblicazione di un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'L''URL del webhook da impostare.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Imposta l''URL del webhook per la ripubblicazione di un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'L''URL del webhook da impostare.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per inviare un messaggio diretto in risposta.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Imposta se la risposta all''interazione deve essere visibile solo a chi l''ha attivata (ephemeral) per un trigger di chat. Per non mostrare agli altri la mia sofferenza con la documentazione!'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'True se la risposta deve essere ephemeral, false altrimenti.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Imposta se la risposta all''interazione deve essere visibile solo a chi l''ha attivata (ephemeral) per un trigger di chat. Per non mostrare agli altri la mia sofferenza con la documentazione!'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True se la risposta deve essere ephemeral, false altrimenti.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Imposta se la risposta all''interazione deve essere visibile solo a chi l''ha attivata (ephemeral) per un trigger di chat. Per non mostrare agli altri la mia sofferenza con la documentazione!'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True se la risposta deve essere ephemeral, false altrimenti.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Imposta se la risposta all''interazione deve essere visibile solo a chi l''ha attivata (ephemeral) per un trigger di chat. Per non mostrare agli altri la mia sofferenza con la documentazione!'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True se la risposta deve essere ephemeral, false altrimenti.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Mostra gli errori di interazione per i trigger di chat.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per non rispondere.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Imposta il prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'Il nuovo prefisso da impostare.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Imposta il prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nuovo prefisso da impostare.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Imposta il prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nuovo prefisso da impostare.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Imposta il prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nuovo prefisso da impostare.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Imposta il tipo di prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'Il tipo di prefisso da impostare.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Imposta il tipo di prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di prefisso da impostare.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Imposta il tipo di prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di prefisso da impostare.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Imposta il tipo di prefisso per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di prefisso da impostare.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Imposta le reazioni per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Le emoji da impostare come reazioni.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Imposta le reazioni per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le emoji da impostare come reazioni.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Imposta le reazioni per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le emoji da impostare come reazioni.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Imposta le reazioni per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Le emoji da impostare come reazioni.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Attiva o disattiva l''assegnazione di ruoli per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'Il ruolo da attivare o disattivare.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Attiva o disattiva l''assegnazione di ruoli per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il ruolo da attivare o disattivare.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Attiva o disattiva l''assegnazione di ruoli per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il ruolo da attivare o disattivare.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Attiva o disattiva l''assegnazione di ruoli per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il ruolo da attivare o disattivare.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Attiva o disattiva la rimozione di ruoli per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il ruolo da attivare o disattivare.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Elimina tutti i trigger di chat.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Esporta le impostazioni dei trigger di chat per la gilda attuale.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Migra i vecchi trigger di chat in formato CrEmbed al nuovo formato embed. Prima esporta un backup, poi converte tutti i trigger.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Importa le impostazioni dei trigger di chat per la gilda attuale.'
+  params:
+    - desc: 'Il testo contenente le impostazioni delle reazioni personalizzate.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Ricarica i trigger di chat.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Elimina un trigger di chat tramite il suo ID.'
+  params:
+    - desc: 'L''ID del trigger di chat da eliminare.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Modifica un trigger di chat esistente.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nuovo messaggio per il trigger di chat.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Elenca tutti i trigger di chat.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Elenca tutti i trigger di chat raggruppati per trigger.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Imposta un trigger di chat per reagire al trigger.'
+  params:
+    - desc: 'L''ID del trigger di chat da modificare.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Imposta la descrizione dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'La descrizione da impostare per l''interazione.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Imposta la descrizione dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La descrizione da impostare per l''interazione.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Imposta la descrizione dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La descrizione da impostare per l''interazione.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Imposta la descrizione dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La descrizione da impostare per l''interazione.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Imposta il nome dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'Il nome da impostare per l''interazione.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Imposta il nome dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome da impostare per l''interazione.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Imposta il nome dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome da impostare per l''interazione.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Imposta il nome dell''interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome da impostare per l''interazione.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Imposta il tipo di interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'Il tipo di interazione da impostare.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Imposta il tipo di interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di interazione da impostare.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Imposta il tipo di interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di interazione da impostare.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Imposta il tipo di interazione per un trigger di chat.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tipo di interazione da impostare.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Mostra i dettagli di un trigger di chat specifico.'
+  params:
+    - &ref_544
+      desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Mostra i dettagli di un trigger di chat specifico.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Mostra i dettagli di un trigger di chat specifico.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Mostra i dettagli di un trigger di chat specifico.'
+  params:
+    - desc: 'L''ID del trigger di chat.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Imposta l''evento che può far scattare un trigger di chat.'
+cteventchannel:
+  desc: 'Imposta il canale in cui viene gestito un evento del trigger di chat.'
+ctreply:
+  desc: 'Imposta il messaggio a cui risponde un trigger di chat.'
+ctdeleteafter:
+  desc: 'Imposta dopo quanto tempo viene eliminata la risposta del trigger di chat.'
+ctcooldown:
+  desc: 'Imposta un cooldown per un trigger di chat.'
+ctrequirecounter:
+  desc: 'Imposta un requisito di contatore per un trigger di chat.'
+ctcategory:
+  desc: 'Imposta la categoria per un trigger di chat.'
+ctcategorytoggle:
+  desc: 'Attiva o disattiva una categoria di trigger di chat.'
+cttest:
+  desc: 'Verifica se un messaggio di esempio farebbe scattare un trigger di chat.'
+ctstats:
+  desc: 'Mostra le statistiche di attività dei trigger di chat.'
+ctchain:
+  desc: 'Imposta un trigger di chat che viene eseguito dopo un altro trigger.'
+ctallowbots:
+  desc: 'Controlla se un trigger di chat risponde ai bot.'
+ctcounters:
+  desc: 'Elenca i contatori dei trigger di chat.'
+ctcounterset:
+  desc: 'Imposta il valore di un contatore dei trigger di chat.'
+ctcounterdelete:
+  desc: 'Elimina un contatore dei trigger di chat.'
+ctplaceholders:
+  desc: 'Elenca i segnaposto disponibili per i trigger di chat.'
+cttime:
+  desc: 'Imposta l''intervallo di tempo attivo per un trigger di chat.'
+ctexpiry:
+  desc: 'Imposta una data di scadenza per un trigger di chat.'
+ctmaxuses:
+  desc: 'Imposta il numero massimo di volte in cui un trigger di chat può essere eseguito.'
+ctminage:
+  desc: 'Imposta un''età minima dell''account per un trigger di chat.'
+ctminmember:
+  desc: 'Imposta un''anzianità minima di permanenza nel server per un trigger di chat.'
+cttoggle:
+  desc: 'Attiva o disattiva un trigger di chat.'
+ctaddresponse:
+  desc: 'Aggiunge una risposta aggiuntiva a un trigger di chat.'
+ctclearresponses:
+  desc: 'Rimuove risposte aggiuntive da un trigger di chat.'
+ctresponsemode:
+  desc: 'Imposta come un trigger di chat sceglie le proprie risposte.'
+ctcost:
+  desc: 'Imposta il costo in valuta per un trigger di chat.'
+ctreward:
+  desc: 'Imposta la ricompensa in valuta per un trigger di chat.'
+ctxpreward:
+  desc: 'Imposta la ricompensa in XP per un trigger di chat.'
+ctreqlevel:
+  desc: 'Imposta il livello XP richiesto per un trigger di chat.'
+ctreqmsg:
+  desc: 'Imposta il messaggio mostrato quando il requisito di un trigger di chat non è soddisfatto.'

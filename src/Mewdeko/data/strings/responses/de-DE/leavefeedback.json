@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "Schade, dass ich gehen muss!",
+  "leave_feedback_desc": "Ich wurde gerade von **{0}** entfernt. Wenn du einen Moment Zeit hast, verrätst du mir, warum? Das hilft wirklich dabei, zu entscheiden, woran ich als Nächstes arbeite. Du wirst wegen dieses Servers auch nie wieder angefragt.",
+  "leave_feedback_footer": "Die Antwort ist völlig optional.",
+  "leave_feedback_placeholder": "Warum wurde der Bot entfernt?",
+  "leave_feedback_write_button": "Etwas schreiben",
+  "leave_feedback_dismiss_button": "Nein danke",
+  "leave_feedback_reason_not_needed": "Wir brauchten ihn nicht mehr",
+  "leave_feedback_reason_confusing": "Zu unübersichtlich einzurichten",
+  "leave_feedback_reason_missing_features": "Fehlende Funktionen, die wir wollten",
+  "leave_feedback_reason_unreliable": "Er war kaputt oder unzuverlässig",
+  "leave_feedback_reason_other_bot": "Wir sind auf einen anderen Bot umgestiegen",
+  "leave_feedback_reason_temporary": "Nur vorübergehend, ich füge ihn wieder hinzu",
+  "leave_feedback_reason_testing": "Ich wollte nur etwas testen",
+  "leave_feedback_thanks": "Danke, notiert: **{0}**. Wenn du noch etwas hinzufügen möchtest, nutze den Button unten.",
+  "leave_feedback_submitted": "Danke, dein Feedback wurde weitergegeben!",
+  "leave_feedback_dismissed": "Kein Problem, du wirst nicht noch einmal gefragt."
+}

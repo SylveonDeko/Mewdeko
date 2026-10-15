@@ -1,9 +1,15 @@
 {
-  "stat_channel_created": "Created stat channel **{0}** with type **{1}**.",
-  "stat_channel_added": "Stat channel **{0}** added with type **{1}**.",
-  "stat_channel_exists": "This channel is already a stat channel.",
-  "stat_channel_removed": "Stat channel **{0}** removed.",
-  "stat_channel_not_found": "That channel is not a stat channel.",
-  "stat_channel_none": "No stat channels configured.",
-  "stat_channel_list_title": "Stat Channels"
+  "stat_channel_created": "Creato il canale statistiche **{0}** con tipo **{1}**.",
+  "stat_channel_added": "Canale statistiche **{0}** aggiunto con tipo **{1}**.",
+  "stat_channel_exists": "Questo canale è già un canale statistiche.",
+  "stat_channel_removed": "Canale statistiche **{0}** rimosso.",
+  "stat_channel_not_found": "Quel canale non è un canale statistiche.",
+  "stat_channel_none": "Nessun canale statistiche configurato.",
+  "stat_channel_list_title": "Canali statistiche",
+  "stat_channel_types_title": "Tipi di statistiche disponibili",
+  "stat_channel_unknown_type": "Questo tipo di statistica non esiste. Usa il comando types per vedere quelli disponibili.",
+  "stat_channel_mechanism_set": "**{0}** ora si aggiorna tramite **{1}** ogni **{2}** minuti.",
+  "stat_channel_style_set": "**{0}** ora usa lo stile **{1}**, ad esempio `{2}`.",
+  "stat_channel_defaults_set": "I nuovi canali statistiche useranno come predefinito **{0}** ogni **{1}** minuti con lo stile **{2}**.",
+  "stat_channel_invalid_date": "Impossibile interpretare quella data. Usa un formato come 2026-12-31 18:00."
 }

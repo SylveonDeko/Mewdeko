@@ -1,19 +1,19 @@
 setupvoicehub:
   args:
     - ''
-  desc: 'Configure un salon vocal en tant que hub pour créer des salons vocaux personnalisés.'
+  desc: 'Configure un salon vocal comme hub pour créer des salons vocaux personnalisés.'
   params: [ ]
 setvoicehub:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
   params:
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: category
       optional: true
       type: category
@@ -21,13 +21,13 @@ setvoicehub_IVoiceChannel_=:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
   params:
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: category
       optional: true
       type: category
@@ -35,13 +35,13 @@ setvoicehub_IVoiceChannel_=_1:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
   params:
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: category
       optional: true
       type: category
@@ -49,50 +49,50 @@ setvoicehub_IVoiceChannel_=_2:
   args:
     - '<channel> [category]'
     - channel
-  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
   params:
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: channel
       optional: false
       type: voice channel
-    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+    - desc: 'Définit un salon vocal précis comme hub pour créer des salons vocaux personnalisés.'
       name: category
       optional: true
       type: category
 voiceallow:
   args:
     - '@user'
-  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
   params:
     - &ref_642
-      desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+      desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser:
   args:
     - '@user'
-  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
   params:
-    - desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+    - desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_1:
   args:
     - '@user'
-  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
   params:
-    - desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+    - desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
       name: target
       optional: false
       type: IGuildUser
 voiceallow_IGuildUser_2:
   args:
     - '@user'
-  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
   params:
-    - desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+    - desc: 'Permet à un utilisateur précis de rejoindre votre salon vocal verrouillé.'
       name: target
       optional: false
       type: IGuildUser
@@ -146,13 +146,13 @@ voiceclaim:
 voiceconfig:
   args:
     - '[setting] [value]'
-  desc: 'Configure les paramètres vocaux personnalisés.'
+  desc: 'Configure les paramètres des salons vocaux personnalisés.'
   params:
-    - desc: 'Configure les paramètres vocaux personnalisés.'
+    - desc: 'Configure les paramètres des salons vocaux personnalisés.'
       name: setting
       optional: true
       type: string
-    - desc: 'Configure les paramètres vocaux personnalisés.'
+    - desc: 'Configure les paramètres des salons vocaux personnalisés.'
       name: value
       optional: true
       type: string
@@ -164,55 +164,55 @@ voicecontrols:
 voicedeny:
   args:
     - '@user'
-  desc: 'Refuse l''accès d''un utilisateur spécifique à votre salon vocal.'
+  desc: 'Interdit à un utilisateur précis de rejoindre votre salon vocal.'
   params:
-    - desc: 'Refuse l''accès d''un utilisateur spécifique à votre salon vocal.'
+    - desc: 'Interdit à un utilisateur précis de rejoindre votre salon vocal.'
       name: target
       optional: false
       type: IGuildUser
 voicekeepalive:
   args:
     - true
-  desc: 'Maintient le salon actif même lorsqu''il est vide.'
+  desc: 'Définit le salon à maintenir actif même lorsqu''il est vide.'
   params:
-    - desc: 'Maintient le salon actif même lorsqu''il est vide.'
+    - desc: 'Définit le salon à maintenir actif même lorsqu''il est vide.'
       name: true
       optional: false
       type: '='
 voicelimit:
   args:
     - number
-  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
   params:
     - &ref_644
-      desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+      desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
       name: limit
       optional: false
       type: int
 voicelimit_int:
   args:
     - number
-  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
   params:
-    - desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+    - desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
       name: limit
       optional: false
       type: int
 voicelimit_int_1:
   args:
     - number
-  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
   params:
-    - desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+    - desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
       name: limit
       optional: false
       type: int
 voicelimit_int_2:
   args:
     - number
-  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
   params:
-    - desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+    - desc: 'Définit la limite d''utilisateurs de votre salon vocal personnalisé.'
       name: limit
       optional: false
       type: int
@@ -228,7 +228,7 @@ voicelock:
 voicepreferences:
   args:
     - ''
-  desc: 'Définit vos préférences de salon vocal.'
+  desc: 'Définit vos préférences pour les salons vocaux.'
   params: [ ]
 voiceprefsbitrate:
   args:
@@ -242,9 +242,9 @@ voiceprefsbitrate:
 voiceprefskeepalive:
   args:
     - '[keepAlive]'
-  desc: 'Définit votre préférence de maintien actif pour les salons vocaux personnalisés.'
+  desc: 'Définit votre préférence de maintien en activité pour les salons vocaux personnalisés.'
   params:
-    - desc: 'Définit votre préférence de maintien actif pour les salons vocaux personnalisés.'
+    - desc: 'Définit votre préférence de maintien en activité pour les salons vocaux personnalisés.'
       name: keepAlive
       optional: true
       type: bool

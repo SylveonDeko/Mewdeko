@@ -1,0 +1,838 @@
+accept:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '接受建议，将其标记为已批准。'
+  params:
+    - desc: '要接受的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。接受该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '接受建议，将其标记为已批准。'
+  params:
+    - desc: '要接受的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。接受该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '接受建议，将其标记为已批准。'
+  params:
+    - desc: '要接受的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。接受该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '接受建议，将其标记为已批准。'
+  params:
+    - desc: '要接受的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。接受该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+acceptchannel:
+  args:
+    - '[@channel]'
+  desc: '设置发布已接受建议的频道。'
+  params:
+    - desc: '用于发布已接受建议的频道。若为 null，则禁用该功能。'
+      name: channel
+      optional: true
+      type: channel
+acceptmessage:
+  args:
+    - text
+  desc: '设置或更新建议的接受消息。'
+  params:
+    - &ref_2
+      desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string:
+  args:
+    - text
+  desc: '设置或更新建议的接受消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_1:
+  args:
+    - text
+  desc: '设置或更新建议的接受消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_2:
+  args:
+    - text
+  desc: '设置或更新建议的接受消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+archiveonaccept:
+  args:
+    - ''
+  desc: '切换建议被接受后是否归档。'
+  params: [ ]
+archiveonconsider:
+  args:
+    - ''
+  desc: '切换建议被考虑后是否归档。'
+  params: [ ]
+archiveondeny:
+  args:
+    - ''
+  desc: '切换建议被拒绝后是否归档。'
+  params: [ ]
+archiveonimplement:
+  args:
+    - ''
+  desc: '切换建议被实现后是否归档。'
+  params: [ ]
+consider:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '将建议标记为正在考虑。'
+  params:
+    - desc: '要标记为正在考虑的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。考虑该建议的意见或理由。'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '将建议标记为正在考虑。'
+  params:
+    - desc: '要标记为正在考虑的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。考虑该建议的意见或理由。'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '将建议标记为正在考虑。'
+  params:
+    - desc: '要标记为正在考虑的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。考虑该建议的意见或理由。'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '将建议标记为正在考虑。'
+  params:
+    - desc: '要标记为正在考虑的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。考虑该建议的意见或理由。'
+      name: reason
+      optional: true
+      type: string
+considerchannel:
+  args:
+    - '[@channel]'
+  desc: '设置发布正在考虑的建议的频道。'
+  params:
+    - desc: '用于发布正在考虑的建议的频道。若为 null，则禁用该功能。'
+      name: channel
+      optional: true
+      type: channel
+considermessage:
+  args:
+    - text
+  desc: '设置或更新建议的考虑消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+deny:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '拒绝建议，将其标记为已驳回。'
+  params:
+    - desc: '要拒绝的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。拒绝该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '拒绝建议，将其标记为已驳回。'
+  params:
+    - desc: '要拒绝的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。拒绝该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '拒绝建议，将其标记为已驳回。'
+  params:
+    - desc: '要拒绝的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。拒绝该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '拒绝建议，将其标记为已驳回。'
+  params:
+    - desc: '要拒绝的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。拒绝该建议的原因。'
+      name: reason
+      optional: true
+      type: string
+denychannel:
+  args:
+    - '[@channel]'
+  desc: '设置发布已拒绝建议的频道。'
+  params:
+    - desc: '用于发布已拒绝建议的频道。若为 null，则禁用该功能。'
+      name: channel
+      optional: true
+      type: channel
+denymessage:
+  args:
+    - text
+  desc: '设置或更新建议的拒绝消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+implementchannel:
+  args:
+    - '[@channel]'
+  desc: '设置发布已实现建议的频道。'
+  params:
+    - desc: '用于发布已实现建议的频道。若为 null，则禁用该功能。'
+      name: channel
+      optional: true
+      type: channel
+implemented:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '将建议标记为已实现。'
+  params:
+    - desc: '要标记为已实现的建议的唯一编号（ID）。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '可选。实现的原因或详细信息。'
+      name: reason
+      optional: true
+      type: string
+implementmessage:
+  args:
+    - text
+  desc: '设置或更新建议的实现消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+maxsuggestionlength:
+  args:
+    - number
+  desc: '设置建议的最大长度。'
+  params:
+    - &ref_291
+      desc: '建议可包含的最大字符数。'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int:
+  args:
+    - number
+  desc: '设置建议的最大长度。'
+  params:
+    - desc: '建议可包含的最大字符数。'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_1:
+  args:
+    - number
+  desc: '设置建议的最大长度。'
+  params:
+    - desc: '建议可包含的最大字符数。'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_2:
+  args:
+    - number
+  desc: '设置建议的最大长度。'
+  params:
+    - desc: '建议可包含的最大字符数。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength:
+  args:
+    - number
+  desc: '设置建议的最小长度。'
+  params:
+    - &ref_294
+      desc: '建议必须包含的最少字符数。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int:
+  args:
+    - number
+  desc: '设置建议的最小长度。'
+  params:
+    - desc: '建议必须包含的最少字符数。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_1:
+  args:
+    - number
+  desc: '设置建议的最小长度。'
+  params:
+    - desc: '建议必须包含的最少字符数。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_2:
+  args:
+    - number
+  desc: '设置建议的最小长度。'
+  params:
+    - desc: '建议必须包含的最少字符数。'
+      name: length
+      optional: false
+      type: int
+setsuggestchannel:
+  args:
+    - '[@channel]'
+  desc: '设置或禁用服务器的建议频道。'
+  params:
+    - desc: '设为建议频道的文字频道。若为 null，则禁用建议功能。'
+      name: channel
+      optional: true
+      type: channel
+suggest:
+  args:
+    - text
+  desc: '向指定的建议频道提交新建议。'
+  params:
+    - &ref_582
+      desc: '要提交的建议内容。'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string:
+  args:
+    - text
+  desc: '向指定的建议频道提交新建议。'
+  params:
+    - desc: '要提交的建议内容。'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_1:
+  args:
+    - text
+  desc: '向指定的建议频道提交新建议。'
+  params:
+    - desc: '要提交的建议内容。'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_2:
+  args:
+    - text
+  desc: '向指定的建议频道提交新建议。'
+  params:
+    - desc: '要提交的建议内容。'
+      name: suggestion
+      optional: false
+      type: string
+suggestbuttonchannel:
+  args:
+    - channel
+  desc: '设置建议按钮的频道。'
+  params:
+    - &ref_583
+      desc: '设为建议按钮频道的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel:
+  args:
+    - channel
+  desc: '设置建议按钮的频道。'
+  params:
+    - desc: '设为建议按钮频道的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: '设置建议按钮的频道。'
+  params:
+    - desc: '设为建议按钮频道的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: '设置建议按钮的频道。'
+  params:
+    - desc: '设为建议按钮频道的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttoncolor:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议按钮的颜色。'
+  params:
+    - &ref_584
+      desc: '建议按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议按钮的颜色。'
+  params:
+    - &ref_585
+      desc: '建议按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_1:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议按钮的颜色。'
+  params:
+    - desc: '建议按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_2:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议按钮的颜色。'
+  params:
+    - desc: '建议按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttonemote:
+  args:
+    - '[emote]'
+  desc: '设置建议按钮的表情。'
+  params:
+    - desc: '建议按钮使用的表情。若为 null，则重置为默认值。'
+      name: emote
+      optional: true
+      type: emote
+suggestbuttonlabel:
+  args:
+    - text
+  desc: '设置建议按钮的标签。'
+  params:
+    - &ref_586
+      desc: '建议按钮的标签文字。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string:
+  args:
+    - text
+  desc: '设置建议按钮的标签。'
+  params:
+    - desc: '建议按钮的标签文字。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_1:
+  args:
+    - text
+  desc: '设置建议按钮的标签。'
+  params:
+    - desc: '建议按钮的标签文字。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_2:
+  args:
+    - text
+  desc: '设置建议按钮的标签。'
+  params:
+    - desc: '建议按钮的标签文字。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonmessage:
+  args:
+    - text
+  desc: '设置或更新建议按钮消息。'
+  params:
+    - &ref_587
+      desc: '建议按钮的消息内容。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string:
+  args:
+    - text
+  desc: '设置或更新建议按钮消息。'
+  params:
+    - desc: '建议按钮的消息内容。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_1:
+  args:
+    - text
+  desc: '设置或更新建议按钮消息。'
+  params:
+    - desc: '建议按钮的消息内容。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_2:
+  args:
+    - text
+  desc: '设置或更新建议按钮消息。'
+  params:
+    - desc: '建议按钮的消息内容。使用 "-" 可重置为默认值。'
+      name: toSet
+      optional: true
+      type: string
+suggestclear:
+  args:
+    - ''
+  desc: '清除服务器中的所有建议。'
+  params: [ ]
+suggestinfo:
+  args:
+    - num
+  desc: '显示特定建议的详细信息。'
+  params:
+    - &ref_588
+      desc: '要查看信息的建议的唯一编号（ID）。'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong:
+  args:
+    - num
+  desc: '显示特定建议的详细信息。'
+  params:
+    - desc: '要查看信息的建议的唯一编号（ID）。'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_1:
+  args:
+    - num
+  desc: '显示特定建议的详细信息。'
+  params:
+    - desc: '要查看信息的建议的唯一编号（ID）。'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_2:
+  args:
+    - num
+  desc: '显示特定建议的详细信息。'
+  params:
+    - desc: '要查看信息的建议的唯一编号（ID）。'
+      name: num
+      optional: false
+      type: ulong
+suggestmessage:
+  args:
+    - text
+  desc: '设置或更新建议消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string:
+  args:
+    - text
+  desc: '设置或更新建议消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_1:
+  args:
+    - text
+  desc: '设置或更新建议消息。'
+  params:
+    - desc: ''
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_2:
+  args:
+    - text
+  desc: '设置或更新建议消息。'
+  params:
+    - desc: '消息或嵌入代码。使用 "-" 可重置为默认消息。'
+      name: embed
+      optional: false
+      type: string
+suggestmotecolor:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议上特定表情按钮的颜色。'
+  params:
+    - &ref_589
+      desc: '要更改的按钮编号。'
+      name: num
+      optional: false
+      type: int
+    - desc: '要应用于按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议上特定表情按钮的颜色。'
+  params:
+    - desc: '要更改的按钮编号。'
+      name: num
+      optional: false
+      type: int
+    - desc: '要应用于按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_1:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议上特定表情按钮的颜色。'
+  params:
+    - desc: '要更改的按钮编号。'
+      name: num
+      optional: false
+      type: int
+    - desc: '要应用于按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_2:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '设置建议上特定表情按钮的颜色。'
+  params:
+    - desc: '要更改的按钮编号。'
+      name: num
+      optional: false
+      type: int
+    - desc: '要应用于按钮的颜色类型。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotes:
+  args:
+    - '[_]'
+  desc: '配置建议所用的自定义表情。'
+  params:
+    - desc: '以逗号分隔的表情字符串列表，或输入 "disable" 以使用默认反应。'
+      name: _
+      optional: true
+      type: string
+suggestmotesmode:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '设置建议表情的模式，可为反应或按钮。'
+  params:
+    - &ref_590
+      desc: '建议表情使用的模式。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '设置建议表情的模式，可为反应或按钮。'
+  params:
+    - desc: '建议表情使用的模式。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_1:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '设置建议表情的模式，可为反应或按钮。'
+  params:
+    - desc: '建议表情使用的模式。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_2:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '设置建议表情的模式，可为反应或按钮。'
+  params:
+    - desc: '建议表情使用的模式。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestthreadstype:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '设置建议所用线程的类型。'
+  params:
+    - &ref_591
+      desc: '新建议所用线程的类型。'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '设置建议所用线程的类型。'
+  params:
+    - desc: '新建议所用线程的类型。'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_1:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '设置建议所用线程的类型。'
+  params:
+    - desc: '新建议所用线程的类型。'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_2:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '设置建议所用线程的类型。'
+  params:
+    - desc: '新建议所用线程的类型。'
+      name: type
+      optional: false
+      type: SuggestThreadType

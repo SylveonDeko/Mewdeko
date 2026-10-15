@@ -5,15 +5,15 @@ coprmonitoradd:
     - ownerProject
   desc: 'Adiciona um monitor de projeto COPR ao servidor.'
   params:
-    - desc: 'O projeto COPR no formato owner/project (ex. linux4switch/l4s).'
+    - desc: 'O projeto COPR no formato owner/project (ex.: linux4switch/l4s).'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Canal opcional para notificações. Padrão é o canal atual.'
+    - desc: 'Canal opcional para notificações. Padrão: o canal atual.'
       name: channel
       optional: true
       type: ITextChannel
-    - desc: 'Lista opcional de pacotes a monitorar separados por vírgula (ex. mesa,kernel).'
+    - desc: 'Lista opcional de pacotes separados por vírgula a monitorar (ex.: mesa,kernel).'
       name: packages
       optional: true
       type: string
@@ -27,7 +27,7 @@ coprmonitorremove:
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Canal opcional para remover um monitor específico.'
+    - desc: 'Canal opcional do qual remover um monitor específico.'
       name: channel
       optional: true
       type: ITextChannel
@@ -48,7 +48,7 @@ coprmonitortoggle:
 coprnotify:
   args:
     - ownerProject status enabled
-  desc: 'Configura quais status de build disparam notificações para um monitor.'
+  desc: 'Configura quais status de build acionam notificações para um monitor.'
   params:
     - desc: 'O projeto COPR no formato owner/project.'
       name: ownerProject
@@ -58,14 +58,14 @@ coprnotify:
       name: status
       optional: false
       type: CoprBuildStatus
-    - desc: 'Se deve habilitar ou desabilitar notificações para este status.'
+    - desc: 'Se as notificações para este status devem ser ativadas ou desativadas.'
       name: enabled
       optional: false
       type: bool
 coprfilter:
   args:
     - ownerProject text
-  desc: 'Define o filtro de pacotes para um monitor COPR.'
+  desc: 'Define o filtro de pacotes de um monitor COPR.'
   params:
     - desc: 'O projeto COPR no formato owner/project.'
       name: ownerProject
@@ -84,7 +84,7 @@ coprsucceededmessage:
       name: ownerProject
       optional: false
       type: string
-    - desc: 'A mensagem ou código de embed. Use "-" para redefinir ao padrão.'
+    - desc: 'A mensagem ou o código do embed. Use "-" para voltar ao padrão.'
       name: message
       optional: false
       type: string
@@ -97,7 +97,7 @@ coprfailedmessage:
       name: ownerProject
       optional: false
       type: string
-    - desc: 'A mensagem ou código de embed. Use "-" para redefinir ao padrão.'
+    - desc: 'A mensagem ou o código do embed. Use "-" para voltar ao padrão.'
       name: message
       optional: false
       type: string
@@ -110,7 +110,7 @@ coprcanceledmessage:
       name: ownerProject
       optional: false
       type: string
-    - desc: 'A mensagem ou código de embed. Use "-" para redefinir ao padrão.'
+    - desc: 'A mensagem ou o código do embed. Use "-" para voltar ao padrão.'
       name: message
       optional: false
       type: string
@@ -123,7 +123,7 @@ coprpendingmessage:
       name: ownerProject
       optional: false
       type: string
-    - desc: 'A mensagem ou código de embed. Use "-" para redefinir ao padrão.'
+    - desc: 'A mensagem ou o código do embed. Use "-" para voltar ao padrão.'
       name: message
       optional: false
       type: string
@@ -136,20 +136,20 @@ coprrunningmessage:
       name: ownerProject
       optional: false
       type: string
-    - desc: 'A mensagem ou código de embed. Use "-" para redefinir ao padrão.'
+    - desc: 'A mensagem ou o código do embed. Use "-" para voltar ao padrão.'
       name: message
       optional: false
       type: string
 coprskippedmessage:
   args:
     - ownerProject text
-  desc: 'Define a mensagem exibida quando um build COPR é pulado.'
+  desc: 'Define a mensagem exibida quando um build COPR é ignorado.'
   params:
     - desc: 'O projeto COPR no formato owner/project.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'A mensagem ou código de embed. Use "-" para redefinir ao padrão.'
+    - desc: 'A mensagem ou o código do embed. Use "-" para voltar ao padrão.'
       name: message
       optional: false
       type: string
@@ -162,7 +162,7 @@ coprdefaultmessage:
       name: ownerProject
       optional: false
       type: string
-    - desc: 'A mensagem ou código de embed. Use "-" para redefinir ao padrão.'
+    - desc: 'A mensagem ou o código do embed. Use "-" para voltar ao padrão.'
       name: message
       optional: false
       type: string

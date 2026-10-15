@@ -1,10 +1,10 @@
 confess:
   args:
     - serverid text
-  desc: 'Kullanıcıların anonim olarak itirafta bulunmasına olanak tanır.'
+  desc: 'Kullanıcıların anonim itirafta bulunmasını sağlar.'
   params:
     - &ref_139
-      desc: 'Sunucunun kimliği.'
+      desc: 'Sunucunun ID''si.'
       name: serverId
       optional: false
       type: ulong
@@ -16,9 +16,9 @@ confess:
 confess_ulong_string:
   args:
     - serverid text
-  desc: 'Kullanıcıların anonim olarak itirafta bulunmasına olanak tanır.'
+  desc: 'Kullanıcıların anonim itirafta bulunmasını sağlar.'
   params:
-    - desc: 'Sunucunun kimliği.'
+    - desc: 'Sunucunun ID''si.'
       name: serverId
       optional: false
       type: ulong
@@ -29,9 +29,9 @@ confess_ulong_string:
 confess_ulong_string_1:
   args:
     - serverid text
-  desc: 'Kullanıcıların anonim olarak itirafta bulunmasına olanak tanır.'
+  desc: 'Kullanıcıların anonim itirafta bulunmasını sağlar.'
   params:
-    - desc: 'Sunucunun kimliği.'
+    - desc: 'Sunucunun ID''si.'
       name: serverId
       optional: false
       type: ulong
@@ -42,9 +42,9 @@ confess_ulong_string_1:
 confess_ulong_string_2:
   args:
     - serverid text
-  desc: 'Kullanıcıların anonim olarak itirafta bulunmasına olanak tanır.'
+  desc: 'Kullanıcıların anonim itirafta bulunmasını sağlar.'
   params:
-    - desc: 'Sunucunun kimliği.'
+    - desc: 'Sunucunun ID''si.'
       name: serverId
       optional: false
       type: ulong
@@ -73,38 +73,38 @@ confesschannel:
 confessionblacklist:
   args:
     - '@user'
-  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya çıkarır.'
+  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya listeden çıkarır.'
   params:
     - &ref_141
-      desc: 'Kara listeye eklenecek veya çıkarılacak kullanıcı.'
+      desc: 'Kara listeye eklenecek veya listeden çıkarılacak kullanıcı.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser:
   args:
     - '@user'
-  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya çıkarır.'
+  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya listeden çıkarır.'
   params:
     - &ref_142
-      desc: 'Kara listeye eklenecek veya çıkarılacak kullanıcı.'
+      desc: 'Kara listeye eklenecek veya listeden çıkarılacak kullanıcı.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser_1:
   args:
     - '@user'
-  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya çıkarır.'
+  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya listeden çıkarır.'
   params:
-    - desc: 'Kara listeye eklenecek veya çıkarılacak kullanıcı.'
+    - desc: 'Kara listeye eklenecek veya listeden çıkarılacak kullanıcı.'
       name: user
       optional: false
       type: IUser
 confessionblacklist_IUser_2:
   args:
     - '@user'
-  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya çıkarır.'
+  desc: 'Bir kullanıcıyı itiraf kara listesine ekler veya listeden çıkarır.'
   params:
-    - desc: 'Kara listeye eklenecek veya çıkarılacak kullanıcı.'
+    - desc: 'Kara listeye eklenecek veya listeden çıkarılacak kullanıcı.'
       name: user
       optional: false
       type: IUser
@@ -120,27 +120,25 @@ confessionchannel:
 confessionlogchannel:
   args:
     - '[@channel]'
-  desc: >-
-    İtirafları kaydetmek için itiraf günlük kanalını ayarlar. Bu özelliğin
-    kötüye kullanılması evinden 2m uzakta olmamla sonuçlanır.
+  desc: 'İtirafları kaydetmek için itiraf log kanalını ayarlar. Bu özelliği kötüye kullanırsan evinden 2 metre uzakta olurum.'
   params:
-    - desc: 'İtiraf günlük kanalı (isteğe bağlı).'
+    - desc: 'İtiraf log kanalı (isteğe bağlı).'
       name: channel
       optional: true
       type: channel
 confessionunblacklist:
   args:
     - '@user'
-  desc: 'Bir kullanıcıyı itiraf kara listesinden çıkarır.'
+  desc: 'Bir kullanıcıyı itiraf kara listesinden kaldırır.'
   params:
-    - desc: 'Kara listeden çıkarılacak kullanıcı.'
+    - desc: 'Kara listeden kaldırılacak kullanıcı.'
       name: user
       optional: false
       type: IUser
 confesslogchannel:
   args:
     - channel
-  desc: 'İtiraf günlük kanalını ayarlar.'
+  desc: 'İtiraf log kanalını ayarlar.'
   params:
     - desc: 'İtirafların kaydedileceği kanal.'
       name: channel
@@ -149,7 +147,7 @@ confesslogchannel:
 confessunblacklist:
   args:
     - user
-  desc: 'Bir kullanıcıyı itiraf kara listesinden çıkarır.'
+  desc: 'Bir kullanıcıyı itiraf kara listesinden kaldırır.'
   params:
     - desc: 'İtiraf kara listesinden çıkarılacak kullanıcı.'
       name: user

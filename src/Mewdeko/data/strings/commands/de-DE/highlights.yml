@@ -5,13 +5,13 @@ highlight:
     - add
     - list
     - delete
-  desc: 'Fügt Highlights hinzu, listet sie auf, entfernt sie oder gleicht sie ab.'
+  desc: 'Fügt Hervorhebungen hinzu, listet sie auf, entfernt sie oder findet Treffer.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Die auszuführende Aktion: add, list, delete oder match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parameter für die gewählte Aktion'
+    - desc: 'Parameter für die gewählte Aktion.'
       name: words
       optional: true
       type: string
@@ -22,13 +22,13 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: 'Fügt Highlights hinzu, listet sie auf, entfernt sie oder gleicht sie ab.'
+  desc: 'Fügt Hervorhebungen hinzu, listet sie auf, entfernt sie oder findet Treffer.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Die auszuführende Aktion: add, list, delete oder match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parameter für die gewählte Aktion'
+    - desc: 'Parameter für die gewählte Aktion.'
       name: words
       optional: true
       type: string
@@ -39,13 +39,13 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: 'Fügt Highlights hinzu, listet sie auf, entfernt sie oder gleicht sie ab.'
+  desc: 'Fügt Hervorhebungen hinzu, listet sie auf, entfernt sie oder findet Treffer.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Die auszuführende Aktion: add, list, delete oder match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parameter für die gewählte Aktion'
+    - desc: 'Parameter für die gewählte Aktion.'
       name: words
       optional: true
       type: string
@@ -56,26 +56,26 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: 'Fügt Highlights hinzu, listet sie auf, entfernt sie oder gleicht sie ab.'
+  desc: 'Fügt Hervorhebungen hinzu, listet sie auf, entfernt sie oder findet Treffer.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Die auszuführende Aktion: add, list, delete oder match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Parameter für die gewählte Aktion'
+    - desc: 'Parameter für die gewählte Aktion.'
       name: words
       optional: true
       type: string
 highlights:
   args:
     - action word
-  desc: Verwaltet Benutzer-Highlights.
+  desc: 'Verwaltet Nutzer-Hervorhebungen.'
   params:
-    - desc: Die Aktion, die mit Highlights ausgeführt werden soll.
+    - desc: 'Die Aktion, die mit Hervorhebungen ausgeführt werden soll.'
       name: action
       optional: false
       type: string
-    - desc: Das zu hervorhebende Wort.
+    - desc: 'Das Wort, das hervorgehoben werden soll.'
       name: word
       optional: true
       type: string

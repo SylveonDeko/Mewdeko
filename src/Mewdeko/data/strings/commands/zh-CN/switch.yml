@@ -1,0 +1,41 @@
+err:
+  args:
+    - code
+  desc: '查询 Nintendo Switch 错误代码，并显示已知的相关信息。'
+  params:
+    - desc: '错误代码，格式为 NNNN-NNNN 或十六进制（例如 0x2A2）。'
+      name: code
+      optional: false
+      type: string
+err2hex:
+  args:
+    - code
+  desc: '将 Nintendo Switch 错误代码从 NNNN-NNNN 格式转换为十六进制。'
+  params:
+    - desc: '要转换的错误代码，例如 2168-0002。'
+      name: code
+      optional: false
+      type: string
+hex2err:
+  args:
+    - hex
+  desc: '将十六进制 Nintendo Switch 错误代码转换为 NNNN-NNNN 格式。'
+  params:
+    - desc: '要转换的十六进制错误代码，例如 0x2A2。'
+      name: hex
+      optional: false
+      type: string
+switchbrew:
+  args:
+    - query
+  desc: '搜索 switchbrew.org 维基，并显示匹配度最高的页面。'
+  params:
+    - desc: '搜索关键词。'
+      name: query
+      optional: false
+      type: string
+analyselog:
+  args:
+    - ''
+  desc: '分析附加的 Ryujinx 日志文件，并报告硬件、设置和故障排除信息。'
+  params: [ ]

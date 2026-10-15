@@ -1,30 +1,30 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: '서버 통계를 표시하는 새로운 잠긴 음성 채널을 만듭니다. 봇이 채널을 만들고 관리합니다.'
+  desc: '서버 통계를 표시하는 잠긴 음성 채널을 새로 만듭니다. 봇이 채널을 만들고 관리합니다.'
   params:
-    - desc: '표시할 통계 유형.'
+    - desc: '표시할 통계 종류입니다.'
       name: type
       optional: false
       type: StatChannelType
-    - desc: '표시 템플릿. 값을 위해 %count%를 사용하세요.'
+    - desc: '표시 형식 템플릿입니다. 값은 %count%를 사용합니다.'
       name: template
       optional: true
       type: string
 statchanneladd:
   args:
     - '#voice-channel TotalMembers [template]'
-  desc: '음성 채널을 통계 채널로 추가합니다. 유형: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  desc: '음성 채널을 통계 채널로 추가합니다. 종류: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
   params:
-    - desc: '사용할 음성 채널.'
+    - desc: '사용할 음성 채널입니다.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: '표시할 통계 유형.'
+    - desc: '표시할 통계 종류입니다.'
       name: type
       optional: false
       type: StatChannelType
-    - desc: '표시 템플릿. 값을 위해 %count%를 사용하세요.'
+    - desc: '표시 형식 템플릿입니다. 값은 %count%를 사용합니다.'
       name: template
       optional: true
       type: string
@@ -33,49 +33,49 @@ statchannelrole:
     - '#voice-channel @role [template]'
   desc: '특정 역할을 가진 멤버 수를 표시하는 통계 채널을 추가합니다.'
   params:
-    - desc: '사용할 음성 채널.'
+    - desc: '사용할 음성 채널입니다.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: '멤버를 카운트할 역할.'
+    - desc: '멤버 수를 셀 역할입니다.'
       name: role
       optional: false
       type: IRole
-    - desc: '표시 템플릿. %count%와 %role.name%을 사용하세요.'
+    - desc: '표시 형식 템플릿입니다. %count%와 %role.name%을 사용합니다.'
       name: template
       optional: true
       type: string
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: '카운트다운 통계 채널을 추가합니다. %days%와 %hours% 자리표시자를 사용하세요.'
+  desc: '카운트다운 통계 채널을 추가합니다. %days%와 %hours% 자리표시자를 사용합니다.'
   params:
-    - desc: '사용할 음성 채널.'
+    - desc: '사용할 음성 채널입니다.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: '카운트다운의 대상 날짜.'
+    - desc: '카운트다운의 목표 날짜입니다.'
       name: date
       optional: false
       type: DateTime
-    - desc: '표시 템플릿. %days%와 %hours%를 사용하세요.'
+    - desc: '표시 형식 템플릿입니다. %days%와 %hours%를 사용합니다.'
       name: template
       optional: true
       type: string
 statchannelgoal:
   args:
     - '#voice-channel 1000 [template]'
-  desc: '멤버 목표 통계 채널을 추가합니다. %count%, %goal%, %goal.percent%를 사용하세요.'
+  desc: '멤버 목표 통계 채널을 추가합니다. %count%, %goal%, %goal.percent%를 사용합니다.'
   params:
-    - desc: '사용할 음성 채널.'
+    - desc: '사용할 음성 채널입니다.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: '목표 멤버 수.'
+    - desc: '목표 멤버 수입니다.'
       name: goal
       optional: false
       type: int
-    - desc: '표시 템플릿. %count%, %goal%, %goal.percent%를 사용하세요.'
+    - desc: '표시 형식 템플릿입니다. %count%, %goal%, %goal.percent%를 사용합니다.'
       name: template
       optional: true
       type: string
@@ -84,7 +84,7 @@ statchannelremove:
     - '#voice-channel'
   desc: '통계 채널을 제거합니다.'
   params:
-    - desc: '제거할 음성 채널.'
+    - desc: '제거할 음성 채널입니다.'
       name: channel
       optional: false
       type: IVoiceChannel
@@ -93,3 +93,23 @@ statchannellist:
     - ''
   desc: '이 서버의 모든 통계 채널을 나열합니다.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: '통계 채널에 Twitch 카운터를 설정합니다.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: '통계 채널의 업데이트 방식을 설정합니다.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: '통계 채널의 표시 스타일을 설정합니다.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: '통계 채널의 기본 설정을 표시합니다.'
+statchanneltypes:
+  args:
+    - ''
+  desc: '사용 가능한 통계 채널 종류를 나열합니다.'

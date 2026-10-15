@@ -1,67 +1,67 @@
 mcstatus:
   args:
     - '[server name or address]'
-  desc: 'Bir Minecraft sunucusunun durumunu kontrol eder. Kayıtlı bir sunucu adı, doğrudan adres kullanın veya varsayılan sunucu için boş bırakın.'
+  desc: 'Bir Minecraft sunucusunun durumunu kontrol eder. Kayıtlı bir sunucu adı, doğrudan bir adres kullanın ya da varsayılan sunucu için boş bırakın.'
   params:
-    - desc: 'Kayıtlı sunucu adı veya doğrudan adres (örn. play.example.com:25565).'
+    - desc: 'Kayıtlı sunucu adı ya da doğrudan adres (ör. play.example.com:25565).'
       name: serverName
       optional: true
       type: string
 mcadd:
   args:
     - name address
-  desc: 'Loncaya bir Minecraft sunucusu ekler. Bedrock sunucuları için adresin önüne bedrock: ekleyin.'
+  desc: 'Sunucuya bir Minecraft sunucusu ekler. Bedrock sunucuları için adresin başına bedrock: yazın.'
   params:
     - desc: 'Sunucu için bir etiket.'
       name: name
       optional: false
       type: string
-    - desc: 'Sunucu adresi, isteğe bağlı olarak port ile (örn. play.example.com:25565 veya bedrock:play.example.com).'
+    - desc: 'Sunucu adresi, isteğe bağlı olarak port ile (ör. play.example.com:25565 veya bedrock:play.example.com).'
       name: address
       optional: false
       type: string
 mcremove:
   args:
     - name
-  desc: 'Loncadan bir Minecraft sunucusunu kaldırır.'
+  desc: 'Sunucudan bir Minecraft sunucusunu kaldırır.'
   params:
-    - desc: 'Kaldırılacak sunucu adı.'
+    - desc: 'Kaldırılacak sunucunun adı.'
       name: name
       optional: false
       type: string
 mclist:
   args:
     - ''
-  desc: 'Bu lonca için kayıtlı tüm Minecraft sunucularını listeler.'
+  desc: 'Bu sunucu için kayıtlı tüm Minecraft sunucularını listeler.'
   params: [ ]
 mcdefault:
   args:
     - name
   desc: 'Bir sunucuyu durum komutları için varsayılan olarak ayarlar.'
   params:
-    - desc: 'Varsayılan olarak ayarlanacak sunucu adı.'
+    - desc: 'Varsayılan olarak ayarlanacak sunucunun adı.'
       name: name
       optional: false
       type: string
 mcwatch:
   args:
     - name '#channel'
-  desc: 'Bir sunucu için periyodik durum güncellemelerini almak üzere kanal ayarlar. Devre dışı bırakmak için kanalı atlayın.'
+  desc: 'Bir sunucu için periyodik durum güncellemelerini alacak bir kanal ayarlar. Devre dışı bırakmak için kanalı atlayın.'
   params:
-    - desc: 'İzlenecek sunucu adı.'
+    - desc: 'İzlenecek sunucunun adı.'
       name: serverName
       optional: false
       type: string
-    - desc: 'Güncellemelerin gönderileceği kanal.'
+    - desc: 'Güncellemelerin paylaşılacağı kanal.'
       name: channel
       optional: true
       type: ITextChannel
 mcwatchmode:
   args:
     - name embed|topic|both
-  desc: 'Sunucu durumunun nasıl gösterileceğini ayarlar: embed (yerinde düzenle), kanal konusu veya her ikisi.'
+  desc: 'Sunucu durumunun nasıl gösterileceğini ayarlar: embed (yerinde düzenlenir), kanal konusu veya ikisi birden.'
   params:
-    - desc: 'Sunucu adı.'
+    - desc: 'Sunucunun adı.'
       name: serverName
       optional: false
       type: string
@@ -74,18 +74,18 @@ mcembed:
     - name template
   desc: 'İzlenen bir sunucu için özel embed şablonu ayarlar. Sıfırlamak için "-" kullanın. Yer tutucular: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
   params:
-    - desc: 'Sunucu adı.'
+    - desc: 'Sunucunun adı.'
       name: serverName
       optional: false
       type: string
-    - desc: 'Embed şablonu JSON, veya varsayılana sıfırlamak için "-".'
+    - desc: 'Embed şablonu JSON''u ya da varsayılana sıfırlamak için "-".'
       name: template
       optional: true
       type: string
 mcplayer:
   args:
     - username
-  desc: 'Kullanıcı adına göre Minecraft oyuncusunu arar ve profilini ve kıyafetini görüntüler.'
+  desc: 'Bir Minecraft oyuncusunu kullanıcı adıyla arar ve profilini ve skinini gösterir.'
   params:
     - desc: 'Aranacak Minecraft kullanıcı adı.'
       name: username
@@ -94,7 +94,7 @@ mcplayer:
 mcskin:
   args:
     - username
-  desc: 'Bir Minecraft oyuncusunun kıyafet renderini görüntüler.'
+  desc: 'Bir Minecraft oyuncusunun skin görüntüsünü gösterir.'
   params:
     - desc: 'Minecraft kullanıcı adı.'
       name: username
@@ -103,26 +103,26 @@ mcskin:
 mcrcon:
   args:
     - name command
-  desc: 'Kayıtlı bir Minecraft sunucusuna RCON komutu gönderir. RCON, kontrol panelinden yapılandırılmalıdır.'
+  desc: 'Kayıtlı bir Minecraft sunucusuna RCON komutu gönderir. RCON, kontrol paneli üzerinden yapılandırılmış olmalıdır.'
   params:
-    - desc: 'Sunucu adı.'
+    - desc: 'Sunucunun adı.'
       name: serverName
       optional: false
       type: string
-    - desc: 'Sunucuda yürütülecek komut.'
+    - desc: 'Sunucuda çalıştırılacak komut.'
       name: command
       optional: false
       type: string
 mcwhitelist:
   args:
     - name add|remove|list|on|off|reload [player]
-  desc: 'Bir Minecraft sunucusunda RCON üzerinden beyaz listeyi yönetir. RCON yapılandırılmış olmalıdır.'
+  desc: 'RCON üzerinden bir Minecraft sunucusundaki beyaz listeyi yönetir. RCON''un yapılandırılmış olmasını gerektirir.'
   params:
-    - desc: 'Sunucu adı.'
+    - desc: 'Sunucunun adı.'
       name: serverName
       optional: false
       type: string
-    - desc: 'Eylem: add, remove, list, on, off, reload.'
+    - desc: 'İşlem: add, remove, list, on, off, reload.'
       name: action
       optional: false
       type: string

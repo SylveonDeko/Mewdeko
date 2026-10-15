@@ -37,7 +37,7 @@ public partial class Moderation
         /// <summary>
         ///     Toggles whether to remove roles on mute
         /// </summary>
-        /// <param name="yesnt">Nosnt</param>
+        /// <param name="yesnt">y to enable, n to disable.</param>
         [Cmd]
         [Aliases]
         [RequireContext(ContextType.Guild)]

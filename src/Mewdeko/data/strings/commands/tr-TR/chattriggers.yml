@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - &ref_9
+      desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Regex desteğiyle yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Regex desteğiyle yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Regex desteğiyle yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Regex desteğiyle yeni bir sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin anahtarı.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Sohbet tetikleyicisiyle ilişkili mesaj.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Yeni bir tepki tabanlı sohbet tetikleyicisi ekler.'
+  params:
+    - desc: 'Tetikleyecek tepki emojisi.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'Tetiklendiğinde gönderilecek mesaj.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için rol verme türünü ayarlar.'
+  params:
+    - &ref_130
+      desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'Ayarlanacak rol verme türü.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için rol verme türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak rol verme türü.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için rol verme türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak rol verme türü.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için rol verme türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak rol verme türü.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Sohbet tetikleyicisi çapraz paylaşımı için kanal ayarlar.'
+  params:
+    - desc: 'Çapraz paylaşım için kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Sohbet tetikleyicisi çapraz paylaşımı için webhook ayarlar.'
+  params:
+    - desc: 'Çapraz paylaşım için webhook URL''si.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Bir sohbet tetikleyicisinin belirli bir tetikleyici türü için geçerli olup olmayacağını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'Geçerliliği ayarlanacak tetikleyici türü.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Tetikleyici türünün etkin mi devre dışı mı olacağı.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Bir sohbet tetikleyicisinin belirli bir tetikleyici türü için geçerli olup olmayacağını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Geçerliliği ayarlanacak tetikleyici türü.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Tetikleyici türünün etkin mi devre dışı mı olacağı.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Bir sohbet tetikleyicisinin belirli bir tetikleyici türü için geçerli olup olmayacağını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Geçerliliği ayarlanacak tetikleyici türü.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Tetikleyici türünün etkin mi devre dışı mı olacağı.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Bir sohbet tetikleyicisinin belirli bir tetikleyici türü için geçerli olup olmayacağını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Geçerliliği ayarlanacak tetikleyici türü.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Tetikleyici türünün etkin mi devre dışı mı olacağı.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin tetiklendikten sonra otomatik silinmesini ayarlar.'
+  params:
+    - &ref_162
+      desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin tetiklendikten sonra otomatik silinmesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin tetiklendikten sonra otomatik silinmesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin tetiklendikten sonra otomatik silinmesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin hedeflemeye izin vermesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin mesajın herhangi bir yerinde geçmesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Bir sohbet tetikleyicisi için çapraz paylaşım kanalını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'Çapraz paylaşım için ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Bir sohbet tetikleyicisi için çapraz paylaşım kanalını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Çapraz paylaşım için ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Bir sohbet tetikleyicisi için çapraz paylaşım kanalını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Çapraz paylaşım için ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Bir sohbet tetikleyicisi için çapraz paylaşım kanalını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Çapraz paylaşım için ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisinin çapraz paylaşımı için webhook URL''sini ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'Ayarlanacak webhook URL''si.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisinin çapraz paylaşımı için webhook URL''sini ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak webhook URL''si.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisinin çapraz paylaşımı için webhook URL''sini ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak webhook URL''si.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisinin çapraz paylaşımı için webhook URL''sini ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak webhook URL''si.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin yanıt olarak özel mesaj göndermesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Bir sohbet tetikleyicisi için etkileşim yanıtının yalnızca kullanıcıya görünür (ephemeral) olup olmayacağını ayarlar. Başkalarının dokümantasyonla çektiğim acıyı görmesin diye!'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'Yanıt yalnızca kullanıcıya görünecekse true, değilse false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Bir sohbet tetikleyicisi için etkileşim yanıtının yalnızca kullanıcıya görünür (ephemeral) olup olmayacağını ayarlar. Başkalarının dokümantasyonla çektiğim acıyı görmesin diye!'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Yanıt yalnızca kullanıcıya görünecekse true, değilse false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Bir sohbet tetikleyicisi için etkileşim yanıtının yalnızca kullanıcıya görünür (ephemeral) olup olmayacağını ayarlar. Başkalarının dokümantasyonla çektiğim acıyı görmesin diye!'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Yanıt yalnızca kullanıcıya görünecekse true, değilse false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Bir sohbet tetikleyicisi için etkileşim yanıtının yalnızca kullanıcıya görünür (ephemeral) olup olmayacağını ayarlar. Başkalarının dokümantasyonla çektiğim acıyı görmesin diye!'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Yanıt yalnızca kullanıcıya görünecekse true, değilse false.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Sohbet tetikleyicileri için etkileşim hatalarını gösterir.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin yanıt vermemesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için ön eki ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'Ayarlanacak yeni ön ek.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için ön eki ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak yeni ön ek.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için ön eki ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak yeni ön ek.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için ön eki ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak yeni ön ek.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için ön ek türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'Ayarlanacak ön ek türü.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için ön ek türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak ön ek türü.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için ön ek türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak ön ek türü.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için ön ek türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak ön ek türü.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için tepkileri ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Tepki olarak ayarlanacak emoji dizeleri.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için tepkileri ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Tepki olarak ayarlanacak emoji dizeleri.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için tepkileri ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Tepki olarak ayarlanacak emoji dizeleri.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için tepkileri ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Tepki olarak ayarlanacak emoji dizeleri.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Bir sohbet tetikleyicisi için rol verme özelliğini açar veya kapatır.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'Açılıp kapatılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Bir sohbet tetikleyicisi için rol verme özelliğini açar veya kapatır.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Açılıp kapatılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Bir sohbet tetikleyicisi için rol verme özelliğini açar veya kapatır.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Açılıp kapatılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Bir sohbet tetikleyicisi için rol verme özelliğini açar veya kapatır.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Açılıp kapatılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Bir sohbet tetikleyicisi için rol kaldırma özelliğini açar veya kapatır.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Açılıp kapatılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Tüm sohbet tetikleyicilerini temizler.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Mevcut sunucunun sohbet tetikleyici ayarlarını dışa aktarır.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Eski CrEmbed formatındaki sohbet tetikleyicilerini yeni embed formatına taşır. Önce bir yedek dışa aktarır, sonra tüm tetikleyicileri dönüştürür.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Mevcut sunucunun sohbet tetikleyici ayarlarını içe aktarır.'
+  params:
+    - desc: 'Özel tepki ayarlarını içeren girdi.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Sohbet tetikleyicilerini yeniden yükler.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisini ID''sine göre siler.'
+  params:
+    - desc: 'Silinecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Mevcut bir sohbet tetikleyicisini düzenler.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Sohbet tetikleyicisi için yeni mesaj.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Tüm sohbet tetikleyicilerini listeler.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Tüm sohbet tetikleyicilerini tetikleyiciye göre gruplayıp listeler.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Bir sohbet tetikleyicisinin tetiklemeye tepki vermesini ayarlar.'
+  params:
+    - desc: 'Düzenlenecek sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim açıklamasını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'Etkileşim için ayarlanacak açıklama.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim açıklamasını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Etkileşim için ayarlanacak açıklama.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim açıklamasını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Etkileşim için ayarlanacak açıklama.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim açıklamasını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Etkileşim için ayarlanacak açıklama.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim adını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'Etkileşim için ayarlanacak ad.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim adını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Etkileşim için ayarlanacak ad.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim adını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Etkileşim için ayarlanacak ad.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Bir sohbet tetikleyicisi için etkileşim adını ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Etkileşim için ayarlanacak ad.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için etkileşim türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'Ayarlanacak etkileşim türü.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için etkileşim türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak etkileşim türü.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için etkileşim türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak etkileşim türü.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Bir sohbet tetikleyicisi için etkileşim türünü ayarlar.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak etkileşim türü.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Belirli bir sohbet tetikleyicisinin ayrıntılarını gösterir.'
+  params:
+    - &ref_544
+      desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Belirli bir sohbet tetikleyicisinin ayrıntılarını gösterir.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Belirli bir sohbet tetikleyicisinin ayrıntılarını gösterir.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Belirli bir sohbet tetikleyicisinin ayrıntılarını gösterir.'
+  params:
+    - desc: 'Sohbet tetikleyicisinin ID''si.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Bir sohbet tetikleyicisini tetikleyebilecek olayı ayarlar.'
+cteventchannel:
+  desc: 'Bir sohbet tetikleyici olayının işleneceği kanalı ayarlar.'
+ctreply:
+  desc: 'Bir sohbet tetikleyicisinin yanıt verdiği mesajı ayarlar.'
+ctdeleteafter:
+  desc: 'Bir sohbet tetikleyicisi yanıtının gönderildikten ne kadar sonra silineceğini ayarlar.'
+ctcooldown:
+  desc: 'Bir sohbet tetikleyicisi için bekleme süresi (cooldown) ayarlar.'
+ctrequirecounter:
+  desc: 'Bir sohbet tetikleyicisi için sayaç koşulu ayarlar.'
+ctcategory:
+  desc: 'Bir sohbet tetikleyicisi için kategori ayarlar.'
+ctcategorytoggle:
+  desc: 'Bir sohbet tetikleyici kategorisini açar veya kapatır.'
+cttest:
+  desc: 'Örnek bir mesajın bir sohbet tetikleyicisini tetikleyip tetiklemeyeceğini test eder.'
+ctstats:
+  desc: 'Sohbet tetikleyici etkinlik istatistiklerini gösterir.'
+ctchain:
+  desc: 'Başka bir tetikleyiciden sonra çalışacak bir sohbet tetikleyicisi ayarlar.'
+ctallowbots:
+  desc: 'Bir sohbet tetikleyicisinin botlara yanıt verip vermeyeceğini denetler.'
+ctcounters:
+  desc: 'Sohbet tetikleyicisi sayaçlarını listeler.'
+ctcounterset:
+  desc: 'Bir sohbet tetikleyicisi sayacının değerini ayarlar.'
+ctcounterdelete:
+  desc: 'Bir sohbet tetikleyicisi sayacını siler.'
+ctplaceholders:
+  desc: 'Sohbet tetikleyicileri için kullanılabilir yer tutucuları listeler.'
+cttime:
+  desc: 'Bir sohbet tetikleyicisinin aktif zaman aralığını ayarlar.'
+ctexpiry:
+  desc: 'Bir sohbet tetikleyicisi için bitiş süresi ayarlar.'
+ctmaxuses:
+  desc: 'Bir sohbet tetikleyicisinin çalışabileceği en fazla sayıyı ayarlar.'
+ctminage:
+  desc: 'Bir sohbet tetikleyicisi için minimum hesap yaşı ayarlar.'
+ctminmember:
+  desc: 'Bir sohbet tetikleyicisi için minimum sunucu üyelik süresi ayarlar.'
+cttoggle:
+  desc: 'Bir sohbet tetikleyicisini açar veya kapatır.'
+ctaddresponse:
+  desc: 'Bir sohbet tetikleyicisine ek bir yanıt ekler.'
+ctclearresponses:
+  desc: 'Bir sohbet tetikleyicisinden ek yanıtları kaldırır.'
+ctresponsemode:
+  desc: 'Bir sohbet tetikleyicisinin yanıtlarını nasıl seçeceğini ayarlar.'
+ctcost:
+  desc: 'Bir sohbet tetikleyicisi için para birimi maliyetini ayarlar.'
+ctreward:
+  desc: 'Bir sohbet tetikleyicisi için para birimi ödülünü ayarlar.'
+ctxpreward:
+  desc: 'Bir sohbet tetikleyicisi için XP ödülünü ayarlar.'
+ctreqlevel:
+  desc: 'Bir sohbet tetikleyicisi için gereken XP seviyesini ayarlar.'
+ctreqmsg:
+  desc: 'Bir sohbet tetikleyicisi için şart karşılanmadığında gösterilecek mesajı ayarlar.'

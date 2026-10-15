@@ -2,10 +2,9 @@ commands:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
+  desc: 'Belirli bir modülün komutlarını gösterir; isteğe bağlı olarak bir arama terimiyle daraltılabilir. Boşsa, help için bir takma ad olan modules''ın takma adıdır.'
   params:
-    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
+    - desc: 'İncelenecek modül; isteğe bağlı olarak komutlarını filtrelemek için bir terim'
       name: module
       optional: true
       type: string
@@ -13,10 +12,9 @@ commands_=:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
+  desc: 'Belirli bir modülün komutlarını gösterir; isteğe bağlı olarak bir arama terimiyle daraltılabilir. Boşsa, help için bir takma ad olan modules''ın takma adıdır.'
   params:
-    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
+    - desc: 'İncelenecek modül; isteğe bağlı olarak komutlarını filtrelemek için bir terim'
       name: module
       optional: true
       type: string
@@ -24,10 +22,9 @@ commands_=_1:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
+  desc: 'Belirli bir modülün komutlarını gösterir; isteğe bağlı olarak bir arama terimiyle daraltılabilir. Boşsa, help için bir takma ad olan modules''ın takma adıdır.'
   params:
-    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
+    - desc: 'İncelenecek modül; isteğe bağlı olarak komutlarını filtrelemek için bir terim'
       name: module
       optional: true
       type: string
@@ -35,74 +32,69 @@ commands_=_2:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
+  desc: 'Belirli bir modülün komutlarını gösterir; isteğe bağlı olarak bir arama terimiyle daraltılabilir. Boşsa, help için bir takma ad olan modules''ın takma adıdır.'
   params:
-    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
+    - desc: 'İncelenecek modül; isteğe bağlı olarak komutlarını filtrelemek için bir terim'
       name: module
       optional: true
       type: string
 donate:
   args:
     - ''
-  desc: 'Bota nasıl destek olunacağını gösterir.'
+  desc: 'Botu nasıl destekleyeceğini gösterir.'
   params: [ ]
 exportcommandsjson:
   args:
     - ''
-  desc: >-
-    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  desc: 'Tüm komutları bir JSON dosyasına aktarır. Esas olarak https://mewdeko.tech/commands için kullanılır.'
   params: [ ]
 exportcommandsjson_noparams:
   args:
     - ''
-  desc: >-
-    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  desc: 'Tüm komutları bir JSON dosyasına aktarır. Esas olarak https://mewdeko.tech/commands için kullanılır.'
   params: [ ]
 exportcommandsjson_noparams_1:
   args:
     - ''
-  desc: >-
-    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  desc: 'Tüm komutları bir JSON dosyasına aktarır. Esas olarak https://mewdeko.tech/commands için kullanılır.'
   params: [ ]
 exportcommandsjson_noparams_2:
   args:
     - ''
-  desc: >-
-    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  desc: 'Tüm komutları bir JSON dosyasına aktarır. Esas olarak https://mewdeko.tech/commands için kullanılır.'
   params: [ ]
 guide:
   args:
     - ''
-  desc: 'Bot için kılavuzu gösterir.'
+  desc: 'Bot için rehberi gösterir.'
   params: [ ]
 h:
   args:
     - command
-  desc: Belirli bir komut için yardım gösterir.
+  desc: 'Belirli bir komut için yardımı gösterir.'
   params:
-    - desc: Yardım alınacak komut.
+    - desc: 'Yardım alınacak komut.'
       name: command
       optional: true
       type: string
 help:
   args:
     - command
-  desc: Komutlar için yardım bilgilerini gösterir.
+  desc: 'Komutlar için yardım bilgilerini gösterir.'
   params:
-    - desc: Yardım alınacak komut.
+    - desc: 'Yardım alınacak komut.'
       name: command
       optional: true
       type: string
 modules:
   args:
     - ''
-  desc: 'Tüm modüllerin bir listesini gösterir. Bu noktada temel olarak sadece bir help takma adıdır.'
+  desc: 'Tüm modüllerin listesini gösterir. Şu an esasen sadece help takma adıdır.'
   params: [ ]
 searchcommand:
   args:
     - text
-  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  desc: 'Komutları ad ya da açıklamaya göre arar.'
   params:
     - &ref_481
       desc: 'Aranacak terim'
@@ -112,7 +104,7 @@ searchcommand:
 searchcommand_string:
   args:
     - text
-  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  desc: 'Komutları ad ya da açıklamaya göre arar.'
   params:
     - desc: 'Aranacak terim'
       name: commandname
@@ -121,7 +113,7 @@ searchcommand_string:
 searchcommand_string_1:
   args:
     - text
-  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  desc: 'Komutları ad ya da açıklamaya göre arar.'
   params:
     - desc: 'Aranacak terim'
       name: commandname
@@ -130,7 +122,7 @@ searchcommand_string_1:
 searchcommand_string_2:
   args:
     - text
-  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  desc: 'Komutları ad ya da açıklamaya göre arar.'
   params:
     - desc: 'Aranacak terim'
       name: commandname
@@ -139,10 +131,10 @@ searchcommand_string_2:
 source:
   args:
     - ''
-  desc: 'Bot için kaynak kod bağlantısını gösterir.'
+  desc: 'Botun kaynak kodu bağlantısını gösterir.'
   params: [ ]
 vote:
   args:
     - ''
-  desc: 'Mewdeko için oy vermek üzere bir bağlantı gösterir.'
+  desc: 'Mewdeko''ya oy vermek için bir bağlantı gösterir.'
   params: [ ]

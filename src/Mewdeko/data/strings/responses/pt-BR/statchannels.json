@@ -5,5 +5,11 @@
   "stat_channel_removed": "Canal de estatísticas **{0}** removido.",
   "stat_channel_not_found": "Esse canal não é um canal de estatísticas.",
   "stat_channel_none": "Nenhum canal de estatísticas configurado.",
-  "stat_channel_list_title": "Canais de Estatísticas"
+  "stat_channel_list_title": "Canais de Estatísticas",
+  "stat_channel_types_title": "Tipos de estatística disponíveis",
+  "stat_channel_unknown_type": "Esse tipo de estatística não existe. Use o comando types para ver os disponíveis.",
+  "stat_channel_mechanism_set": "**{0}** agora é atualizado por **{1}** a cada **{2}** minutos.",
+  "stat_channel_style_set": "**{0}** agora usa o estilo **{1}**, por exemplo `{2}`.",
+  "stat_channel_defaults_set": "Novos canais de estatística vão usar por padrão **{0}** a cada **{1}** minutos com o estilo **{2}**.",
+  "stat_channel_invalid_date": "Não foi possível interpretar essa data. Use um formato como 2026-12-31 18:00."
 }

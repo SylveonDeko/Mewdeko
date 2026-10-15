@@ -1,0 +1,2313 @@
+addmodalfield:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'チケット作成モーダルにフィールドを追加します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'フィールドのラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: '省略可能な設定オプションです'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'チケット作成モーダルにフィールドを追加します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'フィールドのラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: '省略可能な設定オプションです'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_1:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'チケット作成モーダルにフィールドを追加します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'フィールドのラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: '省略可能な設定オプションです'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_2:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'チケット作成モーダルにフィールドを追加します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'フィールドのラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: '省略可能な設定オプションです'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_3:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'チケット作成モーダルにフィールドを追加します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'フィールドのラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: '省略可能な設定オプションです'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_4:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'チケット作成モーダルにフィールドを追加します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'フィールドのラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: '省略可能な設定オプションです'
+      name: fieldConfig
+      optional: true
+      type: string
+addoption:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '既存のセレクトメニューにオプションを追加します'
+  params:
+    - desc: 'オプションを追加するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'ユーザーに表示されるラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: 'ラベルの下に表示される省略可能な説明です'
+      name: description
+      optional: true
+      type: string
+    - desc: 'ラベルの横に表示される省略可能な絵文字です'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '既存のセレクトメニューにオプションを追加します'
+  params:
+    - desc: 'オプションを追加するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'ユーザーに表示されるラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: 'ラベルの下に表示される省略可能な説明です'
+      name: description
+      optional: true
+      type: string
+    - desc: 'ラベルの横に表示される省略可能な絵文字です'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_1:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '既存のセレクトメニューにオプションを追加します'
+  params:
+    - desc: 'オプションを追加するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'ユーザーに表示されるラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: 'ラベルの下に表示される省略可能な説明です'
+      name: description
+      optional: true
+      type: string
+    - desc: 'ラベルの横に表示される省略可能な絵文字です'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_2:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '既存のセレクトメニューにオプションを追加します'
+  params:
+    - desc: 'オプションを追加するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'ユーザーに表示されるラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: 'ラベルの下に表示される省略可能な説明です'
+      name: description
+      optional: true
+      type: string
+    - desc: 'ラベルの横に表示される省略可能な絵文字です'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_3:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '既存のセレクトメニューにオプションを追加します'
+  params:
+    - desc: 'オプションを追加するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'ユーザーに表示されるラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: 'ラベルの下に表示される省略可能な説明です'
+      name: description
+      optional: true
+      type: string
+    - desc: 'ラベルの横に表示される省略可能な絵文字です'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_4:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: '既存のセレクトメニューにオプションを追加します'
+  params:
+    - desc: 'オプションを追加するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'ユーザーに表示されるラベルです'
+      name: label
+      optional: false
+      type: string
+    - desc: 'ラベルの下に表示される省略可能な説明です'
+      name: description
+      optional: true
+      type: string
+    - desc: 'ラベルの横に表示される省略可能な絵文字です'
+      name: emoji
+      optional: true
+      type: string
+addselectmenu:
+  args:
+    - panelid
+  desc: 'チケットパネルにセレクトメニューを追加します。'
+  params:
+    - &ref_31
+      desc: 'メニューを追加するパネルの ID です'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong:
+  args:
+    - panelid
+  desc: 'チケットパネルにセレクトメニューを追加します。'
+  params:
+    - desc: 'メニューを追加するパネルの ID です'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_1:
+  args:
+    - panelid
+  desc: 'チケットパネルにセレクトメニューを追加します。'
+  params:
+    - desc: 'メニューを追加するパネルの ID です'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_2:
+  args:
+    - panelid
+  desc: 'チケットパネルにセレクトメニューを追加します。'
+  params:
+    - desc: 'メニューを追加するパネルの ID です'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_3:
+  args:
+    - panelid
+  desc: 'チケットパネルにセレクトメニューを追加します。'
+  params:
+    - desc: 'メニューを追加するパネルの ID です'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_4:
+  args:
+    - panelid
+  desc: 'チケットパネルにセレクトメニューを追加します。'
+  params:
+    - desc: 'メニューを追加するパネルの ID です'
+      name: panelId
+      optional: false
+      type: ulong
+buttoninfo:
+  args:
+    - number
+  desc: 'ボタンの詳細情報を表示します。'
+  params:
+    - &ref_116
+      desc: '表示するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int:
+  args:
+    - number
+  desc: 'ボタンの詳細情報を表示します。'
+  params:
+    - desc: '表示するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_1:
+  args:
+    - number
+  desc: 'ボタンの詳細情報を表示します。'
+  params:
+    - desc: '表示するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_2:
+  args:
+    - number
+  desc: 'ボタンの詳細情報を表示します。'
+  params:
+    - desc: '表示するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_3:
+  args:
+    - number
+  desc: 'ボタンの詳細情報を表示します。'
+  params:
+    - desc: '表示するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_4:
+  args:
+    - number
+  desc: 'ボタンの詳細情報を表示します。'
+  params:
+    - desc: '表示するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+checkpanels:
+  args:
+    - ''
+  desc: 'サーバー内のすべてのパネルで、メッセージが欠けていないかを確認します。'
+  params: [ ]
+deletebutton:
+  args:
+    - number
+  desc: 'パネルからボタンを削除します。'
+  params:
+    - &ref_186
+      desc: '削除するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int:
+  args:
+    - number
+  desc: 'パネルからボタンを削除します。'
+  params:
+    - desc: '削除するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_1:
+  args:
+    - number
+  desc: 'パネルからボタンを削除します。'
+  params:
+    - desc: '削除するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_2:
+  args:
+    - number
+  desc: 'パネルからボタンを削除します。'
+  params:
+    - desc: '削除するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_3:
+  args:
+    - number
+  desc: 'パネルからボタンを削除します。'
+  params:
+    - desc: '削除するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_4:
+  args:
+    - number
+  desc: 'パネルからボタンを削除します。'
+  params:
+    - desc: '削除するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+deleteselectmenu:
+  args:
+    - number
+  desc: 'パネルからセレクトメニューを削除します。'
+  params:
+    - desc: '削除するセレクトメニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+deleteselectoption:
+  args:
+    - number
+  desc: 'セレクトメニューから特定のオプションを削除します。'
+  params:
+    - desc: '削除するセレクトメニューのオプションの ID です。'
+      name: optionId
+      optional: false
+      type: int
+listmodalfields:
+  args:
+    - number
+  desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+  params:
+    - &ref_277
+      desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int:
+  args:
+    - number
+  desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+  params:
+    - desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_1:
+  args:
+    - number
+  desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+  params:
+    - desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_2:
+  args:
+    - number
+  desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+  params:
+    - desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_3:
+  args:
+    - number
+  desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+  params:
+    - desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_4:
+  args:
+    - number
+  desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+  params:
+    - desc: 'チケット作成モーダルのすべてのフィールドを一覧表示します'
+      name: buttonId
+      optional: false
+      type: int
+listoptions:
+  args:
+    - text
+  desc: 'セレクトメニューのすべてのオプションを一覧表示します'
+  params:
+    - &ref_278
+      desc: '表示するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string:
+  args:
+    - text
+  desc: 'セレクトメニューのすべてのオプションを一覧表示します'
+  params:
+    - desc: '表示するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_1:
+  args:
+    - text
+  desc: 'セレクトメニューのすべてのオプションを一覧表示します'
+  params:
+    - desc: '表示するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_2:
+  args:
+    - text
+  desc: 'セレクトメニューのすべてのオプションを一覧表示します'
+  params:
+    - desc: '表示するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_3:
+  args:
+    - text
+  desc: 'セレクトメニューのすべてのオプションを一覧表示します'
+  params:
+    - desc: '表示するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_4:
+  args:
+    - text
+  desc: 'セレクトメニューのすべてのオプションを一覧表示します'
+  params:
+    - desc: '表示するメニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+panelinfo:
+  args:
+    - panelid
+  desc: 'チケットパネルの詳細情報を表示します。'
+  params:
+    - &ref_335
+      desc: '表示するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong:
+  args:
+    - panelid
+  desc: 'チケットパネルの詳細情報を表示します。'
+  params:
+    - desc: '表示するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_1:
+  args:
+    - panelid
+  desc: 'チケットパネルの詳細情報を表示します。'
+  params:
+    - desc: '表示するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_2:
+  args:
+    - panelid
+  desc: 'チケットパネルの詳細情報を表示します。'
+  params:
+    - desc: '表示するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_3:
+  args:
+    - panelid
+  desc: 'チケットパネルの詳細情報を表示します。'
+  params:
+    - desc: '表示するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_4:
+  args:
+    - panelid
+  desc: 'チケットパネルの詳細情報を表示します。'
+  params:
+    - desc: '表示するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+panellist:
+  args:
+    - ''
+  desc: 'サーバーのすべてのチケットパネルを一覧表示します。'
+  params: [ ]
+panellist_noparams:
+  args:
+    - ''
+  desc: 'サーバーのすべてのチケットパネルを一覧表示します。'
+  params: [ ]
+panellist_noparams_1:
+  args:
+    - ''
+  desc: 'サーバーのすべてのチケットパネルを一覧表示します。'
+  params: [ ]
+panellist_noparams_2:
+  args:
+    - ''
+  desc: 'サーバーのすべてのチケットパネルを一覧表示します。'
+  params: [ ]
+panellist_noparams_3:
+  args:
+    - ''
+  desc: 'サーバーのすべてのチケットパネルを一覧表示します。'
+  params: [ ]
+panellist_noparams_4:
+  args:
+    - ''
+  desc: 'サーバーのすべてのチケットパネルを一覧表示します。'
+  params: [ ]
+recreateallpanels:
+  args:
+    - ''
+  desc: 'メッセージが欠けているすべてのパネルを再作成します。'
+  params: [ ]
+recreatepanel:
+  args:
+    - number
+  desc: '削除されたチケットパネルを元のチャンネルに再作成します。'
+  params:
+    - desc: '再作成するパネルのメッセージ ID です'
+      name: panelId
+      optional: false
+      type: ulong
+removemodalfield:
+  args:
+    - number text
+  desc: 'チケット作成モーダルからフィールドを削除します'
+  params:
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_401
+      desc: 'チケット作成モーダルからフィールドを削除します'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string:
+  args:
+    - number text
+  desc: 'チケット作成モーダルからフィールドを削除します'
+  params:
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_1:
+  args:
+    - number text
+  desc: 'チケット作成モーダルからフィールドを削除します'
+  params:
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_2:
+  args:
+    - number text
+  desc: 'チケット作成モーダルからフィールドを削除します'
+  params:
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_3:
+  args:
+    - number text
+  desc: 'チケット作成モーダルからフィールドを削除します'
+  params:
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_4:
+  args:
+    - number text
+  desc: 'チケット作成モーダルからフィールドを削除します'
+  params:
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケット作成モーダルからフィールドを削除します'
+      name: fieldId
+      optional: false
+      type: string
+removeoption:
+  args:
+    - text text
+  desc: 'セレクトメニューからオプションを削除します'
+  params:
+    - &ref_403
+      desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_404
+      desc: '削除するオプションの値です'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string:
+  args:
+    - text text
+  desc: 'セレクトメニューからオプションを削除します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '削除するオプションの値です'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_1:
+  args:
+    - text text
+  desc: 'セレクトメニューからオプションを削除します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '削除するオプションの値です'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_2:
+  args:
+    - text text
+  desc: 'セレクトメニューからオプションを削除します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '削除するオプションの値です'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_3:
+  args:
+    - text text
+  desc: 'セレクトメニューからオプションを削除します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '削除するオプションの値です'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_4:
+  args:
+    - text text
+  desc: 'セレクトメニューからオプションを削除します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '削除するオプションの値です'
+      name: optionValue
+      optional: false
+      type: string
+setautoclose:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットの自動クローズ時間を設定します。'
+  params:
+    - &ref_487
+      desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_488
+      desc: '自動クローズまでの非アクティブ時間（時間）です。無効にする場合は null を指定します。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットの自動クローズ時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '自動クローズまでの非アクティブ時間（時間）です。無効にする場合は null を指定します。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットの自動クローズ時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '自動クローズまでの非アクティブ時間（時間）です。無効にする場合は null を指定します。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットの自動クローズ時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '自動クローズまでの非アクティブ時間（時間）です。無効にする場合は null を指定します。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットの自動クローズ時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '自動クローズまでの非アクティブ時間（時間）です。無効にする場合は null を指定します。'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットの自動クローズ時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '自動クローズまでの非アクティブ時間（時間）です。無効にする場合は null を指定します。'
+      name: hours
+      optional: true
+      type: int
+setmodaltitle:
+  args:
+    - number text
+  desc: 'チケット作成モーダルのタイトルを設定します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_506
+      desc: 'モーダルに表示するタイトルです'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string:
+  args:
+    - number text
+  desc: 'チケット作成モーダルのタイトルを設定します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'モーダルに表示するタイトルです'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_1:
+  args:
+    - number text
+  desc: 'チケット作成モーダルのタイトルを設定します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'モーダルに表示するタイトルです'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_2:
+  args:
+    - number text
+  desc: 'チケット作成モーダルのタイトルを設定します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'モーダルに表示するタイトルです'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_3:
+  args:
+    - number text
+  desc: 'チケット作成モーダルのタイトルを設定します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'モーダルに表示するタイトルです'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_4:
+  args:
+    - number text
+  desc: 'チケット作成モーダルのタイトルを設定します'
+  params:
+    - desc: '設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'モーダルに表示するタイトルです'
+      name: title
+      optional: false
+      type: string
+setpaneltranscripts:
+  args:
+    - panelid true|false
+  desc: 'パネルのトランスクリプトの保存を有効または無効にします。'
+  params:
+    - &ref_510
+      desc: '変更するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_511
+      desc: 'トランスクリプトの保存を有効にするか無効にするかです。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool:
+  args:
+    - panelid true|false
+  desc: 'パネルのトランスクリプトの保存を有効または無効にします。'
+  params:
+    - desc: '変更するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'トランスクリプトの保存を有効にするか無効にするかです。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_1:
+  args:
+    - panelid true|false
+  desc: 'パネルのトランスクリプトの保存を有効または無効にします。'
+  params:
+    - desc: '変更するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'トランスクリプトの保存を有効にするか無効にするかです。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_2:
+  args:
+    - panelid true|false
+  desc: 'パネルのトランスクリプトの保存を有効または無効にします。'
+  params:
+    - desc: '変更するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'トランスクリプトの保存を有効にするか無効にするかです。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_3:
+  args:
+    - panelid true|false
+  desc: 'パネルのトランスクリプトの保存を有効または無効にします。'
+  params:
+    - desc: '変更するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'トランスクリプトの保存を有効にするか無効にするかです。'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_4:
+  args:
+    - panelid true|false
+  desc: 'パネルのトランスクリプトの保存を有効または無効にします。'
+  params:
+    - desc: '変更するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'トランスクリプトの保存を有効にするか無効にするかです。'
+      name: enable
+      optional: false
+      type: bool
+setplaceholder:
+  args:
+    - text text
+  desc: 'セレクトメニューのプレースホルダーテキストを更新します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_512
+      desc: '新しいプレースホルダーテキストです'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string:
+  args:
+    - text text
+  desc: 'セレクトメニューのプレースホルダーテキストを更新します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新しいプレースホルダーテキストです'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_1:
+  args:
+    - text text
+  desc: 'セレクトメニューのプレースホルダーテキストを更新します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新しいプレースホルダーテキストです'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_2:
+  args:
+    - text text
+  desc: 'セレクトメニューのプレースホルダーテキストを更新します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新しいプレースホルダーテキストです'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_3:
+  args:
+    - text text
+  desc: 'セレクトメニューのプレースホルダーテキストを更新します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新しいプレースホルダーテキストです'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_4:
+  args:
+    - text text
+  desc: 'セレクトメニューのプレースホルダーテキストを更新します'
+  params:
+    - desc: 'メニューの ID です'
+      name: menuId
+      optional: false
+      type: string
+    - desc: '新しいプレースホルダーテキストです'
+      name: placeholder
+      optional: false
+      type: string
+setresponsetime:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットに必要な応答時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_518
+      desc: '分単位の時間です。無効にする場合は null を指定します。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットに必要な応答時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分単位の時間です。無効にする場合は null を指定します。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットに必要な応答時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分単位の時間です。無効にする場合は null を指定します。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットに必要な応答時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分単位の時間です。無効にする場合は null を指定します。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットに必要な応答時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分単位の時間です。無効にする場合は null を指定します。'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'ボタンで作成されたチケットに必要な応答時間を設定します。'
+  params:
+    - desc: '変更するボタンの ID です。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: '分単位の時間です。無効にする場合は null を指定します。'
+      name: minutes
+      optional: true
+      type: int
+ticketaddbutton:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '既存のチケットパネルにボタンを追加します。'
+  params:
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: label
+      optional: false
+      type: string
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '既存のチケットパネルにボタンを追加します。'
+  params:
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: label
+      optional: false
+      type: string
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_1:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '既存のチケットパネルにボタンを追加します。'
+  params:
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: label
+      optional: false
+      type: string
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_2:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: '既存のチケットパネルにボタンを追加します。'
+  params:
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: label
+      optional: false
+      type: string
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: '既存のチケットパネルにボタンを追加します。'
+      name: emoji
+      optional: true
+      type: string
+ticketaddpriority:
+  args:
+    - text text text number true|false time text
+  desc: 'チケットの新しい優先度レベルを作成します。'
+  params:
+    - &ref_599
+      desc: 'チケットの新しい優先度レベルを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: name
+      optional: false
+      type: string
+    - &ref_600
+      desc: 'チケットの新しい優先度レベルを作成します。'
+      name: emoji
+      optional: false
+      type: string
+    - &ref_601
+      desc: 'チケットの新しい優先度レベルを作成します。'
+      name: level
+      optional: false
+      type: int
+    - &ref_602
+      desc: 'チケットの新しい優先度レベルを作成します。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - &ref_603
+      desc: 'チケットの新しい優先度レベルを作成します。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - &ref_604
+      desc: 'チケットの新しい優先度レベルを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string:
+  args:
+    - text text text number true|false time text
+  desc: 'チケットの新しい優先度レベルを作成します。'
+  params:
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: level
+      optional: false
+      type: int
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_1:
+  args:
+    - text text text number true|false time text
+  desc: 'チケットの新しい優先度レベルを作成します。'
+  params:
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: level
+      optional: false
+      type: int
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_2:
+  args:
+    - text text text number true|false time text
+  desc: 'チケットの新しい優先度レベルを作成します。'
+  params:
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: level
+      optional: false
+      type: int
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'チケットの新しい優先度レベルを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag:
+  args:
+    - text text text text
+  desc: 'チケットの新しいタグを作成します。'
+  params:
+    - desc: 'チケットの新しいタグを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: name
+      optional: false
+      type: string
+    - &ref_605
+      desc: 'チケットの新しいタグを作成します。'
+      name: description
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string:
+  args:
+    - text text text text
+  desc: 'チケットの新しいタグを作成します。'
+  params:
+    - desc: 'チケットの新しいタグを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: description
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_1:
+  args:
+    - text text text text
+  desc: 'チケットの新しいタグを作成します。'
+  params:
+    - desc: 'チケットの新しいタグを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: description
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_2:
+  args:
+    - text text text text
+  desc: 'チケットの新しいタグを作成します。'
+  params:
+    - desc: 'チケットの新しいタグを作成します。'
+      name: id
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: description
+      optional: false
+      type: string
+    - desc: 'チケットの新しいタグを作成します。'
+      name: color
+      optional: false
+      type: string
+ticketaddtags:
+  args:
+    - text
+  desc: '現在のチケットにタグを追加します。'
+  params:
+    - &ref_606
+      desc: '現在のチケットにタグを追加します。'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]:
+  args:
+    - text
+  desc: '現在のチケットにタグを追加します。'
+  params:
+    - desc: '現在のチケットにタグを追加します。'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_1:
+  args:
+    - text
+  desc: '現在のチケットにタグを追加します。'
+  params:
+    - desc: '現在のチケットにタグを追加します。'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_2:
+  args:
+    - text
+  desc: '現在のチケットにタグを追加します。'
+  params:
+    - desc: '現在のチケットにタグを追加します。'
+      name: tags
+      optional: false
+      type: string[]
+ticketarchive:
+  args:
+    - ''
+  desc: 'チケットをアーカイブし、設定されていればアーカイブカテゴリーに移動します。'
+  params: [ ]
+ticketarchivecategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'クローズされたチケットをアーカイブするカテゴリーを設定します。'
+  params:
+    - desc: 'クローズされたチケットをアーカイブするカテゴリーを設定します。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'クローズされたチケットをアーカイブするカテゴリーを設定します。'
+      name: category
+      optional: true
+      type: category
+ticketautoarchive:
+  args:
+    - number boolean
+  desc: 'ボタンの自動アーカイブの動作を設定します'
+  params:
+    - desc: '自動アーカイブを設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'クローズ時に自動アーカイブを有効にするかどうかです'
+      name: enabled
+      optional: true
+      type: bool
+ticketautoclose:
+  args:
+    - '<buttonId> [hours]'
+    - number
+  desc: 'チケットの種類の自動クローズ時間を設定します。'
+  params:
+    - desc: 'チケットの種類の自動クローズ時間を設定します。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケットの種類の自動クローズ時間を設定します。'
+      name: hours
+      optional: true
+      type: int
+ticketblock:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'ユーザーがチケットを作成できないようにします。'
+  params:
+    - desc: 'ユーザーがチケットを作成できないようにします。'
+      name: user
+      optional: false
+      type: user
+    - desc: 'ユーザーがチケットを作成できないようにします。'
+      name: reason
+      optional: true
+      type: string
+ticketcategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'チケットを作成するカテゴリーを設定します。'
+  params:
+    - desc: 'チケットを作成するカテゴリーを設定します。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケットを作成するカテゴリーを設定します。'
+      name: category
+      optional: true
+      type: category
+ticketclaim:
+  args:
+    - ''
+  desc: 'スタッフとして現在のチケットを担当します。'
+  params: [ ]
+ticketclose:
+  args:
+    - ''
+  desc: '現在のチケットをクローズします。'
+  params: [ ]
+ticketclosebehavior:
+  args:
+    - number bool bool bool bool number
+  desc: 'ボタンのクローズ時の動作を一度にまとめて複数設定します'
+  params:
+    - desc: 'クローズ時の動作を設定するボタンの ID です'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'クローズ時に自動アーカイブするかどうかです'
+      name: autoArchive
+      optional: true
+      type: bool?
+    - desc: 'クローズ時にチケットを削除するかどうかです'
+      name: deleteOnClose
+      optional: true
+      type: bool?
+    - desc: 'クローズ時にチケットをロックするかどうかです'
+      name: lockOnClose
+      optional: true
+      type: bool?
+    - desc: 'クローズ時にチケット名を変更するかどうかです'
+      name: renameOnClose
+      optional: true
+      type: bool?
+    - desc: '削除までの遅延時間（分）です'
+      name: deleteDelayMinutes
+      optional: true
+      type: int?
+ticketcloseinactive:
+  args:
+    - number
+  desc: '非アクティブなチケットをクローズします。'
+  params:
+    - &ref_607
+      desc: '非アクティブなチケットをクローズします。'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int:
+  args:
+    - number
+  desc: '非アクティブなチケットをクローズします。'
+  params:
+    - desc: '非アクティブなチケットをクローズします。'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_1:
+  args:
+    - number
+  desc: '非アクティブなチケットをクローズします。'
+  params:
+    - desc: '非アクティブなチケットをクローズします。'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_2:
+  args:
+    - number
+  desc: '非アクティブなチケットをクローズします。'
+  params:
+    - desc: '非アクティブなチケットをクローズします。'
+      name: hours
+      optional: false
+      type: int
+ticketcreatecase:
+  args:
+    - text text
+  desc: '新しいチケットケースを作成します。'
+  params:
+    - &ref_608
+      desc: '新しいチケットケースを作成します。'
+      name: title
+      optional: false
+      type: string
+    - desc: '新しいチケットケースを作成します。'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string:
+  args:
+    - text text
+  desc: '新しいチケットケースを作成します。'
+  params:
+    - desc: '新しいチケットケースを作成します。'
+      name: title
+      optional: false
+      type: string
+    - desc: '新しいチケットケースを作成します。'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_1:
+  args:
+    - text text
+  desc: '新しいチケットケースを作成します。'
+  params:
+    - desc: '新しいチケットケースを作成します。'
+      name: title
+      optional: false
+      type: string
+    - desc: '新しいチケットケースを作成します。'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_2:
+  args:
+    - text text
+  desc: '新しいチケットケースを作成します。'
+  params:
+    - desc: '新しいチケットケースを作成します。'
+      name: title
+      optional: false
+      type: string
+    - desc: '新しいチケットケースを作成します。'
+      name: description
+      optional: false
+      type: string
+ticketduplicatepanel:
+  args:
+    - panelid targetchannel
+  desc: 'チケットパネルを複製します。'
+  params:
+    - desc: 'チケットパネルを複製します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_609
+      desc: 'チケットパネルを複製します。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel:
+  args:
+    - panelid targetchannel
+  desc: 'チケットパネルを複製します。'
+  params:
+    - desc: 'チケットパネルを複製します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'チケットパネルを複製します。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_1:
+  args:
+    - panelid targetchannel
+  desc: 'チケットパネルを複製します。'
+  params:
+    - desc: 'チケットパネルを複製します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'チケットパネルを複製します。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_2:
+  args:
+    - panelid targetchannel
+  desc: 'チケットパネルを複製します。'
+  params:
+    - desc: 'チケットパネルを複製します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'チケットパネルを複製します。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketlinkcase:
+  args:
+    - number
+  desc: '現在のチケットをケースにリンクします。'
+  params:
+    - &ref_610
+      desc: '現在のチケットをケースにリンクします。'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int:
+  args:
+    - number
+  desc: '現在のチケットをケースにリンクします。'
+  params:
+    - desc: '現在のチケットをケースにリンクします。'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_1:
+  args:
+    - number
+  desc: '現在のチケットをケースにリンクします。'
+  params:
+    - desc: '現在のチケットをケースにリンクします。'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_2:
+  args:
+    - number
+  desc: '現在のチケットをケースにリンクします。'
+  params:
+    - desc: '現在のチケットをケースにリンクします。'
+      name: caseId
+      optional: false
+      type: int
+ticketlistpanel:
+  args:
+    - panelid
+  desc: '特定のチケットパネルのすべてのコンポーネントを一覧表示します'
+  params:
+    - &ref_611
+      desc: '確認するパネルのメッセージ ID です'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong:
+  args:
+    - panelid
+  desc: '特定のチケットパネルのすべてのコンポーネントを一覧表示します'
+  params:
+    - desc: '確認するパネルのメッセージ ID です'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_1:
+  args:
+    - panelid
+  desc: '特定のチケットパネルのすべてのコンポーネントを一覧表示します'
+  params:
+    - desc: '確認するパネルのメッセージ ID です'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_2:
+  args:
+    - panelid
+  desc: '特定のチケットパネルのすべてのコンポーネントを一覧表示します'
+  params:
+    - desc: '確認するパネルのメッセージ ID です'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_3:
+  args:
+    - panelid
+  desc: '特定のチケットパネルのすべてのコンポーネントを一覧表示します'
+  params:
+    - desc: '確認するパネルのメッセージ ID です'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_4:
+  args:
+    - panelid
+  desc: '特定のチケットパネルのすべてのコンポーネントを一覧表示します'
+  params:
+    - desc: '確認するパネルのメッセージ ID です'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanels:
+  args:
+    - ''
+  desc: 'サーバーのすべてのチケットパネルを一覧表示します'
+  params: [ ]
+ticketlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'チケットのログチャンネルを設定します。'
+  params:
+    - desc: 'チケットのログチャンネルを設定します。'
+      name: channel
+      optional: true
+      type: channel
+ticketmoveall:
+  args:
+    - sourcecategory targetcategory
+  desc: 'すべてのチケットをカテゴリー間で移動します。'
+  params:
+    - &ref_612
+      desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - &ref_613
+      desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel:
+  args:
+    - sourcecategory targetcategory
+  desc: 'すべてのチケットをカテゴリー間で移動します。'
+  params:
+    - desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_1:
+  args:
+    - sourcecategory targetcategory
+  desc: 'すべてのチケットをカテゴリー間で移動します。'
+  params:
+    - desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_2:
+  args:
+    - sourcecategory targetcategory
+  desc: 'すべてのチケットをカテゴリー間で移動します。'
+  params:
+    - desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'すべてのチケットをカテゴリー間で移動します。'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmovepanel:
+  args:
+    - panelid targetchannel
+  desc: 'チケットパネルを別のチャンネルに移動します。'
+  params:
+    - desc: 'チケットパネルを別のチャンネルに移動します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'チケットパネルを別のチャンネルに移動します。'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketnote:
+  args:
+    - text
+  desc: '現在のチケットにメモを追加します。'
+  params:
+    - &ref_614
+      desc: '現在のチケットにメモを追加します。'
+      name: content
+      optional: false
+      type: string
+ticketnote_string:
+  args:
+    - text
+  desc: '現在のチケットにメモを追加します。'
+  params:
+    - desc: '現在のチケットにメモを追加します。'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_1:
+  args:
+    - text
+  desc: '現在のチケットにメモを追加します。'
+  params:
+    - desc: '現在のチケットにメモを追加します。'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_2:
+  args:
+    - text
+  desc: '現在のチケットにメモを追加します。'
+  params:
+    - desc: '現在のチケットにメモを追加します。'
+      name: content
+      optional: false
+      type: string
+ticketpanel:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'チケットパネルを作成します'
+  params:
+    - desc: 'チケットパネルを作成します'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'チケットパネルを作成します'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'チケットパネルを作成します'
+  params:
+    - desc: 'チケットパネルを作成します'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'チケットパネルを作成します'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_1:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'チケットパネルを作成します'
+  params:
+    - desc: 'チケットパネルを作成します'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'チケットパネルを作成します'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_2:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'チケットパネルを作成します'
+  params:
+    - desc: 'チケットパネルを作成します'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'チケットパネルを作成します'
+      name: embedJson
+      optional: true
+      type: string
+ticketpaneldelete:
+  args:
+    - panelid
+  desc: '既存のチケットパネルを削除します。'
+  params:
+    - desc: '削除するパネルの ID です。'
+      name: panelId
+      optional: false
+      type: ulong
+ticketpriority:
+  args:
+    - text
+  desc: '現在のチケットの優先度レベルを設定します。'
+  params:
+    - &ref_615
+      desc: '現在のチケットの優先度レベルを設定します。'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string:
+  args:
+    - text
+  desc: '現在のチケットの優先度レベルを設定します。'
+  params:
+    - desc: '現在のチケットの優先度レベルを設定します。'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_1:
+  args:
+    - text
+  desc: '現在のチケットの優先度レベルを設定します。'
+  params:
+    - desc: '現在のチケットの優先度レベルを設定します。'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_2:
+  args:
+    - text
+  desc: '現在のチケットの優先度レベルを設定します。'
+  params:
+    - desc: '現在のチケットの優先度レベルを設定します。'
+      name: priority
+      optional: false
+      type: string
+ticketremovepriority:
+  args:
+    - text
+  desc: '優先度レベルを削除します。'
+  params:
+    - &ref_616
+      desc: '優先度レベルを削除します。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string:
+  args:
+    - text
+  desc: '優先度レベルを削除します。'
+  params:
+    - desc: '優先度レベルを削除します。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_1:
+  args:
+    - text
+  desc: '優先度レベルを削除します。'
+  params:
+    - desc: '優先度レベルを削除します。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_2:
+  args:
+    - text
+  desc: '優先度レベルを削除します。'
+  params:
+    - desc: '優先度レベルを削除します。'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovetag:
+  args:
+    - text
+  desc: 'タグを削除します。'
+  params:
+    - &ref_617
+      desc: 'タグを削除します。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string:
+  args:
+    - text
+  desc: 'タグを削除します。'
+  params:
+    - desc: 'タグを削除します。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_1:
+  args:
+    - text
+  desc: 'タグを削除します。'
+  params:
+    - desc: 'タグを削除します。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_2:
+  args:
+    - text
+  desc: 'タグを削除します。'
+  params:
+    - desc: 'タグを削除します。'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetags:
+  args:
+    - text
+  desc: '現在のチケットからタグを削除します。'
+  params:
+    - desc: '現在のチケットからタグを削除します。'
+      name: tags
+      optional: false
+      type: string[]
+ticketresponsetime:
+  args:
+    - '<buttonId> [minutes]'
+    - number
+  desc: 'チケットの種類に必要な応答時間を設定します。'
+  params:
+    - desc: 'チケットの種類に必要な応答時間を設定します。'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'チケットの種類に必要な応答時間を設定します。'
+      name: minutes
+      optional: true
+      type: int
+ticketstats:
+  args:
+    - ''
+  desc: 'サーバーのチケット統計を表示します。'
+  params: [ ]
+tickettranscriptchannel:
+  args:
+    - '[@channel]'
+  desc: 'チケットのトランスクリプトチャンネルを設定します。'
+  params:
+    - desc: 'チケットのトランスクリプトチャンネルを設定します。'
+      name: channel
+      optional: true
+      type: channel
+ticketunblock:
+  args:
+    - '@user'
+  desc: 'ユーザーがチケットを作成できるように、ブロックを解除します。'
+  params:
+    - desc: 'ユーザーがチケットを作成できるように、ブロックを解除します。'
+      name: user
+      optional: false
+      type: IGuildUser
+ticketunclaim:
+  args:
+    - ''
+  desc: '現在のチケットの担当を解除します。'
+  params: [ ]
+ticketunlinkcase:
+  args:
+    - ''
+  desc: '現在のチケットとケースのリンクを解除します。'
+  params: [ ]
+ticketupdatepanel:
+  args:
+    - panelid text
+  desc: 'チケットパネルの埋め込みを更新します。'
+  params:
+    - desc: 'チケットパネルの埋め込みを更新します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_618
+      desc: 'チケットパネルの埋め込みを更新します。'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string:
+  args:
+    - panelid text
+  desc: 'チケットパネルの埋め込みを更新します。'
+  params:
+    - desc: 'チケットパネルの埋め込みを更新します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'チケットパネルの埋め込みを更新します。'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_1:
+  args:
+    - panelid text
+  desc: 'チケットパネルの埋め込みを更新します。'
+  params:
+    - desc: 'チケットパネルの埋め込みを更新します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'チケットパネルの埋め込みを更新します。'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_2:
+  args:
+    - panelid text
+  desc: 'チケットパネルの埋め込みを更新します。'
+  params:
+    - desc: 'チケットパネルの埋め込みを更新します。'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'チケットパネルの埋め込みを更新します。'
+      name: embedJson
+      optional: false
+      type: string
+ticketuserstats:
+  args:
+    - '[@user]'
+  desc: 'ユーザーのチケット統計を表示します。'
+  params:
+    - desc: 'ユーザーのチケット統計を表示します。'
+      name: user
+      optional: true
+      type: user

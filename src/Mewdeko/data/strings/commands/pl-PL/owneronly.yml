@@ -1,0 +1,1243 @@
+acadd:
+  args:
+    - command
+  desc: 'Dodaje automatyczne polecenie.'
+  params:
+    - desc: 'Polecenie do dodania jako automatyczne.'
+      name: command
+      optional: false
+      type: string
+topserversupdate:
+  args:
+    - ''
+  desc: 'Aktualizuje listę najlepszych serwerów. Można uruchomić tylko na instancji głównej.'
+aclist:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie automatyczne polecenia.'
+  params: [ ]
+acrm:
+  args:
+    - index
+  desc: 'Usuwa automatyczne polecenie.'
+  params:
+    - desc: 'Indeks polecenia do usunięcia.'
+      name: index
+      optional: false
+      type: int
+addinstance:
+  args:
+    - number
+  desc: 'Dodaje instancję bota do zarządzania z panelu.'
+  params:
+    - &ref_400
+      desc: 'Numer portu, na którym działa instancja'
+      name: instancePort
+      optional: false
+      type: int
+addinstance_int:
+  args:
+    - number
+  desc: 'Dodaje instancję bota do zarządzania z panelu.'
+  params:
+    - desc: 'Numer portu, na którym działa instancja'
+      name: instancePort
+      optional: false
+      type: int
+addplaying:
+  args:
+    - t text
+  desc: 'Dodaje nowy status do rotacji statusów gry bota.'
+  params:
+    - &ref_21
+      desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - &ref_22
+      desc: 'Tekst statusu do dodania.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string:
+  args:
+    - t text
+  desc: 'Dodaje nowy status do rotacji statusów gry bota.'
+  params:
+    - desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Tekst statusu do dodania.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_1:
+  args:
+    - t text
+  desc: 'Dodaje nowy status do rotacji statusów gry bota.'
+  params:
+    - desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Tekst statusu do dodania.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_2:
+  args:
+    - t text
+  desc: 'Dodaje nowy status do rotacji statusów gry bota.'
+  params:
+    - desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Tekst statusu do dodania.'
+      name: status
+      optional: false
+      type: string
+autocommandadd:
+  args:
+    - number text
+  desc: 'Dodaje automatyczne polecenie, które będzie okresowo wykonywane na podanym serwerze.'
+  params:
+    - &ref_91
+      desc: 'Interwał w sekundach, z jakim polecenie ma być wykonywane. Musi wynosić co najmniej 5 sekund.'
+      name: interval
+      optional: false
+      type: int
+    - &ref_92
+      desc: 'Tekst polecenia, które ma być wykonywane automatycznie.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string:
+  args:
+    - number text
+  desc: 'Dodaje automatyczne polecenie, które będzie okresowo wykonywane na podanym serwerze.'
+  params:
+    - desc: 'Interwał w sekundach, z jakim polecenie ma być wykonywane. Musi wynosić co najmniej 5 sekund.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Tekst polecenia, które ma być wykonywane automatycznie.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_1:
+  args:
+    - number text
+  desc: 'Dodaje automatyczne polecenie, które będzie okresowo wykonywane na podanym serwerze.'
+  params:
+    - desc: 'Interwał w sekundach, z jakim polecenie ma być wykonywane. Musi wynosić co najmniej 5 sekund.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Tekst polecenia, które ma być wykonywane automatycznie.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_2:
+  args:
+    - number text
+  desc: 'Dodaje automatyczne polecenie, które będzie okresowo wykonywane na podanym serwerze.'
+  params:
+    - desc: 'Interwał w sekundach, z jakim polecenie ma być wykonywane. Musi wynosić co najmniej 5 sekund.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Tekst polecenia, które ma być wykonywane automatycznie.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandremove:
+  args:
+    - number
+  desc: 'Usuwa automatyczne polecenie po jego indeksie.'
+  params:
+    - &ref_93
+      desc: 'Indeks automatycznego polecenia do usunięcia, od 1.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int:
+  args:
+    - number
+  desc: 'Usuwa automatyczne polecenie po jego indeksie.'
+  params:
+    - &ref_94
+      desc: 'Indeks automatycznego polecenia do usunięcia, od 1.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_1:
+  args:
+    - number
+  desc: 'Usuwa automatyczne polecenie po jego indeksie.'
+  params:
+    - desc: 'Indeks automatycznego polecenia do usunięcia, od 1.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_2:
+  args:
+    - number
+  desc: 'Usuwa automatyczne polecenie po jego indeksie.'
+  params:
+    - desc: 'Indeks automatycznego polecenia do usunięcia, od 1.'
+      name: index
+      optional: false
+      type: int
+autocommandslist:
+  args:
+    - 1
+  desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+  params:
+    - &ref_95
+      desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=:
+  args:
+    - 1
+  desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+  params:
+    - desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_1:
+  args:
+    - 1
+  desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+  params:
+    - desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_2:
+  args:
+    - 1
+  desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+  params:
+    - desc: 'Wyświetla automatyczne polecenia skonfigurowane na serwerze.'
+      name: 1
+      optional: false
+      type: '='
+bash:
+  args:
+    - text
+  desc: 'Wykonuje polecenie bash. W zależności od platformy polecenie jest wykonywane w bash lub PowerShell.'
+  params:
+    - &ref_110
+      desc: 'Polecenie do wykonania.'
+      name: message
+      optional: false
+      type: string
+bash_string:
+  args:
+    - text
+  desc: 'Wykonuje polecenie bash. W zależności od platformy polecenie jest wykonywane w bash lub PowerShell.'
+  params:
+    - desc: 'Polecenie do wykonania.'
+      name: message
+      optional: false
+      type: string
+bash_string_1:
+  args:
+    - text
+  desc: 'Wykonuje polecenie bash. W zależności od platformy polecenie jest wykonywane w bash lub PowerShell.'
+  params:
+    - desc: 'Polecenie do wykonania.'
+      name: message
+      optional: false
+      type: string
+bash_string_2:
+  args:
+    - text
+  desc: 'Wykonuje polecenie bash. W zależności od platformy polecenie jest wykonywane w bash lub PowerShell.'
+  params:
+    - desc: 'Polecenie do wykonania.'
+      name: message
+      optional: false
+      type: string
+commandstats:
+  args:
+    - ''
+  desc: 'Pokazuje statystyki najczęściej używanego polecenia, modułu, serwera i użytkownika.'
+  params: [ ]
+commandstats_noparams:
+  args:
+    - ''
+  desc: 'Pokazuje statystyki najczęściej używanego polecenia, modułu, serwera i użytkownika.'
+  params: [ ]
+commandstats_noparams_1:
+  args:
+    - ''
+  desc: 'Pokazuje statystyki najczęściej używanego polecenia, modułu, serwera i użytkownika.'
+  params: [ ]
+commandstats_noparams_2:
+  args:
+    - ''
+  desc: 'Pokazuje statystyki najczęściej używanego polecenia, modułu, serwera i użytkownika.'
+  params: [ ]
+config:
+  args:
+    - ''
+  desc: 'Zmienia konfigurację bota opartą na pliku yml.'
+  params: [ ]
+config_string:
+  args:
+    - name
+  desc: 'Zmienia konfigurację bota opartą na pliku yml.'
+  params:
+    - desc: 'Nazwa konfiguracji do zmiany.'
+      name: name
+      optional: true
+      type: string
+config_string_string:
+  args:
+    - name prop
+  desc: 'Zmienia konfigurację bota opartą na pliku yml.'
+  params:
+    - desc: 'Nazwa konfiguracji do zmiany.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Właściwość konfiguracji do zmiany.'
+      name: prop
+      optional: true
+      type: string
+config_string_string_string:
+  args:
+    - name prop value
+  desc: 'Zmienia konfigurację bota opartą na pliku yml.'
+  params:
+    - desc: 'Nazwa konfiguracji do zmiany.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Właściwość konfiguracji do zmiany.'
+      name: prop
+      optional: true
+      type: string
+    - desc: 'Nowa wartość właściwości.'
+      name: value
+      optional: true
+      type: string
+defprefix:
+  args:
+    - '[prefix]'
+  desc: 'Ustawia lub wyświetla domyślny prefiks poleceń.'
+  params:
+    - desc: 'Nowy prefiks do ustawienia. Jeśli wartość jest pusta lub zawiera tylko białe znaki, zamiast tego wyświetlany jest aktualny prefiks.'
+      name: prefix
+      optional: true
+      type: string
+die:
+  args:
+    - ''
+  desc: 'Inicjuje wyłączenie bota.'
+  params: [ ]
+evaluate:
+  args:
+    - '[code]'
+  desc: 'Ocenia fragment kodu C#.'
+  params:
+    - desc: 'Kod C# do oceny.'
+      name: code
+      optional: true
+      type: string
+forwardmessages:
+  args:
+    - ''
+  desc: 'Przełącza przekazywanie wiadomości prywatnych do właściciela (właścicieli) bota.'
+  params: [ ]
+forwardtoall:
+  args:
+    - ''
+  desc: 'Przełącza, czy przekazywane wiadomości są wysyłane do wszystkich właścicieli bota, czy tylko do głównego właściciela.'
+  params: [ ]
+generatedocs:
+  args:
+    - ''
+  desc: 'Generuje pliki YML z dokumentacją poleceń'
+  params: [ ]
+imagesreload:
+  args:
+    - ''
+  desc: 'Inicjuje ponowne wczytanie obrazów używanych przez bota.'
+  params: [ ]
+instancestatus:
+  args:
+    - number
+  desc: 'Sprawdza status konkretnej instancji bota.'
+  params:
+    - &ref_256
+      desc: 'Numer portu instancji do sprawdzenia'
+      name: instancePort
+      optional: false
+      type: int
+instancestatus_int:
+  args:
+    - number
+  desc: 'Sprawdza status konkretnej instancji bota.'
+  params:
+    - desc: 'Numer portu instancji do sprawdzenia'
+      name: instancePort
+      optional: false
+      type: int
+retentionpending:
+  args:
+    - ''
+  desc: 'Wyświetla serwery, które bot opuścił, a których dane czekają na usunięcie, od najwcześniejszego.'
+  params: [ ]
+retentionrecent:
+  args:
+    - ''
+  desc: 'Wyświetla ostatnio zakończone czyszczenia danych wraz z liczbą usuniętych wierszy.'
+  params: [ ]
+retentioncancel:
+  args:
+    - 123456789012345678
+  desc: 'Usuwa serwer z kolejki czyszczenia, aby jego dane zostały zachowane.'
+  params:
+    - desc: 'Serwer do zachowania.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurge:
+  args:
+    - 123456789012345678
+  desc: 'Natychmiast czyści dane serwera zamiast czekać na okres ochronny. Odmawia, jeśli bot nadal jest na tym serwerze.'
+  params:
+    - desc: 'Serwer do wyczyszczenia.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurgeall:
+  args:
+    - ''
+  desc: 'Czyści natychmiast wszystkie oczekujące serwery, ignorując okres ochronny. Serwery, do których bot ponownie dołączył, są pomijane.'
+  params: [ ]
+bothells:
+  args:
+    - ''
+  desc: 'Wyświetla serwery zaśmiecone botami na podstawie progów liczby botów i procentowego udziału botów w konfiguracji bota.'
+  params: [ ]
+bothellcheck:
+  args:
+    - ''
+    - 123456789012345678
+  desc: 'Sprawdza pojedynczy serwer względem progów „bot hell” po pobraniu pełnej listy członków.'
+  params:
+    - desc: 'Serwer do sprawdzenia lub bieżący serwer, jeśli pominięto.'
+      name: guildId
+      optional: true
+      type: ulong
+retentionscan:
+  args:
+    - ''
+  desc: 'Skanuje wszystkie tabele z danymi serwerów w poszukiwaniu serwerów, na których bot już nie jest, i kolejkuje je do czyszczenia po okresie ochronnym.'
+  params: [ ]
+leaveserver:
+  args:
+    - text
+  desc: 'Nakazuje botowi opuszczenie serwera.'
+  params:
+    - &ref_269
+      desc: 'Identyfikator lub nazwa serwera do opuszczenia.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string:
+  args:
+    - text
+  desc: 'Nakazuje botowi opuszczenie serwera.'
+  params:
+    - desc: 'Identyfikator lub nazwa serwera do opuszczenia.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_1:
+  args:
+    - text
+  desc: 'Nakazuje botowi opuszczenie serwera.'
+  params:
+    - desc: 'Identyfikator lub nazwa serwera do opuszczenia.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_2:
+  args:
+    - text
+  desc: 'Nakazuje botowi opuszczenie serwera.'
+  params:
+    - desc: 'Identyfikator lub nazwa serwera do opuszczenia.'
+      name: guildStr
+      optional: false
+      type: string
+listinstances:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie zarejestrowane instancje bota i ich status.'
+  params: [ ]
+listplaying:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie statusy obecnie w rotacji.'
+  params: [ ]
+listservers:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie serwery, na których bot się obecnie znajduje.'
+  params: [ ]
+redisexec:
+  args:
+    - text
+  desc: 'Wykonuje polecenie Redis i zwraca wynik.'
+  params:
+    - &ref_385
+      desc: 'Polecenie Redis do wykonania.'
+      name: command
+      optional: false
+      type: string
+redisexec_string:
+  args:
+    - text
+  desc: 'Wykonuje polecenie Redis i zwraca wynik.'
+  params:
+    - desc: 'Polecenie Redis do wykonania.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_1:
+  args:
+    - text
+  desc: 'Wykonuje polecenie Redis i zwraca wynik.'
+  params:
+    - desc: 'Polecenie Redis do wykonania.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_2:
+  args:
+    - text
+  desc: 'Wykonuje polecenie Redis i zwraca wynik.'
+  params:
+    - desc: 'Polecenie Redis do wykonania.'
+      name: command
+      optional: false
+      type: string
+removeinstance:
+  args:
+    - number
+  desc: 'Usuwa instancję bota z zarządzania panelem.'
+  params:
+    - desc: 'Numer portu instancji do usunięcia'
+      name: instancePort
+      optional: false
+      type: int
+removeplaying:
+  args:
+    - number
+  desc: 'Usuwa status z rotujących statusów gry po jego indeksie.'
+  params:
+    - &ref_406
+      desc: 'Indeks statusu do usunięcia, od 1. Faktyczne usunięcie używa indeksowania od 0.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int:
+  args:
+    - number
+  desc: 'Usuwa status z rotujących statusów gry po jego indeksie.'
+  params:
+    - desc: 'Indeks statusu do usunięcia, od 1. Faktyczne usunięcie używa indeksowania od 0.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_1:
+  args:
+    - number
+  desc: 'Usuwa status z rotujących statusów gry po jego indeksie.'
+  params:
+    - desc: 'Indeks statusu do usunięcia, od 1. Faktyczne usunięcie używa indeksowania od 0.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_2:
+  args:
+    - number
+  desc: 'Usuwa status z rotujących statusów gry po jego indeksie.'
+  params:
+    - desc: 'Indeks statusu do usunięcia, od 1. Faktyczne usunięcie używa indeksowania od 0.'
+      name: index
+      optional: false
+      type: int
+restartallinstances:
+  args:
+    - ''
+  desc: 'Restartuje wszystkie zarejestrowane instancje bota.'
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: 'Restartuje konkretną instancję bota.'
+  params:
+    - desc: 'Numer portu instancji do restartu'
+      name: instancePort
+      optional: false
+      type: int
+rotateplaying:
+  args:
+    - ''
+  desc: 'Przełącza rotację statusów gry bota.'
+  params: [ ]
+scadd:
+  args:
+    - command
+  desc: 'Dodaje polecenie uruchamiane przy starcie.'
+  params:
+    - desc: 'Polecenie do dodania przy starcie.'
+      name: command
+      optional: false
+      type: string
+scclear:
+  args:
+    - ''
+  desc: 'Czyści wszystkie polecenia startowe.'
+  params: [ ]
+sclist:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie polecenia startowe.'
+  params: [ ]
+scrm:
+  args:
+    - index
+  desc: 'Usuwa polecenie startowe.'
+  params:
+    - desc: 'Indeks polecenia do usunięcia.'
+      name: index
+      optional: false
+      type: int
+send:
+  args:
+    - whereorto text
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - &ref_483
+      desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - &ref_484
+      desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_=_=:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID użytkownika, do którego wysłać wiadomość.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_1:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID użytkownika, do którego wysłać wiadomość.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_2:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID użytkownika, do którego wysłać wiadomość.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_3:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'ID użytkownika, do którego wysłać wiadomość.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_string:
+  args:
+    - whereorto text
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_1:
+  args:
+    - whereorto text
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_2:
+  args:
+    - whereorto text
+  desc: 'Wysyła wiadomość do wskazanego kanału lub użytkownika.'
+  params:
+    - desc: 'ID kanału lub użytkownika, do którego wysłać wiadomość.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Wiadomość do wysłania.'
+      name: msg
+      optional: false
+      type: string
+setavatar:
+  args:
+    - '[img]'
+  desc: 'Ustawia awatar bota.'
+  params:
+    - desc: 'URL nowego obrazu awatara. Jeśli null, polecenie może usunąć obecny awatar albo nic nie zrobić, zależnie od implementacji.'
+      name: img
+      optional: true
+      type: string
+setgame:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Ustawia aktualnie grywaną grę bota.'
+  params:
+    - desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Nazwa gry lub aktywności. Jeśli null, może wyczyścić obecną grę.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Ustawia aktualnie grywaną grę bota.'
+  params:
+    - desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Nazwa gry lub aktywności. Jeśli null, może wyczyścić obecną grę.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_1:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Ustawia aktualnie grywaną grę bota.'
+  params:
+    - desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Nazwa gry lub aktywności. Jeśli null, może wyczyścić obecną grę.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_2:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Ustawia aktualnie grywaną grę bota.'
+  params:
+    - desc: 'Typ aktywności (np. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Nazwa gry lub aktywności. Jeśli null, może wyczyścić obecną grę.'
+      name: game
+      optional: true
+      type: string
+setname:
+  args:
+    - text
+  desc: 'Zmienia nazwę użytkownika bota na podaną nową.'
+  params:
+    - &ref_508
+      desc: 'Nowa nazwa użytkownika bota.'
+      name: newName
+      optional: false
+      type: string
+setname_string:
+  args:
+    - text
+  desc: 'Zmienia nazwę użytkownika bota na podaną nową.'
+  params:
+    - desc: 'Nowa nazwa użytkownika bota.'
+      name: newName
+      optional: false
+      type: string
+setname_string_1:
+  args:
+    - text
+  desc: 'Zmienia nazwę użytkownika bota na podaną nową.'
+  params:
+    - desc: 'Nowa nazwa użytkownika bota.'
+      name: newName
+      optional: false
+      type: string
+setname_string_2:
+  args:
+    - text
+  desc: 'Zmienia nazwę użytkownika bota na podaną nową.'
+  params:
+    - desc: 'Nowa nazwa użytkownika bota.'
+      name: newName
+      optional: false
+      type: string
+setstatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Ustawia status online bota.'
+  params:
+    - &ref_526
+      desc: 'Nowy status do ustawienia.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Ustawia status online bota.'
+  params:
+    - desc: 'Nowy status do ustawienia.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_1:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Ustawia status online bota.'
+  params:
+    - desc: 'Nowy status do ustawienia.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_2:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Ustawia status online bota.'
+  params:
+    - desc: 'Nowy status do ustawienia.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstream:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Ustawia status transmisji bota.'
+  params:
+    - desc: 'URL transmisji.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Nazwa transmisji. Jeśli null, może użyć nazwy domyślnej lub nie użyje żadnej.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Ustawia status transmisji bota.'
+  params:
+    - desc: 'URL transmisji.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Nazwa transmisji. Jeśli null, może użyć nazwy domyślnej lub nie użyje żadnej.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_1:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Ustawia status transmisji bota.'
+  params:
+    - desc: 'URL transmisji.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Nazwa transmisji. Jeśli null, może użyć nazwy domyślnej lub nie użyje żadnej.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_2:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Ustawia status transmisji bota.'
+  params:
+    - desc: 'URL transmisji.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Nazwa transmisji. Jeśli null, może użyć nazwy domyślnej lub nie użyje żadnej.'
+      name: name
+      optional: true
+      type: string
+shardstats:
+  args:
+    - ''
+  desc: 'Wyświetla statystyki wszystkich shardów bota, w tym ich statusy, liczbę gildii i liczbę użytkowników.'
+  params: [ ]
+shardstats_noparams:
+  args:
+    - ''
+  desc: 'Wyświetla statystyki wszystkich shardów bota, w tym ich statusy, liczbę gildii i liczbę użytkowników.'
+  params: [ ]
+shardstats_noparams_1:
+  args:
+    - ''
+  desc: 'Wyświetla statystyki wszystkich shardów bota, w tym ich statusy, liczbę gildii i liczbę użytkowników.'
+  params: [ ]
+shardstats_noparams_2:
+  args:
+    - ''
+  desc: 'Wyświetla statystyki wszystkich shardów bota, w tym ich statusy, liczbę gildii i liczbę użytkowników.'
+  params: [ ]
+sqlexec:
+  args:
+    - text
+  desc: 'Wykonuje surowe polecenie SQL na bazie danych.'
+  params:
+    - &ref_555
+      desc: 'Polecenie SQL do wykonania.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string:
+  args:
+    - text
+  desc: 'Wykonuje surowe polecenie SQL na bazie danych.'
+  params:
+    - desc: 'Polecenie SQL do wykonania.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_1:
+  args:
+    - text
+  desc: 'Wykonuje surowe polecenie SQL na bazie danych.'
+  params:
+    - desc: 'Polecenie SQL do wykonania.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_2:
+  args:
+    - text
+  desc: 'Wykonuje surowe polecenie SQL na bazie danych.'
+  params:
+    - desc: 'Polecenie SQL do wykonania.'
+      name: sql
+      optional: false
+      type: string
+startupcommandadd:
+  args:
+    - text
+  desc: 'Dodaje nowe polecenie startowe, które zostanie wykonane przy uruchomieniu bota.'
+  params:
+    - &ref_564
+      desc: 'Tekst polecenia do dodania, bez prefiksu.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string:
+  args:
+    - text
+  desc: 'Dodaje nowe polecenie startowe, które zostanie wykonane przy uruchomieniu bota.'
+  params:
+    - desc: 'Tekst polecenia do dodania, bez prefiksu.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_1:
+  args:
+    - text
+  desc: 'Dodaje nowe polecenie startowe, które zostanie wykonane przy uruchomieniu bota.'
+  params:
+    - desc: 'Tekst polecenia do dodania, bez prefiksu.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_2:
+  args:
+    - text
+  desc: 'Dodaje nowe polecenie startowe, które zostanie wykonane przy uruchomieniu bota.'
+  params:
+    - desc: 'Tekst polecenia do dodania, bez prefiksu.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandremove:
+  args:
+    - number
+  desc: 'Usuwa polecenie startowe po jego indeksie.'
+  params:
+    - desc: 'Numer polecenia startowego do usunięcia, od 1.'
+      name: index
+      optional: false
+      type: int
+startupcommandsclear:
+  args:
+    - ''
+  desc: 'Czyści wszystkie polecenia startowe dla serwera.'
+  params: [ ]
+startupcommandslist:
+  args:
+    - 1
+  desc: 'Wyświetla polecenia startowe skonfigurowane dla serwera.'
+  params:
+    - desc: 'Wyświetla polecenia startowe skonfigurowane dla serwera.'
+      name: 1
+      optional: false
+      type: '='
+stringsreload:
+  args:
+    - ''
+  desc: 'Inicjuje ponowne wczytanie tekstów bota (lokalizacji).'
+  params: [ ]
+sudo:
+  args:
+    - '@user text'
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - &ref_580
+      desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_581
+      desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string:
+  args:
+    - '@user text'
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_1:
+  args:
+    - '@user text'
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_2:
+  args:
+    - '@user text'
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+sudo_string:
+  args:
+    - text
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+sudo_string_1:
+  args:
+    - text
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+sudo_string_2:
+  args:
+    - text
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+sudo_string_3:
+  args:
+    - text
+  desc: 'Wykonuje polecenie tak, jakby zostało wysłane przez właściciela serwera.'
+  params:
+    - desc: 'Ciąg polecenia do wykonania, z nazwą polecenia i argumentami.'
+      name: args
+      optional: false
+      type: string
+update:
+  args:
+    - ''
+  desc: 'Aktualizuje bota do najnowszej wersji dostępnej w repozytorium.'
+  params: [ ]
+update_noparams:
+  args:
+    - ''
+  desc: 'Aktualizuje bota do najnowszej wersji dostępnej w repozytorium.'
+  params: [ ]
+update_noparams_1:
+  args:
+    - ''
+  desc: 'Aktualizuje bota do najnowszej wersji dostępnej w repozytorium.'
+  params: [ ]
+update_noparams_2:
+  args:
+    - ''
+  desc: 'Aktualizuje bota do najnowszej wersji dostępnej w repozytorium.'
+  params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: 'Aktualizuje wszystkie zarejestrowane instancje bota.'
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: 'Aktualizuje konkretną instancję bota.'
+  params:
+    - desc: 'Numer portu instancji do aktualizacji'
+      name: instancePort
+      optional: false
+      type: int
+wait:
+  args:
+    - number
+  desc: 'Wykonuje polecenie oczekiwania, które opóźnia działanie o podaną liczbę milisekund.'
+  params:
+    - &ref_651
+      desc: 'Liczba milisekund opóźnienia.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int:
+  args:
+    - number
+  desc: 'Wykonuje polecenie oczekiwania, które opóźnia działanie o podaną liczbę milisekund.'
+  params:
+    - desc: 'Liczba milisekund opóźnienia.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_1:
+  args:
+    - number
+  desc: 'Wykonuje polecenie oczekiwania, które opóźnia działanie o podaną liczbę milisekund.'
+  params:
+    - desc: 'Liczba milisekund opóźnienia.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_2:
+  args:
+    - number
+  desc: 'Wykonuje polecenie oczekiwania, które opóźnia działanie o podaną liczbę milisekund.'
+  params:
+    - desc: 'Liczba milisekund opóźnienia.'
+      name: miliseconds
+      optional: false
+      type: int

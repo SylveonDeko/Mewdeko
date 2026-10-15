@@ -24,6 +24,10 @@
   "copr_skipped_message_default": "ビルドスキップメッセージはデフォルト形式を使用します。",
   "copr_default_message_updated": "デフォルトビルドメッセージを更新しました！",
   "copr_default_message_default": "デフォルトビルドメッセージはデフォルト形式を使用します。",
+  "copr_template_updated": "{0} ビルドのテンプレートを更新しました！",
+  "copr_template_reset": "{0} のビルドメッセージは既定の形式を使用します。",
+  "copr_template_none": "カスタムの {0} テンプレートは設定されていないため、既定の形式を使用します。",
+  "copr_template_show_title": "{0}/{1} {2} のテンプレート",
   "copr_build_title": "COPRビルド {0}",
   "copr_build_default_desc": "**プロジェクト:** {0}/{1}\n**パッケージ:** {2}\n**ビルドID:** {3}\n**Chroot:** {4}"
 }

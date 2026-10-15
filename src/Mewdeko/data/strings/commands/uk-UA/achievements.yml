@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Показує твій огляд досягнень: ранг, очки, прогрес у кожній категорії та останні розблоковані. Згадай когось, щоб побачити його досягнення.'
+  params:
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: 'Показує всі досягнення однієї категорії з прогресом до ще не відкритих.'
+  params:
+    - desc: 'Ключ або назва категорії, наприклад messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige або custom.'
+      name: category
+      optional: false
+      type: string
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Показує всі досягнення на сервері з прогресом, посторінково.'
+  params:
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Показує п''ять останніх розблокувань.'
+  params:
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Показує п''ять найкращих розблокувань за рангом і очками.'
+  params:
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: 'Знаходить досягнення за назвою або описом і показує твій прогрес за кожним.'
+  params:
+    - desc: 'Що шукати.'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Показує досягнення, отримані на всіх серверах: загальну кількість очок, сервери та глобальні досягнення.'
+  params:
+    - desc: 'Користувач, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'Показує, хто отримав найбільше досягнень на сервері. Учасники, які приховали себе, не відображаються.'
+  params:
+    - desc: 'Points, Unlocked або Recent. За замовчуванням Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'Показує, хто отримав найбільше досягнень на всіх серверах.'
+  params:
+    - desc: 'Points, Unlocked або Recent. За замовчуванням Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Малює картку профілю досягнень із рангом, очками, прогресом до наступного рангу та вибраними значками.'
+  params:
+    - desc: 'Учасник, для якого малювати картку. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Показує всі числа, які відстежують досягнення: повідомлення, час у голосових каналах, реакції, запрошення, команди, час на сервері, бусти, рівень і репутацію.'
+  params:
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: 'Малює досягнення у вигляді зображення: відкрите або закрите з тим, наскільки близько ти або інший учасник до нього.'
+  params:
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: 'Встановлює іконку, яку досягнення показує на зображенні, на панелі керування та в застосунках: назву іконки на кшталт trophy, емодзі сервера або посилання https на зображення. Щоб використати іконку категорії, залиш поле порожнім.'
+  params:
+    - desc: 'Назва або ключ досягнення, у лапках, якщо є пробіли.'
+      name: achievement
+      optional: false
+      type: string
+    - desc: 'Іконка або нічого, щоб очистити.'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Показує всі значки, які є у тебе або в іншого користувача, а чотири вибрані слоти — угорі.'
+  params:
+    - desc: 'Учасник, якого треба переглянути. За замовчуванням це ти.'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: 'Ставить значок, який у тебе є, в один із чотирьох слотів профілю. Ключі значків показує badges.'
+  params:
+    - desc: 'Слот від 1 до 4.'
+      name: slot
+      optional: false
+      type: int
+    - desc: 'Ключ значка.'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'Очищає один із чотирьох слотів профілю.'
+  params:
+    - desc: 'Слот від 1 до 4.'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'Показує, що таке значок і як його отримати.'
+  params:
+    - desc: 'Ключ значка.'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: 'Встановлює, хто бачитиме твій профіль досягнень, досягнення, значки та місце в таблиці лідерів.'
+  params:
+    - desc: 'Profile, Achievements, Badges або Leaderboard.'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone або OnlyMe.'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: 'Вмикає або вимикає для тебе повідомлення про розблокування в особисті повідомлення, повідомлення про розблокування на сервері або згадки в них.'
+  params:
+    - desc: 'Dm, Message або Mention.'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: 'True — увімкнути, false — вимкнути.'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'Показує всі досягнення сервера з їхнім ключем, статусом увімкнено/вимкнено та кількістю учасників, які їх розблокували.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'Запускає або призупиняє отримання досягнень на сервері. Запуск також вмикає підрахунок повідомлень, а учасники, які вже відповідають умовам, отримують свої досягнення без сповіщень.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: 'Встановлює канал, в якому оголошуються розблокування. Залиш поле порожнім, щоб перестати використовувати канал журналу.'
+  params:
+    - desc: 'Канал.'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: 'Встановлює, де оголошувати розблокування: Auto використовує канал журналу, якщо він встановлений, інакше канал, де це сталося; Here — канал, де це сталося; LogChannel — лише канал журналу; DmOnly — лише особисті повідомлення; Silent — нічого не оголошувати.'
+  params:
+    - desc: 'Auto, Here, LogChannel, DmOnly або Silent.'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'Встановлює, чи отримуватимуть учасники розблокування в особистих повідомленнях, якщо вони самі це не вимкнуть.'
+  params:
+    - desc: 'True — увімкнути, false — вимкнути.'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: 'Встановлює текст повідомлення про розблокування. Працюють і звичайний текст, і JSON embed, із заповнювачами на кшталт %achievement.name%, %achievement.points%, %achievement.list% та %achievements.tier%. Залиш поле порожнім, щоб повернутися до стандартного.'
+  params:
+    - desc: 'Текст повідомлення або нічого, щоб очистити.'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'Дає учасникам XP за кожне очко досягнення, яке вони отримують. 0 вимикає це.'
+  params:
+    - desc: 'XP за очко, від 0 до 1000.'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'Активує одне досягнення, щоб учасники могли його отримати.'
+  params:
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: 'Деактивує одне досягнення. Учасники, які його вже розблокували, зберігають його.'
+  params:
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'Активує або деактивує цілу категорію.'
+  params:
+    - desc: 'Ключ або назва категорії.'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Видає досягнення учаснику та оголошує його так само, як і будь-яке інше розблокування.'
+  params:
+    - desc: 'Учасник.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Забирає у учасника досягнення.'
+  params:
+    - desc: 'Учасник.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: 'Очищає всі досягнення учасника на сервері після підтвердження.'
+  params:
+    - desc: 'Учасник.'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: 'Робить досягнення розблокованим після досягнення певного числа. Метрики: MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation і NetWorth.'
+  params:
+    - desc: 'Що рахувати.'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: 'Число, якого треба досягти.'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst або Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Назва.'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'Робить досягнення розблокованим після того, як учасник скаже певну фразу будь-де на сервері.'
+  params:
+    - desc: 'Фраза, у лапках, якщо є пробіли.'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst або Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Назва.'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: 'Робить досягнення розблокованим після реакції певним емодзі.'
+  params:
+    - desc: 'Емодзі.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst або Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Назва.'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'Робить досягнення таким, що його може видати лише персонал командою achgrant.'
+  params:
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst або Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Назва.'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: 'Видаляє досягнення, створене на сервері, після підтвердження. Усі, хто його розблокував, втратять його.'
+  params:
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: 'Видає роль учасникам, коли вони розблокують досягнення.'
+  params:
+    - desc: 'Роль.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: 'Видає валюту учасникам, коли вони розблокують досягнення. 0 прибирає нагороду.'
+  params:
+    - desc: 'Сума.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: 'Видає XP учасникам, коли вони розблокують досягнення. 0 прибирає нагороду.'
+  params:
+    - desc: 'Сума.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: 'Прибирає всі нагороди з досягнення.'
+  params:
+    - desc: 'Назва або ключ досягнення.'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: 'Не дає учасникам з певною роллю отримувати досягнення. Запусти команду ще раз, щоб знову дозволити їм отримувати.'
+  params:
+    - desc: 'Роль.'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'Зупиняє зарахування активності в каналі до досягнень. Запусти команду ще раз, щоб знову рахувати.'
+  params:
+    - desc: 'Канал.'
+      name: channel
+      optional: false
+      type: IGuildChannel

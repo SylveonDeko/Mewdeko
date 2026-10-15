@@ -1,0 +1,605 @@
+anonrep:
+  args:
+    - '@user reptype text'
+  desc: '向指定用户匿名赠送声望。'
+  params:
+    - &ref_228
+      desc: '要赠送声望的用户。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - &ref_229
+      desc: '赠送的声望类型。'
+      name: repType
+      optional: true
+      type: string
+    - &ref_230
+      desc: '赠送声望的可选原因或备注。'
+      name: reason
+      optional: true
+      type: string
+checkrep:
+  args:
+    - '@user'
+  desc: '查看用户的声望。'
+  params:
+    - &ref_425
+      desc: '要查看声望的用户。'
+      name: target
+      optional: true
+      type: IGuildUser
+giverep:
+  args:
+    - '@user reptype text'
+  desc: '向指定用户赠送声望。'
+  params:
+    - desc: '要赠送声望的用户。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '赠送的声望类型。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '赠送声望的可选原因或备注。'
+      name: reason
+      optional: true
+      type: string
+myrep:
+  args:
+    - ''
+  desc: '查看当前用户的声望。'
+  params: [ ]
+rep:
+  args:
+    - '@user reptype text'
+  desc: '向指定用户赠送声望。'
+  params:
+    - desc: '要赠送声望的用户。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '赠送的声望类型。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '赠送声望的可选原因或备注。'
+      name: reason
+      optional: true
+      type: string
+repanon:
+  args:
+    - '@user reptype text'
+  desc: '向指定用户匿名赠送声望。'
+  params:
+    - desc: '要赠送声望的用户。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '赠送的声望类型。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '赠送声望的可选原因或备注。'
+      name: reason
+      optional: true
+      type: string
+repanonymous:
+  args:
+    - enabled
+  desc: '开启或关闭匿名赠送声望。'
+  params:
+    - desc: '设为 true 可开启匿名声望。'
+      name: enabled
+      optional: false
+      type: bool
+repchannel:
+  args:
+    - '#channel state number'
+  desc: '配置频道专属的声望设置。'
+  params:
+    - desc: '要配置的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '要设置的状态（enabled/disabled/readonly）。'
+      name: state
+      optional: true
+      type: string
+    - desc: '该频道的声望倍率。'
+      name: multiplier
+      optional: true
+      type: decimal
+repcheck:
+  args:
+    - '@user'
+  desc: '查看用户的声望。'
+  params:
+    - desc: '要查看声望的用户。若为 null，则查看命令发起者的声望。'
+      name: target
+      optional: true
+      type: IGuildUser
+repcommandbypass:
+  args:
+    - commandname '@role'
+  desc: '为命令要求设置绕过身份组。'
+  params:
+    - &ref_426
+      desc: '命令名称。'
+      name: commandName
+      optional: false
+      type: string
+    - desc: '可以绕过该要求的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+repcommandinfo:
+  args:
+    - commandname
+  desc: '显示某个特定命令的声望要求。'
+  params:
+    - desc: '要查看的命令。'
+      name: commandName
+      optional: false
+      type: string
+repcommandreq:
+  args:
+    - commandname 50
+    - commandname 50 helper
+    - 'commandname 50 helper #channel1 #channel2'
+  desc: '为命令设置声望要求，可选择限定特定频道。'
+  params:
+    - desc: '命令名称。'
+      name: commandName
+      optional: false
+      type: string
+    - desc: '所需的最低声望。'
+      name: minReputation
+      optional: false
+      type: int
+    - desc: '所需的特定声望类型（可选，默认为 total）。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '此要求适用的频道（可选；若未指定，则全局适用）。'
+      name: channels
+      optional: true
+      type: ITextChannel[]
+repcommandreqlist:
+  args:
+    - ''
+  desc: '列出服务器中所有命令的要求。'
+  params: [ ]
+repcommandreqremove:
+  args:
+    - commandname
+  desc: '移除命令的声望要求。'
+  params:
+    - desc: '命令名称。'
+      name: commandName
+      optional: false
+      type: string
+repconfig:
+  args:
+    - ''
+  desc: '打开交互式声望配置界面。'
+  params: [ ]
+repcooldown:
+  args:
+    - minutes
+  desc: '设置两次赠送声望之间的默认冷却时间。'
+  params:
+    - desc: '冷却时间（分钟），范围 1 至 1440。'
+      name: minutes
+      optional: false
+      type: int
+repdailylimit:
+  args:
+    - limit
+  desc: '设置每日赠送声望的上限。'
+  params:
+    - desc: '每日上限（1-100）。'
+      name: limit
+      optional: false
+      type: int
+repdecay:
+  args:
+    - enabled
+  desc: '开启或关闭不活跃用户的声望衰减。'
+  params:
+    - desc: '设为 true 可开启衰减。'
+      name: enabled
+      optional: false
+      type: bool
+repdecayamount:
+  args:
+    - amount
+  desc: '设置衰减数值。'
+  params:
+    - desc: '衰减数值（1-100）。'
+      name: amount
+      optional: false
+      type: int
+repdecayinactive:
+  args:
+    - days
+  desc: '设置开始衰减前的不活跃天数。'
+  params:
+    - desc: '不活跃天数（1-365）。'
+      name: days
+      optional: false
+      type: int
+repdecaytype:
+  args:
+    - type
+  desc: '设置衰减类型（daily、weekly、monthly）。'
+  params:
+    - desc: '衰减类型。'
+      name: type
+      optional: false
+      type: string
+repenable:
+  args:
+    - enabled
+  desc: '开启或关闭本服务器的声望系统。'
+  params:
+    - desc: '设为 true 启用，false 禁用。'
+      name: enabled
+      optional: true
+      type: bool
+repeventcreate:
+  args:
+    - name multiplier duration
+  desc: '创建声望倍率活动。'
+  params:
+    - desc: '活动名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '声望倍率。'
+      name: multiplier
+      optional: false
+      type: decimal
+    - desc: '持续时间（小时）。'
+      name: duration
+      optional: false
+      type: int
+repeventend:
+  args:
+    - name
+  desc: '提前结束声望活动。'
+  params:
+    - desc: '要结束的活动名称。'
+      name: name
+      optional: false
+      type: string
+repexport:
+  args:
+    - ''
+  desc: '将当前声望配置导出为 JSON。'
+  params: [ ]
+repfreeze:
+  args:
+    - '@user'
+  desc: '冻结用户的声望，使其无法获得或失去声望。'
+  params:
+    - &ref_438
+      desc: '要冻结的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+repgive:
+  args:
+    - '@user reptype text'
+  desc: '向指定用户赠送声望。'
+  params:
+    - desc: '要赠送声望的用户。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '赠送的声望类型。'
+      name: repType
+      optional: true
+      type: string
+    - desc: '赠送声望的可选原因或备注。'
+      name: reason
+      optional: true
+      type: string
+rephistory:
+  args:
+    - '@user'
+  desc: '显示用户的声望历史。'
+  params:
+    - desc: '要查看历史的用户。若为 null，则显示命令发起者的历史。'
+      name: target
+      optional: true
+      type: IGuildUser
+repimport:
+  args:
+    - ''
+  desc: '从上传的 JSON 文件导入声望配置。'
+  params: [ ]
+replb:
+  args:
+    - number
+  desc: '显示服务器的声望排行榜。'
+  params:
+    - &ref_436
+      desc: '要显示的页码。'
+      name: page
+      optional: true
+      type: int
+repleaderboard:
+  args:
+    - number
+  desc: '显示服务器的声望排行榜。'
+  params:
+    - desc: '要显示的页码。'
+      name: page
+      optional: true
+      type: int
+repmilestonelost:
+  args:
+    - user role threshold
+  desc: '手动触发里程碑丢失事件以供测试。'
+  params:
+    - desc: '丢失里程碑的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '丢失的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '声望阈值。'
+      name: threshold
+      optional: false
+      type: int
+repminage:
+  args:
+    - days
+  desc: '设置赠送声望所需的最低账户年龄。'
+  params:
+    - desc: '最低账户年龄（天），范围 0 至 365。'
+      name: days
+      optional: false
+      type: int
+repminmembership:
+  args:
+    - hours
+  desc: '设置赠送声望所需的最短服务器加入时长。'
+  params:
+    - desc: '最短加入时长（小时），范围 0 至 720。'
+      name: hours
+      optional: false
+      type: int
+repminmessages:
+  args:
+    - count
+  desc: '设置赠送声望所需的最低消息数。'
+  params:
+    - desc: '最低消息数（0-1000）。'
+      name: count
+      optional: false
+      type: int
+repnegative:
+  args:
+    - enabled
+  desc: '开启或关闭负声望。'
+  params:
+    - desc: '设为 true 可开启负声望。'
+      name: enabled
+      optional: false
+      type: bool
+repnotificationchannel:
+  args:
+    - channel
+  desc: '设置声望事件的通知频道。'
+  params:
+    - desc: '用于发送通知的频道（设为 null 则禁用）。'
+      name: channel
+      optional: true
+      type: ITextChannel
+repreaction:
+  args:
+    - emoji number reptype
+  desc: '配置基于表情反应的声望授予。'
+  params:
+    - desc: '用于授予声望的表情。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: '授予的声望数量。'
+      name: amount
+      optional: true
+      type: int
+    - desc: '声望类型（standard、helper、artist、memer）。'
+      name: repType
+      optional: true
+      type: string
+repreactionlist:
+  args:
+    - ''
+  desc: '列出所有已配置的基于表情反应的声望设置。'
+  params: [ ]
+repreactionremove:
+  args:
+    - emoji
+  desc: '移除一条基于表情反应的声望配置。'
+  params:
+    - desc: '要移除的表情。'
+      name: emoji
+      optional: false
+      type: string
+represet:
+  args:
+    - text
+  desc: '重置某位用户或服务器内所有用户的声望。'
+  params:
+    - desc: '要重置的用户，或输入 "all" 以重置所有人。'
+      name: target
+      optional: false
+      type: string
+reprole:
+  args:
+    - ''
+    - detailed
+    - '@role'
+    - '@role 100'
+    - '@role 100 false #channel true 50'
+  desc: '管理声望里程碑的身份组奖励。不带参数时列出所有奖励；提供身份组和声望值可添加或更新奖励，并可选填高级设置。'
+  params:
+    - &ref_437
+      desc: '要授予的身份组（列出时可省略）。'
+      name: role
+      optional: true
+      type: IRole
+    - desc: '获得该身份组所需的声望（列出时可省略）。'
+      name: reputation
+      optional: true
+      type: int
+    - desc: '声望下降时是否移除该身份组。'
+      name: removeOnDrop
+      optional: true
+      type: bool
+    - desc: '可选，用于公告身份组授予的频道。'
+      name: announceChannel
+      optional: true
+      type: ITextChannel
+    - desc: '是否发送私信通知。'
+      name: announceDm
+      optional: true
+      type: bool
+    - desc: '可选，达到里程碑时给予的经验奖励。'
+      name: xpReward
+      optional: true
+      type: int
+    - desc: '列出时显示详细信息（将 ''detailed'' 作为第一个参数）。'
+      name: detailed
+      optional: true
+      type: string
+reprolechannel:
+  args:
+    - role channel
+  desc: '设置身份组奖励的公告频道。'
+  params:
+    - desc: '要配置的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '公告频道（设为 null 则禁用）。'
+      name: channel
+      optional: true
+      type: ITextChannel
+reproleremove:
+  args:
+    - '@role'
+  desc: '移除一条身份组奖励配置。'
+  params:
+    - desc: '要从奖励中移除的身份组。'
+      name: role
+      optional: true
+      type: IRole
+repset:
+  args:
+    - '@user number'
+  desc: '将用户的声望设为指定值。'
+  params:
+    - desc: '要设置声望的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要将声望设置为的数值。'
+      name: amount
+      optional: false
+      type: int
+repstats:
+  args:
+    - '@user'
+  desc: '显示某位用户的详细声望统计。'
+  params:
+    - desc: '要查看统计的用户。若为空，则显示命令发送者的统计。'
+      name: target
+      optional: true
+      type: IGuildUser
+repstatus:
+  args:
+    - ''
+  desc: '以详细嵌入消息显示当前声望配置。'
+  params: [ ]
+reptake:
+  args:
+    - '@user number'
+  desc: '移除某位用户的声望。'
+  params:
+    - desc: '要移除声望的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要移除的声望数量。'
+      name: amount
+      optional: true
+      type: int
+reptop:
+  args:
+    - number
+  desc: '显示服务器的声望排行榜。'
+  params:
+    - desc: '要显示的页码。'
+      name: page
+      optional: true
+      type: int
+reptypeadd:
+  args:
+    - typeName displayName
+  desc: '添加自定义声望类型。'
+  params:
+    - desc: '声望类型的名称。'
+      name: typeName
+      optional: false
+      type: string
+    - desc: '该类型的显示名称。'
+      name: displayName
+      optional: false
+      type: string
+reptypelist:
+  args:
+    - ''
+  desc: '列出本服务器所有自定义声望类型。'
+  params: [ ]
+reptyperemove:
+  args:
+    - typeName
+  desc: '移除一个自定义声望类型。'
+  params:
+    - desc: '要移除的声望类型名称。'
+      name: typeName
+      optional: false
+      type: string
+repunfreeze:
+  args:
+    - '@user'
+  desc: '解冻用户的声望，使其能够再次获得和失去声望。'
+  params:
+    - desc: '要解冻的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+repweeklylimit:
+  args:
+    - limit
+  desc: '设置每周可赠送声望的上限（可选）。'
+  params:
+    - desc: '每周上限（设为 null 则禁用，范围 1-500）。'
+      name: limit
+      optional: true
+      type: int
+toprep:
+  args:
+    - number
+  desc: '显示服务器的声望排行榜。'
+  params:
+    - desc: '要显示的页码。'
+      name: page
+      optional: true
+      type: int

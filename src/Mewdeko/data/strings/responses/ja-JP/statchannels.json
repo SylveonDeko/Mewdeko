@@ -5,5 +5,11 @@
   "stat_channel_removed": "統計チャンネル **{0}** を削除しました。",
   "stat_channel_not_found": "そのチャンネルは統計チャンネルではありません。",
   "stat_channel_none": "統計チャンネルが設定されていません。",
-  "stat_channel_list_title": "統計チャンネル"
+  "stat_channel_list_title": "統計チャンネル",
+  "stat_channel_types_title": "利用可能な統計の種類",
+  "stat_channel_unknown_type": "その統計の種類は存在しません。types コマンドで利用可能なものをご確認ください。",
+  "stat_channel_mechanism_set": "**{0}** は **{2}** 分ごとに **{1}** で更新されるようになりました。",
+  "stat_channel_style_set": "**{0}** は **{1}** のスタイルを使用するようになりました（例: `{2}`）。",
+  "stat_channel_defaults_set": "新しい統計チャンネルは、既定で **{2}** のスタイルを使い、**{1}** 分ごとに **{0}** で更新されます。",
+  "stat_channel_invalid_date": "日付を解析できませんでした。2026-12-31 18:00 のような形式で指定してください。"
 }

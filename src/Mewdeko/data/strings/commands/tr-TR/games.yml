@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Acrophobia oyununu başlatan komut.'
+  params:
+    - &ref_3
+      desc: 'Komuta verilen argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Acrophobia oyununu başlatan komut.'
+  params:
+    - desc: 'Komuta verilen argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Acrophobia oyununu başlatan komut.'
+  params:
+    - desc: 'Komuta verilen argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Acrophobia oyununu başlatan komut.'
+  params:
+    - desc: 'Komuta verilen argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: 'Bir listeden rastgele seçim yapan komut.'
+  params:
+    - desc: 'Noktalı virgülle ayrılmış seçenek listesi.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'Kullanıcının dragon durumunu açıp kapatan komut. Genellikle beta komutları için kullanılır.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'Bir cevap almak için sihirli 8 topa danışan komut.'
+  params:
+    - desc: 'Sorulacak soru.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+  params:
+    - &ref_244
+      desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+  params:
+    - desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+  params:
+    - desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+  params:
+    - desc: 'Belirtilen türde bir adam asmaca oyunu başlatır.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: 'Bu sunucuda mevcut adam asmaca türlerini listeler.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: 'Mevcut kanaldaki çalışan adam asmaca oyununu durdurur.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Kaladont oyununu başlatan komut.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Kaladont oyununu başlatan komut.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Kaladont oyununu başlatan komut.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Kaladont oyununu başlatan komut.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Kaladont oyununu başlatan komut.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: 'Mevcut Kaladont oyununu durduran komut.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: 'Kalıcı bir Kaladont kanalı kurar.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Kalıcı bir Kaladont kanalı kurar.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: 'Kalıcı bir Kaladont kanalı kurar.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: 'Kalıcı bir Kaladont kanalı kurar.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: 'Kalıcı bir Kaladont kanalı kurar.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: 'Kalıcı Kaladont kanalını devre dışı bırakır.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: 'Komik bir araya giren Linux komutu'
+  params:
+    - &ref_275
+      desc: '"GNU" yerine geçecek ad.'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: '"Linux" yerine geçecek ad.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: 'Komik bir araya giren Linux komutu'
+  params:
+    - desc: '"GNU" yerine geçecek ad.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux" yerine geçecek ad.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: 'Komik bir araya giren Linux komutu'
+  params:
+    - desc: '"GNU" yerine geçecek ad.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux" yerine geçecek ad.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: 'Komik bir araya giren Linux komutu'
+  params:
+    - desc: '"GNU" yerine geçecek ad.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux" yerine geçecek ad.'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Bir Nunchi oyunu başlatır veya oyuna katılır.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - &ref_351
+      desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - &ref_349
+      desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'Basit bir evet/hayır anketi oluşturur.'
+  params:
+    - desc: 'Basit bir evet/hayır anketi oluşturur.'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: 'Oy verenlerin kimliklerinin gizli olduğu anonim bir anket oluşturur.'
+  params:
+    - desc: 'Anket sorusu ve noktalı virgülle ayrılmış seçenekler.'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: 'Birden fazla seçeneği olan özel bir anket oluşturur.'
+  params:
+    - desc: 'Anket sorusu ve noktalı virgülle ayrılmış seçenekler.'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'Kullanıcıların birden fazla seçenek seçebildiği çoktan seçmeli anket oluşturur.'
+  params:
+    - desc: 'Anket sorusu ve noktalı virgülle ayrılmış seçenekler.'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'Bir şablondan anket oluşturur.'
+  params:
+    - desc: 'Kullanılacak şablonun adı.'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'Sunucuda kullanılabilir tüm anket şablonlarını listeler.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: 'Artık var olmayan eski bir komut. NadekoBot''ta trans insanlara hakaret etti. Burada bir hatıra ve NadekoBot''a bir siktir olarak duruyor.'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'Bir TicTacToe oyunu başlatır.'
+  params:
+    - &ref_619
+      desc: 'ttt için seçenekler'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'Bir TicTacToe oyunu başlatır.'
+  params:
+    - desc: 'ttt için seçenekler'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'Bir TicTacToe oyunu başlatır.'
+  params:
+    - desc: 'ttt için seçenekler'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'Bir TicTacToe oyunu başlatır.'
+  params:
+    - desc: 'ttt için seçenekler'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: 'Mevcut bilgi yarışması sıralamasını gösterir.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: 'Mevcut bilgi yarışmasını durdurur.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'Bir bilgi yarışması başlatır.'
+  params:
+    - &ref_629
+      desc: 'Bilgi yarışması için isteğe bağlı argümanlar'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'Bir bilgi yarışması başlatır.'
+  params:
+    - desc: 'Bilgi yarışması için isteğe bağlı argümanlar'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'Bir bilgi yarışması başlatır.'
+  params:
+    - desc: 'Bilgi yarışması için isteğe bağlı argümanlar'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'Bir bilgi yarışması başlatır.'
+  params:
+    - desc: 'Bilgi yarışması için isteğe bağlı argümanlar'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'Yazma oyunu için yeni bir makale ekler.'
+  params:
+    - &ref_630
+      desc: 'Eklenecek makalenin metni.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'Yazma oyunu için yeni bir makale ekler.'
+  params:
+    - desc: 'Eklenecek makalenin metni.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'Yazma oyunu için yeni bir makale ekler.'
+  params:
+    - desc: 'Eklenecek makalenin metni.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'Yazma oyunu için yeni bir makale ekler.'
+  params:
+    - desc: 'Eklenecek makalenin metni.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'Dizinine göre bir yazma makalesini siler.'
+  params:
+    - &ref_631
+      desc: 'Silinecek makalenin dizini.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'Dizinine göre bir yazma makalesini siler.'
+  params:
+    - desc: 'Silinecek makalenin dizini.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'Dizinine göre bir yazma makalesini siler.'
+  params:
+    - desc: 'Silinecek makalenin dizini.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'Dizinine göre bir yazma makalesini siler.'
+  params:
+    - desc: 'Silinecek makalenin dizini.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'Yazma oyunu için kullanılabilir makaleleri listeler.'
+  params:
+    - desc: 'Yazma oyunu için kullanılabilir makaleleri listeler.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'Hızlı yazma oyunu başlatır.'
+  params:
+    - &ref_632
+      desc: 'Oyunu yapılandırmak için argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'Hızlı yazma oyunu başlatır.'
+  params:
+    - desc: 'Oyunu yapılandırmak için argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'Hızlı yazma oyunu başlatır.'
+  params:
+    - desc: 'Oyunu yapılandırmak için argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'Hızlı yazma oyunu başlatır.'
+  params:
+    - desc: 'Oyunu yapılandırmak için argümanlar.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: 'Mevcut hızlı yazma oyununu durdurur.'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: 'Bir listeden rastgele seçim yapan komut.'
+  params:
+    - desc: 'Noktalı virgülle ayrılmış seçenek listesi.'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: 'Mevcut kanaldaki çalışan adam asmaca oyununu durdurur.'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Bir Nunchi oyunu başlatır veya oyuna katılır.'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: 'Mevcut bilgi yarışması sıralamasını gösterir.'
+  params: [ ]

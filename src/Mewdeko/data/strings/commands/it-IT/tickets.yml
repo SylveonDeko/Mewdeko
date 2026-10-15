@@ -1,0 +1,2313 @@
+addmodalfield:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Aggiunge un campo alla finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'L''etichetta del campo'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opzioni di configurazione facoltative'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Aggiunge un campo alla finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'L''etichetta del campo'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opzioni di configurazione facoltative'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_1:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Aggiunge un campo alla finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'L''etichetta del campo'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opzioni di configurazione facoltative'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_2:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Aggiunge un campo alla finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'L''etichetta del campo'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opzioni di configurazione facoltative'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_3:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Aggiunge un campo alla finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'L''etichetta del campo'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opzioni di configurazione facoltative'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_4:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Aggiunge un campo alla finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'L''etichetta del campo'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opzioni di configurazione facoltative'
+      name: fieldConfig
+      optional: true
+      type: string
+addoption:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Aggiunge un''opzione a un menu di selezione esistente'
+  params:
+    - desc: 'L''ID del menu a cui aggiungere l''opzione'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'L''etichetta mostrata agli utenti'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Descrizione facoltativa mostrata sotto l''etichetta'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Emoji facoltativa mostrata accanto all''etichetta'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Aggiunge un''opzione a un menu di selezione esistente'
+  params:
+    - desc: 'L''ID del menu a cui aggiungere l''opzione'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'L''etichetta mostrata agli utenti'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Descrizione facoltativa mostrata sotto l''etichetta'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Emoji facoltativa mostrata accanto all''etichetta'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_1:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Aggiunge un''opzione a un menu di selezione esistente'
+  params:
+    - desc: 'L''ID del menu a cui aggiungere l''opzione'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'L''etichetta mostrata agli utenti'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Descrizione facoltativa mostrata sotto l''etichetta'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Emoji facoltativa mostrata accanto all''etichetta'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_2:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Aggiunge un''opzione a un menu di selezione esistente'
+  params:
+    - desc: 'L''ID del menu a cui aggiungere l''opzione'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'L''etichetta mostrata agli utenti'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Descrizione facoltativa mostrata sotto l''etichetta'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Emoji facoltativa mostrata accanto all''etichetta'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_3:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Aggiunge un''opzione a un menu di selezione esistente'
+  params:
+    - desc: 'L''ID del menu a cui aggiungere l''opzione'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'L''etichetta mostrata agli utenti'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Descrizione facoltativa mostrata sotto l''etichetta'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Emoji facoltativa mostrata accanto all''etichetta'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_4:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Aggiunge un''opzione a un menu di selezione esistente'
+  params:
+    - desc: 'L''ID del menu a cui aggiungere l''opzione'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'L''etichetta mostrata agli utenti'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Descrizione facoltativa mostrata sotto l''etichetta'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Emoji facoltativa mostrata accanto all''etichetta'
+      name: emoji
+      optional: true
+      type: string
+addselectmenu:
+  args:
+    - panelid
+  desc: 'Aggiunge un menu di selezione a un pannello dei ticket.'
+  params:
+    - &ref_31
+      desc: 'L''ID del pannello a cui aggiungere il menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong:
+  args:
+    - panelid
+  desc: 'Aggiunge un menu di selezione a un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello a cui aggiungere il menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_1:
+  args:
+    - panelid
+  desc: 'Aggiunge un menu di selezione a un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello a cui aggiungere il menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_2:
+  args:
+    - panelid
+  desc: 'Aggiunge un menu di selezione a un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello a cui aggiungere il menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_3:
+  args:
+    - panelid
+  desc: 'Aggiunge un menu di selezione a un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello a cui aggiungere il menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_4:
+  args:
+    - panelid
+  desc: 'Aggiunge un menu di selezione a un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello a cui aggiungere il menu'
+      name: panelId
+      optional: false
+      type: ulong
+buttoninfo:
+  args:
+    - number
+  desc: 'Mostra informazioni dettagliate su un pulsante.'
+  params:
+    - &ref_116
+      desc: 'L''ID del pulsante da visualizzare.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int:
+  args:
+    - number
+  desc: 'Mostra informazioni dettagliate su un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da visualizzare.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_1:
+  args:
+    - number
+  desc: 'Mostra informazioni dettagliate su un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da visualizzare.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_2:
+  args:
+    - number
+  desc: 'Mostra informazioni dettagliate su un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da visualizzare.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_3:
+  args:
+    - number
+  desc: 'Mostra informazioni dettagliate su un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da visualizzare.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_4:
+  args:
+    - number
+  desc: 'Mostra informazioni dettagliate su un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da visualizzare.'
+      name: buttonId
+      optional: false
+      type: int
+checkpanels:
+  args:
+    - ''
+  desc: 'Controlla tutti i pannelli del server alla ricerca di messaggi mancanti.'
+  params: [ ]
+deletebutton:
+  args:
+    - number
+  desc: 'Elimina un pulsante da un pannello.'
+  params:
+    - &ref_186
+      desc: 'L''ID del pulsante da eliminare.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int:
+  args:
+    - number
+  desc: 'Elimina un pulsante da un pannello.'
+  params:
+    - desc: 'L''ID del pulsante da eliminare.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_1:
+  args:
+    - number
+  desc: 'Elimina un pulsante da un pannello.'
+  params:
+    - desc: 'L''ID del pulsante da eliminare.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_2:
+  args:
+    - number
+  desc: 'Elimina un pulsante da un pannello.'
+  params:
+    - desc: 'L''ID del pulsante da eliminare.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_3:
+  args:
+    - number
+  desc: 'Elimina un pulsante da un pannello.'
+  params:
+    - desc: 'L''ID del pulsante da eliminare.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_4:
+  args:
+    - number
+  desc: 'Elimina un pulsante da un pannello.'
+  params:
+    - desc: 'L''ID del pulsante da eliminare.'
+      name: buttonId
+      optional: false
+      type: int
+deleteselectmenu:
+  args:
+    - number
+  desc: 'Elimina un menu di selezione da un pannello.'
+  params:
+    - desc: 'L''ID del menu di selezione da eliminare.'
+      name: menuId
+      optional: false
+      type: int
+deleteselectoption:
+  args:
+    - number
+  desc: 'Elimina una specifica opzione da un menu di selezione.'
+  params:
+    - desc: 'L''ID dell''opzione del menu di selezione da eliminare.'
+      name: optionId
+      optional: false
+      type: int
+listmodalfields:
+  args:
+    - number
+  desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+  params:
+    - &ref_277
+      desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int:
+  args:
+    - number
+  desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+  params:
+    - desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_1:
+  args:
+    - number
+  desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+  params:
+    - desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_2:
+  args:
+    - number
+  desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+  params:
+    - desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_3:
+  args:
+    - number
+  desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+  params:
+    - desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_4:
+  args:
+    - number
+  desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+  params:
+    - desc: 'Elenca tutti i campi di una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+listoptions:
+  args:
+    - text
+  desc: 'Elenca tutte le opzioni di un menu di selezione'
+  params:
+    - &ref_278
+      desc: 'L''ID del menu da visualizzare'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string:
+  args:
+    - text
+  desc: 'Elenca tutte le opzioni di un menu di selezione'
+  params:
+    - desc: 'L''ID del menu da visualizzare'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_1:
+  args:
+    - text
+  desc: 'Elenca tutte le opzioni di un menu di selezione'
+  params:
+    - desc: 'L''ID del menu da visualizzare'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_2:
+  args:
+    - text
+  desc: 'Elenca tutte le opzioni di un menu di selezione'
+  params:
+    - desc: 'L''ID del menu da visualizzare'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_3:
+  args:
+    - text
+  desc: 'Elenca tutte le opzioni di un menu di selezione'
+  params:
+    - desc: 'L''ID del menu da visualizzare'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_4:
+  args:
+    - text
+  desc: 'Elenca tutte le opzioni di un menu di selezione'
+  params:
+    - desc: 'L''ID del menu da visualizzare'
+      name: menuId
+      optional: false
+      type: string
+panelinfo:
+  args:
+    - panelid
+  desc: 'Mostra informazioni dettagliate su un pannello dei ticket.'
+  params:
+    - &ref_335
+      desc: 'L''ID del pannello da visualizzare.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong:
+  args:
+    - panelid
+  desc: 'Mostra informazioni dettagliate su un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello da visualizzare.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_1:
+  args:
+    - panelid
+  desc: 'Mostra informazioni dettagliate su un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello da visualizzare.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_2:
+  args:
+    - panelid
+  desc: 'Mostra informazioni dettagliate su un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello da visualizzare.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_3:
+  args:
+    - panelid
+  desc: 'Mostra informazioni dettagliate su un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello da visualizzare.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_4:
+  args:
+    - panelid
+  desc: 'Mostra informazioni dettagliate su un pannello dei ticket.'
+  params:
+    - desc: 'L''ID del pannello da visualizzare.'
+      name: panelId
+      optional: false
+      type: ulong
+panellist:
+  args:
+    - ''
+  desc: 'Elenca tutti i pannelli dei ticket del server.'
+  params: [ ]
+panellist_noparams:
+  args:
+    - ''
+  desc: 'Elenca tutti i pannelli dei ticket del server.'
+  params: [ ]
+panellist_noparams_1:
+  args:
+    - ''
+  desc: 'Elenca tutti i pannelli dei ticket del server.'
+  params: [ ]
+panellist_noparams_2:
+  args:
+    - ''
+  desc: 'Elenca tutti i pannelli dei ticket del server.'
+  params: [ ]
+panellist_noparams_3:
+  args:
+    - ''
+  desc: 'Elenca tutti i pannelli dei ticket del server.'
+  params: [ ]
+panellist_noparams_4:
+  args:
+    - ''
+  desc: 'Elenca tutti i pannelli dei ticket del server.'
+  params: [ ]
+recreateallpanels:
+  args:
+    - ''
+  desc: 'Ricrea tutti i pannelli con messaggi mancanti.'
+  params: [ ]
+recreatepanel:
+  args:
+    - number
+  desc: 'Ricrea un pannello dei ticket eliminato nel suo canale originale.'
+  params:
+    - desc: 'L''ID del messaggio del pannello da ricreare'
+      name: panelId
+      optional: false
+      type: ulong
+removemodalfield:
+  args:
+    - number text
+  desc: 'Rimuove un campo da una finestra di creazione del ticket'
+  params:
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_401
+      desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string:
+  args:
+    - number text
+  desc: 'Rimuove un campo da una finestra di creazione del ticket'
+  params:
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_1:
+  args:
+    - number text
+  desc: 'Rimuove un campo da una finestra di creazione del ticket'
+  params:
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_2:
+  args:
+    - number text
+  desc: 'Rimuove un campo da una finestra di creazione del ticket'
+  params:
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_3:
+  args:
+    - number text
+  desc: 'Rimuove un campo da una finestra di creazione del ticket'
+  params:
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_4:
+  args:
+    - number text
+  desc: 'Rimuove un campo da una finestra di creazione del ticket'
+  params:
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Rimuove un campo da una finestra di creazione del ticket'
+      name: fieldId
+      optional: false
+      type: string
+removeoption:
+  args:
+    - text text
+  desc: 'Rimuove un''opzione da un menu di selezione'
+  params:
+    - &ref_403
+      desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_404
+      desc: 'Il valore dell''opzione da rimuovere'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string:
+  args:
+    - text text
+  desc: 'Rimuove un''opzione da un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il valore dell''opzione da rimuovere'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_1:
+  args:
+    - text text
+  desc: 'Rimuove un''opzione da un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il valore dell''opzione da rimuovere'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_2:
+  args:
+    - text text
+  desc: 'Rimuove un''opzione da un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il valore dell''opzione da rimuovere'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_3:
+  args:
+    - text text
+  desc: 'Rimuove un''opzione da un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il valore dell''opzione da rimuovere'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_4:
+  args:
+    - text text
+  desc: 'Rimuove un''opzione da un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il valore dell''opzione da rimuovere'
+      name: optionValue
+      optional: false
+      type: string
+setautoclose:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di chiusura automatica per i ticket creati da un pulsante.'
+  params:
+    - &ref_487
+      desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_488
+      desc: 'Il numero di ore di inattività prima della chiusura automatica, oppure null per disattivarla.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di chiusura automatica per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di ore di inattività prima della chiusura automatica, oppure null per disattivarla.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di chiusura automatica per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di ore di inattività prima della chiusura automatica, oppure null per disattivarla.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di chiusura automatica per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di ore di inattività prima della chiusura automatica, oppure null per disattivarla.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di chiusura automatica per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di ore di inattività prima della chiusura automatica, oppure null per disattivarla.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di chiusura automatica per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di ore di inattività prima della chiusura automatica, oppure null per disattivarla.'
+      name: hours
+      optional: true
+      type: int
+setmodaltitle:
+  args:
+    - number text
+  desc: 'Imposta il titolo di una finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_506
+      desc: 'Il titolo da mostrare nella finestra'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string:
+  args:
+    - number text
+  desc: 'Imposta il titolo di una finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il titolo da mostrare nella finestra'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_1:
+  args:
+    - number text
+  desc: 'Imposta il titolo di una finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il titolo da mostrare nella finestra'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_2:
+  args:
+    - number text
+  desc: 'Imposta il titolo di una finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il titolo da mostrare nella finestra'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_3:
+  args:
+    - number text
+  desc: 'Imposta il titolo di una finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il titolo da mostrare nella finestra'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_4:
+  args:
+    - number text
+  desc: 'Imposta il titolo di una finestra di creazione del ticket'
+  params:
+    - desc: 'L''ID del pulsante da configurare'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il titolo da mostrare nella finestra'
+      name: title
+      optional: false
+      type: string
+setpaneltranscripts:
+  args:
+    - panelid true|false
+  desc: 'Attiva o disattiva il salvataggio delle trascrizioni per un pannello.'
+  params:
+    - &ref_510
+      desc: 'L''ID del pannello da modificare.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_511
+      desc: 'Se attivare o disattivare il salvataggio delle trascrizioni.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool:
+  args:
+    - panelid true|false
+  desc: 'Attiva o disattiva il salvataggio delle trascrizioni per un pannello.'
+  params:
+    - desc: 'L''ID del pannello da modificare.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Se attivare o disattivare il salvataggio delle trascrizioni.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_1:
+  args:
+    - panelid true|false
+  desc: 'Attiva o disattiva il salvataggio delle trascrizioni per un pannello.'
+  params:
+    - desc: 'L''ID del pannello da modificare.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Se attivare o disattivare il salvataggio delle trascrizioni.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_2:
+  args:
+    - panelid true|false
+  desc: 'Attiva o disattiva il salvataggio delle trascrizioni per un pannello.'
+  params:
+    - desc: 'L''ID del pannello da modificare.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Se attivare o disattivare il salvataggio delle trascrizioni.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_3:
+  args:
+    - panelid true|false
+  desc: 'Attiva o disattiva il salvataggio delle trascrizioni per un pannello.'
+  params:
+    - desc: 'L''ID del pannello da modificare.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Se attivare o disattivare il salvataggio delle trascrizioni.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_4:
+  args:
+    - panelid true|false
+  desc: 'Attiva o disattiva il salvataggio delle trascrizioni per un pannello.'
+  params:
+    - desc: 'L''ID del pannello da modificare.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Se attivare o disattivare il salvataggio delle trascrizioni.'
+      name: enable
+      optional: false
+      type: bool
+setplaceholder:
+  args:
+    - text text
+  desc: 'Aggiorna il testo segnaposto per un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_512
+      desc: 'Il nuovo testo segnaposto'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string:
+  args:
+    - text text
+  desc: 'Aggiorna il testo segnaposto per un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il nuovo testo segnaposto'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_1:
+  args:
+    - text text
+  desc: 'Aggiorna il testo segnaposto per un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il nuovo testo segnaposto'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_2:
+  args:
+    - text text
+  desc: 'Aggiorna il testo segnaposto per un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il nuovo testo segnaposto'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_3:
+  args:
+    - text text
+  desc: 'Aggiorna il testo segnaposto per un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il nuovo testo segnaposto'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_4:
+  args:
+    - text text
+  desc: 'Aggiorna il testo segnaposto per un menu di selezione'
+  params:
+    - desc: 'L''ID del menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Il nuovo testo segnaposto'
+      name: placeholder
+      optional: false
+      type: string
+setresponsetime:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di risposta richiesto per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_518
+      desc: 'Il numero di minuti, oppure null per disattivarlo.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di risposta richiesto per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di minuti, oppure null per disattivarlo.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di risposta richiesto per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di minuti, oppure null per disattivarlo.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di risposta richiesto per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di minuti, oppure null per disattivarlo.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di risposta richiesto per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di minuti, oppure null per disattivarlo.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Imposta il tempo di risposta richiesto per i ticket creati da un pulsante.'
+  params:
+    - desc: 'L''ID del pulsante da modificare.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Il numero di minuti, oppure null per disattivarlo.'
+      name: minutes
+      optional: true
+      type: int
+ticketaddbutton:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+  params:
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+  params:
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_1:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+  params:
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_2:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+  params:
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Aggiunge un pulsante a un pannello dei ticket esistente.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddpriority:
+  args:
+    - text text text number true|false time text
+  desc: 'Crea un nuovo livello di priorità per i ticket.'
+  params:
+    - &ref_599
+      desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - &ref_600
+      desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: emoji
+      optional: false
+      type: string
+    - &ref_601
+      desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: level
+      optional: false
+      type: int
+    - &ref_602
+      desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - &ref_603
+      desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - &ref_604
+      desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string:
+  args:
+    - text text text number true|false time text
+  desc: 'Crea un nuovo livello di priorità per i ticket.'
+  params:
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_1:
+  args:
+    - text text text number true|false time text
+  desc: 'Crea un nuovo livello di priorità per i ticket.'
+  params:
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_2:
+  args:
+    - text text text number true|false time text
+  desc: 'Crea un nuovo livello di priorità per i ticket.'
+  params:
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Crea un nuovo livello di priorità per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag:
+  args:
+    - text text text text
+  desc: 'Crea una nuova etichetta per i ticket.'
+  params:
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - &ref_605
+      desc: 'Crea una nuova etichetta per i ticket.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string:
+  args:
+    - text text text text
+  desc: 'Crea una nuova etichetta per i ticket.'
+  params:
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_1:
+  args:
+    - text text text text
+  desc: 'Crea una nuova etichetta per i ticket.'
+  params:
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_2:
+  args:
+    - text text text text
+  desc: 'Crea una nuova etichetta per i ticket.'
+  params:
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Crea una nuova etichetta per i ticket.'
+      name: color
+      optional: false
+      type: string
+ticketaddtags:
+  args:
+    - text
+  desc: 'Aggiunge etichette al ticket attuale.'
+  params:
+    - &ref_606
+      desc: 'Aggiunge etichette al ticket attuale.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]:
+  args:
+    - text
+  desc: 'Aggiunge etichette al ticket attuale.'
+  params:
+    - desc: 'Aggiunge etichette al ticket attuale.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_1:
+  args:
+    - text
+  desc: 'Aggiunge etichette al ticket attuale.'
+  params:
+    - desc: 'Aggiunge etichette al ticket attuale.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_2:
+  args:
+    - text
+  desc: 'Aggiunge etichette al ticket attuale.'
+  params:
+    - desc: 'Aggiunge etichette al ticket attuale.'
+      name: tags
+      optional: false
+      type: string[]
+ticketarchive:
+  args:
+    - ''
+  desc: 'Archivia un ticket, spostandolo nella categoria di archivio se impostata.'
+  params: [ ]
+ticketarchivecategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Imposta la categoria in cui archiviare i ticket chiusi.'
+  params:
+    - desc: 'Imposta la categoria in cui archiviare i ticket chiusi.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Imposta la categoria in cui archiviare i ticket chiusi.'
+      name: category
+      optional: true
+      type: category
+ticketautoarchive:
+  args:
+    - number boolean
+  desc: 'Imposta il comportamento di archiviazione automatica per un pulsante'
+  params:
+    - desc: 'L''ID del pulsante per cui configurare l''archiviazione automatica'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Se attivare l''archiviazione automatica alla chiusura'
+      name: enabled
+      optional: true
+      type: bool
+ticketautoclose:
+  args:
+    - '<buttonId> [hours]'
+    - number
+  desc: 'Imposta il tempo di chiusura automatica per un tipo di ticket.'
+  params:
+    - desc: 'Imposta il tempo di chiusura automatica per un tipo di ticket.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Imposta il tempo di chiusura automatica per un tipo di ticket.'
+      name: hours
+      optional: true
+      type: int
+ticketblock:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Impedisce a un utente di creare ticket.'
+  params:
+    - desc: 'Impedisce a un utente di creare ticket.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Impedisce a un utente di creare ticket.'
+      name: reason
+      optional: true
+      type: string
+ticketcategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Imposta la categoria in cui verranno creati i ticket.'
+  params:
+    - desc: 'Imposta la categoria in cui verranno creati i ticket.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Imposta la categoria in cui verranno creati i ticket.'
+      name: category
+      optional: true
+      type: category
+ticketclaim:
+  args:
+    - ''
+  desc: 'Reclama il ticket attuale come membro dello staff.'
+  params: [ ]
+ticketclose:
+  args:
+    - ''
+  desc: 'Chiude il ticket attuale.'
+  params: [ ]
+ticketclosebehavior:
+  args:
+    - number bool bool bool bool number
+  desc: 'Imposta più comportamenti di chiusura per un pulsante in una sola volta'
+  params:
+    - desc: 'L''ID del pulsante per cui configurare il comportamento di chiusura'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Se archiviare automaticamente alla chiusura'
+      name: autoArchive
+      optional: true
+      type: bool?
+    - desc: 'Se eliminare il ticket alla chiusura'
+      name: deleteOnClose
+      optional: true
+      type: bool?
+    - desc: 'Se bloccare il ticket alla chiusura'
+      name: lockOnClose
+      optional: true
+      type: bool?
+    - desc: 'Se rinominare il ticket alla chiusura'
+      name: renameOnClose
+      optional: true
+      type: bool?
+    - desc: 'Ritardo in minuti prima dell''eliminazione'
+      name: deleteDelayMinutes
+      optional: true
+      type: int?
+ticketcloseinactive:
+  args:
+    - number
+  desc: 'Chiude i ticket inattivi.'
+  params:
+    - &ref_607
+      desc: 'Chiude i ticket inattivi.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int:
+  args:
+    - number
+  desc: 'Chiude i ticket inattivi.'
+  params:
+    - desc: 'Chiude i ticket inattivi.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_1:
+  args:
+    - number
+  desc: 'Chiude i ticket inattivi.'
+  params:
+    - desc: 'Chiude i ticket inattivi.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_2:
+  args:
+    - number
+  desc: 'Chiude i ticket inattivi.'
+  params:
+    - desc: 'Chiude i ticket inattivi.'
+      name: hours
+      optional: false
+      type: int
+ticketcreatecase:
+  args:
+    - text text
+  desc: 'Crea un nuovo caso di ticket.'
+  params:
+    - &ref_608
+      desc: 'Crea un nuovo caso di ticket.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo caso di ticket.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string:
+  args:
+    - text text
+  desc: 'Crea un nuovo caso di ticket.'
+  params:
+    - desc: 'Crea un nuovo caso di ticket.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo caso di ticket.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_1:
+  args:
+    - text text
+  desc: 'Crea un nuovo caso di ticket.'
+  params:
+    - desc: 'Crea un nuovo caso di ticket.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo caso di ticket.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_2:
+  args:
+    - text text
+  desc: 'Crea un nuovo caso di ticket.'
+  params:
+    - desc: 'Crea un nuovo caso di ticket.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Crea un nuovo caso di ticket.'
+      name: description
+      optional: false
+      type: string
+ticketduplicatepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Duplica un pannello dei ticket.'
+  params:
+    - desc: 'Duplica un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_609
+      desc: 'Duplica un pannello dei ticket.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel:
+  args:
+    - panelid targetchannel
+  desc: 'Duplica un pannello dei ticket.'
+  params:
+    - desc: 'Duplica un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Duplica un pannello dei ticket.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_1:
+  args:
+    - panelid targetchannel
+  desc: 'Duplica un pannello dei ticket.'
+  params:
+    - desc: 'Duplica un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Duplica un pannello dei ticket.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_2:
+  args:
+    - panelid targetchannel
+  desc: 'Duplica un pannello dei ticket.'
+  params:
+    - desc: 'Duplica un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Duplica un pannello dei ticket.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketlinkcase:
+  args:
+    - number
+  desc: 'Collega il ticket attuale a un caso.'
+  params:
+    - &ref_610
+      desc: 'Collega il ticket attuale a un caso.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int:
+  args:
+    - number
+  desc: 'Collega il ticket attuale a un caso.'
+  params:
+    - desc: 'Collega il ticket attuale a un caso.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_1:
+  args:
+    - number
+  desc: 'Collega il ticket attuale a un caso.'
+  params:
+    - desc: 'Collega il ticket attuale a un caso.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_2:
+  args:
+    - number
+  desc: 'Collega il ticket attuale a un caso.'
+  params:
+    - desc: 'Collega il ticket attuale a un caso.'
+      name: caseId
+      optional: false
+      type: int
+ticketlistpanel:
+  args:
+    - panelid
+  desc: 'Elenca tutti i componenti di un pannello dei ticket specifico'
+  params:
+    - &ref_611
+      desc: 'L''ID del messaggio del pannello da ispezionare'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong:
+  args:
+    - panelid
+  desc: 'Elenca tutti i componenti di un pannello dei ticket specifico'
+  params:
+    - desc: 'L''ID del messaggio del pannello da ispezionare'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_1:
+  args:
+    - panelid
+  desc: 'Elenca tutti i componenti di un pannello dei ticket specifico'
+  params:
+    - desc: 'L''ID del messaggio del pannello da ispezionare'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_2:
+  args:
+    - panelid
+  desc: 'Elenca tutti i componenti di un pannello dei ticket specifico'
+  params:
+    - desc: 'L''ID del messaggio del pannello da ispezionare'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_3:
+  args:
+    - panelid
+  desc: 'Elenca tutti i componenti di un pannello dei ticket specifico'
+  params:
+    - desc: 'L''ID del messaggio del pannello da ispezionare'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_4:
+  args:
+    - panelid
+  desc: 'Elenca tutti i componenti di un pannello dei ticket specifico'
+  params:
+    - desc: 'L''ID del messaggio del pannello da ispezionare'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanels:
+  args:
+    - ''
+  desc: 'Elenca tutti i pannelli dei ticket del server'
+  params: [ ]
+ticketlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'Imposta il canale dei log per i ticket.'
+  params:
+    - desc: 'Imposta il canale dei log per i ticket.'
+      name: channel
+      optional: true
+      type: channel
+ticketmoveall:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Sposta tutti i ticket tra le categorie.'
+  params:
+    - &ref_612
+      desc: 'Sposta tutti i ticket tra le categorie.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - &ref_613
+      desc: 'Sposta tutti i ticket tra le categorie.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Sposta tutti i ticket tra le categorie.'
+  params:
+    - desc: 'Sposta tutti i ticket tra le categorie.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Sposta tutti i ticket tra le categorie.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_1:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Sposta tutti i ticket tra le categorie.'
+  params:
+    - desc: 'Sposta tutti i ticket tra le categorie.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Sposta tutti i ticket tra le categorie.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_2:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Sposta tutti i ticket tra le categorie.'
+  params:
+    - desc: 'Sposta tutti i ticket tra le categorie.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Sposta tutti i ticket tra le categorie.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmovepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Sposta un pannello dei ticket in un altro canale.'
+  params:
+    - desc: 'Sposta un pannello dei ticket in un altro canale.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Sposta un pannello dei ticket in un altro canale.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketnote:
+  args:
+    - text
+  desc: 'Aggiunge una nota al ticket attuale.'
+  params:
+    - &ref_614
+      desc: 'Aggiunge una nota al ticket attuale.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string:
+  args:
+    - text
+  desc: 'Aggiunge una nota al ticket attuale.'
+  params:
+    - desc: 'Aggiunge una nota al ticket attuale.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_1:
+  args:
+    - text
+  desc: 'Aggiunge una nota al ticket attuale.'
+  params:
+    - desc: 'Aggiunge una nota al ticket attuale.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_2:
+  args:
+    - text
+  desc: 'Aggiunge una nota al ticket attuale.'
+  params:
+    - desc: 'Aggiunge una nota al ticket attuale.'
+      name: content
+      optional: false
+      type: string
+ticketpanel:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Crea un pannello dei ticket'
+  params:
+    - desc: 'Crea un pannello dei ticket'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un pannello dei ticket'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Crea un pannello dei ticket'
+  params:
+    - desc: 'Crea un pannello dei ticket'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un pannello dei ticket'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_1:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Crea un pannello dei ticket'
+  params:
+    - desc: 'Crea un pannello dei ticket'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un pannello dei ticket'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_2:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Crea un pannello dei ticket'
+  params:
+    - desc: 'Crea un pannello dei ticket'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un pannello dei ticket'
+      name: embedJson
+      optional: true
+      type: string
+ticketpaneldelete:
+  args:
+    - panelid
+  desc: 'Elimina un pannello dei ticket esistente.'
+  params:
+    - desc: 'L''ID del pannello da eliminare.'
+      name: panelId
+      optional: false
+      type: ulong
+ticketpriority:
+  args:
+    - text
+  desc: 'Imposta il livello di priorità per il ticket attuale.'
+  params:
+    - &ref_615
+      desc: 'Imposta il livello di priorità per il ticket attuale.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string:
+  args:
+    - text
+  desc: 'Imposta il livello di priorità per il ticket attuale.'
+  params:
+    - desc: 'Imposta il livello di priorità per il ticket attuale.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_1:
+  args:
+    - text
+  desc: 'Imposta il livello di priorità per il ticket attuale.'
+  params:
+    - desc: 'Imposta il livello di priorità per il ticket attuale.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_2:
+  args:
+    - text
+  desc: 'Imposta il livello di priorità per il ticket attuale.'
+  params:
+    - desc: 'Imposta il livello di priorità per il ticket attuale.'
+      name: priority
+      optional: false
+      type: string
+ticketremovepriority:
+  args:
+    - text
+  desc: 'Elimina un livello di priorità.'
+  params:
+    - &ref_616
+      desc: 'Elimina un livello di priorità.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string:
+  args:
+    - text
+  desc: 'Elimina un livello di priorità.'
+  params:
+    - desc: 'Elimina un livello di priorità.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_1:
+  args:
+    - text
+  desc: 'Elimina un livello di priorità.'
+  params:
+    - desc: 'Elimina un livello di priorità.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_2:
+  args:
+    - text
+  desc: 'Elimina un livello di priorità.'
+  params:
+    - desc: 'Elimina un livello di priorità.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovetag:
+  args:
+    - text
+  desc: 'Rimuove un''etichetta.'
+  params:
+    - &ref_617
+      desc: 'Rimuove un''etichetta.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string:
+  args:
+    - text
+  desc: 'Rimuove un''etichetta.'
+  params:
+    - desc: 'Rimuove un''etichetta.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_1:
+  args:
+    - text
+  desc: 'Rimuove un''etichetta.'
+  params:
+    - desc: 'Rimuove un''etichetta.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_2:
+  args:
+    - text
+  desc: 'Rimuove un''etichetta.'
+  params:
+    - desc: 'Rimuove un''etichetta.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetags:
+  args:
+    - text
+  desc: 'Rimuove le etichette dal ticket attuale.'
+  params:
+    - desc: 'Rimuove le etichette dal ticket attuale.'
+      name: tags
+      optional: false
+      type: string[]
+ticketresponsetime:
+  args:
+    - '<buttonId> [minutes]'
+    - number
+  desc: 'Imposta il tempo di risposta richiesto per un tipo di ticket.'
+  params:
+    - desc: 'Imposta il tempo di risposta richiesto per un tipo di ticket.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Imposta il tempo di risposta richiesto per un tipo di ticket.'
+      name: minutes
+      optional: true
+      type: int
+ticketstats:
+  args:
+    - ''
+  desc: 'Mostra le statistiche dei ticket del server.'
+  params: [ ]
+tickettranscriptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Imposta il canale delle trascrizioni per i ticket.'
+  params:
+    - desc: 'Imposta il canale delle trascrizioni per i ticket.'
+      name: channel
+      optional: true
+      type: channel
+ticketunblock:
+  args:
+    - '@user'
+  desc: 'Sblocca un utente dalla possibilità di creare ticket.'
+  params:
+    - desc: 'Sblocca un utente dalla possibilità di creare ticket.'
+      name: user
+      optional: false
+      type: IGuildUser
+ticketunclaim:
+  args:
+    - ''
+  desc: 'Rimuove la rivendicazione del ticket attuale.'
+  params: [ ]
+ticketunlinkcase:
+  args:
+    - ''
+  desc: 'Scollega il ticket attuale dal suo caso.'
+  params: [ ]
+ticketupdatepanel:
+  args:
+    - panelid text
+  desc: 'Aggiorna l''embed di un pannello dei ticket.'
+  params:
+    - desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_618
+      desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string:
+  args:
+    - panelid text
+  desc: 'Aggiorna l''embed di un pannello dei ticket.'
+  params:
+    - desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_1:
+  args:
+    - panelid text
+  desc: 'Aggiorna l''embed di un pannello dei ticket.'
+  params:
+    - desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_2:
+  args:
+    - panelid text
+  desc: 'Aggiorna l''embed di un pannello dei ticket.'
+  params:
+    - desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aggiorna l''embed di un pannello dei ticket.'
+      name: embedJson
+      optional: false
+      type: string
+ticketuserstats:
+  args:
+    - '[@user]'
+  desc: 'Mostra le statistiche dei ticket di un utente.'
+  params:
+    - desc: 'Mostra le statistiche dei ticket di un utente.'
+      name: user
+      optional: true
+      type: user

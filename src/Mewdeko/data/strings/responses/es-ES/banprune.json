@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "No existe ninguna acción de ban llamada `{0}`. Acciones conocidas: {1}",
+  "ban_prune_cleared": "Se limpió la configuración de purga para {0} en {1}.",
+  "ban_prune_cleared_none": "No había configuración de purga para {0} en {1}.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "No hay configuraciones de purga. Los bans usan el valor predeterminado de cada acción.",
+  "ban_prune_list_title": "Purga de mensajes al banear",
+  "ban_prune_reset": "Se eliminaron {0} configuraciones de purga. Todas las acciones volvieron a su valor predeterminado.",
+  "ban_prune_scope_category": "categoría {0}",
+  "ban_prune_scope_channel": "canal {0}",
+  "ban_prune_scope_guild": "este servidor",
+  "ban_prune_set": "Los bans desde {0} ahora purgan **{1}** para {2}.",
+  "ban_prune_set_all_actions": "cada acción de ban",
+  "ban_prune_days": "{0} día(s) de mensajes",
+  "ban_prune_days_none": "ningún mensaje",
+  "ban_prune_effective": "Un ban aquí en este momento purga **{0}**.",
+  "ban_prune_defaults_title": "Predeterminados",
+  "ban_prune_overrides_title": "Excepciones"
+}

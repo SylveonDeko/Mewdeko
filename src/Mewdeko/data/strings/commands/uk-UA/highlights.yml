@@ -5,13 +5,13 @@ highlight:
     - add
     - list
     - delete
-  desc: 'Додає, перелічує, видаляє або порівнює виділення.'
+  desc: 'Додає, показує, видаляє або перевіряє виділення.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Дія для виконання: add, list, delete або match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Параметри для обраної дії'
+    - desc: 'Параметри для вибраної дії'
       name: words
       optional: true
       type: string
@@ -22,13 +22,13 @@ highlight_HighlightActions_=:
     - add
     - list
     - delete
-  desc: 'Додає, перелічує, видаляє або порівнює виділення.'
+  desc: 'Додає, показує, видаляє або перевіряє виділення.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Дія для виконання: add, list, delete або match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Параметри для обраної дії'
+    - desc: 'Параметри для вибраної дії'
       name: words
       optional: true
       type: string
@@ -39,13 +39,13 @@ highlight_HighlightActions_=_1:
     - add
     - list
     - delete
-  desc: 'Додає, перелічує, видаляє або порівнює виділення.'
+  desc: 'Додає, показує, видаляє або перевіряє виділення.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Дія для виконання: add, list, delete або match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Параметри для обраної дії'
+    - desc: 'Параметри для вибраної дії'
       name: words
       optional: true
       type: string
@@ -56,26 +56,26 @@ highlight_HighlightActions_=_2:
     - add
     - list
     - delete
-  desc: 'Додає, перелічує, видаляє або порівнює виділення.'
+  desc: 'Додає, показує, видаляє або перевіряє виділення.'
   params:
-    - desc: '<see cref="HighlightActions" />'
+    - desc: 'Дія для виконання: add, list, delete або match.'
       name: action
       optional: false
       type: highlightactions
-    - desc: 'Параметри для обраної дії'
+    - desc: 'Параметри для вибраної дії'
       name: words
       optional: true
       type: string
 highlights:
   args:
     - action word
-  desc: Керує виділеннями користувача.
+  desc: 'Керує виділеними словами користувачів.'
   params:
-    - desc: Дія, яку слід виконати з виділеннями.
+    - desc: 'Дія, яку треба виконати з виділеннями.'
       name: action
       optional: false
       type: string
-    - desc: Слово для виділення.
+    - desc: 'Слово, яке треба виділити.'
       name: word
       optional: true
       type: string

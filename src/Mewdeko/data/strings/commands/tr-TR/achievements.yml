@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Başarım özetini gösterir: sıralaman, puanın, her kategorideki ilerlemen ve son açılan başarımlar. Birini etiketlersen onunkini görürsün.'
+  params:
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: 'Bir kategorideki tüm başarımları gösterir, kilitli olanlar için ilerlemeyi de ekler.'
+  params:
+    - desc: 'Kategori anahtarı veya adı; örneğin messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige veya custom.'
+      name: category
+      optional: false
+      type: string
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Sunucudaki tüm başarımları ilerlemeleriyle birlikte sayfa sayfa gösterir.'
+  params:
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'En son açılan beş başarımı gösterir.'
+  params:
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Derece ve puana göre en iyi beş açılmış başarımı gösterir.'
+  params:
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: 'Başarımları ad veya açıklamaya göre bulur ve her biri için ilerlemeni gösterir.'
+  params:
+    - desc: 'Aranacak metin.'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Tüm sunucularda kazanılan başarımları gösterir: toplam puan, sunucular ve küresel başarımlar.'
+  params:
+    - desc: 'Bakılacak kullanıcı. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'Sunucuda en çok başarım kazanan kişileri gösterir. Kendini gizleyen üyeler listeye alınmaz.'
+  params:
+    - desc: 'Points, Unlocked veya Recent. Varsayılan Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'Tüm sunucular genelinde en çok başarım kazanan kişileri gösterir.'
+  params:
+    - desc: 'Points, Unlocked veya Recent. Varsayılan Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Sıralama, puan, bir sonraki dereceye ilerleme ve takılı rozetlerle birlikte bir başarım profil kartı çizer.'
+  params:
+    - desc: 'Kartı çizilecek üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Başarımların takip ettiği tüm sayıları gösterir: mesajlar, ses süresi, tepkiler, davetler, komutlar, sunucudaki süre, boost, seviye ve itibar.'
+  params:
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: 'Bir başarımı resim olarak çizer: açılmışsa açık, kilitliyse sen veya başka biri ne kadar yakın olduğuyla birlikte.'
+  params:
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: 'Bir başarımın resminde, panelde ve uygulamalarda görünen simgeyi ayarlar: trophy gibi bir simge adı, sunucu emojisi veya bir https resim bağlantısı. Simgeyi boş bırakırsan kategorisinin simgesi tekrar kullanılır.'
+  params:
+    - desc: 'Başarım adı veya anahtarı; boşluk içeriyorsa tırnak içinde.'
+      name: achievement
+      optional: false
+      type: string
+    - desc: 'Simge veya temizlemek için hiçbir şey.'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Sana veya başkasına ait tüm rozetleri gösterir; dört takılı yuva en üstte görünür.'
+  params:
+    - desc: 'Bakılacak üye. Varsayılan olarak sen.'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: 'Sahip olduğun bir rozeti dört profil yuvandan birine takar. Rozet anahtarları badges komutuyla gösterilir.'
+  params:
+    - desc: 'Yuva numarası, 1 ile 4 arasında.'
+      name: slot
+      optional: false
+      type: int
+    - desc: 'Rozet anahtarı.'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'Dört profil yuvandan birini boşaltır.'
+  params:
+    - desc: 'Yuva numarası, 1 ile 4 arasında.'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'Bir rozetin ne olduğunu ve nasıl kazanılacağını gösterir.'
+  params:
+    - desc: 'Rozet anahtarı.'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: 'Başarım profilini, başarımlarını, rozetlerini ve sıralama yerini kimlerin görebileceğini ayarlar.'
+  params:
+    - desc: 'Profile, Achievements, Badges veya Leaderboard.'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone veya OnlyMe.'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: 'Senin için başarım açılma DM''lerini, sunucudaki açılma mesajlarını veya bu mesajlardaki etiketlemeleri açar ya da kapatır.'
+  params:
+    - desc: 'Dm, Message veya Mention.'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: 'Açmak için true, kapatmak için false.'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'Sunucudaki her başarımı anahtarı, açık olup olmadığı ve kaç üyenin açtığıyla birlikte listeler.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'Sunucuda başarım kazanmayı başlatır veya duraklatır. Başlatmak mesaj saymayı da açar; zaten uygun olan üyelerin başarımları sessizce verilir.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: 'Başarım açılmalarının duyurulacağı kanalı ayarlar. Bir log kanalı kullanmayı bırakmak için boş bırak.'
+  params:
+    - desc: 'Kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: 'Açılmaların nereye duyurulacağını ayarlar: Auto, log kanalı ayarlıysa onu, değilse açılmanın olduğu kanalı kullanır. Here, açılmanın olduğu kanalı kullanır. LogChannel yalnızca log kanalını kullanır. DmOnly yalnızca DM gönderir. Silent hiçbir şey duyurmaz.'
+  params:
+    - desc: 'Auto, Here, LogChannel, DmOnly veya Silent.'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'Üyeler kendileri kapatmadıkça açılmalarını DM''den alıp almayacaklarını ayarlar.'
+  params:
+    - desc: 'Açmak için true, kapatmak için false.'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: 'Açılma mesajını ayarlar. Düz metin ve embed JSON''u çalışır; %achievement.name%, %achievement.points%, %achievement.list% ve %achievements.tier% gibi yer tutucuları kullanabilirsin. Varsayılana dönmek için boş bırak.'
+  params:
+    - desc: 'Mesaj ya da temizlemek için hiçbir şey.'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'Üyelerin kazandığı her başarım puanı için XP verir. 0 bunu kapatır.'
+  params:
+    - desc: 'Puan başına XP, 0 ile 1000 arası.'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'Üyelerin kazanabilmesi için bir başarımı etkinleştirir.'
+  params:
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: 'Bir başarımı devre dışı bırakır. Onu zaten açmış üyeler başarımı korur.'
+  params:
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'Bir kategorinin tamamını etkinleştirir veya devre dışı bırakır.'
+  params:
+    - desc: 'Kategori anahtarı veya adı.'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Bir başarımı bir üyeye verir ve diğer açılmalar gibi duyurur.'
+  params:
+    - desc: 'Üye.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Bir üyeden bir başarımı alır.'
+  params:
+    - desc: 'Üye.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: 'Onay istedikten sonra bir üyenin sunucudaki tüm başarımlarını siler.'
+  params:
+    - desc: 'Üye.'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: 'Bir sayıya ulaşınca açılan bir başarım oluşturur. Metrikler: MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation ve NetWorth.'
+  params:
+    - desc: 'Sayılacak metrik.'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: 'Ulaşılacak sayı.'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst veya Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Ad.'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'Sunucuda herhangi bir yerde bir ifade söylenince açılan bir başarım oluşturur.'
+  params:
+    - desc: 'İfade; boşluk içeriyorsa tırnak içinde.'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst veya Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Ad.'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: 'Bir emojiyle tepki verilince açılan bir başarım oluşturur.'
+  params:
+    - desc: 'Emoji.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst veya Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Ad.'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'Yalnızca yetkililerin achgrant ile verebileceği bir başarım oluşturur.'
+  params:
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst veya Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Ad.'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: 'Sunucunun oluşturduğu bir başarımı onay istedikten sonra siler. Onu açmış herkes başarımı kaybeder.'
+  params:
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: 'Bir başarımı açan üyelere bir rol verir.'
+  params:
+    - desc: 'Rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: 'Bir başarımı açan üyelere para birimi verir. 0 bunu kaldırır.'
+  params:
+    - desc: 'Miktar.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: 'Bir başarımı açan üyelere XP verir. 0 bunu kaldırır.'
+  params:
+    - desc: 'Miktar.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: 'Bir başarımdaki tüm ödülleri kaldırır.'
+  params:
+    - desc: 'Başarım adı veya anahtarı.'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: 'Belirli bir role sahip üyelerin başarım kazanmasını durdurur. Tekrar çalıştırırsan yeniden kazanabilirler.'
+  params:
+    - desc: 'Rol.'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'Bir kanaldaki etkinliğin başarımlara sayılmasını durdurur. Tekrar çalıştırırsan yeniden sayılır.'
+  params:
+    - desc: 'Kanal.'
+      name: channel
+      optional: false
+      type: IGuildChannel

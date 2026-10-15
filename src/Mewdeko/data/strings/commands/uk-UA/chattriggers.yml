@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату.'
+  params:
+    - &ref_9
+      desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату.'
+  params:
+    - desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату.'
+  params:
+    - desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату.'
+  params:
+    - desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату з підтримкою regex.'
+  params:
+    - desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату з підтримкою regex.'
+  params:
+    - desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату з підтримкою regex.'
+  params:
+    - desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Додає новий тригер чату з підтримкою regex.'
+  params:
+    - desc: 'Ключ тригера чату.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Повідомлення, пов''язане з тригером чату.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Додає новий тригер чату на основі реакції.'
+  params:
+    - desc: 'Емодзі реакції, на яку спрацьовує тригер.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'Повідомлення, яке надсилається, коли тригер спрацьовує.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Встановлює тип видачі ролі для тригера чату.'
+  params:
+    - &ref_130
+      desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'Тип видачі ролі для встановлення.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Встановлює тип видачі ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип видачі ролі для встановлення.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Встановлює тип видачі ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип видачі ролі для встановлення.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Встановлює тип видачі ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип видачі ролі для встановлення.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Встановлює канал для крос-постингу тригера чату.'
+  params:
+    - desc: 'Канал для крос-постингу.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Встановлює webhook для крос-постингу тригера чату.'
+  params:
+    - desc: 'URL webhook для крос-постингу.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Встановлює, чи дійсний тригер чату для певного типу тригера.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'Тип тригера, для якого треба встановити дійсність.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Чи має тип тригера бути увімкненим, чи вимкненим.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Встановлює, чи дійсний тригер чату для певного типу тригера.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип тригера, для якого треба встановити дійсність.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Чи має тип тригера бути увімкненим, чи вимкненим.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Встановлює, чи дійсний тригер чату для певного типу тригера.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип тригера, для якого треба встановити дійсність.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Чи має тип тригера бути увімкненим, чи вимкненим.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Встановлює, чи дійсний тригер чату для певного типу тригера.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип тригера, для якого треба встановити дійсність.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Чи має тип тригера бути увімкненим, чи вимкненим.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Встановлює автовидалення тригера чату після спрацювання.'
+  params:
+    - &ref_162
+      desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Встановлює автовидалення тригера чату після спрацювання.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Встановлює автовидалення тригера чату після спрацювання.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Встановлює автовидалення тригера чату після спрацювання.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Дозволяє тригеру чату націлюватися на конкретні цілі.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Дозволяє тригеру чату спрацьовувати на слово в будь-якій частині повідомлення.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Встановлює канал крос-постингу для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'Канал для встановлення крос-постингу.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Встановлює канал крос-постингу для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Канал для встановлення крос-постингу.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Встановлює канал крос-постингу для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Канал для встановлення крос-постингу.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Встановлює канал крос-постингу для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Канал для встановлення крос-постингу.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Встановлює URL webhook для крос-постингу тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'URL webhook для встановлення.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Встановлює URL webhook для крос-постингу тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'URL webhook для встановлення.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Встановлює URL webhook для крос-постингу тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'URL webhook для встановлення.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Встановлює URL webhook для крос-постингу тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'URL webhook для встановлення.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Дозволяє тригеру чату надсилати відповідь у особисті повідомлення.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Встановлює, чи має відповідь взаємодії тригера чату бути ephemeral (видимою лише користувачеві). Щоб не показувати іншим мої страждання з документацією!'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'True — відповідь буде ephemeral, false — ні.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Встановлює, чи має відповідь взаємодії тригера чату бути ephemeral (видимою лише користувачеві). Щоб не показувати іншим мої страждання з документацією!'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True — відповідь буде ephemeral, false — ні.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Встановлює, чи має відповідь взаємодії тригера чату бути ephemeral (видимою лише користувачеві). Щоб не показувати іншим мої страждання з документацією!'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True — відповідь буде ephemeral, false — ні.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Встановлює, чи має відповідь взаємодії тригера чату бути ephemeral (видимою лише користувачеві). Щоб не показувати іншим мої страждання з документацією!'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True — відповідь буде ephemeral, false — ні.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Показує помилки взаємодій для тригерів чату.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Налаштовує тригер чату так, щоб він не відповідав.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Встановлює префікс для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'Новий префікс для встановлення.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Встановлює префікс для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Новий префікс для встановлення.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Встановлює префікс для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Новий префікс для встановлення.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Встановлює префікс для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Новий префікс для встановлення.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Встановлює тип префікса для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'Тип префікса для встановлення.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Встановлює тип префікса для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип префікса для встановлення.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Встановлює тип префікса для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип префікса для встановлення.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Встановлює тип префікса для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип префікса для встановлення.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Встановлює реакції для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Рядки емодзі для встановлення як реакції.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Встановлює реакції для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Рядки емодзі для встановлення як реакції.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Встановлює реакції для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Рядки емодзі для встановлення як реакції.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Встановлює реакції для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Рядки емодзі для встановлення як реакції.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Перемикає видачу ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'Роль для перемикання.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Перемикає видачу ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Роль для перемикання.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Перемикає видачу ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Роль для перемикання.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Перемикає видачу ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Роль для перемикання.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Перемикає видалення ролі для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Роль для перемикання.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Очищає всі тригери чату.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Експортує налаштування тригерів чату для поточного сервера.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Переносить тригери чату зі старого формату CrEmbed у новий формат embed. Спочатку експортує резервну копію, потім конвертує всі тригери.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Імпортує налаштування тригерів чату для поточного сервера.'
+  params:
+    - desc: 'Вхідні дані з налаштуваннями користувацької реакції.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Перезавантажує тригери чату.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Видаляє тригер чату за його ID.'
+  params:
+    - desc: 'ID тригера чату, який треба видалити.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Редагує наявний тригер чату.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Нове повідомлення для тригера чату.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Показує всі тригери чату.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Показує всі тригери чату, згруповані за тригером.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Налаштовує тригер чату так, щоб він реагував на тригер.'
+  params:
+    - desc: 'ID тригера чату, який треба відредагувати.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Встановлює опис взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'Опис для встановлення для взаємодії.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Встановлює опис взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Опис для встановлення для взаємодії.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Встановлює опис взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Опис для встановлення для взаємодії.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Встановлює опис взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Опис для встановлення для взаємодії.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Встановлює назву взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'Назва для встановлення для взаємодії.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Встановлює назву взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва для встановлення для взаємодії.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Встановлює назву взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва для встановлення для взаємодії.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Встановлює назву взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва для встановлення для взаємодії.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Встановлює тип взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'Тип взаємодії для встановлення.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Встановлює тип взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип взаємодії для встановлення.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Встановлює тип взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип взаємодії для встановлення.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Встановлює тип взаємодії для тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Тип взаємодії для встановлення.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Показує деталі конкретного тригера чату.'
+  params:
+    - &ref_544
+      desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Показує деталі конкретного тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Показує деталі конкретного тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Показує деталі конкретного тригера чату.'
+  params:
+    - desc: 'ID тригера чату.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Встановлює подію, яка може запустити тригер чату.'
+cteventchannel:
+  desc: 'Встановлює канал, де обробляється подія тригера чату.'
+ctreply:
+  desc: 'Встановлює повідомлення, на яке відповідає тригер чату.'
+ctdeleteafter:
+  desc: 'Встановлює, через скільки після надсилання відповіді тригера чату її буде видалено.'
+ctcooldown:
+  desc: 'Встановлює кулдаун для тригера чату.'
+ctrequirecounter:
+  desc: 'Встановлює вимогу лічильника для тригера чату.'
+ctcategory:
+  desc: 'Встановлює категорію для тригера чату.'
+ctcategorytoggle:
+  desc: 'Вмикає або вимикає категорію тригерів чату.'
+cttest:
+  desc: 'Перевіряє, чи запустив би тригер чату пробне повідомлення.'
+ctstats:
+  desc: 'Показує статистику активності тригерів чату.'
+ctchain:
+  desc: 'Встановлює тригер чату, який спрацьовує після іншого тригера.'
+ctallowbots:
+  desc: 'Визначає, чи відповідатиме тригер чату ботам.'
+ctcounters:
+  desc: 'Показує лічильники тригерів чату.'
+ctcounterset:
+  desc: 'Встановлює значення лічильника тригера чату.'
+ctcounterdelete:
+  desc: 'Видаляє лічильник тригера чату.'
+ctplaceholders:
+  desc: 'Показує заповнювачі, доступні для тригерів чату.'
+cttime:
+  desc: 'Встановлює активний часовий діапазон для тригера чату.'
+ctexpiry:
+  desc: 'Встановлює час закінчення дії тригера чату.'
+ctmaxuses:
+  desc: 'Встановлює максимальну кількість разів, коли тригер чату може спрацювати.'
+ctminage:
+  desc: 'Встановлює мінімальний вік акаунта для тригера чату.'
+ctminmember:
+  desc: 'Встановлює мінімальний вік перебування на сервері для тригера чату.'
+cttoggle:
+  desc: 'Вмикає або вимикає тригер чату.'
+ctaddresponse:
+  desc: 'Додає ще одну відповідь до тригера чату.'
+ctclearresponses:
+  desc: 'Видаляє додаткові відповіді з тригера чату.'
+ctresponsemode:
+  desc: 'Встановлює, як тригер чату обирає свої відповіді.'
+ctcost:
+  desc: 'Встановлює вартість у валюті для тригера чату.'
+ctreward:
+  desc: 'Встановлює нагороду у валюті для тригера чату.'
+ctxpreward:
+  desc: 'Встановлює нагороду XP для тригера чату.'
+ctreqlevel:
+  desc: 'Встановлює необхідний рівень XP для тригера чату.'
+ctreqmsg:
+  desc: 'Встановлює повідомлення про невиконану умову для тригера чату.'

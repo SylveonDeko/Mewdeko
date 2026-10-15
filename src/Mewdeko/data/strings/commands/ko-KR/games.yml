@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Acrophobia 게임을 시작하는 명령어입니다.'
+  params:
+    - &ref_3
+      desc: '명령어에 전달할 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Acrophobia 게임을 시작하는 명령어입니다.'
+  params:
+    - desc: '명령어에 전달할 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Acrophobia 게임을 시작하는 명령어입니다.'
+  params:
+    - desc: '명령어에 전달할 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Acrophobia 게임을 시작하는 명령어입니다.'
+  params:
+    - desc: '명령어에 전달할 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: '목록에서 무작위로 항목을 고르는 명령어입니다.'
+  params:
+    - desc: '세미콜론(;)으로 구분한 선택지 목록입니다.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: '사용자의 드래곤 상태를 전환하는 명령어입니다. 주로 베타 명령어에 사용됩니다.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: '마법의 8번 공을 사용해 답을 얻는 명령어입니다.'
+  params:
+    - desc: '물어볼 질문입니다.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+  params:
+    - &ref_244
+      desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+  params:
+    - desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+  params:
+    - desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+  params:
+    - desc: '지정한 유형으로 행맨 게임을 시작합니다.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: '현재 서버에서 사용 가능한 행맨 유형 목록을 보여줍니다.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: '현재 채널에서 진행 중인 행맨 게임을 중지합니다.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Kaladont 게임을 시작하는 명령어입니다.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Kaladont 게임을 시작하는 명령어입니다.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Kaladont 게임을 시작하는 명령어입니다.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Kaladont 게임을 시작하는 명령어입니다.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Kaladont 게임을 시작하는 명령어입니다.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: '진행 중인 Kaladont 게임을 중지하는 명령어입니다.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: '지속적인 Kaladont 채널을 설정합니다.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: '지속적인 Kaladont 채널을 설정합니다.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: '지속적인 Kaladont 채널을 설정합니다.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: '지속적인 Kaladont 채널을 설정합니다.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: '지속적인 Kaladont 채널을 설정합니다.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: '지속적인 Kaladont 채널을 비활성화합니다.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: '리눅스 명령어에 재미로 끼어드는 명령어입니다.'
+  params:
+    - &ref_275
+      desc: '"GNU"를 대체할 이름입니다.'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: '"Linux"를 대체할 이름입니다.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: '리눅스 명령어에 재미로 끼어드는 명령어입니다.'
+  params:
+    - desc: '"GNU"를 대체할 이름입니다.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux"를 대체할 이름입니다.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: '리눅스 명령어에 재미로 끼어드는 명령어입니다.'
+  params:
+    - desc: '"GNU"를 대체할 이름입니다.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux"를 대체할 이름입니다.'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: '리눅스 명령어에 재미로 끼어드는 명령어입니다.'
+  params:
+    - desc: '"GNU"를 대체할 이름입니다.'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: '"Linux"를 대체할 이름입니다.'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Nunchi 게임을 시작하거나 참여합니다.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - &ref_351
+      desc: '간단한 찬반 투표를 만듭니다.'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - &ref_349
+      desc: '간단한 찬반 투표를 만듭니다.'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: '간단한 찬반 투표를 만듭니다.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: '간단한 찬반 투표를 만듭니다.'
+  params:
+    - desc: '간단한 찬반 투표를 만듭니다.'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: '투표자의 신원이 숨겨진 익명 투표를 만듭니다.'
+  params:
+    - desc: '투표 질문과 선택지를 세미콜론(;)으로 구분하여 입력합니다.'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: '여러 선택지를 가진 사용자 지정 투표를 만듭니다.'
+  params:
+    - desc: '투표 질문과 선택지를 세미콜론(;)으로 구분하여 입력합니다.'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: '사용자가 여러 선택지를 고를 수 있는 복수 선택 투표를 만듭니다.'
+  params:
+    - desc: '투표 질문과 선택지를 세미콜론(;)으로 구분하여 입력합니다.'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: '템플릿으로 투표를 만듭니다.'
+  params:
+    - desc: '사용할 템플릿의 이름입니다.'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: '서버에서 사용 가능한 모든 투표 템플릿을 보여줍니다.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: '예전에 있던 명령어입니다. NadekoBot에서 트랜스젠더를 비하하는 말을 사용했습니다. NadekoBot에 대한 항의와 기록을 위해 남겨 둡니다.'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'TicTacToe 게임을 시작합니다.'
+  params:
+    - &ref_619
+      desc: 'ttt 옵션'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'TicTacToe 게임을 시작합니다.'
+  params:
+    - desc: 'ttt 옵션'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'TicTacToe 게임을 시작합니다.'
+  params:
+    - desc: 'ttt 옵션'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'TicTacToe 게임을 시작합니다.'
+  params:
+    - desc: 'ttt 옵션'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: '현재 퀴즈 순위표를 보여줍니다.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: '진행 중인 퀴즈 게임을 중지합니다.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: '퀴즈 게임을 시작합니다.'
+  params:
+    - &ref_629
+      desc: '퀴즈의 선택 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: '퀴즈 게임을 시작합니다.'
+  params:
+    - desc: '퀴즈의 선택 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: '퀴즈 게임을 시작합니다.'
+  params:
+    - desc: '퀴즈의 선택 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: '퀴즈 게임을 시작합니다.'
+  params:
+    - desc: '퀴즈의 선택 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: '타이핑 게임에 사용할 새 글을 추가합니다.'
+  params:
+    - &ref_630
+      desc: '추가할 글의 내용입니다.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: '타이핑 게임에 사용할 새 글을 추가합니다.'
+  params:
+    - desc: '추가할 글의 내용입니다.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: '타이핑 게임에 사용할 새 글을 추가합니다.'
+  params:
+    - desc: '추가할 글의 내용입니다.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: '타이핑 게임에 사용할 새 글을 추가합니다.'
+  params:
+    - desc: '추가할 글의 내용입니다.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: '번호로 타이핑 글을 삭제합니다.'
+  params:
+    - &ref_631
+      desc: '삭제할 글의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: '번호로 타이핑 글을 삭제합니다.'
+  params:
+    - desc: '삭제할 글의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: '번호로 타이핑 글을 삭제합니다.'
+  params:
+    - desc: '삭제할 글의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: '번호로 타이핑 글을 삭제합니다.'
+  params:
+    - desc: '삭제할 글의 번호입니다.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: '타이핑 게임에 사용할 수 있는 글 목록을 보여줍니다.'
+  params:
+    - desc: '타이핑 게임에 사용할 수 있는 글 목록을 보여줍니다.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: '스피드 타이핑 게임을 시작합니다.'
+  params:
+    - &ref_632
+      desc: '게임 설정을 위한 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: '스피드 타이핑 게임을 시작합니다.'
+  params:
+    - desc: '게임 설정을 위한 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: '스피드 타이핑 게임을 시작합니다.'
+  params:
+    - desc: '게임 설정을 위한 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: '스피드 타이핑 게임을 시작합니다.'
+  params:
+    - desc: '게임 설정을 위한 인수입니다.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: '진행 중인 스피드 타이핑 게임을 중지합니다.'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: '목록에서 무작위로 항목을 고르는 명령어입니다.'
+  params:
+    - desc: '세미콜론(;)으로 구분한 선택지 목록입니다.'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: '현재 채널에서 진행 중인 행맨 게임을 중지합니다.'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Nunchi 게임을 시작하거나 참여합니다.'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: '현재 퀴즈 순위표를 보여줍니다.'
+  params: [ ]

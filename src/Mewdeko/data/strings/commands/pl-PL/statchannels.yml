@@ -1,7 +1,7 @@
 statchannelcreate:
   args:
     - 'TotalMembers [template]'
-  desc: 'Tworzy nowy zablokowany kanał głosowy wyświetlający statystykę serwera. Bot utworzy i zarządzi kanałem.'
+  desc: 'Tworzy nowy zablokowany kanał głosowy wyświetlający statystykę serwera. Bot utworzy kanał i będzie nim zarządzać.'
   params:
     - desc: 'Typ statystyki do wyświetlenia.'
       name: type
@@ -31,13 +31,13 @@ statchanneladd:
 statchannelrole:
   args:
     - '#voice-channel @role [template]'
-  desc: 'Dodaje kanał statystyk pokazujący ilu członków ma określoną rolę.'
+  desc: 'Dodaje kanał statystyk pokazujący, ilu członków ma określoną rolę.'
   params:
     - desc: 'Kanał głosowy do użycia.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Rola, której członkowie mają być liczeni.'
+    - desc: 'Rola, dla której liczyć członków.'
       name: role
       optional: false
       type: IRole
@@ -48,13 +48,13 @@ statchannelrole:
 statchannelcountdown:
   args:
     - '#voice-channel 2026-12-31 [template]'
-  desc: 'Dodaje kanał statystyk odliczania. Użyj symboli zastępczych %days% i %hours%.'
+  desc: 'Dodaje kanał statystyk odliczania. Użyj symboli %days% i %hours%.'
   params:
     - desc: 'Kanał głosowy do użycia.'
       name: channel
       optional: false
       type: IVoiceChannel
-    - desc: 'Data docelowa odliczania.'
+    - desc: 'Docelowa data odliczania.'
       name: date
       optional: false
       type: DateTime
@@ -91,5 +91,25 @@ statchannelremove:
 statchannellist:
   args:
     - ''
-  desc: 'Wyświetla wszystkie kanały statystyk dla tego serwera.'
+  desc: 'Wyświetla wszystkie kanały statystyk na tym serwerze.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Ustawia kanał statystyk do pokazywania licznika Twitcha.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Ustawia mechanizm aktualizacji dla kanału statystyk.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Ustawia styl wyświetlania dla kanału statystyk.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Wyświetla domyślne ustawienia kanałów statystyk.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Wyświetla dostępne typy kanałów statystyk.'

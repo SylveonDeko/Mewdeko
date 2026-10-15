@@ -1,0 +1,2313 @@
+addmodalfield:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Dodaje pole do okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Etykieta pola'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalne ustawienia konfiguracji'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Dodaje pole do okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Etykieta pola'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalne ustawienia konfiguracji'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_1:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Dodaje pole do okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Etykieta pola'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalne ustawienia konfiguracji'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_2:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Dodaje pole do okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Etykieta pola'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalne ustawienia konfiguracji'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_3:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Dodaje pole do okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Etykieta pola'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalne ustawienia konfiguracji'
+      name: fieldConfig
+      optional: true
+      type: string
+addmodalfield_int_string_=_4:
+  args:
+    - '<buttonId> <label> [fieldConfig]'
+    - number text
+  desc: 'Dodaje pole do okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Etykieta pola'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalne ustawienia konfiguracji'
+      name: fieldConfig
+      optional: true
+      type: string
+addoption:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Dodaje opcję do istniejącego menu wyboru'
+  params:
+    - desc: 'ID menu, do którego dodać opcję'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Etykieta widoczna dla użytkowników'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis widoczny pod etykietą'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Opcjonalne emoji widoczne obok etykiety'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Dodaje opcję do istniejącego menu wyboru'
+  params:
+    - desc: 'ID menu, do którego dodać opcję'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Etykieta widoczna dla użytkowników'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis widoczny pod etykietą'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Opcjonalne emoji widoczne obok etykiety'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_1:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Dodaje opcję do istniejącego menu wyboru'
+  params:
+    - desc: 'ID menu, do którego dodać opcję'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Etykieta widoczna dla użytkowników'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis widoczny pod etykietą'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Opcjonalne emoji widoczne obok etykiety'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_2:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Dodaje opcję do istniejącego menu wyboru'
+  params:
+    - desc: 'ID menu, do którego dodać opcję'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Etykieta widoczna dla użytkowników'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis widoczny pod etykietą'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Opcjonalne emoji widoczne obok etykiety'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_3:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Dodaje opcję do istniejącego menu wyboru'
+  params:
+    - desc: 'ID menu, do którego dodać opcję'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Etykieta widoczna dla użytkowników'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis widoczny pod etykietą'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Opcjonalne emoji widoczne obok etykiety'
+      name: emoji
+      optional: true
+      type: string
+addoption_string_string_=_=_4:
+  args:
+    - '<menuId> <label> [description] [emoji]'
+    - text text
+  desc: 'Dodaje opcję do istniejącego menu wyboru'
+  params:
+    - desc: 'ID menu, do którego dodać opcję'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Etykieta widoczna dla użytkowników'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis widoczny pod etykietą'
+      name: description
+      optional: true
+      type: string
+    - desc: 'Opcjonalne emoji widoczne obok etykiety'
+      name: emoji
+      optional: true
+      type: string
+addselectmenu:
+  args:
+    - panelid
+  desc: 'Dodaje menu wyboru do panelu zgłoszeń.'
+  params:
+    - &ref_31
+      desc: 'ID panelu, do którego dodać menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong:
+  args:
+    - panelid
+  desc: 'Dodaje menu wyboru do panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu, do którego dodać menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_1:
+  args:
+    - panelid
+  desc: 'Dodaje menu wyboru do panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu, do którego dodać menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_2:
+  args:
+    - panelid
+  desc: 'Dodaje menu wyboru do panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu, do którego dodać menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_3:
+  args:
+    - panelid
+  desc: 'Dodaje menu wyboru do panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu, do którego dodać menu'
+      name: panelId
+      optional: false
+      type: ulong
+addselectmenu_ulong_4:
+  args:
+    - panelid
+  desc: 'Dodaje menu wyboru do panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu, do którego dodać menu'
+      name: panelId
+      optional: false
+      type: ulong
+buttoninfo:
+  args:
+    - number
+  desc: 'Wyświetla szczegółowe informacje o przycisku.'
+  params:
+    - &ref_116
+      desc: 'ID przycisku do wyświetlenia.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int:
+  args:
+    - number
+  desc: 'Wyświetla szczegółowe informacje o przycisku.'
+  params:
+    - desc: 'ID przycisku do wyświetlenia.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_1:
+  args:
+    - number
+  desc: 'Wyświetla szczegółowe informacje o przycisku.'
+  params:
+    - desc: 'ID przycisku do wyświetlenia.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_2:
+  args:
+    - number
+  desc: 'Wyświetla szczegółowe informacje o przycisku.'
+  params:
+    - desc: 'ID przycisku do wyświetlenia.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_3:
+  args:
+    - number
+  desc: 'Wyświetla szczegółowe informacje o przycisku.'
+  params:
+    - desc: 'ID przycisku do wyświetlenia.'
+      name: buttonId
+      optional: false
+      type: int
+buttoninfo_int_4:
+  args:
+    - number
+  desc: 'Wyświetla szczegółowe informacje o przycisku.'
+  params:
+    - desc: 'ID przycisku do wyświetlenia.'
+      name: buttonId
+      optional: false
+      type: int
+checkpanels:
+  args:
+    - ''
+  desc: 'Sprawdza wszystkie panele na serwerze pod kątem brakujących wiadomości.'
+  params: [ ]
+deletebutton:
+  args:
+    - number
+  desc: 'Usuwa przycisk z panelu.'
+  params:
+    - &ref_186
+      desc: 'ID przycisku do usunięcia.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int:
+  args:
+    - number
+  desc: 'Usuwa przycisk z panelu.'
+  params:
+    - desc: 'ID przycisku do usunięcia.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_1:
+  args:
+    - number
+  desc: 'Usuwa przycisk z panelu.'
+  params:
+    - desc: 'ID przycisku do usunięcia.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_2:
+  args:
+    - number
+  desc: 'Usuwa przycisk z panelu.'
+  params:
+    - desc: 'ID przycisku do usunięcia.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_3:
+  args:
+    - number
+  desc: 'Usuwa przycisk z panelu.'
+  params:
+    - desc: 'ID przycisku do usunięcia.'
+      name: buttonId
+      optional: false
+      type: int
+deletebutton_int_4:
+  args:
+    - number
+  desc: 'Usuwa przycisk z panelu.'
+  params:
+    - desc: 'ID przycisku do usunięcia.'
+      name: buttonId
+      optional: false
+      type: int
+deleteselectmenu:
+  args:
+    - number
+  desc: 'Usuwa menu wyboru z panelu.'
+  params:
+    - desc: 'ID menu wyboru do usunięcia.'
+      name: menuId
+      optional: false
+      type: int
+deleteselectoption:
+  args:
+    - number
+  desc: 'Usuwa określoną opcję z menu wyboru.'
+  params:
+    - desc: 'ID opcji menu wyboru do usunięcia.'
+      name: optionId
+      optional: false
+      type: int
+listmodalfields:
+  args:
+    - number
+  desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+  params:
+    - &ref_277
+      desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int:
+  args:
+    - number
+  desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+  params:
+    - desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_1:
+  args:
+    - number
+  desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+  params:
+    - desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_2:
+  args:
+    - number
+  desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+  params:
+    - desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_3:
+  args:
+    - number
+  desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+  params:
+    - desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+listmodalfields_int_4:
+  args:
+    - number
+  desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+  params:
+    - desc: 'Wyświetla wszystkie pola w oknie tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+listoptions:
+  args:
+    - text
+  desc: 'Wyświetla wszystkie opcje w menu wyboru'
+  params:
+    - &ref_278
+      desc: 'ID menu do wyświetlenia'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string:
+  args:
+    - text
+  desc: 'Wyświetla wszystkie opcje w menu wyboru'
+  params:
+    - desc: 'ID menu do wyświetlenia'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_1:
+  args:
+    - text
+  desc: 'Wyświetla wszystkie opcje w menu wyboru'
+  params:
+    - desc: 'ID menu do wyświetlenia'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_2:
+  args:
+    - text
+  desc: 'Wyświetla wszystkie opcje w menu wyboru'
+  params:
+    - desc: 'ID menu do wyświetlenia'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_3:
+  args:
+    - text
+  desc: 'Wyświetla wszystkie opcje w menu wyboru'
+  params:
+    - desc: 'ID menu do wyświetlenia'
+      name: menuId
+      optional: false
+      type: string
+listoptions_string_4:
+  args:
+    - text
+  desc: 'Wyświetla wszystkie opcje w menu wyboru'
+  params:
+    - desc: 'ID menu do wyświetlenia'
+      name: menuId
+      optional: false
+      type: string
+panelinfo:
+  args:
+    - panelid
+  desc: 'Wyświetla szczegółowe informacje o panelu zgłoszeń.'
+  params:
+    - &ref_335
+      desc: 'ID panelu do wyświetlenia.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong:
+  args:
+    - panelid
+  desc: 'Wyświetla szczegółowe informacje o panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu do wyświetlenia.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_1:
+  args:
+    - panelid
+  desc: 'Wyświetla szczegółowe informacje o panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu do wyświetlenia.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_2:
+  args:
+    - panelid
+  desc: 'Wyświetla szczegółowe informacje o panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu do wyświetlenia.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_3:
+  args:
+    - panelid
+  desc: 'Wyświetla szczegółowe informacje o panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu do wyświetlenia.'
+      name: panelId
+      optional: false
+      type: ulong
+panelinfo_ulong_4:
+  args:
+    - panelid
+  desc: 'Wyświetla szczegółowe informacje o panelu zgłoszeń.'
+  params:
+    - desc: 'ID panelu do wyświetlenia.'
+      name: panelId
+      optional: false
+      type: ulong
+panellist:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie panele zgłoszeń na serwerze.'
+  params: [ ]
+panellist_noparams:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie panele zgłoszeń na serwerze.'
+  params: [ ]
+panellist_noparams_1:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie panele zgłoszeń na serwerze.'
+  params: [ ]
+panellist_noparams_2:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie panele zgłoszeń na serwerze.'
+  params: [ ]
+panellist_noparams_3:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie panele zgłoszeń na serwerze.'
+  params: [ ]
+panellist_noparams_4:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie panele zgłoszeń na serwerze.'
+  params: [ ]
+recreateallpanels:
+  args:
+    - ''
+  desc: 'Odtwarza wszystkie panele z brakującymi wiadomościami.'
+  params: [ ]
+recreatepanel:
+  args:
+    - number
+  desc: 'Odtwarza usunięty panel zgłoszeń na jego pierwotnym kanale.'
+  params:
+    - desc: 'ID wiadomości panelu do odtworzenia'
+      name: panelId
+      optional: false
+      type: ulong
+removemodalfield:
+  args:
+    - number text
+  desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+  params:
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_401
+      desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string:
+  args:
+    - number text
+  desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+  params:
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_1:
+  args:
+    - number text
+  desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+  params:
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_2:
+  args:
+    - number text
+  desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+  params:
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_3:
+  args:
+    - number text
+  desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+  params:
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: fieldId
+      optional: false
+      type: string
+removemodalfield_int_string_4:
+  args:
+    - number text
+  desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+  params:
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Usuwa pole z okna tworzenia zgłoszenia'
+      name: fieldId
+      optional: false
+      type: string
+removeoption:
+  args:
+    - text text
+  desc: 'Usuwa opcję z menu wyboru'
+  params:
+    - &ref_403
+      desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_404
+      desc: 'Wartość opcji do usunięcia'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string:
+  args:
+    - text text
+  desc: 'Usuwa opcję z menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Wartość opcji do usunięcia'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_1:
+  args:
+    - text text
+  desc: 'Usuwa opcję z menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Wartość opcji do usunięcia'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_2:
+  args:
+    - text text
+  desc: 'Usuwa opcję z menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Wartość opcji do usunięcia'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_3:
+  args:
+    - text text
+  desc: 'Usuwa opcję z menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Wartość opcji do usunięcia'
+      name: optionValue
+      optional: false
+      type: string
+removeoption_string_string_4:
+  args:
+    - text text
+  desc: 'Usuwa opcję z menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Wartość opcji do usunięcia'
+      name: optionValue
+      optional: false
+      type: string
+setautoclose:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia czas automatycznego zamknięcia zgłoszeń utworzonych przez przycisk.'
+  params:
+    - &ref_487
+      desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_488
+      desc: 'Liczba godzin nieaktywności przed automatycznym zamknięciem lub null, aby wyłączyć.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia czas automatycznego zamknięcia zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba godzin nieaktywności przed automatycznym zamknięciem lub null, aby wyłączyć.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia czas automatycznego zamknięcia zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba godzin nieaktywności przed automatycznym zamknięciem lub null, aby wyłączyć.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia czas automatycznego zamknięcia zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba godzin nieaktywności przed automatycznym zamknięciem lub null, aby wyłączyć.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia czas automatycznego zamknięcia zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba godzin nieaktywności przed automatycznym zamknięciem lub null, aby wyłączyć.'
+      name: hours
+      optional: true
+      type: int
+setautoclose_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia czas automatycznego zamknięcia zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba godzin nieaktywności przed automatycznym zamknięciem lub null, aby wyłączyć.'
+      name: hours
+      optional: true
+      type: int
+setmodaltitle:
+  args:
+    - number text
+  desc: 'Ustawia tytuł okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_506
+      desc: 'Tytuł wyświetlany w oknie'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string:
+  args:
+    - number text
+  desc: 'Ustawia tytuł okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Tytuł wyświetlany w oknie'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_1:
+  args:
+    - number text
+  desc: 'Ustawia tytuł okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Tytuł wyświetlany w oknie'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_2:
+  args:
+    - number text
+  desc: 'Ustawia tytuł okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Tytuł wyświetlany w oknie'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_3:
+  args:
+    - number text
+  desc: 'Ustawia tytuł okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Tytuł wyświetlany w oknie'
+      name: title
+      optional: false
+      type: string
+setmodaltitle_int_string_4:
+  args:
+    - number text
+  desc: 'Ustawia tytuł okna tworzenia zgłoszenia'
+  params:
+    - desc: 'ID przycisku do skonfigurowania'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Tytuł wyświetlany w oknie'
+      name: title
+      optional: false
+      type: string
+setpaneltranscripts:
+  args:
+    - panelid true|false
+  desc: 'Włącza lub wyłącza zapisywanie transkrypcji dla panelu.'
+  params:
+    - &ref_510
+      desc: 'ID panelu do zmodyfikowania.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_511
+      desc: 'Czy włączyć, czy wyłączyć zapisywanie transkrypcji.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool:
+  args:
+    - panelid true|false
+  desc: 'Włącza lub wyłącza zapisywanie transkrypcji dla panelu.'
+  params:
+    - desc: 'ID panelu do zmodyfikowania.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Czy włączyć, czy wyłączyć zapisywanie transkrypcji.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_1:
+  args:
+    - panelid true|false
+  desc: 'Włącza lub wyłącza zapisywanie transkrypcji dla panelu.'
+  params:
+    - desc: 'ID panelu do zmodyfikowania.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Czy włączyć, czy wyłączyć zapisywanie transkrypcji.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_2:
+  args:
+    - panelid true|false
+  desc: 'Włącza lub wyłącza zapisywanie transkrypcji dla panelu.'
+  params:
+    - desc: 'ID panelu do zmodyfikowania.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Czy włączyć, czy wyłączyć zapisywanie transkrypcji.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_3:
+  args:
+    - panelid true|false
+  desc: 'Włącza lub wyłącza zapisywanie transkrypcji dla panelu.'
+  params:
+    - desc: 'ID panelu do zmodyfikowania.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Czy włączyć, czy wyłączyć zapisywanie transkrypcji.'
+      name: enable
+      optional: false
+      type: bool
+setpaneltranscripts_ulong_bool_4:
+  args:
+    - panelid true|false
+  desc: 'Włącza lub wyłącza zapisywanie transkrypcji dla panelu.'
+  params:
+    - desc: 'ID panelu do zmodyfikowania.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Czy włączyć, czy wyłączyć zapisywanie transkrypcji.'
+      name: enable
+      optional: false
+      type: bool
+setplaceholder:
+  args:
+    - text text
+  desc: 'Aktualizuje tekst zastępczy menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - &ref_512
+      desc: 'Nowy tekst zastępczy'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string:
+  args:
+    - text text
+  desc: 'Aktualizuje tekst zastępczy menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Nowy tekst zastępczy'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_1:
+  args:
+    - text text
+  desc: 'Aktualizuje tekst zastępczy menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Nowy tekst zastępczy'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_2:
+  args:
+    - text text
+  desc: 'Aktualizuje tekst zastępczy menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Nowy tekst zastępczy'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_3:
+  args:
+    - text text
+  desc: 'Aktualizuje tekst zastępczy menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Nowy tekst zastępczy'
+      name: placeholder
+      optional: false
+      type: string
+setplaceholder_string_string_4:
+  args:
+    - text text
+  desc: 'Aktualizuje tekst zastępczy menu wyboru'
+  params:
+    - desc: 'ID menu'
+      name: menuId
+      optional: false
+      type: string
+    - desc: 'Nowy tekst zastępczy'
+      name: placeholder
+      optional: false
+      type: string
+setresponsetime:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia wymagany czas odpowiedzi dla zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - &ref_518
+      desc: 'Liczba minut lub null, aby wyłączyć.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia wymagany czas odpowiedzi dla zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba minut lub null, aby wyłączyć.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_1:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia wymagany czas odpowiedzi dla zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba minut lub null, aby wyłączyć.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_2:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia wymagany czas odpowiedzi dla zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba minut lub null, aby wyłączyć.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_3:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia wymagany czas odpowiedzi dla zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba minut lub null, aby wyłączyć.'
+      name: minutes
+      optional: true
+      type: int
+setresponsetime_int_int_4:
+  args:
+    - number number
+    - number
+  desc: 'Ustawia wymagany czas odpowiedzi dla zgłoszeń utworzonych przez przycisk.'
+  params:
+    - desc: 'ID przycisku do zmodyfikowania.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Liczba minut lub null, aby wyłączyć.'
+      name: minutes
+      optional: true
+      type: int
+ticketaddbutton:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+  params:
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+  params:
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_1:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+  params:
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddbutton_ulong_string_=_=_2:
+  args:
+    - '<panelId> <label> [style] [emoji]'
+    - panelid text
+  desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+  params:
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: label
+      optional: false
+      type: string
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: style
+      optional: true
+      type: buttonstyle
+    - desc: 'Dodaje przycisk do istniejącego panelu zgłoszeń.'
+      name: emoji
+      optional: true
+      type: string
+ticketaddpriority:
+  args:
+    - text text text number true|false time text
+  desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+  params:
+    - &ref_599
+      desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - &ref_600
+      desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: emoji
+      optional: false
+      type: string
+    - &ref_601
+      desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: level
+      optional: false
+      type: int
+    - &ref_602
+      desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - &ref_603
+      desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - &ref_604
+      desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string:
+  args:
+    - text text text number true|false time text
+  desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+  params:
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_1:
+  args:
+    - text text text number true|false time text
+  desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+  params:
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddpriority_string_string_string_int_bool_TimeSpan_string_2:
+  args:
+    - text text text number true|false time text
+  desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+  params:
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: level
+      optional: false
+      type: int
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: pingStaff
+      optional: false
+      type: bool
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: responseTime
+      optional: false
+      type: TimeSpan
+    - desc: 'Tworzy nowy poziom priorytetu dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag:
+  args:
+    - text text text text
+  desc: 'Tworzy nowy tag dla zgłoszeń.'
+  params:
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - &ref_605
+      desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string:
+  args:
+    - text text text text
+  desc: 'Tworzy nowy tag dla zgłoszeń.'
+  params:
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_1:
+  args:
+    - text text text text
+  desc: 'Tworzy nowy tag dla zgłoszeń.'
+  params:
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddtag_string_string_string_string_2:
+  args:
+    - text text text text
+  desc: 'Tworzy nowy tag dla zgłoszeń.'
+  params:
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: id
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: description
+      optional: false
+      type: string
+    - desc: 'Tworzy nowy tag dla zgłoszeń.'
+      name: color
+      optional: false
+      type: string
+ticketaddtags:
+  args:
+    - text
+  desc: 'Dodaje tagi do obecnego zgłoszenia.'
+  params:
+    - &ref_606
+      desc: 'Dodaje tagi do obecnego zgłoszenia.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]:
+  args:
+    - text
+  desc: 'Dodaje tagi do obecnego zgłoszenia.'
+  params:
+    - desc: 'Dodaje tagi do obecnego zgłoszenia.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_1:
+  args:
+    - text
+  desc: 'Dodaje tagi do obecnego zgłoszenia.'
+  params:
+    - desc: 'Dodaje tagi do obecnego zgłoszenia.'
+      name: tags
+      optional: false
+      type: string[]
+ticketaddtags_string[]_2:
+  args:
+    - text
+  desc: 'Dodaje tagi do obecnego zgłoszenia.'
+  params:
+    - desc: 'Dodaje tagi do obecnego zgłoszenia.'
+      name: tags
+      optional: false
+      type: string[]
+ticketarchive:
+  args:
+    - ''
+  desc: 'Archiwizuje zgłoszenie, przenosząc je do kategorii archiwum, jeśli została ustawiona.'
+  params: [ ]
+ticketarchivecategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Ustawia kategorię, w której będą archiwizowane zamknięte zgłoszenia.'
+  params:
+    - desc: 'Ustawia kategorię, w której będą archiwizowane zamknięte zgłoszenia.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Ustawia kategorię, w której będą archiwizowane zamknięte zgłoszenia.'
+      name: category
+      optional: true
+      type: category
+ticketautoarchive:
+  args:
+    - number boolean
+  desc: 'Ustawia zachowanie automatycznej archiwizacji dla przycisku'
+  params:
+    - desc: 'ID przycisku, dla którego skonfigurować automatyczną archiwizację'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Czy włączyć automatyczną archiwizację przy zamknięciu'
+      name: enabled
+      optional: true
+      type: bool
+ticketautoclose:
+  args:
+    - '<buttonId> [hours]'
+    - number
+  desc: 'Ustawia czas automatycznego zamknięcia dla typu zgłoszenia.'
+  params:
+    - desc: 'Ustawia czas automatycznego zamknięcia dla typu zgłoszenia.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Ustawia czas automatycznego zamknięcia dla typu zgłoszenia.'
+      name: hours
+      optional: true
+      type: int
+ticketblock:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'Blokuje użytkownikowi możliwość tworzenia zgłoszeń.'
+  params:
+    - desc: 'Blokuje użytkownikowi możliwość tworzenia zgłoszeń.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Blokuje użytkownikowi możliwość tworzenia zgłoszeń.'
+      name: reason
+      optional: true
+      type: string
+ticketcategory:
+  args:
+    - '<buttonId> [category]'
+    - number
+  desc: 'Ustawia kategorię, w której będą tworzone zgłoszenia.'
+  params:
+    - desc: 'Ustawia kategorię, w której będą tworzone zgłoszenia.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Ustawia kategorię, w której będą tworzone zgłoszenia.'
+      name: category
+      optional: true
+      type: category
+ticketclaim:
+  args:
+    - ''
+  desc: 'Przejmuje obecne zgłoszenie jako członek personelu.'
+  params: [ ]
+ticketclose:
+  args:
+    - ''
+  desc: 'Zamyka obecne zgłoszenie.'
+  params: [ ]
+ticketclosebehavior:
+  args:
+    - number bool bool bool bool number
+  desc: 'Ustawia jednocześnie wiele zachowań zamykania dla przycisku'
+  params:
+    - desc: 'ID przycisku, dla którego skonfigurować zachowanie przy zamykaniu'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Czy automatycznie archiwizować przy zamknięciu'
+      name: autoArchive
+      optional: true
+      type: bool?
+    - desc: 'Czy usuwać zgłoszenie przy zamknięciu'
+      name: deleteOnClose
+      optional: true
+      type: bool?
+    - desc: 'Czy blokować zgłoszenie przy zamknięciu'
+      name: lockOnClose
+      optional: true
+      type: bool?
+    - desc: 'Czy zmienić nazwę zgłoszenia przy zamknięciu'
+      name: renameOnClose
+      optional: true
+      type: bool?
+    - desc: 'Opóźnienie w minutach przed usunięciem'
+      name: deleteDelayMinutes
+      optional: true
+      type: int?
+ticketcloseinactive:
+  args:
+    - number
+  desc: 'Zamyka nieaktywne zgłoszenia.'
+  params:
+    - &ref_607
+      desc: 'Zamyka nieaktywne zgłoszenia.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int:
+  args:
+    - number
+  desc: 'Zamyka nieaktywne zgłoszenia.'
+  params:
+    - desc: 'Zamyka nieaktywne zgłoszenia.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_1:
+  args:
+    - number
+  desc: 'Zamyka nieaktywne zgłoszenia.'
+  params:
+    - desc: 'Zamyka nieaktywne zgłoszenia.'
+      name: hours
+      optional: false
+      type: int
+ticketcloseinactive_int_2:
+  args:
+    - number
+  desc: 'Zamyka nieaktywne zgłoszenia.'
+  params:
+    - desc: 'Zamyka nieaktywne zgłoszenia.'
+      name: hours
+      optional: false
+      type: int
+ticketcreatecase:
+  args:
+    - text text
+  desc: 'Tworzy nową sprawę zgłoszenia.'
+  params:
+    - &ref_608
+      desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string:
+  args:
+    - text text
+  desc: 'Tworzy nową sprawę zgłoszenia.'
+  params:
+    - desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_1:
+  args:
+    - text text
+  desc: 'Tworzy nową sprawę zgłoszenia.'
+  params:
+    - desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: description
+      optional: false
+      type: string
+ticketcreatecase_string_string_2:
+  args:
+    - text text
+  desc: 'Tworzy nową sprawę zgłoszenia.'
+  params:
+    - desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Tworzy nową sprawę zgłoszenia.'
+      name: description
+      optional: false
+      type: string
+ticketduplicatepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Duplikuje panel zgłoszeń.'
+  params:
+    - desc: 'Duplikuje panel zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_609
+      desc: 'Duplikuje panel zgłoszeń.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel:
+  args:
+    - panelid targetchannel
+  desc: 'Duplikuje panel zgłoszeń.'
+  params:
+    - desc: 'Duplikuje panel zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Duplikuje panel zgłoszeń.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_1:
+  args:
+    - panelid targetchannel
+  desc: 'Duplikuje panel zgłoszeń.'
+  params:
+    - desc: 'Duplikuje panel zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Duplikuje panel zgłoszeń.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketduplicatepanel_ulong_ITextChannel_2:
+  args:
+    - panelid targetchannel
+  desc: 'Duplikuje panel zgłoszeń.'
+  params:
+    - desc: 'Duplikuje panel zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Duplikuje panel zgłoszeń.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketlinkcase:
+  args:
+    - number
+  desc: 'Łączy obecne zgłoszenie ze sprawą.'
+  params:
+    - &ref_610
+      desc: 'Łączy obecne zgłoszenie ze sprawą.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int:
+  args:
+    - number
+  desc: 'Łączy obecne zgłoszenie ze sprawą.'
+  params:
+    - desc: 'Łączy obecne zgłoszenie ze sprawą.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_1:
+  args:
+    - number
+  desc: 'Łączy obecne zgłoszenie ze sprawą.'
+  params:
+    - desc: 'Łączy obecne zgłoszenie ze sprawą.'
+      name: caseId
+      optional: false
+      type: int
+ticketlinkcase_int_2:
+  args:
+    - number
+  desc: 'Łączy obecne zgłoszenie ze sprawą.'
+  params:
+    - desc: 'Łączy obecne zgłoszenie ze sprawą.'
+      name: caseId
+      optional: false
+      type: int
+ticketlistpanel:
+  args:
+    - panelid
+  desc: 'Wyświetla wszystkie komponenty określonego panelu zgłoszeń'
+  params:
+    - &ref_611
+      desc: 'ID wiadomości panelu do sprawdzenia'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong:
+  args:
+    - panelid
+  desc: 'Wyświetla wszystkie komponenty określonego panelu zgłoszeń'
+  params:
+    - desc: 'ID wiadomości panelu do sprawdzenia'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_1:
+  args:
+    - panelid
+  desc: 'Wyświetla wszystkie komponenty określonego panelu zgłoszeń'
+  params:
+    - desc: 'ID wiadomości panelu do sprawdzenia'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_2:
+  args:
+    - panelid
+  desc: 'Wyświetla wszystkie komponenty określonego panelu zgłoszeń'
+  params:
+    - desc: 'ID wiadomości panelu do sprawdzenia'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_3:
+  args:
+    - panelid
+  desc: 'Wyświetla wszystkie komponenty określonego panelu zgłoszeń'
+  params:
+    - desc: 'ID wiadomości panelu do sprawdzenia'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanel_ulong_4:
+  args:
+    - panelid
+  desc: 'Wyświetla wszystkie komponenty określonego panelu zgłoszeń'
+  params:
+    - desc: 'ID wiadomości panelu do sprawdzenia'
+      name: panelId
+      optional: false
+      type: ulong
+ticketlistpanels:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie panele zgłoszeń na serwerze'
+  params: [ ]
+ticketlogchannel:
+  args:
+    - '[@channel]'
+  desc: 'Ustawia kanał logów dla zgłoszeń.'
+  params:
+    - desc: 'Ustawia kanał logów dla zgłoszeń.'
+      name: channel
+      optional: true
+      type: channel
+ticketmoveall:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+  params:
+    - &ref_612
+      desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - &ref_613
+      desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+  params:
+    - desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_1:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+  params:
+    - desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmoveall_ICategoryChannel_ICategoryChannel_2:
+  args:
+    - sourcecategory targetcategory
+  desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+  params:
+    - desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: sourceCategory
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Przenosi wszystkie zgłoszenia między kategoriami.'
+      name: targetCategory
+      optional: false
+      type: ICategoryChannel
+ticketmovepanel:
+  args:
+    - panelid targetchannel
+  desc: 'Przenosi panel zgłoszeń na inny kanał.'
+  params:
+    - desc: 'Przenosi panel zgłoszeń na inny kanał.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Przenosi panel zgłoszeń na inny kanał.'
+      name: targetChannel
+      optional: false
+      type: ITextChannel
+ticketnote:
+  args:
+    - text
+  desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+  params:
+    - &ref_614
+      desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string:
+  args:
+    - text
+  desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+  params:
+    - desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_1:
+  args:
+    - text
+  desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+  params:
+    - desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+      name: content
+      optional: false
+      type: string
+ticketnote_string_2:
+  args:
+    - text
+  desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+  params:
+    - desc: 'Dodaje notatkę do obecnego zgłoszenia.'
+      name: content
+      optional: false
+      type: string
+ticketpanel:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Tworzy panel zgłoszeń'
+  params:
+    - desc: 'Tworzy panel zgłoszeń'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Tworzy panel zgłoszeń'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Tworzy panel zgłoszeń'
+  params:
+    - desc: 'Tworzy panel zgłoszeń'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Tworzy panel zgłoszeń'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_1:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Tworzy panel zgłoszeń'
+  params:
+    - desc: 'Tworzy panel zgłoszeń'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Tworzy panel zgłoszeń'
+      name: embedJson
+      optional: true
+      type: string
+ticketpanel_ITextChannel_=_2:
+  args:
+    - '@channel [embedJson]'
+    - channel
+  desc: 'Tworzy panel zgłoszeń'
+  params:
+    - desc: 'Tworzy panel zgłoszeń'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Tworzy panel zgłoszeń'
+      name: embedJson
+      optional: true
+      type: string
+ticketpaneldelete:
+  args:
+    - panelid
+  desc: 'Usuwa istniejący panel zgłoszeń.'
+  params:
+    - desc: 'ID panelu do usunięcia.'
+      name: panelId
+      optional: false
+      type: ulong
+ticketpriority:
+  args:
+    - text
+  desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+  params:
+    - &ref_615
+      desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string:
+  args:
+    - text
+  desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+  params:
+    - desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_1:
+  args:
+    - text
+  desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+  params:
+    - desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+      name: priority
+      optional: false
+      type: string
+ticketpriority_string_2:
+  args:
+    - text
+  desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+  params:
+    - desc: 'Ustawia poziom priorytetu dla obecnego zgłoszenia.'
+      name: priority
+      optional: false
+      type: string
+ticketremovepriority:
+  args:
+    - text
+  desc: 'Usuwa poziom priorytetu.'
+  params:
+    - &ref_616
+      desc: 'Usuwa poziom priorytetu.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string:
+  args:
+    - text
+  desc: 'Usuwa poziom priorytetu.'
+  params:
+    - desc: 'Usuwa poziom priorytetu.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_1:
+  args:
+    - text
+  desc: 'Usuwa poziom priorytetu.'
+  params:
+    - desc: 'Usuwa poziom priorytetu.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovepriority_string_2:
+  args:
+    - text
+  desc: 'Usuwa poziom priorytetu.'
+  params:
+    - desc: 'Usuwa poziom priorytetu.'
+      name: priorityId
+      optional: false
+      type: string
+ticketremovetag:
+  args:
+    - text
+  desc: 'Usuwa tag.'
+  params:
+    - &ref_617
+      desc: 'Usuwa tag.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string:
+  args:
+    - text
+  desc: 'Usuwa tag.'
+  params:
+    - desc: 'Usuwa tag.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_1:
+  args:
+    - text
+  desc: 'Usuwa tag.'
+  params:
+    - desc: 'Usuwa tag.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetag_string_2:
+  args:
+    - text
+  desc: 'Usuwa tag.'
+  params:
+    - desc: 'Usuwa tag.'
+      name: tagId
+      optional: false
+      type: string
+ticketremovetags:
+  args:
+    - text
+  desc: 'Usuwa tagi z obecnego zgłoszenia.'
+  params:
+    - desc: 'Usuwa tagi z obecnego zgłoszenia.'
+      name: tags
+      optional: false
+      type: string[]
+ticketresponsetime:
+  args:
+    - '<buttonId> [minutes]'
+    - number
+  desc: 'Ustawia wymagany czas odpowiedzi dla typu zgłoszenia.'
+  params:
+    - desc: 'Ustawia wymagany czas odpowiedzi dla typu zgłoszenia.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Ustawia wymagany czas odpowiedzi dla typu zgłoszenia.'
+      name: minutes
+      optional: true
+      type: int
+ticketstats:
+  args:
+    - ''
+  desc: 'Wyświetla statystyki zgłoszeń na serwerze.'
+  params: [ ]
+tickettranscriptchannel:
+  args:
+    - '[@channel]'
+  desc: 'Ustawia kanał transkrypcji dla zgłoszeń.'
+  params:
+    - desc: 'Ustawia kanał transkrypcji dla zgłoszeń.'
+      name: channel
+      optional: true
+      type: channel
+ticketunblock:
+  args:
+    - '@user'
+  desc: 'Odblokowuje użytkownikowi możliwość tworzenia zgłoszeń.'
+  params:
+    - desc: 'Odblokowuje użytkownikowi możliwość tworzenia zgłoszeń.'
+      name: user
+      optional: false
+      type: IGuildUser
+ticketunclaim:
+  args:
+    - ''
+  desc: 'Zwalnia obecne zgłoszenie.'
+  params: [ ]
+ticketunlinkcase:
+  args:
+    - ''
+  desc: 'Odłącza obecne zgłoszenie od sprawy.'
+  params: [ ]
+ticketupdatepanel:
+  args:
+    - panelid text
+  desc: 'Aktualizuje embed panelu zgłoszeń.'
+  params:
+    - desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - &ref_618
+      desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string:
+  args:
+    - panelid text
+  desc: 'Aktualizuje embed panelu zgłoszeń.'
+  params:
+    - desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_1:
+  args:
+    - panelid text
+  desc: 'Aktualizuje embed panelu zgłoszeń.'
+  params:
+    - desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: embedJson
+      optional: false
+      type: string
+ticketupdatepanel_ulong_string_2:
+  args:
+    - panelid text
+  desc: 'Aktualizuje embed panelu zgłoszeń.'
+  params:
+    - desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Aktualizuje embed panelu zgłoszeń.'
+      name: embedJson
+      optional: false
+      type: string
+ticketuserstats:
+  args:
+    - '[@user]'
+  desc: 'Wyświetla statystyki zgłoszeń użytkownika.'
+  params:
+    - desc: 'Wyświetla statystyki zgłoszeń użytkownika.'
+      name: user
+      optional: true
+      type: user

@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "没有名为 `{0}` 的封禁操作。已知操作：{1}",
+  "ban_prune_cleared": "已清除 {1} 中 {0} 的清理设置。",
+  "ban_prune_cleared_none": "{1} 中的 {0} 没有清理设置。",
+  "ban_prune_current": "{0}：**{1}**",
+  "ban_prune_list_empty": "尚未配置清理设置。封禁将使用每个操作的内置默认值。",
+  "ban_prune_list_title": "封禁消息清理",
+  "ban_prune_reset": "已移除 {0} 项清理设置。所有操作已恢复默认。",
+  "ban_prune_scope_category": "分类 {0}",
+  "ban_prune_scope_channel": "频道 {0}",
+  "ban_prune_scope_guild": "本服务器",
+  "ban_prune_set": "来自 {0} 的封禁现在会清理 {2} 的 **{1}**。",
+  "ban_prune_set_all_actions": "所有封禁操作",
+  "ban_prune_days": "{0} 天的消息",
+  "ban_prune_days_none": "不清理消息",
+  "ban_prune_effective": "此处现在封禁时将清理 **{0}**。",
+  "ban_prune_defaults_title": "默认值",
+  "ban_prune_overrides_title": "覆盖设置"
+}

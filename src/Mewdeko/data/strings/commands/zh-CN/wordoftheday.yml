@@ -1,0 +1,247 @@
+wotd:
+  args:
+    - ''
+  desc: '显示今日的每日一词；若尚未发布，则显示预览。'
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: '开启或关闭每日一词发布。需先设置频道。'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: '设置每日一词的发布频道并启用发布。留空则清除频道并禁用。'
+  params:
+    - desc: '发布的频道。省略则清除。'
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: '设置每日一词发布的本地时间（0 到 23 时）。'
+  params:
+    - desc: '一天中的小时数，采用 24 小时制。'
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: '设置每日发布时间以及判断新一天开始所用的时区。'
+  params:
+    - desc: 'IANA 时区名称。'
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: '设置每个每日一词发布时提及的身份组。留空则清除。'
+  params:
+    - desc: '要提及的身份组。省略则清除。'
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: '设置每日一词的自定义消息模板，支持嵌入 JSON 和占位符。不带文本发送可查看当前模板，发送 "clear" 则恢复默认嵌入。'
+  params:
+    - desc: '模板文本。省略则查看，发送 "clear" 则重置。'
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: '设置词典词汇倾向的主题，最多五个词。留空或发送 "clear" 可移除。'
+  params:
+    - desc: '主题词，例如 "space" 或 "medieval history"。省略则清除。'
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: '将词典词汇限制为某一词性：any、noun、verb、adjective 或 adverb。'
+  params:
+    - desc: '允许的词性。'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: '设置词典词汇的生僻程度：any、common、moderate 或 rare。'
+  params:
+    - desc: '难度等级。'
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: '选择词汇来源。Dictionary 使用 Datamuse 并应用你的筛选条件，custom 仅使用通过 wotdadd 添加的词，mixed 则优先使用自定义词，用完后再使用词典词汇。'
+  params:
+    - desc: '词汇来源。'
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: '向本服务器的自定义词表添加一个词。若未提供释义，将自动查询。'
+  params:
+    - desc: '要添加的词。'
+      name: word
+      optional: false
+      type: string
+    - desc: '该词的释义。省略则自动查询。'
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: '从本服务器的自定义词表中移除一个词。'
+  params:
+    - desc: '要移除的词。'
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: '列出本服务器的自定义词，以及每个词被发布的次数。'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: '显示最近发布的词。'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: '显示当前的每日一词配置。'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: '无视排期，立即发布一个新词。'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: '重置本服务器的所有每日一词设置、自定义词和历史记录。'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: '为特定星期几设置主题，覆盖当天的基础主题。不提供主题则移除该日规则。'
+  params:
+    - desc: '星期几。'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: '该日的主题词。省略则移除该规则。'
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: '为特定星期几设置词性和可选难度。使用 "any" 可继承基础设置。'
+  params:
+    - desc: '星期几。'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: '该日的词性，或 any。'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: '该日的难度，或 any。'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: '为特定月份设置主题，覆盖该月的基础主题。星期规则优先于月份规则。不提供主题则移除该规则。'
+  params:
+    - desc: '月份数字或名称。'
+      name: month
+      optional: false
+      type: string
+    - desc: '该月的主题词。省略则移除该规则。'
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: '为特定月份设置词性和可选难度。使用 "any" 可继承基础设置。'
+  params:
+    - desc: '月份数字或名称。'
+      name: month
+      optional: false
+      type: string
+    - desc: '该月的词性，或 any。'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: '该月的难度，或 any。'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: '显示所有星期和月份规则，以及今天生效的筛选条件。'
+  params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: '切换是否在每条每日一词帖子下创建公开讨论子区，并附带一条启动提示，邀请大家用该词造句。'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: '设置讨论子区的名称模板。支持 %wotd.word%、%wotd.date%、%wotd.pos% 以及服务器占位符。不带文本发送可查看当前模板，发送 "clear" 则重置。'
+  params:
+    - desc: '子区名称模板。省略则查看，发送 "clear" 则重置。'
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: '设置讨论子区在无活动多久后由 Discord 自动归档：1h、24h、3d 或 7d。'
+  params:
+    - desc: '1h、24h、3d 或 7d 之一。'
+      name: duration
+      optional: false
+      type: string

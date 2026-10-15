@@ -1,0 +1,953 @@
+activefilters:
+  args:
+    - ''
+  desc: '显示当前所有已启用的音频滤镜。'
+  params: [ ]
+autoplay:
+  args:
+    - number
+  desc: '设置服务器的自动播放数量。使用 Spotify API，因此客户端密钥和 ID 必须有效。'
+  params:
+    - &ref_96
+      desc: '自动播放的曲目数量。最多 5 首'
+      name: amount
+      optional: false
+      type: int
+autoplay_int:
+  args:
+    - number
+  desc: '设置服务器的自动播放数量。使用 Spotify API，因此客户端密钥和 ID 必须有效。'
+  params:
+    - desc: '自动播放的曲目数量。最多 5 首'
+      name: amount
+      optional: false
+      type: int
+bass:
+  args:
+    - 0
+  desc: '设置当前曲目的低音增强级别。'
+  params:
+    - desc: '设置当前曲目的低音增强级别。'
+      name: 0
+      optional: false
+      type: '='
+clearqueue:
+  args:
+    - ''
+  desc: '清空音乐队列。'
+  params: [ ]
+deleteplaylist:
+  args:
+    - text
+  desc: '删除已保存的播放列表。'
+  params:
+    - &ref_187
+      desc: '要删除的播放列表名称。'
+      name: name
+      optional: false
+      type: string
+deleteplaylist_string:
+  args:
+    - text
+  desc: '删除已保存的播放列表。'
+  params:
+    - desc: '要删除的播放列表名称。'
+      name: name
+      optional: false
+      type: string
+distortion:
+  args:
+    - true
+  desc: '对音频应用失真效果。'
+  params:
+    - desc: '对音频应用失真效果。'
+      name: true
+      optional: false
+      type: '='
+echo:
+  args:
+    - 1 0.5
+    - 0
+  desc: '对当前曲目应用回声效果。需要 Lavalink 节点上安装回声滤镜插件。'
+  params:
+    - desc: '回声延迟（秒），范围 0.1 至 5。0 表示禁用该效果。'
+      name: delay
+      optional: true
+      type: float
+    - desc: '每次回声的衰减程度，范围 0 至 1。'
+      name: decay
+      optional: true
+      type: float
+eightd:
+  args:
+    - true
+  desc: '应用 8D 音效，使音频围绕听者旋转。'
+  params:
+    - desc: '应用 8D 音效，使音频围绕听者旋转。'
+      name: true
+      optional: false
+      type: '='
+join:
+  args:
+    - ''
+  desc: '获取音乐播放器并尝试加入语音频道。'
+  params: [ ]
+karaoke:
+  args:
+    - true
+  desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+  params:
+    - desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+      name: true
+      optional: false
+      type: '='
+karaoke_=:
+  args:
+    - true
+  desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+  params:
+    - desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_1:
+  args:
+    - true
+  desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+  params:
+    - desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_2:
+  args:
+    - true
+  desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+  params:
+    - desc: '应用或移除卡拉 OK 滤镜，尝试去除曲目中的人声。'
+      name: true
+      optional: false
+      type: '='
+leave:
+  args:
+    - ''
+  desc: '使机器人断开语音频道。'
+  params: [ ]
+loadplaylist:
+  args:
+    - text false
+    - text
+  desc: '将之前保存的播放列表加载到队列中。'
+  params:
+    - &ref_280
+      desc: '要加载的播放列表名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '将之前保存的播放列表加载到队列中。'
+      name: false
+      optional: false
+      type: '='
+loadplaylist_string_=:
+  args:
+    - text false
+    - text
+  desc: '将之前保存的播放列表加载到队列中。'
+  params:
+    - desc: '要加载的播放列表名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '将之前保存的播放列表加载到队列中。'
+      name: false
+      optional: false
+      type: '='
+loop:
+  args:
+    - repeattype
+  desc: '设置机器人是否循环播放及循环方式。'
+  params:
+    - &ref_286
+      desc: '循环类型。'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+loop_PlayerRepeatType:
+  args:
+    - repeattype
+  desc: '设置机器人是否循环播放及循环方式。'
+  params:
+    - desc: '循环类型。'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+lowpass:
+  args:
+    - 20
+    - 0
+  desc: '应用低通滤镜，通过削减高频使音频变得沉闷。'
+  params:
+    - desc: '平滑度，范围 1 至 100。值越高，高音削减越多。0 表示禁用该滤镜。'
+      name: smoothing
+      optional: true
+      type: float
+movesong:
+  args:
+    - number number
+  desc: '将队列中的歌曲移动到新位置。'
+  params:
+    - &ref_299
+      desc: '歌曲的当前位置。'
+      name: from
+      optional: false
+      type: int
+    - &ref_300
+      desc: '歌曲的新位置。'
+      name: to
+      optional: false
+      type: int
+movesong_int_int:
+  args:
+    - number number
+  desc: '将队列中的歌曲移动到新位置。'
+  params:
+    - desc: '歌曲的当前位置。'
+      name: from
+      optional: false
+      type: int
+    - desc: '歌曲的新位置。'
+      name: to
+      optional: false
+      type: int
+musiclinkchannel:
+  args:
+    - ''
+    - '[@channel]'
+  desc: '切换频道中的音乐链接自动转换。启用后，在该频道发布的任何 Apple Music、Spotify、YouTube Music 或其他受支持的音乐链接，都会收到一个回复嵌入，包含曲目标题、艺人、封面以及各平台的对应链接。'
+  params:
+    - desc: '要切换的频道。默认为当前频道。'
+      name: channel
+      optional: true
+      type: channel
+musiclinkchannels:
+  args:
+    - ''
+  desc: '列出本服务器中已启用音乐链接转换的频道。'
+  params: [ ]
+musicsettings:
+  args:
+    - ''
+  desc: '获取服务器当前的音乐设置。'
+  params: [ ]
+nightcore:
+  args:
+    - true
+  desc: '切换当前曲目的 nightcore 效果。'
+  params:
+    - desc: '切换当前曲目的 nightcore 效果。'
+      name: true
+      optional: false
+      type: '='
+normalize:
+  args:
+    - ''
+    - false
+  desc: '切换音量标准化，使响亮和轻柔的部分趋于一致。需要 Lavalink 节点上安装标准化滤镜插件。'
+  params:
+    - desc: '是否启用或禁用标准化。默认为 true。'
+      name: enable
+      optional: true
+      type: bool
+nowplaying:
+  args:
+    - ''
+  desc: '获取正在播放的曲目（如有）。'
+  params: [ ]
+pause:
+  args:
+    - ''
+  desc: '根据当前状态暂停或恢复播放器。'
+  params: [ ]
+play:
+  args:
+    - number
+  desc: '从多种来源播放音乐，包括 YouTube、Spotify 和直接搜索。支持受支持平台的曲目、播放列表和专辑。'
+  params:
+    - &ref_346
+      desc: '从多种来源播放音乐，包括 YouTube、Spotify 和直接搜索。支持受支持平台的曲目、播放列表和专辑。'
+      name: queueNumber
+      optional: false
+      type: int
+play_int:
+  args:
+    - number
+  desc: '从多种来源播放音乐，包括 YouTube、Spotify 和直接搜索。支持受支持平台的曲目、播放列表和专辑。'
+  params:
+    - desc: '从多种来源播放音乐，包括 YouTube、Spotify 和直接搜索。支持受支持平台的曲目、播放列表和专辑。'
+      name: queueNumber
+      optional: false
+      type: int
+play_string:
+  args:
+    - text
+    - 'deezer: text'
+  desc: '通过 URL 或搜索词播放音乐。Lavalink 节点启用的任何来源的 URL（YouTube、Spotify、Apple Music、Deezer、SoundCloud、Bandcamp、Twitch、Vimeo、TikTok、Reddit 等）都会被直接加载。纯文本搜索会使用配置的默认来源，除非查询以来源前缀开头，例如 "spotify:"、"deezer:"、"applemusic:"、"soundcloud:" 或 "youtube:"。'
+  params:
+    - &ref_347
+      desc: '要播放的音乐 URL 或搜索词，可选择以来源名称作为前缀'
+      name: query
+      optional: false
+      type: string
+play_string_1:
+  args:
+    - text
+    - 'deezer: text'
+  desc: '通过 URL 或搜索词播放音乐。Lavalink 节点启用的任何来源的 URL（YouTube、Spotify、Apple Music、Deezer、SoundCloud、Bandcamp、Twitch、Vimeo、TikTok、Reddit 等）都会被直接加载。纯文本搜索会使用配置的默认来源，除非查询以来源前缀开头，例如 "spotify:"、"deezer:"、"applemusic:"、"soundcloud:" 或 "youtube:"。'
+  params:
+    - desc: '要播放的音乐 URL 或搜索词，可选择以来源名称作为前缀'
+      name: query
+      optional: false
+      type: string
+playlists:
+  args:
+    - ''
+  desc: '列出服务器中所有已保存的播放列表。'
+  params: [ ]
+queue:
+  args:
+    - ''
+  desc: '音乐队列。'
+  params: [ ]
+resetfilters:
+  args:
+    - ''
+  desc: '从当前曲目中移除所有已启用的音频滤镜。'
+  params: [ ]
+saveplaylist:
+  args:
+    - text
+  desc: '将当前队列保存为命名播放列表。'
+  params:
+    - &ref_477
+      desc: '保存播放列表的名称。'
+      name: name
+      optional: false
+      type: string
+saveplaylist_string:
+  args:
+    - text
+  desc: '将当前队列保存为命名播放列表。'
+  params:
+    - desc: '保存播放列表的名称。'
+      name: name
+      optional: false
+      type: string
+search:
+  args:
+    - text
+    - 'spotify: text'
+  desc: '搜索曲目但不自动播放。除非查询以来源前缀开头，例如 "spotify:"、"deezer:" 或 "soundcloud:"，否则使用配置的默认来源。'
+  params:
+    - &ref_480
+      desc: '搜索词，可选择以来源名称作为前缀'
+      name: query
+      optional: false
+      type: string
+search_string:
+  args:
+    - text
+    - 'spotify: text'
+  desc: '搜索曲目但不自动播放。除非查询以来源前缀开头，例如 "spotify:"、"deezer:" 或 "soundcloud:"，否则使用配置的默认来源。'
+  params:
+    - desc: '搜索词，可选择以来源名称作为前缀'
+      name: query
+      optional: false
+      type: string
+seek:
+  args:
+    - text
+  desc: '跳转到当前曲目的指定位置。'
+  params:
+    - &ref_482
+      desc: '要跳转到的时间，格式为 mm:ss'
+      name: timeSpan
+      optional: false
+      type: string
+seek_string:
+  args:
+    - text
+  desc: '跳转到当前曲目的指定位置。'
+  params:
+    - desc: '要跳转到的时间，格式为 mm:ss'
+      name: timeSpan
+      optional: false
+      type: string
+setdjrole:
+  args:
+    - '[@role]'
+  desc: '设置音乐命令中需要更高权限时所用的 DJ 身份组。'
+  params:
+    - desc: '设为 DJ 的身份组。若为 null，则移除 DJ 身份组。'
+      name: role
+      optional: true
+      type: role
+setmusicchannel:
+  args:
+    - '[@channel]'
+  desc: '设置发送音乐事件的频道。'
+  params:
+    - desc: '发送音乐事件的频道。'
+      name: channel
+      optional: true
+      type: channel
+shuffle:
+  args:
+    - ''
+  desc: '随机排列当前音乐队列。'
+  params: [ ]
+skip:
+  args:
+    - ''
+  desc: '跳到下一首曲目。'
+  params: [ ]
+songremove:
+  args:
+    - number
+  desc: '从队列中移除所选曲目。如果所选曲目是当前曲目，则将跳过。如果没有下一首曲目，播放器将停止。'
+  params:
+    - &ref_554
+      desc: '要移除的队列编号。'
+      name: queueNumber
+      optional: false
+      type: int
+songremove_int:
+  args:
+    - number
+  desc: '从队列中移除所选曲目。如果所选曲目是当前曲目，则将跳过。如果没有下一首曲目，播放器将停止。'
+  params:
+    - desc: '要移除的队列编号。'
+      name: queueNumber
+      optional: false
+      type: int
+stereowiden:
+  args:
+    - true
+  desc: '应用立体声展宽效果，增强空间感。'
+  params:
+    - desc: '应用立体声展宽效果，增强空间感。'
+      name: true
+      optional: false
+      type: '='
+tremolo:
+  args:
+    - true
+  desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+  params:
+    - desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+      name: true
+      optional: false
+      type: '='
+tremolo_=:
+  args:
+    - true
+  desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+  params:
+    - desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_1:
+  args:
+    - true
+  desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+  params:
+    - desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_2:
+  args:
+    - true
+  desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+  params:
+    - desc: '应用或移除颤音滤镜，使音量产生波动效果。'
+      name: true
+      optional: false
+      type: '='
+vaporwave:
+  args:
+    - true
+  desc: '切换当前曲目的 vaporwave 效果。'
+  params:
+    - desc: '切换当前曲目的 vaporwave 效果。'
+      name: true
+      optional: false
+      type: '='
+vibrato:
+  args:
+    - true
+  desc: '应用或移除颤音滤镜，使音高产生波动效果。'
+  params:
+    - desc: '应用或移除颤音滤镜，使音高产生波动效果。'
+      name: true
+      optional: false
+      type: '='
+volume:
+  args:
+    - number
+  desc: '设置播放器音量'
+  params:
+    - &ref_645
+      desc: '要设置的音量'
+      name: volume
+      optional: false
+      type: int
+volume_int:
+  args:
+    - number
+  desc: '设置播放器音量'
+  params:
+    - desc: '要设置的音量'
+      name: volume
+      optional: false
+      type: int
+voteskip:
+  args:
+    - ''
+  desc: '发起或参与投票跳过当前曲目。'
+  params: [ ]
+lastfmlink:
+  args: [ ]
+  desc: '关联用户的 Last.fm 账户以进行记录。'
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: '关联用户的 Last.fm 账户以进行记录。'
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: '解除用户 Last.fm 账户的关联。'
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: '解除用户 Last.fm 账户的关联。'
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: '开启或关闭 Last.fm 记录。'
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: '开启或关闭 Last.fm 记录。'
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: '显示用户的 Last.fm 账户状态。'
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: '显示用户的 Last.fm 账户状态。'
+  params: [ ]
+fm:
+  args:
+    - '[@user]'
+  desc: '显示 Last.fm 上当前或最近播放的曲目；未关联时则回退到 Discord 的 Spotify 状态。'
+  params:
+    - desc: '要查看的用户。默认为命令发起者。'
+      name: user
+      optional: true
+      type: user
+fmrecent:
+  args:
+    - '[@user]'
+  desc: '显示用户在 Last.fm 上最近播放的曲目。'
+  params:
+    - desc: '要查看的用户。默认为命令发起者。'
+      name: user
+      optional: true
+      type: user
+fmtopartists:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '显示用户在指定时间段内在 Last.fm 上的热门艺人。'
+  params:
+    - desc: '时间段：week、month、quarter、half、year 或 overall（默认）。'
+      name: period
+      optional: true
+      type: string
+    - desc: '要查看的用户。默认为命令发起者。'
+      name: user
+      optional: true
+      type: user
+fmtopalbums:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '显示用户在指定时间段内在 Last.fm 上的热门专辑。'
+  params:
+    - desc: '时间段：week、month、quarter、half、year 或 overall（默认）。'
+      name: period
+      optional: true
+      type: string
+    - desc: '要查看的用户。默认为命令发起者。'
+      name: user
+      optional: true
+      type: user
+fmtoptracks:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '显示用户在指定时间段内在 Last.fm 上的热门曲目。'
+  params:
+    - desc: '时间段：week、month、quarter、half、year 或 overall（默认）。'
+      name: period
+      optional: true
+      type: string
+    - desc: '要查看的用户。默认为命令发起者。'
+      name: user
+      optional: true
+      type: user
+fmartist:
+  args:
+    - '[artist]'
+  desc: '显示 Last.fm 上艺人的信息，以及你对其的播放次数。'
+  params:
+    - desc: '艺人名称。默认为你当前或最近播放的艺人。'
+      name: artist
+      optional: true
+      type: string
+fmalbum:
+  args:
+    - '[artist | album]'
+  desc: '显示 Last.fm 上专辑的信息，以及你对其的播放次数。'
+  params:
+    - desc: '要查询的专辑，格式为 ''艺人 | 专辑''。默认为你当前或最近播放的专辑。'
+      name: query
+      optional: true
+      type: string
+fmwhoknows:
+  args:
+    - '[artist]'
+  desc: '按已关联成员对某艺人的播放次数进行排名。'
+  params:
+    - desc: '要查看的艺人。默认为你当前或最近播放的艺人。'
+      name: artist
+      optional: true
+      type: string
+fmwhoknowsalbum:
+  args:
+    - 'artist | album'
+  desc: '按已关联成员对某专辑的播放次数进行排名。'
+  params:
+    - desc: '要查看的专辑，格式为 ''艺人 | 专辑''。'
+      name: query
+      optional: false
+      type: string
+fmwhoknowstrack:
+  args:
+    - 'artist | track'
+  desc: '按已关联成员对某曲目的播放次数进行排名。'
+  params:
+    - desc: '要查看的曲目，格式为 ''艺人 | 曲目''。'
+      name: query
+      optional: false
+      type: string
+fmcrowns:
+  args:
+    - '[artist]'
+  desc: '显示本服务器中"拥有"（播放次数最多）某艺人的用户。'
+  params:
+    - desc: '要查看的艺人。默认为你当前或最近播放的艺人。'
+      name: artist
+      optional: true
+      type: string
+fmtaste:
+  args:
+    - '@user'
+  desc: '将你的热门艺人与另一位用户的进行比较，查看你们的口味重合度。'
+  params:
+    - desc: '要进行比较的用户。'
+      name: user
+      optional: false
+      type: user
+fmchart:
+  args:
+    - '[size]'
+    - '[period]'
+    - '[@user]'
+  desc: '生成用户在 Last.fm 上热门专辑的图片网格。'
+  params:
+    - desc: '网格尺寸（size x size）。必须在 2 至 5 之间。默认为 3。'
+      name: size
+      optional: true
+      type: int
+    - desc: '时间段：week、month、quarter、half、year 或 overall（默认）。'
+      name: period
+      optional: true
+      type: string
+    - desc: '要查看的用户。默认为命令发起者。'
+      name: user
+      optional: true
+      type: user
+ttsenable:
+  args:
+    - ''
+  desc: '切换你当前所在语音频道的 TTS。'
+  params: [ ]
+ttslink:
+  args:
+    - '[#channel]'
+    - ''
+  desc: '将文字频道关联到当前语音频道以进行 TTS。关联频道中的消息将被朗读。不带参数使用即可取消关联。'
+  params:
+    - desc: '要关联的文字频道。省略则取消关联。'
+      name: channel
+      optional: true
+      type: channel
+ttslink_ITextChannel:
+  args:
+    - '[#channel]'
+    - ''
+  desc: '将文字频道关联到当前语音频道以进行 TTS。关联频道中的消息将被朗读。不带参数使用即可取消关联。'
+  params:
+    - desc: '要关联的文字频道。省略则取消关联。'
+      name: channel
+      optional: true
+      type: channel
+ttsannounce:
+  args:
+    - ''
+  desc: '切换当前语音频道的加入/离开通知。'
+  params: [ ]
+ttsautojoin:
+  args:
+    - ''
+  desc: '切换你所在语音频道的自动加入。开启后，当成员进入该频道时（如果机器人尚未在语音中），机器人会自行加入，并在频道为空后离开。无需机器人先连接即可工作。'
+  params: [ ]
+ttsjoinformat:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: '设置加入通知的格式。支持 %user.name%、%user.mention%、%server.name% 等占位符。不带参数使用即可重置。'
+  params:
+    - desc: '加入格式字符串。省略则重置为默认值。'
+      name: format
+      optional: true
+      type: string
+ttsjoinformat_string:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: '设置加入通知的格式。支持 %user.name%、%user.mention%、%server.name% 等占位符。不带参数使用即可重置。'
+  params:
+    - desc: '加入格式字符串。省略则重置为默认值。'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: '设置离开通知的格式。支持 %user.name%、%user.mention%、%server.name% 等占位符。不带参数使用即可重置。'
+  params:
+    - desc: '离开格式字符串。省略则重置为默认值。'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat_string:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: '设置离开通知的格式。支持 %user.name%、%user.mention%、%server.name% 等占位符。不带参数使用即可重置。'
+  params:
+    - desc: '离开格式字符串。省略则重置为默认值。'
+      name: format
+      optional: true
+      type: string
+ttsvolume:
+  args:
+    - '75'
+  desc: '设置 TTS 音量（0-100）。与音乐音量分开。'
+  params:
+    - desc: '音量级别，范围 0 至 100。'
+      name: volume
+      optional: false
+      type: int
+ttsvolume_int:
+  args:
+    - '75'
+  desc: '设置 TTS 音量（0-100）。与音乐音量分开。'
+  params:
+    - desc: '音量级别，范围 0 至 100。'
+      name: volume
+      optional: false
+      type: int
+ttsspeed:
+  args:
+    - '1.5'
+  desc: '设置 TTS 播放速度（0.5-2.0）。'
+  params:
+    - desc: '速度倍率，范围 0.5 至 2.0。'
+      name: speed
+      optional: false
+      type: float
+ttsspeed_float:
+  args:
+    - '1.5'
+  desc: '设置 TTS 播放速度（0.5-2.0）。'
+  params:
+    - desc: '速度倍率，范围 0.5 至 2.0。'
+      name: speed
+      optional: false
+      type: float
+ttsdefaultvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: '设置服务器的默认 TTS 语音。不带参数使用即可恢复系统默认。'
+  params:
+    - desc: '语音名称。省略则重置。'
+      name: voice
+      optional: true
+      type: string
+ttsdefaultvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: '设置服务器的默认 TTS 语音。不带参数使用即可恢复系统默认。'
+  params:
+    - desc: '语音名称。省略则重置。'
+      name: voice
+      optional: true
+      type: string
+ttsvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: '设置你在本服务器的个人 TTS 语音。不带参数使用即可恢复为服务器默认值。'
+  params:
+    - desc: '语音名称。省略则重置。'
+      name: voice
+      optional: true
+      type: string
+ttsvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: '设置你在本服务器的个人 TTS 语音。不带参数使用即可恢复为服务器默认值。'
+  params:
+    - desc: '语音名称。省略则重置。'
+      name: voice
+      optional: true
+      type: string
+ttsvoices:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: '按名称、语言、性别或来源搜索可用的 TTS 语音。结果分页显示。'
+  params:
+    - desc: '搜索词（语音名称、语言、性别或来源）。'
+      name: search
+      optional: false
+      type: string
+ttsvoices_string:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: '按名称、语言、性别或来源搜索可用的 TTS 语音。结果分页显示。'
+  params:
+    - desc: '搜索词（语音名称、语言、性别或来源）。'
+      name: search
+      optional: false
+      type: string
+ttsblock:
+  args:
+    - '@user'
+  desc: '阻止或取消阻止用户在本服务器中使用 TTS。切换阻止状态。'
+  params:
+    - desc: '要阻止或取消阻止的用户。'
+      name: user
+      optional: false
+      type: user
+ttsblock_IGuildUser:
+  args:
+    - '@user'
+  desc: '阻止或取消阻止用户在本服务器中使用 TTS。切换阻止状态。'
+  params:
+    - desc: '要阻止或取消阻止的用户。'
+      name: user
+      optional: false
+      type: user
+ttsblocklist:
+  args:
+    - ''
+  desc: '列出本服务器中被禁止使用 TTS 的所有用户。'
+  params: [ ]
+ttsrole:
+  args:
+    - '@role'
+    - ''
+  desc: '设置使用 TTS 所需的身份组。不带参数使用即可取消该限制。'
+  params:
+    - desc: '要求的身份组。省略则取消限制。'
+      name: role
+      optional: true
+      type: role
+ttsrole_IRole:
+  args:
+    - '@role'
+    - ''
+  desc: '设置使用 TTS 所需的身份组。不带参数使用即可取消该限制。'
+  params:
+    - desc: '要求的身份组。省略则取消限制。'
+      name: role
+      optional: true
+      type: role
+ttsreplycontext:
+  args:
+    - ''
+  desc: '切换 TTS 是否朗读回复上下文（例如 "回复 用户"）。'
+  params: [ ]
+ttsattachmentnarration:
+  args:
+    - ''
+  desc: '切换 TTS 是否朗读附件（例如 "发送了一张图片"）。'
+  params: [ ]
+ttsconsecutivegrouping:
+  args:
+    - ''
+  desc: '切换同一用户连续发送的消息是否跳过名称前缀。'
+  params: [ ]
+ttsmaxqueue:
+  args:
+    - '20'
+  desc: '设置 TTS 队列的最大长度（1-50）。'
+  params:
+    - desc: '队列最大长度，范围 1 至 50。'
+      name: size
+      optional: false
+      type: int
+ttsmaxqueue_int:
+  args:
+    - '20'
+  desc: '设置 TTS 队列的最大长度（1-50）。'
+  params:
+    - desc: '队列最大长度，范围 1 至 50。'
+      name: size
+      optional: false
+      type: int
+ttssettings:
+  args:
+    - ''
+  desc: '显示本服务器和语音频道当前的 TTS 设置。'
+  params: [ ]
+ttsremove:
+  args:
+    - ''
+  desc: '删除当前语音频道的所有 TTS 设置。'
+  params: [ ]

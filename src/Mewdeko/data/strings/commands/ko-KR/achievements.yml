@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: '업적 현황을 보여줘요. 순위, 포인트, 각 카테고리의 진행도, 최근 달성한 업적을 확인할 수 있어요. 멤버를 언급하면 해당 멤버의 현황을 볼 수 있어요.'
+  params:
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: '한 카테고리의 모든 업적을 보여줘요. 아직 달성하지 못한 업적은 진행도도 함께 표시해요.'
+  params:
+    - desc: '카테고리 키 또는 이름이에요. 예: messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige, custom'
+      name: category
+      optional: false
+      type: string
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: '서버의 모든 업적을 진행도와 함께 페이지 단위로 보여줘요.'
+  params:
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: '최근에 달성한 업적 5개를 보여줘요.'
+  params:
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: '등급과 포인트 기준으로 가장 좋은 업적 5개를 보여줘요.'
+  params:
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: '이름이나 설명으로 업적을 찾고 각 업적에 대한 진행도를 보여줘요.'
+  params:
+    - desc: '검색할 내용이에요.'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: '모든 서버에서 달성한 업적을 보여줘요. 총 포인트, 서버 수, 전역 업적을 확인할 수 있어요.'
+  params:
+    - desc: '확인할 사용자예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: '서버에서 가장 많은 업적을 달성한 멤버를 보여줘요. 순위에 나타나지 않도록 숨긴 멤버는 제외해요.'
+  params:
+    - desc: 'Points, Unlocked, Recent 중 하나예요. 기본값은 Points예요.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: '모든 서버에서 가장 많은 업적을 달성한 사용자를 보여줘요.'
+  params:
+    - desc: 'Points, Unlocked, Recent 중 하나예요. 기본값은 Points예요.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: '순위, 포인트, 다음 순위까지의 진행도, 장착한 배지가 담긴 업적 프로필 카드를 그려요.'
+  params:
+    - desc: '카드를 그릴 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: '업적이 추적하는 모든 수치를 보여줘요. 메시지 수, 음성 시간, 반응, 초대, 명령어 사용, 서버 참여 기간, 부스트, 레벨, 평판 등이에요.'
+  params:
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: '업적을 이미지로 그려요. 달성했으면 달성 상태를, 달성하지 못했으면 본인이나 다른 사용자가 얼마나 가까운지를 보여줘요.'
+  params:
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: '업적 이미지, 대시보드, 앱에 표시될 아이콘을 설정해요. trophy 같은 아이콘 이름, 서버 이모지, 또는 https 이미지 링크를 사용할 수 있어요. 생략하면 카테고리의 아이콘을 다시 사용해요.'
+  params:
+    - desc: '업적 이름 또는 키예요. 공백이 있으면 큰따옴표로 감싸 주세요.'
+      name: achievement
+      optional: false
+      type: string
+    - desc: '아이콘이에요. 비워두면 아이콘을 제거해요.'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: '본인이나 다른 사용자가 가진 모든 배지를 보여줘요. 상단에 장착한 4개의 슬롯을 표시해요.'
+  params:
+    - desc: '확인할 멤버예요. 기본값은 본인이에요.'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: '보유한 배지를 프로필 슬롯 4개 중 하나에 장착해요. 배지 키는 badges 명령어로 확인할 수 있어요.'
+  params:
+    - desc: '슬롯 번호예요. 1부터 4까지 입력해요.'
+      name: slot
+      optional: false
+      type: int
+    - desc: '배지 키예요.'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: '프로필 슬롯 4개 중 하나를 비워요.'
+  params:
+    - desc: '슬롯 번호예요. 1부터 4까지 입력해요.'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: '배지가 무엇인지, 어떻게 얻는지 보여줘요.'
+  params:
+    - desc: '배지 키예요.'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: '업적 프로필, 업적, 배지, 리더보드 순위를 누가 볼 수 있는지 설정해요.'
+  params:
+    - desc: 'Profile, Achievements, Badges, Leaderboard 중 하나예요.'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone 또는 OnlyMe예요.'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: '본인에게 가는 업적 달성 DM, 서버 내 달성 메시지, 또는 그 메시지의 멘션을 켜거나 꺼요.'
+  params:
+    - desc: 'Dm, Message, Mention 중 하나예요.'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: '켜려면 true, 끄려면 false를 입력해요.'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: '서버의 모든 업적을 키, 활성화 여부, 달성한 멤버 수와 함께 보여줘요.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: '서버에서 업적 획득을 시작하거나 일시정지해요. 시작하면 메시지 수집도 함께 켜지고, 이미 조건을 충족한 멤버는 업적을 조용히 받아요.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: '업적 달성 알림을 보낼 채널을 설정해요. 생략하면 로그 채널 사용을 중지해요.'
+  params:
+    - desc: '채널이에요.'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: '업적 달성 알림을 보낼 위치를 설정해요. Auto는 로그 채널이 설정되어 있으면 로그 채널을, 없으면 달성한 채널을 사용해요. Here는 달성한 채널을, LogChannel은 로그 채널만, DmOnly는 DM만 보내고, Silent는 알림을 보내지 않아요.'
+  params:
+    - desc: 'Auto, Here, LogChannel, DmOnly, Silent 중 하나예요.'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: '멤버가 직접 끄지 않으면 업적 달성 알림을 DM으로 받을지 설정해요.'
+  params:
+    - desc: '켜려면 true, 끄려면 false를 입력해요.'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: '업적 달성 메시지를 설정해요. 일반 텍스트와 임베드 JSON 모두 사용할 수 있고, %achievement.name%, %achievement.points%, %achievement.list%, %achievements.tier% 같은 자리표시자를 쓸 수 있어요. 생략하면 기본 메시지로 돌아가요.'
+  params:
+    - desc: '메시지예요. 비우면 메시지를 제거해요.'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: '멤버가 획득하는 업적 포인트마다 XP를 지급해요. 0이면 기능을 꺼요.'
+  params:
+    - desc: '포인트당 XP예요. 0부터 1000까지 입력할 수 있어요.'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: '멤버가 획득할 수 있도록 업적 하나를 활성화해요.'
+  params:
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: '업적 하나를 비활성화해요. 이미 달성한 멤버는 계속 보유해요.'
+  params:
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: '카테고리 전체를 활성화하거나 비활성화해요.'
+  params:
+    - desc: '카테고리 키 또는 이름이에요.'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: '멤버에게 업적을 부여하고, 다른 달성과 같은 방식으로 알림을 보내요.'
+  params:
+    - desc: '멤버예요.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: '멤버의 업적을 회수해요.'
+  params:
+    - desc: '멤버예요.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: '확인을 거친 뒤 멤버가 서버에서 가진 모든 업적을 삭제해요.'
+  params:
+    - desc: '멤버예요.'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: '특정 수치에 도달하면 달성되는 업적을 만들어요. 지원하는 수치는 MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation, NetWorth예요.'
+  params:
+    - desc: '집계할 수치예요.'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: '도달해야 하는 값이에요.'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst, Champion 중 하나예요.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '이름이에요.'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: '서버 어디에서든 특정 문구를 말하면 달성되는 업적을 만들어요.'
+  params:
+    - desc: '문구예요. 공백이 있으면 큰따옴표로 감싸 주세요.'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst, Champion 중 하나예요.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '이름이에요.'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: '이모지로 반응하면 달성되는 업적을 만들어요.'
+  params:
+    - desc: '이모지예요.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst, Champion 중 하나예요.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '이름이에요.'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: '스태프만 achgrant 명령어로 부여할 수 있는 업적을 만들어요.'
+  params:
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst, Champion 중 하나예요.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '이름이에요.'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: '서버에서 만든 업적을 확인을 거쳐 삭제해요. 달성한 모든 멤버는 해당 업적을 잃어요.'
+  params:
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: '업적을 달성하면 멤버에게 역할을 지급해요.'
+  params:
+    - desc: '역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: '업적을 달성하면 멤버에게 재화를 지급해요. 0이면 제거해요.'
+  params:
+    - desc: '금액이에요.'
+      name: amount
+      optional: false
+      type: long
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: '업적을 달성하면 멤버에게 XP를 지급해요. 0이면 제거해요.'
+  params:
+    - desc: '금액이에요.'
+      name: amount
+      optional: false
+      type: int
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: '업적의 모든 보상을 제거해요.'
+  params:
+    - desc: '업적 이름 또는 키예요.'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: '특정 역할을 가진 멤버가 업적을 얻지 못하게 해요. 다시 실행하면 다시 얻을 수 있어요.'
+  params:
+    - desc: '역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: '채널의 활동이 업적 집계에 포함되지 않게 해요. 다시 실행하면 다시 집계해요.'
+  params:
+    - desc: '채널이에요.'
+      name: channel
+      optional: false
+      type: IGuildChannel

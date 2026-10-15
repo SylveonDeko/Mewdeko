@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "`{0}` adında bir ban eylemi yok. Bilinen eylemler: {1}",
+  "ban_prune_cleared": "{1} içinde {0} için temizleme ayarı kaldırıldı.",
+  "ban_prune_cleared_none": "{1} içinde {0} için temizleme ayarı yoktu.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "Yapılandırılmış temizleme ayarı yok. Banlar her eylemin kendi varsayılanını kullanır.",
+  "ban_prune_list_title": "Ban mesajı temizleme",
+  "ban_prune_reset": "{0} temizleme ayarı kaldırıldı. Her eylem varsayılanına döndü.",
+  "ban_prune_scope_category": "kategori {0}",
+  "ban_prune_scope_channel": "kanal {0}",
+  "ban_prune_scope_guild": "bu sunucu",
+  "ban_prune_set": "{2} için {0} içindeki banlar artık **{1}** temizleyecek.",
+  "ban_prune_set_all_actions": "tüm ban eylemleri",
+  "ban_prune_days": "{0} gün mesaj",
+  "ban_prune_days_none": "mesaj yok",
+  "ban_prune_effective": "Şu anda burada yapılan bir ban **{0}** temizler.",
+  "ban_prune_defaults_title": "Varsayılanlar",
+  "ban_prune_overrides_title": "Özel Ayarlar"
+}

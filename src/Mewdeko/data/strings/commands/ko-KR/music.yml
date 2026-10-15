@@ -1,0 +1,953 @@
+activefilters:
+  args:
+    - ''
+  desc: '현재 활성화된 모든 오디오 필터를 보여줍니다.'
+  params: [ ]
+autoplay:
+  args:
+    - number
+  desc: '서버의 자동 재생 곡 수를 설정합니다. Spotify API를 사용하므로 클라이언트 시크릿과 ID가 유효해야 합니다.'
+  params:
+    - &ref_96
+      desc: '자동 재생할 곡 수입니다. 최대 5곡입니다.'
+      name: amount
+      optional: false
+      type: int
+autoplay_int:
+  args:
+    - number
+  desc: '서버의 자동 재생 곡 수를 설정합니다. Spotify API를 사용하므로 클라이언트 시크릿과 ID가 유효해야 합니다.'
+  params:
+    - desc: '자동 재생할 곡 수입니다. 최대 5곡입니다.'
+      name: amount
+      optional: false
+      type: int
+bass:
+  args:
+    - 0
+  desc: '현재 곡의 베이스 부스트 수준을 설정합니다.'
+  params:
+    - desc: '현재 곡의 베이스 부스트 수준을 설정합니다.'
+      name: 0
+      optional: false
+      type: '='
+clearqueue:
+  args:
+    - ''
+  desc: '음악 대기열을 비웁니다.'
+  params: [ ]
+deleteplaylist:
+  args:
+    - text
+  desc: '저장된 재생 목록을 삭제합니다.'
+  params:
+    - &ref_187
+      desc: '삭제할 재생 목록의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+deleteplaylist_string:
+  args:
+    - text
+  desc: '저장된 재생 목록을 삭제합니다.'
+  params:
+    - desc: '삭제할 재생 목록의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+distortion:
+  args:
+    - true
+  desc: '오디오에 왜곡 효과를 적용합니다.'
+  params:
+    - desc: '오디오에 왜곡 효과를 적용합니다.'
+      name: true
+      optional: false
+      type: '='
+echo:
+  args:
+    - 1 0.5
+    - 0
+  desc: '현재 곡에 에코 효과를 적용합니다. Lavalink 노드에 에코 필터 플러그인이 필요합니다.'
+  params:
+    - desc: '0.1~5초 사이의 에코 지연 시간입니다. 0이면 효과를 끕니다.'
+      name: delay
+      optional: true
+      type: float
+    - desc: '각 에코가 얼마나 페이드되는지 0~1 사이로 입력합니다.'
+      name: decay
+      optional: true
+      type: float
+eightd:
+  args:
+    - true
+  desc: '청취자 주위로 오디오가 회전하는 8D 오디오 효과를 적용합니다.'
+  params:
+    - desc: '청취자 주위로 오디오가 회전하는 8D 오디오 효과를 적용합니다.'
+      name: true
+      optional: false
+      type: '='
+join:
+  args:
+    - ''
+  desc: '음악 플레이어를 가져오고 음성 채널 참여를 시도합니다.'
+  params: [ ]
+karaoke:
+  args:
+    - true
+  desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=:
+  args:
+    - true
+  desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_1:
+  args:
+    - true
+  desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_2:
+  args:
+    - true
+  desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '곡에서 보컬을 제거하려는 가라오케 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+leave:
+  args:
+    - ''
+  desc: '봇을 음성 채널에서 연결 해제합니다.'
+  params: [ ]
+loadplaylist:
+  args:
+    - text false
+    - text
+  desc: '저장된 재생 목록을 대기열에 불러옵니다.'
+  params:
+    - &ref_280
+      desc: '불러올 재생 목록의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '저장된 재생 목록을 대기열에 불러옵니다.'
+      name: false
+      optional: false
+      type: '='
+loadplaylist_string_=:
+  args:
+    - text false
+    - text
+  desc: '저장된 재생 목록을 대기열에 불러옵니다.'
+  params:
+    - desc: '불러올 재생 목록의 이름입니다.'
+      name: name
+      optional: false
+      type: string
+    - desc: '저장된 재생 목록을 대기열에 불러옵니다.'
+      name: false
+      optional: false
+      type: '='
+loop:
+  args:
+    - repeattype
+  desc: '봇이 반복할지와 반복 방식을 설정합니다.'
+  params:
+    - &ref_286
+      desc: '반복 유형입니다.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+loop_PlayerRepeatType:
+  args:
+    - repeattype
+  desc: '봇이 반복할지와 반복 방식을 설정합니다.'
+  params:
+    - desc: '반복 유형입니다.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+lowpass:
+  args:
+    - 20
+    - 0
+  desc: '고음을 잘라 소리를 흐리게 만드는 저역 통과 필터를 적용합니다.'
+  params:
+    - desc: '1~100 사이의 부드러움 정도입니다. 값이 높을수록 고음이 더 많이 잘립니다. 0이면 필터를 끕니다.'
+      name: smoothing
+      optional: true
+      type: float
+movesong:
+  args:
+    - number number
+  desc: '대기열의 곡을 새 위치로 옮깁니다.'
+  params:
+    - &ref_299
+      desc: '곡의 현재 위치입니다.'
+      name: from
+      optional: false
+      type: int
+    - &ref_300
+      desc: '곡의 새 위치입니다.'
+      name: to
+      optional: false
+      type: int
+movesong_int_int:
+  args:
+    - number number
+  desc: '대기열의 곡을 새 위치로 옮깁니다.'
+  params:
+    - desc: '곡의 현재 위치입니다.'
+      name: from
+      optional: false
+      type: int
+    - desc: '곡의 새 위치입니다.'
+      name: to
+      optional: false
+      type: int
+musiclinkchannel:
+  args:
+    - ''
+    - '[@channel]'
+  desc: '채널의 음악 링크 자동 변환을 전환합니다. 활성화하면 해당 채널에 올라온 Apple Music, Spotify, YouTube Music 등 지원되는 음악 링크에 곡 제목, 아티스트, 아트워크, 여러 서비스의 동등한 링크가 담긴 답장 임베드가 달립니다.'
+  params:
+    - desc: '전환할 채널입니다. 기본값은 현재 채널입니다.'
+      name: channel
+      optional: true
+      type: channel
+musiclinkchannels:
+  args:
+    - ''
+  desc: '이 서버에서 음악 링크 변환이 활성화된 채널 목록을 보여줍니다.'
+  params: [ ]
+musicsettings:
+  args:
+    - ''
+  desc: '서버의 현재 음악 설정을 확인합니다.'
+  params: [ ]
+nightcore:
+  args:
+    - true
+  desc: '현재 곡에 나이트코어 효과를 전환합니다.'
+  params:
+    - desc: '현재 곡에 나이트코어 효과를 전환합니다.'
+      name: true
+      optional: false
+      type: '='
+normalize:
+  args:
+    - ''
+    - false
+  desc: '크고 작은 소리 부분을 고르게 맞추는 음량 정규화를 전환합니다. Lavalink 노드에 정규화 필터 플러그인이 필요합니다.'
+  params:
+    - desc: '정규화를 켤지 끌지 여부입니다. 기본값은 true입니다.'
+      name: enable
+      optional: true
+      type: bool
+nowplaying:
+  args:
+    - ''
+  desc: '재생 중인 곡이 있으면 현재 재생 곡을 보여줍니다.'
+  params: [ ]
+pause:
+  args:
+    - ''
+  desc: '현재 상태에 따라 플레이어를 일시 정지하거나 재개합니다.'
+  params: [ ]
+play:
+  args:
+    - number
+  desc: 'YouTube, Spotify, 직접 검색 등 여러 소스의 음악을 재생합니다. 지원되는 플랫폼의 곡, 재생 목록, 앨범을 재생할 수 있습니다.'
+  params:
+    - &ref_346
+      desc: 'YouTube, Spotify, 직접 검색 등 여러 소스의 음악을 재생합니다. 지원되는 플랫폼의 곡, 재생 목록, 앨범을 재생할 수 있습니다.'
+      name: queueNumber
+      optional: false
+      type: int
+play_int:
+  args:
+    - number
+  desc: 'YouTube, Spotify, 직접 검색 등 여러 소스의 음악을 재생합니다. 지원되는 플랫폼의 곡, 재생 목록, 앨범을 재생할 수 있습니다.'
+  params:
+    - desc: 'YouTube, Spotify, 직접 검색 등 여러 소스의 음악을 재생합니다. 지원되는 플랫폼의 곡, 재생 목록, 앨범을 재생할 수 있습니다.'
+      name: queueNumber
+      optional: false
+      type: int
+play_string:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'URL 또는 검색어로 음악을 재생합니다. Lavalink 노드에서 활성화된 소스(YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit 등)의 URL은 바로 불러옵니다. 일반 텍스트는 "spotify:", "deezer:", "applemusic:", "soundcloud:", "youtube:" 같은 소스 접두사로 시작하지 않는 한 기본 소스에서 검색합니다.'
+  params:
+    - &ref_347
+      desc: '재생할 음악의 URL 또는 검색어입니다. 소스 이름 접두사를 붙일 수 있습니다.'
+      name: query
+      optional: false
+      type: string
+play_string_1:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'URL 또는 검색어로 음악을 재생합니다. Lavalink 노드에서 활성화된 소스(YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit 등)의 URL은 바로 불러옵니다. 일반 텍스트는 "spotify:", "deezer:", "applemusic:", "soundcloud:", "youtube:" 같은 소스 접두사로 시작하지 않는 한 기본 소스에서 검색합니다.'
+  params:
+    - desc: '재생할 음악의 URL 또는 검색어입니다. 소스 이름 접두사를 붙일 수 있습니다.'
+      name: query
+      optional: false
+      type: string
+playlists:
+  args:
+    - ''
+  desc: '서버에 저장된 모든 재생 목록을 보여줍니다.'
+  params: [ ]
+queue:
+  args:
+    - ''
+  desc: '음악 대기열입니다.'
+  params: [ ]
+resetfilters:
+  args:
+    - ''
+  desc: '현재 곡의 모든 오디오 필터를 제거합니다.'
+  params: [ ]
+saveplaylist:
+  args:
+    - text
+  desc: '현재 대기열을 이름이 있는 재생 목록으로 저장합니다.'
+  params:
+    - &ref_477
+      desc: '재생 목록을 저장할 이름입니다.'
+      name: name
+      optional: false
+      type: string
+saveplaylist_string:
+  args:
+    - text
+  desc: '현재 대기열을 이름이 있는 재생 목록으로 저장합니다.'
+  params:
+    - desc: '재생 목록을 저장할 이름입니다.'
+      name: name
+      optional: false
+      type: string
+search:
+  args:
+    - text
+    - 'spotify: text'
+  desc: '자동으로 재생하지 않고 곡을 검색합니다. "spotify:", "deezer:", "soundcloud:" 같은 소스 접두사로 시작하지 않는 한 기본 소스에서 검색합니다.'
+  params:
+    - &ref_480
+      desc: '검색어이며 소스 이름 접두사를 붙일 수 있습니다.'
+      name: query
+      optional: false
+      type: string
+search_string:
+  args:
+    - text
+    - 'spotify: text'
+  desc: '자동으로 재생하지 않고 곡을 검색합니다. "spotify:", "deezer:", "soundcloud:" 같은 소스 접두사로 시작하지 않는 한 기본 소스에서 검색합니다.'
+  params:
+    - desc: '검색어이며 소스 이름 접두사를 붙일 수 있습니다.'
+      name: query
+      optional: false
+      type: string
+seek:
+  args:
+    - text
+  desc: '현재 곡의 특정 위치로 이동합니다.'
+  params:
+    - &ref_482
+      desc: '이동할 시간입니다(mm:ss 형식).'
+      name: timeSpan
+      optional: false
+      type: string
+seek_string:
+  args:
+    - text
+  desc: '현재 곡의 특정 위치로 이동합니다.'
+  params:
+    - desc: '이동할 시간입니다(mm:ss 형식).'
+      name: timeSpan
+      optional: false
+      type: string
+setdjrole:
+  args:
+    - '[@role]'
+  desc: '높은 권한이 필요한 음악 명령어에 사용할 DJ 역할을 설정합니다.'
+  params:
+    - desc: 'DJ로 설정할 역할입니다. 값이 없으면 DJ 역할을 제거합니다.'
+      name: role
+      optional: true
+      type: role
+setmusicchannel:
+  args:
+    - '[@channel]'
+  desc: '음악 이벤트를 보낼 채널을 설정합니다.'
+  params:
+    - desc: '음악 이벤트를 보낼 채널입니다.'
+      name: channel
+      optional: true
+      type: channel
+shuffle:
+  args:
+    - ''
+  desc: '현재 음악 대기열을 섞습니다.'
+  params: [ ]
+skip:
+  args:
+    - ''
+  desc: '다음 곡으로 넘어갑니다.'
+  params: [ ]
+songremove:
+  args:
+    - number
+  desc: '선택한 곡을 대기열에서 제거합니다. 선택한 곡이 현재 재생 중인 곡이면 건너뜁니다. 다음 곡이 없으면 플레이어를 멈춥니다.'
+  params:
+    - &ref_554
+      desc: '제거할 대기열 번호입니다.'
+      name: queueNumber
+      optional: false
+      type: int
+songremove_int:
+  args:
+    - number
+  desc: '선택한 곡을 대기열에서 제거합니다. 선택한 곡이 현재 재생 중인 곡이면 건너뜁니다. 다음 곡이 없으면 플레이어를 멈춥니다.'
+  params:
+    - desc: '제거할 대기열 번호입니다.'
+      name: queueNumber
+      optional: false
+      type: int
+stereowiden:
+  args:
+    - true
+  desc: '소리의 공간감을 높이는 스테레오 확장 효과를 적용합니다.'
+  params:
+    - desc: '소리의 공간감을 높이는 스테레오 확장 효과를 적용합니다.'
+      name: true
+      optional: false
+      type: '='
+tremolo:
+  args:
+    - true
+  desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=:
+  args:
+    - true
+  desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_1:
+  args:
+    - true
+  desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_2:
+  args:
+    - true
+  desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '음량이 흔들리는 효과의 트레몰로 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+vaporwave:
+  args:
+    - true
+  desc: '현재 곡에 베이퍼웨이브 효과를 전환합니다.'
+  params:
+    - desc: '현재 곡에 베이퍼웨이브 효과를 전환합니다.'
+      name: true
+      optional: false
+      type: '='
+vibrato:
+  args:
+    - true
+  desc: '음높이가 흔들리는 효과의 비브라토 필터를 적용하거나 제거합니다.'
+  params:
+    - desc: '음높이가 흔들리는 효과의 비브라토 필터를 적용하거나 제거합니다.'
+      name: true
+      optional: false
+      type: '='
+volume:
+  args:
+    - number
+  desc: '플레이어의 음량을 설정합니다.'
+  params:
+    - &ref_645
+      desc: '설정할 음량입니다.'
+      name: volume
+      optional: false
+      type: int
+volume_int:
+  args:
+    - number
+  desc: '플레이어의 음량을 설정합니다.'
+  params:
+    - desc: '설정할 음량입니다.'
+      name: volume
+      optional: false
+      type: int
+voteskip:
+  args:
+    - ''
+  desc: '현재 곡을 건너뛰기 위한 투표를 시작하거나 참여합니다.'
+  params: [ ]
+lastfmlink:
+  args: [ ]
+  desc: '스크로블링을 위해 사용자의 Last.fm 계정을 연결합니다.'
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: '스크로블링을 위해 사용자의 Last.fm 계정을 연결합니다.'
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: '사용자의 Last.fm 계정 연결을 해제합니다.'
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: '사용자의 Last.fm 계정 연결을 해제합니다.'
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: 'Last.fm 스크로블링을 켜거나 끕니다.'
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: 'Last.fm 스크로블링을 켜거나 끕니다.'
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: '사용자의 Last.fm 계정 상태를 보여줍니다.'
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: '사용자의 Last.fm 계정 상태를 보여줍니다.'
+  params: [ ]
+fm:
+  args:
+    - '[@user]'
+  desc: 'Last.fm에서 현재 또는 마지막으로 재생한 곡을 보여줍니다. 연결되지 않은 경우 Discord Spotify 상태를 사용합니다.'
+  params:
+    - desc: '확인할 사용자입니다. 기본값은 명령어를 실행한 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+fmrecent:
+  args:
+    - '[@user]'
+  desc: '사용자가 Last.fm에서 최근에 재생한 곡을 보여줍니다.'
+  params:
+    - desc: '확인할 사용자입니다. 기본값은 명령어를 실행한 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+fmtopartists:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '지정한 기간 동안 사용자의 Last.fm 상위 아티스트를 보여줍니다.'
+  params:
+    - desc: '기간: week, month, quarter, half, year, overall(기본값).'
+      name: period
+      optional: true
+      type: string
+    - desc: '확인할 사용자입니다. 기본값은 명령어를 실행한 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+fmtopalbums:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '지정한 기간 동안 사용자의 Last.fm 상위 앨범을 보여줍니다.'
+  params:
+    - desc: '기간: week, month, quarter, half, year, overall(기본값).'
+      name: period
+      optional: true
+      type: string
+    - desc: '확인할 사용자입니다. 기본값은 명령어를 실행한 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+fmtoptracks:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '지정한 기간 동안 사용자의 Last.fm 상위 곡을 보여줍니다.'
+  params:
+    - desc: '기간: week, month, quarter, half, year, overall(기본값).'
+      name: period
+      optional: true
+      type: string
+    - desc: '확인할 사용자입니다. 기본값은 명령어를 실행한 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+fmartist:
+  args:
+    - '[artist]'
+  desc: '아티스트의 Last.fm 정보와 사용자의 재생 횟수를 보여줍니다.'
+  params:
+    - desc: '아티스트 이름입니다. 기본값은 현재 또는 마지막으로 재생한 아티스트입니다.'
+      name: artist
+      optional: true
+      type: string
+fmalbum:
+  args:
+    - '[artist | album]'
+  desc: '앨범의 Last.fm 정보와 사용자의 재생 횟수를 보여줍니다.'
+  params:
+    - desc: '''아티스트 | 앨범'' 형식으로 입력하는 조회할 앨범입니다. 기본값은 현재 또는 마지막으로 재생한 앨범입니다.'
+      name: query
+      optional: true
+      type: string
+fmwhoknows:
+  args:
+    - '[artist]'
+  desc: '연결된 서버 멤버들을 아티스트별 재생 횟수로 순위를 매깁니다.'
+  params:
+    - desc: '확인할 아티스트입니다. 기본값은 현재 또는 마지막으로 재생한 아티스트입니다.'
+      name: artist
+      optional: true
+      type: string
+fmwhoknowsalbum:
+  args:
+    - 'artist | album'
+  desc: '연결된 서버 멤버들을 앨범별 재생 횟수로 순위를 매깁니다.'
+  params:
+    - desc: '''아티스트 | 앨범'' 형식으로 입력하는 확인할 앨범입니다.'
+      name: query
+      optional: false
+      type: string
+fmwhoknowstrack:
+  args:
+    - 'artist | track'
+  desc: '연결된 서버 멤버들을 곡별 재생 횟수로 순위를 매깁니다.'
+  params:
+    - desc: '''아티스트 | 곡'' 형식으로 입력하는 확인할 곡입니다.'
+      name: query
+      optional: false
+      type: string
+fmcrowns:
+  args:
+    - '[artist]'
+  desc: '이 서버에서 아티스트를 가장 많이 재생한 "주인"을 보여줍니다.'
+  params:
+    - desc: '확인할 아티스트입니다. 기본값은 현재 또는 마지막으로 재생한 아티스트입니다.'
+      name: artist
+      optional: true
+      type: string
+fmtaste:
+  args:
+    - '@user'
+  desc: '나의 상위 아티스트와 다른 사용자의 상위 아티스트를 비교해 취향이 얼마나 겹치는지 보여줍니다.'
+  params:
+    - desc: '비교할 사용자입니다.'
+      name: user
+      optional: false
+      type: user
+fmchart:
+  args:
+    - '[size]'
+    - '[period]'
+    - '[@user]'
+  desc: '사용자의 Last.fm 상위 앨범을 이미지 격자로 생성합니다.'
+  params:
+    - desc: '격자 크기(size x size)입니다. 2~5 사이여야 하며 기본값은 3입니다.'
+      name: size
+      optional: true
+      type: int
+    - desc: '기간: week, month, quarter, half, year, overall(기본값).'
+      name: period
+      optional: true
+      type: string
+    - desc: '확인할 사용자입니다. 기본값은 명령어를 실행한 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+ttsenable:
+  args:
+    - ''
+  desc: '현재 들어가 있는 음성 채널의 TTS를 전환합니다.'
+  params: [ ]
+ttslink:
+  args:
+    - '[#channel]'
+    - ''
+  desc: '현재 음성 채널의 TTS를 위해 텍스트 채널을 연결합니다. 연결된 채널의 메시지를 소리 내어 읽습니다. 인수 없이 사용하면 연결을 해제합니다.'
+  params:
+    - desc: '연결할 텍스트 채널입니다. 생략하면 연결을 해제합니다.'
+      name: channel
+      optional: true
+      type: channel
+ttslink_ITextChannel:
+  args:
+    - '[#channel]'
+    - ''
+  desc: '현재 음성 채널의 TTS를 위해 텍스트 채널을 연결합니다. 연결된 채널의 메시지를 소리 내어 읽습니다. 인수 없이 사용하면 연결을 해제합니다.'
+  params:
+    - desc: '연결할 텍스트 채널입니다. 생략하면 연결을 해제합니다.'
+      name: channel
+      optional: true
+      type: channel
+ttsannounce:
+  args:
+    - ''
+  desc: '현재 음성 채널의 입장/퇴장 알림을 전환합니다.'
+  params: [ ]
+ttsautojoin:
+  args:
+    - ''
+  desc: '들어가 있는 음성 채널의 자동 참여를 전환합니다. 켜져 있으면 멤버가 들어올 때 봇이 스스로 참여하고(아직 음성에 없는 경우), 채널이 비면 나갑니다. 봇이 연결되어 있지 않아도 동작합니다.'
+  params: [ ]
+ttsjoinformat:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: '입장 알림 형식을 설정합니다. %user.name%, %user.mention%, %server.name% 같은 자리표시자를 지원합니다. 인수 없이 사용하면 초기화됩니다.'
+  params:
+    - desc: '입장 형식 문자열입니다. 생략하면 기본값으로 초기화됩니다.'
+      name: format
+      optional: true
+      type: string
+ttsjoinformat_string:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: '입장 알림 형식을 설정합니다. %user.name%, %user.mention%, %server.name% 같은 자리표시자를 지원합니다. 인수 없이 사용하면 초기화됩니다.'
+  params:
+    - desc: '입장 형식 문자열입니다. 생략하면 기본값으로 초기화됩니다.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: '퇴장 알림 형식을 설정합니다. %user.name%, %user.mention%, %server.name% 같은 자리표시자를 지원합니다. 인수 없이 사용하면 초기화됩니다.'
+  params:
+    - desc: '퇴장 형식 문자열입니다. 생략하면 기본값으로 초기화됩니다.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat_string:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: '퇴장 알림 형식을 설정합니다. %user.name%, %user.mention%, %server.name% 같은 자리표시자를 지원합니다. 인수 없이 사용하면 초기화됩니다.'
+  params:
+    - desc: '퇴장 형식 문자열입니다. 생략하면 기본값으로 초기화됩니다.'
+      name: format
+      optional: true
+      type: string
+ttsvolume:
+  args:
+    - '75'
+  desc: 'TTS 음량(0~100)을 설정합니다. 음악 음량과는 별개입니다.'
+  params:
+    - desc: '0에서 100 사이의 음량입니다.'
+      name: volume
+      optional: false
+      type: int
+ttsvolume_int:
+  args:
+    - '75'
+  desc: 'TTS 음량(0~100)을 설정합니다. 음악 음량과는 별개입니다.'
+  params:
+    - desc: '0에서 100 사이의 음량입니다.'
+      name: volume
+      optional: false
+      type: int
+ttsspeed:
+  args:
+    - '1.5'
+  desc: 'TTS 재생 속도(0.5~2.0)를 설정합니다.'
+  params:
+    - desc: '0.5에서 2.0 사이의 속도 배율입니다.'
+      name: speed
+      optional: false
+      type: float
+ttsspeed_float:
+  args:
+    - '1.5'
+  desc: 'TTS 재생 속도(0.5~2.0)를 설정합니다.'
+  params:
+    - desc: '0.5에서 2.0 사이의 속도 배율입니다.'
+      name: speed
+      optional: false
+      type: float
+ttsdefaultvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: '서버의 기본 TTS 음성을 설정합니다. 인수 없이 사용하면 시스템 기본값으로 초기화됩니다.'
+  params:
+    - desc: '음성 이름입니다. 생략하면 초기화됩니다.'
+      name: voice
+      optional: true
+      type: string
+ttsdefaultvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: '서버의 기본 TTS 음성을 설정합니다. 인수 없이 사용하면 시스템 기본값으로 초기화됩니다.'
+  params:
+    - desc: '음성 이름입니다. 생략하면 초기화됩니다.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: '이 서버에서 사용할 개인 TTS 음성을 설정합니다. 인수 없이 사용하면 서버 기본값으로 초기화됩니다.'
+  params:
+    - desc: '음성 이름입니다. 생략하면 초기화됩니다.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: '이 서버에서 사용할 개인 TTS 음성을 설정합니다. 인수 없이 사용하면 서버 기본값으로 초기화됩니다.'
+  params:
+    - desc: '음성 이름입니다. 생략하면 초기화됩니다.'
+      name: voice
+      optional: true
+      type: string
+ttsvoices:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: '이름, 언어, 성별 또는 소스로 사용 가능한 TTS 음성을 검색합니다. 결과는 페이지로 나뉩니다.'
+  params:
+    - desc: '검색어(음성 이름, 언어, 성별 또는 소스)입니다.'
+      name: search
+      optional: false
+      type: string
+ttsvoices_string:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: '이름, 언어, 성별 또는 소스로 사용 가능한 TTS 음성을 검색합니다. 결과는 페이지로 나뉩니다.'
+  params:
+    - desc: '검색어(음성 이름, 언어, 성별 또는 소스)입니다.'
+      name: search
+      optional: false
+      type: string
+ttsblock:
+  args:
+    - '@user'
+  desc: '이 서버에서 사용자의 TTS 사용을 차단하거나 해제합니다. 차단 상태를 전환합니다.'
+  params:
+    - desc: '차단하거나 차단을 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: user
+ttsblock_IGuildUser:
+  args:
+    - '@user'
+  desc: '이 서버에서 사용자의 TTS 사용을 차단하거나 해제합니다. 차단 상태를 전환합니다.'
+  params:
+    - desc: '차단하거나 차단을 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: user
+ttsblocklist:
+  args:
+    - ''
+  desc: '이 서버에서 TTS가 차단된 모든 사용자를 보여줍니다.'
+  params: [ ]
+ttsrole:
+  args:
+    - '@role'
+    - ''
+  desc: 'TTS를 사용하는 데 필요한 역할을 설정합니다. 인수 없이 사용하면 제한을 제거합니다.'
+  params:
+    - desc: '필요한 역할입니다. 생략하면 제한을 제거합니다.'
+      name: role
+      optional: true
+      type: role
+ttsrole_IRole:
+  args:
+    - '@role'
+    - ''
+  desc: 'TTS를 사용하는 데 필요한 역할을 설정합니다. 인수 없이 사용하면 제한을 제거합니다.'
+  params:
+    - desc: '필요한 역할입니다. 생략하면 제한을 제거합니다.'
+      name: role
+      optional: true
+      type: role
+ttsreplycontext:
+  args:
+    - ''
+  desc: 'TTS가 답장 맥락(예: "User님에게 답장")을 읽을지 전환합니다.'
+  params: [ ]
+ttsattachmentnarration:
+  args:
+    - ''
+  desc: 'TTS가 첨부 파일(예: "이미지를 보냄")을 설명할지 전환합니다.'
+  params: [ ]
+ttsconsecutivegrouping:
+  args:
+    - ''
+  desc: '같은 사용자가 연속으로 보낸 메시지에서 이름 접두사를 생략할지 전환합니다.'
+  params: [ ]
+ttsmaxqueue:
+  args:
+    - '20'
+  desc: 'TTS 대기열의 최대 크기(1~50)를 설정합니다.'
+  params:
+    - desc: '1에서 50 사이의 최대 대기열 크기입니다.'
+      name: size
+      optional: false
+      type: int
+ttsmaxqueue_int:
+  args:
+    - '20'
+  desc: 'TTS 대기열의 최대 크기(1~50)를 설정합니다.'
+  params:
+    - desc: '1에서 50 사이의 최대 대기열 크기입니다.'
+      name: size
+      optional: false
+      type: int
+ttssettings:
+  args:
+    - ''
+  desc: '이 서버와 음성 채널의 현재 TTS 설정을 보여줍니다.'
+  params: [ ]
+ttsremove:
+  args:
+    - ''
+  desc: '현재 음성 채널의 모든 TTS 설정을 제거합니다.'
+  params: [ ]

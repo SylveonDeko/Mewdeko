@@ -1,0 +1,2501 @@
+addblacklistedpermission:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Kara listeye bir izin ekler.'
+  params:
+    - desc: 'Kara listeye alınacak izin.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Bu izne özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Kara listeye bir izin ekler.'
+  params:
+    - desc: 'Kara listeye alınacak izin.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Bu izne özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_1:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Kara listeye bir izin ekler.'
+  params:
+    - desc: 'Kara listeye alınacak izin.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Bu izne özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_2:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Kara listeye bir izin ekler.'
+  params:
+    - desc: 'Kara listeye alınacak izin.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Bu izne özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Kara listeye bir rol ekler.'
+  params:
+    - desc: 'Kara listeye alınacak rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bu role özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Kara listeye bir rol ekler.'
+  params:
+    - desc: 'Kara listeye alınacak rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bu role özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_1:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Kara listeye bir rol ekler.'
+  params:
+    - desc: 'Kara listeye alınacak rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bu role özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_2:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Kara listeye bir rol ekler.'
+  params:
+    - desc: 'Kara listeye alınacak rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Bu role özel isteğe bağlı ceza eylemi.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addemote:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'Sunucuya yeni bir emote ekler.'
+  params:
+    - desc: 'Emote''un adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Emote görselinin URL''si. Verilmezse görsel mesaj eklerinden alınır.'
+      name: url
+      optional: true
+      type: string
+addemote_string_=:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'Sunucuya yeni bir emote ekler.'
+  params:
+    - desc: 'Emote''un adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Emote görselinin URL''si. Verilmezse görsel mesaj eklerinden alınır.'
+      name: url
+      optional: true
+      type: string
+addroletolist:
+  args:
+    - '@role'
+  desc: 'Eklenen dosyada listelenen kullanıcılara belirtilen rolü ekler.'
+  params:
+    - &ref_28
+      desc: 'Eklenen dosyadaki kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole:
+  args:
+    - '@role'
+  desc: 'Eklenen dosyada listelenen kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Eklenen dosyadaki kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_1:
+  args:
+    - '@role'
+  desc: 'Eklenen dosyada listelenen kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Eklenen dosyadaki kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_2:
+  args:
+    - '@role'
+  desc: 'Eklenen dosyada listelenen kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Eklenen dosyadaki kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addroletorole:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - &ref_29
+      desc: 'Eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_30
+      desc: 'Yeni rolü alacak üyelerin mevcut rolü.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Yeni rolü alacak üyelerin mevcut rolü.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Yeni rolü alacak üyelerin mevcut rolü.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Yeni rolü alacak üyelerin mevcut rolü.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove:
+  args:
+    - '@role @role'
+  desc: 'Kullanıcılara bir rol ekler ve tek işlemde farklı bir rolü onlardan kaldırır.'
+  params:
+    - &ref_33
+      desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_34
+      desc: 'Aynı kullanıcılardan kaldırılacak rol.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Kullanıcılara bir rol ekler ve tek işlemde farklı bir rolü onlardan kaldırır.'
+  params:
+    - desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Aynı kullanıcılardan kaldırılacak rol.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Kullanıcılara bir rol ekler ve tek işlemde farklı bir rolü onlardan kaldırır.'
+  params:
+    - desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Aynı kullanıcılardan kaldırılacak rol.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Kullanıcılara bir rol ekler ve tek işlemde farklı bir rolü onlardan kaldırır.'
+  params:
+    - desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Aynı kullanıcılardan kaldırılacak rol.'
+      name: role2
+      optional: false
+      type: IRole
+addtoall:
+  args:
+    - '@role'
+  desc: 'Tüm sunucu üyelerine belirtilen rolü ekler.'
+  params:
+    - &ref_35
+      desc: 'Tüm sunucu üyelerine eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole:
+  args:
+    - '@role'
+  desc: 'Tüm sunucu üyelerine belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm sunucu üyelerine eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Tüm sunucu üyelerine belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm sunucu üyelerine eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Tüm sunucu üyelerine belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm sunucu üyelerine eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlara belirtilen rolü ekler.'
+  params:
+    - &ref_36
+      desc: 'Tüm botlara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlara belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm botlara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlara belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm botlara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlara belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm botlara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers:
+  args:
+    - '@role'
+  desc: 'Botlar hariç sunucudaki tüm insan kullanıcılara belirtilen rolü ekler.'
+  params:
+    - &ref_37
+      desc: 'Tüm insan kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole:
+  args:
+    - '@role'
+  desc: 'Botlar hariç sunucudaki tüm insan kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm insan kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'Botlar hariç sunucudaki tüm insan kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm insan kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'Botlar hariç sunucudaki tüm insan kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Tüm insan kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden uzun süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - &ref_38
+      desc: 'Rolü alabilmek için sunucuda üye olunması gereken en kısa süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_39
+      desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden uzun süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Rolü alabilmek için sunucuda üye olunması gereken en kısa süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden uzun süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Rolü alabilmek için sunucuda üye olunması gereken en kısa süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden uzun süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Rolü alabilmek için sunucuda üye olunması gereken en kısa süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden kısa süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - &ref_40
+      desc: 'Rolü alabilmek için sunucuda üye olunabilecek en uzun süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden kısa süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Rolü alabilmek için sunucuda üye olunabilecek en uzun süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden kısa süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Rolü alabilmek için sunucuda üye olunabilecek en uzun süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: 'Sunucuda belirtilen süreden kısa süredir üye olan tüm kullanıcılara belirtilen rolü ekler.'
+  params:
+    - desc: 'Rolü alabilmek için sunucuda üye olunabilecek en uzun süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Uygun kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+adduserstorole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesine belirli bir rolü ekler; kullanıcılarda rol yoksa ekler.'
+  params:
+    - &ref_41
+      desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_42
+      desc: 'Rolün ekleneceği kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesine belirli bir rolü ekler; kullanıcılarda rol yoksa ekler.'
+  params:
+    - desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Rolün ekleneceği kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesine belirli bir rolü ekler; kullanıcılarda rol yoksa ekler.'
+  params:
+    - desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Rolün ekleneceği kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesine belirli bir rolü ekler; kullanıcılarda rol yoksa ekler.'
+  params:
+    - desc: 'Kullanıcılara eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Rolün ekleneceği kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+addwhitelistedrole:
+  args:
+    - '@role'
+  desc: 'Beyaz listeye bir rol ekler.'
+  params:
+    - &ref_43
+      desc: 'Beyaz listeye alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole:
+  args:
+    - '@role'
+  desc: 'Beyaz listeye bir rol ekler.'
+  params:
+    - desc: 'Beyaz listeye alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Beyaz listeye bir rol ekler.'
+  params:
+    - desc: 'Beyaz listeye alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Beyaz listeye bir rol ekler.'
+  params:
+    - desc: 'Beyaz listeye alınacak rol.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelisteduser:
+  args:
+    - '@user'
+  desc: 'Beyaz listeye bir kullanıcı ekler.'
+  params:
+    - &ref_44
+      desc: 'Beyaz listeye alınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Beyaz listeye bir kullanıcı ekler.'
+  params:
+    - desc: 'Beyaz listeye alınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Beyaz listeye bir kullanıcı ekler.'
+  params:
+    - desc: 'Beyaz listeye alınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Beyaz listeye bir kullanıcı ekler.'
+  params:
+    - desc: 'Beyaz listeye alınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+atuo:
+  args:
+    - role threshold
+  desc: 'Eşiğin üzerindeki kullanıcılara rol ekler.'
+  params:
+    - desc: 'Eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Eşik değeri.'
+      name: threshold
+      optional: false
+      type: int
+atuu:
+  args:
+    - role threshold
+  desc: 'Eşiğin altındaki kullanıcılara rol ekler.'
+  params:
+    - desc: 'Eklenecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Eşik değeri.'
+      name: threshold
+      optional: false
+      type: int
+ccatc:
+  args:
+    - name count
+  desc: 'Kategori ve metin kanalları oluşturur.'
+  params:
+    - desc: 'Kategori adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Oluşturulacak metin kanalı sayısı.'
+      name: count
+      optional: false
+      type: int
+ccavc:
+  args:
+    - name count
+  desc: 'Kategori ve ses kanalları oluşturur.'
+  params:
+    - desc: 'Kategori adı.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Oluşturulacak ses kanalı sayısı.'
+      name: count
+      optional: false
+      type: int
+cctc:
+  args:
+    - category count
+  desc: 'Kategoriye metin kanalları oluşturur.'
+  params:
+    - desc: 'Kanalların ekleneceği kategori.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Oluşturulacak metin kanalı sayısı.'
+      name: count
+      optional: false
+      type: int
+ccvc:
+  args:
+    - category count
+  desc: 'Kategoriye ses kanalları oluşturur.'
+  params:
+    - desc: 'Kanalların ekleneceği kategori.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Oluşturulacak ses kanalı sayısı.'
+      name: count
+      optional: false
+      type: int
+createcatandtxtchannels:
+  args:
+    - text text
+  desc: 'Sunucuda bir kategori ve belirtilen kanalları oluşturur.'
+  params:
+    - &ref_148
+      desc: 'Oluşturulacak kategorinin adı'
+      name: catName
+      optional: false
+      type: string
+    - &ref_149
+      desc: 'Oluşturulacak kanalların adları'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]:
+  args:
+    - text text
+  desc: 'Sunucuda bir kategori ve belirtilen kanalları oluşturur.'
+  params:
+    - desc: 'Oluşturulacak kategorinin adı'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Oluşturulacak kanalların adları'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_1:
+  args:
+    - text text
+  desc: 'Sunucuda bir kategori ve belirtilen kanalları oluşturur.'
+  params:
+    - desc: 'Oluşturulacak kategorinin adı'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Oluşturulacak kanalların adları'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_2:
+  args:
+    - text text
+  desc: 'Sunucuda bir kategori ve belirtilen kanalları oluşturur.'
+  params:
+    - desc: 'Oluşturulacak kategorinin adı'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Oluşturulacak kanalların adları'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels:
+  args:
+    - text text
+  desc: 'İçinde birden fazla ses kanalı olan bir kategori oluşturur.'
+  params:
+    - &ref_150
+      desc: 'Oluşturulacak kategorinin adı.'
+      name: catName
+      optional: false
+      type: string
+    - &ref_151
+      desc: 'Kategori içinde oluşturulacak ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]:
+  args:
+    - text text
+  desc: 'İçinde birden fazla ses kanalı olan bir kategori oluşturur.'
+  params:
+    - desc: 'Oluşturulacak kategorinin adı.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Kategori içinde oluşturulacak ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_1:
+  args:
+    - text text
+  desc: 'İçinde birden fazla ses kanalı olan bir kategori oluşturur.'
+  params:
+    - desc: 'Oluşturulacak kategorinin adı.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Kategori içinde oluşturulacak ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_2:
+  args:
+    - text text
+  desc: 'İçinde birden fazla ses kanalı olan bir kategori oluşturur.'
+  params:
+    - desc: 'Oluşturulacak kategorinin adı.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'Kategori içinde oluşturulacak ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla metin kanalı ekler.'
+  params:
+    - &ref_152
+      desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_153
+      desc: 'Eklenecek metin kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla metin kanalı ekler.'
+  params:
+    - desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Eklenecek metin kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla metin kanalı ekler.'
+  params:
+    - desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Eklenecek metin kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla metin kanalı ekler.'
+  params:
+    - desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Eklenecek metin kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla ses kanalı ekler.'
+  params:
+    - desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_154
+      desc: 'Eklenecek ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla ses kanalı ekler.'
+  params:
+    - desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Eklenecek ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla ses kanalı ekler.'
+  params:
+    - desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Eklenecek ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: 'Mevcut bir kategoriye birden fazla ses kanalı ekler.'
+  params:
+    - desc: 'Hedef kategori kanalı.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Eklenecek ses kanallarının adları.'
+      name: channels
+      optional: false
+      type: string[]
+createroles:
+  args:
+    - text
+  desc: 'Verilen rol adları listesine göre sunucuda birden fazla rol oluşturur.'
+  params:
+    - &ref_155
+      desc: 'Oluşturulacak rol adlarının boşlukla ayrılmış listesi.'
+      name: roles
+      optional: false
+      type: string
+createroles_string:
+  args:
+    - text
+  desc: 'Verilen rol adları listesine göre sunucuda birden fazla rol oluşturur.'
+  params:
+    - desc: 'Oluşturulacak rol adlarının boşlukla ayrılmış listesi.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_1:
+  args:
+    - text
+  desc: 'Verilen rol adları listesine göre sunucuda birden fazla rol oluşturur.'
+  params:
+    - desc: 'Oluşturulacak rol adlarının boşlukla ayrılmış listesi.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_2:
+  args:
+    - text
+  desc: 'Verilen rol adları listesine göre sunucuda birden fazla rol oluşturur.'
+  params:
+    - desc: 'Oluşturulacak rol adlarının boşlukla ayrılmış listesi.'
+      name: roles
+      optional: false
+      type: string
+createwebhook:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+  params:
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+  params:
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_1:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+  params:
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_2:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+  params:
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'İsteğe bağlı özel avatarla bir metin kanalında webhook oluşturur.'
+      name: avatar
+      optional: true
+      type: string
+deleteroles:
+  args:
+    - '@role'
+  desc: 'Sunucudan bir rol listesini siler.'
+  params:
+    - &ref_189
+      desc: 'Silinecek roller dizisi.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]:
+  args:
+    - '@role'
+  desc: 'Sunucudan bir rol listesini siler.'
+  params:
+    - desc: 'Silinecek roller dizisi.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Sunucudan bir rol listesini siler.'
+  params:
+    - desc: 'Silinecek roller dizisi.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Sunucudan bir rol listesini siler.'
+  params:
+    - desc: 'Silinecek roller dizisi.'
+      name: roles
+      optional: false
+      type: IRole[]
+exportrolelist:
+  args:
+    - ''
+  desc: 'Rolleri ve ilişkili kullanıcılarını yedekleme ve aktarma için bir metin dosyasına aktarır.'
+  params: [ ]
+grab:
+  args:
+    - '@user'
+  desc: 'Kullanıcıyı komutu veren kişinin mevcut ses kanalına getirir.'
+  params:
+    - &ref_233
+      desc: 'Alınıp taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Kullanıcıyı komutu veren kişinin mevcut ses kanalına getirir.'
+  params:
+    - desc: 'Alınıp taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Kullanıcıyı komutu veren kişinin mevcut ses kanalına getirir.'
+  params:
+    - desc: 'Alınıp taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Kullanıcıyı komutu veren kişinin mevcut ses kanalına getirir.'
+  params:
+    - desc: 'Alınıp taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+importrolelist:
+  args:
+    - false
+  desc: 'Bir metin dosyasından rol ve kullanıcı ilişkilerini içe aktarır; belirtilen rolleri etiketlenen kullanıcılara uygular.'
+  params:
+    - desc: 'Bir metin dosyasından rol ve kullanıcı ilişkilerini içe aktarır; belirtilen rolleri etiketlenen kullanıcılara uygular.'
+      name: false
+      optional: false
+      type: '='
+liftlockdown:
+  args:
+    - lockdowntype.readonly
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+  params:
+    - &ref_274
+      desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=:
+  args:
+    - lockdowntype.readonly
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+  params:
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_1:
+  args:
+    - lockdowntype.readonly
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+  params:
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_2:
+  args:
+    - lockdowntype.readonly
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+  params:
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre kilidi kaldırır.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+listblacklists:
+  args:
+    - ''
+  desc: 'Tüm kara listeye alınmış ve beyaz listeye alınmış rolleri ve izinleri listeler.'
+  params: [ ]
+lock:
+  args:
+    - '[channel]'
+  desc: 'Bir kanalda yavaş modu özelleştirilebilir sürelerle açar veya kapatır.'
+  params:
+    - desc: 'Yavaş modun uygulanacağı kanalı belirtmek için isteğe bağlı parametre.'
+      name: channel
+      optional: true
+      type: sockettextchannel
+lockdown:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+  params:
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - &ref_281
+      desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+  params:
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_1:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+  params:
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_2:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+  params:
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Belirtilen kilit türüne (Joins, Readonly, Full) göre sunucuyu kilitler.'
+      name: false
+      optional: false
+      type: '='
+moveto:
+  args:
+    - channel
+  desc: 'Komutu veren kişiyi belirtilen ses kanalına taşır.'
+  params:
+    - &ref_301
+      desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel:
+  args:
+    - channel
+  desc: 'Komutu veren kişiyi belirtilen ses kanalına taşır.'
+  params:
+    - desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_1:
+  args:
+    - channel
+  desc: 'Komutu veren kişiyi belirtilen ses kanalına taşır.'
+  params:
+    - desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_2:
+  args:
+    - channel
+  desc: 'Komutu veren kişiyi belirtilen ses kanalına taşır.'
+  params:
+    - desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kullanıcıyı verilen ses kanalına taşır.'
+  params:
+    - &ref_302
+      desc: 'Taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kullanıcıyı verilen ses kanalına taşır.'
+  params:
+    - desc: 'Taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kullanıcıyı verilen ses kanalına taşır.'
+  params:
+    - desc: 'Taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Belirtilen kullanıcıyı verilen ses kanalına taşır.'
+  params:
+    - desc: 'Taşınacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcının taşınacağı hedef ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+nuke:
+  args:
+    - '[@chan3]'
+  desc: 'Bir metin kanalını siler ve yeniden oluşturur; böylece "nuke" eder.'
+  params:
+    - desc: 'Nuke yapılacak kanalı belirtmek için isteğe bağlı parametre.'
+      name: chan3
+      optional: true
+      type: channel
+permcontrol:
+  args:
+    - channel perm @role perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - &ref_337
+      desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - &ref_338
+      desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_339
+      desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_340
+      desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]:
+  args:
+    - channel perm @role perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_1:
+  args:
+    - channel perm @role perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_2:
+  args:
+    - channel perm @role perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]:
+  args:
+    - channel perm @user perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_341
+      desc: 'İzin değişikliklerinin uygulanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_1:
+  args:
+    - channel perm @user perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'İzin değişikliklerinin uygulanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_2:
+  args:
+    - channel perm @user perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'İzin değişikliklerinin uygulanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_3:
+  args:
+    - channel perm @user perms
+  desc: 'Belirtilen kullanıcı için kanal izinlerini verilen izinlere ve eyleme göre değiştirir.'
+  params:
+    - desc: 'İzinleri değiştirilen kanal.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'Yapılacak eylem (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'İzin değişikliklerinin uygulanacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Değiştirilecek izinler kümesi.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permview:
+  args:
+    - ''
+  desc: 'Belirtilen rolün izin verilen izinlerini listeler.'
+  params: [ ]
+permview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Belirtilen rolün izin verilen izinlerini listeler.'
+  params:
+    - &ref_343
+      desc: 'İzinleri gösterilecek rol.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Belirtilen rolün izin verilen izinlerini listeler.'
+  params:
+    - desc: 'İzinleri gösterilecek rol.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IRole:
+  args:
+    - '@role'
+  desc: 'Belirtilen rolün izin verilen izinlerini listeler.'
+  params:
+    - &ref_344
+      desc: 'İzinleri gösterilecek rol.'
+      name: user
+      optional: false
+      type: IRole
+permview_IRole_1:
+  args:
+    - '@role'
+  desc: 'Belirtilen rolün izin verilen izinlerini listeler.'
+  params:
+    - desc: 'İzinleri gösterilecek rol.'
+      name: user
+      optional: false
+      type: IRole
+permview_noparams:
+  args:
+    - ''
+  desc: 'Belirtilen rolün izin verilen izinlerini listeler.'
+  params: [ ]
+removeblacklistedpermission:
+  args:
+    - permission
+  desc: 'Kara listeden bir izni kaldırır.'
+  params:
+    - desc: 'Kara listeden kaldırılacak izin.'
+      name: permission
+      optional: false
+      type: GuildPermission
+removeblacklistedrole:
+  args:
+    - '@role'
+  desc: 'Kara listeden bir rolü kaldırır.'
+  params:
+    - desc: 'Kara listeden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removeemote:
+  args:
+    - text
+  desc: 'Sunucudan bir emote''u kaldırır.'
+  params:
+    - &ref_394
+      desc: 'Komut imzası gereksinimlerini karşılamak için yer tutucu parametre.'
+      name: _
+      optional: false
+      type: string
+removeemote_string:
+  args:
+    - text
+  desc: 'Sunucudan bir emote''u kaldırır.'
+  params:
+    - desc: 'Komut imzası gereksinimlerini karşılamak için yer tutucu parametre.'
+      name: _
+      optional: false
+      type: string
+removefromall:
+  args:
+    - '@role'
+  desc: 'Belirtilen rolü tüm sunucu üyelerinden kaldırır.'
+  params:
+    - &ref_395
+      desc: 'Tüm sunucu üyelerinden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole:
+  args:
+    - '@role'
+  desc: 'Belirtilen rolü tüm sunucu üyelerinden kaldırır.'
+  params:
+    - desc: 'Tüm sunucu üyelerinden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Belirtilen rolü tüm sunucu üyelerinden kaldırır.'
+  params:
+    - desc: 'Tüm sunucu üyelerinden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Belirtilen rolü tüm sunucu üyelerinden kaldırır.'
+  params:
+    - desc: 'Tüm sunucu üyelerinden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlardan belirtilen rolü kaldırır.'
+  params:
+    - &ref_396
+      desc: 'Tüm botlardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Tüm botlardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Tüm botlardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'Sunucudaki tüm botlardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Tüm botlardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers:
+  args:
+    - '@role'
+  desc: 'Botlar hariç tüm insan kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - &ref_397
+      desc: 'Tüm insan üyelerden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole:
+  args:
+    - '@role'
+  desc: 'Botlar hariç tüm insan kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Tüm insan üyelerden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'Botlar hariç tüm insan kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Tüm insan üyelerden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'Botlar hariç tüm insan kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Tüm insan üyelerden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removefromrole:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - &ref_398
+      desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_399
+      desc: 'İlk rolü kaldırılacak üyelerin sahip olduğu rol.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'İlk rolü kaldırılacak üyelerin sahip olduğu rol.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'İlk rolü kaldırılacak üyelerin sahip olduğu rol.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Belirtilen başka bir role sahip tüm kullanıcılardan belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'İlk rolü kaldırılacak üyelerin sahip olduğu rol.'
+      name: role2
+      optional: false
+      type: IRole
+removeroles:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcıdan belirtilen rolleri kaldırır.'
+  params:
+    - &ref_412
+      desc: 'Rollerinin kaldırılacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_413
+      desc: 'Kullanıcıdan kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcıdan belirtilen rolleri kaldırır.'
+  params:
+    - desc: 'Rollerinin kaldırılacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcıdan kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcıdan belirtilen rolleri kaldırır.'
+  params:
+    - desc: 'Rollerinin kaldırılacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcıdan kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcıdan belirtilen rolleri kaldırır.'
+  params:
+    - desc: 'Rollerinin kaldırılacağı kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcıdan kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeusersfromrole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesinden, rolü varsa belirtilen rolü kaldırır.'
+  params:
+    - &ref_416
+      desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_417
+      desc: 'Rolü kaldırılacak kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesinden, rolü varsa belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Rolü kaldırılacak kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesinden, rolü varsa belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Rolü kaldırılacak kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Bir kullanıcı listesinden, rolü varsa belirtilen rolü kaldırır.'
+  params:
+    - desc: 'Kullanıcılardan kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Rolü kaldırılacak kullanıcılar.'
+      name: users
+      optional: false
+      type: IUser[]
+removewhitelistedrole:
+  args:
+    - '@role'
+  desc: 'Beyaz listeden bir rolü kaldırır.'
+  params:
+    - desc: 'Beyaz listeden kaldırılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+removewhitelisteduser:
+  args:
+    - '@user'
+  desc: 'Beyaz listeden bir kullanıcıyı kaldırır.'
+  params:
+    - desc: 'Beyaz listeden kaldırılacak kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+renameemote:
+  args:
+    - text text
+  desc: 'Sunucudaki mevcut bir emote''un adını değiştirir.'
+  params:
+    - &ref_421
+      desc: 'Adı değiştirilecek mevcut emote.'
+      name: emote
+      optional: false
+      type: string
+    - &ref_422
+      desc: 'Emote için yeni ad.'
+      name: name
+      optional: false
+      type: string
+renameemote_string_string:
+  args:
+    - text text
+  desc: 'Sunucudaki mevcut bir emote''un adını değiştirir.'
+  params:
+    - desc: 'Adı değiştirilecek mevcut emote.'
+      name: emote
+      optional: false
+      type: string
+    - desc: 'Emote için yeni ad.'
+      name: name
+      optional: false
+      type: string
+rj:
+  args:
+    - action
+  desc: 'Rol işlerini yönetir.'
+  params:
+    - desc: 'Rol işlerinde yapılacak eylem.'
+      name: action
+      optional: false
+      type: string
+rolejobs:
+  args:
+    - ''
+  desc: 'Sunucudaki devam eden tüm toplu rol işlemlerini her biri hakkındaki ayrıntılarla listeler.'
+  params: [ ]
+setbanner:
+  args:
+    - text
+  desc: 'Sunucunun banner''ını ayarlar.'
+  params:
+    - &ref_489
+      desc: 'Yeni sunucu banner''ının URL''si.'
+      name: img
+      optional: false
+      type: string
+setbanner_string:
+  args:
+    - text
+  desc: 'Sunucunun banner''ını ayarlar.'
+  params:
+    - desc: 'Yeni sunucu banner''ının URL''si.'
+      name: img
+      optional: false
+      type: string
+setdefaultpunishment:
+  args:
+    - punishmentaction
+  desc: 'Sunucu için varsayılan ceza eylemini ayarlar.'
+  params:
+    - &ref_501
+      desc: 'Ayarlanacak varsayılan ceza eylemi.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction:
+  args:
+    - punishmentaction
+  desc: 'Sunucu için varsayılan ceza eylemini ayarlar.'
+  params:
+    - desc: 'Ayarlanacak varsayılan ceza eylemi.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_1:
+  args:
+    - punishmentaction
+  desc: 'Sunucu için varsayılan ceza eylemini ayarlar.'
+  params:
+    - &ref_502
+      desc: 'Ayarlanacak varsayılan ceza eylemi.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_2:
+  args:
+    - punishmentaction
+  desc: 'Sunucu için varsayılan ceza eylemini ayarlar.'
+  params:
+    - desc: 'Ayarlanacak varsayılan ceza eylemi.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+seticon:
+  args:
+    - text
+  desc: 'Sunucunun simgesini ayarlar.'
+  params:
+    - &ref_525
+      desc: 'Yeni sunucu simgesinin URL''si.'
+      name: img
+      optional: false
+      type: string
+seticon_string:
+  args:
+    - text
+  desc: 'Sunucunun simgesini ayarlar.'
+  params:
+    - desc: 'Yeni sunucu simgesinin URL''si.'
+      name: img
+      optional: false
+      type: string
+setroles:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcının rollerini isteğe bağlı süre sınırıyla yeni roller ekleyerek değiştirir.'
+  params:
+    - &ref_521
+      desc: 'Rolleri değiştirilecek kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_522
+      desc: 'Kullanıcıya eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcının rollerini isteğe bağlı süre sınırıyla yeni roller ekleyerek değiştirir.'
+  params:
+    - desc: 'Rolleri değiştirilecek kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcıya eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcının rollerini isteğe bağlı süre sınırıyla yeni roller ekleyerek değiştirir.'
+  params:
+    - desc: 'Rolleri değiştirilecek kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcıya eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanıcının rollerini isteğe bağlı süre sınırıyla yeni roller ekleyerek değiştirir.'
+  params:
+    - desc: 'Rolleri değiştirilecek kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanıcıya eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_StoopidTime_IRole[]:
+  args:
+    - '@user time @role'
+  desc: 'Bir kullanıcının rollerini isteğe bağlı süre sınırıyla yeni roller ekleyerek değiştirir.'
+  params:
+    - desc: 'Rolleri değiştirilecek kullanıcı.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_524
+      desc: 'Rollerin aktif kalacağı süre.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Kullanıcıya eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setservername:
+  args:
+    - text
+  desc: 'Sunucunun adını ayarlar.'
+  params:
+    - desc: 'Sunucu için yeni ad.'
+      name: name
+      optional: false
+      type: string
+setsplash:
+  args:
+    - text
+  desc: 'Sunucunun splash görselini ayarlar.'
+  params:
+    - desc: 'Yeni splash görselinin URL''si.'
+      name: img
+      optional: false
+      type: string
+setsplash_string:
+  args:
+    - text
+  desc: 'Sunucunun splash görselini ayarlar.'
+  params:
+    - desc: 'Sunucunun splash görselini ayarlar.'
+      name: time
+      optional: false
+      type: StoopidTime
+sfr:
+  args:
+    - role emotes
+  desc: 'Belirli bir rol için emote''ları çalar.'
+  params:
+    - desc: 'Emote''ların çalınacağı rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Boşlukla ayrılmış emote URL''leri veya emote adları listesi.'
+      name: e
+      optional: false
+      type: string
+sj:
+  args:
+    - job
+  desc: 'Çalışan bir işi durdurur.'
+  params:
+    - desc: 'Durdurulacak iş.'
+      name: job
+      optional: false
+      type: string
+slowmode:
+  args:
+    - time channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - &ref_550
+      desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_549
+      desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel:
+  args:
+    - channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - &ref_547
+      desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime:
+  args:
+    - time
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - &ref_548
+      desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_1:
+  args:
+    - time
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_2:
+  args:
+    - time
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_3:
+  args:
+    - time
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_ITextChannel:
+  args:
+    - time channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_1:
+  args:
+    - time channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_2:
+  args:
+    - time channel
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params:
+    - desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Yavaş mod ayarlarının uygulanacağı metin kanalı.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_noparams:
+  args:
+    - ''
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params: [ ]
+slowmode_noparams_1:
+  args:
+    - ''
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params: [ ]
+slowmode_noparams_2:
+  args:
+    - ''
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params: [ ]
+slowmode_noparams_3:
+  args:
+    - ''
+  desc: 'Mevcut metin kanalındaki yavaş mod aralığını kapalı ile varsayılan aralık arasında değiştirir.'
+  params: [ ]
+steal:
+  args:
+    - emotes
+  desc: 'Diğer sunuculardan emote''ları çalar.'
+  params:
+    - desc: 'Boşlukla ayrılmış emote URL''leri veya emote adları listesi.'
+      name: e
+      optional: false
+      type: string
+stealemotes:
+  args:
+    - text
+  desc: 'Bir mesajdaki emote''ları çalar ve sunucuya ekler.'
+  params:
+    - &ref_565
+      desc: 'Emote''ları içeren mesaj.'
+      name: e
+      optional: false
+      type: string
+stealemotes_string:
+  args:
+    - text
+  desc: 'Bir mesajdaki emote''ları çalar ve sunucuya ekler.'
+  params:
+    - desc: 'Emote''ları içeren mesaj.'
+      name: e
+      optional: false
+      type: string
+stealforrole:
+  args:
+    - '@role text'
+  desc: 'Bir mesajdaki emote''ları çalar ve belirtilen role kilitler.'
+  params:
+    - &ref_566
+      desc: 'Emote''ların ekleneceği rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Emote''ları içeren mesaj.'
+      name: e
+      optional: false
+      type: string
+stealforrole_IRole_string:
+  args:
+    - '@role text'
+  desc: 'Bir mesajdaki emote''ları çalar ve belirtilen role kilitler.'
+  params:
+    - desc: 'Emote''ların ekleneceği rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Emote''ları içeren mesaj.'
+      name: e
+      optional: false
+      type: string
+stopjob:
+  args:
+    - number
+  desc: 'Toplu rol işlemini iş numarasına göre durdurur.'
+  params:
+    - &ref_570
+      desc: 'Durdurulacak toplu rol işleminin iş numarası.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int:
+  args:
+    - number
+  desc: 'Toplu rol işlemini iş numarasına göre durdurur.'
+  params:
+    - desc: 'Durdurulacak toplu rol işleminin iş numarası.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_1:
+  args:
+    - number
+  desc: 'Toplu rol işlemini iş numarasına göre durdurur.'
+  params:
+    - desc: 'Durdurulacak toplu rol işleminin iş numarası.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_2:
+  args:
+    - number
+  desc: 'Toplu rol işlemini iş numarasına göre durdurur.'
+  params:
+    - desc: 'Durdurulacak toplu rol işleminin iş numarası.'
+      name: jobnum
+      optional: false
+      type: int
+syncroletoall:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına ve kategorilere senkronize eder.'
+  params:
+    - &ref_593
+      desc: 'Sunucu genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına ve kategorilere senkronize eder.'
+  params:
+    - desc: 'Sunucu genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına ve kategorilere senkronize eder.'
+  params:
+    - desc: 'Sunucu genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına ve kategorilere senkronize eder.'
+  params:
+    - desc: 'Sunucu genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm kategorilere senkronize eder.'
+  params:
+    - &ref_594
+      desc: 'Kategoriler genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm kategorilere senkronize eder.'
+  params:
+    - desc: 'Kategoriler genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_1:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm kategorilere senkronize eder.'
+  params:
+    - desc: 'Kategoriler genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_2:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm kategorilere senkronize eder.'
+  params:
+    - desc: 'Kategoriler genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına senkronize eder.'
+  params:
+    - &ref_595
+      desc: 'Metin kanalları genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına senkronize eder.'
+  params:
+    - desc: 'Metin kanalları genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_1:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına senkronize eder.'
+  params:
+    - desc: 'Metin kanalları genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_2:
+  args:
+    - '@role'
+  desc: 'Bir rolün izinlerini sunucudaki tüm metin kanallarına senkronize eder.'
+  params:
+    - desc: 'Metin kanalları genelinde senkronize edilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+unlock:
+  args:
+    - '[channel]'
+  desc: 'Belirli bir kanalın kilidini açar; herkes yeniden mesaj gönderebilir.'
+  params:
+    - desc: 'Kilidi açılacak kanal. Null ise mevcut kanalın kilidini açar.'
+      name: channel
+      optional: true
+      type: sockettextchannel
+unlockdown:
+  args:
+    - ''
+  desc: '@everyone''ın yeniden mesaj göndermesine izin vererek sunucunun kilidini açar.'
+  params: [ ]

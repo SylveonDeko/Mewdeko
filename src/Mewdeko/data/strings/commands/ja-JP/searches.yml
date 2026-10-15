@@ -1,0 +1,2459 @@
+anime:
+  args:
+    - text
+  desc: 'アニメを検索し、検索結果の情報を表示します。'
+  params:
+    - &ref_66
+      desc: '検索するクエリです。'
+      name: query
+      optional: false
+      type: string
+anime_string:
+  args:
+    - text
+  desc: 'アニメを検索し、検索結果の情報を表示します。'
+  params:
+    - desc: '検索するクエリです。'
+      name: query
+      optional: false
+      type: string
+anime_string_1:
+  args:
+    - text
+  desc: 'アニメを検索し、検索結果の情報を表示します。'
+  params:
+    - desc: '検索するクエリです。'
+      name: query
+      optional: false
+      type: string
+anime_string_2:
+  args:
+    - text
+  desc: 'アニメを検索し、検索結果の情報を表示します。'
+  params:
+    - desc: '検索するクエリです。'
+      name: query
+      optional: false
+      type: string
+autotranslang:
+  args:
+    - '[langs]'
+  desc: '現在のチャンネルでユーザーの自動翻訳に使用する優先言語ペアを設定または削除します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。設定を削除する場合は null を指定します。'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=:
+  args:
+    - '[langs]'
+  desc: '現在のチャンネルでユーザーの自動翻訳に使用する優先言語ペアを設定または削除します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。設定を削除する場合は null を指定します。'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_1:
+  args:
+    - '[langs]'
+  desc: '現在のチャンネルでユーザーの自動翻訳に使用する優先言語ペアを設定または削除します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。設定を削除する場合は null を指定します。'
+      name: langs
+      optional: true
+      type: string
+autotranslang_=_2:
+  args:
+    - '[langs]'
+  desc: '現在のチャンネルでユーザーの自動翻訳に使用する優先言語ペアを設定または削除します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。設定を削除する場合は null を指定します。'
+      name: langs
+      optional: true
+      type: string
+autotranslate:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+  params:
+    - &ref_97
+      desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+  params:
+    - desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_1:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+  params:
+    - desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+autotranslate_=_2:
+  args:
+    - autodeleteautotranslate.nodel
+  desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+  params:
+    - desc: '現在のチャンネルの自動翻訳を切り替えます。元のメッセージの自動削除を有効にすることもできます。'
+      name: AutoDeleteAutoTranslate.Nodel
+      optional: false
+      type: '='
+baka:
+  args:
+    - text
+  desc: '誰かを baka と呼びます。'
+  params:
+    - &ref_98
+      desc: 'baka と呼ぶ相手です。'
+      name: toShow
+      optional: false
+      type: string
+baka_string:
+  args:
+    - text
+  desc: '誰かを baka と呼びます。'
+  params:
+    - &ref_99
+      desc: 'baka と呼ぶ相手です。'
+      name: toShow
+      optional: false
+      type: string
+baka_string_1:
+  args:
+    - text
+  desc: '誰かを baka と呼びます。'
+  params:
+    - desc: 'baka と呼ぶ相手です。'
+      name: toShow
+      optional: false
+      type: string
+baka_string_2:
+  args:
+    - text
+  desc: '誰かを baka と呼びます。'
+  params:
+    - desc: 'baka と呼ぶ相手です。'
+      name: toShow
+      optional: false
+      type: string
+bible:
+  args:
+    - text text
+  desc: '書名、章、節に基づいて聖書の節を検索し、表示します。'
+  params:
+    - &ref_111
+      desc: '聖書の書名です。'
+      name: book
+      optional: false
+      type: string
+    - &ref_112
+      desc: '"章:節" 形式の章と節です。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string:
+  args:
+    - text text
+  desc: '書名、章、節に基づいて聖書の節を検索し、表示します。'
+  params:
+    - desc: '聖書の書名です。'
+      name: book
+      optional: false
+      type: string
+    - desc: '"章:節" 形式の章と節です。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_1:
+  args:
+    - text text
+  desc: '書名、章、節に基づいて聖書の節を検索し、表示します。'
+  params:
+    - desc: '聖書の書名です。'
+      name: book
+      optional: false
+      type: string
+    - desc: '"章:節" 形式の章と節です。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bible_string_string_2:
+  args:
+    - text text
+  desc: '書名、章、節に基づいて聖書の節を検索し、表示します。'
+  params:
+    - desc: '聖書の書名です。'
+      name: book
+      optional: false
+      type: string
+    - desc: '"章:節" 形式の章と節です。'
+      name: chapterAndVerse
+      optional: false
+      type: string
+bite:
+  args:
+    - text
+  desc: '誰かに噛みつきます。'
+  params:
+    - desc: '噛みつく相手です。'
+      name: toShow
+      optional: false
+      type: string
+blush:
+  args:
+    - '[toShow]'
+  desc: '赤面します。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+bored:
+  args:
+    - '[toShow]'
+  desc: '退屈していることを示します。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+catfact:
+  args:
+    - ''
+  desc: 'ランダムな猫の豆知識を取得して共有します。'
+  params: [ ]
+charinfo:
+  args:
+    - text
+  desc: 'キャラクターの情報を取得して表示します。'
+  params:
+    - &ref_125
+      desc: '検索するキャラクターの名前です。'
+      name: chara
+      optional: false
+      type: string
+charinfo_string:
+  args:
+    - text
+  desc: 'キャラクターの情報を取得して表示します。'
+  params:
+    - desc: '検索するキャラクターの名前です。'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_1:
+  args:
+    - text
+  desc: 'キャラクターの情報を取得して表示します。'
+  params:
+    - desc: '検索するキャラクターの名前です。'
+      name: chara
+      optional: false
+      type: string
+charinfo_string_2:
+  args:
+    - text
+  desc: 'キャラクターの情報を取得して表示します。'
+  params:
+    - desc: '検索するキャラクターの名前です。'
+      name: chara
+      optional: false
+      type: string
+chucknorris:
+  args:
+    - ''
+  desc: 'チャック・ノリスのジョークを取得します。'
+  params: [ ]
+color:
+  args:
+    - colors
+  desc: '指定した 16 進数のカラーコードに基づいて、カラーサンプルを表示します。'
+  params:
+    - &ref_137
+      desc: '表示する色を表す SKColor オブジェクトの配列です。'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]:
+  args:
+    - colors
+  desc: '指定した 16 進数のカラーコードに基づいて、カラーサンプルを表示します。'
+  params:
+    - desc: '表示する色を表す SKColor オブジェクトの配列です。'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_1:
+  args:
+    - colors
+  desc: '指定した 16 進数のカラーコードに基づいて、カラーサンプルを表示します。'
+  params:
+    - desc: '表示する色を表す SKColor オブジェクトの配列です。'
+      name: colors
+      optional: false
+      type: SKColor[]
+color_SKColor[]_2:
+  args:
+    - colors
+  desc: '指定した 16 進数のカラーコードに基づいて、カラーサンプルを表示します。'
+  params:
+    - desc: '表示する色を表す SKColor オブジェクトの配列です。'
+      name: colors
+      optional: false
+      type: SKColor[]
+cry:
+  args:
+    - '[toShow]'
+  desc: '泣きます。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+cuddle:
+  args:
+    - text
+  desc: '誰かに抱きついて甘えます。'
+  params:
+    - &ref_170
+      desc: '一緒に甘える相手です。'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string:
+  args:
+    - text
+  desc: '誰かに抱きついて甘えます。'
+  params:
+    - &ref_171
+      desc: '一緒に甘える相手です。'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_1:
+  args:
+    - text
+  desc: '誰かに抱きついて甘えます。'
+  params:
+    - desc: '一緒に甘える相手です。'
+      name: toShow
+      optional: false
+      type: string
+cuddle_string_2:
+  args:
+    - text
+  desc: '誰かに抱きついて甘えます。'
+  params:
+    - desc: '一緒に甘える相手です。'
+      name: toShow
+      optional: false
+      type: string
+dance:
+  args:
+    - '[toShow]'
+  desc: '踊ります。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+define:
+  args:
+    - text
+  desc: 'Pearson 辞書から定義を取得して表示します。'
+  params:
+    - &ref_179
+      desc: '定義を調べる単語です。'
+      name: word
+      optional: false
+      type: string
+define_string:
+  args:
+    - text
+  desc: 'Pearson 辞書から定義を取得して表示します。'
+  params:
+    - desc: '定義を調べる単語です。'
+      name: word
+      optional: false
+      type: string
+define_string_1:
+  args:
+    - text
+  desc: 'Pearson 辞書から定義を取得して表示します。'
+  params:
+    - desc: '定義を調べる単語です。'
+      name: word
+      optional: false
+      type: string
+define_string_2:
+  args:
+    - text
+  desc: 'Pearson 辞書から定義を取得して表示します。'
+  params:
+    - desc: '定義を調べる単語です。'
+      name: word
+      optional: false
+      type: string
+facepalm:
+  args:
+    - '[toShow]'
+  desc: '手で顔を覆います。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+feed:
+  args:
+    - text
+  desc: '誰かにご飯をあげます。'
+  params:
+    - &ref_213
+      desc: 'ご飯をあげる相手です。'
+      name: toShow
+      optional: false
+      type: string
+feed_string:
+  args:
+    - text
+  desc: '誰かにご飯をあげます。'
+  params:
+    - desc: 'ご飯をあげる相手です。'
+      name: toShow
+      optional: false
+      type: string
+feed_string_1:
+  args:
+    - text
+  desc: '誰かにご飯をあげます。'
+  params:
+    - desc: 'ご飯をあげる相手です。'
+      name: toShow
+      optional: false
+      type: string
+feed_string_2:
+  args:
+    - text
+  desc: '誰かにご飯をあげます。'
+  params:
+    - desc: 'ご飯をあげる相手です。'
+      name: toShow
+      optional: false
+      type: string
+feedadd:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'サーバーの RSS フィードリストに新しい RSS フィードを追加します。'
+  params:
+    - desc: 'RSS フィードの URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: 'フィードの更新を送信するチャンネルです（省略可能、既定では現在のチャンネル）。'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'サーバーの RSS フィードリストに新しい RSS フィードを追加します。'
+  params:
+    - desc: 'RSS フィードの URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: 'フィードの更新を送信するチャンネルです（省略可能、既定では現在のチャンネル）。'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_1:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'サーバーの RSS フィードリストに新しい RSS フィードを追加します。'
+  params:
+    - desc: 'RSS フィードの URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: 'フィードの更新を送信するチャンネルです（省略可能、既定では現在のチャンネル）。'
+      name: channel
+      optional: true
+      type: channel
+feedadd_string_=_2:
+  args:
+    - '<url> [@channel]'
+    - text
+  desc: 'サーバーの RSS フィードリストに新しい RSS フィードを追加します。'
+  params:
+    - desc: 'RSS フィードの URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: 'フィードの更新を送信するチャンネルです（省略可能、既定では現在のチャンネル）。'
+      name: channel
+      optional: true
+      type: channel
+feedlist:
+  args:
+    - ''
+  desc: 'サーバーに追加されているすべての RSS フィードを一覧表示します。'
+  params: [ ]
+feedmessage:
+  args:
+    - number text
+  desc: '特定のチャンネルでフィード更新用のカスタムメッセージ形式を設定します。'
+  params:
+    - &ref_215
+      desc: 'リスト内のフィードの番号です。'
+      name: index
+      optional: false
+      type: int
+    - &ref_216
+      desc: 'カスタムメッセージの形式です。'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string:
+  args:
+    - number text
+  desc: '特定のチャンネルでフィード更新用のカスタムメッセージ形式を設定します。'
+  params:
+    - desc: 'リスト内のフィードの番号です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'カスタムメッセージの形式です。'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_1:
+  args:
+    - number text
+  desc: '特定のチャンネルでフィード更新用のカスタムメッセージ形式を設定します。'
+  params:
+    - desc: 'リスト内のフィードの番号です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'カスタムメッセージの形式です。'
+      name: message
+      optional: false
+      type: string
+feedmessage_int_string_2:
+  args:
+    - number text
+  desc: '特定のチャンネルでフィード更新用のカスタムメッセージ形式を設定します。'
+  params:
+    - desc: 'リスト内のフィードの番号です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'カスタムメッセージの形式です。'
+      name: message
+      optional: false
+      type: string
+feedremove:
+  args:
+    - number
+  desc: 'サーバーのフィードリストから RSS フィードを削除します。'
+  params:
+    - desc: 'リスト内のフィードの番号です。'
+      name: index
+      optional: false
+      type: int
+findanime:
+  args:
+    - '[e]'
+  desc: '画像に基づいてアニメの情報を検索します。'
+  params:
+    - desc: '検索に使用する画像の URL、または添付画像です。'
+      name: e
+      optional: true
+      type: string
+gatari:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu!Gatari のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu!Gatari のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu!Gatari のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+gatari_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu!Gatari のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu!Gatari のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+google:
+  args:
+    - '[query]'
+  desc: 'Google または DuckDuckGo の検索エンジンで一般的な検索を行い、結果を表示します。'
+  params:
+    - desc: '検索クエリです。'
+      name: query
+      optional: true
+      type: string
+google_=:
+  args:
+    - '[query]'
+  desc: 'Google または DuckDuckGo の検索エンジンで一般的な検索を行い、結果を表示します。'
+  params:
+    - desc: '検索クエリです。'
+      name: query
+      optional: true
+      type: string
+google_=_1:
+  args:
+    - '[query]'
+  desc: 'Google または DuckDuckGo の検索エンジンで一般的な検索を行い、結果を表示します。'
+  params:
+    - desc: '検索クエリです。'
+      name: query
+      optional: true
+      type: string
+google_=_2:
+  args:
+    - '[query]'
+  desc: 'Google または DuckDuckGo の検索エンジンで一般的な検索を行い、結果を表示します。'
+  params:
+    - desc: '検索クエリです。'
+      name: query
+      optional: true
+      type: string
+handhold:
+  args:
+    - text
+  desc: '誰かと手をつなぎます。'
+  params:
+    - &ref_242
+      desc: '手をつなぐ相手です。'
+      name: toShow
+      optional: false
+      type: string
+handhold_string:
+  args:
+    - text
+  desc: '誰かと手をつなぎます。'
+  params:
+    - desc: '手をつなぐ相手です。'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_1:
+  args:
+    - text
+  desc: '誰かと手をつなぎます。'
+  params:
+    - &ref_243
+      desc: '手をつなぐ相手です。'
+      name: toShow
+      optional: false
+      type: string
+handhold_string_2:
+  args:
+    - text
+  desc: '誰かと手をつなぎます。'
+  params:
+    - desc: '手をつなぐ相手です。'
+      name: toShow
+      optional: false
+      type: string
+happy:
+  args:
+    - '[toShow]'
+  desc: '喜びを表現します。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+highfive:
+  args:
+    - text
+  desc: '誰かとハイタッチします。'
+  params:
+    - desc: 'ハイタッチする相手です。'
+      name: toShow
+      optional: false
+      type: string
+hug:
+  args:
+    - text
+  desc: '誰かを抱きしめます。'
+  params:
+    - desc: '抱きしめる相手です。'
+      name: toShow
+      optional: false
+      type: string
+hug_string:
+  args:
+    - text
+  desc: '誰かを抱きしめます。'
+  params:
+    - desc: '抱きしめる相手です。'
+      name: toShow
+      optional: false
+      type: string
+hug_string_1:
+  args:
+    - text
+  desc: '誰かを抱きしめます。'
+  params:
+    - desc: '抱きしめる相手です。'
+      name: toShow
+      optional: false
+      type: string
+hug_string_2:
+  args:
+    - text
+  desc: '誰かを抱きしめます。'
+  params:
+    - desc: '抱きしめる相手です。'
+      name: toShow
+      optional: false
+      type: string
+image:
+  args:
+    - text
+  desc: 'Google と DuckDuckGo で画像検索を行い、NSFW の結果を除外します。'
+  params:
+    - &ref_251
+      desc: '画像の検索クエリです。'
+      name: query
+      optional: false
+      type: string
+image_string:
+  args:
+    - text
+  desc: 'Google と DuckDuckGo で画像検索を行い、NSFW の結果を除外します。'
+  params:
+    - &ref_252
+      desc: '画像の検索クエリです。'
+      name: query
+      optional: false
+      type: string
+image_string_1:
+  args:
+    - text
+  desc: 'Google と DuckDuckGo で画像検索を行い、NSFW の結果を除外します。'
+  params:
+    - desc: '画像の検索クエリです。'
+      name: query
+      optional: false
+      type: string
+image_string_2:
+  args:
+    - text
+  desc: 'Google と DuckDuckGo で画像検索を行い、NSFW の結果を除外します。'
+  params:
+    - desc: '画像の検索クエリです。'
+      name: query
+      optional: false
+      type: string
+kiss:
+  args:
+    - text
+  desc: '誰かにキスをします。'
+  params:
+    - desc: 'キスをする相手です。'
+      name: toShow
+      optional: false
+      type: string
+kiss_string:
+  args:
+    - text
+  desc: '誰かにキスをします。'
+  params:
+    - desc: 'キスをする相手です。'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_1:
+  args:
+    - text
+  desc: '誰かにキスをします。'
+  params:
+    - desc: 'キスをする相手です。'
+      name: toShow
+      optional: false
+      type: string
+kiss_string_2:
+  args:
+    - text
+  desc: '誰かにキスをします。'
+  params:
+    - desc: 'キスをする相手です。'
+      name: toShow
+      optional: false
+      type: string
+laugh:
+  args:
+    - '[toShow]'
+  desc: '笑います。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+magicitem:
+  args:
+    - ''
+  desc: 'World of Warcraft に関連する魔法アイテムの説明を取得します。'
+  params: [ ]
+mal:
+  args:
+    - text
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - &ref_288
+      desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+      name: name
+      optional: true
+      type: string
+mal_IGuildUser:
+  args:
+    - '@user'
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - &ref_287
+      desc: 'MyAnimeList のプロフィール情報を取得するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - desc: 'MyAnimeList のプロフィール情報を取得するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - desc: 'MyAnimeList のプロフィール情報を取得するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_IGuildUser_3:
+  args:
+    - '@user'
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - desc: 'MyAnimeList のプロフィール情報を取得するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+mal_string:
+  args:
+    - text
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+      name: name
+      optional: true
+      type: string
+mal_string_1:
+  args:
+    - text
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+      name: name
+      optional: true
+      type: string
+mal_string_2:
+  args:
+    - text
+  desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+  params:
+    - desc: '現在のサーバーで指定したユーザーの MyAnimeList プロフィール情報を取得して表示します。'
+      name: name
+      optional: true
+      type: string
+manga:
+  args:
+    - text
+  desc: 'マンガを検索し、検索結果の情報を表示します。'
+  params:
+    - desc: '検索するクエリです。'
+      name: query
+      optional: false
+      type: string
+meme:
+  args:
+    - ''
+  desc: 'Reddit からランダムなミームを取得して表示します。'
+  params: [ ]
+meme_noparams:
+  args:
+    - ''
+  desc: 'Reddit からランダムなミームを取得して表示します。'
+  params: [ ]
+meme_noparams_1:
+  args:
+    - ''
+  desc: 'Reddit からランダムなミームを取得して表示します。'
+  params: [ ]
+meme_noparams_2:
+  args:
+    - ''
+  desc: 'Reddit からランダムなミームを取得して表示します。'
+  params: [ ]
+memegen:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '指定したテンプレートとテキストでミームを生成します。'
+  params:
+    - desc: 'ミームのテンプレート名です。'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'ミームに含めるテキストです（省略可能）。'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '指定したテンプレートとテキストでミームを生成します。'
+  params:
+    - desc: 'ミームのテンプレート名です。'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'ミームに含めるテキストです（省略可能）。'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_1:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '指定したテンプレートとテキストでミームを生成します。'
+  params:
+    - desc: 'ミームのテンプレート名です。'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'ミームに含めるテキストです（省略可能）。'
+      name: memeText
+      optional: true
+      type: string
+memegen_string_=_2:
+  args:
+    - '<meme> [memeText]'
+    - text
+  desc: '指定したテンプレートとテキストでミームを生成します。'
+  params:
+    - desc: 'ミームのテンプレート名です。'
+      name: meme
+      optional: false
+      type: string
+    - desc: 'ミームに含めるテキストです（省略可能）。'
+      name: memeText
+      optional: true
+      type: string
+memelist:
+  args:
+    - ''
+  desc: '利用可能なミームのテンプレートを一覧表示します。'
+  params: [ ]
+movie:
+  args:
+    - '[query]'
+  desc: '指定したクエリに基づいて、IMDb から映画の情報を取得して表示します。'
+  params:
+    - desc: 'IMDb で検索する映画のタイトルです。'
+      name: query
+      optional: true
+      type: string
+movie_=:
+  args:
+    - '[query]'
+  desc: '指定したクエリに基づいて、IMDb から映画の情報を取得して表示します。'
+  params:
+    - desc: 'IMDb で検索する映画のタイトルです。'
+      name: query
+      optional: true
+      type: string
+movie_=_1:
+  args:
+    - '[query]'
+  desc: '指定したクエリに基づいて、IMDb から映画の情報を取得して表示します。'
+  params:
+    - desc: 'IMDb で検索する映画のタイトルです。'
+      name: query
+      optional: true
+      type: string
+movie_=_2:
+  args:
+    - '[query]'
+  desc: '指定したクエリに基づいて、IMDb から映画の情報を取得して表示します。'
+  params:
+    - desc: 'IMDb で検索する映画のタイトルです。'
+      name: query
+      optional: true
+      type: string
+osu:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+osu5:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'ユーザーの osu! トッププレイ 5 件を取得します。'
+  params:
+    - desc: 'プレイを取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: 'プレイを取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'ユーザーの osu! トッププレイ 5 件を取得します。'
+  params:
+    - desc: 'プレイを取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: 'プレイを取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'ユーザーの osu! トッププレイ 5 件を取得します。'
+  params:
+    - desc: 'プレイを取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: 'プレイを取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+osu5_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'ユーザーの osu! トッププレイ 5 件を取得します。'
+  params:
+    - desc: 'プレイを取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: 'プレイを取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+osu_string_=:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_1:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+osu_string_=_2:
+  args:
+    - '<user> [mode]'
+    - text
+  desc: 'osu! のユーザープロフィール情報を取得します。'
+  params:
+    - desc: '情報を取得する osu! のユーザー名です。'
+      name: user
+      optional: false
+      type: string
+    - desc: '情報を取得するゲームモード（standard、taiko、catch、mania）です（省略可能）。'
+      name: mode
+      optional: true
+      type: string
+pat:
+  args:
+    - text
+  desc: '誰かの頭をなでます。'
+  params:
+    - desc: '頭をなでる相手です。'
+      name: toShow
+      optional: false
+      type: string
+pat_string:
+  args:
+    - text
+  desc: '誰かの頭をなでます。'
+  params:
+    - &ref_336
+      desc: '頭をなでる相手です。'
+      name: toShow
+      optional: false
+      type: string
+pat_string_1:
+  args:
+    - text
+  desc: '誰かの頭をなでます。'
+  params:
+    - desc: '頭をなでる相手です。'
+      name: toShow
+      optional: false
+      type: string
+pat_string_2:
+  args:
+    - text
+  desc: '誰かの頭をなでます。'
+  params:
+    - desc: '頭をなでる相手です。'
+      name: toShow
+      optional: false
+      type: string
+poke:
+  args:
+    - text
+  desc: '誰かをつつきます。'
+  params:
+    - desc: 'つつく相手です。'
+      name: toShow
+      optional: false
+      type: string
+poke_string:
+  args:
+    - text
+  desc: '誰かをつつきます。'
+  params:
+    - desc: 'つつく相手です。'
+      name: toShow
+      optional: false
+      type: string
+poke_string_1:
+  args:
+    - text
+  desc: '誰かをつつきます。'
+  params:
+    - desc: 'つつく相手です。'
+      name: toShow
+      optional: false
+      type: string
+poke_string_2:
+  args:
+    - text
+  desc: '誰かをつつきます。'
+  params:
+    - desc: 'つつく相手です。'
+      name: toShow
+      optional: false
+      type: string
+pokemon:
+  args:
+    - text
+  desc: 'ポケモンの情報を取得します。'
+  params:
+    - &ref_348
+      desc: 'ポケモンの名前です。'
+      name: name
+      optional: false
+      type: string
+pokemon_string:
+  args:
+    - text
+  desc: 'ポケモンの情報を取得します。'
+  params:
+    - desc: 'ポケモンの名前です。'
+      name: name
+      optional: false
+      type: string
+pokemon_string_1:
+  args:
+    - text
+  desc: 'ポケモンの情報を取得します。'
+  params:
+    - desc: 'ポケモンの名前です。'
+      name: name
+      optional: false
+      type: string
+pokemon_string_2:
+  args:
+    - text
+  desc: 'ポケモンの情報を取得します。'
+  params:
+    - desc: 'ポケモンの名前です。'
+      name: name
+      optional: false
+      type: string
+pout:
+  args:
+    - '[toShow]'
+  desc: 'ふくれっ面をします。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+punch:
+  args:
+    - text
+  desc: '誰かをパンチします。'
+  params:
+    - desc: 'パンチする相手です。'
+      name: toShow
+      optional: false
+      type: string
+punch_string:
+  args:
+    - text
+  desc: '誰かをパンチします。'
+  params:
+    - desc: 'パンチする相手です。'
+      name: toShow
+      optional: false
+      type: string
+punch_string_1:
+  args:
+    - text
+  desc: '誰かをパンチします。'
+  params:
+    - desc: 'パンチする相手です。'
+      name: toShow
+      optional: false
+      type: string
+punch_string_2:
+  args:
+    - text
+  desc: '誰かをパンチします。'
+  params:
+    - desc: 'パンチする相手です。'
+      name: toShow
+      optional: false
+      type: string
+randjoke:
+  args:
+    - ''
+  desc: 'ランダムなジョークを取得します。'
+  params: [ ]
+randombird:
+  args:
+    - ''
+  desc: 'bird（鳥）の画像を表示します。'
+  params: [ ]
+randomcat:
+  args:
+    - ''
+  desc: 'ランダムな猫の画像を表示します。'
+  params: [ ]
+randomdog:
+  args:
+    - ''
+  desc: 'ランダムな犬の画像を表示します。'
+  params: [ ]
+randomfood:
+  args:
+    - ''
+  desc: 'ランダムな食べ物の画像を表示します。'
+  params: [ ]
+randomkitsune:
+  args:
+    - ''
+  desc: 'ランダムな狐（kitsune）の画像を送信します。'
+  params: [ ]
+randomneko:
+  args:
+    - ''
+  desc: 'ランダムな猫娘（neko）の画像を送信します。'
+  params: [ ]
+randomreddit:
+  args:
+    - text
+  desc: '指定したサブレディットからランダムな投稿を取得して表示します。'
+  params:
+    - &ref_374
+      desc: 'ランダムな投稿を取得するサブレディットです。'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string:
+  args:
+    - text
+  desc: '指定したサブレディットからランダムな投稿を取得して表示します。'
+  params:
+    - desc: 'ランダムな投稿を取得するサブレディットです。'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_1:
+  args:
+    - text
+  desc: '指定したサブレディットからランダムな投稿を取得して表示します。'
+  params:
+    - desc: 'ランダムな投稿を取得するサブレディットです。'
+      name: subreddit
+      optional: false
+      type: string
+randomreddit_string_2:
+  args:
+    - text
+  desc: '指定したサブレディットからランダムな投稿を取得して表示します。'
+  params:
+    - desc: 'ランダムな投稿を取得するサブレディットです。'
+      name: subreddit
+      optional: false
+      type: string
+randomwaifu:
+  args:
+    - ''
+  desc: 'ランダムな嫁（waifu）の画像を送信します。'
+  params: [ ]
+resolvetonetags:
+  args:
+    - text
+  desc: 'メッセージ内のトーンタグを解決し、特定された各タグの説明を提供します。'
+  params:
+    - &ref_441
+      desc: '解決するトーンタグを含むメッセージです。'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string:
+  args:
+    - text
+  desc: 'メッセージ内のトーンタグを解決し、特定された各タグの説明を提供します。'
+  params:
+    - desc: '解決するトーンタグを含むメッセージです。'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_1:
+  args:
+    - text
+  desc: 'メッセージ内のトーンタグを解決し、特定された各タグの説明を提供します。'
+  params:
+    - desc: '解決するトーンタグを含むメッセージです。'
+      name: tag
+      optional: false
+      type: string
+resolvetonetags_string_2:
+  args:
+    - text
+  desc: 'メッセージ内のトーンタグを解決し、特定された各タグの説明を提供します。'
+  params:
+    - desc: '解決するトーンタグを含むメッセージです。'
+      name: tag
+      optional: false
+      type: string
+revav:
+  args:
+    - '[@usr]'
+  desc: 'アバターのリンクを使用して逆画像検索を行います。'
+  params:
+    - desc: '逆画像検索を行うユーザーのアバターです。'
+      name: usr
+      optional: true
+      type: user
+revimg:
+  args:
+    - '[imageLink]'
+  desc: '指定した画像リンクを使用して逆画像検索を行います。'
+  params:
+    - desc: '検索する画像の直接 URL です。'
+      name: imageLink
+      optional: true
+      type: string
+rip:
+  args:
+    - '@user'
+  desc: 'ユーザーの名前とアバターを含む RIP 画像を表示します。'
+  params:
+    - &ref_443
+      desc: 'RIP 画像を生成するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser:
+  args:
+    - '@user'
+  desc: 'ユーザーの名前とアバターを含む RIP 画像を表示します。'
+  params:
+    - desc: 'RIP 画像を生成するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'ユーザーの名前とアバターを含む RIP 画像を表示します。'
+  params:
+    - desc: 'RIP 画像を生成するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rip_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'ユーザーの名前とアバターを含む RIP 画像を表示します。'
+  params:
+    - desc: 'RIP 画像を生成するユーザーです。'
+      name: usr
+      optional: false
+      type: IGuildUser
+rsstest:
+  args:
+    - number
+  desc: 'RSS フィードを取得して、更新があるかどうかをテストします。'
+  params:
+    - desc: 'リスト内のフィードの番号です。'
+      name: index
+      optional: false
+      type: int
+safebooru:
+  args:
+    - text
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_=:
+  args:
+    - '<tags>'
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_1:
+  args:
+    - '<tags>'
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_2:
+  args:
+    - '<tags>'
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_=_3:
+  args:
+    - '<tags>'
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: params string[]
+safebooru_string[]:
+  args:
+    - text
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_1:
+  args:
+    - text
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: string[]
+safebooru_string[]_2:
+  args:
+    - text
+  desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+  params:
+    - desc: 'Safebooru から指定したタグに基づいて画像を検索し、表示します。'
+      name: tags
+      optional: false
+      type: string[]
+ship:
+  args:
+    - '@user @user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - &ref_540
+      desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_541
+      desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser:
+  args:
+    - '@user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_1:
+  args:
+    - '@user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_2:
+  args:
+    - '@user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_3:
+  args:
+    - '@user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+ship_IUser_IUser:
+  args:
+    - '@user @user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_1:
+  args:
+    - '@user @user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - &ref_542
+      desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+      name: user2
+      optional: false
+      type: IUser
+ship_IUser_IUser_2:
+  args:
+    - '@user @user'
+  desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+  params:
+    - desc: '現在のユーザーと比較する別のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '現在のユーザーと別のユーザーの相性に基づいて、シップ画像を送信します。'
+      name: user2
+      optional: false
+      type: IUser
+shoot:
+  args:
+    - text
+  desc: '誰かを撃ちます。'
+  params:
+    - desc: '撃つ相手です。'
+      name: toShow
+      optional: false
+      type: string
+shoot_string:
+  args:
+    - text
+  desc: '誰かを撃ちます。'
+  params:
+    - desc: '撃つ相手です。'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_1:
+  args:
+    - text
+  desc: '誰かを撃ちます。'
+  params:
+    - desc: '撃つ相手です。'
+      name: toShow
+      optional: false
+      type: string
+shoot_string_2:
+  args:
+    - text
+  desc: '誰かを撃ちます。'
+  params:
+    - desc: '撃つ相手です。'
+      name: toShow
+      optional: false
+      type: string
+shorten:
+  args:
+    - text
+  desc: 'goolnk.com API を使用して、指定した URL を短縮します。'
+  params:
+    - &ref_543
+      desc: '短縮する URL です。'
+      name: query
+      optional: false
+      type: string
+shorten_string:
+  args:
+    - text
+  desc: 'goolnk.com API を使用して、指定した URL を短縮します。'
+  params:
+    - desc: '短縮する URL です。'
+      name: query
+      optional: false
+      type: string
+shorten_string_1:
+  args:
+    - text
+  desc: 'goolnk.com API を使用して、指定した URL を短縮します。'
+  params:
+    - desc: '短縮する URL です。'
+      name: query
+      optional: false
+      type: string
+shorten_string_2:
+  args:
+    - text
+  desc: 'goolnk.com API を使用して、指定した URL を短縮します。'
+  params:
+    - desc: '短縮する URL です。'
+      name: query
+      optional: false
+      type: string
+shrug:
+  args:
+    - '[toShow]'
+  desc: '肩をすくめます。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+slap:
+  args:
+    - text
+  desc: '誰かをビンタします。'
+  params:
+    - &ref_546
+      desc: 'ビンタする相手です。'
+      name: toShow
+      optional: false
+      type: string
+slap_string:
+  args:
+    - text
+  desc: '誰かをビンタします。'
+  params:
+    - desc: 'ビンタする相手です。'
+      name: toShow
+      optional: false
+      type: string
+slap_string_1:
+  args:
+    - text
+  desc: '誰かをビンタします。'
+  params:
+    - desc: 'ビンタする相手です。'
+      name: toShow
+      optional: false
+      type: string
+slap_string_2:
+  args:
+    - text
+  desc: '誰かをビンタします。'
+  params:
+    - desc: 'ビンタする相手です。'
+      name: toShow
+      optional: false
+      type: string
+sleep:
+  args:
+    - '[toShow]'
+  desc: '眠ります。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+smile:
+  args:
+    - '[toShow]'
+  desc: '微笑みます。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+smug:
+  args:
+    - '[toShow]'
+  desc: '得意げな表情をします。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+stare:
+  args:
+    - '[toShow]'
+  desc: 'じっと見つめます。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+steam:
+  args:
+    - text
+  desc: '名前で Steam のゲームを検索し、Steam ストアページへのリンクを提供します。'
+  params:
+    - &ref_567
+      desc: 'Steam で検索するゲームの名前です。'
+      name: query
+      optional: false
+      type: string
+steam_string:
+  args:
+    - text
+  desc: '名前で Steam のゲームを検索し、Steam ストアページへのリンクを提供します。'
+  params:
+    - desc: 'Steam で検索するゲームの名前です。'
+      name: query
+      optional: false
+      type: string
+steam_string_1:
+  args:
+    - text
+  desc: '名前で Steam のゲームを検索し、Steam ストアページへのリンクを提供します。'
+  params:
+    - desc: 'Steam で検索するゲームの名前です。'
+      name: query
+      optional: false
+      type: string
+steam_string_2:
+  args:
+    - text
+  desc: '名前で Steam のゲームを検索し、Steam ストアページへのリンクを提供します。'
+  params:
+    - desc: 'Steam で検索するゲームの名前です。'
+      name: query
+      optional: false
+      type: string
+streamadd:
+  args:
+    - text
+  desc: '現在のサーバーの通知リストに新しい配信を追加します。'
+  params:
+    - &ref_571
+      desc: '追加する配信のリンクです。'
+      name: link
+      optional: false
+      type: string
+streamadd_string:
+  args:
+    - text
+  desc: '現在のサーバーの通知リストに新しい配信を追加します。'
+  params:
+    - desc: '追加する配信のリンクです。'
+      name: link
+      optional: false
+      type: string
+streamadd_string_1:
+  args:
+    - text
+  desc: '現在のサーバーの通知リストに新しい配信を追加します。'
+  params:
+    - desc: '追加する配信のリンクです。'
+      name: link
+      optional: false
+      type: string
+streamadd_string_2:
+  args:
+    - text
+  desc: '現在のサーバーの通知リストに新しい配信を追加します。'
+  params:
+    - desc: '追加する配信のリンクです。'
+      name: link
+      optional: false
+      type: string
+streamcheck:
+  args:
+    - text
+  desc: 'URL で指定した配信のライブ状態を確認します。'
+  params:
+    - &ref_572
+      desc: '確認する配信の URL です。'
+      name: url
+      optional: false
+      type: string
+streamcheck_string:
+  args:
+    - text
+  desc: 'URL で指定した配信のライブ状態を確認します。'
+  params:
+    - desc: '確認する配信の URL です。'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_1:
+  args:
+    - text
+  desc: 'URL で指定した配信のライブ状態を確認します。'
+  params:
+    - desc: '確認する配信の URL です。'
+      name: url
+      optional: false
+      type: string
+streamcheck_string_2:
+  args:
+    - text
+  desc: 'URL で指定した配信のライブ状態を確認します。'
+  params:
+    - desc: '確認する配信の URL です。'
+      name: url
+      optional: false
+      type: string
+streamlist:
+  args:
+    - ''
+  desc: 'サーバーがフォローしている配信をすべて表示します。'
+  params: [ ]
+streammessage:
+  args:
+    - number text
+  desc: 'サーバーの通知リスト内の特定の配信に、カスタム通知メッセージを設定します。'
+  params:
+    - &ref_573
+      desc: 'メッセージを設定する配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - &ref_574
+      desc: '配信がライブになったときに送信するカスタムメッセージです。空のメッセージにすると既定に戻ります。'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string:
+  args:
+    - number text
+  desc: 'サーバーの通知リスト内の特定の配信に、カスタム通知メッセージを設定します。'
+  params:
+    - desc: 'メッセージを設定する配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: '配信がライブになったときに送信するカスタムメッセージです。空のメッセージにすると既定に戻ります。'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_1:
+  args:
+    - number text
+  desc: 'サーバーの通知リスト内の特定の配信に、カスタム通知メッセージを設定します。'
+  params:
+    - desc: 'メッセージを設定する配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: '配信がライブになったときに送信するカスタムメッセージです。空のメッセージにすると既定に戻ります。'
+      name: message
+      optional: false
+      type: string
+streammessage_int_string_2:
+  args:
+    - number text
+  desc: 'サーバーの通知リスト内の特定の配信に、カスタム通知メッセージを設定します。'
+  params:
+    - desc: 'メッセージを設定する配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: '配信がライブになったときに送信するカスタムメッセージです。空のメッセージにすると既定に戻ります。'
+      name: message
+      optional: false
+      type: string
+streamoffline:
+  args:
+    - ''
+  desc: 'フォローしている配信がオフラインになったときに、サーバーへ通知するかどうかを切り替えます。'
+  params: [ ]
+streamofflinemessage:
+  args:
+    - number
+    - text
+  desc: '特定の配信のオフラインメッセージを設定します。'
+  params:
+    - desc: '配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+    - desc: 'プレースホルダーを含むオフラインメッセージのテンプレートです。'
+      name: message
+      optional: false
+      type: string
+streamremove:
+  args:
+    - number
+  desc: 'インデックスを指定して、通知リストから配信を削除します。'
+  params:
+    - &ref_575
+      desc: '削除する通知リスト内の配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+streamremove_int:
+  args:
+    - number
+  desc: 'インデックスを指定して、通知リストから配信を削除します。'
+  params:
+    - desc: '削除する通知リスト内の配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+streamremove_int_1:
+  args:
+    - number
+  desc: 'インデックスを指定して、通知リストから配信を削除します。'
+  params:
+    - desc: '削除する通知リスト内の配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+streamremove_int_2:
+  args:
+    - number
+  desc: 'インデックスを指定して、通知リストから配信を削除します。'
+  params:
+    - desc: '削除する通知リスト内の配信の番号（1 から始まる）です。'
+      name: index
+      optional: false
+      type: int
+streamsclear:
+  args:
+    - ''
+  desc: 'サーバーの通知リストから全配信を削除します。'
+  params: [ ]
+streamtemplate:
+  args:
+    - text
+  desc: 'サーバー内のすべての配信に使用されるカスタム配信通知メッセージのテンプレートを設定または表示します。'
+  params:
+    - desc: 'プレースホルダーを含むカスタムメッセージのテンプレートです。現在のテンプレートを表示するには空欄のままにし、カスタムメッセージを無効にするには "reset" を使用します。'
+      name: template
+      optional: true
+      type: string
+think:
+  args:
+    - '[toShow]'
+  desc: '考え込みます。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+thumbsup:
+  args:
+    - '[toShow]'
+  desc: 'サムズアップをします。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+tickle:
+  args:
+    - text
+  desc: '誰かをくすぐります。'
+  params:
+    - desc: 'くすぐる相手です。'
+      name: toShow
+      optional: false
+      type: string
+tickle_string:
+  args:
+    - text
+  desc: '誰かをくすぐります。'
+  params:
+    - desc: 'くすぐる相手です。'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_1:
+  args:
+    - text
+  desc: '誰かをくすぐります。'
+  params:
+    - desc: 'くすぐる相手です。'
+      name: toShow
+      optional: false
+      type: string
+tickle_string_2:
+  args:
+    - text
+  desc: '誰かをくすぐります。'
+  params:
+    - desc: 'くすぐる相手です。'
+      name: toShow
+      optional: false
+      type: string
+time:
+  args:
+    - text
+  desc: '指定した場所の現在時刻を表示します。'
+  params:
+    - &ref_620
+      desc: '現在時刻を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+time_string:
+  args:
+    - text
+  desc: '指定した場所の現在時刻を表示します。'
+  params:
+    - desc: '現在時刻を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+time_string_1:
+  args:
+    - text
+  desc: '指定した場所の現在時刻を表示します。'
+  params:
+    - desc: '現在時刻を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+time_string_2:
+  args:
+    - text
+  desc: '指定した場所の現在時刻を表示します。'
+  params:
+    - desc: '現在時刻を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+translangs:
+  args:
+    - ''
+  desc: '翻訳に利用できる言語をすべて一覧表示します。'
+  params: [ ]
+translate:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'ユーザーが指定した言語から別の言語へテキストを翻訳します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '翻訳するテキストです。'
+      name: text
+      optional: true
+      type: string
+translate_string_=:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'ユーザーが指定した言語から別の言語へテキストを翻訳します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '翻訳するテキストです。'
+      name: text
+      optional: true
+      type: string
+translate_string_=_1:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'ユーザーが指定した言語から別の言語へテキストを翻訳します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '翻訳するテキストです。'
+      name: text
+      optional: true
+      type: string
+translate_string_=_2:
+  args:
+    - '<langs> [text]'
+    - text
+  desc: 'ユーザーが指定した言語から別の言語へテキストを翻訳します。'
+  params:
+    - desc: '''from>to'' 形式の言語ペアです。'
+      name: langs
+      optional: false
+      type: string
+    - desc: '翻訳するテキストです。'
+      name: text
+      optional: true
+      type: string
+urbandict:
+  args:
+    - '[query]'
+  desc: 'Urban Dictionary を検索し、指定した用語の定義を表示します。'
+  params:
+    - desc: 'Urban Dictionary で検索する用語です。'
+      name: query
+      optional: true
+      type: string
+wave:
+  args:
+    - '[toShow]'
+  desc: '手を振ります。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+weather:
+  args:
+    - text
+  desc: '指定した場所の対話型の天気情報を表示します。'
+  params:
+    - &ref_659
+      desc: '天気情報を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+weather_string:
+  args:
+    - text
+  desc: '指定した場所の対話型の天気情報を表示します。'
+  params:
+    - desc: '天気情報を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+weather_string_1:
+  args:
+    - text
+  desc: '指定した場所の対話型の天気情報を表示します。'
+  params:
+    - desc: '天気情報を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+weather_string_2:
+  args:
+    - text
+  desc: '指定した場所の対話型の天気情報を表示します。'
+  params:
+    - desc: '天気情報を検索する場所のクエリです。'
+      name: query
+      optional: false
+      type: string
+wiki:
+  args:
+    - '[query]'
+  desc: '指定したクエリに基づいて Wikipedia の情報を検索し、表示します。'
+  params:
+    - desc: 'Wikipedia の検索語です。'
+      name: query
+      optional: true
+      type: string
+wikia:
+  args:
+    - text text
+  desc: 'wikia から特定のトピックの詳細情報を取得して表示します。'
+  params:
+    - &ref_661
+      desc: '対象となる wikia のサイトです。'
+      name: target
+      optional: false
+      type: string
+    - &ref_662
+      desc: 'wikia の検索語です。'
+      name: query
+      optional: false
+      type: string
+wikia_string_string:
+  args:
+    - text text
+  desc: 'wikia から特定のトピックの詳細情報を取得して表示します。'
+  params:
+    - desc: '対象となる wikia のサイトです。'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia の検索語です。'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_1:
+  args:
+    - text text
+  desc: 'wikia から特定のトピックの詳細情報を取得して表示します。'
+  params:
+    - desc: '対象となる wikia のサイトです。'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia の検索語です。'
+      name: query
+      optional: false
+      type: string
+wikia_string_string_2:
+  args:
+    - text text
+  desc: 'wikia から特定のトピックの詳細情報を取得して表示します。'
+  params:
+    - desc: '対象となる wikia のサイトです。'
+      name: target
+      optional: false
+      type: string
+    - desc: 'wikia の検索語です。'
+      name: query
+      optional: false
+      type: string
+wink:
+  args:
+    - '[toShow]'
+  desc: 'ウインクをします。'
+  params:
+    - desc: '追加のテキストです（省略可能）。'
+      name: toShow
+      optional: true
+      type: string
+wowjoke:
+  args:
+    - ''
+  desc: 'World of Warcraft に関連するジョークを取得します。'
+  params: [ ]
+xkcd:
+  args:
+    - '[arg]'
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+      name: arg
+      optional: true
+      type: string
+xkcd_=:
+  args:
+    - '[arg]'
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_1:
+  args:
+    - '[arg]'
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+      name: arg
+      optional: true
+      type: string
+xkcd_=_2:
+  args:
+    - '[arg]'
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+      name: arg
+      optional: true
+      type: string
+xkcd_int:
+  args:
+    - number
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - &ref_663
+      desc: '取得する XKCD 漫画の番号です。'
+      name: num
+      optional: false
+      type: int
+xkcd_int_1:
+  args:
+    - number
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - desc: '取得する XKCD 漫画の番号です。'
+      name: num
+      optional: false
+      type: int
+xkcd_int_2:
+  args:
+    - number
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - desc: '取得する XKCD 漫画の番号です。'
+      name: num
+      optional: false
+      type: int
+xkcd_int_3:
+  args:
+    - number
+  desc: '番号を指定して XKCD の漫画を取得し、表示します。'
+  params:
+    - desc: '取得する XKCD 漫画の番号です。'
+      name: num
+      optional: false
+      type: int
+yomama:
+  args:
+    - ''
+  desc: 'Yo Mama のジョークを取得します。'
+  params: [ ]
+youtube:
+  args:
+    - text
+  desc: '指定したクエリに基づいて YouTube の動画を検索し、結果を表示します。'
+  params:
+    - &ref_675
+      desc: 'YouTube の動画を検索するためのクエリです。'
+      name: query
+      optional: false
+      type: string
+youtube_string:
+  args:
+    - text
+  desc: '指定したクエリに基づいて YouTube の動画を検索し、結果を表示します。'
+  params:
+    - desc: 'YouTube の動画を検索するためのクエリです。'
+      name: query
+      optional: false
+      type: string
+youtube_string_1:
+  args:
+    - text
+  desc: '指定したクエリに基づいて YouTube の動画を検索し、結果を表示します。'
+  params:
+    - desc: 'YouTube の動画を検索するためのクエリです。'
+      name: query
+      optional: false
+      type: string
+youtube_string_2:
+  args:
+    - text
+  desc: '指定したクエリに基づいて YouTube の動画を検索し、結果を表示します。'
+  params:
+    - desc: 'YouTube の動画を検索するためのクエリです。'
+      name: query
+      optional: false
+      type: string

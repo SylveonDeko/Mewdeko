@@ -1,317 +1,317 @@
 multigreetadd:
   args:
     - '[@channel]'
-  desc: 'Dodaje kanal WieloPowitania.'
+  desc: 'Dodaje kanał MultiGreet.'
   params:
-    - desc: 'Kanal do dodania'
+    - desc: 'Kanał do dodania'
       name: channel
       optional: true
       type: channel
 multigreetdelete:
   args:
     - number time
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
     - &ref_303
-      desc: 'ID WieloPowitania do zmiany'
+      desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
     - &ref_305
-      desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+      desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime:
   args:
     - number time
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
-    - desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+    - desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime_1:
   args:
     - number time
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
-    - desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+    - desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_StoopidTime_2:
   args:
     - number time
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
-    - desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+    - desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
       name: time
       optional: false
       type: StoopidTime
 multigreetdelete_int_int:
   args:
     - number number
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
     - &ref_304
-      desc: 'Czas w sekundach, po ktorym usunac wiadomosc'
+      desc: 'Czas, po którym wiadomość ma zostać usunięta, w sekundach'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_1:
   args:
     - number number
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
-    - desc: 'Czas w sekundach, po ktorym usunac wiadomosc'
+    - desc: 'Czas, po którym wiadomość ma zostać usunięta, w sekundach'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_2:
   args:
     - number number
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
-    - desc: 'Czas w sekundach, po ktorym usunac wiadomosc'
+    - desc: 'Czas, po którym wiadomość ma zostać usunięta, w sekundach'
       name: howlong
       optional: false
       type: int
 multigreetdelete_int_int_3:
   args:
     - number number
-  desc: 'Zmienia czas usuwania wiadomosci WieloPowitania w sekundach.'
+  desc: 'Zmienia czas usunięcia wiadomości MultiGreet w sekundach.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
-    - desc: 'Czas w sekundach, po ktorym usunac wiadomosc'
+    - desc: 'Czas, po którym wiadomość ma zostać usunięta, w sekundach'
       name: howlong
       optional: false
       type: int
 multigreetdisable:
   args:
     - number true|false
-  desc: 'Wylacza WieloPowitanie.'
+  desc: 'Wyłącza MultiGreet.'
   params:
     - &ref_306
-      desc: 'ID WieloPowitania do wylaczenia'
+      desc: 'ID MultiGreet do wyłączenia'
       name: num
       optional: false
       type: int
     - &ref_307
-      desc: 'Czy wylaczyc WieloPowitanie'
+      desc: 'Czy wyłączyć MultiGreet'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool:
   args:
     - number true|false
-  desc: 'Wylacza WieloPowitanie.'
+  desc: 'Wyłącza MultiGreet.'
   params:
-    - desc: 'ID WieloPowitania do wylaczenia'
+    - desc: 'ID MultiGreet do wyłączenia'
       name: num
       optional: false
       type: int
-    - desc: 'Czy wylaczyc WieloPowitanie'
+    - desc: 'Czy wyłączyć MultiGreet'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool_1:
   args:
     - number true|false
-  desc: 'Wylacza WieloPowitanie.'
+  desc: 'Wyłącza MultiGreet.'
   params:
-    - desc: 'ID WieloPowitania do wylaczenia'
+    - desc: 'ID MultiGreet do wyłączenia'
       name: num
       optional: false
       type: int
-    - desc: 'Czy wylaczyc WieloPowitanie'
+    - desc: 'Czy wyłączyć MultiGreet'
       name: enabled
       optional: false
       type: bool
 multigreetdisable_int_bool_2:
   args:
     - number true|false
-  desc: 'Wylacza WieloPowitanie.'
+  desc: 'Wyłącza MultiGreet.'
   params:
-    - desc: 'ID WieloPowitania do wylaczenia'
+    - desc: 'ID MultiGreet do wyłączenia'
       name: num
       optional: false
       type: int
-    - desc: 'Czy wylaczyc WieloPowitanie'
+    - desc: 'Czy wyłączyć MultiGreet'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots:
   args:
     - number true|false
-  desc: 'Zmienia, czy WieloPowitanie wita boty.'
+  desc: 'Zmienia, czy MultiGreet wita boty.'
   params:
     - &ref_308
-      desc: 'ID WieloPowitania do zmiany'
+      desc: 'ID MultiGreet do zmiany'
       name: num
       optional: false
       type: int
     - &ref_309
-      desc: 'Czy witac boty'
+      desc: 'Czy witać boty'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool:
   args:
     - number true|false
-  desc: 'Zmienia, czy WieloPowitanie wita boty.'
+  desc: 'Zmienia, czy MultiGreet wita boty.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: num
       optional: false
       type: int
-    - desc: 'Czy witac boty'
+    - desc: 'Czy witać boty'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool_1:
   args:
     - number true|false
-  desc: 'Zmienia, czy WieloPowitanie wita boty.'
+  desc: 'Zmienia, czy MultiGreet wita boty.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: num
       optional: false
       type: int
-    - desc: 'Czy witac boty'
+    - desc: 'Czy witać boty'
       name: enabled
       optional: false
       type: bool
 multigreetgreetbots_int_bool_2:
   args:
     - number true|false
-  desc: 'Zmienia, czy WieloPowitanie wita boty.'
+  desc: 'Zmienia, czy MultiGreet wita boty.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: num
       optional: false
       type: int
-    - desc: 'Czy witac boty'
+    - desc: 'Czy witać boty'
       name: enabled
       optional: false
       type: bool
 multigreetlist:
   args:
     - ''
-  desc: 'Wyswietla wszystkie WieloPowitania.'
+  desc: 'Wyświetla wszystkie MultiGreet.'
   params: [ ]
 multigreetmessage:
   args:
     - '<id> [embedTemplate]'
     - number
-  desc: 'Zmienia wiadomosc WieloPowitania.'
+  desc: 'Zmienia wiadomość MultiGreet.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int
-    - desc: 'Szablon wiadomosci/embedu do ustawienia'
+    - desc: 'Szablon wiadomości/embeda do ustawienia'
       name: embedTemplate
       optional: true
       type: embedtemplateresult
 multigreetremove:
   args:
     - number
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
     - &ref_310
-      desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+      desc: 'Usuwa wszystkie MultiGreet z kanału.'
       name: id
       optional: false
       type: int
 multigreetremove_ITextChannel:
   args:
     - channel
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
     - &ref_311
-      desc: 'Kanal, z ktorego usunac WieloPowitania'
+      desc: 'Kanał, z którego usunąć MultiGreet'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_1:
   args:
     - channel
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
-    - desc: 'Kanal, z ktorego usunac WieloPowitania'
+    - desc: 'Kanał, z którego usunąć MultiGreet'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_2:
   args:
     - channel
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
-    - desc: 'Kanal, z ktorego usunac WieloPowitania'
+    - desc: 'Kanał, z którego usunąć MultiGreet'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_ITextChannel_3:
   args:
     - channel
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
-    - desc: 'Kanal, z ktorego usunac WieloPowitania'
+    - desc: 'Kanał, z którego usunąć MultiGreet'
       name: channel
       optional: false
       type: ITextChannel
 multigreetremove_int:
   args:
     - number
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
-    - desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+    - desc: 'Usuwa wszystkie MultiGreet z kanału.'
       name: id
       optional: false
       type: int
 multigreetremove_int_1:
   args:
     - number
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
-    - desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+    - desc: 'Usuwa wszystkie MultiGreet z kanału.'
       name: id
       optional: false
       type: int
 multigreetremove_int_2:
   args:
     - number
-  desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+  desc: 'Usuwa wszystkie MultiGreet z kanału.'
   params:
-    - desc: 'Usuwa wszystkie WieloPowitania z kanalu.'
+    - desc: 'Usuwa wszystkie MultiGreet z kanału.'
       name: id
       optional: false
       type: int
@@ -321,10 +321,10 @@ multigreettype:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Zmienia typ WieloPowitania.'
+  desc: 'Zmienia typ MultiGreet.'
   params:
     - &ref_312
-      desc: 'Typ WieloPowitania do ustawienia'
+      desc: 'Typ MultiGreet do ustawienia'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -334,9 +334,9 @@ multigreettype_MultiGreetTypes:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Zmienia typ WieloPowitania.'
+  desc: 'Zmienia typ MultiGreet.'
   params:
-    - desc: 'Typ WieloPowitania do ustawienia'
+    - desc: 'Typ MultiGreet do ustawienia'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -346,9 +346,9 @@ multigreettype_MultiGreetTypes_1:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Zmienia typ WieloPowitania.'
+  desc: 'Zmienia typ MultiGreet.'
   params:
-    - desc: 'Typ WieloPowitania do ustawienia'
+    - desc: 'Typ MultiGreet do ustawienia'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -358,9 +358,9 @@ multigreettype_MultiGreetTypes_2:
     - multigreet
     - randomgreet
     - 'off'
-  desc: 'Zmienia typ WieloPowitania.'
+  desc: 'Zmienia typ MultiGreet.'
   params:
-    - desc: 'Typ WieloPowitania do ustawienia'
+    - desc: 'Typ MultiGreet do ustawienia'
       name: types
       optional: false
       type: MultiGreetTypes
@@ -368,9 +368,9 @@ multigreetwebhook:
   args:
     - '<id> [name] [avatar]'
     - number
-  desc: 'Zmienia webhook WieloPowitania.'
+  desc: 'Zmienia webhook dla MultiGreet.'
   params:
-    - desc: 'ID WieloPowitania do zmiany'
+    - desc: 'ID MultiGreet do zmiany'
       name: id
       optional: false
       type: int

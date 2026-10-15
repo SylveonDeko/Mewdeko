@@ -1,0 +1,605 @@
+anonrep:
+  args:
+    - '@user reptype text'
+  desc: 'Da reputación anónima a un usuario indicado.'
+  params:
+    - &ref_228
+      desc: 'El usuario al que dar reputación.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - &ref_229
+      desc: 'El tipo de reputación a dar.'
+      name: repType
+      optional: true
+      type: string
+    - &ref_230
+      desc: 'Motivo o comentario opcional para dar reputación.'
+      name: reason
+      optional: true
+      type: string
+checkrep:
+  args:
+    - '@user'
+  desc: 'Consulta la reputación de un usuario.'
+  params:
+    - &ref_425
+      desc: 'El usuario cuya reputación consultar.'
+      name: target
+      optional: true
+      type: IGuildUser
+giverep:
+  args:
+    - '@user reptype text'
+  desc: 'Da reputación a un usuario indicado.'
+  params:
+    - desc: 'El usuario al que dar reputación.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'El tipo de reputación a dar.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Motivo o comentario opcional para dar reputación.'
+      name: reason
+      optional: true
+      type: string
+myrep:
+  args:
+    - ''
+  desc: 'Consulta la reputación del usuario actual.'
+  params: [ ]
+rep:
+  args:
+    - '@user reptype text'
+  desc: 'Da reputación a un usuario indicado.'
+  params:
+    - desc: 'El usuario al que dar reputación.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'El tipo de reputación a dar.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Motivo o comentario opcional para dar reputación.'
+      name: reason
+      optional: true
+      type: string
+repanon:
+  args:
+    - '@user reptype text'
+  desc: 'Da reputación anónima a un usuario indicado.'
+  params:
+    - desc: 'El usuario al que dar reputación.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'El tipo de reputación a dar.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Motivo o comentario opcional para dar reputación.'
+      name: reason
+      optional: true
+      type: string
+repanonymous:
+  args:
+    - enabled
+  desc: 'Activa o desactiva la posibilidad de dar reputación de forma anónima.'
+  params:
+    - desc: 'True para activar la reputación anónima.'
+      name: enabled
+      optional: false
+      type: bool
+repchannel:
+  args:
+    - '#channel state number'
+  desc: 'Configura los ajustes de reputación específicos de un canal.'
+  params:
+    - desc: 'El canal a configurar.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'El estado a definir (enabled/disabled/readonly).'
+      name: state
+      optional: true
+      type: string
+    - desc: 'El multiplicador de reputación para este canal.'
+      name: multiplier
+      optional: true
+      type: decimal
+repcheck:
+  args:
+    - '@user'
+  desc: 'Consulta la reputación de un usuario.'
+  params:
+    - desc: 'El usuario cuya reputación consultar. Si es null, consulta la reputación de quien ejecuta el comando.'
+      name: target
+      optional: true
+      type: IGuildUser
+repcommandbypass:
+  args:
+    - commandname '@role'
+  desc: 'Define roles que eluden el requisito de un comando.'
+  params:
+    - &ref_426
+      desc: 'El nombre del comando.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: 'Los roles que pueden eludir el requisito.'
+      name: roles
+      optional: false
+      type: IRole[]
+repcommandinfo:
+  args:
+    - commandname
+  desc: 'Muestra los requisitos de reputación de un comando concreto.'
+  params:
+    - desc: 'El comando a consultar.'
+      name: commandName
+      optional: false
+      type: string
+repcommandreq:
+  args:
+    - commandname 50
+    - commandname 50 helper
+    - 'commandname 50 helper #channel1 #channel2'
+  desc: 'Define requisitos de reputación para un comando, opcionalmente limitados a canales concretos.'
+  params:
+    - desc: 'El nombre del comando.'
+      name: commandName
+      optional: false
+      type: string
+    - desc: 'La reputación mínima requerida.'
+      name: minReputation
+      optional: false
+      type: int
+    - desc: 'El tipo de reputación concreto requerido (opcional; por defecto, total).'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Canales opcionales donde se aplica este requisito (si no se indica ninguno, se aplica a todo el servidor).'
+      name: channels
+      optional: true
+      type: ITextChannel[]
+repcommandreqlist:
+  args:
+    - ''
+  desc: 'Lista todos los requisitos de comandos del servidor.'
+  params: [ ]
+repcommandreqremove:
+  args:
+    - commandname
+  desc: 'Elimina los requisitos de reputación de un comando.'
+  params:
+    - desc: 'El nombre del comando.'
+      name: commandName
+      optional: false
+      type: string
+repconfig:
+  args:
+    - ''
+  desc: 'Abre la interfaz interactiva de configuración de reputación.'
+  params: [ ]
+repcooldown:
+  args:
+    - minutes
+  desc: 'Define el tiempo de espera predeterminado entre dar reputación.'
+  params:
+    - desc: 'Tiempo de espera en minutos (1-1440).'
+      name: minutes
+      optional: false
+      type: int
+repdailylimit:
+  args:
+    - limit
+  desc: 'Define el límite diario para dar reputación.'
+  params:
+    - desc: 'Límite diario (1-100).'
+      name: limit
+      optional: false
+      type: int
+repdecay:
+  args:
+    - enabled
+  desc: 'Activa o desactiva la pérdida gradual de reputación por inactividad.'
+  params:
+    - desc: 'True para activar la pérdida gradual.'
+      name: enabled
+      optional: false
+      type: bool
+repdecayamount:
+  args:
+    - amount
+  desc: 'Define la cantidad de la pérdida gradual.'
+  params:
+    - desc: 'La cantidad de la pérdida gradual (1-100).'
+      name: amount
+      optional: false
+      type: int
+repdecayinactive:
+  args:
+    - days
+  desc: 'Define el número de días de inactividad antes de que empiece la pérdida gradual.'
+  params:
+    - desc: 'Días de inactividad (1-365).'
+      name: days
+      optional: false
+      type: int
+repdecaytype:
+  args:
+    - type
+  desc: 'Define el tipo de pérdida gradual (daily, weekly, monthly).'
+  params:
+    - desc: 'El tipo de pérdida gradual.'
+      name: type
+      optional: false
+      type: string
+repenable:
+  args:
+    - enabled
+  desc: 'Activa o desactiva el sistema de reputación en este servidor.'
+  params:
+    - desc: 'True para activar, false para desactivar.'
+      name: enabled
+      optional: true
+      type: bool
+repeventcreate:
+  args:
+    - name multiplier duration
+  desc: 'Crea un evento de multiplicador de reputación.'
+  params:
+    - desc: 'Nombre del evento.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Multiplicador de reputación.'
+      name: multiplier
+      optional: false
+      type: decimal
+    - desc: 'Duración en horas.'
+      name: duration
+      optional: false
+      type: int
+repeventend:
+  args:
+    - name
+  desc: 'Finaliza un evento de reputación antes de tiempo.'
+  params:
+    - desc: 'Nombre del evento a finalizar.'
+      name: name
+      optional: false
+      type: string
+repexport:
+  args:
+    - ''
+  desc: 'Exporta la configuración actual de reputación a JSON.'
+  params: [ ]
+repfreeze:
+  args:
+    - '@user'
+  desc: 'Congela la reputación de un usuario, impidiendo que gane o pierda reputación.'
+  params:
+    - &ref_438
+      desc: 'El usuario a congelar.'
+      name: user
+      optional: false
+      type: IGuildUser
+repgive:
+  args:
+    - '@user reptype text'
+  desc: 'Da reputación a un usuario indicado.'
+  params:
+    - desc: 'El usuario al que dar reputación.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: 'El tipo de reputación a dar.'
+      name: repType
+      optional: true
+      type: string
+    - desc: 'Motivo o comentario opcional para dar reputación.'
+      name: reason
+      optional: true
+      type: string
+rephistory:
+  args:
+    - '@user'
+  desc: 'Muestra el historial de reputación de un usuario.'
+  params:
+    - desc: 'El usuario cuyo historial mostrar. Si es null, muestra el historial de quien ejecuta el comando.'
+      name: target
+      optional: true
+      type: IGuildUser
+repimport:
+  args:
+    - ''
+  desc: 'Importa la configuración de reputación desde un archivo JSON subido.'
+  params: [ ]
+replb:
+  args:
+    - number
+  desc: 'Muestra la clasificación de reputación del servidor.'
+  params:
+    - &ref_436
+      desc: 'El número de página a mostrar.'
+      name: page
+      optional: true
+      type: int
+repleaderboard:
+  args:
+    - number
+  desc: 'Muestra la clasificación de reputación del servidor.'
+  params:
+    - desc: 'El número de página a mostrar.'
+      name: page
+      optional: true
+      type: int
+repmilestonelost:
+  args:
+    - user role threshold
+  desc: 'Dispara manualmente el evento de pérdida de hito para pruebas.'
+  params:
+    - desc: 'El usuario que perdió el hito.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'El rol que se perdió.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'El umbral de reputación.'
+      name: threshold
+      optional: false
+      type: int
+repminage:
+  args:
+    - days
+  desc: 'Define la antigüedad mínima de cuenta necesaria para dar reputación.'
+  params:
+    - desc: 'Antigüedad mínima de la cuenta en días (0-365).'
+      name: days
+      optional: false
+      type: int
+repminmembership:
+  args:
+    - hours
+  desc: 'Define el tiempo mínimo de permanencia en el servidor necesario para dar reputación.'
+  params:
+    - desc: 'Tiempo mínimo de permanencia en horas (0-720).'
+      name: hours
+      optional: false
+      type: int
+repminmessages:
+  args:
+    - count
+  desc: 'Define el número mínimo de mensajes necesario para dar reputación.'
+  params:
+    - desc: 'Número mínimo de mensajes (0-1000).'
+      name: count
+      optional: false
+      type: int
+repnegative:
+  args:
+    - enabled
+  desc: 'Activa o desactiva la reputación negativa.'
+  params:
+    - desc: 'True para activar la reputación negativa.'
+      name: enabled
+      optional: false
+      type: bool
+repnotificationchannel:
+  args:
+    - channel
+  desc: 'Establece el canal de notificaciones para los eventos de reputación.'
+  params:
+    - desc: 'El canal al que enviar las notificaciones (null para desactivarlo).'
+      name: channel
+      optional: true
+      type: ITextChannel
+repreaction:
+  args:
+    - emoji number reptype
+  desc: 'Configura la entrega de reputación mediante reacciones.'
+  params:
+    - desc: 'El emoji que se usará para la reputación.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'La cantidad de reputación que se otorgará.'
+      name: amount
+      optional: true
+      type: int
+    - desc: 'El tipo de reputación (standard, helper, artist, memer).'
+      name: repType
+      optional: true
+      type: string
+repreactionlist:
+  args:
+    - ''
+  desc: 'Muestra todas las configuraciones de reputación por reacciones.'
+  params: [ ]
+repreactionremove:
+  args:
+    - emoji
+  desc: 'Elimina una configuración de reputación por reacciones.'
+  params:
+    - desc: 'El emoji que se eliminará.'
+      name: emoji
+      optional: false
+      type: string
+represet:
+  args:
+    - text
+  desc: 'Restablece la reputación de un usuario o de todos los usuarios del servidor.'
+  params:
+    - desc: 'El usuario a restablecer, o "all" para restablecer a todos.'
+      name: target
+      optional: false
+      type: string
+reprole:
+  args:
+    - ''
+    - detailed
+    - '@role'
+    - '@role 100'
+    - '@role 100 false #channel true 50'
+  desc: 'Gestiona las recompensas de rol por hitos de reputación. Úsalo sin parámetros para ver todas las recompensas, o indica un rol y una reputación para añadir o actualizar una recompensa con ajustes avanzados opcionales.'
+  params:
+    - &ref_437
+      desc: 'El rol a otorgar (opcional para listar).'
+      name: role
+      optional: true
+      type: IRole
+    - desc: 'La reputación necesaria para obtener este rol (opcional para listar).'
+      name: reputation
+      optional: true
+      type: int
+    - desc: 'Si se debe quitar el rol cuando la reputación baje.'
+      name: removeOnDrop
+      optional: true
+      type: bool
+    - desc: 'Canal opcional para anunciar la entrega de roles.'
+      name: announceChannel
+      optional: true
+      type: ITextChannel
+    - desc: 'Si se deben enviar notificaciones por MD.'
+      name: announceDm
+      optional: true
+      type: bool
+    - desc: 'Recompensa de XP opcional al alcanzar el hito.'
+      name: xpReward
+      optional: true
+      type: int
+    - desc: 'Muestra información detallada al listar (usa ''detailed'' como primer parámetro).'
+      name: detailed
+      optional: true
+      type: string
+reprolechannel:
+  args:
+    - role channel
+  desc: 'Establece el canal de anuncios para una recompensa de rol.'
+  params:
+    - desc: 'El rol a configurar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'El canal para los anuncios (null para desactivarlo).'
+      name: channel
+      optional: true
+      type: ITextChannel
+reproleremove:
+  args:
+    - '@role'
+  desc: 'Elimina la configuración de una recompensa de rol.'
+  params:
+    - desc: 'El rol que se quitará de las recompensas.'
+      name: role
+      optional: true
+      type: IRole
+repset:
+  args:
+    - '@user number'
+  desc: 'Establece la reputación de un usuario en un valor específico.'
+  params:
+    - desc: 'El usuario al que establecer la reputación.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'El valor al que establecer la reputación.'
+      name: amount
+      optional: false
+      type: int
+repstats:
+  args:
+    - '@user'
+  desc: 'Muestra estadísticas detalladas de reputación de un usuario.'
+  params:
+    - desc: 'El usuario cuyas estadísticas se mostrarán. Si es null, se muestran las de quien ejecuta el comando.'
+      name: target
+      optional: true
+      type: IGuildUser
+repstatus:
+  args:
+    - ''
+  desc: 'Muestra la configuración de reputación actual en un embed detallado.'
+  params: [ ]
+reptake:
+  args:
+    - '@user number'
+  desc: 'Quita reputación a un usuario.'
+  params:
+    - desc: 'El usuario al que quitar reputación.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'La cantidad de reputación que se quitará.'
+      name: amount
+      optional: true
+      type: int
+reptop:
+  args:
+    - number
+  desc: 'Muestra la clasificación de reputación del servidor.'
+  params:
+    - desc: 'El número de página a mostrar.'
+      name: page
+      optional: true
+      type: int
+reptypeadd:
+  args:
+    - typeName displayName
+  desc: 'Añade un tipo de reputación personalizado.'
+  params:
+    - desc: 'El nombre del tipo de reputación.'
+      name: typeName
+      optional: false
+      type: string
+    - desc: 'El nombre que se mostrará para el tipo.'
+      name: displayName
+      optional: false
+      type: string
+reptypelist:
+  args:
+    - ''
+  desc: 'Muestra todos los tipos de reputación personalizados de este servidor.'
+  params: [ ]
+reptyperemove:
+  args:
+    - typeName
+  desc: 'Elimina un tipo de reputación personalizado.'
+  params:
+    - desc: 'El nombre del tipo de reputación que se eliminará.'
+      name: typeName
+      optional: false
+      type: string
+repunfreeze:
+  args:
+    - '@user'
+  desc: 'Descongela la reputación de un usuario, permitiéndole volver a ganar y perder reputación.'
+  params:
+    - desc: 'El usuario a descongelar.'
+      name: user
+      optional: false
+      type: IGuildUser
+repweeklylimit:
+  args:
+    - limit
+  desc: 'Establece el límite semanal para dar reputación (opcional).'
+  params:
+    - desc: 'Límite semanal (null para desactivarlo, de 1 a 500).'
+      name: limit
+      optional: true
+      type: int
+toprep:
+  args:
+    - number
+  desc: 'Muestra la clasificación de reputación del servidor.'
+  params:
+    - desc: 'El número de página a mostrar.'
+      name: page
+      optional: true
+      type: int

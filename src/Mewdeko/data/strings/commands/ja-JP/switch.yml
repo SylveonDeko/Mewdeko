@@ -1,0 +1,41 @@
+err:
+  args:
+    - code
+  desc: 'Nintendo Switch のエラーコードを検索し、わかっている情報を表示します。'
+  params:
+    - desc: 'エラーコードです。NNNN-NNNN 形式または 16 進数（例: 0x2A2）で指定します。'
+      name: code
+      optional: false
+      type: string
+err2hex:
+  args:
+    - code
+  desc: 'Nintendo Switch のエラーコードを NNNN-NNNN 形式から 16 進数に変換します。'
+  params:
+    - desc: '変換するエラーコードです。例: 2168-0002。'
+      name: code
+      optional: false
+      type: string
+hex2err:
+  args:
+    - hex
+  desc: '16 進数の Nintendo Switch エラーコードを NNNN-NNNN 形式に変換します。'
+  params:
+    - desc: '変換する 16 進数のエラーコードです。例: 0x2A2。'
+      name: hex
+      optional: false
+      type: string
+switchbrew:
+  args:
+    - query
+  desc: 'switchbrew.org の wiki を検索し、上位の一致ページを表示します。'
+  params:
+    - desc: '検索クエリです。'
+      name: query
+      optional: false
+      type: string
+analyselog:
+  args:
+    - ''
+  desc: '添付された Ryujinx のログファイルを分析し、ハードウェア、設定、トラブルシューティングの情報を報告します。'
+  params: [ ]

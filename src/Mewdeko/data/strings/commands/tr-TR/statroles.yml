@@ -1,0 +1,206 @@
+statroleadd:
+  args:
+    - '@role Messages 500 [lookbackDays] [name]'
+    - '@role VoiceMinutes 600 30 Voice Regular'
+    - '@role Invites 10'
+  desc: 'Eşik tabanlı bir istatistik rolü oluşturur: en az minimum değere sahip üyeler (Messages, VoiceMinutes, Invites, JoinedDays, AccountDays veya ActivityMinutes) rolü alır ve kalıcı yapılmadıkça değer düştüğünde rolü kaybeder. ActivityMinutes için oyunu "statroleset <id> activity <name>" ile ayarla veya herhangi bir oyun için boş bırak.'
+  params:
+    - desc: 'Yönetilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Ölçülecek değer: Messages, VoiceMinutes, Invites, JoinedDays, AccountDays veya ActivityMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Minimum değer.'
+      name: minimum
+      optional: false
+      type: long
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Görünen ad.'
+      name: name
+      optional: true
+      type: string
+statroletop:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+    - '@role VoiceMinutes 3 7'
+  desc: 'Bir sıralama istatistik rolü oluşturur: belirtilen sıraya kadar (1 dahil) olan üyeler rolü alır.'
+  params:
+    - desc: 'Yönetilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Ölçülecek değer.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Hâlâ uygun sayılan en düşük sıra.'
+      name: topEnd
+      optional: false
+      type: int
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Görünen ad.'
+      name: name
+      optional: true
+      type: string
+statrolepercent:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+  desc: 'Bir yüzdelik istatistik rolü oluşturur: sıralanan üyelerin belirtilen yüzdelik diliminde olan üyeler rolü alır.'
+  params:
+    - desc: 'Yönetilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Ölçülecek değer.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Yüzdelik sınır, 1 ila 100.'
+      name: topPercent
+      optional: false
+      type: int
+    - desc: 'Gün cinsinden zaman aralığı; tüm zamanlar için 0.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Görünen ad.'
+      name: name
+      optional: true
+      type: string
+statrolestreak:
+  args:
+    - '@role Messages 5 7 [lookbackDays] [name]'
+  desc: 'Günlük seri istatistik rolü oluşturur: zaman aralığı içinde gereken gün sayısında günlük minimumu karşılayan üyeler rolü alır.'
+  params:
+    - desc: 'Yönetilecek rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Messages veya VoiceMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'Günlük minimum değer.'
+      name: perDay
+      optional: false
+      type: long
+    - desc: 'Aralıkta bu değeri karşılaması gereken gün sayısı.'
+      name: requiredDays
+      optional: false
+      type: int
+    - desc: 'Gün cinsinden zaman aralığı.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'Görünen ad.'
+      name: name
+      optional: true
+      type: string
+statrolelist:
+  args:
+    - ''
+  desc: 'İstatistik rollerini koşullarıyla birlikte listeler.'
+  params: [ ]
+statroleinfo:
+  args:
+    - '3'
+  desc: 'Bir istatistik rolünün tüm yapılandırmasını gösterir: koşul, filtreler, bildirimler ve program.'
+  params:
+    - desc: 'İstatistik rolünün ID''si.'
+      name: id
+      optional: false
+      type: int
+statroleremove:
+  args:
+    - '3'
+  desc: 'Bir istatistik rolünü siler. Üyeler şu anda sahip oldukları rolü korur.'
+  params:
+    - desc: 'İstatistik rolünün ID''si.'
+      name: id
+      optional: false
+      type: int
+statroletoggle:
+  args:
+    - '3'
+  desc: 'Bir istatistik rolünü etkinleştirir veya devre dışı bırakır.'
+  params:
+    - desc: 'İstatistik rolünün ID''si.'
+      name: id
+      optional: false
+      type: int
+statrolepreview:
+  args:
+    - '3'
+  desc: 'Hiçbir şeyi değiştirmeden bir sonraki çalıştırmada kimin rolü kazanıp kaybedeceğini gösterir.'
+  params:
+    - desc: 'İstatistik rolünün ID''si.'
+      name: id
+      optional: false
+      type: int
+statrolerun:
+  args:
+    - '3'
+  desc: 'Programını beklemeden bir istatistik rolünü hemen değerlendirir ve uygular.'
+  params:
+    - desc: 'İstatistik rolünün ID''si.'
+      name: id
+      optional: false
+      type: int
+statroleset:
+  args:
+    - '3 permanent true'
+    - '3 lookback 30'
+    - '3 notifychannel #announcements'
+    - '3 message %user% just %action% %role%!'
+    - '3 activity Minecraft'
+  desc: 'Bir istatistik rolündeki tek bir ayarı değiştirir. Ayarlar: name, min, max, lookback, topstart, topend, days, permanent, invert, bots, group, interval, notifychannel, notifydm, message, activity (oyun adı veya ActivityMinutes istatistiği için "any"). max, group, notifychannel veya message değerlerini temizlemek için "none" kullan.'
+  params:
+    - desc: 'İstatistik rolünün ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayar adı.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'Yeni değer.'
+      name: value
+      optional: false
+      type: string
+statrolefilter:
+  args:
+    - '3 #channel'
+    - '3 @role'
+    - '3 @role true'
+    - '3 @user'
+  desc: 'Bir istatistik rolünde filtre açar veya kapatır: istatistiğin sınırlanacağı bir kanal, üyelerin sahip olması gereken (veya true ile sahip olmaması gereken) bir rol ya da rolün hiçbir zaman dokunmayacağı bir üye.'
+  params:
+    - desc: 'İstatistik rolünün ID''si.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'İstatistiğin sınırlanacağı bir kanal.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'Gerekli veya hariç tutulacak bir rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Beyaz liste yerine rol kara listesini değiştirmek için true.'
+      name: blacklist
+      optional: true
+      type: bool
+    - desc: 'İstatistik rolünün hiçbir zaman dokunmayacağı bir üye.'
+      name: user
+      optional: false
+      type: IGuildUser

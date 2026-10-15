@@ -38,74 +38,72 @@ addstatusrole_string_2:
 liststatusroles:
   args:
     - ''
-  desc: 'Liste tous les rôles de statut actuels avec leurs détails.'
+  desc: 'Affiche tous les rôles de statut actuels avec leurs détails.'
   params: [ ]
 removeaddroles:
   args:
     - number @role
-  desc: 'Définit les rôles à supprimer lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à retirer lorsqu''un utilisateur possède le statut sélectionné.'
   params:
     - &ref_390
-      desc: 'L''index du rôle de statut.'
+      desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
     - &ref_391
-      desc: 'Les rôles à supprimer.'
+      desc: 'Les rôles à retirer.'
       name: roles
       optional: false
       type: IRole[]
 removeaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Définit les rôles à supprimer lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à retirer lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Les rôles à supprimer.'
+    - desc: 'Les rôles à retirer.'
       name: roles
       optional: false
       type: IRole[]
 removeaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Définit les rôles à supprimer lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à retirer lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Les rôles à supprimer.'
+    - desc: 'Les rôles à retirer.'
       name: roles
       optional: false
       type: IRole[]
 removeaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Définit les rôles à supprimer lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à retirer lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Les rôles à supprimer.'
+    - desc: 'Les rôles à retirer.'
       name: roles
       optional: false
       type: IRole[]
 removeremoveroles:
   args:
     - number @role
-  desc: >-
-    Supprime un ou plusieurs rôles des rôles ajoutés lorsqu''un utilisateur a
-    le statut sélectionné.
+  desc: 'Retire un ou plusieurs rôles parmi ceux ajoutés lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Les rôles à supprimer.'
+    - desc: 'Les rôles à retirer.'
       name: roles
       optional: false
       type: IRole[]
@@ -114,16 +112,16 @@ removestatusrole:
     - number
   desc: 'Supprime une configuration de rôle de statut.'
   params:
-    - desc: 'L''index du rôle de statut à supprimer.'
+    - desc: 'La position du rôle de statut à supprimer.'
       name: index
       optional: false
       type: int
 setaddroles:
   args:
     - number @role
-  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
@@ -135,9 +133,9 @@ setaddroles:
 setaddroles_int_IRole[]:
   args:
     - number @role
-  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
@@ -148,9 +146,9 @@ setaddroles_int_IRole[]:
 setaddroles_int_IRole[]_1:
   args:
     - number @role
-  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
@@ -161,9 +159,9 @@ setaddroles_int_IRole[]_1:
 setaddroles_int_IRole[]_2:
   args:
     - number @role
-  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à ajouter lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
@@ -174,66 +172,66 @@ setaddroles_int_IRole[]_2:
 setremoveroles:
   args:
     - number @role
-  desc: 'Définit les rôles à supprimer lorsqu''un utilisateur a le statut sélectionné.'
+  desc: 'Définit les rôles à retirer lorsqu''un utilisateur possède le statut sélectionné.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Les rôles à supprimer.'
+    - desc: 'Les rôles à retirer.'
       name: roles
       optional: false
       type: IRole[]
 setstatusrolechannel:
   args:
     - number channel
-  desc: 'Définit le canal pour un rôle de statut spécifique.'
+  desc: 'Définit le salon d''un rôle de statut précis.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
     - &ref_527
-      desc: 'Le canal à définir.'
+      desc: 'Le salon à définir.'
       name: channel
       optional: false
       type: ITextChannel
 setstatusrolechannel_int_ITextChannel:
   args:
     - number channel
-  desc: 'Définit le canal pour un rôle de statut spécifique.'
+  desc: 'Définit le salon d''un rôle de statut précis.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Le canal à définir.'
+    - desc: 'Le salon à définir.'
       name: channel
       optional: false
       type: ITextChannel
 setstatusrolechannel_int_ITextChannel_1:
   args:
     - number channel
-  desc: 'Définit le canal pour un rôle de statut spécifique.'
+  desc: 'Définit le salon d''un rôle de statut précis.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Le canal à définir.'
+    - desc: 'Le salon à définir.'
       name: channel
       optional: false
       type: ITextChannel
 setstatusrolechannel_int_ITextChannel_2:
   args:
     - number channel
-  desc: 'Définit le canal pour un rôle de statut spécifique.'
+  desc: 'Définit le salon d''un rôle de statut précis.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Le canal à définir.'
+    - desc: 'Le salon à définir.'
       name: channel
       optional: false
       type: ITextChannel
@@ -241,33 +239,31 @@ setstatusroleembed:
   args:
     - '<index> [embedText]'
     - number
-  desc: 'Définit ou prévisualise le texte d''embed pour un rôle de statut spécifique.'
+  desc: 'Définit ou prévisualise le texte de l''embed d''un rôle de statut précis.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
-    - desc: 'Le texte d''embed à définir.'
+    - desc: 'Le texte de l''embed à définir.'
       name: embedText
       optional: true
       type: string
 togglereaddremoved:
   args:
     - number
-  desc: 'Bascule si les rôles ajoutés sont supprimés lorsqu''un statut est retiré.'
+  desc: 'Active ou désactive le retrait des rôles ajoutés lorsqu''un statut est retiré.'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int
 toggleremoveadded:
   args:
     - number
-  desc: >-
-    Bascule si les rôles ajoutés sont supprimés lorsqu''un utilisateur n''a
-    plus le statut selon l''index fourni.
+  desc: 'Active ou désactive le retrait des rôles ajoutés lorsqu''un utilisateur ne possède plus le statut correspondant à la position indiquée'
   params:
-    - desc: 'L''index du rôle de statut.'
+    - desc: 'La position du rôle de statut.'
       name: index
       optional: false
       type: int

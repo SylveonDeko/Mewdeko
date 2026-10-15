@@ -57,16 +57,16 @@ confessblacklist:
     - user
   desc: 'Ajoute un utilisateur à la liste noire des confessions.'
   params:
-    - desc: 'L''utilisateur à mettre sur la liste noire des confessions.'
+    - desc: 'L''utilisateur à ajouter à la liste noire des confessions.'
       name: user
       optional: false
       type: IUser
 confesschannel:
   args:
     - channel
-  desc: 'Définit le canal des confessions.'
+  desc: 'Définit le salon des confessions.'
   params:
-    - desc: 'Le canal à définir pour les confessions.'
+    - desc: 'Le salon à définir pour les confessions.'
       name: channel
       optional: true
       type: ITextChannel
@@ -111,20 +111,18 @@ confessionblacklist_IUser_2:
 confessionchannel:
   args:
     - '[@channel]'
-  desc: 'Définit le canal des confessions pour les confessions anonymes.'
+  desc: 'Définit le salon des confessions anonymes.'
   params:
-    - desc: 'Le canal des confessions (optionnel).'
+    - desc: 'Le salon des confessions (facultatif).'
       name: channel
       optional: true
       type: channel
 confessionlogchannel:
   args:
     - '[@channel]'
-  desc: >-
-    Définit le canal de journalisation des confessions. Un mauvais usage de
-    cette fonctionnalité finira par moi à 2m de chez toi.
+  desc: 'Définit le salon de logs des confessions. Un mauvais usage de cette fonctionnalité me fera me retrouver à 2 minutes de chez vous.'
   params:
-    - desc: 'Le canal de journalisation des confessions (optionnel).'
+    - desc: 'Le salon de logs des confessions (facultatif).'
       name: channel
       optional: true
       type: channel
@@ -140,9 +138,9 @@ confessionunblacklist:
 confesslogchannel:
   args:
     - channel
-  desc: 'Définit le canal de journalisation des confessions.'
+  desc: 'Définit le salon de logs des confessions.'
   params:
-    - desc: 'Le canal où journaliser les confessions.'
+    - desc: 'Le salon où journaliser les confessions.'
       name: channel
       optional: true
       type: ITextChannel

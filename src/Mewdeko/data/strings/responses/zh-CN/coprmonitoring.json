@@ -24,6 +24,10 @@
   "copr_skipped_message_default": "已跳过的构建消息将使用默认格式。",
   "copr_default_message_updated": "默认构建消息已更新！",
   "copr_default_message_default": "默认构建消息将使用默认格式。",
+  "copr_template_updated": "{0} 构建模板已更新！",
+  "copr_template_reset": "{0} 构建消息将使用默认格式。",
+  "copr_template_none": "未设置自定义 {0} 模板，将使用默认格式。",
+  "copr_template_show_title": "{0}/{1} {2} 模板",
   "copr_build_title": "COPR 构建 {0}",
   "copr_build_default_desc": "**项目：** {0}/{1}\n**包：** {2}\n**构建 ID：** {3}\n**Chroot：** {4}"
 }

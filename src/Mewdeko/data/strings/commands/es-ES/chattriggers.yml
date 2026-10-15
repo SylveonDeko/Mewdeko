@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat.'
+  params:
+    - &ref_9
+      desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat.'
+  params:
+    - desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat.'
+  params:
+    - desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat.'
+  params:
+    - desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat con soporte de regex.'
+  params:
+    - desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat con soporte de regex.'
+  params:
+    - desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat con soporte de regex.'
+  params:
+    - desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Añade un nuevo disparador de chat con soporte de regex.'
+  params:
+    - desc: 'La clave del disparador de chat.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'El mensaje asociado al disparador de chat.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Añade un nuevo disparador de chat basado en reacciones.'
+  params:
+    - desc: 'El emoji de reacción que activa el disparador.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'El mensaje a enviar cuando se active.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Define el tipo de concesión de rol para un disparador de chat.'
+  params:
+    - &ref_130
+      desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'El tipo de concesión de rol a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Define el tipo de concesión de rol para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de concesión de rol a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Define el tipo de concesión de rol para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de concesión de rol a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Define el tipo de concesión de rol para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de concesión de rol a definir.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Define el canal para la publicación cruzada de disparadores de chat.'
+  params:
+    - desc: 'El canal para la publicación cruzada.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Define el webhook para la publicación cruzada de disparadores de chat.'
+  params:
+    - desc: 'La URL del webhook para la publicación cruzada.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Define si un disparador de chat es válido para un tipo de disparador concreto.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'El tipo de disparador para el que definir la validez.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Si el tipo de disparador debe activarse o desactivarse.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Define si un disparador de chat es válido para un tipo de disparador concreto.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de disparador para el que definir la validez.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Si el tipo de disparador debe activarse o desactivarse.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Define si un disparador de chat es válido para un tipo de disparador concreto.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de disparador para el que definir la validez.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Si el tipo de disparador debe activarse o desactivarse.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Define si un disparador de chat es válido para un tipo de disparador concreto.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de disparador para el que definir la validez.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Si el tipo de disparador debe activarse o desactivarse.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Define que un disparador de chat se borre automáticamente tras activarse.'
+  params:
+    - &ref_162
+      desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Define que un disparador de chat se borre automáticamente tras activarse.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Define que un disparador de chat se borre automáticamente tras activarse.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Define que un disparador de chat se borre automáticamente tras activarse.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Define que un disparador de chat permita apuntar a usuarios.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Define que un disparador de chat se active si aparece en cualquier parte del mensaje.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Define el canal de publicación cruzada para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'El canal a definir para la publicación cruzada.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Define el canal de publicación cruzada para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El canal a definir para la publicación cruzada.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Define el canal de publicación cruzada para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El canal a definir para la publicación cruzada.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Define el canal de publicación cruzada para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El canal a definir para la publicación cruzada.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Define la URL del webhook para la publicación cruzada de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'La URL del webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Define la URL del webhook para la publicación cruzada de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La URL del webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Define la URL del webhook para la publicación cruzada de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La URL del webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Define la URL del webhook para la publicación cruzada de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La URL del webhook a definir.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Define que un disparador de chat envíe un MD como respuesta.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Define si la respuesta de interacción debe ser efímera para un disparador de chat. ¡Así no mostraré mi sufrimiento con la documentación a los demás!'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'True si la respuesta debe ser efímera, false en caso contrario.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Define si la respuesta de interacción debe ser efímera para un disparador de chat. ¡Así no mostraré mi sufrimiento con la documentación a los demás!'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True si la respuesta debe ser efímera, false en caso contrario.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Define si la respuesta de interacción debe ser efímera para un disparador de chat. ¡Así no mostraré mi sufrimiento con la documentación a los demás!'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True si la respuesta debe ser efímera, false en caso contrario.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Define si la respuesta de interacción debe ser efímera para un disparador de chat. ¡Así no mostraré mi sufrimiento con la documentación a los demás!'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'True si la respuesta debe ser efímera, false en caso contrario.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Muestra los errores de interacción de los disparadores de chat.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Define que un disparador de chat no responda.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Define el prefijo de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'El nuevo prefijo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Define el prefijo de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nuevo prefijo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Define el prefijo de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nuevo prefijo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Define el prefijo de un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nuevo prefijo a definir.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Define el tipo de prefijo para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'El tipo de prefijo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Define el tipo de prefijo para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de prefijo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Define el tipo de prefijo para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de prefijo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Define el tipo de prefijo para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de prefijo a definir.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Define reacciones para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Los emojis a definir como reacciones.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Define reacciones para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Los emojis a definir como reacciones.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Define reacciones para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Los emojis a definir como reacciones.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Define reacciones para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Los emojis a definir como reacciones.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Activa o desactiva la concesión de roles para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'El rol a activar o desactivar.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Activa o desactiva la concesión de roles para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El rol a activar o desactivar.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Activa o desactiva la concesión de roles para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El rol a activar o desactivar.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Activa o desactiva la concesión de roles para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El rol a activar o desactivar.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Activa o desactiva la retirada de roles para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El rol a activar o desactivar.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Borra todos los disparadores de chat.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Exporta la configuración de disparadores de chat del servidor actual.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Migra los disparadores de chat del formato antiguo CrEmbed al nuevo formato de embed. Primero exporta una copia de seguridad y luego convierte todos los disparadores.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Importa la configuración de disparadores de chat del servidor actual.'
+  params:
+    - desc: 'La entrada que contiene la configuración de las reacciones personalizadas.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Recarga los disparadores de chat.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Elimina un disparador de chat por su ID.'
+  params:
+    - desc: 'El ID del disparador de chat a eliminar.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Edita un disparador de chat existente.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nuevo mensaje para el disparador de chat.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Lista todos los disparadores de chat.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Lista todos los disparadores de chat agrupados por disparador.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Define que un disparador de chat reaccione al disparador.'
+  params:
+    - desc: 'El ID del disparador de chat a editar.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Define la descripción de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'La descripción a definir para la interacción.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Define la descripción de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La descripción a definir para la interacción.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Define la descripción de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La descripción a definir para la interacción.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Define la descripción de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La descripción a definir para la interacción.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Define el nombre de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'El nombre a definir para la interacción.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Define el nombre de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nombre a definir para la interacción.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Define el nombre de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nombre a definir para la interacción.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Define el nombre de la interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nombre a definir para la interacción.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Define el tipo de interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'El tipo de interacción a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Define el tipo de interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de interacción a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Define el tipo de interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de interacción a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Define el tipo de interacción para un disparador de chat.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tipo de interacción a definir.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Muestra los detalles de un disparador de chat concreto.'
+  params:
+    - &ref_544
+      desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Muestra los detalles de un disparador de chat concreto.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Muestra los detalles de un disparador de chat concreto.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Muestra los detalles de un disparador de chat concreto.'
+  params:
+    - desc: 'El ID del disparador de chat.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Define el evento que puede activar un disparador de chat.'
+cteventchannel:
+  desc: 'Define el canal donde se gestiona un evento de disparador de chat.'
+ctreply:
+  desc: 'Define el mensaje al que responde un disparador de chat.'
+ctdeleteafter:
+  desc: 'Define cuánto tiempo después de enviarse se borra la respuesta de un disparador de chat.'
+ctcooldown:
+  desc: 'Define un tiempo de espera (cooldown) para un disparador de chat.'
+ctrequirecounter:
+  desc: 'Define un requisito de contador para un disparador de chat.'
+ctcategory:
+  desc: 'Define la categoría de un disparador de chat.'
+ctcategorytoggle:
+  desc: 'Activa o desactiva una categoría de disparadores de chat.'
+cttest:
+  desc: 'Comprueba si un mensaje de ejemplo activaría un disparador de chat.'
+ctstats:
+  desc: 'Muestra estadísticas de actividad de los disparadores de chat.'
+ctchain:
+  desc: 'Define un disparador de chat que se ejecuta tras otro disparador.'
+ctallowbots:
+  desc: 'Controla si un disparador de chat responde a bots.'
+ctcounters:
+  desc: 'Lista los contadores de disparadores de chat.'
+ctcounterset:
+  desc: 'Define el valor de un contador de disparadores de chat.'
+ctcounterdelete:
+  desc: 'Elimina un contador de disparadores de chat.'
+ctplaceholders:
+  desc: 'Lista los marcadores disponibles para los disparadores de chat.'
+cttime:
+  desc: 'Define el intervalo de tiempo activo para un disparador de chat.'
+ctexpiry:
+  desc: 'Define una fecha de caducidad para un disparador de chat.'
+ctmaxuses:
+  desc: 'Define el número máximo de veces que puede ejecutarse un disparador de chat.'
+ctminage:
+  desc: 'Define una antigüedad mínima de cuenta para un disparador de chat.'
+ctminmember:
+  desc: 'Define una antigüedad mínima de permanencia en el servidor para un disparador de chat.'
+cttoggle:
+  desc: 'Activa o desactiva un disparador de chat.'
+ctaddresponse:
+  desc: 'Añade una respuesta adicional a un disparador de chat.'
+ctclearresponses:
+  desc: 'Elimina respuestas adicionales de un disparador de chat.'
+ctresponsemode:
+  desc: 'Define cómo elige un disparador de chat sus respuestas.'
+ctcost:
+  desc: 'Define el coste en moneda de un disparador de chat.'
+ctreward:
+  desc: 'Define la recompensa en moneda de un disparador de chat.'
+ctxpreward:
+  desc: 'Define la recompensa de XP de un disparador de chat.'
+ctreqlevel:
+  desc: 'Define el nivel de XP requerido para un disparador de chat.'
+ctreqmsg:
+  desc: 'Define el mensaje de fallo de requisito para un disparador de chat.'

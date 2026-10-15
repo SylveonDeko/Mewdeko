@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «anal».'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - &ref_90
+      desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «boobs» з вказаним інтервалом у поточному каналі сервера.'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «butts» з вказаним інтервалом у поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з сабреддіта «butts» з вказаним інтервалом у поточному каналі сервера або в особистих повідомленнях.'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - desc: 'Інтервал у секундах між автоматичними публікаціями. Встанови 0, щоб зупинити автоматичну публікацію.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту. Розділяй кілька тегів символом «|». Залиш порожнім для випадкового NSFW-контенту.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - desc: 'Інтервал у секундах між автоматичними публікаціями. Встанови 0, щоб зупинити автоматичну публікацію.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту. Розділяй кілька тегів символом «|». Залиш порожнім для випадкового NSFW-контенту.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - desc: 'Інтервал у секундах між автоматичними публікаціями. Встанови 0, щоб зупинити автоматичну публікацію.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту. Розділяй кілька тегів символом «|». Залиш порожнім для випадкового NSFW-контенту.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: 'Команда для запуску або зупинки автоматичної публікації NSFW-контенту з вказаним інтервалом у поточному каналі сервера.'
+  params:
+    - desc: 'Інтервал у секундах між автоматичними публікаціями. Встанови 0, щоб зупинити автоматичну публікацію.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту. Розділяй кілька тегів символом «|». Залиш порожнім для випадкового NSFW-контенту.'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «bondage».'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «boobs» у поточному каналі сервера або в особистих повідомленнях.'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «ass» у поточному каналі сервера або в особистих повідомленнях.'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Danbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_176
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Danbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Danbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Danbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Derpibooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_200
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Derpibooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Derpibooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Derpibooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard E621 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_203
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard E621 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard E621 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard E621 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard E621.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Gelbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_222
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Gelbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Gelbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Gelbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «hentai» з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_245
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з сабреддіта «hentai».'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «hentai» з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з сабреддіта «hentai».'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «hentai» з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з сабреддіта «hentai».'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «hentai» з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з сабреддіта «hentai».'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: 'Команда для запуску «hentai bomb»: отримує й показує NSFW-контент з кількох джерел з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з кожного джерела.'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «HENTAI_GIF».'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Konachan з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_263
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Konachan з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Konachan з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Konachan з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: 'Команда для отримання й показу інформації про манґу з сайту NHentai.'
+  params:
+    - &ref_327
+      desc: 'Ідентифікаційний номер манги для отримання.'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: 'Команда для отримання й показу інформації про манґу з сайту NHentai.'
+  params:
+    - desc: 'Ідентифікаційний номер манги для отримання.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: 'Команда для отримання й показу інформації про манґу з сайту NHentai.'
+  params:
+    - desc: 'Ідентифікаційний номер манги для отримання.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: 'Команда для отримання й показу інформації про манґу з сайту NHentai.'
+  params:
+    - desc: 'Ідентифікаційний номер манги для отримання.'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - &ref_328
+      desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Номер сторінки для пошуку на NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Тип пошуку на NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: 'Команда для пошуку hentai-манги на NHentai за пошуковим запитом, номером сторінки, типом і чорним списком.'
+  params:
+    - desc: 'Пошуковий запит для NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Чорний список для пошуку на NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: 'Керує чорним списком NSFW-тегів.'
+  params:
+    - desc: 'Дія для виконання: add (додати) або remove (видалити).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Тег для занесення до чорного списку.'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: 'Команда для керування чорним списком NSFW-тегів на цьому сервері.'
+  params:
+    - desc: 'Необов''язковий тег для додавання або видалення з чорного списку. Якщо не вказано, показує поточний список тегів у чорному списку.'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «porn».'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: 'Команда для запуску «porn bomb»: отримує й показує NSFW-контент з джерела RealBooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_352
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з джерела RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: 'Команда для запуску «porn bomb»: отримує й показує NSFW-контент з джерела RealBooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з джерела RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: 'Команда для запуску «porn bomb»: отримує й показує NSFW-контент з джерела RealBooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з джерела RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: 'Команда для запуску «porn bomb»: отримує й показує NSFW-контент з джерела RealBooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з джерела RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: 'Команда для отримання й показу NSFW-контенту з сабреддіта «pussy».'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Realbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_383
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Realbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Realbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Realbooru з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: 'Команда для отримання NSFW-контенту з вказаного сабреддіта.'
+  params:
+    - &ref_384
+      desc: 'Назва сабреддіта, з якого отримати контент.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: 'Команда для отримання NSFW-контенту з вказаного сабреддіта.'
+  params:
+    - desc: 'Назва сабреддіта, з якого отримати контент.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: 'Команда для отримання NSFW-контенту з вказаного сабреддіта.'
+  params:
+    - desc: 'Назва сабреддіта, з якого отримати контент.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: 'Команда для отримання NSFW-контенту з вказаного сабреддіта.'
+  params:
+    - desc: 'Назва сабреддіта, з якого отримати контент.'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Rule34 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_472
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Rule34 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Rule34 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Rule34 з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Sankaku з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_474
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Sankaku з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Sankaku з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Sankaku з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Yandere з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - &ref_674
+      desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Yandere з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Yandere з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: 'Команда для отримання й показу NSFW-контенту з imageboard Yandere з необов''язковими тегами в поточному каналі сервера або в особистих повідомленнях.'
+  params:
+    - desc: 'Необов''язкові теги для фільтрації NSFW-контенту з imageboard Yandere.'
+      name: tags
+      optional: false
+      type: string[]

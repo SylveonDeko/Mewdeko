@@ -1,0 +1,3385 @@
+banprune:
+  args:
+    - ''
+  desc: '이 채널에서 차단을 실행했을 때 사용될 메시지 삭제 설정과 모든 구성 설정을 보여줍니다.'
+  params:
+    - { }
+banpruneset:
+  args:
+    - '<action> <days> [#channel]'
+  desc: '차단 작업 한 번에 삭제할 메시지의 일수를 설정합니다. 모든 작업에 적용하려면 "all"을 사용하고, 채널이나 카테고리를 지정하면 해당 범위만 재정의합니다.'
+  params:
+    - desc: '작업 키이며, 모든 작업에 적용하려면 "all"을 입력합니다.'
+      name: action
+      optional: false
+      type: string
+    - desc: '삭제할 일수입니다(0~7).'
+      name: days
+      optional: false
+      type: int
+    - desc: '설정을 적용할 채널 또는 카테고리입니다. 비워 두면 서버 기본값이 적용됩니다.'
+      name: target
+      optional: true
+      type: channel
+banpruneclear:
+  args:
+    - '<action> [#channel]'
+  desc: '메시지 삭제 설정을 제거하여 작업이 더 넓은 범위나 기본값을 따르도록 합니다.'
+  params:
+    - desc: '작업 키이며, 모든 작업에 적용되는 설정은 "all"을 입력합니다.'
+      name: action
+      optional: false
+      type: string
+    - desc: '설정이 적용된 채널 또는 카테고리입니다. 비워 두면 서버 기본값입니다.'
+      name: target
+      optional: true
+      type: channel
+banprunereset:
+  args:
+    - ''
+  desc: '서버의 모든 메시지 삭제 설정을 제거합니다.'
+  params:
+    - { }
+ban:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+  params:
+    - desc: '지정한 사유와 메시지 삭제 일수로 사용자를 차단합니다.'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: '메시지를 삭제할 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '차단할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '차단 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+banmessage:
+  args:
+    - '[message]'
+  desc: '차단된 사용자에게 DM으로 보낼 메시지를 설정합니다.'
+  params:
+    - desc: '설정할 메시지입니다. 임베드 코드도 입력할 수 있습니다.'
+      name: message
+      optional: true
+      type: string
+banmessagetest:
+  args:
+    - '<duration> [reason]'
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=:
+  args:
+    - '<duration> [reason]'
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_1:
+  args:
+    - '<duration> [reason]'
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_2:
+  args:
+    - '<duration> [reason]'
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_1:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_2:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_3:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: '차단 메시지를 테스트합니다. 장난으로 사용해 보세요!'
+  params:
+    - desc: '차단 기간입니다.'
+      name: duration
+      optional: false
+      type: duration
+    - desc: '차단 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+banmsgreset:
+  args:
+    - ''
+  desc: '차단 메시지를 기본 메시지로 되돌립니다.'
+  params: [ ]
+banmsgtest:
+  args:
+    - user
+  desc: '차단 메시지 기능을 테스트합니다.'
+  params:
+    - desc: '차단 메시지를 테스트할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+chatmute:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - &ref_127
+      desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - &ref_126
+      desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - &ref_128
+      desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - &ref_129
+      desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+  params:
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 채팅을 뮤트합니다(음성은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+chatunmute:
+  args:
+    - '@user ""'
+  desc: '사용자의 채팅 뮤트를 해제합니다.'
+  params:
+    - desc: '뮤트를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 채팅 뮤트를 해제합니다.'
+      name: '""'
+      optional: false
+      type: '='
+dehoist:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - &ref_180
+      desc: '호이스트를 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - desc: '호이스트를 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - desc: '호이스트를 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - desc: '호이스트를 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoistall:
+  args:
+    - false
+  desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - &ref_181
+      desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=:
+  args:
+    - false
+  desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_1:
+  args:
+    - false
+  desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_2:
+  args:
+    - false
+  desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+  params:
+    - desc: '서버의 모든 사용자의 닉네임에서 특수문자를 바꿔 호이스트를 해제합니다.'
+      name: false
+      optional: false
+      type: '='
+kick:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 추방합니다.'
+  params:
+    - desc: '사용자를 추방합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '추방 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+masskick:
+  args:
+    - '@user'
+  desc: '여러 사용자를 추방합니다.'
+  params:
+    - &ref_289
+      desc: '추방할 사용자들입니다.'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]:
+  args:
+    - '@user'
+  desc: '여러 사용자를 추방합니다.'
+  params:
+    - desc: '추방할 사용자들입니다.'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_1:
+  args:
+    - '@user'
+  desc: '여러 사용자를 추방합니다.'
+  params:
+    - desc: '추방할 사용자들입니다.'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_2:
+  args:
+    - '@user'
+  desc: '여러 사용자를 추방합니다.'
+  params:
+    - desc: '추방할 사용자들입니다.'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskill:
+  args:
+    - text
+  desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+  params:
+    - &ref_290
+      desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+      name: people
+      optional: false
+      type: string
+masskill_string:
+  args:
+    - text
+  desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+  params:
+    - desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+      name: people
+      optional: false
+      type: string
+masskill_string_1:
+  args:
+    - text
+  desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+  params:
+    - desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+      name: people
+      optional: false
+      type: string
+masskill_string_2:
+  args:
+    - text
+  desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+  params:
+    - desc: '여러 사용자를 한꺼번에 차단합니다. 봇의 블랙리스트에도 추가됩니다.'
+      name: people
+      optional: false
+      type: string
+massnickprogress:
+  args:
+    - ''
+  desc: '대량 닉네임 변경 작업의 진행 상황을 확인합니다.'
+  params: [ ]
+massnickstop:
+  args:
+    - ''
+  desc: '대량 닉네임 변경 작업을 중지합니다.'
+  params: [ ]
+mute:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - &ref_313
+      desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=:
+  args:
+    - '@user time ""'
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_1:
+  args:
+    - '@user time ""'
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_2:
+  args:
+    - '@user time ""'
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_3:
+  args:
+    - '@user time ""'
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+  params:
+    - desc: '사용자를 뮤트할 시간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자를 뮤트합니다.'
+      name: '""'
+      optional: false
+      type: '='
+muterole:
+  args:
+    - '[@role]'
+  desc: '서버의 뮤트 역할을 설정합니다.'
+  params:
+    - desc: '서버의 뮤트 역할을 설정합니다.'
+      name: role
+      optional: true
+      type: role
+mwarn:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '사용자에게 간단한 경고를 줍니다.'
+  params:
+    - desc: '경고를 줄 사용자입니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '경고 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '사용자에게 간단한 경고를 줍니다.'
+  params:
+    - desc: '경고를 줄 사용자입니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '경고 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_1:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '사용자에게 간단한 경고를 줍니다.'
+  params:
+    - desc: '경고를 줄 사용자입니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '경고 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_2:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: '사용자에게 간단한 경고를 줍니다.'
+  params:
+    - desc: '경고를 줄 사용자입니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '경고 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+mwarnclear:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - &ref_315
+      desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=:
+  args:
+    - userid 0
+    - userid
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - &ref_316
+      desc: '경고를 지울 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_1:
+  args:
+    - userid 0
+    - userid
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '경고를 지울 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_2:
+  args:
+    - userid 0
+    - userid
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '경고를 지울 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_3:
+  args:
+    - userid 0
+    - userid
+  desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '경고를 지울 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: '사용자의 간단 경고를 지웁니다. 번호를 지정하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+mwarnexpire:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '간단 경고의 만료 시간을 설정합니다.'
+  params:
+    - &ref_317
+      desc: '설정할 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - &ref_318
+      desc: '간단 경고의 만료 시간을 설정합니다.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '간단 경고의 만료 시간을 설정합니다.'
+  params:
+    - desc: '설정할 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - desc: '간단 경고의 만료 시간을 설정합니다.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_1:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '간단 경고의 만료 시간을 설정합니다.'
+  params:
+    - desc: '설정할 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - desc: '간단 경고의 만료 시간을 설정합니다.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_2:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '간단 경고의 만료 시간을 설정합니다.'
+  params:
+    - desc: '설정할 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - desc: '간단 경고의 만료 시간을 설정합니다.'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnlog:
+  args:
+    - number @user
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - &ref_319
+      desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - &ref_320
+      desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_=:
+  args:
+    - '<page> @user'
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_1:
+  args:
+    - '<page> @user'
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_2:
+  args:
+    - '<page> @user'
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_3:
+  args:
+    - '<page> @user'
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: user
+mwarnlog_int_IGuildUser:
+  args:
+    - number @user
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_1:
+  args:
+    - number @user
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_2:
+  args:
+    - number @user
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_ulong:
+  args:
+    - number userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - &ref_321
+      desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_1:
+  args:
+    - number userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_2:
+  args:
+    - number userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_3:
+  args:
+    - number userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자의 간단 경고 기록을 확인합니다.'
+      name: page
+      optional: false
+      type: int
+    - desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong:
+  args:
+    - userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_1:
+  args:
+    - userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_2:
+  args:
+    - userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_3:
+  args:
+    - userid
+  desc: '사용자의 간단 경고 기록을 확인합니다.'
+  params:
+    - desc: '경고 기록을 확인할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlogall:
+  args:
+    - ''
+  desc: '모든 사용자의 간단 경고 기록을 확인합니다.'
+  params: [ ]
+mwarnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int:
+  args:
+    - number
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_1:
+  args:
+    - number
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_2:
+  args:
+    - number
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_3:
+  args:
+    - number
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '간단 경고 처벌을 삭제합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '간단 경고 처벌을 삭제합니다.'
+      name: time
+      optional: true
+      type: duration
+mwarnpunishlist:
+  args:
+    - ''
+  desc: '간단 경고 처벌 목록을 보여줍니다.'
+  params: [ ]
+purge:
+  args:
+    - '@user [count] [parameter]'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_=:
+  args:
+    - '@user [count] [parameter]'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_=_1:
+  args:
+    - '@user [count] [parameter]'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_=_2:
+  args:
+    - '@user [count] [parameter]'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+  params:
+    - desc: '현재 채널에서 지정한 사용자 ID와 수량에 맞춰 메시지를 삭제합니다.'
+      name: user
+      optional: false
+      type: user
+    - desc: '삭제할 메시지 수입니다.'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '사용할 매개변수입니다.'
+      name: parameter
+      optional: true
+      type: string
+purgeuser:
+  args:
+    - '@user number'
+  desc: '접근 가능한 모든 채널에서 사용자의 메시지를 모두 삭제합니다.'
+  params:
+    - &ref_365
+      desc: '메시지를 삭제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_366
+      desc: '검색할 메시지 수입니다.'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int:
+  args:
+    - '@user number'
+  desc: '접근 가능한 모든 채널에서 사용자의 메시지를 모두 삭제합니다.'
+  params:
+    - desc: '메시지를 삭제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '검색할 메시지 수입니다.'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_1:
+  args:
+    - '@user number'
+  desc: '접근 가능한 모든 채널에서 사용자의 메시지를 모두 삭제합니다.'
+  params:
+    - desc: '메시지를 삭제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '검색할 메시지 수입니다.'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_2:
+  args:
+    - '@user number'
+  desc: '접근 가능한 모든 채널에서 사용자의 메시지를 모두 삭제합니다.'
+  params:
+    - desc: '메시지를 삭제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '검색할 메시지 수입니다.'
+      name: messageCount
+      optional: false
+      type: int
+removeonmute:
+  args:
+    - text
+  desc: '뮤트 시 역할 제거 여부를 전환합니다.'
+  params:
+    - &ref_402
+      desc: '활성화하려면 y, 비활성화하려면 n.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string:
+  args:
+    - text
+  desc: '뮤트 시 역할 제거 여부를 전환합니다.'
+  params:
+    - desc: '활성화하려면 y, 비활성화하려면 n.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_1:
+  args:
+    - text
+  desc: '뮤트 시 역할 제거 여부를 전환합니다.'
+  params:
+    - desc: '활성화하려면 y, 비활성화하려면 n.'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_2:
+  args:
+    - text
+  desc: '뮤트 시 역할 제거 여부를 전환합니다.'
+  params:
+    - desc: '활성화하려면 y, 비활성화하려면 n.'
+      name: yesnt
+      optional: false
+      type: string
+sanitize:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 정리합니다.'
+  params:
+    - &ref_473
+      desc: '정리할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 정리합니다.'
+  params:
+    - desc: '정리할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 정리합니다.'
+  params:
+    - desc: '정리할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '사용자 이름의 특수문자를 바꿔 정리합니다.'
+  params:
+    - desc: '정리할 사용자입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitizeall:
+  args:
+    - ''
+  desc: '서버의 모든 사용자 이름에서 특수문자를 바꿔 정리합니다.'
+  params: [ ]
+setmwarnchannel:
+  args:
+    - channel
+  desc: '간단 경고 기록 채널을 설정합니다.'
+  params:
+    - &ref_507
+      desc: '설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel:
+  args:
+    - channel
+  desc: '간단 경고 기록 채널을 설정합니다.'
+  params:
+    - desc: '설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: '간단 경고 기록 채널을 설정합니다.'
+  params:
+    - desc: '설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: '간단 경고 기록 채널을 설정합니다.'
+  params:
+    - desc: '설정할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setwarnchannel:
+  args:
+    - channel
+  desc: '서버의 경고 기록 채널을 설정합니다.'
+  params:
+    - desc: '서버의 경고 기록 채널을 설정합니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+softban:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+  params:
+    - desc: '사용자를 소프트밴합니다. 사용자를 추방하면서 메시지도 삭제합니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '소프트밴 사유입니다.'
+      name: msg
+      optional: true
+      type: string
+stfu:
+  args:
+    - time @user
+    - time
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - &ref_569
+      desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_568
+      desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_IGuildUser_=:
+  args:
+    - '<time> [@user]'
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_1:
+  args:
+    - '<time> [@user]'
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_2:
+  args:
+    - '<time> [@user]'
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_3:
+  args:
+    - '<time> [@user]'
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+stfu_StoopidTime_IGuildUser:
+  args:
+    - time @user
+    - time
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_1:
+  args:
+    - time @user
+    - time
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_2:
+  args:
+    - time @user
+    - time
+  desc: '뭐가 어려운가요? 사용자를 조용하게 만듭니다.'
+  params:
+    - desc: '사용자를 조용하게 만들 기간입니다.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '조용하게 만들 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+timeout:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '지정한 시간 동안 사용자를 타임아웃합니다.'
+  params:
+    - desc: '사용자를 타임아웃할 시간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '타임아웃할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '타임아웃 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '지정한 시간 동안 사용자를 타임아웃합니다.'
+  params:
+    - desc: '사용자를 타임아웃할 시간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '타임아웃할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '타임아웃 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '지정한 시간 동안 사용자를 타임아웃합니다.'
+  params:
+    - desc: '사용자를 타임아웃할 시간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '타임아웃할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '타임아웃 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '지정한 시간 동안 사용자를 타임아웃합니다.'
+  params:
+    - desc: '사용자를 타임아웃할 시간입니다.'
+      name: time
+      optional: false
+      type: duration
+    - desc: '타임아웃할 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '타임아웃 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+unban:
+  args:
+    - text
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - &ref_633
+      desc: '사용자의 차단을 해제합니다.'
+      name: user
+      optional: false
+      type: string
+unban_string:
+  args:
+    - text
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - desc: '사용자의 차단을 해제합니다.'
+      name: user
+      optional: false
+      type: string
+unban_string_1:
+  args:
+    - text
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - desc: '사용자의 차단을 해제합니다.'
+      name: user
+      optional: false
+      type: string
+unban_string_2:
+  args:
+    - text
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - desc: '사용자의 차단을 해제합니다.'
+      name: user
+      optional: false
+      type: string
+unban_ulong:
+  args:
+    - userid
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - &ref_634
+      desc: '차단을 해제할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_1:
+  args:
+    - userid
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - desc: '차단을 해제할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_2:
+  args:
+    - userid
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - desc: '차단을 해제할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_3:
+  args:
+    - userid
+  desc: '사용자의 차단을 해제합니다.'
+  params:
+    - desc: '차단을 해제할 사용자의 ID입니다.'
+      name: userId
+      optional: false
+      type: ulong
+unmute:
+  args:
+    - '@user ""'
+  desc: '사용자의 뮤트를 해제합니다.'
+  params:
+    - desc: '뮤트를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 뮤트를 해제합니다.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '사용자의 뮤트를 해제합니다.'
+  params:
+    - desc: '뮤트를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 뮤트를 해제합니다.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '사용자의 뮤트를 해제합니다.'
+  params:
+    - desc: '뮤트를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 뮤트를 해제합니다.'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '사용자의 뮤트를 해제합니다.'
+  params:
+    - desc: '뮤트를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 뮤트를 해제합니다.'
+      name: '""'
+      optional: false
+      type: '='
+unmuteall:
+  args:
+    - '[reason]'
+  desc: '서버의 모든 사용자 뮤트를 해제합니다. 위험합니다!!!!!!!!!!!!!!!!'
+  params:
+    - desc: '이런 짓을 하려는 이유는 무엇인가요?'
+      name: reason
+      optional: true
+      type: string
+unstfu:
+  args:
+    - '@user'
+  desc: '채널에서 사용자의 조용하게 만들기를 해제합니다.'
+  params:
+    - &ref_635
+      desc: '조용하게 만들기를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser:
+  args:
+    - '@user'
+  desc: '채널에서 사용자의 조용하게 만들기를 해제합니다.'
+  params:
+    - desc: '조용하게 만들기를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '채널에서 사용자의 조용하게 만들기를 해제합니다.'
+  params:
+    - desc: '조용하게 만들기를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '채널에서 사용자의 조용하게 만들기를 해제합니다.'
+  params:
+    - desc: '조용하게 만들기를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout:
+  args:
+    - '@user'
+  desc: '사용자의 타임아웃을 해제합니다.'
+  params:
+    - &ref_636
+      desc: '타임아웃을 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser:
+  args:
+    - '@user'
+  desc: '사용자의 타임아웃을 해제합니다.'
+  params:
+    - desc: '타임아웃을 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '사용자의 타임아웃을 해제합니다.'
+  params:
+    - desc: '타임아웃을 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '사용자의 타임아웃을 해제합니다.'
+  params:
+    - desc: '타임아웃을 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+voicemute:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_3:
+  args:
+    - '@user ""'
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+  params:
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '뮤트할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '지정한 시간 동안 사용자의 음성을 뮤트합니다(채팅은 제외).'
+      name: '""'
+      optional: false
+      type: '='
+voiceunmute:
+  args:
+    - '@user ""'
+  desc: '사용자의 음성 뮤트를 해제합니다.'
+  params:
+    - desc: '뮤트를 해제할 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 음성 뮤트를 해제합니다.'
+      name: '""'
+      optional: false
+      type: '='
+warn:
+  args:
+    - '[@user] [reason]'
+  desc: '선택 사유와 함께 사용자에게 경고를 줍니다.'
+  params:
+    - desc: '경고를 줄 사용자입니다.'
+      name: user
+      optional: true
+      type: user
+    - desc: '경고 사유입니다.'
+      name: reason
+      optional: true
+      type: string
+warnclear:
+  args:
+    - '@user 0'
+  desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+  params:
+    - &ref_652
+      desc: '경고를 지울 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+  desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '경고를 지울 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+  desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '경고를 지울 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+  desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+  params:
+    - desc: '경고를 지울 사용자입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '사용자의 경고를 지웁니다. 번호를 입력하면 해당 경고만 지웁니다.'
+      name: 0
+      optional: false
+      type: '='
+warnexpire:
+  args:
+    - number options
+  desc: '경고의 만료 시간을 설정합니다.'
+  params:
+    - &ref_653
+      desc: '경고가 만료되기까지의 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - &ref_654
+      desc: '경고가 만료될 때 실행할 작업입니다.'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction:
+  args:
+    - number options
+  desc: '경고의 만료 시간을 설정합니다.'
+  params:
+    - desc: '경고가 만료되기까지의 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - desc: '경고가 만료될 때 실행할 작업입니다.'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_1:
+  args:
+    - number options
+  desc: '경고의 만료 시간을 설정합니다.'
+  params:
+    - desc: '경고가 만료되기까지의 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - desc: '경고가 만료될 때 실행할 작업입니다.'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_2:
+  args:
+    - number options
+  desc: '경고의 만료 시간을 설정합니다.'
+  params:
+    - desc: '경고가 만료되기까지의 일수입니다.'
+      name: days
+      optional: false
+      type: int
+    - desc: '경고가 만료될 때 실행할 작업입니다.'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnlog:
+  args:
+    - '@user'
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser:
+  args:
+    - '@user'
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_ulong:
+  args:
+    - userid
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - &ref_655
+      desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_1:
+  args:
+    - userid
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_2:
+  args:
+    - userid
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_3:
+  args:
+    - userid
+  desc: '사용자 ID로 경고 기록을 확인합니다.'
+  params:
+    - desc: '사용자 ID로 경고 기록을 확인합니다.'
+      name: userId
+      optional: false
+      type: ulong
+warnlogall:
+  args:
+    - ''
+  desc: '사용자별 경고 횟수를 확인합니다.'
+  params: [ ]
+warnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int:
+  args:
+    - number
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_1:
+  args:
+    - number
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_2:
+  args:
+    - number
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_3:
+  args:
+    - number
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+  params:
+    - desc: '경고 횟수입니다.'
+      name: number
+      optional: false
+      type: int
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: role
+      optional: false
+      type: role
+    - desc: '지정한 경고 횟수에 대한 처벌을 제거합니다.'
+      name: time
+      optional: true
+      type: duration
+warnpunishlist:
+  args:
+    - ''
+  desc: '서버의 경고 처벌 목록을 보여줍니다.'
+  params: [ ]

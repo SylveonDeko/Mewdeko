@@ -1,0 +1,2501 @@
+addblacklistedpermission:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Aggiunge un permesso alla lista nera.'
+  params:
+    - desc: 'Il permesso da inserire nella lista nera.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Azione punitiva facoltativa specifica per questo permesso.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Aggiunge un permesso alla lista nera.'
+  params:
+    - desc: 'Il permesso da inserire nella lista nera.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Azione punitiva facoltativa specifica per questo permesso.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_1:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Aggiunge un permesso alla lista nera.'
+  params:
+    - desc: 'Il permesso da inserire nella lista nera.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Azione punitiva facoltativa specifica per questo permesso.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_2:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: 'Aggiunge un permesso alla lista nera.'
+  params:
+    - desc: 'Il permesso da inserire nella lista nera.'
+      name: permission
+      optional: false
+      type: permission
+    - desc: 'Azione punitiva facoltativa specifica per questo permesso.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista nera.'
+  params:
+    - desc: 'Il ruolo da inserire nella lista nera.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Azione punitiva facoltativa specifica per questo ruolo.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista nera.'
+  params:
+    - desc: 'Il ruolo da inserire nella lista nera.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Azione punitiva facoltativa specifica per questo ruolo.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_1:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista nera.'
+  params:
+    - desc: 'Il ruolo da inserire nella lista nera.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Azione punitiva facoltativa specifica per questo ruolo.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_2:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista nera.'
+  params:
+    - desc: 'Il ruolo da inserire nella lista nera.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Azione punitiva facoltativa specifica per questo ruolo.'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addemote:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'Aggiunge una nuova emote al server.'
+  params:
+    - desc: 'Il nome dell''emote.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'L''URL dell''immagine dell''emote. Se non viene fornito, l''immagine verrà presa dagli allegati del messaggio.'
+      name: url
+      optional: true
+      type: string
+addemote_string_=:
+  args:
+    - '<name> [url]'
+    - text
+  desc: 'Aggiunge una nuova emote al server.'
+  params:
+    - desc: 'Il nome dell''emote.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'L''URL dell''immagine dell''emote. Se non viene fornito, l''immagine verrà presa dagli allegati del messaggio.'
+      name: url
+      optional: true
+      type: string
+addroletolist:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a un elenco di utenti definito in un file allegato.'
+  params:
+    - &ref_28
+      desc: 'Il ruolo da aggiungere agli utenti elencati nel file allegato.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a un elenco di utenti definito in un file allegato.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti elencati nel file allegato.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_1:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a un elenco di utenti definito in un file allegato.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti elencati nel file allegato.'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_2:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a un elenco di utenti definito in un file allegato.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti elencati nel file allegato.'
+      name: role
+      optional: false
+      type: IRole
+addroletorole:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - &ref_29
+      desc: 'Il ruolo da aggiungere.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_30
+      desc: 'Il ruolo i cui membri riceveranno il nuovo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da aggiungere.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo i cui membri riceveranno il nuovo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da aggiungere.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo i cui membri riceveranno il nuovo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da aggiungere.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo i cui membri riceveranno il nuovo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo agli utenti e poi ne rimuove un altro dagli stessi utenti, in un''unica operazione.'
+  params:
+    - &ref_33
+      desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_34
+      desc: 'Il ruolo da rimuovere dagli stessi utenti.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo agli utenti e poi ne rimuove un altro dagli stessi utenti, in un''unica operazione.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo da rimuovere dagli stessi utenti.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo agli utenti e poi ne rimuove un altro dagli stessi utenti, in un''unica operazione.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo da rimuovere dagli stessi utenti.'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Aggiunge un ruolo agli utenti e poi ne rimuove un altro dagli stessi utenti, in un''unica operazione.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo da rimuovere dagli stessi utenti.'
+      name: role2
+      optional: false
+      type: IRole
+addtoall:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i membri del server.'
+  params:
+    - &ref_35
+      desc: 'Il ruolo da aggiungere a tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i membri del server.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i membri del server.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i membri del server.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i bot del server.'
+  params:
+    - &ref_36
+      desc: 'Il ruolo da aggiungere a tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i bot del server.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i bot del server.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti i bot del server.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti umani del server, esclusi i bot.'
+  params:
+    - &ref_37
+      desc: 'Il ruolo da aggiungere a tutti gli utenti umani.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti umani del server, esclusi i bot.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti gli utenti umani.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti umani del server, esclusi i bot.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti gli utenti umani.'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti umani del server, esclusi i bot.'
+  params:
+    - desc: 'Il ruolo da aggiungere a tutti gli utenti umani.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da più della durata indicata.'
+  params:
+    - &ref_38
+      desc: 'La durata minima per cui un utente deve essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_39
+      desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da più della durata indicata.'
+  params:
+    - desc: 'La durata minima per cui un utente deve essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da più della durata indicata.'
+  params:
+    - desc: 'La durata minima per cui un utente deve essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da più della durata indicata.'
+  params:
+    - desc: 'La durata minima per cui un utente deve essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da meno della durata indicata.'
+  params:
+    - &ref_40
+      desc: 'La durata massima per cui un utente può essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da meno della durata indicata.'
+  params:
+    - desc: 'La durata massima per cui un utente può essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da meno della durata indicata.'
+  params:
+    - desc: 'La durata massima per cui un utente può essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: 'Aggiunge un ruolo specificato a tutti gli utenti che sono membri del server da meno della durata indicata.'
+  params:
+    - desc: 'La durata massima per cui un utente può essere membro del server per ricevere il ruolo.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il ruolo da aggiungere agli utenti idonei.'
+      name: role
+      optional: false
+      type: IRole
+adduserstorole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Assegna un ruolo specifico a un elenco di utenti, aggiungendolo a chi non lo ha già.'
+  params:
+    - &ref_41
+      desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_42
+      desc: 'Gli utenti a cui verrà aggiunto il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Assegna un ruolo specifico a un elenco di utenti, aggiungendolo a chi non lo ha già.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Gli utenti a cui verrà aggiunto il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Assegna un ruolo specifico a un elenco di utenti, aggiungendolo a chi non lo ha già.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Gli utenti a cui verrà aggiunto il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Assegna un ruolo specifico a un elenco di utenti, aggiungendolo a chi non lo ha già.'
+  params:
+    - desc: 'Il ruolo da aggiungere agli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Gli utenti a cui verrà aggiunto il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+addwhitelistedrole:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista bianca.'
+  params:
+    - &ref_43
+      desc: 'Il ruolo da inserire nella lista bianca.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista bianca.'
+  params:
+    - desc: 'Il ruolo da inserire nella lista bianca.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_1:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista bianca.'
+  params:
+    - desc: 'Il ruolo da inserire nella lista bianca.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_2:
+  args:
+    - '@role'
+  desc: 'Aggiunge un ruolo alla lista bianca.'
+  params:
+    - desc: 'Il ruolo da inserire nella lista bianca.'
+      name: role
+      optional: false
+      type: IRole
+addwhitelisteduser:
+  args:
+    - '@user'
+  desc: 'Aggiunge un utente alla lista bianca.'
+  params:
+    - &ref_44
+      desc: 'L''utente da inserire nella lista bianca.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Aggiunge un utente alla lista bianca.'
+  params:
+    - desc: 'L''utente da inserire nella lista bianca.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Aggiunge un utente alla lista bianca.'
+  params:
+    - desc: 'L''utente da inserire nella lista bianca.'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Aggiunge un utente alla lista bianca.'
+  params:
+    - desc: 'L''utente da inserire nella lista bianca.'
+      name: user
+      optional: false
+      type: IGuildUser
+atuo:
+  args:
+    - role threshold
+  desc: 'Aggiunge un ruolo agli utenti sopra una soglia.'
+  params:
+    - desc: 'Il ruolo da aggiungere.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il valore della soglia.'
+      name: threshold
+      optional: false
+      type: int
+atuu:
+  args:
+    - role threshold
+  desc: 'Aggiunge un ruolo agli utenti sotto una soglia.'
+  params:
+    - desc: 'Il ruolo da aggiungere.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il valore della soglia.'
+      name: threshold
+      optional: false
+      type: int
+ccatc:
+  args:
+    - name count
+  desc: 'Crea una categoria e canali di testo.'
+  params:
+    - desc: 'Il nome della categoria.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Numero di canali di testo da creare.'
+      name: count
+      optional: false
+      type: int
+ccavc:
+  args:
+    - name count
+  desc: 'Crea una categoria e canali vocali.'
+  params:
+    - desc: 'Il nome della categoria.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Numero di canali vocali da creare.'
+      name: count
+      optional: false
+      type: int
+cctc:
+  args:
+    - category count
+  desc: 'Crea canali di testo in una categoria.'
+  params:
+    - desc: 'La categoria a cui aggiungere i canali.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Numero di canali di testo da creare.'
+      name: count
+      optional: false
+      type: int
+ccvc:
+  args:
+    - category count
+  desc: 'Crea canali vocali in una categoria.'
+  params:
+    - desc: 'La categoria a cui aggiungere i canali.'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: 'Numero di canali vocali da creare.'
+      name: count
+      optional: false
+      type: int
+createcatandtxtchannels:
+  args:
+    - text text
+  desc: 'Crea una categoria e i canali specificati in un server.'
+  params:
+    - &ref_148
+      desc: 'Il nome della categoria da creare'
+      name: catName
+      optional: false
+      type: string
+    - &ref_149
+      desc: 'I nomi dei canali da creare'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]:
+  args:
+    - text text
+  desc: 'Crea una categoria e i canali specificati in un server.'
+  params:
+    - desc: 'Il nome della categoria da creare'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'I nomi dei canali da creare'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_1:
+  args:
+    - text text
+  desc: 'Crea una categoria e i canali specificati in un server.'
+  params:
+    - desc: 'Il nome della categoria da creare'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'I nomi dei canali da creare'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_2:
+  args:
+    - text text
+  desc: 'Crea una categoria e i canali specificati in un server.'
+  params:
+    - desc: 'Il nome della categoria da creare'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'I nomi dei canali da creare'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels:
+  args:
+    - text text
+  desc: 'Crea una categoria con più canali vocali al suo interno.'
+  params:
+    - &ref_150
+      desc: 'Il nome della categoria da creare.'
+      name: catName
+      optional: false
+      type: string
+    - &ref_151
+      desc: 'I nomi dei canali vocali da creare all''interno della categoria.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]:
+  args:
+    - text text
+  desc: 'Crea una categoria con più canali vocali al suo interno.'
+  params:
+    - desc: 'Il nome della categoria da creare.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'I nomi dei canali vocali da creare all''interno della categoria.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_1:
+  args:
+    - text text
+  desc: 'Crea una categoria con più canali vocali al suo interno.'
+  params:
+    - desc: 'Il nome della categoria da creare.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'I nomi dei canali vocali da creare all''interno della categoria.'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_2:
+  args:
+    - text text
+  desc: 'Crea una categoria con più canali vocali al suo interno.'
+  params:
+    - desc: 'Il nome della categoria da creare.'
+      name: catName
+      optional: false
+      type: string
+    - desc: 'I nomi dei canali vocali da creare all''interno della categoria.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali di testo a una categoria esistente.'
+  params:
+    - &ref_152
+      desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_153
+      desc: 'I nomi dei canali di testo da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali di testo a una categoria esistente.'
+  params:
+    - desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'I nomi dei canali di testo da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali di testo a una categoria esistente.'
+  params:
+    - desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'I nomi dei canali di testo da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali di testo a una categoria esistente.'
+  params:
+    - desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'I nomi dei canali di testo da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali vocali a una categoria esistente.'
+  params:
+    - desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_154
+      desc: 'I nomi dei canali vocali da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali vocali a una categoria esistente.'
+  params:
+    - desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'I nomi dei canali vocali da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali vocali a una categoria esistente.'
+  params:
+    - desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'I nomi dei canali vocali da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: 'Aggiunge più canali vocali a una categoria esistente.'
+  params:
+    - desc: 'La categoria di destinazione.'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: 'I nomi dei canali vocali da aggiungere.'
+      name: channels
+      optional: false
+      type: string[]
+createroles:
+  args:
+    - text
+  desc: 'Crea più ruoli nel server in base a un elenco di nomi di ruolo fornito.'
+  params:
+    - &ref_155
+      desc: 'Un elenco di nomi di ruolo da creare, separati da spazi.'
+      name: roles
+      optional: false
+      type: string
+createroles_string:
+  args:
+    - text
+  desc: 'Crea più ruoli nel server in base a un elenco di nomi di ruolo fornito.'
+  params:
+    - desc: 'Un elenco di nomi di ruolo da creare, separati da spazi.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_1:
+  args:
+    - text
+  desc: 'Crea più ruoli nel server in base a un elenco di nomi di ruolo fornito.'
+  params:
+    - desc: 'Un elenco di nomi di ruolo da creare, separati da spazi.'
+      name: roles
+      optional: false
+      type: string
+createroles_string_2:
+  args:
+    - text
+  desc: 'Crea più ruoli nel server in base a un elenco di nomi di ruolo fornito.'
+  params:
+    - desc: 'Un elenco di nomi di ruolo da creare, separati da spazi.'
+      name: roles
+      optional: false
+      type: string
+createwebhook:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+  params:
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+  params:
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_1:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+  params:
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_2:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+  params:
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: channel
+      optional: false
+      type: channel
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Crea un webhook in un canale di testo con un avatar personalizzato facoltativo.'
+      name: avatar
+      optional: true
+      type: string
+deleteroles:
+  args:
+    - '@role'
+  desc: 'Elimina un elenco di ruoli dal server.'
+  params:
+    - &ref_189
+      desc: 'Un array di ruoli da eliminare.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]:
+  args:
+    - '@role'
+  desc: 'Elimina un elenco di ruoli dal server.'
+  params:
+    - desc: 'Un array di ruoli da eliminare.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Elimina un elenco di ruoli dal server.'
+  params:
+    - desc: 'Un array di ruoli da eliminare.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Elimina un elenco di ruoli dal server.'
+  params:
+    - desc: 'Un array di ruoli da eliminare.'
+      name: roles
+      optional: false
+      type: IRole[]
+exportrolelist:
+  args:
+    - ''
+  desc: 'Esporta un elenco di ruoli e i relativi utenti in un file di testo, per facilitare backup e trasferimenti.'
+  params: [ ]
+grab:
+  args:
+    - '@user'
+  desc: 'Porta un utente nel canale vocale attuale di chi esegue il comando.'
+  params:
+    - &ref_233
+      desc: 'L''utente da prendere e spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Porta un utente nel canale vocale attuale di chi esegue il comando.'
+  params:
+    - desc: 'L''utente da prendere e spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Porta un utente nel canale vocale attuale di chi esegue il comando.'
+  params:
+    - desc: 'L''utente da prendere e spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Porta un utente nel canale vocale attuale di chi esegue il comando.'
+  params:
+    - desc: 'L''utente da prendere e spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+importrolelist:
+  args:
+    - false
+  desc: 'Importa associazioni di ruoli e utenti da un file di testo, assegnando i ruoli indicati agli utenti menzionati.'
+  params:
+    - desc: 'Importa associazioni di ruoli e utenti da un file di testo, assegnando i ruoli indicati agli utenti menzionati.'
+      name: false
+      optional: false
+      type: '='
+liftlockdown:
+  args:
+    - lockdowntype.readonly
+  desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - &ref_274
+      desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=:
+  args:
+    - lockdowntype.readonly
+  desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_1:
+  args:
+    - lockdowntype.readonly
+  desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_2:
+  args:
+    - lockdowntype.readonly
+  desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - desc: 'Revoca il blocco in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+listblacklists:
+  args:
+    - ''
+  desc: 'Elenca tutti i ruoli e i permessi in lista nera e in lista bianca.'
+  params: [ ]
+lock:
+  args:
+    - '[channel]'
+  desc: 'Attiva o disattiva la modalità lenta in un canale, con durata personalizzabile.'
+  params:
+    - desc: 'Parametro facoltativo per indicare un canale a cui applicare la modalità lenta.'
+      name: channel
+      optional: true
+      type: sockettextchannel
+lockdown:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - &ref_281
+      desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_1:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_2:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+  params:
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: 'Blocca il server in base al tipo di blocco indicato (Joins, Readonly, Full).'
+      name: false
+      optional: false
+      type: '='
+moveto:
+  args:
+    - channel
+  desc: 'Sposta chi esegue il comando in un canale vocale indicato.'
+  params:
+    - &ref_301
+      desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel:
+  args:
+    - channel
+  desc: 'Sposta chi esegue il comando in un canale vocale indicato.'
+  params:
+    - desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_1:
+  args:
+    - channel
+  desc: 'Sposta chi esegue il comando in un canale vocale indicato.'
+  params:
+    - desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_2:
+  args:
+    - channel
+  desc: 'Sposta chi esegue il comando in un canale vocale indicato.'
+  params:
+    - desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto:
+  args:
+    - '@user channel'
+  desc: 'Sposta un utente indicato in un determinato canale vocale.'
+  params:
+    - &ref_302
+      desc: 'L''utente da spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel:
+  args:
+    - '@user channel'
+  desc: 'Sposta un utente indicato in un determinato canale vocale.'
+  params:
+    - desc: 'L''utente da spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_1:
+  args:
+    - '@user channel'
+  desc: 'Sposta un utente indicato in un determinato canale vocale.'
+  params:
+    - desc: 'L''utente da spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_2:
+  args:
+    - '@user channel'
+  desc: 'Sposta un utente indicato in un determinato canale vocale.'
+  params:
+    - desc: 'L''utente da spostare.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Il canale vocale di destinazione in cui spostare l''utente.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+nuke:
+  args:
+    - '[@chan3]'
+  desc: 'Elimina e ricrea un canale di testo, "distruggendolo" di fatto.'
+  params:
+    - desc: 'Parametro facoltativo per indicare il canale da distruggere.'
+      name: chan3
+      optional: true
+      type: channel
+permcontrol:
+  args:
+    - channel perm @role perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - &ref_337
+      desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - &ref_338
+      desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_339
+      desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_340
+      desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]:
+  args:
+    - channel perm @role perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_1:
+  args:
+    - channel perm @role perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_2:
+  args:
+    - channel perm @role perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]:
+  args:
+    - channel perm @user perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_341
+      desc: 'L''utente a cui si applicano le modifiche dei permessi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_1:
+  args:
+    - channel perm @user perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'L''utente a cui si applicano le modifiche dei permessi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_2:
+  args:
+    - channel perm @user perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'L''utente a cui si applicano le modifiche dei permessi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_3:
+  args:
+    - channel perm @user perms
+  desc: 'Modifica i permessi di canale per un utente indicato, in base ai permessi e all''azione forniti.'
+  params:
+    - desc: 'Il canale di cui si modificano i permessi.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'L''azione da eseguire (Allow, Deny, Inherit).'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: 'L''utente a cui si applicano le modifiche dei permessi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Un insieme di permessi da modificare.'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permview:
+  args:
+    - ''
+  desc: 'Mostra l''elenco dei permessi consentiti per il ruolo indicato.'
+  params: [ ]
+permview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Mostra l''elenco dei permessi consentiti per il ruolo indicato.'
+  params:
+    - &ref_343
+      desc: 'Il ruolo di cui verranno mostrati i permessi.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Mostra l''elenco dei permessi consentiti per il ruolo indicato.'
+  params:
+    - desc: 'Il ruolo di cui verranno mostrati i permessi.'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IRole:
+  args:
+    - '@role'
+  desc: 'Mostra l''elenco dei permessi consentiti per il ruolo indicato.'
+  params:
+    - &ref_344
+      desc: 'Il ruolo di cui verranno mostrati i permessi.'
+      name: user
+      optional: false
+      type: IRole
+permview_IRole_1:
+  args:
+    - '@role'
+  desc: 'Mostra l''elenco dei permessi consentiti per il ruolo indicato.'
+  params:
+    - desc: 'Il ruolo di cui verranno mostrati i permessi.'
+      name: user
+      optional: false
+      type: IRole
+permview_noparams:
+  args:
+    - ''
+  desc: 'Mostra l''elenco dei permessi consentiti per il ruolo indicato.'
+  params: [ ]
+removeblacklistedpermission:
+  args:
+    - permission
+  desc: 'Rimuove un permesso dalla lista nera.'
+  params:
+    - desc: 'Il permesso da rimuovere dalla lista nera.'
+      name: permission
+      optional: false
+      type: GuildPermission
+removeblacklistedrole:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo dalla lista nera.'
+  params:
+    - desc: 'Il ruolo da rimuovere dalla lista nera.'
+      name: role
+      optional: false
+      type: IRole
+removeemote:
+  args:
+    - text
+  desc: 'Rimuove un''emote dal server.'
+  params:
+    - &ref_394
+      desc: 'Parametro segnaposto per soddisfare i requisiti della firma del comando.'
+      name: _
+      optional: false
+      type: string
+removeemote_string:
+  args:
+    - text
+  desc: 'Rimuove un''emote dal server.'
+  params:
+    - desc: 'Parametro segnaposto per soddisfare i requisiti della firma del comando.'
+      name: _
+      optional: false
+      type: string
+removefromall:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i membri del server.'
+  params:
+    - &ref_395
+      desc: 'Il ruolo da rimuovere da tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i membri del server.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i membri del server.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i membri del server.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i membri del server.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i bot del server.'
+  params:
+    - &ref_396
+      desc: 'Il ruolo da rimuovere da tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i bot del server.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_1:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i bot del server.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_2:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti i bot del server.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i bot.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti umani, esclusi i bot.'
+  params:
+    - &ref_397
+      desc: 'Il ruolo da rimuovere da tutti i membri umani.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti umani, esclusi i bot.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i membri umani.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_1:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti umani, esclusi i bot.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i membri umani.'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_2:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti umani, esclusi i bot.'
+  params:
+    - desc: 'Il ruolo da rimuovere da tutti i membri umani.'
+      name: role
+      optional: false
+      type: IRole
+removefromrole:
+  args:
+    - '@role @role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - &ref_398
+      desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_399
+      desc: 'Il ruolo i cui membri perderanno il primo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo i cui membri perderanno il primo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo i cui membri perderanno il primo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: 'Rimuove un ruolo specificato da tutti gli utenti che hanno attualmente un altro ruolo specificato.'
+  params:
+    - desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il ruolo i cui membri perderanno il primo ruolo.'
+      name: role2
+      optional: false
+      type: IRole
+removeroles:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli specificati da un utente.'
+  params:
+    - &ref_412
+      desc: 'L''utente da cui verranno rimossi i ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_413
+      desc: 'I ruoli da rimuovere dall''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli specificati da un utente.'
+  params:
+    - desc: 'L''utente da cui verranno rimossi i ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da rimuovere dall''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli specificati da un utente.'
+  params:
+    - desc: 'L''utente da cui verranno rimossi i ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da rimuovere dall''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli specificati da un utente.'
+  params:
+    - desc: 'L''utente da cui verranno rimossi i ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da rimuovere dall''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeusersfromrole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Rimuove un ruolo specifico da un elenco di utenti, se ce l''hanno.'
+  params:
+    - &ref_416
+      desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_417
+      desc: 'Gli utenti da cui verrà rimosso il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Rimuove un ruolo specifico da un elenco di utenti, se ce l''hanno.'
+  params:
+    - desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Gli utenti da cui verrà rimosso il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Rimuove un ruolo specifico da un elenco di utenti, se ce l''hanno.'
+  params:
+    - desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Gli utenti da cui verrà rimosso il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: 'Rimuove un ruolo specifico da un elenco di utenti, se ce l''hanno.'
+  params:
+    - desc: 'Il ruolo da rimuovere dagli utenti.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Gli utenti da cui verrà rimosso il ruolo.'
+      name: users
+      optional: false
+      type: IUser[]
+removewhitelistedrole:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo dalla lista bianca.'
+  params:
+    - desc: 'Il ruolo da rimuovere dalla lista bianca.'
+      name: role
+      optional: false
+      type: IRole
+removewhitelisteduser:
+  args:
+    - '@user'
+  desc: 'Rimuove un utente dalla lista bianca.'
+  params:
+    - desc: 'L''utente da rimuovere dalla lista bianca.'
+      name: user
+      optional: false
+      type: IGuildUser
+renameemote:
+  args:
+    - text text
+  desc: 'Rinomina un''emote esistente sul server.'
+  params:
+    - &ref_421
+      desc: 'L''emote esistente da rinominare.'
+      name: emote
+      optional: false
+      type: string
+    - &ref_422
+      desc: 'Il nuovo nome per l''emote.'
+      name: name
+      optional: false
+      type: string
+renameemote_string_string:
+  args:
+    - text text
+  desc: 'Rinomina un''emote esistente sul server.'
+  params:
+    - desc: 'L''emote esistente da rinominare.'
+      name: emote
+      optional: false
+      type: string
+    - desc: 'Il nuovo nome per l''emote.'
+      name: name
+      optional: false
+      type: string
+rj:
+  args:
+    - action
+  desc: 'Gestisce i processi di ruolo.'
+  params:
+    - desc: 'L''azione da eseguire sui processi di ruolo.'
+      name: action
+      optional: false
+      type: string
+rolejobs:
+  args:
+    - ''
+  desc: 'Elenca tutte le operazioni di ruolo di massa in corso nel server, con i dettagli di ciascuna.'
+  params: [ ]
+setbanner:
+  args:
+    - text
+  desc: 'Imposta il banner del server.'
+  params:
+    - &ref_489
+      desc: 'L''URL del nuovo banner del server.'
+      name: img
+      optional: false
+      type: string
+setbanner_string:
+  args:
+    - text
+  desc: 'Imposta il banner del server.'
+  params:
+    - desc: 'L''URL del nuovo banner del server.'
+      name: img
+      optional: false
+      type: string
+setdefaultpunishment:
+  args:
+    - punishmentaction
+  desc: 'Imposta l''azione punitiva predefinita per il server.'
+  params:
+    - &ref_501
+      desc: 'L''azione punitiva predefinita da impostare.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction:
+  args:
+    - punishmentaction
+  desc: 'Imposta l''azione punitiva predefinita per il server.'
+  params:
+    - desc: 'L''azione punitiva predefinita da impostare.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_1:
+  args:
+    - punishmentaction
+  desc: 'Imposta l''azione punitiva predefinita per il server.'
+  params:
+    - &ref_502
+      desc: 'L''azione punitiva predefinita da impostare.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_2:
+  args:
+    - punishmentaction
+  desc: 'Imposta l''azione punitiva predefinita per il server.'
+  params:
+    - desc: 'L''azione punitiva predefinita da impostare.'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+seticon:
+  args:
+    - text
+  desc: 'Imposta l''icona del server.'
+  params:
+    - &ref_525
+      desc: 'L''URL della nuova icona del server.'
+      name: img
+      optional: false
+      type: string
+seticon_string:
+  args:
+    - text
+  desc: 'Imposta l''icona del server.'
+  params:
+    - desc: 'L''URL della nuova icona del server.'
+      name: img
+      optional: false
+      type: string
+setroles:
+  args:
+    - '@user @role'
+  desc: 'Modifica i ruoli di un utente aggiungendo nuovi ruoli con un limite di tempo facoltativo.'
+  params:
+    - &ref_521
+      desc: 'L''utente i cui ruoli verranno modificati.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_522
+      desc: 'I ruoli da aggiungere all''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Modifica i ruoli di un utente aggiungendo nuovi ruoli con un limite di tempo facoltativo.'
+  params:
+    - desc: 'L''utente i cui ruoli verranno modificati.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da aggiungere all''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Modifica i ruoli di un utente aggiungendo nuovi ruoli con un limite di tempo facoltativo.'
+  params:
+    - desc: 'L''utente i cui ruoli verranno modificati.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da aggiungere all''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Modifica i ruoli di un utente aggiungendo nuovi ruoli con un limite di tempo facoltativo.'
+  params:
+    - desc: 'L''utente i cui ruoli verranno modificati.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da aggiungere all''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_StoopidTime_IRole[]:
+  args:
+    - '@user time @role'
+  desc: 'Modifica i ruoli di un utente aggiungendo nuovi ruoli con un limite di tempo facoltativo.'
+  params:
+    - desc: 'L''utente i cui ruoli verranno modificati.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_524
+      desc: 'La durata per cui i ruoli resteranno attivi.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'I ruoli da aggiungere all''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setservername:
+  args:
+    - text
+  desc: 'Imposta il nome del server.'
+  params:
+    - desc: 'Il nuovo nome del server.'
+      name: name
+      optional: false
+      type: string
+setsplash:
+  args:
+    - text
+  desc: 'Imposta l''immagine splash del server.'
+  params:
+    - desc: 'L''URL della nuova immagine splash.'
+      name: img
+      optional: false
+      type: string
+setsplash_string:
+  args:
+    - text
+  desc: 'Imposta l''immagine splash del server.'
+  params:
+    - desc: 'Imposta l''immagine splash del server.'
+      name: time
+      optional: false
+      type: StoopidTime
+sfr:
+  args:
+    - role emotes
+  desc: 'Ruba le emote per un ruolo specifico.'
+  params:
+    - desc: 'Il ruolo per cui rubare le emote.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Elenco di URL o nomi di emote separati da spazi.'
+      name: e
+      optional: false
+      type: string
+sj:
+  args:
+    - job
+  desc: 'Ferma un processo in esecuzione.'
+  params:
+    - desc: 'Il processo da fermare.'
+      name: job
+      optional: false
+      type: string
+slowmode:
+  args:
+    - time channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - &ref_550
+      desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_549
+      desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel:
+  args:
+    - channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - &ref_547
+      desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime:
+  args:
+    - time
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - &ref_548
+      desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_1:
+  args:
+    - time
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_2:
+  args:
+    - time
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_3:
+  args:
+    - time
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_ITextChannel:
+  args:
+    - time channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_1:
+  args:
+    - time channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_2:
+  args:
+    - time channel
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params:
+    - desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Il canale di testo a cui applicare le impostazioni della modalità lenta.'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_noparams:
+  args:
+    - ''
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params: [ ]
+slowmode_noparams_1:
+  args:
+    - ''
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params: [ ]
+slowmode_noparams_2:
+  args:
+    - ''
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params: [ ]
+slowmode_noparams_3:
+  args:
+    - ''
+  desc: 'Passa la modalità lenta del canale di testo attuale tra disattivata e un intervallo predefinito.'
+  params: [ ]
+steal:
+  args:
+    - emotes
+  desc: 'Ruba le emote da altri server.'
+  params:
+    - desc: 'Elenco di URL o nomi di emote separati da spazi.'
+      name: e
+      optional: false
+      type: string
+stealemotes:
+  args:
+    - text
+  desc: 'Ruba le emote da un messaggio e le aggiunge al server.'
+  params:
+    - &ref_565
+      desc: 'Il messaggio contenente le emote da rubare.'
+      name: e
+      optional: false
+      type: string
+stealemotes_string:
+  args:
+    - text
+  desc: 'Ruba le emote da un messaggio e le aggiunge al server.'
+  params:
+    - desc: 'Il messaggio contenente le emote da rubare.'
+      name: e
+      optional: false
+      type: string
+stealforrole:
+  args:
+    - '@role text'
+  desc: 'Ruba le emote da un messaggio e le blocca per un ruolo specificato.'
+  params:
+    - &ref_566
+      desc: 'Il ruolo a cui aggiungere le emote.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il messaggio contenente le emote da rubare.'
+      name: e
+      optional: false
+      type: string
+stealforrole_IRole_string:
+  args:
+    - '@role text'
+  desc: 'Ruba le emote da un messaggio e le blocca per un ruolo specificato.'
+  params:
+    - desc: 'Il ruolo a cui aggiungere le emote.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il messaggio contenente le emote da rubare.'
+      name: e
+      optional: false
+      type: string
+stopjob:
+  args:
+    - number
+  desc: 'Ferma un processo di operazione di ruolo di massa tramite il suo numero.'
+  params:
+    - &ref_570
+      desc: 'Il numero del processo dell''operazione di ruolo di massa da fermare.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int:
+  args:
+    - number
+  desc: 'Ferma un processo di operazione di ruolo di massa tramite il suo numero.'
+  params:
+    - desc: 'Il numero del processo dell''operazione di ruolo di massa da fermare.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_1:
+  args:
+    - number
+  desc: 'Ferma un processo di operazione di ruolo di massa tramite il suo numero.'
+  params:
+    - desc: 'Il numero del processo dell''operazione di ruolo di massa da fermare.'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_2:
+  args:
+    - number
+  desc: 'Ferma un processo di operazione di ruolo di massa tramite il suo numero.'
+  params:
+    - desc: 'Il numero del processo dell''operazione di ruolo di massa da fermare.'
+      name: jobnum
+      optional: false
+      type: int
+syncroletoall:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo e le categorie del server.'
+  params:
+    - &ref_593
+      desc: 'Il ruolo da sincronizzare in tutto il server.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo e le categorie del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare in tutto il server.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_1:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo e le categorie del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare in tutto il server.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_2:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo e le categorie del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare in tutto il server.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutte le categorie del server.'
+  params:
+    - &ref_594
+      desc: 'Il ruolo da sincronizzare tra le categorie.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutte le categorie del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare tra le categorie.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_1:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutte le categorie del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare tra le categorie.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_2:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutte le categorie del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare tra le categorie.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo del server.'
+  params:
+    - &ref_595
+      desc: 'Il ruolo da sincronizzare tra i canali di testo.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare tra i canali di testo.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_1:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare tra i canali di testo.'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_2:
+  args:
+    - '@role'
+  desc: 'Sincronizza i permessi di un ruolo con tutti i canali di testo del server.'
+  params:
+    - desc: 'Il ruolo da sincronizzare tra i canali di testo.'
+      name: role
+      optional: false
+      type: IRole
+unlock:
+  args:
+    - '[channel]'
+  desc: 'Sblocca un canale specifico, permettendo di nuovo a tutti di inviare messaggi.'
+  params:
+    - desc: 'Il canale da sbloccare. Se null, sblocca il canale attuale.'
+      name: channel
+      optional: true
+      type: sockettextchannel
+unlockdown:
+  args:
+    - ''
+  desc: 'Sblocca il server permettendo di nuovo a @everyone di inviare messaggi.'
+  params: [ ]

@@ -1,9 +1,9 @@
 countingban:
   args:
     - user channel duration reason
-  desc: '禁止用户在特定频道中计数。'
+  desc: '禁止用户在指定频道中参与计数。'
   params:
-    - desc: '要禁止计数的用户。'
+    - desc: '要禁止参与计数的用户。'
       name: user
       optional: false
       type: guild user
@@ -11,11 +11,11 @@ countingban:
       name: channel
       optional: true
       type: text channel
-    - desc: '禁止时长（例如：1h、1d）。留空为永久。'
+    - desc: '禁令时长（例如 1h、1d）。留空则为永久禁令。'
       name: duration
       optional: true
       type: stoopid time
-    - desc: '禁止的原因。'
+    - desc: '禁令原因。'
       name: reason
       optional: true
       type: string
@@ -24,33 +24,33 @@ countingconfig:
     - channel
   desc: '配置计数频道的设置。'
   params:
-    - desc: '显示配置的频道。默认为当前频道。'
+    - desc: '要查看配置的频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
 countingcooldown:
   args:
     - channel seconds
-  desc: '设置用户计数之间的冷却时间。'
+  desc: '设置用户两次计数之间的冷却时间。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '冷却时间（秒，0-300）。'
+    - desc: '冷却时间（秒，0 至 300）。'
       name: seconds
       optional: true
       type: int
 countingdisable:
   args:
     - channel purgeData reason
-  desc: '禁用频道中的计数，并可选择清除所有数据。'
+  desc: '在某频道中禁用计数，并可选择清除所有数据。'
   params:
     - desc: '要禁用计数的频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '是否删除此频道的所有计数数据。默认为 false。'
+    - desc: '是否删除该频道的所有计数数据。默认为 false。'
       name: purgeData
       optional: true
       type: bool
@@ -67,33 +67,33 @@ countingfailurechannel:
       name: countingChannel
       optional: true
       type: text channel
-    - desc: '失败日志频道。使用 null 禁用。'
+    - desc: '用于记录失败的频道。使用 null 可禁用。'
       name: failureChannel
       optional: true
       type: text channel
 countingfailuremessage:
   args:
     - channel embed
-  desc: '设置计数失败的自定义消息。'
+  desc: '设置计数失败时的自定义消息。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '消息模板。使用 "-" 重置为默认值。'
+    - desc: '消息模板。使用 "-" 可恢复默认。'
       name: embed
       optional: true
       type: string
 countingfailurethreshold:
   args:
     - channel threshold
-  desc: '设置触发后果前的失败阈值。'
+  desc: '设置触发后果前的失败次数阈值。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '触发操作前的失败次数（1-10）。'
+    - desc: '触发处理前的失败次数（1 至 10）。'
       name: threshold
       optional: true
       type: int
@@ -106,7 +106,7 @@ countingleaderboard:
       name: type
       optional: true
       type: string
-    - desc: '显示排行榜的频道。默认为当前频道。'
+    - desc: '要显示排行榜的频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
@@ -118,13 +118,13 @@ countinglist:
 countingmilestonechannel:
   args:
     - countingChannel milestoneChannel
-  desc: '设置发布里程碑成就的频道。'
+  desc: '设置公布里程碑成就的频道。'
   params:
     - desc: '计数频道。'
       name: countingChannel
       optional: true
       type: text channel
-    - desc: '里程碑公告频道。使用 null 禁用。'
+    - desc: '里程碑公告频道。使用 null 可禁用。'
       name: milestoneChannel
       optional: true
       type: text channel
@@ -137,7 +137,7 @@ countingmilestonemessage:
       name: channel
       optional: true
       type: text channel
-    - desc: '消息模板。使用 "-" 重置为默认值。'
+    - desc: '消息模板。使用 "-" 可恢复默认。'
       name: embed
       optional: true
       type: string
@@ -150,14 +150,14 @@ countingmilestones:
       name: channel
       optional: true
       type: text channel
-    - desc: '逗号分隔的里程碑数字（例如：50,100,250,500,1000）。'
+    - desc: '逗号分隔的里程碑数字（例如 50,100,250,500,1000）。'
       name: milestones
       optional: true
       type: string
 countingreset:
   args:
     - channel newNumber reason
-  desc: '将频道的计数重置为特定数字。'
+  desc: '将某频道的计数重置为指定数字。'
   params:
     - desc: '要重置的频道。默认为当前频道。'
       name: channel
@@ -176,7 +176,7 @@ countingrestore:
     - saveId channel
   desc: '从之前的存档点恢复计数。'
   params:
-    - desc: '要恢复的存档点 ID。'
+    - desc: '要恢复到的存档点 ID。'
       name: saveId
       optional: false
       type: int
@@ -189,7 +189,7 @@ countingsave:
     - channel reason
   desc: '为当前计数进度创建存档点。'
   params:
-    - desc: '要保存的频道。默认为当前频道。'
+    - desc: '要存档的频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
@@ -200,13 +200,13 @@ countingsave:
 countingsetup:
   args:
     - channel startNumber increment
-  desc: '在当前或指定频道中设置计数。'
+  desc: '在当前频道或指定频道中设置计数。'
   params:
-    - desc: '设置计数的频道。默认为当前频道。'
+    - desc: '要设置计数的频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '开始计数的数字。默认为 1。'
+    - desc: '计数的起始数字。默认为 1。'
       name: startNumber
       optional: true
       type: long
@@ -217,48 +217,48 @@ countingsetup:
 countingstats:
   args:
     - user channel
-  desc: '显示用户或频道的计数统计。'
+  desc: '显示某用户或频道的计数统计。'
   params:
-    - desc: '要显示统计的用户。默认为你自己。'
+    - desc: '要查看统计的用户。默认为你自己。'
       name: user
       optional: true
       type: user
-    - desc: '查看统计的频道。默认为当前频道。'
+    - desc: '要查看统计的频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
 countingstatus:
   args:
     - channel
-  desc: '显示频道的当前计数状态。'
+  desc: '显示某频道计数的当前状态。'
   params:
-    - desc: '要检查的频道。默认为当前频道。'
+    - desc: '要查看的频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
 countingsuccessmessage:
   args:
     - channel embed
-  desc: '设置计数成功的自定义消息。'
+  desc: '设置计数成功时的自定义消息。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '消息模板。使用 "-" 重置为默认值。'
+    - desc: '消息模板。使用 "-" 可恢复默认。'
       name: embed
       optional: true
       type: string
 countingtimeout:
   args:
     - user duration channel reason
-  desc: '临时禁止用户参与计数。'
+  desc: '暂时禁止用户参与计数（禁言）。'
   params:
-    - desc: '要从计数中禁止的用户。'
+    - desc: '要禁言的用户。'
       name: user
       optional: false
       type: guild user
-    - desc: '禁止时长（例如：30m、2h）。'
+    - desc: '禁言时长（例如 30m、2h）。'
       name: duration
       optional: false
       type: stoopid time
@@ -266,16 +266,16 @@ countingtimeout:
       name: channel
       optional: true
       type: text channel
-    - desc: '禁止的原因。'
+    - desc: '禁言原因。'
       name: reason
       optional: true
       type: string
 countingunban:
   args:
     - user channel reason
-  desc: '解除特定频道中用户的计数禁止。'
+  desc: '解除用户在指定频道的计数禁令。'
   params:
-    - desc: '要解除计数禁止的用户。'
+    - desc: '要解除计数禁令的用户。'
       name: user
       optional: false
       type: guild user
@@ -283,27 +283,27 @@ countingunban:
       name: channel
       optional: true
       type: text channel
-    - desc: '解除禁止的原因。'
+    - desc: '解除禁令的原因。'
       name: reason
       optional: true
       type: string
 countmodbanned:
   args:
     - channel roles...
-  desc: '设置禁止计数的身份组。'
+  desc: '设置禁止参与计数的身份组。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '禁止计数的身份组。'
+    - desc: '禁止参与计数的身份组。'
       name: roles
       optional: true
       type: role
 countmodclear:
   args:
     - user channel
-  desc: '清除计数频道中用户的错误计数。'
+  desc: '清除某计数频道中用户的错误计数。'
   params:
     - desc: '要清除错误计数的用户。'
       name: user
@@ -316,7 +316,7 @@ countmodclear:
 countmodclearall:
   args:
     - channel
-  desc: '清除计数频道中所有用户的错误计数。'
+  desc: '清除某计数频道中所有用户的错误计数。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
@@ -325,13 +325,13 @@ countmodclearall:
 countmoddefaults:
   args:
     - enabled threshold windowHours punishment durationMinutes punishmentRole
-  desc: '设置全服务器默认审核设置。'
+  desc: '设置服务器范围的默认审核设置。'
   params:
-    - desc: '审核是否默认启用。'
+    - desc: '是否默认启用审核。'
       name: enabled
       optional: false
       type: bool
-    - desc: '惩罚前的默认错误计数阈值。'
+    - desc: '处罚前的默认错误计数阈值。'
       name: threshold
       optional: true
       type: int
@@ -339,15 +339,15 @@ countmoddefaults:
       name: windowHours
       optional: true
       type: int
-    - desc: '要应用的默认惩罚操作。'
+    - desc: '要应用的默认处罚操作。'
       name: punishment
       optional: true
       type: punishment action
-    - desc: '计时惩罚的默认时长（分钟）。'
+    - desc: '限时处罚的默认时长（分钟）。'
       name: durationMinutes
       optional: true
       type: int
-    - desc: '添加身份组惩罚类型的默认身份组。'
+    - desc: 'AddRole 处罚类型的默认身份组。'
       name: punishmentRole
       optional: true
       type: role
@@ -356,11 +356,11 @@ countmodedits:
     - punish delete channel
   desc: '为计数频道配置消息编辑保护。'
   params:
-    - desc: '是否将消息编辑视为违规进行惩罚。'
+    - desc: '是否将编辑消息视为违规并处罚。'
       name: punish
       optional: false
       type: bool
-    - desc: '是否删除编辑后的消息。'
+    - desc: '是否删除被编辑的消息。'
       name: delete
       optional: true
       type: bool
@@ -384,7 +384,7 @@ countmodenable:
 countmodignore:
   args:
     - deleteMessages channel roles...
-  desc: '设置从计数中忽略的身份组。'
+  desc: '设置计数时忽略的身份组。'
   params:
     - desc: '是否删除被忽略身份组的消息。'
       name: deleteMessages
@@ -394,16 +394,16 @@ countmodignore:
       name: channel
       optional: true
       type: text channel
-    - desc: '从计数中忽略的身份组。'
+    - desc: '计数时忽略的身份组。'
       name: roles
       optional: true
       type: role
 countmodnonnumbers:
   args:
     - punish delete channel
-  desc: '配置计数频道中非数字消息的处理方式。'
+  desc: '为计数频道配置非数字消息的处理方式。'
   params:
-    - desc: '是否将非数字消息视为违规进行惩罚。'
+    - desc: '是否将非数字消息视为违规并处罚。'
       name: punish
       optional: false
       type: bool
@@ -418,51 +418,51 @@ countmodnonnumbers:
 countmodpunish:
   args:
     - count punishment durationMinutes role channel
-  desc: '为特定错误计数数量设置阶梯式惩罚。'
+  desc: '为特定错误计数数字设置分级处罚。'
   params:
-    - desc: '触发此惩罚的错误计数数量。'
+    - desc: '触发此处罚的错误计数数字。'
       name: count
       optional: false
       type: int
-    - desc: '要应用的惩罚操作。'
+    - desc: '要应用的处罚操作。'
       name: punishment
       optional: false
       type: punishment action
-    - desc: '计时惩罚的时长（分钟）。'
+    - desc: '限时处罚的时长（分钟）。'
       name: durationMinutes
       optional: true
       type: int
-    - desc: '添加身份组惩罚类型的身份组。'
+    - desc: 'AddRole 处罚类型的身份组。'
       name: role
       optional: true
       type: role
-    - desc: '计数频道（服务器默认值使用 NULL）。'
+    - desc: '计数频道（NULL 表示使用服务器默认设置）。'
       name: channel
       optional: true
       type: text channel
 countmodpunishlist:
   args:
     - channel
-  desc: '列出服务器或特定频道的所有阶梯式惩罚。'
+  desc: '列出服务器或指定频道的所有分级处罚。'
   params:
-    - desc: '计数频道（服务器默认值使用 NULL）。'
+    - desc: '计数频道（NULL 表示使用服务器默认设置）。'
       name: channel
       optional: true
       type: text channel
 countmodpunishment:
   args:
     - punishment durationMinutes role channel
-  desc: '设置错误计数的惩罚。'
+  desc: '设置错误计数的处罚。'
   params:
-    - desc: '要应用的惩罚操作。'
+    - desc: '要应用的处罚操作。'
       name: punishment
       optional: false
       type: punishment action
-    - desc: '计时惩罚的时长（分钟）。'
+    - desc: '限时处罚的时长（分钟）。'
       name: durationMinutes
       optional: true
       type: int
-    - desc: '添加身份组惩罚类型的身份组。'
+    - desc: 'AddRole 处罚类型的身份组。'
       name: role
       optional: true
       type: role
@@ -473,20 +473,20 @@ countmodpunishment:
 countmodrequired:
   args:
     - channel roles...
-  desc: '设置计数所需的身份组。'
+  desc: '设置参与计数所需的身份组。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
       optional: true
       type: text channel
-    - desc: '计数所需的身份组。'
+    - desc: '参与计数所需的身份组。'
       name: roles
       optional: true
       type: role
 countmodreset:
   args:
     - channel
-  desc: '重置频道以使用服务器默认值。'
+  desc: '将某频道重置为使用服务器默认设置。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
@@ -495,7 +495,7 @@ countmodreset:
 countmodshow:
   args:
     - channel
-  desc: '显示计数频道或服务器默认值的当前审核配置。'
+  desc: '显示计数频道或服务器默认设置的当前审核配置。'
   params:
     - desc: '计数频道。默认为当前频道。'
       name: channel
@@ -506,7 +506,7 @@ countmodthreshold:
     - threshold channel
   desc: '设置计数频道的错误计数阈值。'
   params:
-    - desc: '惩罚前的错误计数数量（1-100）。'
+    - desc: '触发处罚前的错误计数次数（1 至 100）。'
       name: threshold
       optional: false
       type: int
@@ -517,13 +517,13 @@ countmodthreshold:
 countmodunpunish:
   args:
     - count channel
-  desc: '删除特定错误计数数量的阶梯式惩罚。'
+  desc: '移除特定错误计数数字的分级处罚。'
   params:
-    - desc: '要删除惩罚的错误计数数量。'
+    - desc: '要移除处罚的错误计数数字。'
       name: count
       optional: false
       type: int
-    - desc: '计数频道（服务器默认值使用 NULL）。'
+    - desc: '计数频道（NULL 表示使用服务器默认设置）。'
       name: channel
       optional: true
       type: text channel
@@ -532,7 +532,7 @@ countmodwindow:
     - hours channel
   desc: '设置追踪错误计数的时间窗口。'
   params:
-    - desc: '时间窗口（小时，1-168）。'
+    - desc: '时间窗口（小时，1 至 168）。'
       name: hours
       optional: false
       type: int

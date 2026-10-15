@@ -2,10 +2,9 @@ commands:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
+  desc: 'Zeigt Befehle eines bestimmten Moduls, optional gefiltert nach einem Suchbegriff. Ohne Angabe ist dies ein Alias für Module, das wiederum ein Alias für Hilfe ist.'
   params:
-    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
+    - desc: 'Das Modul, das angezeigt werden soll, optional gefolgt von einem Begriff, nach dem seine Befehle gefiltert werden.'
       name: module
       optional: true
       type: string
@@ -13,10 +12,9 @@ commands_=:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
+  desc: 'Zeigt Befehle eines bestimmten Moduls, optional gefiltert nach einem Suchbegriff. Ohne Angabe ist dies ein Alias für Module, das wiederum ein Alias für Hilfe ist.'
   params:
-    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
+    - desc: 'Das Modul, das angezeigt werden soll, optional gefolgt von einem Begriff, nach dem seine Befehle gefiltert werden.'
       name: module
       optional: true
       type: string
@@ -24,10 +22,9 @@ commands_=_1:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
+  desc: 'Zeigt Befehle eines bestimmten Moduls, optional gefiltert nach einem Suchbegriff. Ohne Angabe ist dies ein Alias für Module, das wiederum ein Alias für Hilfe ist.'
   params:
-    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
+    - desc: 'Das Modul, das angezeigt werden soll, optional gefolgt von einem Begriff, nach dem seine Befehle gefiltert werden.'
       name: module
       optional: true
       type: string
@@ -35,41 +32,36 @@ commands_=_2:
   args:
     - '[module]'
     - '[module] [search]'
-  desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
+  desc: 'Zeigt Befehle eines bestimmten Moduls, optional gefiltert nach einem Suchbegriff. Ohne Angabe ist dies ein Alias für Module, das wiederum ein Alias für Hilfe ist.'
   params:
-    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
+    - desc: 'Das Modul, das angezeigt werden soll, optional gefolgt von einem Begriff, nach dem seine Befehle gefiltert werden.'
       name: module
       optional: true
       type: string
 donate:
   args:
     - ''
-  desc: 'Zeigt, wie man den Bot unterstützen kann.'
+  desc: 'Zeigt, wie du den Bot unterstützen kannst.'
   params: [ ]
 exportcommandsjson:
   args:
     - ''
-  desc: >-
-    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  desc: 'Exportiert alle Befehle in eine JSON-Datei. Wird hauptsächlich für https://mewdeko.tech/commands verwendet.'
   params: [ ]
 exportcommandsjson_noparams:
   args:
     - ''
-  desc: >-
-    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  desc: 'Exportiert alle Befehle in eine JSON-Datei. Wird hauptsächlich für https://mewdeko.tech/commands verwendet.'
   params: [ ]
 exportcommandsjson_noparams_1:
   args:
     - ''
-  desc: >-
-    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  desc: 'Exportiert alle Befehle in eine JSON-Datei. Wird hauptsächlich für https://mewdeko.tech/commands verwendet.'
   params: [ ]
 exportcommandsjson_noparams_2:
   args:
     - ''
-  desc: >-
-    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  desc: 'Exportiert alle Befehle in eine JSON-Datei. Wird hauptsächlich für https://mewdeko.tech/commands verwendet.'
   params: [ ]
 guide:
   args:
@@ -79,70 +71,70 @@ guide:
 h:
   args:
     - command
-  desc: Zeigt Hilfe für einen bestimmten Befehl.
+  desc: 'Zeigt Hilfe zu einem bestimmten Befehl.'
   params:
-    - desc: Der Befehl, für den Hilfe angezeigt werden soll.
+    - desc: 'Der Befehl, zu dem Hilfe angezeigt werden soll.'
       name: command
       optional: true
       type: string
 help:
   args:
     - command
-  desc: Zeigt Hilfeinformationen zu Befehlen.
+  desc: 'Zeigt Hilfeinformationen zu Befehlen.'
   params:
-    - desc: Der Befehl, für den Hilfe angezeigt werden soll.
+    - desc: 'Der Befehl, zu dem Hilfe angezeigt werden soll.'
       name: command
       optional: true
       type: string
 modules:
   args:
     - ''
-  desc: 'Zeigt eine Liste aller Module. Ist aktuell einfach ein help-Alias.'
+  desc: 'Zeigt eine Liste aller Module. Im Grunde ist das derzeit nur ein Alias für Hilfe.'
   params: [ ]
 searchcommand:
   args:
     - text
-  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  desc: 'Sucht einen Befehl anhand von Name oder Beschreibung.'
   params:
     - &ref_481
-      desc: 'Der Suchbegriff'
+      desc: 'Der Suchbegriff.'
       name: commandname
       optional: false
       type: string
 searchcommand_string:
   args:
     - text
-  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  desc: 'Sucht einen Befehl anhand von Name oder Beschreibung.'
   params:
-    - desc: 'Der Suchbegriff'
+    - desc: 'Der Suchbegriff.'
       name: commandname
       optional: false
       type: string
 searchcommand_string_1:
   args:
     - text
-  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  desc: 'Sucht einen Befehl anhand von Name oder Beschreibung.'
   params:
-    - desc: 'Der Suchbegriff'
+    - desc: 'Der Suchbegriff.'
       name: commandname
       optional: false
       type: string
 searchcommand_string_2:
   args:
     - text
-  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  desc: 'Sucht einen Befehl anhand von Name oder Beschreibung.'
   params:
-    - desc: 'Der Suchbegriff'
+    - desc: 'Der Suchbegriff.'
       name: commandname
       optional: false
       type: string
 source:
   args:
     - ''
-  desc: 'Zeigt den Quellcode-Link für den Bot.'
+  desc: 'Zeigt den Quellcode-Link des Bots.'
   params: [ ]
 vote:
   args:
     - ''
-  desc: 'Zeigt einen Link zum Abstimmen für Mewdeko.'
+  desc: 'Zeigt einen Link, um für Mewdeko zu stimmen.'
   params: [ ]

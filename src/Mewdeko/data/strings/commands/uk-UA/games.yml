@@ -1,0 +1,603 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Команда для запуску гри Acrophobia.'
+  params:
+    - &ref_3
+      desc: 'Аргументи, передані команді.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Команда для запуску гри Acrophobia.'
+  params:
+    - desc: 'Аргументи, передані команді.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Команда для запуску гри Acrophobia.'
+  params:
+    - desc: 'Аргументи, передані команді.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Команда для запуску гри Acrophobia.'
+  params:
+    - desc: 'Аргументи, передані команді.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: 'Команда для випадкового вибору зі списку варіантів.'
+  params:
+    - desc: 'Список варіантів, розділених крапкою з комою.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'Команда для перемикання статусу дракона користувача. Зазвичай використовується для бета-команд.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'Команда для відповіді від магічної кулі 8.'
+  params:
+    - desc: 'Питання, яке потрібно поставити.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: 'Запускає гру у шибеницю вказаного типу.'
+  params:
+    - &ref_244
+      desc: 'Запускає гру у шибеницю вказаного типу.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: 'Запускає гру у шибеницю вказаного типу.'
+  params:
+    - desc: 'Запускає гру у шибеницю вказаного типу.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: 'Запускає гру у шибеницю вказаного типу.'
+  params:
+    - desc: 'Запускає гру у шибеницю вказаного типу.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: 'Запускає гру у шибеницю вказаного типу.'
+  params:
+    - desc: 'Запускає гру у шибеницю вказаного типу.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: 'Показує доступні типи шибениці на цьому сервері.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: 'Зупиняє поточну гру у шибеницю в цьому каналі.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Команда для запуску гри Kaladont.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Команда для запуску гри Kaladont.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Команда для запуску гри Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Команда для запуску гри Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Команда для запуску гри Kaladont.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: 'Команда для зупинки поточної гри Kaladont.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: 'Налаштовує постійний канал для Kaladont.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Налаштовує постійний канал для Kaladont.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: 'Налаштовує постійний канал для Kaladont.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: 'Налаштовує постійний канал для Kaladont.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: 'Налаштовує постійний канал для Kaladont.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: 'Вимикає постійний канал для Kaladont.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: 'Кумедна команда, яка вставляє Linux-фразу'
+  params:
+    - &ref_275
+      desc: 'Назва, якою замінити «GNU».'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: 'Назва, якою замінити «Linux».'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: 'Кумедна команда, яка вставляє Linux-фразу'
+  params:
+    - desc: 'Назва, якою замінити «GNU».'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Назва, якою замінити «Linux».'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: 'Кумедна команда, яка вставляє Linux-фразу'
+  params:
+    - desc: 'Назва, якою замінити «GNU».'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Назва, якою замінити «Linux».'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: 'Кумедна команда, яка вставляє Linux-фразу'
+  params:
+    - desc: 'Назва, якою замінити «GNU».'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'Назва, якою замінити «Linux».'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Запускає або приєднує до гри Nunchi.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - &ref_351
+      desc: 'Створює просте опитування «так/ні».'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - &ref_349
+      desc: 'Створює просте опитування «так/ні».'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'Створює просте опитування «так/ні».'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - desc: 'Створює просте опитування «так/ні».'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Створює просте опитування «так/ні».'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - desc: 'Створює просте опитування «так/ні».'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Створює просте опитування «так/ні».'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - desc: 'Створює просте опитування «так/ні».'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Створює просте опитування «так/ні».'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - desc: 'Створює просте опитування «так/ні».'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - desc: 'Створює просте опитування «так/ні».'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'Створює просте опитування «так/ні».'
+  params:
+    - desc: 'Створює просте опитування «так/ні».'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: 'Створює анонімне опитування, в якому ідентичність виборців приховано.'
+  params:
+    - desc: 'Питання опитування та варіанти, розділені крапкою з комою.'
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: 'Створює власне опитування з кількома варіантами.'
+  params:
+    - desc: 'Питання опитування та варіанти, розділені крапкою з комою.'
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'Створює опитування з множинним вибором, де користувачі можуть обрати кілька варіантів.'
+  params:
+    - desc: 'Питання опитування та варіанти, розділені крапкою з комою.'
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'Створює опитування за шаблоном.'
+  params:
+    - desc: 'Назва шаблону для використання.'
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'Показує всі шаблони опитувань, доступні на сервері.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: 'Команда, якої більше немає. У NadekoBot вона називала трансгендерних людей образливим словом. Залишена тут як пам''ять і як послання NadekoBot нахуй.'
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'Запускає гру в хрестики-нолики.'
+  params:
+    - &ref_619
+      desc: 'Параметри для ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'Запускає гру в хрестики-нолики.'
+  params:
+    - desc: 'Параметри для ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'Запускає гру в хрестики-нолики.'
+  params:
+    - desc: 'Параметри для ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'Запускає гру в хрестики-нолики.'
+  params:
+    - desc: 'Параметри для ttt'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: 'Показує поточну таблицю лідерів вікторини.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: 'Зупиняє поточну вікторину.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'Запускає вікторину.'
+  params:
+    - &ref_629
+      desc: 'Додаткові аргументи для вікторини'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'Запускає вікторину.'
+  params:
+    - desc: 'Додаткові аргументи для вікторини'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'Запускає вікторину.'
+  params:
+    - desc: 'Додаткові аргументи для вікторини'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'Запускає вікторину.'
+  params:
+    - desc: 'Додаткові аргументи для вікторини'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'Додає новий текст для гри на швидкий друк.'
+  params:
+    - &ref_630
+      desc: 'Текст статті, який треба додати.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'Додає новий текст для гри на швидкий друк.'
+  params:
+    - desc: 'Текст статті, який треба додати.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'Додає новий текст для гри на швидкий друк.'
+  params:
+    - desc: 'Текст статті, який треба додати.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'Додає новий текст для гри на швидкий друк.'
+  params:
+    - desc: 'Текст статті, який треба додати.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'Видаляє текст для гри на друк за його індексом.'
+  params:
+    - &ref_631
+      desc: 'Індекс тексту, який треба видалити.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'Видаляє текст для гри на друк за його індексом.'
+  params:
+    - desc: 'Індекс тексту, який треба видалити.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'Видаляє текст для гри на друк за його індексом.'
+  params:
+    - desc: 'Індекс тексту, який треба видалити.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'Видаляє текст для гри на друк за його індексом.'
+  params:
+    - desc: 'Індекс тексту, який треба видалити.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'Показує тексти, доступні для гри на друк.'
+  params:
+    - desc: 'Показує тексти, доступні для гри на друк.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'Запускає гру на швидкий друк.'
+  params:
+    - &ref_632
+      desc: 'Аргументи для налаштування гри.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'Запускає гру на швидкий друк.'
+  params:
+    - desc: 'Аргументи для налаштування гри.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'Запускає гру на швидкий друк.'
+  params:
+    - desc: 'Аргументи для налаштування гри.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'Запускає гру на швидкий друк.'
+  params:
+    - desc: 'Аргументи для налаштування гри.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: 'Зупиняє поточну гру на швидкий друк.'
+  params: [ ]
+choose:
+  args:
+    - '[list]'
+    - list
+  desc: 'Команда для випадкового вибору зі списку варіантів.'
+  params:
+    - desc: 'Список варіантів, розділених крапкою з комою.'
+      name: list
+      optional: true
+      type: string
+hangmanstop:
+  args:
+    - ''
+  desc: 'Зупиняє поточну гру у шибеницю в цьому каналі.'
+  params: [ ]
+nunchi:
+  args:
+    - ''
+  desc: 'Запускає або приєднує до гри Nunchi.'
+  params: [ ]
+tl:
+  args:
+    - ''
+  desc: 'Показує поточну таблицю лідерів вікторини.'
+  params: [ ]

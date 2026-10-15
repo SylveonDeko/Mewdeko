@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Додає канал MultiGreet.'
+  params:
+    - desc: 'Канал для додавання'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - &ref_303
+      desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'Час у секундах, через який видалити повідомлення'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Час у секундах, через який видалити повідомлення'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Час у секундах, через який видалити повідомлення'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Змінює час видалення повідомлення MultiGreet у секундах.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Час у секундах, через який видалити повідомлення'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Вимикає MultiGreet.'
+  params:
+    - &ref_306
+      desc: 'ID MultiGreet, який треба вимкнути'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Чи вимкнути MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Вимикає MultiGreet.'
+  params:
+    - desc: 'ID MultiGreet, який треба вимкнути'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вимкнути MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Вимикає MultiGreet.'
+  params:
+    - desc: 'ID MultiGreet, який треба вимкнути'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вимкнути MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Вимикає MultiGreet.'
+  params:
+    - desc: 'ID MultiGreet, який треба вимкнути'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вимкнути MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Змінює, чи вітає MultiGreet ботів.'
+  params:
+    - &ref_308
+      desc: 'ID MultiGreet, який треба змінити'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Чи вітати ботів'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Змінює, чи вітає MultiGreet ботів.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вітати ботів'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Змінює, чи вітає MultiGreet ботів.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вітати ботів'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Змінює, чи вітає MultiGreet ботів.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Чи вітати ботів'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Показує всі MultiGreet.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Змінює повідомлення для MultiGreet.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Шаблон повідомлення або embed для встановлення'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - &ref_310
+      desc: 'Видаляє всі MultiGreet з каналу.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - &ref_311
+      desc: 'Канал, з якого треба видалити MultiGreet'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - desc: 'Канал, з якого треба видалити MultiGreet'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - desc: 'Канал, з якого треба видалити MultiGreet'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - desc: 'Канал, з якого треба видалити MultiGreet'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - desc: 'Видаляє всі MultiGreet з каналу.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - desc: 'Видаляє всі MultiGreet з каналу.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Видаляє всі MultiGreet з каналу.'
+  params:
+    - desc: 'Видаляє всі MultiGreet з каналу.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Змінює тип MultiGreet.'
+  params:
+    - &ref_312
+      desc: 'Тип MultiGreet для встановлення'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Змінює тип MultiGreet.'
+  params:
+    - desc: 'Тип MultiGreet для встановлення'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Змінює тип MultiGreet.'
+  params:
+    - desc: 'Тип MultiGreet для встановлення'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Змінює тип MultiGreet.'
+  params:
+    - desc: 'Тип MultiGreet для встановлення'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Змінює вебхук для MultiGreet.'
+  params:
+    - desc: 'ID MultiGreet, який треба змінити'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Назва вебхука'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Аватар вебхука'
+      name: avatar
+      optional: true
+      type: string

@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: '応募フォームに記入できるよう、制限付きチャンネルの応募ボタンを投稿します。'
+  params:
+    - desc: '応募するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: '投票数に関係なく、応募を強制的に通過させます。'
+  params:
+    - desc: '応募の ID です。'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: '締め切られた応募に表示される任意のメモです。'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'このサーバーで応募が禁止されているユーザーを一覧表示します。'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'ユーザーの応募を禁止します。1つのチャンネルに対して、または制限付きのすべてのチャンネルに対して設定できます。'
+  params:
+    - desc: '禁止するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '制限付きチャンネルです。空の場合はすべての場所で禁止します。'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: '禁止を解除し、ユーザーが再び応募できるようにします。'
+  params:
+    - desc: '禁止されているユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '禁止を設定した制限付きチャンネルです（チャンネル単位の場合）。'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: '制限の設定を1つ変更します。設定を指定せずに実行すると、変更できる項目をすべて表示します。'
+  params:
+    - desc: '制限付きチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '設定名です。'
+      name: setting
+      optional: true
+      type: string
+    - desc: '新しい値です。'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: '投票数に関係なく、応募を却下します。'
+  params:
+    - desc: '応募の ID です。'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: '締め切られた応募に表示される任意のメモです。'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'ユーザーの応募履歴を表示します。ユーザーを指定しない場合は、自分の応募履歴を表示します。'
+  params:
+    - desc: '検索するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'サーバー内のすべての制限と、現在のしきい値を一覧表示します。'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: '制限付きチャンネルに応募できるボタンを投稿します。'
+  params:
+    - desc: '制限付きチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'パネルを投稿する場所です。デフォルトは現在のチャンネルです。'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'まだ審査結果が出ていない応募を一覧表示します。'
+  params:
+    - desc: '必要に応じて、1つの制限付きチャンネルに一覧を絞り込みます。'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: '制限の応募フォームに質問を追加します。1つの制限に設定できる質問は最大5つです。'
+  params:
+    - desc: '制限付きチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '質問文です（最大45文字）。'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: '応募者に表示される順番で、制限の応募質問を表示します。'
+  params:
+    - desc: '制限付きチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: '質問一覧に表示されている位置を指定して、制限の応募フォームから質問を削除します。'
+  params:
+    - desc: '制限付きチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '質問一覧に表示されている、1から始まる位置番号です。'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'チャンネルの制限を、質問と応募履歴とともに削除します。'
+  params:
+    - desc: '制限付きチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'ロックされたチャンネルの応募を開始します。承認された応募者には指定したロールが付与されます。'
+  params:
+    - desc: '制限を設けるロックされたチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '応募が承認されたときに付与されるロールです。省略すると、応募者は直接チャンネルに追加されます。'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: '自分が出した未審査の応募を取り下げます。'
+  params:
+    - desc: '審査メッセージに表示されている応募の ID です。'
+      name: applicationId
+      optional: false
+      type: int

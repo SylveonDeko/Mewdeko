@@ -1,0 +1,298 @@
+serveractivity:
+  args:
+    - '[days]'
+    - '7'
+    - '0'
+  desc: '기간 동안의 서버 활동 요약을 표시합니다. 메시지, 음성 시간, 기여자, 입장과 퇴장, 가장 활발한 멤버와 채널을 포함합니다. 전체 기간은 0을 사용하세요.'
+  params:
+    - desc: '기간(일 단위)입니다. 0은 전체 기간, 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+useractivity:
+  args:
+    - '[@user] [days]'
+    - '@user 30'
+  desc: '기간 동안의 멤버 활동 요약을 표시합니다. 순위와 함께 메시지 및 음성 시간, 누적 합계, 가장 많이 사용한 채널을 포함합니다.'
+  params:
+    - desc: '멤버입니다. 생략하면 본인입니다.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '기간(일 단위)입니다. 0은 전체 기간, 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+channelactivity:
+  args:
+    - '[#channel] [days]'
+  desc: '기간 동안의 채널 활동 요약을 표시합니다. 메시지, 음성 시간, 기여자, 가장 활발한 멤버를 포함합니다.'
+  params:
+    - desc: '채널입니다. 생략하면 현재 채널입니다.'
+      name: channel
+      optional: true
+      type: IGuildChannel
+    - desc: '기간(일 단위)입니다. 0은 전체 기간, 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+activitytop:
+  args:
+    - '[Messages|Voice] [days] [@role]'
+    - 'Voice 7'
+  desc: '기간 동안 메시지 또는 음성 시간을 기준으로 멤버 순위를 매깁니다. 역할을 가진 멤버만 대상으로 할 수도 있습니다.'
+  params:
+    - desc: 'Messages 또는 Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: '기간(일 단위)입니다. 0은 전체 기간, 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+    - desc: '이 역할을 가진 멤버만 포함합니다.'
+      name: role
+      optional: true
+      type: IRole
+activitytopchannels:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: '기간 동안 메시지 또는 음성 시간을 기준으로 채널 순위를 매깁니다.'
+  params:
+    - desc: 'Messages 또는 Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: '기간(일 단위)입니다. 0은 전체 기간, 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+activitychart:
+  args:
+    - '[Messages|Voice|Members|Status|Joins|Leaves|Growth|InVoice] [days]'
+    - 'Members 30'
+  desc: '기간 동안의 메시지, 음성 시간(시간 단위), 멤버 수, 멤버 상태, 입장, 퇴장, 성장 또는 음성 채널 멤버 수를 차트로 그립니다.'
+  params:
+    - desc: '차트로 표시할 항목입니다.'
+      name: kind
+      optional: true
+      type: StatChartKind
+    - desc: '기간(일 단위, 1~90)입니다. 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+activityexport:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: '메시지 또는 음성 시간 기준 멤버 순위를 CSV 파일로 내보냅니다.'
+  params:
+    - desc: 'Messages 또는 Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: '기간(일 단위)입니다. 0은 전체 기간, 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+statssettings:
+  args:
+    - ''
+  desc: '활동 통계 추적 설정을 표시합니다.'
+  params: [ ]
+statslookback:
+  args:
+    - '14'
+  desc: '통계 명령어에서 기간을 지정하지 않을 때 사용할 기본 기간(일 단위)을 설정합니다.'
+  params:
+    - desc: '기간(일 단위, 1~90)입니다.'
+      name: days
+      optional: false
+      type: int
+statscooldown:
+  args:
+    - '30'
+  desc: '같은 멤버의 메시지 두 개가 집계되려면 몇 초가 지나야 하는지 설정합니다. 0이면 모든 메시지를 집계합니다.'
+  params:
+    - desc: '쿨다운(초, 0~300)입니다.'
+      name: seconds
+      optional: false
+      type: int
+statstrackvoice:
+  args:
+    - ''
+  desc: '활동 통계의 음성 시간 추적을 켜거나 끕니다.'
+  params: [ ]
+statstracksnapshots:
+  args:
+    - ''
+  desc: '멤버 및 상태 차트에 사용되는 시간별 멤버 및 상태 스냅샷을 켜거나 끕니다.'
+  params: [ ]
+statscountbots:
+  args:
+    - ''
+  desc: '활동 통계에 봇을 포함할지 전환합니다.'
+  params: [ ]
+statsignorevoicestate:
+  args:
+    - 'SelfMuted'
+    - 'Afk'
+  desc: '음성 상태(SelfMuted, SelfDeafened, ServerMuted, ServerDeafened, Afk, Alone, Streaming, Video)에 머문 시간을 음성 통계에 포함할지 전환합니다.'
+  params:
+    - desc: '전환할 상태입니다.'
+      name: state
+      optional: false
+      type: VoiceStateFlags
+statsignore:
+  args:
+    - '#channel'
+    - '@role'
+    - '@user'
+  desc: '채널, 특정 역할을 가진 모든 멤버, 또는 멤버를 활동 통계에서 제외할지 전환합니다.'
+  params:
+    - desc: '전환할 채널입니다.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: '전환할 역할이에요.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '전환할 멤버입니다.'
+      name: user
+      optional: false
+      type: IGuildUser
+statsignored:
+  args:
+    - ''
+  desc: '활동 통계에서 제외된 채널, 역할, 멤버를 나열합니다.'
+  params: [ ]
+statsprivacy:
+  args:
+    - ''
+  desc: '모든 서버의 활동 통계에서 본인을 제외합니다. 기록된 메시지와 음성 통계는 영구 삭제됩니다. 다시 포함하도록 되돌릴 수도 있습니다.'
+  params: [ ]
+topgames:
+  args:
+    - '[days]'
+    - '30'
+  desc: '기간 동안 멤버가 가장 오래 플레이하거나 사용한 게임과 앱을 참여자 수와 함께 순위로 표시합니다. 게임 추적이 켜져 있어야 합니다.'
+  params:
+    - desc: '기간(일 단위)입니다. 0은 전체 기간, 생략하면 서버 기본값을 사용합니다.'
+      name: days
+      optional: true
+      type: int
+whoplays:
+  args:
+    - 'Minecraft'
+  desc: '게임을 플레이하거나 앱을 사용하는 사람을 보여줍니다. 현재 참여 중인 멤버 수와 해당 활동에 가장 오래 참여한 멤버를 표시합니다.'
+  params:
+    - desc: '게임 또는 앱의 이름입니다.'
+      name: game
+      optional: false
+      type: string
+statstrackactivities:
+  args:
+    - ''
+  desc: '멤버가 사용하는 게임과 앱(플레이, 스트리밍, 듣기, 시청, 경쟁) 추적을 켜거나 끕니다. 기본값은 꺼짐입니다.'
+  params: [ ]
+statsverifyactivities:
+  args:
+    - ''
+  desc: 'Discord 애플리케이션, Spotify 또는 스트림으로 뒷받침되는 활동만 집계할지 전환합니다. 사용자 지정 클라이언트가 만든 가짜 상태를 차단합니다.'
+  params: [ ]
+statsactivityfiltermode:
+  args:
+    - 'Whitelist'
+    - 'Blacklist'
+  desc: '활동 필터 목록이 나열된 게임만 허용(Whitelist)할지, 나열된 게임을 무시(Blacklist)할지 설정합니다.'
+  params:
+    - desc: 'Whitelist 또는 Blacklist.'
+      name: mode
+      optional: false
+      type: ActivityFilterMode
+statsactivityfilter:
+  args:
+    - 'Spotify'
+  desc: '게임 또는 앱 이름을 활동 필터 목록에 추가하거나 제거합니다.'
+  params:
+    - desc: '활동 이름입니다.'
+      name: name
+      optional: false
+      type: string
+statsactivityfilters:
+  args:
+    - ''
+  desc: '활동 필터 목록과 해당 목록이 허용 목록인지 차단 목록인지 표시합니다.'
+  params: [ ]
+liveboardadd:
+  args:
+    - '#channel InviteLeaderboard [Weekly] [entries] [intervalMinutes]'
+    - '#stats GrowthChart Monthly'
+  desc: '봇이 계속 새로 고치고 고정하는 리더보드, 차트 또는 개요를 게시합니다. 종류: InviteLeaderboard, MessageLeaderboard, VoiceLeaderboard, JoinsChart, LeavesChart, GrowthChart, MembersChart, MessagesChart, ServerOverview, InviteStats.'
+  params:
+    - desc: '게시할 채널입니다.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '표시할 항목입니다.'
+      name: kind
+      optional: false
+      type: LiveBoardKind
+    - desc: '기간입니다: AllTime, Daily, Weekly 또는 Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: '리더보드의 행 수입니다 (3~25).'
+      name: entries
+      optional: true
+      type: int
+    - desc: '새로 고침 주기입니다 (최소 5분).'
+      name: intervalMinutes
+      optional: true
+      type: int
+liveboardlist:
+  args:
+    - ''
+  desc: '현재 실시간 보드를 나열합니다.'
+  params: [ ]
+liveboardremove:
+  args:
+    - '3'
+  desc: '실시간 보드와 해당 메시지를 삭제합니다.'
+  params:
+    - desc: '목록에서 확인한 보드 ID입니다.'
+      name: id
+      optional: false
+      type: int
+liveboardrefresh:
+  args:
+    - ''
+  desc: '모든 실시간 보드를 지금 바로 새로 고칩니다.'
+  params: [ ]
+serverreportchannel:
+  args:
+    - '[#channel]'
+  desc: '예약된 서버 리포트를 받을 채널을 설정하고 리포트를 활성화합니다. 채널을 생략하면 리포트가 비활성화됩니다.'
+  params:
+    - desc: '채널입니다. 생략하면 비활성화됩니다.'
+      name: channel
+      optional: true
+      type: ITextChannel
+serverreportfrequency:
+  args:
+    - 'Weekly'
+  desc: '서버 리포트를 게시할 주기를 설정합니다: Daily, Weekly 또는 Monthly.'
+  params:
+    - desc: 'Daily, Weekly 또는 Monthly.'
+      name: frequency
+      optional: false
+      type: ReportFrequency
+serverreportnow:
+  args:
+    - '[Weekly]'
+  desc: '지정한 기간 또는 설정된 기간의 서버 리포트를 현재 채널에 바로 게시합니다.'
+  params:
+    - desc: '다룰 기간입니다. 생략하면 설정된 기간을 사용합니다.'
+      name: frequency
+      optional: true
+      type: ReportFrequency

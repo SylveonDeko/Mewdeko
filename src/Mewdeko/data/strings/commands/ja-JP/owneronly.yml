@@ -1,0 +1,1243 @@
+acadd:
+  args:
+    - command
+  desc: '自動コマンドを追加します。'
+  params:
+    - desc: '自動実行に追加するコマンドです。'
+      name: command
+      optional: false
+      type: string
+topserversupdate:
+  args:
+    - ''
+  desc: 'トップサーバーの一覧を更新します。マスターインスタンスでのみ実行できます。'
+aclist:
+  args:
+    - ''
+  desc: 'すべての自動コマンドを一覧表示します。'
+  params: [ ]
+acrm:
+  args:
+    - index
+  desc: '自動コマンドを削除します。'
+  params:
+    - desc: '削除するコマンドのインデックスです。'
+      name: index
+      optional: false
+      type: int
+addinstance:
+  args:
+    - number
+  desc: 'ダッシュボードから管理するボットインスタンスを追加します。'
+  params:
+    - &ref_400
+      desc: 'インスタンスが実行されているポート番号です。'
+      name: instancePort
+      optional: false
+      type: int
+addinstance_int:
+  args:
+    - number
+  desc: 'ダッシュボードから管理するボットインスタンスを追加します。'
+  params:
+    - desc: 'インスタンスが実行されているポート番号です。'
+      name: instancePort
+      optional: false
+      type: int
+addplaying:
+  args:
+    - t text
+  desc: 'ボットのプレイ中ステータスのローテーションに、新しいステータスを追加します。'
+  params:
+    - &ref_21
+      desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - &ref_22
+      desc: '追加するステータスのテキストです。'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string:
+  args:
+    - t text
+  desc: 'ボットのプレイ中ステータスのローテーションに、新しいステータスを追加します。'
+  params:
+    - desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: '追加するステータスのテキストです。'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_1:
+  args:
+    - t text
+  desc: 'ボットのプレイ中ステータスのローテーションに、新しいステータスを追加します。'
+  params:
+    - desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: '追加するステータスのテキストです。'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_2:
+  args:
+    - t text
+  desc: 'ボットのプレイ中ステータスのローテーションに、新しいステータスを追加します。'
+  params:
+    - desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: '追加するステータスのテキストです。'
+      name: status
+      optional: false
+      type: string
+autocommandadd:
+  args:
+    - number text
+  desc: '指定したサーバーで定期的に実行される自動コマンドを追加します。'
+  params:
+    - &ref_91
+      desc: 'コマンドを実行する間隔（秒）です。5 秒以上で指定する必要があります。'
+      name: interval
+      optional: false
+      type: int
+    - &ref_92
+      desc: '自動的に実行されるコマンドのテキストです。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string:
+  args:
+    - number text
+  desc: '指定したサーバーで定期的に実行される自動コマンドを追加します。'
+  params:
+    - desc: 'コマンドを実行する間隔（秒）です。5 秒以上で指定する必要があります。'
+      name: interval
+      optional: false
+      type: int
+    - desc: '自動的に実行されるコマンドのテキストです。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_1:
+  args:
+    - number text
+  desc: '指定したサーバーで定期的に実行される自動コマンドを追加します。'
+  params:
+    - desc: 'コマンドを実行する間隔（秒）です。5 秒以上で指定する必要があります。'
+      name: interval
+      optional: false
+      type: int
+    - desc: '自動的に実行されるコマンドのテキストです。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_2:
+  args:
+    - number text
+  desc: '指定したサーバーで定期的に実行される自動コマンドを追加します。'
+  params:
+    - desc: 'コマンドを実行する間隔（秒）です。5 秒以上で指定する必要があります。'
+      name: interval
+      optional: false
+      type: int
+    - desc: '自動的に実行されるコマンドのテキストです。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandremove:
+  args:
+    - number
+  desc: 'インデックスを指定して、自動コマンドを削除します。'
+  params:
+    - &ref_93
+      desc: '削除する自動コマンドの、1から始まるインデックスです。'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int:
+  args:
+    - number
+  desc: 'インデックスを指定して、自動コマンドを削除します。'
+  params:
+    - &ref_94
+      desc: '削除する自動コマンドの、1から始まるインデックスです。'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_1:
+  args:
+    - number
+  desc: 'インデックスを指定して、自動コマンドを削除します。'
+  params:
+    - desc: '削除する自動コマンドの、1から始まるインデックスです。'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_2:
+  args:
+    - number
+  desc: 'インデックスを指定して、自動コマンドを削除します。'
+  params:
+    - desc: '削除する自動コマンドの、1から始まるインデックスです。'
+      name: index
+      optional: false
+      type: int
+autocommandslist:
+  args:
+    - 1
+  desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+  params:
+    - &ref_95
+      desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=:
+  args:
+    - 1
+  desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+  params:
+    - desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_1:
+  args:
+    - 1
+  desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+  params:
+    - desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_2:
+  args:
+    - 1
+  desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+  params:
+    - desc: 'サーバーに設定されている自動コマンドを一覧表示します。'
+      name: 1
+      optional: false
+      type: '='
+bash:
+  args:
+    - text
+  desc: 'bash コマンドを実行します。プラットフォームによって、コマンドは bash または PowerShell で実行されます。'
+  params:
+    - &ref_110
+      desc: '実行するコマンドです。'
+      name: message
+      optional: false
+      type: string
+bash_string:
+  args:
+    - text
+  desc: 'bash コマンドを実行します。プラットフォームによって、コマンドは bash または PowerShell で実行されます。'
+  params:
+    - desc: '実行するコマンドです。'
+      name: message
+      optional: false
+      type: string
+bash_string_1:
+  args:
+    - text
+  desc: 'bash コマンドを実行します。プラットフォームによって、コマンドは bash または PowerShell で実行されます。'
+  params:
+    - desc: '実行するコマンドです。'
+      name: message
+      optional: false
+      type: string
+bash_string_2:
+  args:
+    - text
+  desc: 'bash コマンドを実行します。プラットフォームによって、コマンドは bash または PowerShell で実行されます。'
+  params:
+    - desc: '実行するコマンドです。'
+      name: message
+      optional: false
+      type: string
+commandstats:
+  args:
+    - ''
+  desc: '最も多く使われたコマンド、モジュール、サーバー、ユーザーの統計を取得して表示します。'
+  params: [ ]
+commandstats_noparams:
+  args:
+    - ''
+  desc: '最も多く使われたコマンド、モジュール、サーバー、ユーザーの統計を取得して表示します。'
+  params: [ ]
+commandstats_noparams_1:
+  args:
+    - ''
+  desc: '最も多く使われたコマンド、モジュール、サーバー、ユーザーの統計を取得して表示します。'
+  params: [ ]
+commandstats_noparams_2:
+  args:
+    - ''
+  desc: '最も多く使われたコマンド、モジュール、サーバー、ユーザーの統計を取得して表示します。'
+  params: [ ]
+config:
+  args:
+    - ''
+  desc: 'ボットの yml ベースの設定を変更します。'
+  params: [ ]
+config_string:
+  args:
+    - name
+  desc: 'ボットの yml ベースの設定を変更します。'
+  params:
+    - desc: '変更する設定の名前です。'
+      name: name
+      optional: true
+      type: string
+config_string_string:
+  args:
+    - name prop
+  desc: 'ボットの yml ベースの設定を変更します。'
+  params:
+    - desc: '変更する設定の名前です。'
+      name: name
+      optional: true
+      type: string
+    - desc: '変更する設定のプロパティです。'
+      name: prop
+      optional: true
+      type: string
+config_string_string_string:
+  args:
+    - name prop value
+  desc: 'ボットの yml ベースの設定を変更します。'
+  params:
+    - desc: '変更する設定の名前です。'
+      name: name
+      optional: true
+      type: string
+    - desc: '変更する設定のプロパティです。'
+      name: prop
+      optional: true
+      type: string
+    - desc: 'プロパティに設定する新しい値です。'
+      name: value
+      optional: true
+      type: string
+defprefix:
+  args:
+    - '[prefix]'
+  desc: 'デフォルトのコマンドプレフィックスを設定または表示します。'
+  params:
+    - desc: '設定する新しいプレフィックスです。null または空白の場合は、現在のプレフィックスを表示します。'
+      name: prefix
+      optional: true
+      type: string
+die:
+  args:
+    - ''
+  desc: 'ボットのシャットダウンを開始します。'
+  params: [ ]
+evaluate:
+  args:
+    - '[code]'
+  desc: 'C# のコードスニペットを評価します。'
+  params:
+    - desc: '評価する C# のコードです。'
+      name: code
+      optional: true
+      type: string
+forwardmessages:
+  args:
+    - ''
+  desc: 'ボットのオーナーへの DM の転送を切り替えます。'
+  params: [ ]
+forwardtoall:
+  args:
+    - ''
+  desc: '転送されたメッセージを、ボットのすべてのオーナーに送信するか、メインのオーナーのみに送信するかを切り替えます。'
+  params: [ ]
+generatedocs:
+  args:
+    - ''
+  desc: 'コマンドのドキュメント用の YML ファイルを生成します。'
+  params: [ ]
+imagesreload:
+  args:
+    - ''
+  desc: 'ボットが使用する画像の再読み込みを開始します。'
+  params: [ ]
+instancestatus:
+  args:
+    - number
+  desc: '特定のボットインスタンスの状態を確認します。'
+  params:
+    - &ref_256
+      desc: '確認するインスタンスのポート番号です。'
+      name: instancePort
+      optional: false
+      type: int
+instancestatus_int:
+  args:
+    - number
+  desc: '特定のボットインスタンスの状態を確認します。'
+  params:
+    - desc: '確認するインスタンスのポート番号です。'
+      name: instancePort
+      optional: false
+      type: int
+retentionpending:
+  args:
+    - ''
+  desc: 'データのパージを待っている、ボットが退出したサーバーを、近い順に一覧表示します。'
+  params: [ ]
+retentionrecent:
+  args:
+    - ''
+  desc: '最近完了したデータのパージを、それぞれ削除された行数とともに一覧表示します。'
+  params: [ ]
+retentioncancel:
+  args:
+    - 123456789012345678
+  desc: 'パージのキューからサーバーを削除し、そのデータを保持します。'
+  params:
+    - desc: '保持するサーバーです。'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurge:
+  args:
+    - 123456789012345678
+  desc: '猶予期間を待たずに、サーバーのデータをすぐにパージします。ボットがまだそのサーバーに参加している場合は実行できません。'
+  params:
+    - desc: 'パージするサーバーです。'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurgeall:
+  args:
+    - ''
+  desc: '保留中のすべてのサーバーを、猶予期間を無視して今すぐパージします。ボットが再参加したサーバーはスキップされます。'
+  params: [ ]
+bothells:
+  args:
+    - ''
+  desc: 'ボット設定のボット数としきい値、およびボットの割合のしきい値をもとに、ボットが多すぎるサーバーを一覧表示します。'
+  params: [ ]
+bothellcheck:
+  args:
+    - ''
+    - 123456789012345678
+  desc: 'メンバーの全リストをダウンロードした後、1つのサーバーを「ボット地獄」のしきい値に対して確認します。'
+  params:
+    - desc: '確認するサーバーです。省略すると現在のサーバーを確認します。'
+      name: guildId
+      optional: true
+      type: ulong
+retentionscan:
+  args:
+    - ''
+  desc: 'ボットが参加していなくなったサーバーを、すべてのサーバー単位のテーブルから検索し、猶予期間の後にパージするためにキューに登録します。'
+  params: [ ]
+leaveserver:
+  args:
+    - text
+  desc: 'ボットにサーバーから退出するよう指示します。'
+  params:
+    - &ref_269
+      desc: '退出するサーバーの識別子または名前です。'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string:
+  args:
+    - text
+  desc: 'ボットにサーバーから退出するよう指示します。'
+  params:
+    - desc: '退出するサーバーの識別子または名前です。'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_1:
+  args:
+    - text
+  desc: 'ボットにサーバーから退出するよう指示します。'
+  params:
+    - desc: '退出するサーバーの識別子または名前です。'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_2:
+  args:
+    - text
+  desc: 'ボットにサーバーから退出するよう指示します。'
+  params:
+    - desc: '退出するサーバーの識別子または名前です。'
+      name: guildStr
+      optional: false
+      type: string
+listinstances:
+  args:
+    - ''
+  desc: '登録されているすべてのボットインスタンスとその状態を一覧表示します。'
+  params: [ ]
+listplaying:
+  args:
+    - ''
+  desc: '現在ローテーションに含まれているすべてのステータスを一覧表示します。'
+  params: [ ]
+listservers:
+  args:
+    - ''
+  desc: 'ボットが現在参加しているすべてのサーバーを一覧表示します。'
+  params: [ ]
+redisexec:
+  args:
+    - text
+  desc: 'Redis コマンドを実行し、結果を返します。'
+  params:
+    - &ref_385
+      desc: '実行する Redis コマンドです。'
+      name: command
+      optional: false
+      type: string
+redisexec_string:
+  args:
+    - text
+  desc: 'Redis コマンドを実行し、結果を返します。'
+  params:
+    - desc: '実行する Redis コマンドです。'
+      name: command
+      optional: false
+      type: string
+redisexec_string_1:
+  args:
+    - text
+  desc: 'Redis コマンドを実行し、結果を返します。'
+  params:
+    - desc: '実行する Redis コマンドです。'
+      name: command
+      optional: false
+      type: string
+redisexec_string_2:
+  args:
+    - text
+  desc: 'Redis コマンドを実行し、結果を返します。'
+  params:
+    - desc: '実行する Redis コマンドです。'
+      name: command
+      optional: false
+      type: string
+removeinstance:
+  args:
+    - number
+  desc: 'ダッシュボードの管理からボットインスタンスを削除します。'
+  params:
+    - desc: '削除するインスタンスのポート番号です。'
+      name: instancePort
+      optional: false
+      type: int
+removeplaying:
+  args:
+    - number
+  desc: 'インデックスを指定して、ローテーションするプレイ中ステータスからステータスを削除します。'
+  params:
+    - &ref_406
+      desc: '削除するステータスの、1から始まるインデックスです。実際の削除では 0 から始まるインデックスが使われます。'
+      name: index
+      optional: false
+      type: int
+removeplaying_int:
+  args:
+    - number
+  desc: 'インデックスを指定して、ローテーションするプレイ中ステータスからステータスを削除します。'
+  params:
+    - desc: '削除するステータスの、1から始まるインデックスです。実際の削除では 0 から始まるインデックスが使われます。'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_1:
+  args:
+    - number
+  desc: 'インデックスを指定して、ローテーションするプレイ中ステータスからステータスを削除します。'
+  params:
+    - desc: '削除するステータスの、1から始まるインデックスです。実際の削除では 0 から始まるインデックスが使われます。'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_2:
+  args:
+    - number
+  desc: 'インデックスを指定して、ローテーションするプレイ中ステータスからステータスを削除します。'
+  params:
+    - desc: '削除するステータスの、1から始まるインデックスです。実際の削除では 0 から始まるインデックスが使われます。'
+      name: index
+      optional: false
+      type: int
+restartallinstances:
+  args:
+    - ''
+  desc: '登録されているすべてのボットインスタンスを再起動します。'
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: '特定のボットインスタンスを再起動します。'
+  params:
+    - desc: '再起動するインスタンスのポート番号です。'
+      name: instancePort
+      optional: false
+      type: int
+rotateplaying:
+  args:
+    - ''
+  desc: 'ボットのプレイ中ステータスのローテーションを切り替えます。'
+  params: [ ]
+scadd:
+  args:
+    - command
+  desc: '起動時に実行するコマンドを追加します。'
+  params:
+    - desc: '起動時に追加するコマンドです。'
+      name: command
+      optional: false
+      type: string
+scclear:
+  args:
+    - ''
+  desc: '起動時のコマンドをすべて消去します。'
+  params: [ ]
+sclist:
+  args:
+    - ''
+  desc: '起動時のコマンドをすべて一覧表示します。'
+  params: [ ]
+scrm:
+  args:
+    - index
+  desc: '起動時のコマンドを削除します。'
+  params:
+    - desc: '削除するコマンドのインデックスです。'
+      name: index
+      optional: false
+      type: int
+send:
+  args:
+    - whereorto text
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - &ref_483
+      desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - &ref_484
+      desc: '送信するメッセージです。'
+      name: msg
+      optional: false
+      type: string
+send_ulong_=_=:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'メッセージを送信するユーザーの ID です。'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '送信するメッセージです。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_1:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'メッセージを送信するユーザーの ID です。'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '送信するメッセージです。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_2:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'メッセージを送信するユーザーの ID です。'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '送信するメッセージです。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_3:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'メッセージを送信するユーザーの ID です。'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '送信するメッセージです。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_string:
+  args:
+    - whereorto text
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '送信するメッセージです。'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_1:
+  args:
+    - whereorto text
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '送信するメッセージです。'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_2:
+  args:
+    - whereorto text
+  desc: '指定したチャンネルまたはユーザーにメッセージを送信します。'
+  params:
+    - desc: 'メッセージを送信するチャンネルまたはユーザーの ID です。'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '送信するメッセージです。'
+      name: msg
+      optional: false
+      type: string
+setavatar:
+  args:
+    - '[img]'
+  desc: 'ボットのアバターを設定します。'
+  params:
+    - desc: '新しいアバター画像の URL です。null の場合、実装に応じて現在のアバターを削除するか、何もしません。'
+      name: img
+      optional: true
+      type: string
+setgame:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'ボットが現在プレイしているゲームを設定します。'
+  params:
+    - desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'ゲームまたはアクティビティの名前です。null の場合、現在のゲームを消去することがあります。'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'ボットが現在プレイしているゲームを設定します。'
+  params:
+    - desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'ゲームまたはアクティビティの名前です。null の場合、現在のゲームを消去することがあります。'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_1:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'ボットが現在プレイしているゲームを設定します。'
+  params:
+    - desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'ゲームまたはアクティビティの名前です。null の場合、現在のゲームを消去することがあります。'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_2:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'ボットが現在プレイしているゲームを設定します。'
+  params:
+    - desc: 'アクティビティの種類です（例: Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'ゲームまたはアクティビティの名前です。null の場合、現在のゲームを消去することがあります。'
+      name: game
+      optional: true
+      type: string
+setname:
+  args:
+    - text
+  desc: 'ボットのユーザー名を指定した新しい名前に変更します。'
+  params:
+    - &ref_508
+      desc: 'ボットの新しいユーザー名です。'
+      name: newName
+      optional: false
+      type: string
+setname_string:
+  args:
+    - text
+  desc: 'ボットのユーザー名を指定した新しい名前に変更します。'
+  params:
+    - desc: 'ボットの新しいユーザー名です。'
+      name: newName
+      optional: false
+      type: string
+setname_string_1:
+  args:
+    - text
+  desc: 'ボットのユーザー名を指定した新しい名前に変更します。'
+  params:
+    - desc: 'ボットの新しいユーザー名です。'
+      name: newName
+      optional: false
+      type: string
+setname_string_2:
+  args:
+    - text
+  desc: 'ボットのユーザー名を指定した新しい名前に変更します。'
+  params:
+    - desc: 'ボットの新しいユーザー名です。'
+      name: newName
+      optional: false
+      type: string
+setstatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'ボットのオンラインステータスを設定します。'
+  params:
+    - &ref_526
+      desc: '設定する新しいステータスです。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'ボットのオンラインステータスを設定します。'
+  params:
+    - desc: '設定する新しいステータスです。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_1:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'ボットのオンラインステータスを設定します。'
+  params:
+    - desc: '設定する新しいステータスです。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_2:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'ボットのオンラインステータスを設定します。'
+  params:
+    - desc: '設定する新しいステータスです。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstream:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'ボットの配信ステータスを設定します。'
+  params:
+    - desc: '配信の URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: '配信の名前です。null の場合、既定の名前を使うか、名前を設定しないことがあります。'
+      name: name
+      optional: true
+      type: string
+setstream_string_=:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'ボットの配信ステータスを設定します。'
+  params:
+    - desc: '配信の URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: '配信の名前です。null の場合、既定の名前を使うか、名前を設定しないことがあります。'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_1:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'ボットの配信ステータスを設定します。'
+  params:
+    - desc: '配信の URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: '配信の名前です。null の場合、既定の名前を使うか、名前を設定しないことがあります。'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_2:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'ボットの配信ステータスを設定します。'
+  params:
+    - desc: '配信の URL です。'
+      name: url
+      optional: false
+      type: string
+    - desc: '配信の名前です。null の場合、既定の名前を使うか、名前を設定しないことがあります。'
+      name: name
+      optional: true
+      type: string
+shardstats:
+  args:
+    - ''
+  desc: 'ボットのすべてのシャードの統計を、状態、サーバー数、ユーザー数とともに表示します。'
+  params: [ ]
+shardstats_noparams:
+  args:
+    - ''
+  desc: 'ボットのすべてのシャードの統計を、状態、サーバー数、ユーザー数とともに表示します。'
+  params: [ ]
+shardstats_noparams_1:
+  args:
+    - ''
+  desc: 'ボットのすべてのシャードの統計を、状態、サーバー数、ユーザー数とともに表示します。'
+  params: [ ]
+shardstats_noparams_2:
+  args:
+    - ''
+  desc: 'ボットのすべてのシャードの統計を、状態、サーバー数、ユーザー数とともに表示します。'
+  params: [ ]
+sqlexec:
+  args:
+    - text
+  desc: 'データベースに対して生の SQL コマンドを実行します。'
+  params:
+    - &ref_555
+      desc: '実行する SQL コマンドです。'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string:
+  args:
+    - text
+  desc: 'データベースに対して生の SQL コマンドを実行します。'
+  params:
+    - desc: '実行する SQL コマンドです。'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_1:
+  args:
+    - text
+  desc: 'データベースに対して生の SQL コマンドを実行します。'
+  params:
+    - desc: '実行する SQL コマンドです。'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_2:
+  args:
+    - text
+  desc: 'データベースに対して生の SQL コマンドを実行します。'
+  params:
+    - desc: '実行する SQL コマンドです。'
+      name: sql
+      optional: false
+      type: string
+startupcommandadd:
+  args:
+    - text
+  desc: 'ボットの起動時に実行される新しい起動コマンドを追加します。'
+  params:
+    - &ref_564
+      desc: '追加するコマンドのテキストです（プレフィックスは除きます）。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string:
+  args:
+    - text
+  desc: 'ボットの起動時に実行される新しい起動コマンドを追加します。'
+  params:
+    - desc: '追加するコマンドのテキストです（プレフィックスは除きます）。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_1:
+  args:
+    - text
+  desc: 'ボットの起動時に実行される新しい起動コマンドを追加します。'
+  params:
+    - desc: '追加するコマンドのテキストです（プレフィックスは除きます）。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_2:
+  args:
+    - text
+  desc: 'ボットの起動時に実行される新しい起動コマンドを追加します。'
+  params:
+    - desc: '追加するコマンドのテキストです（プレフィックスは除きます）。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandremove:
+  args:
+    - number
+  desc: 'インデックスを指定して、起動コマンドを削除します。'
+  params:
+    - desc: '削除する起動コマンドの、1から始まるインデックスです。'
+      name: index
+      optional: false
+      type: int
+startupcommandsclear:
+  args:
+    - ''
+  desc: 'サーバーのすべての起動コマンドを消去します。'
+  params: [ ]
+startupcommandslist:
+  args:
+    - 1
+  desc: 'サーバーに設定されている起動コマンドを一覧表示します。'
+  params:
+    - desc: 'サーバーに設定されている起動コマンドを一覧表示します。'
+      name: 1
+      optional: false
+      type: '='
+stringsreload:
+  args:
+    - ''
+  desc: 'ボットの文字列（ローカライズ）の再読み込みを開始します。'
+  params: [ ]
+sudo:
+  args:
+    - '@user text'
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - &ref_580
+      desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_581
+      desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string:
+  args:
+    - '@user text'
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_1:
+  args:
+    - '@user text'
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_2:
+  args:
+    - '@user text'
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+sudo_string:
+  args:
+    - text
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+sudo_string_1:
+  args:
+    - text
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+sudo_string_2:
+  args:
+    - text
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+sudo_string_3:
+  args:
+    - text
+  desc: 'サーバーのオーナーが送信したものとして、コマンドを実行します。'
+  params:
+    - desc: '実行するコマンドの文字列です（コマンド名と引数を含みます）。'
+      name: args
+      optional: false
+      type: string
+update:
+  args:
+    - ''
+  desc: 'リポジトリで利用可能な最新バージョンにボットを更新します。'
+  params: [ ]
+update_noparams:
+  args:
+    - ''
+  desc: 'リポジトリで利用可能な最新バージョンにボットを更新します。'
+  params: [ ]
+update_noparams_1:
+  args:
+    - ''
+  desc: 'リポジトリで利用可能な最新バージョンにボットを更新します。'
+  params: [ ]
+update_noparams_2:
+  args:
+    - ''
+  desc: 'リポジトリで利用可能な最新バージョンにボットを更新します。'
+  params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: '登録されているすべてのボットインスタンスを更新します。'
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: '特定のボットインスタンスを更新します。'
+  params:
+    - desc: '更新するインスタンスのポート番号です。'
+      name: instancePort
+      optional: false
+      type: int
+wait:
+  args:
+    - number
+  desc: '指定したミリ秒数だけ遅延させる wait コマンドを実行します。'
+  params:
+    - &ref_651
+      desc: '遅延させるミリ秒数です。'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int:
+  args:
+    - number
+  desc: '指定したミリ秒数だけ遅延させる wait コマンドを実行します。'
+  params:
+    - desc: '遅延させるミリ秒数です。'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_1:
+  args:
+    - number
+  desc: '指定したミリ秒数だけ遅延させる wait コマンドを実行します。'
+  params:
+    - desc: '遅延させるミリ秒数です。'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_2:
+  args:
+    - number
+  desc: '指定したミリ秒数だけ遅延させる wait コマンドを実行します。'
+  params:
+    - desc: '遅延させるミリ秒数です。'
+      name: miliseconds
+      optional: false
+      type: int

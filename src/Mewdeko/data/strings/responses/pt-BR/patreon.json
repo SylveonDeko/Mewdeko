@@ -47,7 +47,7 @@
   "patreon_no_supporters": "Nenhum apoiador Patreon ativo encontrado. Use o comando sync para buscar dados de apoiadores.",
   "patreon_no_tiers": "Nenhum nível de Patreon encontrado. Use o comando sync para buscar dados de níveis.",
   "patreon_not_linked": "Não vinculado",
-  "patreon_oauth_title": "Patreon OAuth",
+  "patreon_oauth_title": "OAuth do Patreon",
   "patreon_recognize_invalid_channel": "Não posso enviar mensagens de reconhecimento neste tipo de canal.",
   "patreon_recognize_none": "Nenhum novo apoiador para reconhecer nos últimos 7 dias.",
   "patreon_recognize_success": "Enviadas {0} mensagens de reconhecimento de apoiador para {1}!",

@@ -1,0 +1,1059 @@
+addchattrigger:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu.'
+  params:
+    - &ref_9
+      desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - &ref_10
+      desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu.'
+  params:
+    - desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu.'
+  params:
+    - desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addchattrigger_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu.'
+  params:
+    - desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu z obsługą regex.'
+  params:
+    - desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu z obsługą regex.'
+  params:
+    - desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - &ref_11
+      desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_1:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu z obsługą regex.'
+  params:
+    - desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addchattriggerregex_string_string_2:
+  args:
+    - text text
+    - text
+  desc: 'Dodaje nowy wyzwalacz czatu z obsługą regex.'
+  params:
+    - desc: 'Klucz wyzwalacza czatu.'
+      name: key
+      optional: false
+      type: string
+    - desc: 'Wiadomość powiązana z wyzwalaczem czatu.'
+      name: message
+      optional: true
+      type: string
+addreactiontrigger:
+  args:
+    - text text
+  desc: 'Dodaje nowy wyzwalacz czatu oparty na reakcjach.'
+  params:
+    - desc: 'Emoji reakcji, na które ma reagować wyzwalacz.'
+      name: reaction
+      optional: false
+      type: string
+    - desc: 'Wiadomość do wysłania po uruchomieniu.'
+      name: message
+      optional: true
+      type: string?
+chattriggerrolegranttype:
+  args:
+    - number type
+  desc: 'Ustawia typ nadawania roli dla wyzwalacza czatu.'
+  params:
+    - &ref_130
+      desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_131
+      desc: 'Typ nadawania roli do ustawienia.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType:
+  args:
+    - number type
+  desc: 'Ustawia typ nadawania roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ nadawania roli do ustawienia.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_1:
+  args:
+    - number type
+  desc: 'Ustawia typ nadawania roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ nadawania roli do ustawienia.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerrolegranttype_int_CtRoleGrantType_2:
+  args:
+    - number type
+  desc: 'Ustawia typ nadawania roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ nadawania roli do ustawienia.'
+      name: type
+      optional: false
+      type: CtRoleGrantType
+chattriggerscrosspostchannel:
+  args:
+    - channel
+  desc: 'Ustawia kanał do cross-postingu wyzwalacza czatu.'
+  params:
+    - desc: 'Kanał do cross-postingu.'
+      name: channel
+      optional: false
+      type: ITextChannel
+chattriggerscrosspostwebhook:
+  args:
+    - webhook
+  desc: 'Ustawia webhook do cross-postingu wyzwalacza czatu.'
+  params:
+    - desc: 'Adres URL webhooka do cross-postingu.'
+      name: webhook
+      optional: false
+      type: string
+chattriggervalidtype:
+  args:
+    - number type true|false
+  desc: 'Ustawia, czy wyzwalacz czatu jest aktywny dla danego typu wyzwalacza.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_132
+      desc: 'Typ wyzwalacza, dla którego ustawić aktywność.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - &ref_133
+      desc: 'Czy typ wyzwalacza ma być włączony, czy wyłączony.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool:
+  args:
+    - number type true|false
+  desc: 'Ustawia, czy wyzwalacz czatu jest aktywny dla danego typu wyzwalacza.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ wyzwalacza, dla którego ustawić aktywność.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Czy typ wyzwalacza ma być włączony, czy wyłączony.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_1:
+  args:
+    - number type true|false
+  desc: 'Ustawia, czy wyzwalacz czatu jest aktywny dla danego typu wyzwalacza.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ wyzwalacza, dla którego ustawić aktywność.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Czy typ wyzwalacza ma być włączony, czy wyłączony.'
+      name: enabled
+      optional: false
+      type: bool
+chattriggervalidtype_int_ChatTriggerType_bool_2:
+  args:
+    - number type true|false
+  desc: 'Ustawia, czy wyzwalacz czatu jest aktywny dla danego typu wyzwalacza.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ wyzwalacza, dla którego ustawić aktywność.'
+      name: type
+      optional: false
+      type: ChatTriggerType
+    - desc: 'Czy typ wyzwalacza ma być włączony, czy wyłączony.'
+      name: enabled
+      optional: false
+      type: bool
+ctad:
+  args:
+    - number
+  desc: 'Ustawia automatyczne usuwanie wyzwalacza czatu po jego uruchomieniu.'
+  params:
+    - &ref_162
+      desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctad_int:
+  args:
+    - number
+  desc: 'Ustawia automatyczne usuwanie wyzwalacza czatu po jego uruchomieniu.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctad_int_1:
+  args:
+    - number
+  desc: 'Ustawia automatyczne usuwanie wyzwalacza czatu po jego uruchomieniu.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctad_int_2:
+  args:
+    - number
+  desc: 'Ustawia automatyczne usuwanie wyzwalacza czatu po jego uruchomieniu.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctat:
+  args:
+    - number
+  desc: 'Ustawia wyzwalacz czatu tak, aby pozwalał na wskazywanie celu.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctca:
+  args:
+    - number
+  desc: 'Ustawia wyzwalacz czatu tak, aby dopasowywał się do dowolnego miejsca w wiadomości.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctcpsetchannel:
+  args:
+    - number channel
+  desc: 'Ustawia kanał cross-postingu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_163
+      desc: 'Kanał do ustawienia jako cel cross-postingu.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Ustawia kanał cross-postingu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Kanał do ustawienia jako cel cross-postingu.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Ustawia kanał cross-postingu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Kanał do ustawienia jako cel cross-postingu.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetchannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Ustawia kanał cross-postingu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Kanał do ustawienia jako cel cross-postingu.'
+      name: channel
+      optional: false
+      type: ITextChannel
+ctcpsetwebhook:
+  args:
+    - number text
+  desc: 'Ustawia adres URL webhooka do cross-postingu wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_164
+      desc: 'Adres URL webhooka do ustawienia.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string:
+  args:
+    - number text
+  desc: 'Ustawia adres URL webhooka do cross-postingu wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Adres URL webhooka do ustawienia.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_1:
+  args:
+    - number text
+  desc: 'Ustawia adres URL webhooka do cross-postingu wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Adres URL webhooka do ustawienia.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctcpsetwebhook_int_string_2:
+  args:
+    - number text
+  desc: 'Ustawia adres URL webhooka do cross-postingu wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Adres URL webhooka do ustawienia.'
+      name: webhookUrl
+      optional: false
+      type: string
+ctdm:
+  args:
+    - number
+  desc: 'Ustawia wyzwalacz czatu tak, aby wysyłał w odpowiedzi wiadomość prywatną.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctinterephemeral:
+  args:
+    - number true|false
+  desc: 'Ustawia, czy odpowiedź na interakcję dla wyzwalacza czatu ma być widoczna tylko dla wywołującego. Żeby nie pokazywać innym moich cierpień z dokumentacją!'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_165
+      desc: 'Prawda, jeśli odpowiedź ma być widoczna tylko dla wywołującego, fałsz w przeciwnym razie.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool:
+  args:
+    - number true|false
+  desc: 'Ustawia, czy odpowiedź na interakcję dla wyzwalacza czatu ma być widoczna tylko dla wywołującego. Żeby nie pokazywać innym moich cierpień z dokumentacją!'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Prawda, jeśli odpowiedź ma być widoczna tylko dla wywołującego, fałsz w przeciwnym razie.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Ustawia, czy odpowiedź na interakcję dla wyzwalacza czatu ma być widoczna tylko dla wywołującego. Żeby nie pokazywać innym moich cierpień z dokumentacją!'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Prawda, jeśli odpowiedź ma być widoczna tylko dla wywołującego, fałsz w przeciwnym razie.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctinterephemeral_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Ustawia, czy odpowiedź na interakcję dla wyzwalacza czatu ma być widoczna tylko dla wywołującego. Żeby nie pokazywać innym moich cierpień z dokumentacją!'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Prawda, jeśli odpowiedź ma być widoczna tylko dla wywołującego, fałsz w przeciwnym razie.'
+      name: ephemeral
+      optional: false
+      type: bool
+ctintererrors:
+  args:
+    - ''
+  desc: 'Wyświetla błędy interakcji dla wyzwalaczy czatu.'
+  params: [ ]
+ctnr:
+  args:
+    - number
+  desc: 'Ustawia wyzwalacz czatu tak, aby nie odpowiadał.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+ctprefix:
+  args:
+    - number text
+  desc: 'Ustawia prefiks dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_166
+      desc: 'Nowy prefiks do ustawienia.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string:
+  args:
+    - number text
+  desc: 'Ustawia prefiks dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nowy prefiks do ustawienia.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_1:
+  args:
+    - number text
+  desc: 'Ustawia prefiks dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nowy prefiks do ustawienia.'
+      name: prefix
+      optional: false
+      type: string
+ctprefix_int_string_2:
+  args:
+    - number text
+  desc: 'Ustawia prefiks dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nowy prefiks do ustawienia.'
+      name: prefix
+      optional: false
+      type: string
+ctprefixtype:
+  args:
+    - number type
+  desc: 'Ustawia typ prefiksu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_167
+      desc: 'Typ prefiksu do ustawienia.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType:
+  args:
+    - number type
+  desc: 'Ustawia typ prefiksu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ prefiksu do ustawienia.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_1:
+  args:
+    - number type
+  desc: 'Ustawia typ prefiksu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ prefiksu do ustawienia.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctprefixtype_int_RequirePrefixType_2:
+  args:
+    - number type
+  desc: 'Ustawia typ prefiksu dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ prefiksu do ustawienia.'
+      name: type
+      optional: false
+      type: RequirePrefixType
+ctreact:
+  args:
+    - number text
+  desc: 'Ustawia reakcje dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_168
+      desc: 'Ciągi emoji do ustawienia jako reakcje.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]:
+  args:
+    - number text
+  desc: 'Ustawia reakcje dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ciągi emoji do ustawienia jako reakcje.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_1:
+  args:
+    - number text
+  desc: 'Ustawia reakcje dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ciągi emoji do ustawienia jako reakcje.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctreact_int_string[]_2:
+  args:
+    - number text
+  desc: 'Ustawia reakcje dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ciągi emoji do ustawienia jako reakcje.'
+      name: emojiStrs
+      optional: false
+      type: string[]
+ctrgranttoggle:
+  args:
+    - number @role
+  desc: 'Przełącza nadawanie roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_169
+      desc: 'Rola do przełączenia.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole:
+  args:
+    - number @role
+  desc: 'Przełącza nadawanie roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Rola do przełączenia.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Przełącza nadawanie roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Rola do przełączenia.'
+      name: role
+      optional: false
+      type: IRole
+ctrgranttoggle_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Przełącza nadawanie roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Rola do przełączenia.'
+      name: role
+      optional: false
+      type: IRole
+ctrremovetoggle:
+  args:
+    - number @role
+  desc: 'Przełącza usuwanie roli dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Rola do przełączenia.'
+      name: role
+      optional: false
+      type: IRole
+ctsclear:
+  args:
+    - ''
+  desc: 'Usuwa wszystkie wyzwalacze czatu.'
+  params: [ ]
+ctsexport:
+  args:
+    - ''
+  desc: 'Eksportuje ustawienia wyzwalaczy czatu dla bieżącego serwera.'
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: 'Migruje stare wyzwalacze czatu w formacie CrEmbed do nowego formatu embedów. Najpierw eksportuje kopię zapasową, a następnie konwertuje wszystkie wyzwalacze.'
+  params: [ ]
+ctsimport:
+  args:
+    - '[input]'
+  desc: 'Importuje ustawienia wyzwalaczy czatu dla bieżącego serwera.'
+  params:
+    - desc: 'Dane wejściowe z ustawieniami niestandardowych reakcji.'
+      name: input
+      optional: true
+      type: string
+ctsreload:
+  args:
+    - ''
+  desc: 'Ponownie wczytuje wyzwalacze czatu.'
+  params: [ ]
+deletechattrigger:
+  args:
+    - number
+  desc: 'Usuwa wyzwalacz czatu po jego ID.'
+  params:
+    - desc: 'ID wyzwalacza czatu do usunięcia.'
+      name: id
+      optional: false
+      type: int
+editchattrigger:
+  args:
+    - number text
+    - number
+  desc: 'Edytuje istniejący wyzwalacz czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nowa wiadomość dla wyzwalacza czatu.'
+      name: message
+      optional: true
+      type: string
+listchattriggers:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie wyzwalacze czatu.'
+  params: [ ]
+listchattriggersgroup:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie wyzwalacze czatu pogrupowane według wyzwalacza.'
+  params: [ ]
+rtt:
+  args:
+    - number
+  desc: 'Ustawia wyzwalacz czatu tak, aby reagował na wyzwalacz.'
+  params:
+    - desc: 'ID wyzwalacza czatu do edycji.'
+      name: id
+      optional: false
+      type: int
+setctinterdesc:
+  args:
+    - number text
+  desc: 'Ustawia opis interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_496
+      desc: 'Opis do ustawienia dla interakcji.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string:
+  args:
+    - number text
+  desc: 'Ustawia opis interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Opis do ustawienia dla interakcji.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_1:
+  args:
+    - number text
+  desc: 'Ustawia opis interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Opis do ustawienia dla interakcji.'
+      name: description
+      optional: false
+      type: string
+setctinterdesc_int_string_2:
+  args:
+    - number text
+  desc: 'Ustawia opis interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Opis do ustawienia dla interakcji.'
+      name: description
+      optional: false
+      type: string
+setctintername:
+  args:
+    - number text
+  desc: 'Ustawia nazwę interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_497
+      desc: 'Nazwa do ustawienia dla interakcji.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string:
+  args:
+    - number text
+  desc: 'Ustawia nazwę interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nazwa do ustawienia dla interakcji.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_1:
+  args:
+    - number text
+  desc: 'Ustawia nazwę interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nazwa do ustawienia dla interakcji.'
+      name: name
+      optional: false
+      type: string
+setctintername_int_string_2:
+  args:
+    - number text
+  desc: 'Ustawia nazwę interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nazwa do ustawienia dla interakcji.'
+      name: name
+      optional: false
+      type: string
+setctintertype:
+  args:
+    - number type
+  desc: 'Ustawia typ interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - &ref_498
+      desc: 'Typ interakcji do ustawienia.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType:
+  args:
+    - number type
+  desc: 'Ustawia typ interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ interakcji do ustawienia.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_1:
+  args:
+    - number type
+  desc: 'Ustawia typ interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ interakcji do ustawienia.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+setctintertype_int_CtApplicationCommandType_2:
+  args:
+    - number type
+  desc: 'Ustawia typ interakcji dla wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Typ interakcji do ustawienia.'
+      name: type
+      optional: false
+      type: CtApplicationCommandType
+showchattrigger:
+  args:
+    - number
+  desc: 'Pokazuje szczegóły konkretnego wyzwalacza czatu.'
+  params:
+    - &ref_544
+      desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int:
+  args:
+    - number
+  desc: 'Pokazuje szczegóły konkretnego wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_1:
+  args:
+    - number
+  desc: 'Pokazuje szczegóły konkretnego wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+showchattrigger_int_2:
+  args:
+    - number
+  desc: 'Pokazuje szczegóły konkretnego wyzwalacza czatu.'
+  params:
+    - desc: 'ID wyzwalacza czatu.'
+      name: id
+      optional: false
+      type: int
+ctevent:
+  desc: 'Ustawia zdarzenie, które może uruchomić wyzwalacz czatu.'
+cteventchannel:
+  desc: 'Ustawia kanał, na którym obsługiwane jest zdarzenie wyzwalacza czatu.'
+ctreply:
+  desc: 'Ustawia wiadomość, na którą odpowiada wyzwalacz czatu.'
+ctdeleteafter:
+  desc: 'Ustawia, po jakim czasie od wysłania odpowiedź wyzwalacza czatu zostanie usunięta.'
+ctcooldown:
+  desc: 'Ustawia cooldown dla wyzwalacza czatu.'
+ctrequirecounter:
+  desc: 'Ustawia wymóg licznika dla wyzwalacza czatu.'
+ctcategory:
+  desc: 'Ustawia kategorię wyzwalacza czatu.'
+ctcategorytoggle:
+  desc: 'Włącza lub wyłącza kategorię wyzwalaczy czatu.'
+cttest:
+  desc: 'Sprawdza, czy przykładowa wiadomość uruchomiłaby wyzwalacz czatu.'
+ctstats:
+  desc: 'Pokazuje statystyki aktywności wyzwalaczy czatu.'
+ctchain:
+  desc: 'Ustawia wyzwalacz czatu, który uruchamia się po innym wyzwalaczu.'
+ctallowbots:
+  desc: 'Określa, czy wyzwalacz czatu odpowiada botom.'
+ctcounters:
+  desc: 'Wyświetla liczniki wyzwalaczy czatu.'
+ctcounterset:
+  desc: 'Ustawia wartość licznika wyzwalacza czatu.'
+ctcounterdelete:
+  desc: 'Usuwa licznik wyzwalacza czatu.'
+ctplaceholders:
+  desc: 'Wyświetla symbole zastępcze dostępne dla wyzwalaczy czatu.'
+cttime:
+  desc: 'Ustawia aktywny przedział czasu dla wyzwalacza czatu.'
+ctexpiry:
+  desc: 'Ustawia czas wygaśnięcia wyzwalacza czatu.'
+ctmaxuses:
+  desc: 'Ustawia maksymalną liczbę uruchomień wyzwalacza czatu.'
+ctminage:
+  desc: 'Ustawia minimalny wiek konta dla wyzwalacza czatu.'
+ctminmember:
+  desc: 'Ustawia minimalny czas członkostwa na serwerze dla wyzwalacza czatu.'
+cttoggle:
+  desc: 'Włącza lub wyłącza wyzwalacz czatu.'
+ctaddresponse:
+  desc: 'Dodaje dodatkową odpowiedź do wyzwalacza czatu.'
+ctclearresponses:
+  desc: 'Usuwa dodatkowe odpowiedzi z wyzwalacza czatu.'
+ctresponsemode:
+  desc: 'Ustawia, jak wyzwalacz czatu wybiera swoje odpowiedzi.'
+ctcost:
+  desc: 'Ustawia koszt w walucie dla wyzwalacza czatu.'
+ctreward:
+  desc: 'Ustawia nagrodę w walucie dla wyzwalacza czatu.'
+ctxpreward:
+  desc: 'Ustawia nagrodę XP dla wyzwalacza czatu.'
+ctreqlevel:
+  desc: 'Ustawia wymagany poziom XP dla wyzwalacza czatu.'
+ctreqmsg:
+  desc: 'Ustawia komunikat o niespełnieniu wymogu dla wyzwalacza czatu.'

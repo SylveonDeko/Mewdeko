@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „anal”.'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - &ref_90
+      desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „boobs” w podanych odstępach czasu na bieżącym kanale serwera.'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „butts” w podanych odstępach czasu na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW z subreddita „butts” w podanych odstępach czasu na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - desc: 'Odstęp w sekundach między kolejnymi automatycznymi publikacjami. Ustaw 0, aby zatrzymać automatyczne publikowanie.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW. Oddziel wiele tagów znakiem „|”. Pozostaw puste, aby uzyskać losowe treści NSFW.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - desc: 'Odstęp w sekundach między kolejnymi automatycznymi publikacjami. Ustaw 0, aby zatrzymać automatyczne publikowanie.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW. Oddziel wiele tagów znakiem „|”. Pozostaw puste, aby uzyskać losowe treści NSFW.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - desc: 'Odstęp w sekundach między kolejnymi automatycznymi publikacjami. Ustaw 0, aby zatrzymać automatyczne publikowanie.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW. Oddziel wiele tagów znakiem „|”. Pozostaw puste, aby uzyskać losowe treści NSFW.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: 'Polecenie uruchamiające lub zatrzymujące automatyczne publikowanie treści NSFW w podanych odstępach czasu na bieżącym kanale serwera.'
+  params:
+    - desc: 'Odstęp w sekundach między kolejnymi automatycznymi publikacjami. Ustaw 0, aby zatrzymać automatyczne publikowanie.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW. Oddziel wiele tagów znakiem „|”. Pozostaw puste, aby uzyskać losowe treści NSFW.'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „bondage”.'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „boobs” na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „ass” na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Danbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_176
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Danbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Danbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Danbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Derpibooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_200
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Derpibooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Derpibooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Derpibooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu E621 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_203
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu E621 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu E621 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu E621 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z E621.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Gelbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_222
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Gelbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Gelbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Gelbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „hentai” z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_245
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z subreddita „hentai”.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „hentai” z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z subreddita „hentai”.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „hentai” z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z subreddita „hentai”.'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „hentai” z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z subreddita „hentai”.'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: 'Polecenie uruchamiające „hentai bomb”, czyli pobierające i wyświetlające treści NSFW z wielu źródeł z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z każdego źródła.'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „HENTAI_GIF”.'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Konachan z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_263
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Konachana.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Konachan z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Konachana.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Konachan z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Konachana.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Konachan z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Konachana.'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: 'Polecenie pobierające i wyświetlające informacje o mandze z serwisu NHentai.'
+  params:
+    - &ref_327
+      desc: 'Numer identyfikacyjny mangi do pobrania.'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: 'Polecenie pobierające i wyświetlające informacje o mandze z serwisu NHentai.'
+  params:
+    - desc: 'Numer identyfikacyjny mangi do pobrania.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: 'Polecenie pobierające i wyświetlające informacje o mandze z serwisu NHentai.'
+  params:
+    - desc: 'Numer identyfikacyjny mangi do pobrania.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: 'Polecenie pobierające i wyświetlające informacje o mandze z serwisu NHentai.'
+  params:
+    - desc: 'Numer identyfikacyjny mangi do pobrania.'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - &ref_328
+      desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Numer strony wyników wyszukiwania NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Typ wyszukiwania NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: 'Polecenie wyszukujące mangę hentai na NHentai według podanego zapytania, numeru strony, typu i czarnej listy.'
+  params:
+    - desc: 'Zapytanie wyszukiwania dla NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Czarna lista dla wyszukiwania NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: 'Zarządza czarną listą tagów NSFW.'
+  params:
+    - desc: 'Działanie do wykonania (add/remove).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Tag do dodania na czarną listę.'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: 'Polecenie zarządzające czarną listą tagów NSFW na bieżącym serwerze.'
+  params:
+    - desc: 'Opcjonalny tag do dodania lub usunięcia z czarnej listy. Jeśli nie podano, wyświetla aktualną listę tagów na czarnej liście.'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „porn”.'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: 'Polecenie uruchamiające „porn bomb”, czyli pobierające i wyświetlające treści NSFW ze źródła RealBooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_352
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW ze źródła RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: 'Polecenie uruchamiające „porn bomb”, czyli pobierające i wyświetlające treści NSFW ze źródła RealBooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW ze źródła RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie uruchamiające „porn bomb”, czyli pobierające i wyświetlające treści NSFW ze źródła RealBooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW ze źródła RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie uruchamiające „porn bomb”, czyli pobierające i wyświetlające treści NSFW ze źródła RealBooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW ze źródła RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z subreddita „pussy”.'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Realbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_383
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Realbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Realbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Realbooru z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: 'Polecenie pobierające treści NSFW z wybranego subreddita.'
+  params:
+    - &ref_384
+      desc: 'Nazwa subreddita, z którego pobrać treści.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: 'Polecenie pobierające treści NSFW z wybranego subreddita.'
+  params:
+    - desc: 'Nazwa subreddita, z którego pobrać treści.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające treści NSFW z wybranego subreddita.'
+  params:
+    - desc: 'Nazwa subreddita, z którego pobrać treści.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające treści NSFW z wybranego subreddita.'
+  params:
+    - desc: 'Nazwa subreddita, z którego pobrać treści.'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Rule34 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_472
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Rule34 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Rule34 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Rule34 z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Sankaku z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_474
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Sankaku z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Sankaku z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Sankaku z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Yandere z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - &ref_674
+      desc: 'Opcjonalne tagi do filtrowania treści NSFW z Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Yandere z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Yandere z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: 'Polecenie pobierające i wyświetlające treści NSFW z serwisu Yandere z opcjonalnymi tagami na bieżącym kanale serwera lub w wiadomościach prywatnych.'
+  params:
+    - desc: 'Opcjonalne tagi do filtrowania treści NSFW z Yandere.'
+      name: tags
+      optional: false
+      type: string[]

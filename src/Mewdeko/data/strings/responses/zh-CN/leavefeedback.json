@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "很遗憾看到我要走了！",
+  "leave_feedback_desc": "我刚刚被移出了 **{0}**。如果你有一点时间，能告诉我原因吗？这对决定我接下来优先改进什么真的很有帮助，而且你不会再因为这个服务器而被打扰。",
+  "leave_feedback_footer": "回答完全是可选的。",
+  "leave_feedback_placeholder": "为什么机器人被移除了？",
+  "leave_feedback_write_button": "写点什么",
+  "leave_feedback_dismiss_button": "不了，谢谢",
+  "leave_feedback_reason_not_needed": "我们不再需要它了",
+  "leave_feedback_reason_confusing": "设置起来太复杂",
+  "leave_feedback_reason_missing_features": "缺少我们需要的功能",
+  "leave_feedback_reason_unreliable": "之前经常出问题，不太可靠",
+  "leave_feedback_reason_other_bot": "我们换用其他机器人了",
+  "leave_feedback_reason_temporary": "只是暂时移除，之后会再加回来",
+  "leave_feedback_reason_testing": "只是测试一下",
+  "leave_feedback_thanks": "收到，已记录：**{0}**。如果还想补充什么，可以点下面的按钮。",
+  "leave_feedback_submitted": "谢谢你，反馈已经转达！",
+  "leave_feedback_dismissed": "没问题，之后不会再问你了。"
+}

@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Muestra todos los menús de roles de este servidor con su canal, tipo, número de opciones y estado.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Muestra todos los datos de un menú de roles: canal, tipo, reglas de selección, rol requerido, confirmación y opciones.'
+  params:
+    - desc: 'El ID del menú de rolemenus.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Publica un nuevo menú de roles en un canal, con una opción por rol. Los miembros eligen desde un menú desplegable o una fila de botones para obtener o quitarse esos roles.'
+  params:
+    - desc: 'El canal donde publicar el menú.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'menú desplegable o botones.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: 'Uno o varios roles, hasta 25.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Añade un rol a un menú, con un emoji y un nombre opcionales, y actualiza el mensaje publicado.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'El rol que otorga la nueva opción.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Un emoji opcional seguido del nombre que se muestra en el menú. Por defecto, el nombre del rol.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Quita un rol de un menú y actualiza el mensaje publicado.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'El rol que se quitará del menú.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Renombra un menú. El nombre sirve como título del mensaje predeterminado y aparece en las listas.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'El nuevo nombre, de hasta 100 caracteres.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Establece el texto encima de un menú, como texto plano o como JSON de embed desde el creador de embeds. Envía solo el ID para ver el mensaje actual, o "clear" para volver a la lista de opciones predeterminada.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'El mensaje, "clear", o nada para ver el actual.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Cambia un menú entre menú desplegable y botones.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'menú desplegable o botones.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Establece si los miembros eligen un solo rol (elegir otro lo reemplaza) o cualquier número de roles del menú.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'exclusive para elegir uno, multi para elegir cualquiera.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Establece cuántos roles de un menú debe mantener y puede tener un miembro. Un máximo de 0 significa sin límite.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'El mínimo de roles que debe mantener un miembro una vez que elige.'
+      name: min
+      optional: false
+      type: int
+    - desc: 'El máximo de roles que puede tener un miembro, 0 para sin límite.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Solo permite usar el menú a los miembros con un rol. Omite el rol para que cualquiera pueda usarlo.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'El rol necesario para usar el menú. Omítelo para quitarlo.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Elige si los miembros reciben una nota privada con los roles que ganaron y perdieron, o ninguna nota.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private o silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Pausa un menú, atenuando su menú desplegable o botones, o lo reanuda si está pausado.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Publica una copia nueva de un menú, en el mismo canal u otro, y elimina el mensaje antiguo.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Dónde publicarlo. Por defecto, su canal actual.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Elimina un menú y su mensaje. Los miembros conservan los roles que ya eligieron.'
+  params:
+    - desc: 'El ID del menú.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Mueve una configuración antigua de roles por emoji de un mensaje a un nuevo menú de roles en el mismo canal, y después retira la configuración antigua.'
+  params:
+    - desc: 'El ID del mensaje con la configuración antigua.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'menú desplegable o botones. Por defecto, menú desplegable.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

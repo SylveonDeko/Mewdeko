@@ -235,7 +235,7 @@ afktype:
   desc: '設定伺服器的AFK行為類型。'
   params:
     - &ref_54
-      desc: '要設定的AFK行為類型。 <see cref="AfkTypeEnum" />'
+      desc: '要設定的AFK行為類型。'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -247,7 +247,7 @@ afktype_AfkTypeEnum:
     - ontype
   desc: '設定伺服器的AFK行為類型。'
   params:
-    - desc: '要設定的AFK行為類型。 <see cref="AfkTypeEnum" />'
+    - desc: '要設定的AFK行為類型。'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -259,7 +259,7 @@ afktype_AfkTypeEnum_1:
     - ontype
   desc: '設定伺服器的AFK行為類型。'
   params:
-    - desc: '要設定的AFK行為類型。 <see cref="AfkTypeEnum" />'
+    - desc: '要設定的AFK行為類型。'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -271,7 +271,7 @@ afktype_AfkTypeEnum_2:
     - ontype
   desc: '設定伺服器的AFK行為類型。'
   params:
-    - desc: '要設定的AFK行為類型。 <see cref="AfkTypeEnum" />'
+    - desc: '要設定的AFK行為類型。'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum

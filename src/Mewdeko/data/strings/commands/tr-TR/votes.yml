@@ -1,9 +1,7 @@
 votechannel:
   args:
     - channel
-  desc: >-
-    Belirtilen metin kanalını, tüm oy onaylarının gönderileceği oy kanalı
-    olarak ayarlar.
+  desc: 'Tüm oy onaylarının gönderileceği oy kanalı olarak belirtilen metin kanalını ayarlar.'
   params:
     - &ref_646
       desc: 'Oy kanalı olarak ayarlanacak metin kanalı.'
@@ -13,9 +11,7 @@ votechannel:
 votechannel_ITextChannel:
   args:
     - channel
-  desc: >-
-    Belirtilen metin kanalını, tüm oy onaylarının gönderileceği oy kanalı
-    olarak ayarlar.
+  desc: 'Tüm oy onaylarının gönderileceği oy kanalı olarak belirtilen metin kanalını ayarlar.'
   params:
     - desc: 'Oy kanalı olarak ayarlanacak metin kanalı.'
       name: channel
@@ -24,9 +20,7 @@ votechannel_ITextChannel:
 votechannel_ITextChannel_1:
   args:
     - channel
-  desc: >-
-    Belirtilen metin kanalını, tüm oy onaylarının gönderileceği oy kanalı
-    olarak ayarlar.
+  desc: 'Tüm oy onaylarının gönderileceği oy kanalı olarak belirtilen metin kanalını ayarlar.'
   params:
     - desc: 'Oy kanalı olarak ayarlanacak metin kanalı.'
       name: channel
@@ -35,9 +29,7 @@ votechannel_ITextChannel_1:
 votechannel_ITextChannel_2:
   args:
     - channel
-  desc: >-
-    Belirtilen metin kanalını, tüm oy onaylarının gönderileceği oy kanalı
-    olarak ayarlar.
+  desc: 'Tüm oy onaylarının gönderileceği oy kanalı olarak belirtilen metin kanalını ayarlar.'
   params:
     - desc: 'Oy kanalı olarak ayarlanacak metin kanalı.'
       name: channel
@@ -46,28 +38,22 @@ votechannel_ITextChannel_2:
 votemessage:
   args:
     - '[message]'
-  desc: >-
-    Bir kullanıcı oy verdiğinde gönderilecek özel mesajı ayarlar veya mevcut
-    oy mesajını önizler.
+  desc: 'Bir kullanıcı oy verdiğinde veya mevcut oy mesajını önizlediğinde gönderilecek özel mesajı ayarlar.'
   params:
-    - desc: 'Oylar için ayarlanacak özel mesaj. Varsayılan mesaja sıfırlamak için "-" kullanın. Null ise mevcut oy mesajını önizler.'
+    - desc: 'Oylar için ayarlanacak özel mesaj. Varsayılan mesaja dönmek için "-" kullanın. Boş bırakılırsa mevcut oy mesajını önizler.'
       name: message
       optional: true
       type: string
 votepassword:
   args:
     - ''
-  desc: >-
-    Yeni bir oy şifresi belirlemek için bir onay süreci başlatır ve kullanıcıyı
-    güvenliği konusunda uyarır.
+  desc: 'Güvenliği konusunda uyararak yeni bir oy şifresi ayarlamak için onay süreci başlatır.'
   params: [ ]
 voteroleadd:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Kullanıcılar oy verdiğinde verilecek bir rol ekler, isteğe bağlı olarak
-    rolün otomatik kaldırılma süresiyle birlikte.
+  desc: 'Oy veren kullanıcılara verilecek bir rol ekler; rolün otomatik kaldırılması için isteğe bağlı süre belirlenebilir.'
   params:
     - desc: 'Oy ödülü olarak eklenecek rol.'
       name: role
@@ -81,9 +67,7 @@ voteroleadd_IRole_=:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Kullanıcılar oy verdiğinde verilecek bir rol ekler, isteğe bağlı olarak
-    rolün otomatik kaldırılma süresiyle birlikte.
+  desc: 'Oy veren kullanıcılara verilecek bir rol ekler; rolün otomatik kaldırılması için isteğe bağlı süre belirlenebilir.'
   params:
     - desc: 'Oy ödülü olarak eklenecek rol.'
       name: role
@@ -97,9 +81,7 @@ voteroleadd_IRole_=_1:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Kullanıcılar oy verdiğinde verilecek bir rol ekler, isteğe bağlı olarak
-    rolün otomatik kaldırılma süresiyle birlikte.
+  desc: 'Oy veren kullanıcılara verilecek bir rol ekler; rolün otomatik kaldırılması için isteğe bağlı süre belirlenebilir.'
   params:
     - desc: 'Oy ödülü olarak eklenecek rol.'
       name: role
@@ -113,9 +95,7 @@ voteroleadd_IRole_=_2:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    Kullanıcılar oy verdiğinde verilecek bir rol ekler, isteğe bağlı olarak
-    rolün otomatik kaldırılma süresiyle birlikte.
+  desc: 'Oy veren kullanıcılara verilecek bir rol ekler; rolün otomatik kaldırılması için isteğe bağlı süre belirlenebilir.'
   params:
     - desc: 'Oy ödülü olarak eklenecek rol.'
       name: role
@@ -128,7 +108,7 @@ voteroleadd_IRole_=_2:
 voteroleedit:
   args:
     - '@role time'
-  desc: 'Bir oy rolünün kullanıcılara verileceği süreyi düzenler.'
+  desc: 'Kullanıcılara verilen oy rolünün süresini düzenler.'
   params:
     - &ref_648
       desc: 'Düzenlenecek rol.'
@@ -136,53 +116,53 @@ voteroleedit:
       optional: false
       type: IRole
     - &ref_649
-      desc: 'Rolün verileceği yeni süre.'
+      desc: 'Rol için yeni süre.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime:
   args:
     - '@role time'
-  desc: 'Bir oy rolünün kullanıcılara verileceği süreyi düzenler.'
+  desc: 'Kullanıcılara verilen oy rolünün süresini düzenler.'
   params:
     - desc: 'Düzenlenecek rol.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Rolün verileceği yeni süre.'
+    - desc: 'Rol için yeni süre.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_1:
   args:
     - '@role time'
-  desc: 'Bir oy rolünün kullanıcılara verileceği süreyi düzenler.'
+  desc: 'Kullanıcılara verilen oy rolünün süresini düzenler.'
   params:
     - desc: 'Düzenlenecek rol.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Rolün verileceği yeni süre.'
+    - desc: 'Rol için yeni süre.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_2:
   args:
     - '@role time'
-  desc: 'Bir oy rolünün kullanıcılara verileceği süreyi düzenler.'
+  desc: 'Kullanıcılara verilen oy rolünün süresini düzenler.'
   params:
     - desc: 'Düzenlenecek rol.'
       name: role
       optional: false
       type: IRole
-    - desc: 'Rolün verileceği yeni süre.'
+    - desc: 'Rol için yeni süre.'
       name: time
       optional: false
       type: StoopidTime
 voteroleremove:
   args:
     - '@role'
-  desc: 'Kullanıcılar oy verdiğinde verilen roller listesinden bir rolü kaldırır.'
+  desc: 'Oy verildiğinde kullanıcılara verilecek roller listesinden bir rol çıkarır.'
   params:
     - &ref_650
       desc: 'Oy ödüllerinden kaldırılacak rol.'
@@ -192,7 +172,7 @@ voteroleremove:
 voteroleremove_IRole:
   args:
     - '@role'
-  desc: 'Kullanıcılar oy verdiğinde verilen roller listesinden bir rolü kaldırır.'
+  desc: 'Oy verildiğinde kullanıcılara verilecek roller listesinden bir rol çıkarır.'
   params:
     - desc: 'Oy ödüllerinden kaldırılacak rol.'
       name: role
@@ -201,7 +181,7 @@ voteroleremove_IRole:
 voteroleremove_IRole_1:
   args:
     - '@role'
-  desc: 'Kullanıcılar oy verdiğinde verilen roller listesinden bir rolü kaldırır.'
+  desc: 'Oy verildiğinde kullanıcılara verilecek roller listesinden bir rol çıkarır.'
   params:
     - desc: 'Oy ödüllerinden kaldırılacak rol.'
       name: role
@@ -210,7 +190,7 @@ voteroleremove_IRole_1:
 voteroleremove_IRole_2:
   args:
     - '@role'
-  desc: 'Kullanıcılar oy verdiğinde verilen roller listesinden bir rolü kaldırır.'
+  desc: 'Oy verildiğinde kullanıcılara verilecek roller listesinden bir rol çıkarır.'
   params:
     - desc: 'Oy ödüllerinden kaldırılacak rol.'
       name: role
@@ -219,34 +199,28 @@ voteroleremove_IRole_2:
 voterolesclear:
   args:
     - ''
-  desc: 'Kullanıcılar oy verdiğinde verilen tüm rolleri temizler.'
+  desc: 'Oy verildiğinde kullanıcılara verilen tüm rolleri temizler.'
   params: [ ]
 voteroleslist:
   args:
     - ''
-  desc: 'Kullanıcılar oy verdiğinde verilen tüm rolleri listeler.'
+  desc: 'Oy verildiğinde kullanıcılara verilen tüm rolleri listeler.'
   params: [ ]
 votes:
   args:
     - '[@user]'
-  desc: >-
-    Belirli bir kullanıcının veya komutu çalıştıranın kullandığı toplam oy
-    sayısını gösterir.
+  desc: 'Belirli bir kullanıcının veya komutu kullananın kullandığı toplam oy sayısını gösterir.'
   params:
-    - desc: 'Oyları sayılacak kullanıcı. Null ise komutu çalıştıranın oyları sayılır.'
+    - desc: 'Oyları sayılacak kullanıcı. Boş bırakılırsa komutu kullananın oyları sayılır.'
       name: user
       optional: true
       type: user
 votesleaderboard:
   args:
     - false
-  desc: >-
-    Kullanıcıların oy sayılarına göre sıralanmış bir liderlik tablosu gösterir,
-    isteğe bağlı olarak mevcut aydaki oyları filtreler.
+  desc: 'Oy sayılarına göre kullanıcıların sıralamasını gösterir; isteğe bağlı olarak yalnızca bu ayki oyları filtreler.'
   params:
-    - desc: >-
-        Kullanıcıların oy sayılarına göre sıralanmış bir liderlik tablosu gösterir,
-        isteğe bağlı olarak mevcut aydaki oyları filtreler.
+    - desc: 'Oy sayılarına göre kullanıcıların sıralamasını gösterir; isteğe bağlı olarak yalnızca bu ayki oyları filtreler.'
       name: false
       optional: false
       type: '='

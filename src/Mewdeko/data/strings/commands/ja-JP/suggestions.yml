@@ -1,0 +1,838 @@
+accept:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を承認し、承認済みとしてマークします。'
+  params:
+    - desc: '承認する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を承認する理由です。'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を承認し、承認済みとしてマークします。'
+  params:
+    - desc: '承認する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を承認する理由です。'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を承認し、承認済みとしてマークします。'
+  params:
+    - desc: '承認する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を承認する理由です。'
+      name: reason
+      optional: true
+      type: string
+accept_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を承認し、承認済みとしてマークします。'
+  params:
+    - desc: '承認する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を承認する理由です。'
+      name: reason
+      optional: true
+      type: string
+acceptchannel:
+  args:
+    - '[@channel]'
+  desc: '承認された提案を投稿するチャンネルを設定します。'
+  params:
+    - desc: '承認された提案を投稿するチャンネルです。null の場合は、この機能を無効にします。'
+      name: channel
+      optional: true
+      type: channel
+acceptmessage:
+  args:
+    - text
+  desc: '提案の承認メッセージを設定または更新します。'
+  params:
+    - &ref_2
+      desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string:
+  args:
+    - text
+  desc: '提案の承認メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_1:
+  args:
+    - text
+  desc: '提案の承認メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+acceptmessage_string_2:
+  args:
+    - text
+  desc: '提案の承認メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+archiveonaccept:
+  args:
+    - ''
+  desc: '提案が承認されたときにアーカイブするかどうかを切り替えます。'
+  params: [ ]
+archiveonconsider:
+  args:
+    - ''
+  desc: '提案が検討中になったときにアーカイブするかどうかを切り替えます。'
+  params: [ ]
+archiveondeny:
+  args:
+    - ''
+  desc: '提案が却下されたときにアーカイブするかどうかを切り替えます。'
+  params: [ ]
+archiveonimplement:
+  args:
+    - ''
+  desc: '提案が実装されたときにアーカイブするかどうかを切り替えます。'
+  params: [ ]
+consider:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を検討中としてマークします。'
+  params:
+    - desc: '検討中としてマークする提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を検討する際のコメントや理由です。'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を検討中としてマークします。'
+  params:
+    - desc: '検討中としてマークする提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を検討する際のコメントや理由です。'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を検討中としてマークします。'
+  params:
+    - desc: '検討中としてマークする提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を検討する際のコメントや理由です。'
+      name: reason
+      optional: true
+      type: string
+consider_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を検討中としてマークします。'
+  params:
+    - desc: '検討中としてマークする提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を検討する際のコメントや理由です。'
+      name: reason
+      optional: true
+      type: string
+considerchannel:
+  args:
+    - '[@channel]'
+  desc: '検討中の提案を投稿するチャンネルを設定します。'
+  params:
+    - desc: '検討中の提案を投稿するチャンネルです。null の場合は、この機能を無効にします。'
+      name: channel
+      optional: true
+      type: channel
+considermessage:
+  args:
+    - text
+  desc: '提案の検討メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+deny:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を却下し、拒否済みとしてマークします。'
+  params:
+    - desc: '却下する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を却下する理由です。'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を却下し、拒否済みとしてマークします。'
+  params:
+    - desc: '却下する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を却下する理由です。'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_1:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を却下し、拒否済みとしてマークします。'
+  params:
+    - desc: '却下する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を却下する理由です。'
+      name: reason
+      optional: true
+      type: string
+deny_ulong_=_2:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を却下し、拒否済みとしてマークします。'
+  params:
+    - desc: '却下する提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。提案を却下する理由です。'
+      name: reason
+      optional: true
+      type: string
+denychannel:
+  args:
+    - '[@channel]'
+  desc: '却下された提案を投稿するチャンネルを設定します。'
+  params:
+    - desc: '却下された提案を投稿するチャンネルです。null の場合は、この機能を無効にします。'
+      name: channel
+      optional: true
+      type: channel
+denymessage:
+  args:
+    - text
+  desc: '提案の却下メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+implementchannel:
+  args:
+    - '[@channel]'
+  desc: '実装された提案を投稿するチャンネルを設定します。'
+  params:
+    - desc: '実装された提案を投稿するチャンネルです。null の場合は、この機能を無効にします。'
+      name: channel
+      optional: true
+      type: channel
+implemented:
+  args:
+    - '<sid> [reason]'
+    - sid
+  desc: '提案を実装済みとしてマークします。'
+  params:
+    - desc: '実装済みとしてマークする提案の一意の番号（ID）です。'
+      name: sid
+      optional: false
+      type: ulong
+    - desc: '省略可能です。実装に関する理由や詳細です。'
+      name: reason
+      optional: true
+      type: string
+implementmessage:
+  args:
+    - text
+  desc: '提案の実装メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+maxsuggestionlength:
+  args:
+    - number
+  desc: '提案の最大文字数を設定します。'
+  params:
+    - &ref_291
+      desc: '提案に使用できる最大文字数です。'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int:
+  args:
+    - number
+  desc: '提案の最大文字数を設定します。'
+  params:
+    - desc: '提案に使用できる最大文字数です。'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_1:
+  args:
+    - number
+  desc: '提案の最大文字数を設定します。'
+  params:
+    - desc: '提案に使用できる最大文字数です。'
+      name: length
+      optional: false
+      type: int
+maxsuggestionlength_int_2:
+  args:
+    - number
+  desc: '提案の最大文字数を設定します。'
+  params:
+    - desc: '提案に使用できる最大文字数です。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength:
+  args:
+    - number
+  desc: '提案の最小文字数を設定します。'
+  params:
+    - &ref_294
+      desc: '提案に必要な最小文字数です。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int:
+  args:
+    - number
+  desc: '提案の最小文字数を設定します。'
+  params:
+    - desc: '提案に必要な最小文字数です。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_1:
+  args:
+    - number
+  desc: '提案の最小文字数を設定します。'
+  params:
+    - desc: '提案に必要な最小文字数です。'
+      name: length
+      optional: false
+      type: int
+minsuggestionlength_int_2:
+  args:
+    - number
+  desc: '提案の最小文字数を設定します。'
+  params:
+    - desc: '提案に必要な最小文字数です。'
+      name: length
+      optional: false
+      type: int
+setsuggestchannel:
+  args:
+    - '[@channel]'
+  desc: 'サーバーの提案チャンネルを設定または無効にします。'
+  params:
+    - desc: '提案チャンネルとして設定するテキストチャンネルです。null の場合は、提案機能を無効にします。'
+      name: channel
+      optional: true
+      type: channel
+suggest:
+  args:
+    - text
+  desc: '新しい提案を指定された提案チャンネルに投稿します。'
+  params:
+    - &ref_582
+      desc: '投稿する提案の内容です。'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string:
+  args:
+    - text
+  desc: '新しい提案を指定された提案チャンネルに投稿します。'
+  params:
+    - desc: '投稿する提案の内容です。'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_1:
+  args:
+    - text
+  desc: '新しい提案を指定された提案チャンネルに投稿します。'
+  params:
+    - desc: '投稿する提案の内容です。'
+      name: suggestion
+      optional: false
+      type: string
+suggest_string_2:
+  args:
+    - text
+  desc: '新しい提案を指定された提案チャンネルに投稿します。'
+  params:
+    - desc: '投稿する提案の内容です。'
+      name: suggestion
+      optional: false
+      type: string
+suggestbuttonchannel:
+  args:
+    - channel
+  desc: '提案ボタンのチャンネルを設定します。'
+  params:
+    - &ref_583
+      desc: '提案ボタンのチャンネルとして設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel:
+  args:
+    - channel
+  desc: '提案ボタンのチャンネルを設定します。'
+  params:
+    - desc: '提案ボタンのチャンネルとして設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: '提案ボタンのチャンネルを設定します。'
+  params:
+    - desc: '提案ボタンのチャンネルとして設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttonchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: '提案ボタンのチャンネルを設定します。'
+  params:
+    - desc: '提案ボタンのチャンネルとして設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+suggestbuttoncolor:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案ボタンの色を設定します。'
+  params:
+    - &ref_584
+      desc: '提案ボタンの色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案ボタンの色を設定します。'
+  params:
+    - &ref_585
+      desc: '提案ボタンの色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_1:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案ボタンの色を設定します。'
+  params:
+    - desc: '提案ボタンの色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttoncolor_ButtonType_2:
+  args:
+    - blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案ボタンの色を設定します。'
+  params:
+    - desc: '提案ボタンの色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestbuttonemote:
+  args:
+    - '[emote]'
+  desc: '提案ボタンの絵文字を設定します。'
+  params:
+    - desc: '提案ボタンに使用する絵文字です。null の場合は既定値にリセットされます。'
+      name: emote
+      optional: true
+      type: emote
+suggestbuttonlabel:
+  args:
+    - text
+  desc: '提案ボタンのラベルを設定します。'
+  params:
+    - &ref_586
+      desc: '提案ボタンのラベルテキストです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string:
+  args:
+    - text
+  desc: '提案ボタンのラベルを設定します。'
+  params:
+    - desc: '提案ボタンのラベルテキストです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_1:
+  args:
+    - text
+  desc: '提案ボタンのラベルを設定します。'
+  params:
+    - desc: '提案ボタンのラベルテキストです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonlabel_string_2:
+  args:
+    - text
+  desc: '提案ボタンのラベルを設定します。'
+  params:
+    - desc: '提案ボタンのラベルテキストです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: false
+      type: string
+suggestbuttonmessage:
+  args:
+    - text
+  desc: '提案ボタンのメッセージを設定または更新します。'
+  params:
+    - &ref_587
+      desc: '提案ボタンに設定するメッセージです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string:
+  args:
+    - text
+  desc: '提案ボタンのメッセージを設定または更新します。'
+  params:
+    - desc: '提案ボタンに設定するメッセージです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_1:
+  args:
+    - text
+  desc: '提案ボタンのメッセージを設定または更新します。'
+  params:
+    - desc: '提案ボタンに設定するメッセージです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: true
+      type: string
+suggestbuttonmessage_string_2:
+  args:
+    - text
+  desc: '提案ボタンのメッセージを設定または更新します。'
+  params:
+    - desc: '提案ボタンに設定するメッセージです。既定値にリセットするには "-" を使用します。'
+      name: toSet
+      optional: true
+      type: string
+suggestclear:
+  args:
+    - ''
+  desc: 'サーバーのすべての提案を削除します。'
+  params: [ ]
+suggestinfo:
+  args:
+    - num
+  desc: '特定の提案の詳細情報を表示します。'
+  params:
+    - &ref_588
+      desc: '情報を取得する提案の一意の番号（ID）です。'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong:
+  args:
+    - num
+  desc: '特定の提案の詳細情報を表示します。'
+  params:
+    - desc: '情報を取得する提案の一意の番号（ID）です。'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_1:
+  args:
+    - num
+  desc: '特定の提案の詳細情報を表示します。'
+  params:
+    - desc: '情報を取得する提案の一意の番号（ID）です。'
+      name: num
+      optional: false
+      type: ulong
+suggestinfo_ulong_2:
+  args:
+    - num
+  desc: '特定の提案の詳細情報を表示します。'
+  params:
+    - desc: '情報を取得する提案の一意の番号（ID）です。'
+      name: num
+      optional: false
+      type: ulong
+suggestmessage:
+  args:
+    - text
+  desc: '提案メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string:
+  args:
+    - text
+  desc: '提案メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_1:
+  args:
+    - text
+  desc: '提案メッセージを設定または更新します。'
+  params:
+    - desc: ''
+      name: embed
+      optional: false
+      type: string
+suggestmessage_string_2:
+  args:
+    - text
+  desc: '提案メッセージを設定または更新します。'
+  params:
+    - desc: 'メッセージまたは埋め込みコードです。既定のメッセージにリセットするには "-" を使用します。'
+      name: embed
+      optional: false
+      type: string
+suggestmotecolor:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案の特定の絵文字ボタンの色を設定します。'
+  params:
+    - &ref_589
+      desc: '変更するボタンの番号です。'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボタンに適用する色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案の特定の絵文字ボタンの色を設定します。'
+  params:
+    - desc: '変更するボタンの番号です。'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボタンに適用する色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_1:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案の特定の絵文字ボタンの色を設定します。'
+  params:
+    - desc: '変更するボタンの番号です。'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボタンに適用する色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotecolor_int_ButtonType_2:
+  args:
+    - number blurple|blue|grey
+    - blurple
+    - blue
+    - grey
+  desc: '提案の特定の絵文字ボタンの色を設定します。'
+  params:
+    - desc: '変更するボタンの番号です。'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボタンに適用する色の種類です。'
+      name: type
+      optional: false
+      type: ButtonType
+suggestmotes:
+  args:
+    - '[_]'
+  desc: '提案で使用するカスタム絵文字を設定します。'
+  params:
+    - desc: 'カンマ区切りの絵文字文字列の一覧です。既定のリアクションを使用する場合は "disable" を指定します。'
+      name: _
+      optional: true
+      type: string
+suggestmotesmode:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '提案の絵文字をリアクションまたはボタンのどちらで表示するかを設定します。'
+  params:
+    - &ref_590
+      desc: '提案の絵文字に使用するモードです。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '提案の絵文字をリアクションまたはボタンのどちらで表示するかを設定します。'
+  params:
+    - desc: '提案の絵文字に使用するモードです。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_1:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '提案の絵文字をリアクションまたはボタンのどちらで表示するかを設定します。'
+  params:
+    - desc: '提案の絵文字に使用するモードです。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestmotesmode_SuggestEmoteModeEnum_2:
+  args:
+    - reactions|buttons
+    - reactions
+    - buttons
+  desc: '提案の絵文字をリアクションまたはボタンのどちらで表示するかを設定します。'
+  params:
+    - desc: '提案の絵文字に使用するモードです。'
+      name: mode
+      optional: false
+      type: SuggestEmoteModeEnum
+suggestthreadstype:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '提案で使用するスレッドの種類を設定します。'
+  params:
+    - &ref_591
+      desc: '新しい提案に使用するスレッドの種類です。'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '提案で使用するスレッドの種類を設定します。'
+  params:
+    - desc: '新しい提案に使用するスレッドの種類です。'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_1:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '提案で使用するスレッドの種類を設定します。'
+  params:
+    - desc: '新しい提案に使用するスレッドの種類です。'
+      name: type
+      optional: false
+      type: SuggestThreadType
+suggestthreadstype_SuggestThreadType_2:
+  args:
+    - none|public|private
+    - none
+    - public
+    - private
+  desc: '提案で使用するスレッドの種類を設定します。'
+  params:
+    - desc: '新しい提案に使用するスレッドの種類です。'
+      name: type
+      optional: false
+      type: SuggestThreadType

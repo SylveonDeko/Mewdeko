@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: '获取并显示来自 "anal" 子版块的 NSFW 内容。'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+  params:
+    - &ref_90
+      desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+  params:
+    - desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+  params:
+    - desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+  params:
+    - desc: '在当前服务器频道中以指定间隔开始或停止自动发送来自 "boobs" 子版块的 NSFW 内容。'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: '在当前服务器频道或私信中以指定间隔开始或停止自动发送来自 "butts" 子版块的 NSFW 内容。'
+  params:
+    - desc: '在当前服务器频道或私信中以指定间隔开始或停止自动发送来自 "butts" 子版块的 NSFW 内容。'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送 NSFW 内容。'
+  params:
+    - desc: '每次自动发送之间的间隔秒数。设为 0 可停止自动发送。'
+      name: interval
+      optional: true
+      type: int
+    - desc: '用于筛选 NSFW 内容的可选标签。多个标签之间用 ''|'' 分隔。留空则获取随机 NSFW 内容。'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送 NSFW 内容。'
+  params:
+    - desc: '每次自动发送之间的间隔秒数。设为 0 可停止自动发送。'
+      name: interval
+      optional: true
+      type: int
+    - desc: '用于筛选 NSFW 内容的可选标签。多个标签之间用 ''|'' 分隔。留空则获取随机 NSFW 内容。'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送 NSFW 内容。'
+  params:
+    - desc: '每次自动发送之间的间隔秒数。设为 0 可停止自动发送。'
+      name: interval
+      optional: true
+      type: int
+    - desc: '用于筛选 NSFW 内容的可选标签。多个标签之间用 ''|'' 分隔。留空则获取随机 NSFW 内容。'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: '在当前服务器频道中以指定间隔开始或停止自动发送 NSFW 内容。'
+  params:
+    - desc: '每次自动发送之间的间隔秒数。设为 0 可停止自动发送。'
+      name: interval
+      optional: true
+      type: int
+    - desc: '用于筛选 NSFW 内容的可选标签。多个标签之间用 ''|'' 分隔。留空则获取随机 NSFW 内容。'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: '获取并显示来自 "bondage" 子版块的 NSFW 内容。'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: '在当前服务器频道或私信中获取并显示来自 "boobs" 子版块的 NSFW 内容。'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: '在当前服务器频道或私信中获取并显示来自 "ass" 子版块的 NSFW 内容。'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Danbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_176
+      desc: '用于筛选 Danbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Danbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Danbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Danbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Danbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Danbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Danbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Derpibooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_200
+      desc: '用于筛选 Derpibooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Derpibooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Derpibooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Derpibooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Derpibooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Derpibooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Derpibooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 E621 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_203
+      desc: '用于筛选 E621 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 E621 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 E621 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 E621 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 E621 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 E621 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 E621 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Gelbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_222
+      desc: '用于筛选 Gelbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Gelbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Gelbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Gelbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Gelbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Gelbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Gelbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 "hentai" 子版块的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_245
+      desc: '用于筛选 "hentai" 子版块 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 "hentai" 子版块的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 "hentai" 子版块 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 "hentai" 子版块的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 "hentai" 子版块 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 "hentai" 子版块的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 "hentai" 子版块 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: '通过从多个来源获取并显示 NSFW 内容来发起"hentai 炸弹"，可在当前服务器频道或私信中附带标签。'
+  params:
+    - desc: '用于筛选各来源 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: '获取并显示来自 "HENTAI_GIF" 子版块的 NSFW 内容。'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Konachan 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_263
+      desc: '用于筛选 Konachan 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Konachan 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Konachan 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Konachan 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Konachan 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Konachan 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Konachan 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: '获取并显示 NHentai 网站上某本漫画的信息。'
+  params:
+    - &ref_327
+      desc: '要获取的漫画编号。'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: '获取并显示 NHentai 网站上某本漫画的信息。'
+  params:
+    - desc: '要获取的漫画编号。'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: '获取并显示 NHentai 网站上某本漫画的信息。'
+  params:
+    - desc: '要获取的漫画编号。'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: '获取并显示 NHentai 网站上某本漫画的信息。'
+  params:
+    - desc: '要获取的漫画编号。'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - &ref_328
+      desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的页码。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'NHentai 搜索的类型。'
+      name: type
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: '根据提供的搜索词、页码、类型和黑名单，在 NHentai 上搜索 hentai 漫画。'
+  params:
+    - desc: 'NHentai 的搜索词。'
+      name: search
+      optional: false
+      type: string
+    - desc: 'NHentai 搜索的黑名单。'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: '管理 NSFW 标签黑名单。'
+  params:
+    - desc: '要执行的操作（add/remove）。'
+      name: action
+      optional: false
+      type: string
+    - desc: '要加入黑名单的标签。'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: '管理当前服务器中 NSFW 标签黑名单的命令。'
+  params:
+    - desc: '可选的要添加到或从黑名单中移除的标签。若未提供，则显示当前黑名单标签列表。'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: '获取并显示来自 "porn" 子版块的 NSFW 内容。'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: '通过从 RealBooru 来源获取并显示 NSFW 内容来发起"porn 炸弹"，可在当前服务器频道或私信中附带标签。'
+  params:
+    - &ref_352
+      desc: '用于筛选 RealBooru 来源 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: '通过从 RealBooru 来源获取并显示 NSFW 内容来发起"porn 炸弹"，可在当前服务器频道或私信中附带标签。'
+  params:
+    - desc: '用于筛选 RealBooru 来源 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: '通过从 RealBooru 来源获取并显示 NSFW 内容来发起"porn 炸弹"，可在当前服务器频道或私信中附带标签。'
+  params:
+    - desc: '用于筛选 RealBooru 来源 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: '通过从 RealBooru 来源获取并显示 NSFW 内容来发起"porn 炸弹"，可在当前服务器频道或私信中附带标签。'
+  params:
+    - desc: '用于筛选 RealBooru 来源 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: '获取并显示来自 "pussy" 子版块的 NSFW 内容。'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Realbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_383
+      desc: '用于筛选 Realbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Realbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Realbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Realbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Realbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Realbooru 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Realbooru 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: '从指定子版块获取 NSFW 内容。'
+  params:
+    - &ref_384
+      desc: '获取内容所用的子版块名称。'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: '从指定子版块获取 NSFW 内容。'
+  params:
+    - desc: '获取内容所用的子版块名称。'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: '从指定子版块获取 NSFW 内容。'
+  params:
+    - desc: '获取内容所用的子版块名称。'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: '从指定子版块获取 NSFW 内容。'
+  params:
+    - desc: '获取内容所用的子版块名称。'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Rule34 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_472
+      desc: '用于筛选 Rule34 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Rule34 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Rule34 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Rule34 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Rule34 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Rule34 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Rule34 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Sankaku 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_474
+      desc: '用于筛选 Sankaku 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Sankaku 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Sankaku 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Sankaku 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Sankaku 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Sankaku 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Sankaku 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Yandere 图站的 NSFW 内容，可附带标签。'
+  params:
+    - &ref_674
+      desc: '用于筛选 Yandere 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Yandere 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Yandere 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Yandere 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Yandere 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: '在当前服务器频道或私信中获取并显示来自 Yandere 图站的 NSFW 内容，可附带标签。'
+  params:
+    - desc: '用于筛选 Yandere 图站 NSFW 内容的可选标签。'
+      name: tags
+      optional: false
+      type: string[]

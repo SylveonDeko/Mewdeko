@@ -1,79 +1,65 @@
 votechannel:
   args:
     - channel
-  desc: >-
-    지정된 텍스트 채널을 모든 투표 확인이 전송되는 투표 채널로
-    설정합니다.
+  desc: '모든 투표 확인 메시지를 보낼 투표 채널로 지정한 텍스트 채널을 설정해요.'
   params:
     - &ref_646
-      desc: '투표 채널로 설정할 텍스트 채널입니다.'
+      desc: '투표 채널로 설정할 텍스트 채널이에요.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel:
   args:
     - channel
-  desc: >-
-    지정된 텍스트 채널을 모든 투표 확인이 전송되는 투표 채널로
-    설정합니다.
+  desc: '모든 투표 확인 메시지를 보낼 투표 채널로 지정한 텍스트 채널을 설정해요.'
   params:
-    - desc: '투표 채널로 설정할 텍스트 채널입니다.'
+    - desc: '투표 채널로 설정할 텍스트 채널이에요.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_1:
   args:
     - channel
-  desc: >-
-    지정된 텍스트 채널을 모든 투표 확인이 전송되는 투표 채널로
-    설정합니다.
+  desc: '모든 투표 확인 메시지를 보낼 투표 채널로 지정한 텍스트 채널을 설정해요.'
   params:
-    - desc: '투표 채널로 설정할 텍스트 채널입니다.'
+    - desc: '투표 채널로 설정할 텍스트 채널이에요.'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_2:
   args:
     - channel
-  desc: >-
-    지정된 텍스트 채널을 모든 투표 확인이 전송되는 투표 채널로
-    설정합니다.
+  desc: '모든 투표 확인 메시지를 보낼 투표 채널로 지정한 텍스트 채널을 설정해요.'
   params:
-    - desc: '투표 채널로 설정할 텍스트 채널입니다.'
+    - desc: '투표 채널로 설정할 텍스트 채널이에요.'
       name: channel
       optional: false
       type: ITextChannel
 votemessage:
   args:
     - '[message]'
-  desc: >-
-    사용자가 투표할 때 전송되는 사용자 지정 메시지를 설정하거나 현재
-    투표 메시지를 미리 봅니다.
+  desc: '사용자가 투표하거나 현재 투표 메시지를 미리 볼 때 보낼 사용자 지정 메시지를 설정해요.'
   params:
-    - desc: '투표에 설정할 사용자 지정 메시지. "-"를 사용하여 기본 메시지로 재설정. null이면 현재 투표 메시지를 미리 봅니다.'
+    - desc: '투표에 사용할 사용자 지정 메시지예요. "-"를 입력하면 기본 메시지로 되돌려요. null이면 현재 투표 메시지를 미리 봐요.'
       name: message
       optional: true
       type: string
 votepassword:
   args:
     - ''
-  desc: >-
-    새 투표 비밀번호를 설정하는 확인 프로세스를 시작하고 보안에 대해
-    사용자에게 주의를 줍니다.
+  desc: '새 투표 비밀번호를 설정하기 위한 확인 절차를 시작하고, 보안상 주의할 점을 안내해요.'
   params: [ ]
 voteroleadd:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    사용자가 투표할 때 부여되는 역할을 추가합니다. 역할이 자동으로
-    제거되는 선택적 기간도 설정할 수 있습니다.
+  desc: '사용자가 투표할 때 지급할 역할을 추가해요. 역할을 자동으로 제거할 기간을 선택할 수 있어요.'
   params:
-    - desc: '투표 보상으로 추가할 역할입니다.'
+    - desc: '투표 보상으로 추가할 역할이에요.'
       name: role
       optional: false
       type: role
-    - desc: '역할이 부여되는 기간. 무기한의 경우 null.'
+    - desc: '역할을 부여할 기간이에요. 무기한이면 null이에요.'
       name: time
       optional: true
       type: duration
@@ -81,15 +67,13 @@ voteroleadd_IRole_=:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    사용자가 투표할 때 부여되는 역할을 추가합니다. 역할이 자동으로
-    제거되는 선택적 기간도 설정할 수 있습니다.
+  desc: '사용자가 투표할 때 지급할 역할을 추가해요. 역할을 자동으로 제거할 기간을 선택할 수 있어요.'
   params:
-    - desc: '투표 보상으로 추가할 역할입니다.'
+    - desc: '투표 보상으로 추가할 역할이에요.'
       name: role
       optional: false
       type: role
-    - desc: '역할이 부여되는 기간. 무기한의 경우 null.'
+    - desc: '역할을 부여할 기간이에요. 무기한이면 null이에요.'
       name: time
       optional: true
       type: duration
@@ -97,15 +81,13 @@ voteroleadd_IRole_=_1:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    사용자가 투표할 때 부여되는 역할을 추가합니다. 역할이 자동으로
-    제거되는 선택적 기간도 설정할 수 있습니다.
+  desc: '사용자가 투표할 때 지급할 역할을 추가해요. 역할을 자동으로 제거할 기간을 선택할 수 있어요.'
   params:
-    - desc: '투표 보상으로 추가할 역할입니다.'
+    - desc: '투표 보상으로 추가할 역할이에요.'
       name: role
       optional: false
       type: role
-    - desc: '역할이 부여되는 기간. 무기한의 경우 null.'
+    - desc: '역할을 부여할 기간이에요. 무기한이면 null이에요.'
       name: time
       optional: true
       type: duration
@@ -113,139 +95,132 @@ voteroleadd_IRole_=_2:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    사용자가 투표할 때 부여되는 역할을 추가합니다. 역할이 자동으로
-    제거되는 선택적 기간도 설정할 수 있습니다.
+  desc: '사용자가 투표할 때 지급할 역할을 추가해요. 역할을 자동으로 제거할 기간을 선택할 수 있어요.'
   params:
-    - desc: '투표 보상으로 추가할 역할입니다.'
+    - desc: '투표 보상으로 추가할 역할이에요.'
       name: role
       optional: false
       type: role
-    - desc: '역할이 부여되는 기간. 무기한의 경우 null.'
+    - desc: '역할을 부여할 기간이에요. 무기한이면 null이에요.'
       name: time
       optional: true
       type: duration
 voteroleedit:
   args:
     - '@role time'
-  desc: '투표 역할이 사용자에게 부여되는 기간을 편집합니다.'
+  desc: '사용자에게 부여되는 투표 역할의 기간을 수정해요.'
   params:
     - &ref_648
-      desc: '편집할 역할입니다.'
+      desc: '수정할 역할이에요.'
       name: role
       optional: false
       type: IRole
     - &ref_649
-      desc: '역할이 부여되는 새 기간입니다.'
+      desc: '역할을 부여할 새 기간이에요.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime:
   args:
     - '@role time'
-  desc: '투표 역할이 사용자에게 부여되는 기간을 편집합니다.'
+  desc: '사용자에게 부여되는 투표 역할의 기간을 수정해요.'
   params:
-    - desc: '편집할 역할입니다.'
+    - desc: '수정할 역할이에요.'
       name: role
       optional: false
       type: IRole
-    - desc: '역할이 부여되는 새 기간입니다.'
+    - desc: '역할을 부여할 새 기간이에요.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_1:
   args:
     - '@role time'
-  desc: '투표 역할이 사용자에게 부여되는 기간을 편집합니다.'
+  desc: '사용자에게 부여되는 투표 역할의 기간을 수정해요.'
   params:
-    - desc: '편집할 역할입니다.'
+    - desc: '수정할 역할이에요.'
       name: role
       optional: false
       type: IRole
-    - desc: '역할이 부여되는 새 기간입니다.'
+    - desc: '역할을 부여할 새 기간이에요.'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_2:
   args:
     - '@role time'
-  desc: '투표 역할이 사용자에게 부여되는 기간을 편집합니다.'
+  desc: '사용자에게 부여되는 투표 역할의 기간을 수정해요.'
   params:
-    - desc: '편집할 역할입니다.'
+    - desc: '수정할 역할이에요.'
       name: role
       optional: false
       type: IRole
-    - desc: '역할이 부여되는 새 기간입니다.'
+    - desc: '역할을 부여할 새 기간이에요.'
       name: time
       optional: false
       type: StoopidTime
 voteroleremove:
   args:
     - '@role'
-  desc: '사용자가 투표할 때 부여되는 역할 목록에서 역할을 제거합니다.'
+  desc: '사용자가 투표할 때 지급할 역할 목록에서 역할을 제거해요.'
   params:
     - &ref_650
-      desc: '투표 보상에서 제거할 역할입니다.'
+      desc: '투표 보상에서 제거할 역할이에요.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole:
   args:
     - '@role'
-  desc: '사용자가 투표할 때 부여되는 역할 목록에서 역할을 제거합니다.'
+  desc: '사용자가 투표할 때 지급할 역할 목록에서 역할을 제거해요.'
   params:
-    - desc: '투표 보상에서 제거할 역할입니다.'
+    - desc: '투표 보상에서 제거할 역할이에요.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_1:
   args:
     - '@role'
-  desc: '사용자가 투표할 때 부여되는 역할 목록에서 역할을 제거합니다.'
+  desc: '사용자가 투표할 때 지급할 역할 목록에서 역할을 제거해요.'
   params:
-    - desc: '투표 보상에서 제거할 역할입니다.'
+    - desc: '투표 보상에서 제거할 역할이에요.'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_2:
   args:
     - '@role'
-  desc: '사용자가 투표할 때 부여되는 역할 목록에서 역할을 제거합니다.'
+  desc: '사용자가 투표할 때 지급할 역할 목록에서 역할을 제거해요.'
   params:
-    - desc: '투표 보상에서 제거할 역할입니다.'
+    - desc: '투표 보상에서 제거할 역할이에요.'
       name: role
       optional: false
       type: IRole
 voterolesclear:
   args:
     - ''
-  desc: '사용자가 투표할 때 부여되는 모든 역할을 지웁니다.'
+  desc: '사용자가 투표할 때 지급되는 모든 역할을 지워요.'
   params: [ ]
 voteroleslist:
   args:
     - ''
-  desc: '사용자가 투표할 때 부여되는 모든 역할을 나열합니다.'
+  desc: '사용자가 투표할 때 지급되는 모든 역할을 나열해요.'
   params: [ ]
 votes:
   args:
     - '[@user]'
-  desc: >-
-    특정 사용자 또는 명령 실행자가 행사한 총 투표 수를 표시합니다.
+  desc: '특정 사용자 또는 명령어를 실행한 사용자의 총 투표 수를 보여줘요.'
   params:
-    - desc: '투표를 집계할 사용자. null이면 명령 실행자의 투표를 집계합니다.'
+    - desc: '투표 수를 셀 사용자예요. null이면 명령어를 실행한 사용자의 투표를 세요.'
       name: user
       optional: true
       type: user
 votesleaderboard:
   args:
     - false
-  desc: >-
-    투표 수를 기반으로 사용자 순위표를 표시하며, 선택적으로 이번 달
-    투표를 필터링합니다.
+  desc: '투표 수를 기준으로 사용자 순위표를 보여줘요. 이번 달 투표만 보도록 필터링할 수 있어요.'
   params:
-    - desc: >-
-        투표 수를 기반으로 사용자 순위표를 표시하며, 선택적으로 이번 달
-        투표를 필터링합니다.
+    - desc: '투표 수를 기준으로 사용자 순위표를 보여줘요. 이번 달 투표만 보도록 필터링할 수 있어요.'
       name: false
       optional: false
       type: '='

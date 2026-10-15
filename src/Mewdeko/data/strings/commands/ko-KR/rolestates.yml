@@ -256,9 +256,9 @@ rolestatesadddenyuser_IGuildUser[]_2:
 rolestatesremoveadduser:
   args:
     - user
-  desc: '사용자를 역할 상태에서 제거하거나 거부합니다.'
+  desc: '사용자를 역할 상태에서 제외하거나 거부합니다.'
   params:
-    - desc: '역할 상태에서 제거/거부할 사용자입니다.'
+    - desc: '역할 상태에서 제외하거나 거부할 사용자입니다.'
       name: user
       optional: false
       type: IUser
@@ -339,7 +339,7 @@ rolestatesremovedenyuser_IGuildUser[]_2:
 saveallrolestates:
   args:
     - ''
-  desc: '서버의 모든 사용자의 역할 상태를 저장합니다.'
+  desc: '서버의 모든 사용자 역할 상태를 저장합니다.'
   params: [ ]
 setuserrolestate:
   args:
@@ -404,22 +404,22 @@ togglerolestates:
 togglerolestatesclearonban:
   args:
     - ''
-  desc: '사용자가 차단될 때 역할 상태를 지울지 여부를 전환합니다.'
+  desc: '사용자가 차단될 때 역할 상태를 삭제할지 전환합니다.'
   params: [ ]
 togglerolestatesignorebots:
   args:
     - ''
-  desc: '역할 상태 기능이 봇을 무시할지 여부를 전환합니다.'
+  desc: '역할 상태 기능에서 봇을 무시할지 전환합니다.'
   params: [ ]
 togglerolestatesskipautoassign:
   args:
     - ''
-  desc: '저장된 역할 상태가 있는 사용자에 대해 자동 할당 역할을 건너뛸지 여부를 전환합니다.'
+  desc: '저장된 역할 상태가 있는 사용자에게는 자동 지급 역할을 건너뛸지 전환합니다.'
   params: [ ]
 transferrolestates:
   args:
     - serverid
-  desc: '현재 서버에서 다른 서버로 역할 상태를 전송합니다.'
+  desc: '현재 서버의 역할 상태를 다른 서버로 옮깁니다.'
   params:
     - &ref_627
       desc: '대상 서버의 ID입니다.'
@@ -429,7 +429,7 @@ transferrolestates:
 transferrolestates_ulong:
   args:
     - serverid
-  desc: '현재 서버에서 다른 서버로 역할 상태를 전송합니다.'
+  desc: '현재 서버의 역할 상태를 다른 서버로 옮깁니다.'
   params:
     - desc: '대상 서버의 ID입니다.'
       name: serverId
@@ -438,7 +438,7 @@ transferrolestates_ulong:
 transferrolestates_ulong_1:
   args:
     - serverid
-  desc: '현재 서버에서 다른 서버로 역할 상태를 전송합니다.'
+  desc: '현재 서버의 역할 상태를 다른 서버로 옮깁니다.'
   params:
     - desc: '대상 서버의 ID입니다.'
       name: serverId
@@ -447,7 +447,7 @@ transferrolestates_ulong_1:
 transferrolestates_ulong_2:
   args:
     - serverid
-  desc: '현재 서버에서 다른 서버로 역할 상태를 전송합니다.'
+  desc: '현재 서버의 역할 상태를 다른 서버로 옮깁니다.'
   params:
     - desc: '대상 서버의 ID입니다.'
       name: serverId
@@ -456,7 +456,7 @@ transferrolestates_ulong_2:
 viewrolestates:
   args:
     - ''
-  desc: '서버의 모든 사용자 역할 상태를 봅니다.'
+  desc: '서버의 모든 사용자 역할 상태를 확인합니다.'
   params: [ ]
 viewrolestatessettings:
   args:

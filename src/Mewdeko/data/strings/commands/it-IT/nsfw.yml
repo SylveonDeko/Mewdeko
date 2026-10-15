@@ -1,0 +1,941 @@
+anal:
+  args:
+    - ''
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "anal".'
+  params: [ ]
+autoboobs:
+  args:
+    - 0
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - &ref_90
+      desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=:
+  args:
+    - 0
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_1:
+  args:
+    - 0
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+      name: 0
+      optional: false
+      type: '='
+autoboobs_=_2:
+  args:
+    - 0
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "boobs" a intervalli specificati nel canale della gilda attuale.'
+      name: 0
+      optional: false
+      type: '='
+autobutts:
+  args:
+    - 0
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "butts" a intervalli specificati nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW dal subreddit "butts" a intervalli specificati nel canale della gilda attuale o nei messaggi diretti.'
+      name: 0
+      optional: false
+      type: '='
+autohentai:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - desc: 'L''intervallo in secondi tra una pubblicazione automatica e l''altra. Imposta 0 per interrompere la pubblicazione automatica.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW. Separa più tag con ''|''. Lascia vuoto per contenuti NSFW casuali.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - desc: 'L''intervallo in secondi tra una pubblicazione automatica e l''altra. Imposta 0 per interrompere la pubblicazione automatica.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW. Separa più tag con ''|''. Lascia vuoto per contenuti NSFW casuali.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_1:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - desc: 'L''intervallo in secondi tra una pubblicazione automatica e l''altra. Imposta 0 per interrompere la pubblicazione automatica.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW. Separa più tag con ''|''. Lascia vuoto per contenuti NSFW casuali.'
+      name: tags
+      optional: true
+      type: string
+autohentai_=_=_2:
+  args:
+    - '[interval] [tags]'
+  desc: 'Comando per avviare o interrompere la pubblicazione automatica di contenuti NSFW a intervalli specificati nel canale della gilda attuale.'
+  params:
+    - desc: 'L''intervallo in secondi tra una pubblicazione automatica e l''altra. Imposta 0 per interrompere la pubblicazione automatica.'
+      name: interval
+      optional: true
+      type: int
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW. Separa più tag con ''|''. Lascia vuoto per contenuti NSFW casuali.'
+      name: tags
+      optional: true
+      type: string
+bondage:
+  args:
+    - ''
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "bondage".'
+  params: [ ]
+boobs:
+  args:
+    - ''
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "boobs" nel canale della gilda attuale o nei messaggi diretti.'
+  params: [ ]
+butts:
+  args:
+    - ''
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "ass" nel canale della gilda attuale o nei messaggi diretti.'
+  params: [ ]
+danbooru:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Danbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_176
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Danbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Danbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+danbooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Danbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Danbooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Derpibooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_200
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Derpibooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Derpibooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+derpibooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Derpibooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Derpibooru.'
+      name: tags
+      optional: false
+      type: string[]
+e621:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini E621 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_203
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini E621 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini E621 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini E621.'
+      name: tags
+      optional: false
+      type: string[]
+e621_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini E621 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini E621.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Gelbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_222
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Gelbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Gelbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+gelbooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Gelbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Gelbooru.'
+      name: tags
+      optional: false
+      type: string[]
+hentai:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "hentai" con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_245
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "hentai" con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "hentai" con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentai_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "hentai" con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal subreddit "hentai".'
+      name: tags
+      optional: false
+      type: string[]
+hentaibomb:
+  args:
+    - text
+  desc: 'Comando per avviare una "hentai bomb" recuperando e mostrando contenuti NSFW da più fonti con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW da ciascuna fonte.'
+      name: tags
+      optional: false
+      type: string[]
+hentaigif:
+  args:
+    - ''
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "HENTAI_GIF".'
+  params: [ ]
+konachan:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Konachan con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_263
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Konachan con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Konachan con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+konachan_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Konachan con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Konachan.'
+      name: tags
+      optional: false
+      type: string[]
+nhentai:
+  args:
+    - number
+  desc: 'Comando per recuperare e mostrare informazioni su un manga dal sito NHentai.'
+  params:
+    - &ref_327
+      desc: 'Il numero di identificazione del manga da recuperare.'
+      name: num
+      optional: false
+      type: int
+nhentai_int:
+  args:
+    - number
+  desc: 'Comando per recuperare e mostrare informazioni su un manga dal sito NHentai.'
+  params:
+    - desc: 'Il numero di identificazione del manga da recuperare.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_1:
+  args:
+    - number
+  desc: 'Comando per recuperare e mostrare informazioni su un manga dal sito NHentai.'
+  params:
+    - desc: 'Il numero di identificazione del manga da recuperare.'
+      name: num
+      optional: false
+      type: int
+nhentai_int_2:
+  args:
+    - number
+  desc: 'Comando per recuperare e mostrare informazioni su un manga dal sito NHentai.'
+  params:
+    - desc: 'Il numero di identificazione del manga da recuperare.'
+      name: num
+      optional: false
+      type: int
+nhentaisearch:
+  args:
+    - text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - &ref_328
+      desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string:
+  args:
+    - text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_1:
+  args:
+    - text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_2:
+  args:
+    - text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+nhentaisearch_string_int:
+  args:
+    - text number
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - &ref_329
+      desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_1:
+  args:
+    - text number
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_2:
+  args:
+    - text number
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_3:
+  args:
+    - text number
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+nhentaisearch_string_int_string:
+  args:
+    - text number text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - &ref_330
+      desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_1:
+  args:
+    - text number text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_2:
+  args:
+    - text number text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_3:
+  args:
+    - text number text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string:
+  args:
+    - text number text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+    - &ref_331
+      desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_1:
+  args:
+    - text number text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_2:
+  args:
+    - text number text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_int_string_string_3:
+  args:
+    - text number text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'Il numero di pagina per la ricerca su NHentai.'
+      name: page
+      optional: false
+      type: int
+    - desc: 'Il tipo di ricerca su NHentai.'
+      name: type
+      optional: false
+      type: string
+    - desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string:
+  args:
+    - text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_1:
+  args:
+    - text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_2:
+  args:
+    - text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nhentaisearch_string_string_3:
+  args:
+    - text text
+  desc: 'Comando per cercare manga hentai su NHentai in base alla query di ricerca, al numero di pagina, al tipo e alla blacklist indicati.'
+  params:
+    - desc: 'La query di ricerca per NHentai.'
+      name: search
+      optional: false
+      type: string
+    - desc: 'La blacklist per la ricerca su NHentai.'
+      name: blacklist
+      optional: false
+      type: string
+nsfwtagbl:
+  args:
+    - action tag
+  desc: 'Gestisce la blacklist dei tag NSFW.'
+  params:
+    - desc: 'L''azione da eseguire (add/remove).'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Il tag da inserire nella blacklist.'
+      name: tag
+      optional: false
+      type: string
+nsfwtagblacklist:
+  args:
+    - '[tag]'
+  desc: 'Comando per gestire la blacklist dei tag NSFW nella gilda attuale.'
+  params:
+    - desc: 'Tag facoltativo da aggiungere o rimuovere dalla blacklist. Se non indicato, mostra l''elenco attuale dei tag in blacklist.'
+      name: tag
+      optional: true
+      type: string
+porn:
+  args:
+    - ''
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "porn".'
+  params: [ ]
+pornbomb:
+  args:
+    - text
+  desc: 'Comando per avviare una "porn bomb" recuperando e mostrando contenuti NSFW da una fonte RealBooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_352
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dalla fonte RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]:
+  args:
+    - text
+  desc: 'Comando per avviare una "porn bomb" recuperando e mostrando contenuti NSFW da una fonte RealBooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dalla fonte RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_1:
+  args:
+    - text
+  desc: 'Comando per avviare una "porn bomb" recuperando e mostrando contenuti NSFW da una fonte RealBooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dalla fonte RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pornbomb_string[]_2:
+  args:
+    - text
+  desc: 'Comando per avviare una "porn bomb" recuperando e mostrando contenuti NSFW da una fonte RealBooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dalla fonte RealBooru.'
+      name: tags
+      optional: false
+      type: string[]
+pussy:
+  args:
+    - ''
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal subreddit "pussy".'
+  params: [ ]
+realbooru:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Realbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_383
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Realbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Realbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+realbooru_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Realbooru con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Realbooru.'
+      name: tags
+      optional: false
+      type: string[]
+redditnsfw:
+  args:
+    - text
+  desc: 'Comando per recuperare contenuti NSFW da un subreddit specificato.'
+  params:
+    - &ref_384
+      desc: 'Il nome del subreddit da cui recuperare i contenuti.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string:
+  args:
+    - text
+  desc: 'Comando per recuperare contenuti NSFW da un subreddit specificato.'
+  params:
+    - desc: 'Il nome del subreddit da cui recuperare i contenuti.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_1:
+  args:
+    - text
+  desc: 'Comando per recuperare contenuti NSFW da un subreddit specificato.'
+  params:
+    - desc: 'Il nome del subreddit da cui recuperare i contenuti.'
+      name: subreddit
+      optional: false
+      type: string
+redditnsfw_string_2:
+  args:
+    - text
+  desc: 'Comando per recuperare contenuti NSFW da un subreddit specificato.'
+  params:
+    - desc: 'Il nome del subreddit da cui recuperare i contenuti.'
+      name: subreddit
+      optional: false
+      type: string
+rule34:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Rule34 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_472
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Rule34 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Rule34 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+rule34_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Rule34 con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Rule34.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Sankaku con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_474
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Sankaku con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Sankaku con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+sankaku_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Sankaku con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Sankaku.'
+      name: tags
+      optional: false
+      type: string[]
+yandere:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Yandere con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - &ref_674
+      desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Yandere con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_1:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Yandere con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Yandere.'
+      name: tags
+      optional: false
+      type: string[]
+yandere_string[]_2:
+  args:
+    - text
+  desc: 'Comando per recuperare e mostrare contenuti NSFW dal board di immagini Yandere con tag facoltativi nel canale della gilda attuale o nei messaggi diretti.'
+  params:
+    - desc: 'Tag facoltativi per filtrare i contenuti NSFW dal board di immagini Yandere.'
+      name: tags
+      optional: false
+      type: string[]

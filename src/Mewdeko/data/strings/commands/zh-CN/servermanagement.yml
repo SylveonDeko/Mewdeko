@@ -1,0 +1,2501 @@
+addblacklistedpermission:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '将权限添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的权限。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '可选，针对此权限的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '将权限添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的权限。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '可选，针对此权限的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_1:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '将权限添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的权限。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '可选，针对此权限的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedpermission_GuildPermission_=_2:
+  args:
+    - '<permission> [punishmentAction]'
+    - permission
+  desc: '将权限添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的权限。'
+      name: permission
+      optional: false
+      type: permission
+    - desc: '可选，针对此权限的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '将身份组添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '可选，针对此身份组的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '将身份组添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '可选，针对此身份组的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_1:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '将身份组添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '可选，针对此身份组的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addblacklistedrole_IRole_=_2:
+  args:
+    - '@role [punishmentAction]'
+    - '@role'
+  desc: '将身份组添加到黑名单。'
+  params:
+    - desc: '要加入黑名单的身份组。'
+      name: role
+      optional: false
+      type: role
+    - desc: '可选，针对此身份组的特定惩罚措施。'
+      name: punishmentAction
+      optional: true
+      type: punishment
+addemote:
+  args:
+    - '<name> [url]'
+    - text
+  desc: '向服务器添加新表情。'
+  params:
+    - desc: '表情的名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '表情图片的 URL。若未提供，则从消息附件中获取图片。'
+      name: url
+      optional: true
+      type: string
+addemote_string_=:
+  args:
+    - '<name> [url]'
+    - text
+  desc: '向服务器添加新表情。'
+  params:
+    - desc: '表情的名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '表情图片的 URL。若未提供，则从消息附件中获取图片。'
+      name: url
+      optional: true
+      type: string
+addroletolist:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到附件文件中列出的用户。'
+  params:
+    - &ref_28
+      desc: '要添加给附件文件中所列用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到附件文件中列出的用户。'
+  params:
+    - desc: '要添加给附件文件中所列用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_1:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到附件文件中列出的用户。'
+  params:
+    - desc: '要添加给附件文件中所列用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addroletolist_IRole_2:
+  args:
+    - '@role'
+  desc: '将指定身份组添加到附件文件中列出的用户。'
+  params:
+    - desc: '要添加给附件文件中所列用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addroletorole:
+  args:
+    - '@role @role'
+  desc: '将指定身份组添加给当前拥有另一指定身份组的所有用户。'
+  params:
+    - &ref_29
+      desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_30
+      desc: '其成员将获得新身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '将指定身份组添加给当前拥有另一指定身份组的所有用户。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '其成员将获得新身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '将指定身份组添加给当前拥有另一指定身份组的所有用户。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '其成员将获得新身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addroletorole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '将指定身份组添加给当前拥有另一指定身份组的所有用户。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '其成员将获得新身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove:
+  args:
+    - '@role @role'
+  desc: '在一次操作中为用户添加一个身份组，并移除另一个身份组。'
+  params:
+    - &ref_33
+      desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_34
+      desc: '要从相同用户中移除的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '在一次操作中为用户添加一个身份组，并移除另一个身份组。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要从相同用户中移除的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '在一次操作中为用户添加一个身份组，并移除另一个身份组。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要从相同用户中移除的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addthenremove_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '在一次操作中为用户添加一个身份组，并移除另一个身份组。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要从相同用户中移除的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+addtoall:
+  args:
+    - '@role'
+  desc: '向服务器的所有成员添加指定身份组。'
+  params:
+    - &ref_35
+      desc: '要添加给所有服务器成员的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole:
+  args:
+    - '@role'
+  desc: '向服务器的所有成员添加指定身份组。'
+  params:
+    - desc: '要添加给所有服务器成员的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_1:
+  args:
+    - '@role'
+  desc: '向服务器的所有成员添加指定身份组。'
+  params:
+    - desc: '要添加给所有服务器成员的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoall_IRole_2:
+  args:
+    - '@role'
+  desc: '向服务器的所有成员添加指定身份组。'
+  params:
+    - desc: '要添加给所有服务器成员的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots:
+  args:
+    - '@role'
+  desc: '向服务器中的所有机器人添加指定身份组。'
+  params:
+    - &ref_36
+      desc: '要添加给所有机器人的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole:
+  args:
+    - '@role'
+  desc: '向服务器中的所有机器人添加指定身份组。'
+  params:
+    - desc: '要添加给所有机器人的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_1:
+  args:
+    - '@role'
+  desc: '向服务器中的所有机器人添加指定身份组。'
+  params:
+    - desc: '要添加给所有机器人的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallbots_IRole_2:
+  args:
+    - '@role'
+  desc: '向服务器中的所有机器人添加指定身份组。'
+  params:
+    - desc: '要添加给所有机器人的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers:
+  args:
+    - '@role'
+  desc: '向服务器中的所有真人用户（不含机器人）添加指定身份组。'
+  params:
+    - &ref_37
+      desc: '要添加给所有真人用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole:
+  args:
+    - '@role'
+  desc: '向服务器中的所有真人用户（不含机器人）添加指定身份组。'
+  params:
+    - desc: '要添加给所有真人用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_1:
+  args:
+    - '@role'
+  desc: '向服务器中的所有真人用户（不含机器人）添加指定身份组。'
+  params:
+    - desc: '要添加给所有真人用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtoallusers_IRole_2:
+  args:
+    - '@role'
+  desc: '向服务器中的所有真人用户（不含机器人）添加指定身份组。'
+  params:
+    - desc: '要添加给所有真人用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间超过指定时长的用户添加指定身份组。'
+  params:
+    - &ref_38
+      desc: '用户需要加入服务器的最短时长才能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_39
+      desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间超过指定时长的用户添加指定身份组。'
+  params:
+    - desc: '用户需要加入服务器的最短时长才能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间超过指定时长的用户添加指定身份组。'
+  params:
+    - desc: '用户需要加入服务器的最短时长才能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersover_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间超过指定时长的用户添加指定身份组。'
+  params:
+    - desc: '用户需要加入服务器的最短时长才能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间不足指定时长的用户添加指定身份组。'
+  params:
+    - &ref_40
+      desc: '用户加入服务器的最长时长，超过则不能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间不足指定时长的用户添加指定身份组。'
+  params:
+    - desc: '用户加入服务器的最长时长，超过则不能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_1:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间不足指定时长的用户添加指定身份组。'
+  params:
+    - desc: '用户加入服务器的最长时长，超过则不能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addtousersunder_StoopidTime_IRole_2:
+  args:
+    - time @role
+  desc: '向所有加入服务器时间不足指定时长的用户添加指定身份组。'
+  params:
+    - desc: '用户加入服务器的最长时长，超过则不能获得该身份组。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给符合条件用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+adduserstorole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '为用户列表分配指定身份组；若用户尚未拥有该身份组则添加。'
+  params:
+    - &ref_41
+      desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_42
+      desc: '将要添加身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '为用户列表分配指定身份组；若用户尚未拥有该身份组则添加。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '将要添加身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '为用户列表分配指定身份组；若用户尚未拥有该身份组则添加。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '将要添加身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+adduserstorole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '为用户列表分配指定身份组；若用户尚未拥有该身份组则添加。'
+  params:
+    - desc: '要添加给用户的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '将要添加身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+addwhitelistedrole:
+  args:
+    - '@role'
+  desc: '将身份组添加到白名单。'
+  params:
+    - &ref_43
+      desc: '要加入白名单的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole:
+  args:
+    - '@role'
+  desc: '将身份组添加到白名单。'
+  params:
+    - desc: '要加入白名单的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_1:
+  args:
+    - '@role'
+  desc: '将身份组添加到白名单。'
+  params:
+    - desc: '要加入白名单的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelistedrole_IRole_2:
+  args:
+    - '@role'
+  desc: '将身份组添加到白名单。'
+  params:
+    - desc: '要加入白名单的身份组。'
+      name: role
+      optional: false
+      type: IRole
+addwhitelisteduser:
+  args:
+    - '@user'
+  desc: '将用户添加到白名单。'
+  params:
+    - &ref_44
+      desc: '要加入白名单的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser:
+  args:
+    - '@user'
+  desc: '将用户添加到白名单。'
+  params:
+    - desc: '要加入白名单的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '将用户添加到白名单。'
+  params:
+    - desc: '要加入白名单的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+addwhitelisteduser_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '将用户添加到白名单。'
+  params:
+    - desc: '要加入白名单的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+atuo:
+  args:
+    - role threshold
+  desc: '为超过阈值的用户添加身份组。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '阈值。'
+      name: threshold
+      optional: false
+      type: int
+atuu:
+  args:
+    - role threshold
+  desc: '为低于阈值的用户添加身份组。'
+  params:
+    - desc: '要添加的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '阈值。'
+      name: threshold
+      optional: false
+      type: int
+ccatc:
+  args:
+    - name count
+  desc: '创建分类及文字频道。'
+  params:
+    - desc: '分类名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '要创建的文字频道数量。'
+      name: count
+      optional: false
+      type: int
+ccavc:
+  args:
+    - name count
+  desc: '创建分类及语音频道。'
+  params:
+    - desc: '分类名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '要创建的语音频道数量。'
+      name: count
+      optional: false
+      type: int
+cctc:
+  args:
+    - category count
+  desc: '创建分类下的文字频道。'
+  params:
+    - desc: '要添加频道的分类。'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: '要创建的文字频道数量。'
+      name: count
+      optional: false
+      type: int
+ccvc:
+  args:
+    - category count
+  desc: '创建分类下的语音频道。'
+  params:
+    - desc: '要添加频道的分类。'
+      name: category
+      optional: false
+      type: ICategoryChannel
+    - desc: '要创建的语音频道数量。'
+      name: count
+      optional: false
+      type: int
+createcatandtxtchannels:
+  args:
+    - text text
+  desc: '在服务器中创建一个分类及指定频道。'
+  params:
+    - &ref_148
+      desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - &ref_149
+      desc: '要创建的频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]:
+  args:
+    - text text
+  desc: '在服务器中创建一个分类及指定频道。'
+  params:
+    - desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - desc: '要创建的频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_1:
+  args:
+    - text text
+  desc: '在服务器中创建一个分类及指定频道。'
+  params:
+    - desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - desc: '要创建的频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandtxtchannels_string_string[]_2:
+  args:
+    - text text
+  desc: '在服务器中创建一个分类及指定频道。'
+  params:
+    - desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - desc: '要创建的频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels:
+  args:
+    - text text
+  desc: '创建一个包含多个语音频道的分类。'
+  params:
+    - &ref_150
+      desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - &ref_151
+      desc: '要在该分类中创建的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]:
+  args:
+    - text text
+  desc: '创建一个包含多个语音频道的分类。'
+  params:
+    - desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - desc: '要在该分类中创建的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_1:
+  args:
+    - text text
+  desc: '创建一个包含多个语音频道的分类。'
+  params:
+    - desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - desc: '要在该分类中创建的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatandvcchannels_string_string[]_2:
+  args:
+    - text text
+  desc: '创建一个包含多个语音频道的分类。'
+  params:
+    - desc: '要创建的分类名称。'
+      name: catName
+      optional: false
+      type: string
+    - desc: '要在该分类中创建的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个文字频道。'
+  params:
+    - &ref_152
+      desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_153
+      desc: '要添加的文字频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个文字频道。'
+  params:
+    - desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '要添加的文字频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个文字频道。'
+  params:
+    - desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '要添加的文字频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcattxtchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个文字频道。'
+  params:
+    - desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '要添加的文字频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个语音频道。'
+  params:
+    - desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - &ref_154
+      desc: '要添加的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个语音频道。'
+  params:
+    - desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '要添加的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_1:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个语音频道。'
+  params:
+    - desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '要添加的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createcatvcchans_ICategoryChannel_string[]_2:
+  args:
+    - chan text
+  desc: '向现有分类中添加多个语音频道。'
+  params:
+    - desc: '目标分类频道。'
+      name: chan
+      optional: false
+      type: ICategoryChannel
+    - desc: '要添加的语音频道名称。'
+      name: channels
+      optional: false
+      type: string[]
+createroles:
+  args:
+    - text
+  desc: '根据提供的身份组名称列表在服务器中创建多个身份组。'
+  params:
+    - &ref_155
+      desc: '要创建的身份组名称列表，以空格分隔。'
+      name: roles
+      optional: false
+      type: string
+createroles_string:
+  args:
+    - text
+  desc: '根据提供的身份组名称列表在服务器中创建多个身份组。'
+  params:
+    - desc: '要创建的身份组名称列表，以空格分隔。'
+      name: roles
+      optional: false
+      type: string
+createroles_string_1:
+  args:
+    - text
+  desc: '根据提供的身份组名称列表在服务器中创建多个身份组。'
+  params:
+    - desc: '要创建的身份组名称列表，以空格分隔。'
+      name: roles
+      optional: false
+      type: string
+createroles_string_2:
+  args:
+    - text
+  desc: '根据提供的身份组名称列表在服务器中创建多个身份组。'
+  params:
+    - desc: '要创建的身份组名称列表，以空格分隔。'
+      name: roles
+      optional: false
+      type: string
+createwebhook:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '在文字频道中创建 Webhook，可选自定义头像。'
+  params:
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: name
+      optional: false
+      type: string
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '在文字频道中创建 Webhook，可选自定义头像。'
+  params:
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: name
+      optional: false
+      type: string
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_1:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '在文字频道中创建 Webhook，可选自定义头像。'
+  params:
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: name
+      optional: false
+      type: string
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: avatar
+      optional: true
+      type: string
+createwebhook_ITextChannel_string_=_2:
+  args:
+    - '@channel <name> [avatar]'
+    - channel text
+  desc: '在文字频道中创建 Webhook，可选自定义头像。'
+  params:
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: channel
+      optional: false
+      type: channel
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: name
+      optional: false
+      type: string
+    - desc: '在文字频道中创建 Webhook，可选自定义头像。'
+      name: avatar
+      optional: true
+      type: string
+deleteroles:
+  args:
+    - '@role'
+  desc: '从服务器中删除一组身份组。'
+  params:
+    - &ref_189
+      desc: '要删除的身份组数组。'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]:
+  args:
+    - '@role'
+  desc: '从服务器中删除一组身份组。'
+  params:
+    - desc: '要删除的身份组数组。'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_1:
+  args:
+    - '@role'
+  desc: '从服务器中删除一组身份组。'
+  params:
+    - desc: '要删除的身份组数组。'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteroles_IRole[]_2:
+  args:
+    - '@role'
+  desc: '从服务器中删除一组身份组。'
+  params:
+    - desc: '要删除的身份组数组。'
+      name: roles
+      optional: false
+      type: IRole[]
+exportrolelist:
+  args:
+    - ''
+  desc: '将身份组及其关联用户导出为文本文件，便于备份和迁移。'
+  params: [ ]
+grab:
+  args:
+    - '@user'
+  desc: '将用户移动到命令发起者当前所在的语音频道。'
+  params:
+    - &ref_233
+      desc: '要抓取并移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser:
+  args:
+    - '@user'
+  desc: '将用户移动到命令发起者当前所在的语音频道。'
+  params:
+    - desc: '要抓取并移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '将用户移动到命令发起者当前所在的语音频道。'
+  params:
+    - desc: '要抓取并移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+grab_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '将用户移动到命令发起者当前所在的语音频道。'
+  params:
+    - desc: '要抓取并移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+importrolelist:
+  args:
+    - false
+  desc: '从文本文件导入身份组和用户关联，并将指定身份组分配给提及的用户。'
+  params:
+    - desc: '从文本文件导入身份组和用户关联，并将指定身份组分配给提及的用户。'
+      name: false
+      optional: false
+      type: '='
+liftlockdown:
+  args:
+    - lockdowntype.readonly
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+  params:
+    - &ref_274
+      desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=:
+  args:
+    - lockdowntype.readonly
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+  params:
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_1:
+  args:
+    - lockdowntype.readonly
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+  params:
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+liftlockdown_=_2:
+  args:
+    - lockdowntype.readonly
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+  params:
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）解除服务器锁定。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+listblacklists:
+  args:
+    - ''
+  desc: '列出所有已加入黑名单和白名单的身份组与权限。'
+  params: [ ]
+lock:
+  args:
+    - '[channel]'
+  desc: '开启或关闭频道慢速模式，可自定义时长。'
+  params:
+    - desc: '可选，指定要应用慢速模式的频道。'
+      name: channel
+      optional: true
+      type: sockettextchannel
+lockdown:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+  params:
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - &ref_281
+      desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+  params:
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_1:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+  params:
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: false
+      optional: false
+      type: '='
+lockdown_=_=_=_2:
+  args:
+    - lockdowntype.readonly punishmentaction.ban false
+  desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+  params:
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: LockdownType.Readonly
+      optional: false
+      type: '='
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: PunishmentAction.Ban
+      optional: false
+      type: '='
+    - desc: '根据指定的锁定类型（Joins、Readonly、Full）锁定服务器。'
+      name: false
+      optional: false
+      type: '='
+moveto:
+  args:
+    - channel
+  desc: '将命令发起者移动到指定语音频道。'
+  params:
+    - &ref_301
+      desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel:
+  args:
+    - channel
+  desc: '将命令发起者移动到指定语音频道。'
+  params:
+    - desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_1:
+  args:
+    - channel
+  desc: '将命令发起者移动到指定语音频道。'
+  params:
+    - desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveto_IVoiceChannel_2:
+  args:
+    - channel
+  desc: '将命令发起者移动到指定语音频道。'
+  params:
+    - desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto:
+  args:
+    - '@user channel'
+  desc: '将指定用户移动到给定的语音频道。'
+  params:
+    - &ref_302
+      desc: '要移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel:
+  args:
+    - '@user channel'
+  desc: '将指定用户移动到给定的语音频道。'
+  params:
+    - desc: '要移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_1:
+  args:
+    - '@user channel'
+  desc: '将指定用户移动到给定的语音频道。'
+  params:
+    - desc: '要移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+moveuserto_IGuildUser_IVoiceChannel_2:
+  args:
+    - '@user channel'
+  desc: '将指定用户移动到给定的语音频道。'
+  params:
+    - desc: '要移动的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要将用户移动到的目标语音频道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+nuke:
+  args:
+    - '[@chan3]'
+  desc: '删除并重新创建文字频道，相当于“清空”该频道。'
+  params:
+    - desc: '可选，指定要清空的频道。'
+      name: chan3
+      optional: true
+      type: channel
+permcontrol:
+  args:
+    - channel perm @role perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - &ref_337
+      desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - &ref_338
+      desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_339
+      desc: '按照提供的权限和操作修改指定用户的频道权限。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_340
+      desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]:
+  args:
+    - channel perm @role perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '按照提供的权限和操作修改指定用户的频道权限。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_1:
+  args:
+    - channel perm @role perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '按照提供的权限和操作修改指定用户的频道权限。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IRole_ChannelPermission[]_2:
+  args:
+    - channel perm @role perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '按照提供的权限和操作修改指定用户的频道权限。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]:
+  args:
+    - channel perm @user perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - &ref_341
+      desc: '权限修改所应用的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_1:
+  args:
+    - channel perm @user perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '权限修改所应用的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_2:
+  args:
+    - channel perm @user perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '权限修改所应用的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permcontrol_SocketGuildChannel_PermValue_IUser_ChannelPermission[]_3:
+  args:
+    - channel perm @user perms
+  desc: '按照提供的权限和操作修改指定用户的频道权限。'
+  params:
+    - desc: '要修改权限的频道。'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: '要执行的操作（Allow、Deny、Inherit）。'
+      name: perm
+      optional: false
+      type: PermValue
+    - desc: '权限修改所应用的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要修改的权限集合。'
+      name: perms
+      optional: false
+      type: ChannelPermission[]
+permview:
+  args:
+    - ''
+  desc: '显示指定身份组允许的权限列表。'
+  params: [ ]
+permview_IGuildUser:
+  args:
+    - '@user'
+  desc: '显示指定身份组允许的权限列表。'
+  params:
+    - &ref_343
+      desc: '要显示其权限的身份组。'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '显示指定身份组允许的权限列表。'
+  params:
+    - desc: '要显示其权限的身份组。'
+      name: user
+      optional: false
+      type: IGuildUser
+permview_IRole:
+  args:
+    - '@role'
+  desc: '显示指定身份组允许的权限列表。'
+  params:
+    - &ref_344
+      desc: '要显示其权限的身份组。'
+      name: user
+      optional: false
+      type: IRole
+permview_IRole_1:
+  args:
+    - '@role'
+  desc: '显示指定身份组允许的权限列表。'
+  params:
+    - desc: '要显示其权限的身份组。'
+      name: user
+      optional: false
+      type: IRole
+permview_noparams:
+  args:
+    - ''
+  desc: '显示指定身份组允许的权限列表。'
+  params: [ ]
+removeblacklistedpermission:
+  args:
+    - permission
+  desc: '从黑名单中移除一项权限。'
+  params:
+    - desc: '要从黑名单中移除的权限。'
+      name: permission
+      optional: false
+      type: GuildPermission
+removeblacklistedrole:
+  args:
+    - '@role'
+  desc: '从黑名单中移除一个身份组。'
+  params:
+    - desc: '要从黑名单中移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removeemote:
+  args:
+    - text
+  desc: '从服务器中移除一个表情。'
+  params:
+    - &ref_394
+      desc: '占位参数，用于满足命令签名要求。'
+      name: _
+      optional: false
+      type: string
+removeemote_string:
+  args:
+    - text
+  desc: '从服务器中移除一个表情。'
+  params:
+    - desc: '占位参数，用于满足命令签名要求。'
+      name: _
+      optional: false
+      type: string
+removefromall:
+  args:
+    - '@role'
+  desc: '从服务器所有成员身上移除指定身份组。'
+  params:
+    - &ref_395
+      desc: '要从所有服务器成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole:
+  args:
+    - '@role'
+  desc: '从服务器所有成员身上移除指定身份组。'
+  params:
+    - desc: '要从所有服务器成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_1:
+  args:
+    - '@role'
+  desc: '从服务器所有成员身上移除指定身份组。'
+  params:
+    - desc: '要从所有服务器成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromall_IRole_2:
+  args:
+    - '@role'
+  desc: '从服务器所有成员身上移除指定身份组。'
+  params:
+    - desc: '要从所有服务器成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots:
+  args:
+    - '@role'
+  desc: '从服务器中所有机器人身上移除指定身份组。'
+  params:
+    - &ref_396
+      desc: '要从所有机器人身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole:
+  args:
+    - '@role'
+  desc: '从服务器中所有机器人身上移除指定身份组。'
+  params:
+    - desc: '要从所有机器人身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_1:
+  args:
+    - '@role'
+  desc: '从服务器中所有机器人身上移除指定身份组。'
+  params:
+    - desc: '要从所有机器人身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallbots_IRole_2:
+  args:
+    - '@role'
+  desc: '从服务器中所有机器人身上移除指定身份组。'
+  params:
+    - desc: '要从所有机器人身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers:
+  args:
+    - '@role'
+  desc: '从所有真人用户（不含机器人）身上移除指定身份组。'
+  params:
+    - &ref_397
+      desc: '要从所有真人成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole:
+  args:
+    - '@role'
+  desc: '从所有真人用户（不含机器人）身上移除指定身份组。'
+  params:
+    - desc: '要从所有真人成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_1:
+  args:
+    - '@role'
+  desc: '从所有真人用户（不含机器人）身上移除指定身份组。'
+  params:
+    - desc: '要从所有真人成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromallusers_IRole_2:
+  args:
+    - '@role'
+  desc: '从所有真人用户（不含机器人）身上移除指定身份组。'
+  params:
+    - desc: '要从所有真人成员身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removefromrole:
+  args:
+    - '@role @role'
+  desc: '从当前拥有另一指定身份组的所有用户身上移除指定身份组。'
+  params:
+    - &ref_398
+      desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_399
+      desc: '其成员将失去第一个身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole:
+  args:
+    - '@role @role'
+  desc: '从当前拥有另一指定身份组的所有用户身上移除指定身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '其成员将失去第一个身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_1:
+  args:
+    - '@role @role'
+  desc: '从当前拥有另一指定身份组的所有用户身上移除指定身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '其成员将失去第一个身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+removefromrole_IRole_IRole_2:
+  args:
+    - '@role @role'
+  desc: '从当前拥有另一指定身份组的所有用户身上移除指定身份组。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '其成员将失去第一个身份组的身份组。'
+      name: role2
+      optional: false
+      type: IRole
+removeroles:
+  args:
+    - '@user @role'
+  desc: '从用户身上移除指定身份组。'
+  params:
+    - &ref_412
+      desc: '要移除身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_413
+      desc: '要从用户身上移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '从用户身上移除指定身份组。'
+  params:
+    - desc: '要移除身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要从用户身上移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '从用户身上移除指定身份组。'
+  params:
+    - desc: '要移除身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要从用户身上移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '从用户身上移除指定身份组。'
+  params:
+    - desc: '要移除身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要从用户身上移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeusersfromrole:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '从列表中的用户身上移除指定身份组（若其拥有该身份组）。'
+  params:
+    - &ref_416
+      desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_417
+      desc: '要移除该身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '从列表中的用户身上移除指定身份组（若其拥有该身份组）。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要移除该身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_1:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '从列表中的用户身上移除指定身份组（若其拥有该身份组）。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要移除该身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+removeusersfromrole_IRole_IUser[]_2:
+  args:
+    - '@role @user'
+    - '@user @role'
+  desc: '从列表中的用户身上移除指定身份组（若其拥有该身份组）。'
+  params:
+    - desc: '要从用户身上移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '要移除该身份组的用户。'
+      name: users
+      optional: false
+      type: IUser[]
+removewhitelistedrole:
+  args:
+    - '@role'
+  desc: '从白名单中移除一个身份组。'
+  params:
+    - desc: '要从白名单中移除的身份组。'
+      name: role
+      optional: false
+      type: IRole
+removewhitelisteduser:
+  args:
+    - '@user'
+  desc: '从白名单中移除一个用户。'
+  params:
+    - desc: '要从白名单中移除的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+renameemote:
+  args:
+    - text text
+  desc: '重命名服务器上现有的表情。'
+  params:
+    - &ref_421
+      desc: '要重命名的现有表情。'
+      name: emote
+      optional: false
+      type: string
+    - &ref_422
+      desc: '表情的新名称。'
+      name: name
+      optional: false
+      type: string
+renameemote_string_string:
+  args:
+    - text text
+  desc: '重命名服务器上现有的表情。'
+  params:
+    - desc: '要重命名的现有表情。'
+      name: emote
+      optional: false
+      type: string
+    - desc: '表情的新名称。'
+      name: name
+      optional: false
+      type: string
+rj:
+  args:
+    - action
+  desc: '管理身份组任务。'
+  params:
+    - desc: '要对身份组任务执行的操作。'
+      name: action
+      optional: false
+      type: string
+rolejobs:
+  args:
+    - ''
+  desc: '列出服务器中所有正在进行的批量身份组操作，并提供每项的详细信息。'
+  params: [ ]
+setbanner:
+  args:
+    - text
+  desc: '设置服务器横幅。'
+  params:
+    - &ref_489
+      desc: '新服务器横幅的 URL。'
+      name: img
+      optional: false
+      type: string
+setbanner_string:
+  args:
+    - text
+  desc: '设置服务器横幅。'
+  params:
+    - desc: '新服务器横幅的 URL。'
+      name: img
+      optional: false
+      type: string
+setdefaultpunishment:
+  args:
+    - punishmentaction
+  desc: '设置服务器的默认惩罚措施。'
+  params:
+    - &ref_501
+      desc: '要设置的默认惩罚措施。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction:
+  args:
+    - punishmentaction
+  desc: '设置服务器的默认惩罚措施。'
+  params:
+    - desc: '要设置的默认惩罚措施。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_1:
+  args:
+    - punishmentaction
+  desc: '设置服务器的默认惩罚措施。'
+  params:
+    - &ref_502
+      desc: '要设置的默认惩罚措施。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+setdefaultpunishment_PunishmentAction_2:
+  args:
+    - punishmentaction
+  desc: '设置服务器的默认惩罚措施。'
+  params:
+    - desc: '要设置的默认惩罚措施。'
+      name: punishmentAction
+      optional: false
+      type: PunishmentAction
+seticon:
+  args:
+    - text
+  desc: '设置服务器图标。'
+  params:
+    - &ref_525
+      desc: '新服务器图标的 URL。'
+      name: img
+      optional: false
+      type: string
+seticon_string:
+  args:
+    - text
+  desc: '设置服务器图标。'
+  params:
+    - desc: '新服务器图标的 URL。'
+      name: img
+      optional: false
+      type: string
+setroles:
+  args:
+    - '@user @role'
+  desc: '通过添加新身份组（可选时间限制）修改用户的身份组。'
+  params:
+    - &ref_521
+      desc: '要修改身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_522
+      desc: '要添加给用户的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '通过添加新身份组（可选时间限制）修改用户的身份组。'
+  params:
+    - desc: '要修改身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '通过添加新身份组（可选时间限制）修改用户的身份组。'
+  params:
+    - desc: '要修改身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '通过添加新身份组（可选时间限制）修改用户的身份组。'
+  params:
+    - desc: '要修改身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要添加给用户的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setroles_IGuildUser_StoopidTime_IRole[]:
+  args:
+    - '@user time @role'
+  desc: '通过添加新身份组（可选时间限制）修改用户的身份组。'
+  params:
+    - desc: '要修改身份组的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_524
+      desc: '身份组保持有效的时长。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要添加给用户的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setservername:
+  args:
+    - text
+  desc: '设置服务器名称。'
+  params:
+    - desc: '服务器的新名称。'
+      name: name
+      optional: false
+      type: string
+setsplash:
+  args:
+    - text
+  desc: '设置服务器的邀请背景图（splash）。'
+  params:
+    - desc: '新邀请背景图的 URL。'
+      name: img
+      optional: false
+      type: string
+setsplash_string:
+  args:
+    - text
+  desc: '设置服务器的邀请背景图（splash）。'
+  params:
+    - desc: '设置服务器的邀请背景图（splash）。'
+      name: time
+      optional: false
+      type: StoopidTime
+sfr:
+  args:
+    - role emotes
+  desc: '为指定身份组窃取表情。'
+  params:
+    - desc: '要为其窃取表情的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '以空格分隔的表情 URL 或表情名称列表。'
+      name: e
+      optional: false
+      type: string
+sj:
+  args:
+    - job
+  desc: '停止正在运行的任务。'
+  params:
+    - desc: '要停止的任务。'
+      name: job
+      optional: false
+      type: string
+slowmode:
+  args:
+    - time channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - &ref_550
+      desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_549
+      desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel:
+  args:
+    - channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - &ref_547
+      desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_1:
+  args:
+    - channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_2:
+  args:
+    - channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_ITextChannel_3:
+  args:
+    - channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime:
+  args:
+    - time
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - &ref_548
+      desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_1:
+  args:
+    - time
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_2:
+  args:
+    - time
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_3:
+  args:
+    - time
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+slowmode_StoopidTime_ITextChannel:
+  args:
+    - time channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_1:
+  args:
+    - time channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_StoopidTime_ITextChannel_2:
+  args:
+    - time channel
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params:
+    - desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '要应用慢速模式设置的文字频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+slowmode_noparams:
+  args:
+    - ''
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params: [ ]
+slowmode_noparams_1:
+  args:
+    - ''
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params: [ ]
+slowmode_noparams_2:
+  args:
+    - ''
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params: [ ]
+slowmode_noparams_3:
+  args:
+    - ''
+  desc: '在关闭和默认间隔之间切换当前文字频道的慢速模式间隔。'
+  params: [ ]
+steal:
+  args:
+    - emotes
+  desc: '从其他服务器窃取表情。'
+  params:
+    - desc: '以空格分隔的表情 URL 或表情名称列表。'
+      name: e
+      optional: false
+      type: string
+stealemotes:
+  args:
+    - text
+  desc: '从消息中窃取表情并添加到服务器。'
+  params:
+    - &ref_565
+      desc: '包含要窃取表情的消息。'
+      name: e
+      optional: false
+      type: string
+stealemotes_string:
+  args:
+    - text
+  desc: '从消息中窃取表情并添加到服务器。'
+  params:
+    - desc: '包含要窃取表情的消息。'
+      name: e
+      optional: false
+      type: string
+stealforrole:
+  args:
+    - '@role text'
+  desc: '从消息中窃取表情，并将其锁定给指定身份组。'
+  params:
+    - &ref_566
+      desc: '要将表情添加给的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '包含要窃取表情的消息。'
+      name: e
+      optional: false
+      type: string
+stealforrole_IRole_string:
+  args:
+    - '@role text'
+  desc: '从消息中窃取表情，并将其锁定给指定身份组。'
+  params:
+    - desc: '要将表情添加给的身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '包含要窃取表情的消息。'
+      name: e
+      optional: false
+      type: string
+stopjob:
+  args:
+    - number
+  desc: '按任务编号停止批量身份组操作任务。'
+  params:
+    - &ref_570
+      desc: '要停止的批量身份组操作的任务编号。'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int:
+  args:
+    - number
+  desc: '按任务编号停止批量身份组操作任务。'
+  params:
+    - desc: '要停止的批量身份组操作的任务编号。'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_1:
+  args:
+    - number
+  desc: '按任务编号停止批量身份组操作任务。'
+  params:
+    - desc: '要停止的批量身份组操作的任务编号。'
+      name: jobnum
+      optional: false
+      type: int
+stopjob_int_2:
+  args:
+    - number
+  desc: '按任务编号停止批量身份组操作任务。'
+  params:
+    - desc: '要停止的批量身份组操作的任务编号。'
+      name: jobnum
+      optional: false
+      type: int
+syncroletoall:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道和分类。'
+  params:
+    - &ref_593
+      desc: '要在全服同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道和分类。'
+  params:
+    - desc: '要在全服同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_1:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道和分类。'
+  params:
+    - desc: '要在全服同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoall_IRole_2:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道和分类。'
+  params:
+    - desc: '要在全服同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有分类。'
+  params:
+    - &ref_594
+      desc: '要跨分类同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有分类。'
+  params:
+    - desc: '要跨分类同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_1:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有分类。'
+  params:
+    - desc: '要跨分类同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallcategories_IRole_2:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有分类。'
+  params:
+    - desc: '要跨分类同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道。'
+  params:
+    - &ref_595
+      desc: '要跨文字频道同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道。'
+  params:
+    - desc: '要跨文字频道同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_1:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道。'
+  params:
+    - desc: '要跨文字频道同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+syncroletoallchannels_IRole_2:
+  args:
+    - '@role'
+  desc: '将身份组的权限同步到服务器内所有文字频道。'
+  params:
+    - desc: '要跨文字频道同步的身份组。'
+      name: role
+      optional: false
+      type: IRole
+unlock:
+  args:
+    - '[channel]'
+  desc: '解锁指定频道，允许所有人再次发送消息。'
+  params:
+    - desc: '要解锁的频道。若为 null，则解锁当前频道。'
+      name: channel
+      optional: true
+      type: sockettextchannel
+unlockdown:
+  args:
+    - ''
+  desc: '解锁服务器，允许 @everyone 再次发送消息。'
+  params: [ ]

@@ -178,5 +178,10 @@
   "custom_voice_user_not_in_channel": "{0} не знаходиться у вашому голосовому каналі.",
   "custom_voice_user_not_in_deny_list": "{0} немає у вашому списку заборонених користувачів.",
   "custom_voice_user_removed_from_allowed": "Успішно видалено {0} із дозволених користувачів.",
-  "custom_voice_user_removed_from_denied": "Успішно видалено {0} із заборонених користувачів."
+  "custom_voice_user_removed_from_denied": "Успішно видалено {0} із заборонених користувачів.",
+  "custom_voice_modal_rename_title": "Перейменувати голосовий канал",
+  "custom_voice_modal_user_limit_title": "Встановити ліміт учасників",
+  "custom_voice_modal_bitrate_title": "Встановити бітрейт",
+  "custom_voice_default_controls_title": "Керування голосовим каналом",
+  "custom_voice_default_description": "Це твій власний голосовий канал. Керуй ним за допомогою кнопок нижче."
 }

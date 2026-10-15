@@ -3,17 +3,17 @@ coprmonitoradd:
     - '<ownerProject> [channel] [packages]'
     - '<ownerProject> [channel] [packages]'
     - ownerProject
-  desc: 'Ajoute un moniteur de projet COPR au serveur.'
+  desc: 'Ajoute une surveillance d''un projet COPR au serveur.'
   params:
-    - desc: 'Le projet COPR au format owner/project (ex. linux4switch/l4s).'
+    - desc: 'Le projet COPR au format propriétaire/projet (par ex. linux4switch/l4s).'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Canal optionnel pour les notifications. Par défaut le canal actuel.'
+    - desc: 'Salon facultatif pour les notifications. Par défaut, le salon actuel.'
       name: channel
       optional: true
       type: ITextChannel
-    - desc: 'Liste optionnelle de paquets à surveiller séparés par des virgules (ex. mesa,kernel).'
+    - desc: 'Liste facultative de paquets à surveiller, séparés par des virgules (par ex. mesa,kernel).'
       name: packages
       optional: true
       type: string
@@ -21,36 +21,36 @@ coprmonitorremove:
   args:
     - '<ownerProject> [channel]'
     - ownerProject
-  desc: 'Supprime un moniteur de projet COPR du serveur.'
+  desc: 'Retire la surveillance d''un projet COPR du serveur.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Canal optionnel pour supprimer un moniteur spécifique.'
+    - desc: 'Salon facultatif dont retirer une surveillance précise.'
       name: channel
       optional: true
       type: ITextChannel
 coprmonitorlist:
   args:
     - ''
-  desc: 'Liste tous les moniteurs COPR configurés sur le serveur.'
+  desc: 'Liste toutes les surveillances COPR configurées sur le serveur.'
   params: [ ]
 coprmonitortoggle:
   args:
     - ownerProject
-  desc: 'Active ou désactive un moniteur COPR.'
+  desc: 'Active ou désactive une surveillance COPR.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
 coprnotify:
   args:
     - ownerProject status enabled
-  desc: 'Configure quels statuts de build déclenchent des notifications pour un moniteur.'
+  desc: 'Configure les statuts de build qui déclenchent des notifications pour une surveillance.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
@@ -65,9 +65,9 @@ coprnotify:
 coprfilter:
   args:
     - ownerProject text
-  desc: 'Définit le filtre de paquets pour un moniteur COPR.'
+  desc: 'Définit le filtre de paquets d''une surveillance COPR.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
@@ -78,78 +78,78 @@ coprfilter:
 coprsucceededmessage:
   args:
     - ownerProject text
-  desc: 'Définit le message affiché quand un build COPR réussit.'
+  desc: 'Définit le message affiché lorsqu''un build COPR réussit.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Le message ou code d''embed. Utilisez "-" pour réinitialiser par défaut.'
+    - desc: 'Le message ou le code d''embed. Utilisez "-" pour revenir au message par défaut.'
       name: message
       optional: false
       type: string
 coprfailedmessage:
   args:
     - ownerProject text
-  desc: 'Définit le message affiché quand un build COPR échoue.'
+  desc: 'Définit le message affiché lorsqu''un build COPR échoue.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Le message ou code d''embed. Utilisez "-" pour réinitialiser par défaut.'
+    - desc: 'Le message ou le code d''embed. Utilisez "-" pour revenir au message par défaut.'
       name: message
       optional: false
       type: string
 coprcanceledmessage:
   args:
     - ownerProject text
-  desc: 'Définit le message affiché quand un build COPR est annulé.'
+  desc: 'Définit le message affiché lorsqu''un build COPR est annulé.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Le message ou code d''embed. Utilisez "-" pour réinitialiser par défaut.'
+    - desc: 'Le message ou le code d''embed. Utilisez "-" pour revenir au message par défaut.'
       name: message
       optional: false
       type: string
 coprpendingmessage:
   args:
     - ownerProject text
-  desc: 'Définit le message affiché quand un build COPR est en attente.'
+  desc: 'Définit le message affiché lorsqu''un build COPR est en attente.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Le message ou code d''embed. Utilisez "-" pour réinitialiser par défaut.'
+    - desc: 'Le message ou le code d''embed. Utilisez "-" pour revenir au message par défaut.'
       name: message
       optional: false
       type: string
 coprrunningmessage:
   args:
     - ownerProject text
-  desc: 'Définit le message affiché quand un build COPR est en cours.'
+  desc: 'Définit le message affiché lorsqu''un build COPR est en cours.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Le message ou code d''embed. Utilisez "-" pour réinitialiser par défaut.'
+    - desc: 'Le message ou le code d''embed. Utilisez "-" pour revenir au message par défaut.'
       name: message
       optional: false
       type: string
 coprskippedmessage:
   args:
     - ownerProject text
-  desc: 'Définit le message affiché quand un build COPR est ignoré.'
+  desc: 'Définit le message affiché lorsqu''un build COPR est ignoré.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Le message ou code d''embed. Utilisez "-" pour réinitialiser par défaut.'
+    - desc: 'Le message ou le code d''embed. Utilisez "-" pour revenir au message par défaut.'
       name: message
       optional: false
       type: string
@@ -158,11 +158,11 @@ coprdefaultmessage:
     - ownerProject text
   desc: 'Définit le message par défaut pour tous les autres statuts de build.'
   params:
-    - desc: 'Le projet COPR au format owner/project.'
+    - desc: 'Le projet COPR au format propriétaire/projet.'
       name: ownerProject
       optional: false
       type: string
-    - desc: 'Le message ou code d''embed. Utilisez "-" pour réinitialiser par défaut.'
+    - desc: 'Le message ou le code d''embed. Utilisez "-" pour revenir au message par défaut.'
       name: message
       optional: false
       type: string

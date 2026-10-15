@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'このサーバーのすべてのロールメニューを、チャンネル、種類、オプション数、ステータスとともに一覧表示します。'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: '1つのロールメニューに関する情報をすべて表示します。チャンネル、種類、選択ルール、必要ロール、確認、オプションが含まれます。'
+  params:
+    - desc: 'rolemenus で確認できるメニュー ID です。'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'ロールごとに 1 つのオプションを持つ新しいロールメニューをチャンネルに投稿します。メンバーはドロップダウンまたはボタンの行から選択して、ロールを付与・解除できます。'
+  params:
+    - desc: 'メニューを投稿するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'dropdown（ドロップダウン）または buttons（ボタン）です。'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: '1つ以上のロール（最大 25 個）です。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: '絵文字と表示名（省略可能）を指定して、メニューにロールを追加し、投稿されたメッセージを更新します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '新しいオプションで付与するロールです。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'メニューに表示される名前の前に付ける絵文字（省略可能）と名前です。既定ではロール名が使用されます。'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'メニューからロールを削除し、投稿されたメッセージを更新します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'メニューから外すロールです。'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'メニューの名前を変更します。この名前は既定のメッセージのタイトルとなり、一覧にも表示されます。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '新しい名前です（最大 100 文字）。'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'メニューの上に表示するテキストを設定します。プレーンテキストまたは埋め込みビルダーの埋め込み JSON を指定できます。ID のみを送信すると現在のメッセージを表示し、"clear" を送信すると既定のオプション一覧に戻します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'メッセージ、"clear"、または表示する場合は何も指定しません。'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'メニューをドロップダウンとボタンの間で切り替えます。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'dropdown（ドロップダウン）または buttons（ボタン）です。'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'メンバーがメニューからロールを 1 つだけ選べるか（別のロールを選ぶと入れ替わります）、任意の数のロールを選べるかを設定します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '1つ選択の場合は exclusive、任意の数の選択の場合は multi です。'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'メンバーが選択後に保持しなければならず、かつ持つことができるメニューのロール数を設定します。最大値に 0 を指定すると無制限になります。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '選択後、メンバーが保持しなければならない最小のロール数です。'
+      name: min
+      optional: false
+      type: int
+    - desc: 'メンバーが持つことができる最大のロール数です。無制限にする場合は 0 を指定します。'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: '指定したロールを持つメンバーだけがメニューを使えるようにします。ロールを省略すると、全員が使用できます。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'メニューを使用するために必要なロールです。解除する場合は省略します。'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'メンバーに、付与・削除されたロールを一覧にした非公開のメモを送信するか、メモを送信しないかを選択します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private（非公開）または silent（通知なし）です。'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'メニューを一時停止して、ドロップダウンまたはボタンをグレーアウトします。一時停止中の場合は再開します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: '同じチャンネルまたは別のチャンネルに、メニューの新しいコピーを投稿し、古いメッセージを削除します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+    - desc: '投稿先のチャンネルです。既定では現在のチャンネルになります。'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'メニューとそのメッセージを削除します。メンバーは既に選択したロールを保持します。'
+  params:
+    - desc: 'メニューの ID です。'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: '同じチャンネルにあるメッセージの古い絵文字ロール設定を新しいロールメニューに移行し、古い設定を廃止します。'
+  params:
+    - desc: '古い設定があるメッセージの ID です。'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown（ドロップダウン）または buttons（ボタン）です。既定値は dropdown です。'
+      name: style
+      optional: true
+      type: RoleMenuStyle

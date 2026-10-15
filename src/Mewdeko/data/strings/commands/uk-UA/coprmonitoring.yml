@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Додає на сервер моніторинг проєкту COPR.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project (наприклад, linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Необов''язковий канал для сповіщень. За замовчуванням це поточний канал.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Необов''язковий список пакетів через кому для моніторингу (наприклад, mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Видаляє з сервера моніторинг проєкту COPR.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Необов''язковий канал, з якого треба видалити конкретний моніторинг.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Показує всі моніторинги COPR, налаштовані на сервері.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Вмикає або вимикає моніторинг COPR.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Налаштовує, які статуси збірки запускають сповіщення для моніторингу.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Статус збірки для налаштування.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Чи увімкнути чи вимкнути сповіщення для цього статусу.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Встановлює фільтр пакетів для моніторингу COPR.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Список пакетів через кому або "all", щоб моніторити все.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Встановлює повідомлення, яке показується, коли збірка COPR успішна.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Повідомлення або код embed. Використай "-", щоб повернути стандартне.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Встановлює повідомлення, яке показується, коли збірка COPR не вдалася.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Повідомлення або код embed. Використай "-", щоб повернути стандартне.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Встановлює повідомлення, яке показується, коли збірку COPR скасовано.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Повідомлення або код embed. Використай "-", щоб повернути стандартне.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Встановлює повідомлення, яке показується, коли збірка COPR очікує.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Повідомлення або код embed. Використай "-", щоб повернути стандартне.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Встановлює повідомлення, яке показується, коли збірка COPR виконується.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Повідомлення або код embed. Використай "-", щоб повернути стандартне.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Встановлює повідомлення, яке показується, коли збірку COPR пропущено.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Повідомлення або код embed. Використай "-", щоб повернути стандартне.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Встановлює стандартне повідомлення для всіх інших статусів збірки.'
+  params:
+    - desc: 'Проєкт COPR у форматі owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Повідомлення або код embed. Використай "-", щоб повернути стандартне.'
+      name: message
+      optional: false
+      type: string

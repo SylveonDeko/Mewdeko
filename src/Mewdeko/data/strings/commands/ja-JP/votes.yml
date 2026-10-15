@@ -1,79 +1,65 @@
 votechannel:
   args:
     - channel
-  desc: >-
-    指定したテキストチャンネルを投票チャンネルとして設定し、すべての投票
-    確認メッセージがそこに送信されます。
+  desc: 'すべての投票の確認が送信される投票チャンネルとして、指定したテキストチャンネルを設定します。'
   params:
     - &ref_646
-      desc: '投票チャンネルとして設定するテキストチャンネル。'
+      desc: '投票チャンネルとして設定するテキストチャンネルです。'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel:
   args:
     - channel
-  desc: >-
-    指定したテキストチャンネルを投票チャンネルとして設定し、すべての投票
-    確認メッセージがそこに送信されます。
+  desc: 'すべての投票の確認が送信される投票チャンネルとして、指定したテキストチャンネルを設定します。'
   params:
-    - desc: '投票チャンネルとして設定するテキストチャンネル。'
+    - desc: '投票チャンネルとして設定するテキストチャンネルです。'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_1:
   args:
     - channel
-  desc: >-
-    指定したテキストチャンネルを投票チャンネルとして設定し、すべての投票
-    確認メッセージがそこに送信されます。
+  desc: 'すべての投票の確認が送信される投票チャンネルとして、指定したテキストチャンネルを設定します。'
   params:
-    - desc: '投票チャンネルとして設定するテキストチャンネル。'
+    - desc: '投票チャンネルとして設定するテキストチャンネルです。'
       name: channel
       optional: false
       type: ITextChannel
 votechannel_ITextChannel_2:
   args:
     - channel
-  desc: >-
-    指定したテキストチャンネルを投票チャンネルとして設定し、すべての投票
-    確認メッセージがそこに送信されます。
+  desc: 'すべての投票の確認が送信される投票チャンネルとして、指定したテキストチャンネルを設定します。'
   params:
-    - desc: '投票チャンネルとして設定するテキストチャンネル。'
+    - desc: '投票チャンネルとして設定するテキストチャンネルです。'
       name: channel
       optional: false
       type: ITextChannel
 votemessage:
   args:
     - '[message]'
-  desc: >-
-    ユーザーが投票したときに送信するカスタムメッセージを設定するか、
-    現在の投票メッセージをプレビューします。
+  desc: 'ユーザーが投票したとき、または現在の投票メッセージをプレビューするときに送信するカスタムメッセージを設定します。'
   params:
-    - desc: '投票用のカスタムメッセージ。デフォルトにリセットするには"-"を使用。nullの場合は現在の投票メッセージをプレビューします。'
+    - desc: '投票に使用するカスタムメッセージです。既定のメッセージにリセットするには "-" を使用します。null の場合は、現在の投票メッセージをプレビューします。'
       name: message
       optional: true
       type: string
 votepassword:
   args:
     - ''
-  desc: >-
-    新しい投票パスワードを設定するための確認プロセスを開始し、そのセキュリティ
-    についてユーザーに注意を促します。
+  desc: '新しい投票パスワードを設定するための確認手続きを開始します。セキュリティ上の注意を表示します。'
   params: [ ]
 voteroleadd:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    ユーザーが投票したときに付与されるロールを追加します。ロールを自動削除する
-    オプションの期間も設定できます。
+  desc: '投票したユーザーに付与するロールを追加します。ロールを自動的に削除するまでの期間を指定することもできます。'
   params:
-    - desc: '投票報酬として追加するロール。'
+    - desc: '投票報酬として追加するロールです。'
       name: role
       optional: false
       type: role
-    - desc: 'ロールが付与される期間。無期限の場合はnull。'
+    - desc: 'ロールが付与される期間です。null の場合は無期限です。'
       name: time
       optional: true
       type: duration
@@ -81,15 +67,13 @@ voteroleadd_IRole_=:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    ユーザーが投票したときに付与されるロールを追加します。ロールを自動削除する
-    オプションの期間も設定できます。
+  desc: '投票したユーザーに付与するロールを追加します。ロールを自動的に削除するまでの期間を指定することもできます。'
   params:
-    - desc: '投票報酬として追加するロール。'
+    - desc: '投票報酬として追加するロールです。'
       name: role
       optional: false
       type: role
-    - desc: 'ロールが付与される期間。無期限の場合はnull。'
+    - desc: 'ロールが付与される期間です。null の場合は無期限です。'
       name: time
       optional: true
       type: duration
@@ -97,15 +81,13 @@ voteroleadd_IRole_=_1:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    ユーザーが投票したときに付与されるロールを追加します。ロールを自動削除する
-    オプションの期間も設定できます。
+  desc: '投票したユーザーに付与するロールを追加します。ロールを自動的に削除するまでの期間を指定することもできます。'
   params:
-    - desc: '投票報酬として追加するロール。'
+    - desc: '投票報酬として追加するロールです。'
       name: role
       optional: false
       type: role
-    - desc: 'ロールが付与される期間。無期限の場合はnull。'
+    - desc: 'ロールが付与される期間です。null の場合は無期限です。'
       name: time
       optional: true
       type: duration
@@ -113,113 +95,111 @@ voteroleadd_IRole_=_2:
   args:
     - '@role [time]'
     - '@role'
-  desc: >-
-    ユーザーが投票したときに付与されるロールを追加します。ロールを自動削除する
-    オプションの期間も設定できます。
+  desc: '投票したユーザーに付与するロールを追加します。ロールを自動的に削除するまでの期間を指定することもできます。'
   params:
-    - desc: '投票報酬として追加するロール。'
+    - desc: '投票報酬として追加するロールです。'
       name: role
       optional: false
       type: role
-    - desc: 'ロールが付与される期間。無期限の場合はnull。'
+    - desc: 'ロールが付与される期間です。null の場合は無期限です。'
       name: time
       optional: true
       type: duration
 voteroleedit:
   args:
     - '@role time'
-  desc: '投票ロールがユーザーに付与される期間を編集します。'
+  desc: 'ユーザーに付与される投票ロールの期間を編集します。'
   params:
     - &ref_648
-      desc: '編集するロール。'
+      desc: '編集するロールです。'
       name: role
       optional: false
       type: IRole
     - &ref_649
-      desc: 'ロールが付与される新しい期間。'
+      desc: 'ロールが付与される新しい期間です。'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime:
   args:
     - '@role time'
-  desc: '投票ロールがユーザーに付与される期間を編集します。'
+  desc: 'ユーザーに付与される投票ロールの期間を編集します。'
   params:
-    - desc: '編集するロール。'
+    - desc: '編集するロールです。'
       name: role
       optional: false
       type: IRole
-    - desc: 'ロールが付与される新しい期間。'
+    - desc: 'ロールが付与される新しい期間です。'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_1:
   args:
     - '@role time'
-  desc: '投票ロールがユーザーに付与される期間を編集します。'
+  desc: 'ユーザーに付与される投票ロールの期間を編集します。'
   params:
-    - desc: '編集するロール。'
+    - desc: '編集するロールです。'
       name: role
       optional: false
       type: IRole
-    - desc: 'ロールが付与される新しい期間。'
+    - desc: 'ロールが付与される新しい期間です。'
       name: time
       optional: false
       type: StoopidTime
 voteroleedit_IRole_StoopidTime_2:
   args:
     - '@role time'
-  desc: '投票ロールがユーザーに付与される期間を編集します。'
+  desc: 'ユーザーに付与される投票ロールの期間を編集します。'
   params:
-    - desc: '編集するロール。'
+    - desc: '編集するロールです。'
       name: role
       optional: false
       type: IRole
-    - desc: 'ロールが付与される新しい期間。'
+    - desc: 'ロールが付与される新しい期間です。'
       name: time
       optional: false
       type: StoopidTime
 voteroleremove:
   args:
     - '@role'
-  desc: 'ユーザーが投票したときに付与されるロールのリストからロールを削除します。'
+  desc: 'ユーザーが投票したときに付与されるロールの一覧からロールを削除します。'
   params:
     - &ref_650
-      desc: '投票報酬から削除するロール。'
+      desc: '投票報酬から削除するロールです。'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole:
   args:
     - '@role'
-  desc: 'ユーザーが投票したときに付与されるロールのリストからロールを削除します。'
+  desc: 'ユーザーが投票したときに付与されるロールの一覧からロールを削除します。'
   params:
-    - desc: '投票報酬から削除するロール。'
+    - desc: '投票報酬から削除するロールです。'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_1:
   args:
     - '@role'
-  desc: 'ユーザーが投票したときに付与されるロールのリストからロールを削除します。'
+  desc: 'ユーザーが投票したときに付与されるロールの一覧からロールを削除します。'
   params:
-    - desc: '投票報酬から削除するロール。'
+    - desc: '投票報酬から削除するロールです。'
       name: role
       optional: false
       type: IRole
 voteroleremove_IRole_2:
   args:
     - '@role'
-  desc: 'ユーザーが投票したときに付与されるロールのリストからロールを削除します。'
+  desc: 'ユーザーが投票したときに付与されるロールの一覧からロールを削除します。'
   params:
-    - desc: '投票報酬から削除するロール。'
+    - desc: '投票報酬から削除するロールです。'
       name: role
       optional: false
       type: IRole
 voterolesclear:
   args:
     - ''
-  desc: 'ユーザーが投票したときに付与されるすべてのロールをクリアします。'
+  desc: 'ユーザーが投票したときに付与されるすべてのロールを消去します。'
   params: [ ]
 voteroleslist:
   args:
@@ -229,23 +209,18 @@ voteroleslist:
 votes:
   args:
     - '[@user]'
-  desc: >-
-    特定のユーザーまたはコマンド実行者が行った投票の総数を表示します。
+  desc: '特定のユーザーまたはコマンド実行者の投票の総数を表示します。'
   params:
-    - desc: '投票を数えるユーザー。nullの場合はコマンド実行者の投票を数えます。'
+    - desc: '投票数を数えるユーザーです。null の場合は、コマンド実行者の投票数を数えます。'
       name: user
       optional: true
       type: user
 votesleaderboard:
   args:
     - false
-  desc: >-
-    投票数に基づくユーザーのリーダーボードを表示します。オプションで
-    今月の投票のみにフィルタリングできます。
+  desc: '投票数に基づくユーザーのリーダーボードを表示します。今月の投票のみに絞り込むこともできます。'
   params:
-    - desc: >-
-        投票数に基づくユーザーのリーダーボードを表示します。オプションで
-        今月の投票のみにフィルタリングできます。
+    - desc: '投票数に基づくユーザーのリーダーボードを表示します。今月の投票のみに絞り込むこともできます。'
       name: false
       optional: false
       type: '='

@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Listet jedes Rollenmenü auf diesem Server mit Kanal, Typ, Anzahl der Optionen und Status auf.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Zeigt alle Details zu einem Rollenmenü: Kanal, Typ, Auswahlregeln, benötigte Rolle, Bestätigung und Optionen.'
+  params:
+    - desc: 'Die Menü-ID aus rolemenus.'
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Veröffentlicht ein neues Rollenmenü in einem Kanal, mit einer Option pro Rolle. Mitglieder wählen über ein Dropdown oder eine Reihe von Buttons Rollen aus, um sie zu erhalten oder abzugeben.'
+  params:
+    - desc: 'Der Kanal, in dem das Menü veröffentlicht wird.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'dropdown oder buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: 'Eine oder mehrere Rollen, bis zu 25.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Fügt einem Menü eine Rolle hinzu, optional mit Emoji und Name, und aktualisiert die veröffentlichte Nachricht.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Die Rolle, die die neue Option vergibt.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Ein optionales Emoji, gefolgt von dem Namen, der im Menü angezeigt wird. Standardmäßig wird der Rollenname verwendet.'
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Entfernt eine Rolle aus einem Menü und aktualisiert die veröffentlichte Nachricht.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Die Rolle, die aus dem Menü entfernt wird.'
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Benennt ein Menü um. Der Name dient als Titel der Standardnachricht und wird in Listen angezeigt.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Der neue Name, bis zu 100 Zeichen.'
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Setzt den Text über einem Menü, als Klartext oder als Embed-JSON aus dem Embed-Builder. Sende nur die ID, um die aktuelle Nachricht zu sehen, oder "clear", um zur Standardliste der Optionen zurückzukehren.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Die Nachricht, "clear" oder nichts zum Anzeigen.'
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Wechselt ein Menü zwischen Dropdown und Buttons.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'dropdown oder buttons.'
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Legt fest, ob Mitglieder eine Rolle wählen (eine neue Wahl tauscht die alte aus) oder beliebig viele Rollen aus dem Menü.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'exclusive für eine Wahl, multi für beliebig viele.'
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Legt fest, wie viele Rollen aus einem Menü ein Mitglied behalten und haben darf. Ein Maximum von 0 bedeutet kein Limit.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Die wenigsten Rollen, die ein Mitglied nach der Auswahl behalten muss.'
+      name: min
+      optional: false
+      type: int
+    - desc: 'Die meisten Rollen, die ein Mitglied haben kann, 0 für kein Limit.'
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Erlaubt die Nutzung des Menüs nur Mitgliedern mit einer bestimmten Rolle. Lass die Rolle weg, damit es jeder verwenden kann.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Die Rolle, die zur Nutzung des Menüs benötigt wird. Weglassen zum Entfernen.'
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Legt fest, ob Mitglieder eine private Notiz mit den erhaltenen und entfernten Rollen bekommen oder gar keine.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'private oder silent.'
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Pausiert ein Menü, indem Dropdown oder Buttons ausgegraut werden, oder setzt es fort, falls es pausiert ist.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Veröffentlicht eine neue Kopie eines Menüs im selben oder einem anderen Kanal und löscht die alte Nachricht.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+    - desc: 'Wo es veröffentlicht wird. Standardmäßig der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Löscht ein Menü und seine Nachricht. Mitglieder behalten die Rollen, die sie bereits gewählt haben.'
+  params:
+    - desc: 'Die Menü-ID.'
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Überführt eine ältere Emoji-Rollen-Einrichtung auf einer Nachricht in ein neues Rollenmenü im selben Kanal und deaktiviert danach die alte Einrichtung.'
+  params:
+    - desc: 'Die ID der Nachricht mit der älteren Einrichtung.'
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: 'dropdown oder buttons. Standardmäßig dropdown.'
+      name: style
+      optional: true
+      type: RoleMenuStyle

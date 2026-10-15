@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: '显示你的成就概览：等级、积分、各类别进度和最近解锁的成就。提及他人可查看对方的成就。'
+  params:
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: '显示某一类别下的所有成就，并列出尚未解锁成就的进度。'
+  params:
+    - desc: '类别键或名称，例如 messages、voice、reactions、invites、commands、loyalty、boosts、community、prestige 或 custom。'
+      name: category
+      optional: false
+      type: string
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: '分页显示服务器中所有成就及其进度。'
+  params:
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: '显示最近解锁的五个成就。'
+  params:
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: '按等级和积分显示解锁最好的五个成就。'
+  params:
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: '按名称或描述查找成就，并显示你在每个成就上的进度。'
+  params:
+    - desc: '要搜索的内容。'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: '显示你在所有服务器中获得的成就：总积分、服务器数量和全局成就。'
+  params:
+    - desc: '要查看的用户。默认为你自己。'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: '显示服务器中获得成就最多的成员。隐藏自己的成员不会计入。'
+  params:
+    - desc: 'Points、Unlocked 或 Recent。默认为 Points。'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: '显示在所有服务器中获得成就最多的用户。'
+  params:
+    - desc: 'Points、Unlocked 或 Recent。默认为 Points。'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: '生成成就个人资料卡，显示等级、积分、距离下一等级的进度以及已装备的徽章。'
+  params:
+    - desc: '要生成资料卡的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: '显示成就系统追踪的所有数值：消息数、语音时长、表情回应数、邀请数、命令数、在服务器中的时长、助力、等级和声望。'
+  params:
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: '将成就生成为图片：已解锁，或显示未解锁状态以及你或他人的进度接近程度。'
+  params:
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: '设置成就在图片、仪表板和应用中显示的图标：可以是 trophy 这类图标名称、服务器表情，或 https 图片链接。留空则恢复为其类别的图标。'
+  params:
+    - desc: '成就名称或键。名称含空格时请加引号。'
+      name: achievement
+      optional: false
+      type: string
+    - desc: '图标。留空则清除。'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: '显示你或他人拥有的所有徽章，顶部显示四个已装备的栏位。'
+  params:
+    - desc: '要查看的成员。默认为你自己。'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: '将你拥有的徽章放入四个个人资料栏位之一。徽章键可通过 badges 查看。'
+  params:
+    - desc: '栏位编号，1 至 4。'
+      name: slot
+      optional: false
+      type: int
+    - desc: '徽章键。'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: '清空你四个个人资料栏位中的一个。'
+  params:
+    - desc: '栏位编号，1 至 4。'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: '显示徽章的说明以及获取方式。'
+  params:
+    - desc: '徽章键。'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: '设置谁可以查看你的成就个人资料、成就、徽章和排行榜排名。'
+  params:
+    - desc: 'Profile、Achievements、Badges 或 Leaderboard。'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone 或 OnlyMe。'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: '为你开启或关闭解锁私信、服务器内解锁消息，或其中的提及。'
+  params:
+    - desc: 'Dm、Message 或 Mention。'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: 'true 表示开启，false 表示关闭。'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: '列出服务器中的所有成就及其键、是否启用，以及解锁人数。'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: '开始或暂停在服务器中获得成就。开始时会同时开启消息计数，已符合条件的成员会自动获得其成就，不另行通知。'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: '设置解锁通知的发送频道。留空则停止使用日志频道。'
+  params:
+    - desc: '频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: '设置解锁通知的发送位置：Auto 表示有日志频道时发送到日志频道，否则发送到解锁发生的频道；Here 表示发送到解锁发生的频道；LogChannel 仅发送到日志频道；DmOnly 仅发送私信；Silent 不发送任何通知。'
+  params:
+    - desc: 'Auto、Here、LogChannel、DmOnly 或 Silent。'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: '设置成员是否默认通过私信接收解锁通知，成员可自行关闭。'
+  params:
+    - desc: 'true 表示开启，false 表示关闭。'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: '设置解锁消息。支持纯文本和嵌入 JSON，可使用 %achievement.name%、%achievement.points%、%achievement.list% 和 %achievements.tier% 等占位符。留空则恢复默认消息。'
+  params:
+    - desc: '消息内容，留空则清除。'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: '成员每获得一点成就积分即可获得经验值。设为 0 则关闭。'
+  params:
+    - desc: '每点积分获得的经验值，范围 0 至 1000。'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: '启用一个成就，使成员可以获得该成就。'
+  params:
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: '停用一个成就。已解锁该成就的成员仍会保留。'
+  params:
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: '启用或停用整个类别。'
+  params:
+    - desc: '类别键或名称。'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: '将成就授予成员，并像其他解锁一样发出通知。'
+  params:
+    - desc: '成员。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: '收回成员的一个成就。'
+  params:
+    - desc: '成员。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: '在确认后，清除成员在该服务器中的所有成就。'
+  params:
+    - desc: '成员。'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: '创建一个在达到指定数值时解锁的成就。可用指标包括 MessagesTotal、MessagesToday、VoiceHours、Reactions、Invites、Commands、TenureDays、XpLevel、Reputation 和 NetWorth。'
+  params:
+    - desc: '要统计的指标。'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: '需要达到的数值。'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst 或 Champion。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名称。'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: '创建一个在服务器中任意位置发送指定短语时解锁的成就。'
+  params:
+    - desc: '短语，含空格时请加引号。'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst 或 Champion。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名称。'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: '创建一个在使用指定表情回应时解锁的成就。'
+  params:
+    - desc: '表情。'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst 或 Champion。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名称。'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: '创建一个仅工作人员可通过 achgrant 授予的成就。'
+  params:
+    - desc: 'Bronze、Silver、Gold、Emerald、Amethyst 或 Champion。'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: '名称。'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: '在确认后删除服务器创建的一个成就。所有已解锁该成就的成员都会失去它。'
+  params:
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: '成员解锁成就时授予身份组。'
+  params:
+    - desc: '身份组。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: '成员解锁成就时授予货币。设为 0 则移除。'
+  params:
+    - desc: '数量。'
+      name: amount
+      optional: false
+      type: long
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: '成员解锁成就时授予经验值。设为 0 则移除。'
+  params:
+    - desc: '数量。'
+      name: amount
+      optional: false
+      type: int
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: '移除成就的所有奖励。'
+  params:
+    - desc: '成就名称或键。'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: '阻止拥有某身份组的成员获得成就。再次运行可恢复其获得成就的资格。'
+  params:
+    - desc: '身份组。'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: '阻止某频道的活动计入成就。再次运行可恢复计数。'
+  params:
+    - desc: '频道。'
+      name: channel
+      optional: false
+      type: IGuildChannel

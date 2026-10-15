@@ -1,0 +1,953 @@
+activefilters:
+  args:
+    - ''
+  desc: '現在有効になっているすべてのオーディオフィルターを表示します。'
+  params: [ ]
+autoplay:
+  args:
+    - number
+  desc: 'サーバーの自動再生の曲数を設定します。Spotify API を使用するため、クライアントシークレットと ID が有効である必要があります。'
+  params:
+    - &ref_96
+      desc: '自動再生する曲数です。最大 5 曲です。'
+      name: amount
+      optional: false
+      type: int
+autoplay_int:
+  args:
+    - number
+  desc: 'サーバーの自動再生の曲数を設定します。Spotify API を使用するため、クライアントシークレットと ID が有効である必要があります。'
+  params:
+    - desc: '自動再生する曲数です。最大 5 曲です。'
+      name: amount
+      optional: false
+      type: int
+bass:
+  args:
+    - 0
+  desc: '現在の曲のベースブーストレベルを設定します。'
+  params:
+    - desc: '現在の曲のベースブーストレベルを設定します。'
+      name: 0
+      optional: false
+      type: '='
+clearqueue:
+  args:
+    - ''
+  desc: 'ミュージックキューを消去します。'
+  params: [ ]
+deleteplaylist:
+  args:
+    - text
+  desc: '保存済みのプレイリストを削除します。'
+  params:
+    - &ref_187
+      desc: '削除するプレイリストの名前です。'
+      name: name
+      optional: false
+      type: string
+deleteplaylist_string:
+  args:
+    - text
+  desc: '保存済みのプレイリストを削除します。'
+  params:
+    - desc: '削除するプレイリストの名前です。'
+      name: name
+      optional: false
+      type: string
+distortion:
+  args:
+    - true
+  desc: 'オーディオに歪み（ディストーション）効果を適用します。'
+  params:
+    - desc: 'オーディオに歪み（ディストーション）効果を適用します。'
+      name: true
+      optional: false
+      type: '='
+echo:
+  args:
+    - 1 0.5
+    - 0
+  desc: '現在の曲にエコー効果を適用します。Lavalink ノードにエコーフィルタープラグインが必要です。'
+  params:
+    - desc: 'エコーの遅延時間（秒）です。0.1〜5 の間で指定します。0 で効果を無効にします。'
+      name: delay
+      optional: true
+      type: float
+    - desc: '各エコーがどれだけ減衰するかです。0〜1 の間で指定します。'
+      name: decay
+      optional: true
+      type: float
+eightd:
+  args:
+    - true
+  desc: '音声が聞き手の周りを回転する 8D オーディオ効果を適用します。'
+  params:
+    - desc: '音声が聞き手の周りを回転する 8D オーディオ効果を適用します。'
+      name: true
+      optional: false
+      type: '='
+join:
+  args:
+    - ''
+  desc: 'ミュージックプレイヤーを取得し、ボイスチャンネルへの参加を試みます。'
+  params: [ ]
+karaoke:
+  args:
+    - true
+  desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+  params:
+    - desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+karaoke_=:
+  args:
+    - true
+  desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+  params:
+    - desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_1:
+  args:
+    - true
+  desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+  params:
+    - desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+karaoke_=_2:
+  args:
+    - true
+  desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+  params:
+    - desc: '曲からボーカルを取り除こうとするカラオケフィルターを適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+leave:
+  args:
+    - ''
+  desc: 'ボットをボイスチャンネルから切断します。'
+  params: [ ]
+loadplaylist:
+  args:
+    - text false
+    - text
+  desc: '以前保存したプレイリストをキューに読み込みます。'
+  params:
+    - &ref_280
+      desc: '読み込むプレイリストの名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '以前保存したプレイリストをキューに読み込みます。'
+      name: false
+      optional: false
+      type: '='
+loadplaylist_string_=:
+  args:
+    - text false
+    - text
+  desc: '以前保存したプレイリストをキューに読み込みます。'
+  params:
+    - desc: '読み込むプレイリストの名前です。'
+      name: name
+      optional: false
+      type: string
+    - desc: '以前保存したプレイリストをキューに読み込みます。'
+      name: false
+      optional: false
+      type: '='
+loop:
+  args:
+    - repeattype
+  desc: 'ボットがループするかどうか、およびその方法を設定します。'
+  params:
+    - &ref_286
+      desc: 'リピートの種類です。'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+loop_PlayerRepeatType:
+  args:
+    - repeattype
+  desc: 'ボットがループするかどうか、およびその方法を設定します。'
+  params:
+    - desc: 'リピートの種類です。'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+lowpass:
+  args:
+    - 20
+    - 0
+  desc: '高い周波数をカットして音をこもらせる、ローパスフィルターを適用します。'
+  params:
+    - desc: '1〜100 の間の平滑化の量です。値が大きいほど高音がより多くカットされます。0 でフィルターを無効にします。'
+      name: smoothing
+      optional: true
+      type: float
+movesong:
+  args:
+    - number number
+  desc: 'キュー内の曲を新しい位置に移動します。'
+  params:
+    - &ref_299
+      desc: '曲の現在の位置です。'
+      name: from
+      optional: false
+      type: int
+    - &ref_300
+      desc: '曲の新しい位置です。'
+      name: to
+      optional: false
+      type: int
+movesong_int_int:
+  args:
+    - number number
+  desc: 'キュー内の曲を新しい位置に移動します。'
+  params:
+    - desc: '曲の現在の位置です。'
+      name: from
+      optional: false
+      type: int
+    - desc: '曲の新しい位置です。'
+      name: to
+      optional: false
+      type: int
+musiclinkchannel:
+  args:
+    - ''
+    - '[@channel]'
+  desc: 'チャンネルで音楽リンクの自動変換を切り替えます。有効にすると、そのチャンネルに投稿された Apple Music、Spotify、YouTube Music などの対応する音楽リンクに対して、曲のタイトル、アーティスト、ジャケット画像、および他のサービスの同等のリンクを含む返信の埋め込みが表示されます。'
+  params:
+    - desc: '切り替えるチャンネルです。デフォルトは現在のチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+musiclinkchannels:
+  args:
+    - ''
+  desc: 'このサーバーで音楽リンクの変換が有効になっているチャンネルを一覧表示します。'
+  params: [ ]
+musicsettings:
+  args:
+    - ''
+  desc: 'サーバーの現在の音楽設定を表示します。'
+  params: [ ]
+nightcore:
+  args:
+    - true
+  desc: '現在の曲にナイトコア効果を切り替えます。'
+  params:
+    - desc: '現在の曲にナイトコア効果を切り替えます。'
+      name: true
+      optional: false
+      type: '='
+normalize:
+  args:
+    - ''
+    - false
+  desc: '音量の正規化を切り替えます。大きい部分と小さい部分の音量差をならします。Lavalink ノードに正規化フィルタープラグインが必要です。'
+  params:
+    - desc: '正規化を有効にするか無効にするかです。デフォルトは true です。'
+      name: enable
+      optional: true
+      type: bool
+nowplaying:
+  args:
+    - ''
+  desc: '再生中の曲があれば、その曲を表示します。'
+  params: [ ]
+pause:
+  args:
+    - ''
+  desc: '現在の状態に応じて、プレイヤーを一時停止または再開します。'
+  params: [ ]
+play:
+  args:
+    - number
+  desc: 'YouTube、Spotify、直接検索など、さまざまなソースから音楽を再生します。対応するプラットフォームのトラック、プレイリスト、アルバムに対応しています。'
+  params:
+    - &ref_346
+      desc: 'YouTube、Spotify、直接検索など、さまざまなソースから音楽を再生します。対応するプラットフォームのトラック、プレイリスト、アルバムに対応しています。'
+      name: queueNumber
+      optional: false
+      type: int
+play_int:
+  args:
+    - number
+  desc: 'YouTube、Spotify、直接検索など、さまざまなソースから音楽を再生します。対応するプラットフォームのトラック、プレイリスト、アルバムに対応しています。'
+  params:
+    - desc: 'YouTube、Spotify、直接検索など、さまざまなソースから音楽を再生します。対応するプラットフォームのトラック、プレイリスト、アルバムに対応しています。'
+      name: queueNumber
+      optional: false
+      type: int
+play_string:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'URL または検索語で音楽を再生します。Lavalink ノードで有効になっているソース（YouTube、Spotify、Apple Music、Deezer、SoundCloud、Bandcamp、Twitch、Vimeo、TikTok、Reddit など）の URL は直接読み込まれます。プレーンテキストの場合は、検索語が "spotify:"、"deezer:"、"applemusic:"、"soundcloud:"、"youtube:" などのソースプレフィックスで始まらない限り、設定されたデフォルトのソースで検索します。'
+  params:
+    - &ref_347
+      desc: '再生する音楽の URL または検索語です。必要に応じてソース名のプレフィックスを付けられます。'
+      name: query
+      optional: false
+      type: string
+play_string_1:
+  args:
+    - text
+    - 'deezer: text'
+  desc: 'URL または検索語で音楽を再生します。Lavalink ノードで有効になっているソース（YouTube、Spotify、Apple Music、Deezer、SoundCloud、Bandcamp、Twitch、Vimeo、TikTok、Reddit など）の URL は直接読み込まれます。プレーンテキストの場合は、検索語が "spotify:"、"deezer:"、"applemusic:"、"soundcloud:"、"youtube:" などのソースプレフィックスで始まらない限り、設定されたデフォルトのソースで検索します。'
+  params:
+    - desc: '再生する音楽の URL または検索語です。必要に応じてソース名のプレフィックスを付けられます。'
+      name: query
+      optional: false
+      type: string
+playlists:
+  args:
+    - ''
+  desc: 'サーバーに保存されているすべてのプレイリストを一覧表示します。'
+  params: [ ]
+queue:
+  args:
+    - ''
+  desc: 'ミュージックキューです。'
+  params: [ ]
+resetfilters:
+  args:
+    - ''
+  desc: '現在の曲からすべてのアクティブなオーディオフィルターを削除します。'
+  params: [ ]
+saveplaylist:
+  args:
+    - text
+  desc: '現在のキューを名前付きのプレイリストとして保存します。'
+  params:
+    - &ref_477
+      desc: 'プレイリストを保存する名前です。'
+      name: name
+      optional: false
+      type: string
+saveplaylist_string:
+  args:
+    - text
+  desc: '現在のキューを名前付きのプレイリストとして保存します。'
+  params:
+    - desc: 'プレイリストを保存する名前です。'
+      name: name
+      optional: false
+      type: string
+search:
+  args:
+    - text
+    - 'spotify: text'
+  desc: '自動的に再生せずに曲を検索します。検索語が "spotify:"、"deezer:"、"soundcloud:" などのソースプレフィックスで始まらない限り、設定されたデフォルトのソースで検索します。'
+  params:
+    - &ref_480
+      desc: '検索語です。必要に応じてソース名のプレフィックスを付けられます。'
+      name: query
+      optional: false
+      type: string
+search_string:
+  args:
+    - text
+    - 'spotify: text'
+  desc: '自動的に再生せずに曲を検索します。検索語が "spotify:"、"deezer:"、"soundcloud:" などのソースプレフィックスで始まらない限り、設定されたデフォルトのソースで検索します。'
+  params:
+    - desc: '検索語です。必要に応じてソース名のプレフィックスを付けられます。'
+      name: query
+      optional: false
+      type: string
+seek:
+  args:
+    - text
+  desc: '現在の曲の特定の位置にシークします。'
+  params:
+    - &ref_482
+      desc: 'シーク先の時間です（形式: mm:ss）。'
+      name: timeSpan
+      optional: false
+      type: string
+seek_string:
+  args:
+    - text
+  desc: '現在の曲の特定の位置にシークします。'
+  params:
+    - desc: 'シーク先の時間です（形式: mm:ss）。'
+      name: timeSpan
+      optional: false
+      type: string
+setdjrole:
+  args:
+    - '[@role]'
+  desc: '昇格した権限が必要な音楽コマンドのために、DJ ロールを設定します。'
+  params:
+    - desc: 'DJ として設定するロールです。null の場合は DJ ロールを削除します。'
+      name: role
+      optional: true
+      type: role
+setmusicchannel:
+  args:
+    - '[@channel]'
+  desc: '音楽のイベントを送信するチャンネルを設定します。'
+  params:
+    - desc: '音楽のイベントを送信するチャンネルです。'
+      name: channel
+      optional: true
+      type: channel
+shuffle:
+  args:
+    - ''
+  desc: '現在の音楽キューをシャッフルします。'
+  params: [ ]
+skip:
+  args:
+    - ''
+  desc: '次の曲にスキップします。'
+  params: [ ]
+songremove:
+  args:
+    - number
+  desc: '選択した曲をキューから削除します。選択した曲が現在再生中の曲の場合、その曲はスキップされます。次の曲がない場合、プレイヤーは停止します。'
+  params:
+    - &ref_554
+      desc: '削除するキューの番号です。'
+      name: queueNumber
+      optional: false
+      type: int
+songremove_int:
+  args:
+    - number
+  desc: '選択した曲をキューから削除します。選択した曲が現在再生中の曲の場合、その曲はスキップされます。次の曲がない場合、プレイヤーは停止します。'
+  params:
+    - desc: '削除するキューの番号です。'
+      name: queueNumber
+      optional: false
+      type: int
+stereowiden:
+  args:
+    - true
+  desc: '空間の広がりを強調するステレオワイドニング効果を適用します。'
+  params:
+    - desc: '空間の広がりを強調するステレオワイドニング効果を適用します。'
+      name: true
+      optional: false
+      type: '='
+tremolo:
+  args:
+    - true
+  desc: '音量を揺らすトレモロ効果を適用または削除します。'
+  params:
+    - desc: '音量を揺らすトレモロ効果を適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+tremolo_=:
+  args:
+    - true
+  desc: '音量を揺らすトレモロ効果を適用または削除します。'
+  params:
+    - desc: '音量を揺らすトレモロ効果を適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_1:
+  args:
+    - true
+  desc: '音量を揺らすトレモロ効果を適用または削除します。'
+  params:
+    - desc: '音量を揺らすトレモロ効果を適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_2:
+  args:
+    - true
+  desc: '音量を揺らすトレモロ効果を適用または削除します。'
+  params:
+    - desc: '音量を揺らすトレモロ効果を適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+vaporwave:
+  args:
+    - true
+  desc: '現在の曲にヴェイパーウェイブ効果を切り替えます。'
+  params:
+    - desc: '現在の曲にヴェイパーウェイブ効果を切り替えます。'
+      name: true
+      optional: false
+      type: '='
+vibrato:
+  args:
+    - true
+  desc: '音程を揺らすビブラート効果を適用または削除します。'
+  params:
+    - desc: '音程を揺らすビブラート効果を適用または削除します。'
+      name: true
+      optional: false
+      type: '='
+volume:
+  args:
+    - number
+  desc: 'プレイヤーの音量を設定します。'
+  params:
+    - &ref_645
+      desc: '設定する音量です。'
+      name: volume
+      optional: false
+      type: int
+volume_int:
+  args:
+    - number
+  desc: 'プレイヤーの音量を設定します。'
+  params:
+    - desc: '設定する音量です。'
+      name: volume
+      optional: false
+      type: int
+voteskip:
+  args:
+    - ''
+  desc: '現在の曲をスキップする投票を開始するか、その投票に参加します。'
+  params: [ ]
+lastfmlink:
+  args: [ ]
+  desc: 'スクロブルのためにユーザーの Last.fm アカウントをリンクします。'
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: 'スクロブルのためにユーザーの Last.fm アカウントをリンクします。'
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: 'ユーザーの Last.fm アカウントのリンクを解除します。'
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: 'ユーザーの Last.fm アカウントのリンクを解除します。'
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: 'Last.fm のスクロブルを有効または無効にします。'
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: 'Last.fm のスクロブルを有効または無効にします。'
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: 'ユーザーの Last.fm アカウントの状態を表示します。'
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: 'ユーザーの Last.fm アカウントの状態を表示します。'
+  params: [ ]
+fm:
+  args:
+    - '[@user]'
+  desc: 'Last.fm から現在または直前に再生した曲を表示します。Last.fm が連携されていない場合は、Discord の Spotify ステータスを使用します。'
+  params:
+    - desc: '確認するユーザーです。デフォルトはコマンドを実行したユーザーです。'
+      name: user
+      optional: true
+      type: user
+fmrecent:
+  args:
+    - '[@user]'
+  desc: 'Last.fm から、ユーザーが最近再生した曲を表示します。'
+  params:
+    - desc: '確認するユーザーです。デフォルトはコマンドを実行したユーザーです。'
+      name: user
+      optional: true
+      type: user
+fmtopartists:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '指定した期間の、Last.fm でのユーザーのトップアーティストを表示します。'
+  params:
+    - desc: '期間です: week、month、quarter、half、year、overall（デフォルト）のいずれかです。'
+      name: period
+      optional: true
+      type: string
+    - desc: '確認するユーザーです。デフォルトはコマンドを実行したユーザーです。'
+      name: user
+      optional: true
+      type: user
+fmtopalbums:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '指定した期間の、Last.fm でのユーザーのトップアルバムを表示します。'
+  params:
+    - desc: '期間です: week、month、quarter、half、year、overall（デフォルト）のいずれかです。'
+      name: period
+      optional: true
+      type: string
+    - desc: '確認するユーザーです。デフォルトはコマンドを実行したユーザーです。'
+      name: user
+      optional: true
+      type: user
+fmtoptracks:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: '指定した期間の、Last.fm でのユーザーのトップトラックを表示します。'
+  params:
+    - desc: '期間です: week、month、quarter、half、year、overall（デフォルト）のいずれかです。'
+      name: period
+      optional: true
+      type: string
+    - desc: '確認するユーザーです。デフォルトはコマンドを実行したユーザーです。'
+      name: user
+      optional: true
+      type: user
+fmartist:
+  args:
+    - '[artist]'
+  desc: 'アーティストの Last.fm 情報と、あなたの再生回数を表示します。'
+  params:
+    - desc: 'アーティスト名です。デフォルトは、現在または直前に再生しているアーティストです。'
+      name: artist
+      optional: true
+      type: string
+fmalbum:
+  args:
+    - '[artist | album]'
+  desc: 'アルバムの Last.fm 情報と、あなたの再生回数を表示します。'
+  params:
+    - desc: '検索するアルバムです。''artist | album'' の形式で指定します。デフォルトは、現在または直前に再生しているアルバムです。'
+      name: query
+      optional: true
+      type: string
+fmwhoknows:
+  args:
+    - '[artist]'
+  desc: '連携済みのサーバーメンバーを、アーティストの再生回数順にランク付けします。'
+  params:
+    - desc: '確認するアーティストです。デフォルトは、現在または直前に再生しているアーティストです。'
+      name: artist
+      optional: true
+      type: string
+fmwhoknowsalbum:
+  args:
+    - 'artist | album'
+  desc: '連携済みのサーバーメンバーを、アルバムの再生回数順にランク付けします。'
+  params:
+    - desc: '確認するアルバムです。''artist | album'' の形式で指定します。'
+      name: query
+      optional: false
+      type: string
+fmwhoknowstrack:
+  args:
+    - 'artist | track'
+  desc: '連携済みのサーバーメンバーを、トラックの再生回数順にランク付けします。'
+  params:
+    - desc: '確認するトラックです。''artist | track'' の形式で指定します。'
+      name: query
+      optional: false
+      type: string
+fmcrowns:
+  args:
+    - '[artist]'
+  desc: 'このサーバーでアーティストを「所有している」人（再生回数が最も多い人）を表示します。'
+  params:
+    - desc: '確認するアーティストです。デフォルトは、現在または直前に再生しているアーティストです。'
+      name: artist
+      optional: true
+      type: string
+fmtaste:
+  args:
+    - '@user'
+  desc: 'あなたのトップアーティストを別のユーザーのものと比較し、好みがどの程度重なっているかを確認します。'
+  params:
+    - desc: '比較対象のユーザーです。'
+      name: user
+      optional: false
+      type: user
+fmchart:
+  args:
+    - '[size]'
+    - '[period]'
+    - '[@user]'
+  desc: 'ユーザーの Last.fm のトップアルバムを、画像のグリッドとして生成します。'
+  params:
+    - desc: 'グリッドのサイズ（size x size）です。2〜5 の間で指定してください。デフォルトは 3 です。'
+      name: size
+      optional: true
+      type: int
+    - desc: '期間です: week、month、quarter、half、year、overall（デフォルト）のいずれかです。'
+      name: period
+      optional: true
+      type: string
+    - desc: '確認するユーザーです。デフォルトはコマンドを実行したユーザーです。'
+      name: user
+      optional: true
+      type: user
+ttsenable:
+  args:
+    - ''
+  desc: '現在参加しているボイスチャンネルで TTS を切り替えます。'
+  params: [ ]
+ttslink:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'テキストチャンネルを、現在のボイスチャンネルの TTS と連携させます。連携したチャンネルのメッセージは読み上げられます。引数なしで実行すると連携を解除します。'
+  params:
+    - desc: '連携するテキストチャンネルです。解除する場合は省略します。'
+      name: channel
+      optional: true
+      type: channel
+ttslink_ITextChannel:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'テキストチャンネルを、現在のボイスチャンネルの TTS と連携させます。連携したチャンネルのメッセージは読み上げられます。引数なしで実行すると連携を解除します。'
+  params:
+    - desc: '連携するテキストチャンネルです。解除する場合は省略します。'
+      name: channel
+      optional: true
+      type: channel
+ttsannounce:
+  args:
+    - ''
+  desc: '現在のボイスチャンネルの参加・退出のお知らせを切り替えます。'
+  params: [ ]
+ttsautojoin:
+  args:
+    - ''
+  desc: '参加しているボイスチャンネルの自動参加を切り替えます。有効にすると、メンバーがそのチャンネルに入ったときにボットが自動的に参加し（まだボイスに接続していない場合）、チャンネルが空になると退出します。ボットが接続していなくても動作します。'
+  params: [ ]
+ttsjoinformat:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: '参加時のお知らせの形式を設定します。%user.name%、%user.mention%、%server.name% などのプレースホルダーに対応しています。引数なしで実行するとリセットします。'
+  params:
+    - desc: '参加時の形式の文字列です。省略するとデフォルトに戻ります。'
+      name: format
+      optional: true
+      type: string
+ttsjoinformat_string:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: '参加時のお知らせの形式を設定します。%user.name%、%user.mention%、%server.name% などのプレースホルダーに対応しています。引数なしで実行するとリセットします。'
+  params:
+    - desc: '参加時の形式の文字列です。省略するとデフォルトに戻ります。'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: '退出時のお知らせの形式を設定します。%user.name%、%user.mention%、%server.name% などのプレースホルダーに対応しています。引数なしで実行するとリセットします。'
+  params:
+    - desc: '退出時の形式の文字列です。省略するとデフォルトに戻ります。'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat_string:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: '退出時のお知らせの形式を設定します。%user.name%、%user.mention%、%server.name% などのプレースホルダーに対応しています。引数なしで実行するとリセットします。'
+  params:
+    - desc: '退出時の形式の文字列です。省略するとデフォルトに戻ります。'
+      name: format
+      optional: true
+      type: string
+ttsvolume:
+  args:
+    - '75'
+  desc: 'TTS の音量（0〜100）を設定します。音楽の音量とは別に設定されます。'
+  params:
+    - desc: '0〜100 の音量レベルです。'
+      name: volume
+      optional: false
+      type: int
+ttsvolume_int:
+  args:
+    - '75'
+  desc: 'TTS の音量（0〜100）を設定します。音楽の音量とは別に設定されます。'
+  params:
+    - desc: '0〜100 の音量レベルです。'
+      name: volume
+      optional: false
+      type: int
+ttsspeed:
+  args:
+    - '1.5'
+  desc: 'TTS の再生速度（0.5〜2.0）を設定します。'
+  params:
+    - desc: '0.5〜2.0 の速度倍率です。'
+      name: speed
+      optional: false
+      type: float
+ttsspeed_float:
+  args:
+    - '1.5'
+  desc: 'TTS の再生速度（0.5〜2.0）を設定します。'
+  params:
+    - desc: '0.5〜2.0 の速度倍率です。'
+      name: speed
+      optional: false
+      type: float
+ttsdefaultvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'サーバーのデフォルトの TTS 音声を設定します。引数なしで実行するとシステムのデフォルトに戻ります。'
+  params:
+    - desc: '音声の名前です。省略するとリセットされます。'
+      name: voice
+      optional: true
+      type: string
+ttsdefaultvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'サーバーのデフォルトの TTS 音声を設定します。引数なしで実行するとシステムのデフォルトに戻ります。'
+  params:
+    - desc: '音声の名前です。省略するとリセットされます。'
+      name: voice
+      optional: true
+      type: string
+ttsvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'このサーバーで使用する自分専用の TTS 音声を設定します。引数なしで実行するとサーバーのデフォルトに戻ります。'
+  params:
+    - desc: '音声の名前です。省略するとリセットされます。'
+      name: voice
+      optional: true
+      type: string
+ttsvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'このサーバーで使用する自分専用の TTS 音声を設定します。引数なしで実行するとサーバーのデフォルトに戻ります。'
+  params:
+    - desc: '音声の名前です。省略するとリセットされます。'
+      name: voice
+      optional: true
+      type: string
+ttsvoices:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: '利用可能な TTS の音声を、名前、言語、性別、ソースで検索します。結果はページ分けされます。'
+  params:
+    - desc: '検索語（音声名、言語、性別、またはソース）です。'
+      name: search
+      optional: false
+      type: string
+ttsvoices_string:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: '利用可能な TTS の音声を、名前、言語、性別、ソースで検索します。結果はページ分けされます。'
+  params:
+    - desc: '検索語（音声名、言語、性別、またはソース）です。'
+      name: search
+      optional: false
+      type: string
+ttsblock:
+  args:
+    - '@user'
+  desc: 'このサーバーで、ユーザーの TTS の利用をブロックまたはブロック解除します。ブロックの状態を切り替えます。'
+  params:
+    - desc: 'ブロックまたはブロック解除するユーザーです。'
+      name: user
+      optional: false
+      type: user
+ttsblock_IGuildUser:
+  args:
+    - '@user'
+  desc: 'このサーバーで、ユーザーの TTS の利用をブロックまたはブロック解除します。ブロックの状態を切り替えます。'
+  params:
+    - desc: 'ブロックまたはブロック解除するユーザーです。'
+      name: user
+      optional: false
+      type: user
+ttsblocklist:
+  args:
+    - ''
+  desc: 'このサーバーで TTS の利用がブロックされているすべてのユーザーを一覧表示します。'
+  params: [ ]
+ttsrole:
+  args:
+    - '@role'
+    - ''
+  desc: 'TTS を利用するために必要なロールを設定します。制限を解除する場合は引数なしで実行します。'
+  params:
+    - desc: '必要とするロールです。制限を解除する場合は省略します。'
+      name: role
+      optional: true
+      type: role
+ttsrole_IRole:
+  args:
+    - '@role'
+    - ''
+  desc: 'TTS を利用するために必要なロールを設定します。制限を解除する場合は引数なしで実行します。'
+  params:
+    - desc: '必要とするロールです。制限を解除する場合は省略します。'
+      name: role
+      optional: true
+      type: role
+ttsreplycontext:
+  args:
+    - ''
+  desc: 'TTS で返信のコンテキスト（例: "replying to User"）を読み上げるかどうかを切り替えます。'
+  params: [ ]
+ttsattachmentnarration:
+  args:
+    - ''
+  desc: 'TTS で添付ファイルを説明するかどうかを切り替えます（例: "sent an image"）。'
+  params: [ ]
+ttsconsecutivegrouping:
+  args:
+    - ''
+  desc: '同じユーザーからの連続したメッセージで、名前の接頭辞を省略するかどうかを切り替えます。'
+  params: [ ]
+ttsmaxqueue:
+  args:
+    - '20'
+  desc: 'TTS キューの最大数を設定します（1〜50）。'
+  params:
+    - desc: 'キューの最大数（1〜50）です。'
+      name: size
+      optional: false
+      type: int
+ttsmaxqueue_int:
+  args:
+    - '20'
+  desc: 'TTS キューの最大数を設定します（1〜50）。'
+  params:
+    - desc: 'キューの最大数（1〜50）です。'
+      name: size
+      optional: false
+      type: int
+ttssettings:
+  args:
+    - ''
+  desc: 'このサーバーとボイスチャンネルの現在の TTS 設定を表示します。'
+  params: [ ]
+ttsremove:
+  args:
+    - ''
+  desc: '現在のボイスチャンネルのすべての TTS 設定を削除します。'
+  params: [ ]

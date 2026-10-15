@@ -269,7 +269,7 @@ todosetcolor:
       name: listId
       optional: false
       type: int
-    - desc: Hex color code (e.g.,
+    - desc: 'Hex color code, e.g. #ff0000.'
       name: color
       optional: false
       type: string

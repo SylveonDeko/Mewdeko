@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Publie le bouton de candidature d''un salon protégé pour que vous puissiez remplir le formulaire de candidature'
+  params:
+    - desc: 'Le salon pour lequel postuler.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Force l''acceptation d''une candidature, quel que soit le nombre de votes'
+  params:
+    - desc: 'L''ID de la candidature.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Une note facultative affichée sur la candidature fermée.'
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Liste toutes les personnes bloquées pour postuler sur ce serveur'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Bloque un utilisateur pour l''empêcher de postuler, pour un seul salon ou pour tous les salons protégés'
+  params:
+    - desc: 'L''utilisateur à bloquer.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Le salon protégé, ou laissez vide pour le bloquer partout.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Lève un blocage pour qu''un utilisateur puisse à nouveau postuler'
+  params:
+    - desc: 'L''utilisateur bloqué.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Le salon protégé sur lequel le blocage a été défini, s''il était propre à un salon.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Modifie un paramètre d''un filtre de candidature. Exécutez la commande sans paramètre pour voir tout ce que vous pouvez modifier'
+  params:
+    - desc: 'Le salon protégé.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Le nom du paramètre.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'La nouvelle valeur.'
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Refuse une candidature, quel que soit le nombre de votes'
+  params:
+    - desc: 'L''ID de la candidature.'
+      name: applicationId
+      optional: false
+      type: int
+    - desc: 'Une note facultative affichée sur la candidature fermée.'
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: 'Affiche l''historique des candidatures d''un utilisateur, ou le vôtre si aucun utilisateur n''est indiqué'
+  params:
+    - desc: 'L''utilisateur à rechercher.'
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Liste tous les filtres du serveur avec leurs seuils actuels'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Publie un bouton que les membres peuvent cliquer pour postuler à un salon protégé'
+  params:
+    - desc: 'Le salon protégé.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Où publier le panneau. Par défaut, le salon actuel.'
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Liste les candidatures encore en attente de décision'
+  params:
+    - desc: 'Limite facultativement la liste à un seul salon protégé.'
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: 'Ajoute une question au formulaire de candidature d''un filtre. Un filtre peut en avoir jusqu''à cinq'
+  params:
+    - desc: 'Le salon protégé.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Le texte de la question, 45 caractères maximum.'
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: 'Affiche les questions de candidature d''un filtre dans l''ordre où les candidats les voient'
+  params:
+    - desc: 'Le salon protégé.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: 'Retire une question du formulaire de candidature d''un filtre à partir de sa position affichée'
+  params:
+    - desc: 'Le salon protégé.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'La position, à partir de 1, indiquée par la liste des questions.'
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: 'Supprime le filtre d''un salon ainsi que ses questions et son historique de candidatures'
+  params:
+    - desc: 'Le salon protégé.'
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Ouvre les candidatures pour un salon verrouillé, en accordant le rôle indiqué aux candidats acceptés'
+  params:
+    - desc: 'Le salon verrouillé à protéger par un filtre.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Le rôle accordé lorsqu''une candidature est acceptée. Omettez-le pour ajouter directement les candidats au salon.'
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Retire l''une de vos propres candidatures en cours'
+  params:
+    - desc: 'L''ID de la candidature affiché dans le message d''examen.'
+      name: applicationId
+      optional: false
+      type: int

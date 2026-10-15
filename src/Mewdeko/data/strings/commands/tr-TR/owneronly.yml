@@ -1,0 +1,1243 @@
+acadd:
+  args:
+    - command
+  desc: 'Otomatik bir komut ekler.'
+  params:
+    - desc: 'Otomatik olarak eklenecek komut.'
+      name: command
+      optional: false
+      type: string
+topserversupdate:
+  args:
+    - ''
+  desc: 'En iyi sunucular listesini günceller. Yalnızca ana örnekte çalıştırılabilir.'
+aclist:
+  args:
+    - ''
+  desc: 'Tüm otomatik komutları listeler.'
+  params: [ ]
+acrm:
+  args:
+    - index
+  desc: 'Bir otomatik komutu kaldırır.'
+  params:
+    - desc: 'Kaldırılacak komutun dizini.'
+      name: index
+      optional: false
+      type: int
+addinstance:
+  args:
+    - number
+  desc: 'Kontrol panelinden yönetilecek bir bot örneği ekler.'
+  params:
+    - &ref_400
+      desc: 'Örneğin çalıştığı port numarası'
+      name: instancePort
+      optional: false
+      type: int
+addinstance_int:
+  args:
+    - number
+  desc: 'Kontrol panelinden yönetilecek bir bot örneği ekler.'
+  params:
+    - desc: 'Örneğin çalıştığı port numarası'
+      name: instancePort
+      optional: false
+      type: int
+addplaying:
+  args:
+    - t text
+  desc: 'Botun oynayılan durumları döngüsüne yeni bir durum ekler.'
+  params:
+    - &ref_21
+      desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - &ref_22
+      desc: 'Eklenecek durumun metni.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string:
+  args:
+    - t text
+  desc: 'Botun oynayılan durumları döngüsüne yeni bir durum ekler.'
+  params:
+    - desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Eklenecek durumun metni.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_1:
+  args:
+    - t text
+  desc: 'Botun oynayılan durumları döngüsüne yeni bir durum ekler.'
+  params:
+    - desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Eklenecek durumun metni.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_2:
+  args:
+    - t text
+  desc: 'Botun oynayılan durumları döngüsüne yeni bir durum ekler.'
+  params:
+    - desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'Eklenecek durumun metni.'
+      name: status
+      optional: false
+      type: string
+autocommandadd:
+  args:
+    - number text
+  desc: 'Belirtilen sunucuda periyodik olarak çalıştırılacak bir otomatik komut ekler.'
+  params:
+    - &ref_91
+      desc: 'Komutun çalıştırılacağı saniye cinsinden aralık. En az 5 saniye olmalıdır.'
+      name: interval
+      optional: false
+      type: int
+    - &ref_92
+      desc: 'Otomatik olarak çalıştırılacak komut metni.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string:
+  args:
+    - number text
+  desc: 'Belirtilen sunucuda periyodik olarak çalıştırılacak bir otomatik komut ekler.'
+  params:
+    - desc: 'Komutun çalıştırılacağı saniye cinsinden aralık. En az 5 saniye olmalıdır.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Otomatik olarak çalıştırılacak komut metni.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_1:
+  args:
+    - number text
+  desc: 'Belirtilen sunucuda periyodik olarak çalıştırılacak bir otomatik komut ekler.'
+  params:
+    - desc: 'Komutun çalıştırılacağı saniye cinsinden aralık. En az 5 saniye olmalıdır.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Otomatik olarak çalıştırılacak komut metni.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_2:
+  args:
+    - number text
+  desc: 'Belirtilen sunucuda periyodik olarak çalıştırılacak bir otomatik komut ekler.'
+  params:
+    - desc: 'Komutun çalıştırılacağı saniye cinsinden aralık. En az 5 saniye olmalıdır.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'Otomatik olarak çalıştırılacak komut metni.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandremove:
+  args:
+    - number
+  desc: 'Dizinine göre bir otomatik komutu kaldırır.'
+  params:
+    - &ref_93
+      desc: 'Kaldırılacak otomatik komutun 1''den başlayan dizini.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int:
+  args:
+    - number
+  desc: 'Dizinine göre bir otomatik komutu kaldırır.'
+  params:
+    - &ref_94
+      desc: 'Kaldırılacak otomatik komutun 1''den başlayan dizini.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_1:
+  args:
+    - number
+  desc: 'Dizinine göre bir otomatik komutu kaldırır.'
+  params:
+    - desc: 'Kaldırılacak otomatik komutun 1''den başlayan dizini.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_2:
+  args:
+    - number
+  desc: 'Dizinine göre bir otomatik komutu kaldırır.'
+  params:
+    - desc: 'Kaldırılacak otomatik komutun 1''den başlayan dizini.'
+      name: index
+      optional: false
+      type: int
+autocommandslist:
+  args:
+    - 1
+  desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+  params:
+    - &ref_95
+      desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=:
+  args:
+    - 1
+  desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+  params:
+    - desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_1:
+  args:
+    - 1
+  desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+  params:
+    - desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_2:
+  args:
+    - 1
+  desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+  params:
+    - desc: 'Sunucu için yapılandırılmış otomatik komutları listeler.'
+      name: 1
+      optional: false
+      type: '='
+bash:
+  args:
+    - text
+  desc: 'Bir bash komutu çalıştırır. Platforma bağlı olarak komut bash veya PowerShell''de çalıştırılır.'
+  params:
+    - &ref_110
+      desc: 'Çalıştırılacak komut.'
+      name: message
+      optional: false
+      type: string
+bash_string:
+  args:
+    - text
+  desc: 'Bir bash komutu çalıştırır. Platforma bağlı olarak komut bash veya PowerShell''de çalıştırılır.'
+  params:
+    - desc: 'Çalıştırılacak komut.'
+      name: message
+      optional: false
+      type: string
+bash_string_1:
+  args:
+    - text
+  desc: 'Bir bash komutu çalıştırır. Platforma bağlı olarak komut bash veya PowerShell''de çalıştırılır.'
+  params:
+    - desc: 'Çalıştırılacak komut.'
+      name: message
+      optional: false
+      type: string
+bash_string_2:
+  args:
+    - text
+  desc: 'Bir bash komutu çalıştırır. Platforma bağlı olarak komut bash veya PowerShell''de çalıştırılır.'
+  params:
+    - desc: 'Çalıştırılacak komut.'
+      name: message
+      optional: false
+      type: string
+commandstats:
+  args:
+    - ''
+  desc: 'En çok kullanılan komut, modül, sunucu ve kullanıcı istatistiklerini getirip gösterir.'
+  params: [ ]
+commandstats_noparams:
+  args:
+    - ''
+  desc: 'En çok kullanılan komut, modül, sunucu ve kullanıcı istatistiklerini getirip gösterir.'
+  params: [ ]
+commandstats_noparams_1:
+  args:
+    - ''
+  desc: 'En çok kullanılan komut, modül, sunucu ve kullanıcı istatistiklerini getirip gösterir.'
+  params: [ ]
+commandstats_noparams_2:
+  args:
+    - ''
+  desc: 'En çok kullanılan komut, modül, sunucu ve kullanıcı istatistiklerini getirip gösterir.'
+  params: [ ]
+config:
+  args:
+    - ''
+  desc: 'Bot için yml tabanlı yapılandırmayı değiştirir.'
+  params: [ ]
+config_string:
+  args:
+    - name
+  desc: 'Bot için yml tabanlı yapılandırmayı değiştirir.'
+  params:
+    - desc: 'Değiştirilecek yapılandırmanın adı.'
+      name: name
+      optional: true
+      type: string
+config_string_string:
+  args:
+    - name prop
+  desc: 'Bot için yml tabanlı yapılandırmayı değiştirir.'
+  params:
+    - desc: 'Değiştirilecek yapılandırmanın adı.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Değiştirilecek yapılandırmanın özelliği.'
+      name: prop
+      optional: true
+      type: string
+config_string_string_string:
+  args:
+    - name prop value
+  desc: 'Bot için yml tabanlı yapılandırmayı değiştirir.'
+  params:
+    - desc: 'Değiştirilecek yapılandırmanın adı.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Değiştirilecek yapılandırmanın özelliği.'
+      name: prop
+      optional: true
+      type: string
+    - desc: 'Özellik için ayarlanacak yeni değer.'
+      name: value
+      optional: true
+      type: string
+defprefix:
+  args:
+    - '[prefix]'
+  desc: 'Varsayılan komut önekini ayarlar ya da gösterir.'
+  params:
+    - desc: 'Ayarlanacak yeni önek. Boş ya da yalnızca boşluksa bunun yerine mevcut önek gösterilir.'
+      name: prefix
+      optional: true
+      type: string
+die:
+  args:
+    - ''
+  desc: 'Botu kapatmayı başlatır.'
+  params: [ ]
+evaluate:
+  args:
+    - '[code]'
+  desc: 'Bir C# kod parçacığını değerlendirir.'
+  params:
+    - desc: 'Değerlendirilecek C# kodu.'
+      name: code
+      optional: true
+      type: string
+forwardmessages:
+  args:
+    - ''
+  desc: 'Botun sahibine gönderilen özel mesajların iletilmesini açıp kapatır.'
+  params: [ ]
+forwardtoall:
+  args:
+    - ''
+  desc: 'İletilen mesajların botun tüm sahiplerine mi yoksa yalnızca birincil sahibe mi gönderileceğini değiştirir.'
+  params: [ ]
+generatedocs:
+  args:
+    - ''
+  desc: 'Komut belgeleri YML dosyaları oluşturur'
+  params: [ ]
+imagesreload:
+  args:
+    - ''
+  desc: 'Botun kullandığı resimlerin yeniden yüklenmesini başlatır.'
+  params: [ ]
+instancestatus:
+  args:
+    - number
+  desc: 'Belirli bir bot örneğinin durumunu kontrol eder.'
+  params:
+    - &ref_256
+      desc: 'Kontrol edilecek örneğin port numarası'
+      name: instancePort
+      optional: false
+      type: int
+instancestatus_int:
+  args:
+    - number
+  desc: 'Belirli bir bot örneğinin durumunu kontrol eder.'
+  params:
+    - desc: 'Kontrol edilecek örneğin port numarası'
+      name: instancePort
+      optional: false
+      type: int
+retentionpending:
+  args:
+    - ''
+  desc: 'Botun ayrıldığı ve verileri temizlenmeyi bekleyen sunucuları, en yakın olandan başlayarak listeler.'
+  params: [ ]
+retentionrecent:
+  args:
+    - ''
+  desc: 'Tamamlanmış en son veri temizliklerini, her birinde kaç satır silindiğiyle birlikte listeler.'
+  params: [ ]
+retentioncancel:
+  args:
+    - 123456789012345678
+  desc: 'Bir sunucuyu temizleme kuyruğundan çıkarır, böylece verileri saklanır.'
+  params:
+    - desc: 'Saklanacak sunucu.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurge:
+  args:
+    - 123456789012345678
+  desc: 'Bir sunucunun verilerini bekleme süresini beklemeden hemen temizler. Bot hâlâ sunucudaysa reddeder.'
+  params:
+    - desc: 'Temizlenecek sunucu.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurgeall:
+  args:
+    - ''
+  desc: 'Bekleme süresini yok sayarak, bekleyen tüm sunucuları hemen temizler. Botun yeniden katıldığı sunucular atlanır.'
+  params: [ ]
+bothells:
+  args:
+    - ''
+  desc: 'Bot sayısı ve bot yüzdesi eşiklerine göre (bot yapılandırmasında) bot ile dolu sunucuları listeler.'
+  params: [ ]
+bothellcheck:
+  args:
+    - ''
+    - 123456789012345678
+  desc: 'Tam üye listesini indirdikten sonra tek bir sunucuyu bot cehennemi eşikleriyle karşılaştırır.'
+  params:
+    - desc: 'Kontrol edilecek sunucu. Belirtilmezse mevcut sunucu.'
+      name: guildId
+      optional: true
+      type: ulong
+retentionscan:
+  args:
+    - ''
+  desc: 'Botun artık bulunmadığı sunucular için tüm sunucu kapsamlı tabloları tarar ve bekleme süresinden sonra temizlenmek üzere kuyruğa alır.'
+  params: [ ]
+leaveserver:
+  args:
+    - text
+  desc: 'Botu bir sunucudan ayrılmaya zorlar.'
+  params:
+    - &ref_269
+      desc: 'Ayrılacak sunucunun kimliği ya da adı.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string:
+  args:
+    - text
+  desc: 'Botu bir sunucudan ayrılmaya zorlar.'
+  params:
+    - desc: 'Ayrılacak sunucunun kimliği ya da adı.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_1:
+  args:
+    - text
+  desc: 'Botu bir sunucudan ayrılmaya zorlar.'
+  params:
+    - desc: 'Ayrılacak sunucunun kimliği ya da adı.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_2:
+  args:
+    - text
+  desc: 'Botu bir sunucudan ayrılmaya zorlar.'
+  params:
+    - desc: 'Ayrılacak sunucunun kimliği ya da adı.'
+      name: guildStr
+      optional: false
+      type: string
+listinstances:
+  args:
+    - ''
+  desc: 'Kayıtlı tüm bot örneklerini ve durumlarını listeler.'
+  params: [ ]
+listplaying:
+  args:
+    - ''
+  desc: 'Döngüde olan tüm durumları listeler.'
+  params: [ ]
+listservers:
+  args:
+    - ''
+  desc: 'Botun şu an bulunduğu tüm sunucuları listeler.'
+  params: [ ]
+redisexec:
+  args:
+    - text
+  desc: 'Bir Redis komutunu çalıştırır ve sonucunu döndürür.'
+  params:
+    - &ref_385
+      desc: 'Çalıştırılacak Redis komutu.'
+      name: command
+      optional: false
+      type: string
+redisexec_string:
+  args:
+    - text
+  desc: 'Bir Redis komutunu çalıştırır ve sonucunu döndürür.'
+  params:
+    - desc: 'Çalıştırılacak Redis komutu.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_1:
+  args:
+    - text
+  desc: 'Bir Redis komutunu çalıştırır ve sonucunu döndürür.'
+  params:
+    - desc: 'Çalıştırılacak Redis komutu.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_2:
+  args:
+    - text
+  desc: 'Bir Redis komutunu çalıştırır ve sonucunu döndürür.'
+  params:
+    - desc: 'Çalıştırılacak Redis komutu.'
+      name: command
+      optional: false
+      type: string
+removeinstance:
+  args:
+    - number
+  desc: 'Bir bot örneğini kontrol paneli yönetiminden kaldırır.'
+  params:
+    - desc: 'Kaldırılacak örneğin port numarası'
+      name: instancePort
+      optional: false
+      type: int
+removeplaying:
+  args:
+    - number
+  desc: 'Dönen oynama durumlarından bir durumu dizinine göre kaldırır.'
+  params:
+    - &ref_406
+      desc: 'Kaldırılacak durumun 1''den başlayan dizini. Gerçek kaldırma sıfır tabanlı dizin kullanır.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int:
+  args:
+    - number
+  desc: 'Dönen oynama durumlarından bir durumu dizinine göre kaldırır.'
+  params:
+    - desc: 'Kaldırılacak durumun 1''den başlayan dizini. Gerçek kaldırma sıfır tabanlı dizin kullanır.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_1:
+  args:
+    - number
+  desc: 'Dönen oynama durumlarından bir durumu dizinine göre kaldırır.'
+  params:
+    - desc: 'Kaldırılacak durumun 1''den başlayan dizini. Gerçek kaldırma sıfır tabanlı dizin kullanır.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_2:
+  args:
+    - number
+  desc: 'Dönen oynama durumlarından bir durumu dizinine göre kaldırır.'
+  params:
+    - desc: 'Kaldırılacak durumun 1''den başlayan dizini. Gerçek kaldırma sıfır tabanlı dizin kullanır.'
+      name: index
+      optional: false
+      type: int
+restartallinstances:
+  args:
+    - ''
+  desc: 'Kayıtlı tüm bot örneklerini yeniden başlatır.'
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: 'Belirli bir bot örneğini yeniden başlatır.'
+  params:
+    - desc: 'Yeniden başlatılacak örneğin port numarası'
+      name: instancePort
+      optional: false
+      type: int
+rotateplaying:
+  args:
+    - ''
+  desc: 'Botun oynama durumlarının döngüsünü açıp kapatır.'
+  params: [ ]
+scadd:
+  args:
+    - command
+  desc: 'Başlangıçta çalışacak bir komut ekler.'
+  params:
+    - desc: 'Başlangıca eklenecek komut.'
+      name: command
+      optional: false
+      type: string
+scclear:
+  args:
+    - ''
+  desc: 'Tüm başlangıç komutlarını temizler.'
+  params: [ ]
+sclist:
+  args:
+    - ''
+  desc: 'Tüm başlangıç komutlarını listeler.'
+  params: [ ]
+scrm:
+  args:
+    - index
+  desc: 'Bir başlangıç komutunu kaldırır.'
+  params:
+    - desc: 'Kaldırılacak komutun dizini.'
+      name: index
+      optional: false
+      type: int
+send:
+  args:
+    - whereorto text
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - &ref_483
+      desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - &ref_484
+      desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_=_=:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Mesajın gönderileceği kullanıcının kimliği'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_1:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Mesajın gönderileceği kullanıcının kimliği'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_2:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Mesajın gönderileceği kullanıcının kimliği'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_3:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Mesajın gönderileceği kullanıcının kimliği'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_string:
+  args:
+    - whereorto text
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_1:
+  args:
+    - whereorto text
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_2:
+  args:
+    - whereorto text
+  desc: 'Belirtilen bir kanala ya da kullanıcıya mesaj gönderir.'
+  params:
+    - desc: 'Mesajın gönderileceği kanalın ya da kullanıcının kimliği'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'Gönderilecek mesaj.'
+      name: msg
+      optional: false
+      type: string
+setavatar:
+  args:
+    - '[img]'
+  desc: 'Botun avatarını ayarlar.'
+  params:
+    - desc: 'Yeni avatar resminin URL''si. Boşsa, uygulamaya bağlı olarak komut mevcut avatarı kaldırabilir ya da hiçbir şey yapmayabilir.'
+      name: img
+      optional: true
+      type: string
+setgame:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Botun şu an oynadığı oyunu ayarlar.'
+  params:
+    - desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Oyunun ya da etkinliğin adı. Boşsa mevcut oyunu temizleyebilir.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Botun şu an oynadığı oyunu ayarlar.'
+  params:
+    - desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Oyunun ya da etkinliğin adı. Boşsa mevcut oyunu temizleyebilir.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_1:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Botun şu an oynadığı oyunu ayarlar.'
+  params:
+    - desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Oyunun ya da etkinliğin adı. Boşsa mevcut oyunu temizleyebilir.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_2:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Botun şu an oynadığı oyunu ayarlar.'
+  params:
+    - desc: 'Etkinlik türü (ör. Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'Oyunun ya da etkinliğin adı. Boşsa mevcut oyunu temizleyebilir.'
+      name: game
+      optional: true
+      type: string
+setname:
+  args:
+    - text
+  desc: 'Botun kullanıcı adını belirtilen yeni ada değiştirir.'
+  params:
+    - &ref_508
+      desc: 'Botun yeni kullanıcı adı.'
+      name: newName
+      optional: false
+      type: string
+setname_string:
+  args:
+    - text
+  desc: 'Botun kullanıcı adını belirtilen yeni ada değiştirir.'
+  params:
+    - desc: 'Botun yeni kullanıcı adı.'
+      name: newName
+      optional: false
+      type: string
+setname_string_1:
+  args:
+    - text
+  desc: 'Botun kullanıcı adını belirtilen yeni ada değiştirir.'
+  params:
+    - desc: 'Botun yeni kullanıcı adı.'
+      name: newName
+      optional: false
+      type: string
+setname_string_2:
+  args:
+    - text
+  desc: 'Botun kullanıcı adını belirtilen yeni ada değiştirir.'
+  params:
+    - desc: 'Botun yeni kullanıcı adı.'
+      name: newName
+      optional: false
+      type: string
+setstatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Botun çevrimiçi durumunu ayarlar.'
+  params:
+    - &ref_526
+      desc: 'Ayarlanacak yeni durum.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Botun çevrimiçi durumunu ayarlar.'
+  params:
+    - desc: 'Ayarlanacak yeni durum.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_1:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Botun çevrimiçi durumunu ayarlar.'
+  params:
+    - desc: 'Ayarlanacak yeni durum.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_2:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Botun çevrimiçi durumunu ayarlar.'
+  params:
+    - desc: 'Ayarlanacak yeni durum.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstream:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Botun yayın durumunu ayarlar.'
+  params:
+    - desc: 'Yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Yayının adı. Boşsa varsayılan bir ad kullanabilir ya da ad kullanmayabilir.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Botun yayın durumunu ayarlar.'
+  params:
+    - desc: 'Yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Yayının adı. Boşsa varsayılan bir ad kullanabilir ya da ad kullanmayabilir.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_1:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Botun yayın durumunu ayarlar.'
+  params:
+    - desc: 'Yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Yayının adı. Boşsa varsayılan bir ad kullanabilir ya da ad kullanmayabilir.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_2:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Botun yayın durumunu ayarlar.'
+  params:
+    - desc: 'Yayının URL''si.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'Yayının adı. Boşsa varsayılan bir ad kullanabilir ya da ad kullanmayabilir.'
+      name: name
+      optional: true
+      type: string
+shardstats:
+  args:
+    - ''
+  desc: 'Botun tüm shard''ları için durumları, sunucu sayılarını ve kullanıcı sayılarını içeren istatistikleri gösterir.'
+  params: [ ]
+shardstats_noparams:
+  args:
+    - ''
+  desc: 'Botun tüm shard''ları için durumları, sunucu sayılarını ve kullanıcı sayılarını içeren istatistikleri gösterir.'
+  params: [ ]
+shardstats_noparams_1:
+  args:
+    - ''
+  desc: 'Botun tüm shard''ları için durumları, sunucu sayılarını ve kullanıcı sayılarını içeren istatistikleri gösterir.'
+  params: [ ]
+shardstats_noparams_2:
+  args:
+    - ''
+  desc: 'Botun tüm shard''ları için durumları, sunucu sayılarını ve kullanıcı sayılarını içeren istatistikleri gösterir.'
+  params: [ ]
+sqlexec:
+  args:
+    - text
+  desc: 'Veritabanında ham bir SQL komutu çalıştırır.'
+  params:
+    - &ref_555
+      desc: 'Çalıştırılacak SQL komutu.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string:
+  args:
+    - text
+  desc: 'Veritabanında ham bir SQL komutu çalıştırır.'
+  params:
+    - desc: 'Çalıştırılacak SQL komutu.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_1:
+  args:
+    - text
+  desc: 'Veritabanında ham bir SQL komutu çalıştırır.'
+  params:
+    - desc: 'Çalıştırılacak SQL komutu.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_2:
+  args:
+    - text
+  desc: 'Veritabanında ham bir SQL komutu çalıştırır.'
+  params:
+    - desc: 'Çalıştırılacak SQL komutu.'
+      name: sql
+      optional: false
+      type: string
+startupcommandadd:
+  args:
+    - text
+  desc: 'Bot başladığında çalıştırılacak yeni bir başlangıç komutu ekler.'
+  params:
+    - &ref_564
+      desc: 'Eklenecek komutun metni, önek hariç.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string:
+  args:
+    - text
+  desc: 'Bot başladığında çalıştırılacak yeni bir başlangıç komutu ekler.'
+  params:
+    - desc: 'Eklenecek komutun metni, önek hariç.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_1:
+  args:
+    - text
+  desc: 'Bot başladığında çalıştırılacak yeni bir başlangıç komutu ekler.'
+  params:
+    - desc: 'Eklenecek komutun metni, önek hariç.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_2:
+  args:
+    - text
+  desc: 'Bot başladığında çalıştırılacak yeni bir başlangıç komutu ekler.'
+  params:
+    - desc: 'Eklenecek komutun metni, önek hariç.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandremove:
+  args:
+    - number
+  desc: 'Dizinine göre bir başlangıç komutunu kaldırır.'
+  params:
+    - desc: 'Kaldırılacak başlangıç komutunun 1''den başlayan dizini.'
+      name: index
+      optional: false
+      type: int
+startupcommandsclear:
+  args:
+    - ''
+  desc: 'Sunucu için tüm başlangıç komutlarını temizler.'
+  params: [ ]
+startupcommandslist:
+  args:
+    - 1
+  desc: 'Sunucu için yapılandırılmış başlangıç komutlarını listeler.'
+  params:
+    - desc: 'Sunucu için yapılandırılmış başlangıç komutlarını listeler.'
+      name: 1
+      optional: false
+      type: '='
+stringsreload:
+  args:
+    - ''
+  desc: 'Botun dil dosyalarının (yerelleştirmelerinin) yeniden yüklenmesini başlatır.'
+  params: [ ]
+sudo:
+  args:
+    - '@user text'
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - &ref_580
+      desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_581
+      desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string:
+  args:
+    - '@user text'
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_1:
+  args:
+    - '@user text'
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_2:
+  args:
+    - '@user text'
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+sudo_string:
+  args:
+    - text
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+sudo_string_1:
+  args:
+    - text
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+sudo_string_2:
+  args:
+    - text
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+sudo_string_3:
+  args:
+    - text
+  desc: 'Bir komutu, sunucunun sahibi tarafından gönderilmiş gibi çalıştırır.'
+  params:
+    - desc: 'Çalıştırılacak komut metni; komut adı ve argümanlarıyla birlikte.'
+      name: args
+      optional: false
+      type: string
+update:
+  args:
+    - ''
+  desc: 'Botu depodaki en son sürüme günceller.'
+  params: [ ]
+update_noparams:
+  args:
+    - ''
+  desc: 'Botu depodaki en son sürüme günceller.'
+  params: [ ]
+update_noparams_1:
+  args:
+    - ''
+  desc: 'Botu depodaki en son sürüme günceller.'
+  params: [ ]
+update_noparams_2:
+  args:
+    - ''
+  desc: 'Botu depodaki en son sürüme günceller.'
+  params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: 'Kayıtlı tüm bot örneklerini günceller.'
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: 'Belirli bir bot örneğini günceller.'
+  params:
+    - desc: 'Güncellenecek örneğin port numarası'
+      name: instancePort
+      optional: false
+      type: int
+wait:
+  args:
+    - number
+  desc: 'Belirtilen süre kadar milisaniye bekleyen bir bekleme komutu çalıştırır.'
+  params:
+    - &ref_651
+      desc: 'Beklenecek milisaniye sayısı.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int:
+  args:
+    - number
+  desc: 'Belirtilen süre kadar milisaniye bekleyen bir bekleme komutu çalıştırır.'
+  params:
+    - desc: 'Beklenecek milisaniye sayısı.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_1:
+  args:
+    - number
+  desc: 'Belirtilen süre kadar milisaniye bekleyen bir bekleme komutu çalıştırır.'
+  params:
+    - desc: 'Beklenecek milisaniye sayısı.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_2:
+  args:
+    - number
+  desc: 'Belirtilen süre kadar milisaniye bekleyen bir bekleme komutu çalıştırır.'
+  params:
+    - desc: 'Beklenecek milisaniye sayısı.'
+      name: miliseconds
+      optional: false
+      type: int

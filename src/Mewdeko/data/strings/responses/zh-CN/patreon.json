@@ -47,7 +47,7 @@
   "patreon_no_supporters": "未找到活跃的 Patreon 支持者。请使用同步命令获取支持者数据。",
   "patreon_no_tiers": "未找到 Patreon 等级。请使用同步命令获取等级数据。",
   "patreon_not_linked": "未关联",
-  "patreon_oauth_title": "Patreon OAuth",
+  "patreon_oauth_title": "Patreon 授权",
   "patreon_recognize_invalid_channel": "无法在此频道类型中发送认可消息。",
   "patreon_recognize_none": "过去 7 天内没有需要认可的新支持者。",
   "patreon_recognize_success": "已向 {1} 发送了 {0} 条支持者认可消息！",

@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra la panoramica dei tuoi obiettivi: classifica, punti, progressi in ogni categoria e sblocchi recenti. Menziona qualcuno per vedere i suoi.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: 'Mostra tutti gli obiettivi di una categoria, con i progressi verso quelli ancora bloccati.'
+  params:
+    - desc: 'La chiave o il nome della categoria, ad esempio messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige o custom.'
+      name: category
+      optional: false
+      type: string
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra tutti gli obiettivi del server con i progressi, pagina per pagina.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra i cinque sblocchi più recenti.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra i cinque sblocchi migliori per grado e punti.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: 'Trova obiettivi per nome o descrizione e mostra i tuoi progressi su ciascuno.'
+  params:
+    - desc: 'Cosa cercare.'
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra gli obiettivi ottenuti in tutti i server: punti totali, server e obiettivi globali.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'Mostra chi ha ottenuto più obiettivi nel server. I membri che si nascondono sono esclusi.'
+  params:
+    - desc: 'Points, Unlocked o Recent. Predefinito: Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'Mostra chi ha ottenuto più obiettivi in tutti i server.'
+  params:
+    - desc: 'Points, Unlocked o Recent. Predefinito: Points.'
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Crea una scheda profilo obiettivi con classifica, punti, progressi verso il grado successivo e badge equipaggiati.'
+  params:
+    - desc: 'Il membro da disegnare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra tutti i numeri monitorati dagli obiettivi: messaggi, tempo in vocale, reazioni, inviti, comandi, tempo nel server, boost, livello e reputazione.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: 'Disegna un obiettivo come immagine: sbloccato, oppure bloccato con quanto manca a te o a un altro utente.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: 'Imposta l''icona che un obiettivo mostra nella sua immagine, nella dashboard e nelle app: un nome di icona come trophy, un''emoji del server o un link https a un''immagine. Ometti l''icona per usare di nuovo quella della sua categoria.'
+  params:
+    - desc: 'Il nome o la chiave dell''obiettivo, tra virgolette se contiene spazi.'
+      name: achievement
+      optional: false
+      type: string
+    - desc: 'L''icona, oppure niente per rimuoverla.'
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Mostra tutti i badge posseduti da te o da un altro utente, con i quattro slot equipaggiati in alto.'
+  params:
+    - desc: 'L''utente da visualizzare. Predefinito: tu.'
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: 'Mette un badge che possiedi in uno dei quattro slot del profilo. Le chiavi dei badge sono mostrate da badges.'
+  params:
+    - desc: 'Lo slot, da 1 a 4.'
+      name: slot
+      optional: false
+      type: int
+    - desc: 'La chiave del badge.'
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'Svuota uno dei tuoi quattro slot del profilo.'
+  params:
+    - desc: 'Lo slot, da 1 a 4.'
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'Mostra cos''è un badge e come ottenerlo.'
+  params:
+    - desc: 'La chiave del badge.'
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: 'Imposta chi può vedere il tuo profilo obiettivi, gli obiettivi, i badge e la tua posizione in classifica.'
+  params:
+    - desc: 'Profile, Achievements, Badges o Leaderboard.'
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: 'Everyone o OnlyMe.'
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: 'Attiva o disattiva per te i DM di sblocco, i messaggi di sblocco nel server o le menzioni in essi.'
+  params:
+    - desc: 'Dm, Message o Mention.'
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: 'True per attivare, false per disattivare.'
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'Elenca tutti gli obiettivi del server con la loro chiave, se sono attivi e quanti membri li hanno sbloccati.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'Avvia o mette in pausa l''assegnazione di obiettivi nel server. Avviarlo attiva anche il conteggio dei messaggi, e i membri che già ne hanno diritto ricevono i loro obiettivi in silenzio.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: 'Imposta il canale in cui vengono annunciati gli sblocchi. Ometti per smettere di usare un canale di log.'
+  params:
+    - desc: 'Il canale.'
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: 'Imposta dove vengono annunciati gli sblocchi: Auto usa il canale di log se impostato, altrimenti il canale in cui è avvenuto lo sblocco; Here usa il canale in cui è avvenuto; LogChannel usa solo il canale di log; DmOnly invia solo DM; Silent non annuncia nulla.'
+  params:
+    - desc: 'Auto, Here, LogChannel, DmOnly o Silent.'
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'Imposta se i membri ricevono gli sblocchi in DM, a meno che non lo disattivino da soli.'
+  params:
+    - desc: 'True per attivare, false per disattivare.'
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: 'Imposta il messaggio di sblocco. Vanno bene sia testo semplice sia JSON di embed, con segnaposto come %achievement.name%, %achievement.points%, %achievement.list% e %achievements.tier%. Ometti per tornare al messaggio predefinito.'
+  params:
+    - desc: 'Il messaggio, oppure niente per rimuoverlo.'
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'Dà ai membri XP per ogni punto obiettivo che ottengono. 0 lo disattiva.'
+  params:
+    - desc: 'XP per punto, da 0 a 1000.'
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'Attiva un obiettivo così che i membri possano ottenerlo.'
+  params:
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: 'Disattiva un obiettivo. I membri che lo hanno già sbloccato lo mantengono.'
+  params:
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'Attiva o disattiva un''intera categoria.'
+  params:
+    - desc: 'La chiave o il nome della categoria.'
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Consegna un obiettivo a un membro e lo annuncia come qualsiasi altro sblocco.'
+  params:
+    - desc: 'Il membro.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Toglie un obiettivo a un membro.'
+  params:
+    - desc: 'Il membro.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: 'Rimuove tutti gli obiettivi che un membro ha nel server, dopo aver chiesto conferma.'
+  params:
+    - desc: 'Il membro.'
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: 'Crea un obiettivo sbloccato raggiungendo un numero. Le metriche includono MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation e NetWorth.'
+  params:
+    - desc: 'Cosa contare.'
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: 'Il numero da raggiungere.'
+      name: goal
+      optional: false
+      type: long
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst o Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Il nome.'
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'Crea un obiettivo sbloccato dicendo una frase in qualsiasi punto del server.'
+  params:
+    - desc: 'La frase, tra virgolette se contiene spazi.'
+      name: phrase
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst o Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Il nome.'
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: 'Crea un obiettivo sbloccato reagendo con un''emoji.'
+  params:
+    - desc: 'L''emoji.'
+      name: emoji
+      optional: false
+      type: string
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst o Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Il nome.'
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'Crea un obiettivo che solo lo staff può consegnare con achgrant.'
+  params:
+    - desc: 'Bronze, Silver, Gold, Emerald, Amethyst o Champion.'
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: 'Il nome.'
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: 'Elimina un obiettivo creato dal server, dopo aver chiesto conferma. Tutti quelli che lo hanno sbloccato lo perdono.'
+  params:
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: 'Dà un ruolo ai membri quando sbloccano un obiettivo.'
+  params:
+    - desc: 'Il ruolo.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: 'Dà valuta ai membri quando sbloccano un obiettivo. 0 la rimuove.'
+  params:
+    - desc: 'L''importo.'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: 'Dà XP ai membri quando sbloccano un obiettivo. 0 lo rimuove.'
+  params:
+    - desc: 'L''importo.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: 'Rimuove tutte le ricompense da un obiettivo.'
+  params:
+    - desc: 'Il nome o la chiave dell''obiettivo.'
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: 'Impedisce ai membri con un ruolo di ottenere obiettivi. Eseguilo di nuovo per consentirlo di nuovo.'
+  params:
+    - desc: 'Il ruolo.'
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'Impedisce che l''attività in un canale conti per gli obiettivi. Eseguilo di nuovo per contarla di nuovo.'
+  params:
+    - desc: 'Il canale.'
+      name: channel
+      optional: false
+      type: IGuildChannel

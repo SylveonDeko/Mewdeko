@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "Bu sunucuda önerilerden kara listeye alındın!",
+  "confessions_blacklisted_added": "{0} itiraf kara listesine eklendi!!",
+  "confessions_blacklisted_already": "Bu kullanıcı zaten kara listede!",
+  "confessions_blacklisted_not": "Bu kullanıcı kara listede değil!",
+  "confessions_blacklisted_removed": "{0} itiraf kara listesinden çıkarıldı!!",
+  "confessions_channel_set": "{0} itiraf kanalı olarak ayarlandı!",
+  "confessions_disabled": "İtiraflar devre dışı",
+  "confessions_invalid_id": "Verdiğin ID geçersiz!",
+  "confessions_invalid_perms": "Orada yeterli iznim yok! Lütfen o kanalda bana EmbedLinks ve SendMessages iznini ver!",
+  "confessions_logging_disabled": "İtiraf kaydı devre dışı",
+  "confessions_missing_invite": "Eksik izinler veya kullanılabilir davet olmadığı için davet alınamadı.",
+  "confessions_none": "Bu sunucuda itiraflar etkin değil!",
+  "confessions_none_any": "İtirafların etkin olduğu hiçbir sunucuda değilsin!",
+  "confessions_report": "bildir",
+  "confessions_report_received": "İtiraf Kötüye Kullanım Bildirimi Alındı",
+  "confessions_report_sent": "Bildirim gönderildi. Katılıp eklemek istersen aşağıdaki bağlantıyı kullan.",
+  "confessions_report_user": "kullanıcıyı bildir",
+  "confessions_server_id": "Sunucu ID",
+  "confessions_server_invite": "Sunucu Daveti",
+  "confessions_spleen": "{0} itiraf günlük kanalı olarak ayarlandı. \n***Unutma, bu işlevi kötüye kullandığını fark edersem bu sunucuyu kara listeye alırım. Ve dünyayı ele geçirmek için dalağını kullan"
+}

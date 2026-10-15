@@ -1,0 +1,247 @@
+wotd:
+  args:
+    - ''
+  desc: 'Mostra la parola del giorno di oggi, o un''anteprima se non è ancora stata pubblicata.'
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: 'Attiva o disattiva la pubblicazione giornaliera delle parole. Prima bisogna impostare un canale.'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: 'Imposta il canale in cui pubblicare le parole giornaliere e attiva la pubblicazione. Lascia vuoto per rimuovere il canale e disattivare.'
+  params:
+    - desc: 'Il canale in cui pubblicare. Ometti per rimuoverlo.'
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: 'Imposta l''ora locale (da 0 a 23) in cui pubblicare la parola del giorno.'
+  params:
+    - desc: 'Ora del giorno nel formato a 24 ore.'
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: 'Imposta il fuso orario usato per l''orario di pubblicazione e per decidere quando inizia un nuovo giorno.'
+  params:
+    - desc: 'Un nome di fuso orario IANA.'
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: 'Imposta un ruolo da menzionare con ogni parola del giorno. Lascia vuoto per rimuoverlo.'
+  params:
+    - desc: 'Il ruolo da menzionare. Ometti per rimuoverlo.'
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: 'Imposta un modello di messaggio personalizzato per le parole del giorno, con supporto per JSON di embed e segnaposto. Invia senza testo per vedere il modello attuale, oppure "clear" per usare l''embed predefinito.'
+  params:
+    - desc: 'Il testo del modello. Ometti per visualizzarlo, oppure "clear" per ripristinarlo.'
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: 'Imposta un argomento verso cui orientare le parole del dizionario, fino a cinque parole. Lascia vuoto o invia "clear" per rimuoverlo.'
+  params:
+    - desc: 'Parole a tema come "space" o "storia medievale". Ometti per cancellare.'
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: 'Limita le parole del dizionario a una parte del discorso: any, noun, verb, adjective o adverb.'
+  params:
+    - desc: 'La parte del discorso da consentire.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: 'Imposta quanto devono essere oscure le parole del dizionario: any, common, moderate o rare.'
+  params:
+    - desc: 'Il livello di difficoltà.'
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: 'Sceglie da dove provengono le parole. Dictionary usa Datamuse con i tuoi filtri, custom usa solo le parole aggiunte con wotdadd e mixed usa le parole personalizzate finché non finiscono.'
+  params:
+    - desc: 'La fonte delle parole.'
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: 'Aggiunge una parola alla lista di parole personalizzate di questo server. Se non viene indicata una definizione, ne viene cercata una automaticamente.'
+  params:
+    - desc: 'La parola da aggiungere.'
+      name: word
+      optional: false
+      type: string
+    - desc: 'Una definizione per la parola. Viene cercata se omessa.'
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: 'Rimuove una parola dalla lista di parole personalizzate di questo server.'
+  params:
+    - desc: 'La parola da rimuovere.'
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: 'Elenca le parole personalizzate di questo server e quante volte ciascuna è stata pubblicata.'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: 'Mostra le parole pubblicate più di recente.'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: 'Mostra la configurazione attuale della parola del giorno.'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: 'Pubblica subito una nuova parola, indipendentemente dalla programmazione.'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: 'Ripristina tutte le impostazioni della parola del giorno, le parole personalizzate e lo storico di questo server.'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: 'Imposta un argomento per un giorno specifico della settimana, sostituendo l''argomento di base in quel giorno. Non indicare alcun argomento per rimuovere la regola per quel giorno.'
+  params:
+    - desc: 'Il giorno della settimana.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'Le parole dell''argomento per quel giorno. Ometti per rimuovere la regola.'
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: 'Imposta una parte del discorso e una difficoltà facoltativa per un giorno specifico della settimana. Usa "any" per ereditare l''impostazione di base.'
+  params:
+    - desc: 'Il giorno della settimana.'
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: 'Parte del discorso per quel giorno, oppure any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'Difficoltà per quel giorno, oppure any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: 'Imposta un argomento per un mese specifico, sostituendo l''argomento durante quel mese. Le regole dei giorni della settimana hanno la precedenza su quelle dei mesi. Non indicare alcun argomento per rimuovere la regola.'
+  params:
+    - desc: 'Numero o nome del mese.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'Le parole dell''argomento per quel mese. Ometti per rimuovere la regola.'
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: 'Imposta una parte del discorso e una difficoltà facoltativa per un mese specifico. Usa "any" per ereditare l''impostazione di base.'
+  params:
+    - desc: 'Numero o nome del mese.'
+      name: month
+      optional: false
+      type: string
+    - desc: 'Parte del discorso per quel mese, oppure any.'
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: 'Difficoltà per quel mese, oppure any.'
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: 'Mostra tutte le regole per giorni della settimana e mesi, oltre ai filtri attivi oggi.'
+  params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: 'Attiva o disattiva la creazione di un thread di discussione pubblico sotto ogni post della parola del giorno, con un messaggio iniziale che invita a usare la parola in una frase.'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: 'Imposta il modello del nome per il thread di discussione. Supporta %wotd.word%, %wotd.date%, %wotd.pos% e i segnaposto del server. Invia senza testo per vedere il modello attuale, oppure "clear" per ripristinarlo.'
+  params:
+    - desc: 'Il modello del nome del thread. Ometti per visualizzarlo, oppure "clear" per ripristinarlo.'
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: 'Imposta per quanto tempo un thread di discussione resta aperto senza attività prima che Discord lo archivi: 1h, 24h, 3d o 7d.'
+  params:
+    - desc: 'Uno tra 1h, 24h, 3d o 7d.'
+      name: duration
+      optional: false
+      type: string

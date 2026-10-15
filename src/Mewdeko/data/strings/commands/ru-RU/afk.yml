@@ -243,7 +243,7 @@ afktype:
   desc: 'Устанавливает тип поведения AFK для сервера.'
   params:
     - &ref_54
-      desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+      desc: 'Устанавливаемый тип поведения AFK.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -255,7 +255,7 @@ afktype_AfkTypeEnum:
     - ontype
   desc: 'Устанавливает тип поведения AFK для сервера.'
   params:
-    - desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+    - desc: 'Устанавливаемый тип поведения AFK.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -267,7 +267,7 @@ afktype_AfkTypeEnum_1:
     - ontype
   desc: 'Устанавливает тип поведения AFK для сервера.'
   params:
-    - desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+    - desc: 'Устанавливаемый тип поведения AFK.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum
@@ -279,7 +279,7 @@ afktype_AfkTypeEnum_2:
     - ontype
   desc: 'Устанавливает тип поведения AFK для сервера.'
   params:
-    - desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+    - desc: 'Устанавливаемый тип поведения AFK.'
       name: afkTypeEnum
       optional: false
       type: AfkTypeEnum

@@ -1,0 +1,1243 @@
+acadd:
+  args:
+    - command
+  desc: '添加自动命令。'
+  params:
+    - desc: '要设为自动执行的命令。'
+      name: command
+      optional: false
+      type: string
+topserversupdate:
+  args:
+    - ''
+  desc: '更新顶级服务器列表。仅能在主实例上运行。'
+aclist:
+  args:
+    - ''
+  desc: '列出所有自动命令。'
+  params: [ ]
+acrm:
+  args:
+    - index
+  desc: '删除自动命令。'
+  params:
+    - desc: '要删除的命令的索引。'
+      name: index
+      optional: false
+      type: int
+addinstance:
+  args:
+    - number
+  desc: '添加一个由仪表板管理的机器人实例。'
+  params:
+    - &ref_400
+      desc: '该实例运行所在的端口号'
+      name: instancePort
+      optional: false
+      type: int
+addinstance_int:
+  args:
+    - number
+  desc: '添加一个由仪表板管理的机器人实例。'
+  params:
+    - desc: '该实例运行所在的端口号'
+      name: instancePort
+      optional: false
+      type: int
+addplaying:
+  args:
+    - t text
+  desc: '向机器人的游戏状态轮换列表中添加新状态。'
+  params:
+    - &ref_21
+      desc: '活动类型（例如 Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - &ref_22
+      desc: '要添加的状态文本。'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string:
+  args:
+    - t text
+  desc: '向机器人的游戏状态轮换列表中添加新状态。'
+  params:
+    - desc: '活动类型（例如 Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: '要添加的状态文本。'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_1:
+  args:
+    - t text
+  desc: '向机器人的游戏状态轮换列表中添加新状态。'
+  params:
+    - desc: '活动类型（例如 Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: '要添加的状态文本。'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_2:
+  args:
+    - t text
+  desc: '向机器人的游戏状态轮换列表中添加新状态。'
+  params:
+    - desc: '活动类型（例如 Playing、Streaming）。'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: '要添加的状态文本。'
+      name: status
+      optional: false
+      type: string
+autocommandadd:
+  args:
+    - number text
+  desc: '添加一个在指定服务器中定期执行的自动命令。'
+  params:
+    - &ref_91
+      desc: '命令执行的间隔秒数。必须为 5 秒或以上。'
+      name: interval
+      optional: false
+      type: int
+    - &ref_92
+      desc: '要自动执行的命令文本。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string:
+  args:
+    - number text
+  desc: '添加一个在指定服务器中定期执行的自动命令。'
+  params:
+    - desc: '命令执行的间隔秒数。必须为 5 秒或以上。'
+      name: interval
+      optional: false
+      type: int
+    - desc: '要自动执行的命令文本。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_1:
+  args:
+    - number text
+  desc: '添加一个在指定服务器中定期执行的自动命令。'
+  params:
+    - desc: '命令执行的间隔秒数。必须为 5 秒或以上。'
+      name: interval
+      optional: false
+      type: int
+    - desc: '要自动执行的命令文本。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_2:
+  args:
+    - number text
+  desc: '添加一个在指定服务器中定期执行的自动命令。'
+  params:
+    - desc: '命令执行的间隔秒数。必须为 5 秒或以上。'
+      name: interval
+      optional: false
+      type: int
+    - desc: '要自动执行的命令文本。'
+      name: cmdText
+      optional: false
+      type: string
+autocommandremove:
+  args:
+    - number
+  desc: '根据索引删除自动命令。'
+  params:
+    - &ref_93
+      desc: '要删除的自动命令的序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int:
+  args:
+    - number
+  desc: '根据索引删除自动命令。'
+  params:
+    - &ref_94
+      desc: '要删除的自动命令的序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_1:
+  args:
+    - number
+  desc: '根据索引删除自动命令。'
+  params:
+    - desc: '要删除的自动命令的序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_2:
+  args:
+    - number
+  desc: '根据索引删除自动命令。'
+  params:
+    - desc: '要删除的自动命令的序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+autocommandslist:
+  args:
+    - 1
+  desc: '列出服务器中配置的自动命令。'
+  params:
+    - &ref_95
+      desc: '列出服务器中配置的自动命令。'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=:
+  args:
+    - 1
+  desc: '列出服务器中配置的自动命令。'
+  params:
+    - desc: '列出服务器中配置的自动命令。'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_1:
+  args:
+    - 1
+  desc: '列出服务器中配置的自动命令。'
+  params:
+    - desc: '列出服务器中配置的自动命令。'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_2:
+  args:
+    - 1
+  desc: '列出服务器中配置的自动命令。'
+  params:
+    - desc: '列出服务器中配置的自动命令。'
+      name: 1
+      optional: false
+      type: '='
+bash:
+  args:
+    - text
+  desc: '执行 bash 命令。根据平台不同，命令将在 bash 或 PowerShell 中执行。'
+  params:
+    - &ref_110
+      desc: '要执行的命令。'
+      name: message
+      optional: false
+      type: string
+bash_string:
+  args:
+    - text
+  desc: '执行 bash 命令。根据平台不同，命令将在 bash 或 PowerShell 中执行。'
+  params:
+    - desc: '要执行的命令。'
+      name: message
+      optional: false
+      type: string
+bash_string_1:
+  args:
+    - text
+  desc: '执行 bash 命令。根据平台不同，命令将在 bash 或 PowerShell 中执行。'
+  params:
+    - desc: '要执行的命令。'
+      name: message
+      optional: false
+      type: string
+bash_string_2:
+  args:
+    - text
+  desc: '执行 bash 命令。根据平台不同，命令将在 bash 或 PowerShell 中执行。'
+  params:
+    - desc: '要执行的命令。'
+      name: message
+      optional: false
+      type: string
+commandstats:
+  args:
+    - ''
+  desc: '获取并显示最常用的命令、模块、服务器和用户的统计数据。'
+  params: [ ]
+commandstats_noparams:
+  args:
+    - ''
+  desc: '获取并显示最常用的命令、模块、服务器和用户的统计数据。'
+  params: [ ]
+commandstats_noparams_1:
+  args:
+    - ''
+  desc: '获取并显示最常用的命令、模块、服务器和用户的统计数据。'
+  params: [ ]
+commandstats_noparams_2:
+  args:
+    - ''
+  desc: '获取并显示最常用的命令、模块、服务器和用户的统计数据。'
+  params: [ ]
+config:
+  args:
+    - ''
+  desc: '修改机器人基于 yml 的配置。'
+  params: [ ]
+config_string:
+  args:
+    - name
+  desc: '修改机器人基于 yml 的配置。'
+  params:
+    - desc: '要更改的配置名称。'
+      name: name
+      optional: true
+      type: string
+config_string_string:
+  args:
+    - name prop
+  desc: '修改机器人基于 yml 的配置。'
+  params:
+    - desc: '要更改的配置名称。'
+      name: name
+      optional: true
+      type: string
+    - desc: '要更改的配置属性。'
+      name: prop
+      optional: true
+      type: string
+config_string_string_string:
+  args:
+    - name prop value
+  desc: '修改机器人基于 yml 的配置。'
+  params:
+    - desc: '要更改的配置名称。'
+      name: name
+      optional: true
+      type: string
+    - desc: '要更改的配置属性。'
+      name: prop
+      optional: true
+      type: string
+    - desc: '为该属性设置的新值。'
+      name: value
+      optional: true
+      type: string
+defprefix:
+  args:
+    - '[prefix]'
+  desc: '设置或显示默认命令前缀。'
+  params:
+    - desc: '要设置的新前缀。若为 null 或仅包含空白字符，则改为显示当前前缀。'
+      name: prefix
+      optional: true
+      type: string
+die:
+  args:
+    - ''
+  desc: '启动机器人关闭流程。'
+  params: [ ]
+evaluate:
+  args:
+    - '[code]'
+  desc: '执行 C# 代码片段。'
+  params:
+    - desc: '要执行的 C# 代码。'
+      name: code
+      optional: true
+      type: string
+forwardmessages:
+  args:
+    - ''
+  desc: '切换是否将私信转发给机器人的所有者。'
+  params: [ ]
+forwardtoall:
+  args:
+    - ''
+  desc: '切换转发的消息是发送给机器人的全部拥有者，还是仅发送给主拥有者。'
+  params: [ ]
+generatedocs:
+  args:
+    - ''
+  desc: '生成命令文档 YML 文件'
+  params: [ ]
+imagesreload:
+  args:
+    - ''
+  desc: '开始重新加载机器人使用的图片。'
+  params: [ ]
+instancestatus:
+  args:
+    - number
+  desc: '检查特定机器人实例的状态。'
+  params:
+    - &ref_256
+      desc: '要检查的实例端口号'
+      name: instancePort
+      optional: false
+      type: int
+instancestatus_int:
+  args:
+    - number
+  desc: '检查特定机器人实例的状态。'
+  params:
+    - desc: '要检查的实例端口号'
+      name: instancePort
+      optional: false
+      type: int
+retentionpending:
+  args:
+    - ''
+  desc: '列出机器人已退出、数据等待清除的服务器，按最近时间排序。'
+  params: [ ]
+retentionrecent:
+  args:
+    - ''
+  desc: '列出最近完成的数据清除记录及每次删除的行数。'
+  params: [ ]
+retentioncancel:
+  args:
+    - 123456789012345678
+  desc: '将服务器从清除队列中移除，以保留其数据。'
+  params:
+    - desc: '要保留的服务器。'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurge:
+  args:
+    - 123456789012345678
+  desc: '立即清除服务器的数据，而不是等待宽限期。机器人仍在该服务器中时将拒绝执行。'
+  params:
+    - desc: '要清除的服务器。'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurgeall:
+  args:
+    - ''
+  desc: '立即清除所有待处理的服务器，忽略宽限期。机器人重新加入的服务器将被跳过。'
+  params: [ ]
+bothells:
+  args:
+    - ''
+  desc: '根据机器人配置中的机器人数量和机器人占比阈值，列出机器人泛滥的服务器。'
+  params: [ ]
+bothellcheck:
+  args:
+    - ''
+    - 123456789012345678
+  desc: '下载完整成员列表后，检查单个服务器是否达到机器人地狱阈值。'
+  params:
+    - desc: '要检查的服务器。省略时检查当前服务器。'
+      name: guildId
+      optional: true
+      type: ulong
+retentionscan:
+  args:
+    - ''
+  desc: '扫描所有按服务器划分的数据表，查找机器人已不在其中的服务器，并将其加入宽限期后的清除队列。'
+  params: [ ]
+leaveserver:
+  args:
+    - text
+  desc: '让机器人退出一个服务器。'
+  params:
+    - &ref_269
+      desc: '要退出的服务器的 ID 或名称。'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string:
+  args:
+    - text
+  desc: '让机器人退出一个服务器。'
+  params:
+    - desc: '要退出的服务器的 ID 或名称。'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_1:
+  args:
+    - text
+  desc: '让机器人退出一个服务器。'
+  params:
+    - desc: '要退出的服务器的 ID 或名称。'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_2:
+  args:
+    - text
+  desc: '让机器人退出一个服务器。'
+  params:
+    - desc: '要退出的服务器的 ID 或名称。'
+      name: guildStr
+      optional: false
+      type: string
+listinstances:
+  args:
+    - ''
+  desc: '列出所有已注册的机器人实例及其状态。'
+  params: [ ]
+listplaying:
+  args:
+    - ''
+  desc: '列出当前轮换中的所有状态。'
+  params: [ ]
+listservers:
+  args:
+    - ''
+  desc: '列出机器人当前所在的所有服务器。'
+  params: [ ]
+redisexec:
+  args:
+    - text
+  desc: '执行 Redis 命令并返回结果。'
+  params:
+    - &ref_385
+      desc: '要执行的 Redis 命令。'
+      name: command
+      optional: false
+      type: string
+redisexec_string:
+  args:
+    - text
+  desc: '执行 Redis 命令并返回结果。'
+  params:
+    - desc: '要执行的 Redis 命令。'
+      name: command
+      optional: false
+      type: string
+redisexec_string_1:
+  args:
+    - text
+  desc: '执行 Redis 命令并返回结果。'
+  params:
+    - desc: '要执行的 Redis 命令。'
+      name: command
+      optional: false
+      type: string
+redisexec_string_2:
+  args:
+    - text
+  desc: '执行 Redis 命令并返回结果。'
+  params:
+    - desc: '要执行的 Redis 命令。'
+      name: command
+      optional: false
+      type: string
+removeinstance:
+  args:
+    - number
+  desc: '将机器人实例从仪表板管理中移除。'
+  params:
+    - desc: '要移除的实例端口号'
+      name: instancePort
+      optional: false
+      type: int
+removeplaying:
+  args:
+    - number
+  desc: '通过索引从轮换的游戏状态中移除一个状态。'
+  params:
+    - &ref_406
+      desc: '要移除的状态序号（从 1 开始）。实际删除时将使用从 0 开始的索引。'
+      name: index
+      optional: false
+      type: int
+removeplaying_int:
+  args:
+    - number
+  desc: '通过索引从轮换的游戏状态中移除一个状态。'
+  params:
+    - desc: '要移除的状态序号（从 1 开始）。实际删除时将使用从 0 开始的索引。'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_1:
+  args:
+    - number
+  desc: '通过索引从轮换的游戏状态中移除一个状态。'
+  params:
+    - desc: '要移除的状态序号（从 1 开始）。实际删除时将使用从 0 开始的索引。'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_2:
+  args:
+    - number
+  desc: '通过索引从轮换的游戏状态中移除一个状态。'
+  params:
+    - desc: '要移除的状态序号（从 1 开始）。实际删除时将使用从 0 开始的索引。'
+      name: index
+      optional: false
+      type: int
+restartallinstances:
+  args:
+    - ''
+  desc: '重启所有已注册的机器人实例。'
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: '重启特定的机器人实例。'
+  params:
+    - desc: '要重启的实例端口号'
+      name: instancePort
+      optional: false
+      type: int
+rotateplaying:
+  args:
+    - ''
+  desc: '切换机器人游戏状态的轮换。'
+  params: [ ]
+scadd:
+  args:
+    - command
+  desc: '添加在启动时运行的命令。'
+  params:
+    - desc: '要添加到启动项的命令。'
+      name: command
+      optional: false
+      type: string
+scclear:
+  args:
+    - ''
+  desc: '清除所有启动命令。'
+  params: [ ]
+sclist:
+  args:
+    - ''
+  desc: '列出所有启动命令。'
+  params: [ ]
+scrm:
+  args:
+    - index
+  desc: '删除一个启动命令。'
+  params:
+    - desc: '要删除的命令的索引。'
+      name: index
+      optional: false
+      type: int
+send:
+  args:
+    - whereorto text
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - &ref_483
+      desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - &ref_484
+      desc: '要发送的消息。'
+      name: msg
+      optional: false
+      type: string
+send_ulong_=_=:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '要发送消息的用户 ID'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '要发送的消息。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_1:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '要发送消息的用户 ID'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '要发送的消息。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_2:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '要发送消息的用户 ID'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '要发送的消息。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_3:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '要发送消息的用户 ID'
+      name: to
+      optional: true
+      type: ulong
+    - desc: '要发送的消息。'
+      name: msg
+      optional: true
+      type: string
+send_ulong_string:
+  args:
+    - whereorto text
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '要发送的消息。'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_1:
+  args:
+    - whereorto text
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '要发送的消息。'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_2:
+  args:
+    - whereorto text
+  desc: '向指定频道或用户发送消息。'
+  params:
+    - desc: '要发送消息的频道或用户 ID'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: '要发送的消息。'
+      name: msg
+      optional: false
+      type: string
+setavatar:
+  args:
+    - '[img]'
+  desc: '设置机器人的头像。'
+  params:
+    - desc: '新头像图片的 URL。若为 null，根据实现方式，命令可能会移除当前头像或不做任何操作。'
+      name: img
+      optional: true
+      type: string
+setgame:
+  args:
+    - '<type> [game]'
+    - type
+  desc: '设置机器人当前正在进行的游戏。'
+  params:
+    - desc: '活动类型（例如 Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: '游戏或活动的名称。若为 null，可能会清除当前游戏。'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=:
+  args:
+    - '<type> [game]'
+    - type
+  desc: '设置机器人当前正在进行的游戏。'
+  params:
+    - desc: '活动类型（例如 Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: '游戏或活动的名称。若为 null，可能会清除当前游戏。'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_1:
+  args:
+    - '<type> [game]'
+    - type
+  desc: '设置机器人当前正在进行的游戏。'
+  params:
+    - desc: '活动类型（例如 Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: '游戏或活动的名称。若为 null，可能会清除当前游戏。'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_2:
+  args:
+    - '<type> [game]'
+    - type
+  desc: '设置机器人当前正在进行的游戏。'
+  params:
+    - desc: '活动类型（例如 Playing、Streaming）。'
+      name: type
+      optional: false
+      type: activity type
+    - desc: '游戏或活动的名称。若为 null，可能会清除当前游戏。'
+      name: game
+      optional: true
+      type: string
+setname:
+  args:
+    - text
+  desc: '将机器人的用户名更改为指定的新名称。'
+  params:
+    - &ref_508
+      desc: '机器人的新用户名。'
+      name: newName
+      optional: false
+      type: string
+setname_string:
+  args:
+    - text
+  desc: '将机器人的用户名更改为指定的新名称。'
+  params:
+    - desc: '机器人的新用户名。'
+      name: newName
+      optional: false
+      type: string
+setname_string_1:
+  args:
+    - text
+  desc: '将机器人的用户名更改为指定的新名称。'
+  params:
+    - desc: '机器人的新用户名。'
+      name: newName
+      optional: false
+      type: string
+setname_string_2:
+  args:
+    - text
+  desc: '将机器人的用户名更改为指定的新名称。'
+  params:
+    - desc: '机器人的新用户名。'
+      name: newName
+      optional: false
+      type: string
+setstatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: '设置机器人的在线状态。'
+  params:
+    - &ref_526
+      desc: '要设置的新状态。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: '设置机器人的在线状态。'
+  params:
+    - desc: '要设置的新状态。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_1:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: '设置机器人的在线状态。'
+  params:
+    - desc: '要设置的新状态。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_2:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: '设置机器人的在线状态。'
+  params:
+    - desc: '要设置的新状态。'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstream:
+  args:
+    - '<url> [name]'
+    - text
+  desc: '设置机器人的直播状态。'
+  params:
+    - desc: '直播的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '直播名称。若为 null，可能使用默认名称或不使用名称。'
+      name: name
+      optional: true
+      type: string
+setstream_string_=:
+  args:
+    - '<url> [name]'
+    - text
+  desc: '设置机器人的直播状态。'
+  params:
+    - desc: '直播的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '直播名称。若为 null，可能使用默认名称或不使用名称。'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_1:
+  args:
+    - '<url> [name]'
+    - text
+  desc: '设置机器人的直播状态。'
+  params:
+    - desc: '直播的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '直播名称。若为 null，可能使用默认名称或不使用名称。'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_2:
+  args:
+    - '<url> [name]'
+    - text
+  desc: '设置机器人的直播状态。'
+  params:
+    - desc: '直播的 URL。'
+      name: url
+      optional: false
+      type: string
+    - desc: '直播名称。若为 null，可能使用默认名称或不使用名称。'
+      name: name
+      optional: true
+      type: string
+shardstats:
+  args:
+    - ''
+  desc: '显示机器人所有分片的统计数据，包括其状态、服务器数量和用户数量。'
+  params: [ ]
+shardstats_noparams:
+  args:
+    - ''
+  desc: '显示机器人所有分片的统计数据，包括其状态、服务器数量和用户数量。'
+  params: [ ]
+shardstats_noparams_1:
+  args:
+    - ''
+  desc: '显示机器人所有分片的统计数据，包括其状态、服务器数量和用户数量。'
+  params: [ ]
+shardstats_noparams_2:
+  args:
+    - ''
+  desc: '显示机器人所有分片的统计数据，包括其状态、服务器数量和用户数量。'
+  params: [ ]
+sqlexec:
+  args:
+    - text
+  desc: '对数据库执行原始 SQL 命令。'
+  params:
+    - &ref_555
+      desc: '要执行的 SQL 命令。'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string:
+  args:
+    - text
+  desc: '对数据库执行原始 SQL 命令。'
+  params:
+    - desc: '要执行的 SQL 命令。'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_1:
+  args:
+    - text
+  desc: '对数据库执行原始 SQL 命令。'
+  params:
+    - desc: '要执行的 SQL 命令。'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_2:
+  args:
+    - text
+  desc: '对数据库执行原始 SQL 命令。'
+  params:
+    - desc: '要执行的 SQL 命令。'
+      name: sql
+      optional: false
+      type: string
+startupcommandadd:
+  args:
+    - text
+  desc: '添加一个在机器人启动时执行的新启动命令。'
+  params:
+    - &ref_564
+      desc: '要添加的命令文本，不含前缀。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string:
+  args:
+    - text
+  desc: '添加一个在机器人启动时执行的新启动命令。'
+  params:
+    - desc: '要添加的命令文本，不含前缀。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_1:
+  args:
+    - text
+  desc: '添加一个在机器人启动时执行的新启动命令。'
+  params:
+    - desc: '要添加的命令文本，不含前缀。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_2:
+  args:
+    - text
+  desc: '添加一个在机器人启动时执行的新启动命令。'
+  params:
+    - desc: '要添加的命令文本，不含前缀。'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandremove:
+  args:
+    - number
+  desc: '根据索引删除一个启动命令。'
+  params:
+    - desc: '要删除的启动命令的序号（从 1 开始）。'
+      name: index
+      optional: false
+      type: int
+startupcommandsclear:
+  args:
+    - ''
+  desc: '清除服务器的所有启动命令。'
+  params: [ ]
+startupcommandslist:
+  args:
+    - 1
+  desc: '列出服务器中配置的启动命令。'
+  params:
+    - desc: '列出服务器中配置的启动命令。'
+      name: 1
+      optional: false
+      type: '='
+stringsreload:
+  args:
+    - ''
+  desc: '开始重新加载机器人字符串（本地化）。'
+  params: [ ]
+sudo:
+  args:
+    - '@user text'
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - &ref_580
+      desc: '以服务器所有者的身份执行命令。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_581
+      desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string:
+  args:
+    - '@user text'
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - desc: '以服务器所有者的身份执行命令。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_1:
+  args:
+    - '@user text'
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - desc: '以服务器所有者的身份执行命令。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_2:
+  args:
+    - '@user text'
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - desc: '以服务器所有者的身份执行命令。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+sudo_string:
+  args:
+    - text
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+sudo_string_1:
+  args:
+    - text
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+sudo_string_2:
+  args:
+    - text
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+sudo_string_3:
+  args:
+    - text
+  desc: '以服务器所有者的身份执行命令。'
+  params:
+    - desc: '要执行的命令字符串，包括命令名称和参数。'
+      name: args
+      optional: false
+      type: string
+update:
+  args:
+    - ''
+  desc: '将机器人更新到代码仓库中的最新版本。'
+  params: [ ]
+update_noparams:
+  args:
+    - ''
+  desc: '将机器人更新到代码仓库中的最新版本。'
+  params: [ ]
+update_noparams_1:
+  args:
+    - ''
+  desc: '将机器人更新到代码仓库中的最新版本。'
+  params: [ ]
+update_noparams_2:
+  args:
+    - ''
+  desc: '将机器人更新到代码仓库中的最新版本。'
+  params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: '更新所有已注册的机器人实例。'
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: '更新特定的机器人实例。'
+  params:
+    - desc: '要更新的实例端口号'
+      name: instancePort
+      optional: false
+      type: int
+wait:
+  args:
+    - number
+  desc: '执行等待命令，延迟指定的毫秒数。'
+  params:
+    - &ref_651
+      desc: '要延迟的毫秒数。'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int:
+  args:
+    - number
+  desc: '执行等待命令，延迟指定的毫秒数。'
+  params:
+    - desc: '要延迟的毫秒数。'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_1:
+  args:
+    - number
+  desc: '执行等待命令，延迟指定的毫秒数。'
+  params:
+    - desc: '要延迟的毫秒数。'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_2:
+  args:
+    - number
+  desc: '执行等待命令，延迟指定的毫秒数。'
+  params:
+    - desc: '要延迟的毫秒数。'
+      name: miliseconds
+      optional: false
+      type: int

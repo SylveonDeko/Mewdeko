@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "`{0}` という名前の BAN アクションは存在しません。使用できるアクション: {1}",
+  "ban_prune_cleared": "{1} の {0} のメッセージ削除設定を解除しました。",
+  "ban_prune_cleared_none": "{1} の {0} にメッセージ削除設定はありませんでした。",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "メッセージ削除の設定はありません。BAN は各アクションの既定の設定を使用します。",
+  "ban_prune_list_title": "BAN 時のメッセージ削除",
+  "ban_prune_reset": "{0} 件のメッセージ削除設定を削除しました。すべてのアクションは既定値に戻りました。",
+  "ban_prune_scope_category": "カテゴリー {0}",
+  "ban_prune_scope_channel": "チャンネル {0}",
+  "ban_prune_scope_guild": "このサーバー",
+  "ban_prune_set": "{0} からの BAN では、{2} のメッセージを **{1}** 削除するようになりました。",
+  "ban_prune_set_all_actions": "すべての BAN アクション",
+  "ban_prune_days": "{0} 日分のメッセージ",
+  "ban_prune_days_none": "メッセージなし",
+  "ban_prune_effective": "今ここで BAN すると、**{0}** が削除されます。",
+  "ban_prune_defaults_title": "既定の設定",
+  "ban_prune_overrides_title": "個別の設定"
+}

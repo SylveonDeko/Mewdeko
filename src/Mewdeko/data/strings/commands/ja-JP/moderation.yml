@@ -1,0 +1,3385 @@
+banprune:
+  args:
+    - ''
+  desc: 'このチャンネルで BAN を実行した場合に使用されるメッセージ削除の設定を、設定済みのすべての項目とともに表示します。'
+  params:
+    - { }
+banpruneset:
+  args:
+    - '<action> <days> [#channel]'
+  desc: '1回の BAN 操作で、何日分のメッセージを削除するかを設定します。すべての操作に適用するには "all" を指定し、チャンネルまたはカテゴリを指定すると、その範囲だけを上書きできます。'
+  params:
+    - desc: '操作のキー、またはすべての操作を対象にする "all" です。'
+      name: action
+      optional: false
+      type: string
+    - desc: '削除する日数（0〜7）です。'
+      name: days
+      optional: false
+      type: int
+    - desc: '設定の対象とするチャンネルまたはカテゴリです。サーバーのデフォルトを使う場合は省略します。'
+      name: target
+      optional: true
+      type: channel
+banpruneclear:
+  args:
+    - '<action> [#channel]'
+  desc: 'メッセージ削除の設定を削除し、操作がより広い範囲の設定またはデフォルトに戻るようにします。'
+  params:
+    - desc: '操作のキー、またはすべての操作を対象にする設定の場合は "all" です。'
+      name: action
+      optional: false
+      type: string
+    - desc: '設定が適用されているチャンネルまたはカテゴリです。サーバーのデフォルトを使う場合は省略します。'
+      name: target
+      optional: true
+      type: channel
+banprunereset:
+  args:
+    - ''
+  desc: 'サーバー内のすべてのメッセージ削除の設定を削除します。'
+  params:
+    - { }
+ban:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IGuildUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_IUser_=_3:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time @user
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+ban_StoopidTime_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<pruneTime> <time> [@user] [msg]'
+    - time time
+  desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+  params:
+    - desc: '指定した理由と、メッセージを削除する日数を指定してユーザーを BAN します。'
+      name: pruneTime
+      optional: false
+      type: duration
+    - desc: 'メッセージを削除する期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'BAN するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'BAN の理由です。'
+      name: msg
+      optional: true
+      type: string
+banmessage:
+  args:
+    - '[message]'
+  desc: 'BAN されたユーザーにDMで送信されるメッセージを設定します。'
+  params:
+    - desc: '設定するメッセージです。埋め込みのコードも指定できます。'
+      name: message
+      optional: true
+      type: string
+banmessagetest:
+  args:
+    - '<duration> [reason]'
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=:
+  args:
+    - '<duration> [reason]'
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_1:
+  args:
+    - '<duration> [reason]'
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_=_2:
+  args:
+    - '<duration> [reason]'
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_1:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_2:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmessagetest_StoopidTime_=_3:
+  args:
+    - '<duration> [reason]'
+    - duration
+  desc: 'BAN メッセージをテストします。いたずらにも使えます！'
+  params:
+    - desc: 'BAN の期間です。'
+      name: duration
+      optional: false
+      type: duration
+    - desc: 'BAN の理由です。'
+      name: reason
+      optional: true
+      type: string
+banmsgreset:
+  args:
+    - ''
+  desc: 'BAN メッセージをデフォルトのメッセージに戻します。'
+  params: [ ]
+banmsgtest:
+  args:
+    - user
+  desc: 'BAN メッセージの機能をテストします。'
+  params:
+    - desc: 'BAN メッセージをテストする対象のユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+chatmute:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - &ref_127
+      desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - &ref_126
+      desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - &ref_128
+      desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - &ref_129
+      desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatmute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+  params:
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのチャットをミュートします（ボイスはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+chatunmute:
+  args:
+    - '@user ""'
+  desc: 'ユーザーのチャットのミュートを解除します。'
+  params:
+    - desc: 'ミュートを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーのチャットのミュートを解除します。'
+      name: '""'
+      optional: false
+      type: '='
+dehoist:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーのハイライト表示（上位表示）を解除します。'
+  params:
+    - &ref_180
+      desc: 'ハイライト表示を解除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーのハイライト表示（上位表示）を解除します。'
+  params:
+    - desc: 'ハイライト表示を解除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーのハイライト表示（上位表示）を解除します。'
+  params:
+    - desc: 'ハイライト表示を解除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoist_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーのハイライト表示（上位表示）を解除します。'
+  params:
+    - desc: 'ハイライト表示を解除するユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+dehoistall:
+  args:
+    - false
+  desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+  params:
+    - &ref_181
+      desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=:
+  args:
+    - false
+  desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+  params:
+    - desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_1:
+  args:
+    - false
+  desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+  params:
+    - desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+      name: false
+      optional: false
+      type: '='
+dehoistall_=_2:
+  args:
+    - false
+  desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+  params:
+    - desc: 'ニックネームの特殊文字を置き換えて、サーバー内のすべてのユーザーのハイライト表示を解除します。'
+      name: false
+      optional: false
+      type: '='
+kick:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+kick_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+kick_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをキックします。'
+  params:
+    - desc: 'ユーザーをキックします。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'キックの理由です。'
+      name: msg
+      optional: true
+      type: string
+masskick:
+  args:
+    - '@user'
+  desc: '複数のユーザーをキックします。'
+  params:
+    - &ref_289
+      desc: 'キックするユーザーです。'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]:
+  args:
+    - '@user'
+  desc: '複数のユーザーをキックします。'
+  params:
+    - desc: 'キックするユーザーです。'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_1:
+  args:
+    - '@user'
+  desc: '複数のユーザーをキックします。'
+  params:
+    - desc: 'キックするユーザーです。'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskick_IUser[]_2:
+  args:
+    - '@user'
+  desc: '複数のユーザーをキックします。'
+  params:
+    - desc: 'キックするユーザーです。'
+      name: usersUnp
+      optional: false
+      type: IUser[]
+masskill:
+  args:
+    - text
+  desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+  params:
+    - &ref_290
+      desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+      name: people
+      optional: false
+      type: string
+masskill_string:
+  args:
+    - text
+  desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+  params:
+    - desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+      name: people
+      optional: false
+      type: string
+masskill_string_1:
+  args:
+    - text
+  desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+  params:
+    - desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+      name: people
+      optional: false
+      type: string
+masskill_string_2:
+  args:
+    - text
+  desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+  params:
+    - desc: 'ユーザーを一括 BAN します。複数のユーザーをまとめて BAN する場合に使います。あわせてボットのブラックリストにも登録します。'
+      name: people
+      optional: false
+      type: string
+massnickprogress:
+  args:
+    - ''
+  desc: '一括ニックネーム変更の進行状況を表示します。'
+  params: [ ]
+massnickstop:
+  args:
+    - ''
+  desc: '一括ニックネーム変更を停止します。'
+  params: [ ]
+mute:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - &ref_313
+      desc: '指定した時間、ユーザーをミュートします。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: target
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=:
+  args:
+    - '@user time ""'
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_1:
+  args:
+    - '@user time ""'
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_2:
+  args:
+    - '@user time ""'
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_IGuildUser_StoopidTime_=_3:
+  args:
+    - '@user time ""'
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+mute_StoopidTime_IGuildUser_=_3:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーをミュートします。'
+  params:
+    - desc: 'ユーザーをミュートする期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーをミュートします。'
+      name: '""'
+      optional: false
+      type: '='
+muterole:
+  args:
+    - '[@role]'
+  desc: 'サーバーのミュート用ロールを設定します。'
+  params:
+    - desc: 'サーバーのミュート用ロールを設定します。'
+      name: role
+      optional: true
+      type: role
+mwarn:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'ユーザーに簡易警告を出します。'
+  params:
+    - desc: '警告するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告の理由です。'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'ユーザーに簡易警告を出します。'
+  params:
+    - desc: '警告するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告の理由です。'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_1:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'ユーザーに簡易警告を出します。'
+  params:
+    - desc: '警告するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告の理由です。'
+      name: reason
+      optional: true
+      type: string
+mwarn_IGuildUser_=_2:
+  args:
+    - '@user [reason]'
+    - '@user'
+  desc: 'ユーザーに簡易警告を出します。'
+  params:
+    - desc: '警告するユーザーです。'
+      name: user
+      optional: false
+      type: user
+    - desc: '警告の理由です。'
+      name: reason
+      optional: true
+      type: string
+mwarnclear:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - &ref_315
+      desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+    - '@user'
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=:
+  args:
+    - userid 0
+    - userid
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - &ref_316
+      desc: '警告を削除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_1:
+  args:
+    - userid 0
+    - userid
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: '警告を削除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_2:
+  args:
+    - userid 0
+    - userid
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: '警告を削除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnclear_ulong_=_3:
+  args:
+    - userid 0
+    - userid
+  desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: '警告を削除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+    - desc: 'ユーザーの簡易警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+mwarnexpire:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '簡易警告の有効期限を設定します。'
+  params:
+    - &ref_317
+      desc: '設定する日数です。'
+      name: days
+      optional: false
+      type: int
+    - &ref_318
+      desc: '簡易警告の有効期限を設定します。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '簡易警告の有効期限を設定します。'
+  params:
+    - desc: '設定する日数です。'
+      name: days
+      optional: false
+      type: int
+    - desc: '簡易警告の有効期限を設定します。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_1:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '簡易警告の有効期限を設定します。'
+  params:
+    - desc: '設定する日数です。'
+      name: days
+      optional: false
+      type: int
+    - desc: '簡易警告の有効期限を設定します。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnexpire_int_=_2:
+  args:
+    - number warnexpireaction.clear
+    - number
+  desc: '簡易警告の有効期限を設定します。'
+  params:
+    - desc: '設定する日数です。'
+      name: days
+      optional: false
+      type: int
+    - desc: '簡易警告の有効期限を設定します。'
+      name: WarnExpireAction.Clear
+      optional: false
+      type: '='
+mwarnlog:
+  args:
+    - number @user
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - &ref_319
+      desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - &ref_320
+      desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_=:
+  args:
+    - '<page> @user'
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_1:
+  args:
+    - '<page> @user'
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_2:
+  args:
+    - '<page> @user'
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_=_3:
+  args:
+    - '<page> @user'
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: user
+mwarnlog_int_IGuildUser:
+  args:
+    - number @user
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_1:
+  args:
+    - number @user
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_IGuildUser_2:
+  args:
+    - number @user
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+mwarnlog_int_ulong:
+  args:
+    - number userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - &ref_321
+      desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_1:
+  args:
+    - number userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_2:
+  args:
+    - number userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_int_ulong_3:
+  args:
+    - number userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: 'ユーザーの簡易警告ログを表示します。'
+      name: page
+      optional: false
+      type: int
+    - desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong:
+  args:
+    - userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_1:
+  args:
+    - userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_2:
+  args:
+    - userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlog_ulong_3:
+  args:
+    - userid
+  desc: 'ユーザーの簡易警告ログを表示します。'
+  params:
+    - desc: '警告ログを表示するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+mwarnlogall:
+  args:
+    - ''
+  desc: 'すべてのユーザーの簡易警告ログを表示します。'
+  params: [ ]
+mwarnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int:
+  args:
+    - number
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_1:
+  args:
+    - number
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_2:
+  args:
+    - number
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_3:
+  args:
+    - number
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+mwarnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '簡易警告による処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '簡易警告による処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '簡易警告による処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '簡易警告による処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+mwarnpunishlist:
+  args:
+    - ''
+  desc: '簡易警告の処罰を一覧表示します。'
+  params: [ ]
+purge:
+  args:
+    - '@user [count] [parameter]'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_=:
+  args:
+    - '@user [count] [parameter]'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_=_1:
+  args:
+    - '@user [count] [parameter]'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_=_2:
+  args:
+    - '@user [count] [parameter]'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_IGuildUser_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - '@user'
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - number
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_1:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_2:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purge_ulong_=_=_3:
+  args:
+    - '@user [count] [parameter]'
+    - userid
+  desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+  params:
+    - desc: '指定したユーザー ID と件数に一致するメッセージを、現在のチャンネルから削除します。'
+      name: user
+      optional: false
+      type: user
+    - desc: '削除するメッセージの件数です。'
+      name: count
+      optional: true
+      type: ulong
+    - desc: '使用するパラメーターです。'
+      name: parameter
+      optional: true
+      type: string
+purgeuser:
+  args:
+    - '@user number'
+  desc: 'アクセス可能なすべてのチャンネルから、ユーザーのメッセージをすべて削除します。'
+  params:
+    - &ref_365
+      desc: 'メッセージを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_366
+      desc: '検索するメッセージの件数です。'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int:
+  args:
+    - '@user number'
+  desc: 'アクセス可能なすべてのチャンネルから、ユーザーのメッセージをすべて削除します。'
+  params:
+    - desc: 'メッセージを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '検索するメッセージの件数です。'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_1:
+  args:
+    - '@user number'
+  desc: 'アクセス可能なすべてのチャンネルから、ユーザーのメッセージをすべて削除します。'
+  params:
+    - desc: 'メッセージを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '検索するメッセージの件数です。'
+      name: messageCount
+      optional: false
+      type: int
+purgeuser_IUser_int_2:
+  args:
+    - '@user number'
+  desc: 'アクセス可能なすべてのチャンネルから、ユーザーのメッセージをすべて削除します。'
+  params:
+    - desc: 'メッセージを削除するユーザーです。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '検索するメッセージの件数です。'
+      name: messageCount
+      optional: false
+      type: int
+removeonmute:
+  args:
+    - text
+  desc: 'ミュート時にロールを削除するかどうかを切り替えます。'
+  params:
+    - &ref_402
+      desc: '有効にするには y、無効にするには n。'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string:
+  args:
+    - text
+  desc: 'ミュート時にロールを削除するかどうかを切り替えます。'
+  params:
+    - desc: '有効にするには y、無効にするには n。'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_1:
+  args:
+    - text
+  desc: 'ミュート時にロールを削除するかどうかを切り替えます。'
+  params:
+    - desc: '有効にするには y、無効にするには n。'
+      name: yesnt
+      optional: false
+      type: string
+removeonmute_string_2:
+  args:
+    - text
+  desc: 'ミュート時にロールを削除するかどうかを切り替えます。'
+  params:
+    - desc: '有効にするには y、無効にするには n。'
+      name: yesnt
+      optional: false
+      type: string
+sanitize:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーをサニタイズします。'
+  params:
+    - &ref_473
+      desc: 'サニタイズするユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーをサニタイズします。'
+  params:
+    - desc: 'サニタイズするユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーをサニタイズします。'
+  params:
+    - desc: 'サニタイズするユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitize_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'ユーザー名の特殊文字を置き換えて、ユーザーをサニタイズします。'
+  params:
+    - desc: 'サニタイズするユーザーです。'
+      name: user
+      optional: false
+      type: IGuildUser
+sanitizeall:
+  args:
+    - ''
+  desc: 'ユーザー名の特殊文字を置き換えて、サーバー内のすべてのユーザーをサニタイズします。'
+  params: [ ]
+setmwarnchannel:
+  args:
+    - channel
+  desc: '簡易警告ログのチャンネルを設定します。'
+  params:
+    - &ref_507
+      desc: '設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel:
+  args:
+    - channel
+  desc: '簡易警告ログのチャンネルを設定します。'
+  params:
+    - desc: '設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_1:
+  args:
+    - channel
+  desc: '簡易警告ログのチャンネルを設定します。'
+  params:
+    - desc: '設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setmwarnchannel_ITextChannel_2:
+  args:
+    - channel
+  desc: '簡易警告ログのチャンネルを設定します。'
+  params:
+    - desc: '設定するチャンネルです。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setwarnchannel:
+  args:
+    - channel
+  desc: 'サーバーの警告ログチャンネルを設定します。'
+  params:
+    - desc: 'サーバーの警告ログチャンネルを設定します。'
+      name: channel
+      optional: false
+      type: ITextChannel
+softban:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_1:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+softban_IGuildUser_=_2:
+  args:
+    - '[@user] [msg]'
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_1:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_2:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+softban_ulong_=_3:
+  args:
+    - '[@user] [msg]'
+    - userid
+  desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+  params:
+    - desc: 'ユーザーをソフトBANします。ユーザーをキックし、そのユーザーのメッセージを削除する場合に使います。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'ソフトBANの理由です。'
+      name: msg
+      optional: true
+      type: string
+stfu:
+  args:
+    - time @user
+    - time
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - &ref_569
+      desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_568
+      desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_IGuildUser_=:
+  args:
+    - '<time> [@user]'
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_1:
+  args:
+    - '<time> [@user]'
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_2:
+  args:
+    - '<time> [@user]'
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: user
+stfu_IGuildUser_=_3:
+  args:
+    - '<time> [@user]'
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: user
+stfu_StoopidTime_IGuildUser:
+  args:
+    - time @user
+    - time
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_1:
+  args:
+    - time @user
+    - time
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+stfu_StoopidTime_IGuildUser_2:
+  args:
+    - time @user
+    - time
+  desc: '何がわからないのでしょう？ユーザーを黙らせます。'
+  params:
+    - desc: 'ユーザーを黙らせる期間です。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '黙らせるユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+timeout:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '指定した時間、ユーザーをタイムアウトします。'
+  params:
+    - desc: 'ユーザーをタイムアウトする時間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'タイムアウトするユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'タイムアウトの理由です。'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '指定した時間、ユーザーをタイムアウトします。'
+  params:
+    - desc: 'ユーザーをタイムアウトする時間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'タイムアウトするユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'タイムアウトの理由です。'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_1:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '指定した時間、ユーザーをタイムアウトします。'
+  params:
+    - desc: 'ユーザーをタイムアウトする時間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'タイムアウトするユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'タイムアウトの理由です。'
+      name: reason
+      optional: true
+      type: string
+timeout_StoopidTime_IGuildUser_=_2:
+  args:
+    - '<time> [@user] [reason]'
+    - time
+  desc: '指定した時間、ユーザーをタイムアウトします。'
+  params:
+    - desc: 'ユーザーをタイムアウトする時間です。'
+      name: time
+      optional: false
+      type: duration
+    - desc: 'タイムアウトするユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: 'タイムアウトの理由です。'
+      name: reason
+      optional: true
+      type: string
+unban:
+  args:
+    - text
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - &ref_633
+      desc: 'ユーザーの BAN を解除します。'
+      name: user
+      optional: false
+      type: string
+unban_string:
+  args:
+    - text
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - desc: 'ユーザーの BAN を解除します。'
+      name: user
+      optional: false
+      type: string
+unban_string_1:
+  args:
+    - text
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - desc: 'ユーザーの BAN を解除します。'
+      name: user
+      optional: false
+      type: string
+unban_string_2:
+  args:
+    - text
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - desc: 'ユーザーの BAN を解除します。'
+      name: user
+      optional: false
+      type: string
+unban_ulong:
+  args:
+    - userid
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - &ref_634
+      desc: 'BAN を解除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_1:
+  args:
+    - userid
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - desc: 'BAN を解除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_2:
+  args:
+    - userid
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - desc: 'BAN を解除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+unban_ulong_3:
+  args:
+    - userid
+  desc: 'ユーザーの BAN を解除します。'
+  params:
+    - desc: 'BAN を解除するユーザーの ID です。'
+      name: userId
+      optional: false
+      type: ulong
+unmute:
+  args:
+    - '@user ""'
+  desc: 'ユーザーのミュートを解除します。'
+  params:
+    - desc: 'ミュートを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーのミュートを解除します。'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: 'ユーザーのミュートを解除します。'
+  params:
+    - desc: 'ミュートを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーのミュートを解除します。'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: 'ユーザーのミュートを解除します。'
+  params:
+    - desc: 'ミュートを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーのミュートを解除します。'
+      name: '""'
+      optional: false
+      type: '='
+unmute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: 'ユーザーのミュートを解除します。'
+  params:
+    - desc: 'ミュートを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーのミュートを解除します。'
+      name: '""'
+      optional: false
+      type: '='
+unmuteall:
+  args:
+    - '[reason]'
+  desc: 'サーバー内のすべてのユーザーのミュートを解除します。危険です！！！'
+  params:
+    - desc: 'そのような暴挙を行う理由です！'
+      name: reason
+      optional: true
+      type: string
+unstfu:
+  args:
+    - '@user'
+  desc: 'チャンネルでユーザーの黙らせを解除します。'
+  params:
+    - &ref_635
+      desc: '黙らせを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser:
+  args:
+    - '@user'
+  desc: 'チャンネルでユーザーの黙らせを解除します。'
+  params:
+    - desc: '黙らせを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'チャンネルでユーザーの黙らせを解除します。'
+  params:
+    - desc: '黙らせを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+unstfu_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'チャンネルでユーザーの黙らせを解除します。'
+  params:
+    - desc: '黙らせを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout:
+  args:
+    - '@user'
+  desc: 'ユーザーのタイムアウトを解除します。'
+  params:
+    - &ref_636
+      desc: 'タイムアウトを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser:
+  args:
+    - '@user'
+  desc: 'ユーザーのタイムアウトを解除します。'
+  params:
+    - desc: 'タイムアウトを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'ユーザーのタイムアウトを解除します。'
+  params:
+    - desc: 'タイムアウトを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+untimeout_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'ユーザーのタイムアウトを解除します。'
+  params:
+    - desc: 'タイムアウトを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+voicemute:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_1:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_2:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_IGuildUser_=_3:
+  args:
+    - '@user ""'
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_1:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voicemute_StoopidTime_IGuildUser_=_2:
+  args:
+    - time @user ""
+    - time
+  desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+  params:
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'ミュートするユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: '指定した時間、ユーザーのボイスをミュートします（チャットはミュートしません）。'
+      name: '""'
+      optional: false
+      type: '='
+voiceunmute:
+  args:
+    - '@user ""'
+  desc: 'ユーザーのボイスのミュートを解除します。'
+  params:
+    - desc: 'ミュートを解除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーのボイスのミュートを解除します。'
+      name: '""'
+      optional: false
+      type: '='
+warn:
+  args:
+    - '[@user] [reason]'
+  desc: '任意の理由を付けてユーザーに警告を出します。'
+  params:
+    - desc: '警告するユーザーです。'
+      name: user
+      optional: true
+      type: user
+    - desc: '警告の理由です。'
+      name: reason
+      optional: true
+      type: string
+warnclear:
+  args:
+    - '@user 0'
+  desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - &ref_652
+      desc: '警告を削除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=:
+  args:
+    - '@user 0'
+  desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: '警告を削除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_1:
+  args:
+    - '@user 0'
+  desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: '警告を削除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+warnclear_IGuildUser_=_2:
+  args:
+    - '@user 0'
+  desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+  params:
+    - desc: '警告を削除するユーザーです。'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'ユーザーの警告を削除します。インデックスを指定した場合は、その警告のみを削除します。'
+      name: 0
+      optional: false
+      type: '='
+warnexpire:
+  args:
+    - number options
+  desc: '警告の有効期限を設定します。'
+  params:
+    - &ref_653
+      desc: '警告が期限切れになるまでの日数です。'
+      name: days
+      optional: false
+      type: int
+    - &ref_654
+      desc: '警告が期限切れになったときに実行する処置です。'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction:
+  args:
+    - number options
+  desc: '警告の有効期限を設定します。'
+  params:
+    - desc: '警告が期限切れになるまでの日数です。'
+      name: days
+      optional: false
+      type: int
+    - desc: '警告が期限切れになったときに実行する処置です。'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_1:
+  args:
+    - number options
+  desc: '警告の有効期限を設定します。'
+  params:
+    - desc: '警告が期限切れになるまでの日数です。'
+      name: days
+      optional: false
+      type: int
+    - desc: '警告が期限切れになったときに実行する処置です。'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnexpire_int_WarnExpireAction_2:
+  args:
+    - number options
+  desc: '警告の有効期限を設定します。'
+  params:
+    - desc: '警告が期限切れになるまでの日数です。'
+      name: days
+      optional: false
+      type: int
+    - desc: '警告が期限切れになったときに実行する処置です。'
+      name: options
+      optional: false
+      type: WarnExpireAction
+warnlog:
+  args:
+    - '@user'
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser:
+  args:
+    - '@user'
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: user
+      optional: false
+      type: IGuildUser
+warnlog_ulong:
+  args:
+    - userid
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - &ref_655
+      desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_1:
+  args:
+    - userid
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_2:
+  args:
+    - userid
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: userId
+      optional: false
+      type: ulong
+warnlog_ulong_3:
+  args:
+    - userid
+  desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+  params:
+    - desc: 'ユーザー ID を指定して、そのユーザーの警告ログを表示します。'
+      name: userId
+      optional: false
+      type: ulong
+warnlogall:
+  args:
+    - ''
+  desc: '各ユーザーの警告回数を表示します。'
+  params: [ ]
+warnpunish:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int:
+  args:
+    - number
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_1:
+  args:
+    - number
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_2:
+  args:
+    - number
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_3:
+  args:
+    - number
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+warnpunish_int_AddRole_IRole_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_AddRole_IRole_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number addrole @role
+    - addrole
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_1:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_2:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunish_int_PunishmentAction_=_3:
+  args:
+    - '<number> <_> @role [time]'
+    - number punish
+  desc: '特定の警告回数に対する処罰を削除します。'
+  params:
+    - desc: '警告の回数です。'
+      name: number
+      optional: false
+      type: int
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: _
+      optional: false
+      type: addrole
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: role
+      optional: false
+      type: role
+    - desc: '特定の警告回数に対する処罰を削除します。'
+      name: time
+      optional: true
+      type: duration
+warnpunishlist:
+  args:
+    - ''
+  desc: 'サーバーの警告処罰を一覧表示します。'
+  params: [ ]

@@ -1,0 +1,23 @@
+{
+  "highlight_added": "Dodano {0} do twoich wyróżnień!",
+  "highlight_already_exists": "To już jest w twoich wyróżnieniach!",
+  "highlight_cannot_delete": "Nie można usunąć, bo nie masz ustawionych wyróżnień!",
+  "highlight_disabled": "Wyróżnienia wyłączone.",
+  "highlight_empty_delete": "Nie można usunąć pustego wyróżnienia.",
+  "highlight_empty_match": "Nie można dopasować pustego wyróżnienia.",
+  "highlight_enabled": "Wyróżnienia włączone!",
+  "highlight_ignored_channel_added": "Dodano {0} do ignorowanych kanałów!",
+  "highlight_ignored_channel_removed": "Usunięto {0} z ignorowanych kanałów!",
+  "highlight_ignored_user_added": "Dodano {0} do ignorowanych użytkowników!",
+  "highlight_ignored_user_removed": "Usunięto {0} z ignorowanych użytkowników!",
+  "highlight_list_title": "Wyróżnienia: {0}",
+  "highlight_no_highlights": "Nie masz ustawionych wyróżnień!",
+  "highlight_no_match_found": "Nie znaleziono dopasowań.",
+  "highlight_no_matches": "Nie ma wyróżnień do dopasowania.",
+  "highlight_not_exist": "Takie wyróżnienie nie istnieje!",
+  "highlight_not_found": "Tego nie ma w twoich wyróżnieniach!",
+  "highlight_phrase_required": "Musisz podać frazę do wyróżnienia.",
+  "highlight_removed": "Pomyślnie usunięto {0} z twoich wyróżnień.",
+  "highlight_toggle_invalid": "Może być tylko true albo false, nic innego.",
+  "highlight_user_channel_not_found": "Nie znaleziono takiego użytkownika ani kanału!"
+}
