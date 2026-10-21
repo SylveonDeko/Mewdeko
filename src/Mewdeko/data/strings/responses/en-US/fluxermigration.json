@@ -1,0 +1,10 @@
+{
+  "fluxerlink_dm": "Your Fluxer link code is `{0}`. It expires in 15 minutes. Run `.linkdiscord {0}` on Fluxer to link your accounts.",
+  "fluxerlink_dm_failed": "I couldn't DM you the code. Please open your DMs and run the command again.",
+  "fluxerlink_sent": "I sent you a DM with your link code.",
+  "fluxermigration_dm": "Your migration code for **{0}** is `{1}`.\nIt expires in 24 hours. Invite Mewdeko on Fluxer to a server made from this server's template, then run `.migrate {1}` there.",
+  "fluxermigration_dm_failed": "I couldn't DM you the code. Please open your DMs for this server and run the command again.",
+  "fluxermigration_exported": "Export complete: {0} tables and {1} rows. I sent you a DM with the code.",
+  "fluxermigration_failed": "The export failed and nothing was saved. Please try again later.",
+  "fluxermigration_working": "Exporting this server, this can take a while for large servers..."
+}

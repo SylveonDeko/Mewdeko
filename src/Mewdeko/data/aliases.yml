@@ -1236,6 +1236,12 @@ filterword:
 findanime:
   - findanime
   - whatanime
+fluxerlink:
+  - fluxerlink
+  - linkfluxer
+fluxermigrate:
+  - fluxermigrate
+  - migratefluxer
 forwardmessages:
   - forwardmessages
   - fwmsgs
