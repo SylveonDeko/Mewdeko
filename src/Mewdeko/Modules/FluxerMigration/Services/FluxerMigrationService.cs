@@ -159,6 +159,9 @@ public class FluxerMigrationService(
                     reply = await BuildGuildsReplyAsync(userId, guildIds).ConfigureAwait(false);
                     break;
                 case "export":
+                    if (ReadString(root, "botId") != client.CurrentUser.Id.ToString(CultureInfo.InvariantCulture))
+                        return;
+
                     if (!ulong.TryParse(ReadString(root, "discordGuildId"), out var exportGuildId))
                         return;
 
@@ -185,10 +188,22 @@ public class FluxerMigrationService(
 
     private async Task SendReplyAsync(string id, string reply)
     {
+        var key = $"{id}:{client.CurrentUser.Id.ToString(CultureInfo.InvariantCulture)}";
         var redis = cache.Redis.GetDatabase();
-        await redis.StringSetAsync($"mewdeko_migration_reply:{id}", reply, ReplyLifetime).ConfigureAwait(false);
-        await cache.Redis.GetSubscriber().PublishAsync(RedisChannel.Literal(ReplyChannel), id)
+        await redis.StringSetAsync($"mewdeko_migration_reply:{key}", reply, ReplyLifetime).ConfigureAwait(false);
+        await cache.Redis.GetSubscriber().PublishAsync(RedisChannel.Literal(ReplyChannel), key)
             .ConfigureAwait(false);
+    }
+
+    private object BuildBotInfo()
+    {
+        var user = client.CurrentUser;
+        return new
+        {
+            id = user.Id.ToString(CultureInfo.InvariantCulture),
+            name = user.Username,
+            avatar = user.GetAvatarUrl()
+        };
     }
 
     private async Task<bool> CanMigrateAsync(SocketGuild guild, ulong userId)
@@ -230,27 +245,30 @@ public class FluxerMigrationService(
             });
         }
 
-        return JsonSerializer.Serialize(new { guilds });
+        return JsonSerializer.Serialize(new { bot = BuildBotInfo(), guilds });
     }
 
     private async Task<string> BuildExportReplyAsync(ulong userId, ulong guildId)
     {
         var guild = client.GetGuild(guildId);
         if (guild is null)
-            return JsonSerializer.Serialize(new { error = "not_found" });
+            return JsonSerializer.Serialize(new { bot = BuildBotInfo(), error = "not_found" });
 
         try
         {
             if (!await CanMigrateAsync(guild, userId).ConfigureAwait(false))
-                return JsonSerializer.Serialize(new { error = "not_admin" });
+                return JsonSerializer.Serialize(new { bot = BuildBotInfo(), error = "not_admin" });
 
             var result = await ExportAsync(guild, userId).ConfigureAwait(false);
-            return JsonSerializer.Serialize(new { code = result.Code, tables = result.Tables, rows = result.Rows });
+            return JsonSerializer.Serialize(new
+            {
+                bot = BuildBotInfo(), code = result.Code, tables = result.Tables, rows = result.Rows
+            });
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Dashboard export failed for guild {GuildId}", guildId);
-            return JsonSerializer.Serialize(new { error = "failed" });
+            return JsonSerializer.Serialize(new { bot = BuildBotInfo(), error = "failed" });
         }
     }
 
