@@ -4,6 +4,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Threading;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.DbContextStuff;
 using Npgsql;
@@ -18,12 +20,21 @@ namespace Mewdeko.Modules.FluxerMigration.Services;
 /// </summary>
 /// <param name="dbFactory">The connection factory, used for its connection string.</param>
 /// <param name="cache">The data cache that exposes the shared Redis connection.</param>
+/// <param name="client">The Discord client, used to answer dashboard requests.</param>
 /// <param name="logger">The logger.</param>
 public class FluxerMigrationService(
     IDataConnectionFactory dbFactory,
     IDataCache cache,
-    ILogger<FluxerMigrationService> logger) : INService
+    DiscordShardedClient client,
+    ILogger<FluxerMigrationService> logger) : INService, IReadyExecutor
 {
+    private const string RequestChannel = "mewdeko_migration_requests";
+    private const string ReplyChannel = "mewdeko_migration_replies";
+    private static readonly TimeSpan ReplyLifetime = TimeSpan.FromMinutes(5);
+
+    private readonly ConcurrentDictionary<ulong, Lazy<Task<ExportResult>>> runningExports = new();
+    private int subscribed;
+
     private const string CodeAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     private const int CodeLength = 8;
     private const int ExportVersion = 1;
@@ -74,6 +85,176 @@ public class FluxerMigrationService(
     /// <param name="requestedBy">The id of the user who asked for the export.</param>
     /// <returns>The code and how much was exported.</returns>
     public async Task<ExportResult> ExportAsync(IGuild guild, ulong requestedBy)
+    {
+        var lazy = runningExports.GetOrAdd(guild.Id,
+            _ => new Lazy<Task<ExportResult>>(() => ExportCoreAsync(guild, requestedBy)));
+        try
+        {
+            return await lazy.Value.ConfigureAwait(false);
+        }
+        finally
+        {
+            runningExports.TryRemove(new KeyValuePair<ulong, Lazy<Task<ExportResult>>>(guild.Id, lazy));
+        }
+    }
+
+    /// <summary>
+    ///     Starts listening for dashboard requests on Redis.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task OnReadyAsync()
+    {
+        if (Interlocked.Exchange(ref subscribed, 1) == 1)
+            return;
+
+        try
+        {
+            var queue = await cache.Redis.GetSubscriber()
+                .SubscribeAsync(RedisChannel.Literal(RequestChannel)).ConfigureAwait(false);
+            queue.OnMessage(message =>
+            {
+                var payload = (string?)message.Message;
+                _ = Task.Run(() => HandleRequestAsync(payload));
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to subscribe to Fluxer migration requests");
+        }
+    }
+
+    private async Task HandleRequestAsync(string? payload)
+    {
+        string? id = null;
+        try
+        {
+            if (string.IsNullOrWhiteSpace(payload))
+                return;
+
+            using var document = JsonDocument.Parse(payload);
+            var root = document.RootElement;
+            if (root.ValueKind != JsonValueKind.Object)
+                return;
+
+            id = ReadString(root, "id");
+            var type = ReadString(root, "type");
+            if (!ulong.TryParse(ReadString(root, "discordUserId"), out var userId) || string.IsNullOrEmpty(id))
+                return;
+
+            string reply;
+            switch (type)
+            {
+                case "guilds":
+                    var guildIds = new List<ulong>();
+                    if (root.TryGetProperty("guildIds", out var idArray) && idArray.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var item in idArray.EnumerateArray())
+                        {
+                            if (ulong.TryParse(item.ValueKind == JsonValueKind.String ? item.GetString() : null,
+                                    out var guildId))
+                                guildIds.Add(guildId);
+                        }
+                    }
+
+                    reply = await BuildGuildsReplyAsync(userId, guildIds).ConfigureAwait(false);
+                    break;
+                case "export":
+                    if (!ulong.TryParse(ReadString(root, "discordGuildId"), out var exportGuildId))
+                        return;
+
+                    reply = await BuildExportReplyAsync(userId, exportGuildId).ConfigureAwait(false);
+                    break;
+                default:
+                    return;
+            }
+
+            await SendReplyAsync(id, reply).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to handle Fluxer migration request {Id}", id);
+        }
+    }
+
+    private static string? ReadString(JsonElement root, string name)
+    {
+        return root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String
+            ? value.GetString()
+            : null;
+    }
+
+    private async Task SendReplyAsync(string id, string reply)
+    {
+        var redis = cache.Redis.GetDatabase();
+        await redis.StringSetAsync($"mewdeko_migration_reply:{id}", reply, ReplyLifetime).ConfigureAwait(false);
+        await cache.Redis.GetSubscriber().PublishAsync(RedisChannel.Literal(ReplyChannel), id)
+            .ConfigureAwait(false);
+    }
+
+    private async Task<bool> CanMigrateAsync(SocketGuild guild, ulong userId)
+    {
+        if (guild.OwnerId == userId)
+            return true;
+
+        IGuildUser? member = guild.GetUser(userId);
+        member ??= await ((IGuild)guild).GetUserAsync(userId, CacheMode.AllowDownload).ConfigureAwait(false);
+        return member?.GuildPermissions.Administrator ?? false;
+    }
+
+    private async Task<string> BuildGuildsReplyAsync(ulong userId, List<ulong> guildIds)
+    {
+        var guilds = new List<object>();
+        foreach (var guildId in guildIds.Distinct())
+        {
+            var guild = client.GetGuild(guildId);
+            if (guild is null)
+                continue;
+
+            try
+            {
+                if (!await CanMigrateAsync(guild, userId).ConfigureAwait(false))
+                    continue;
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Could not check permissions of {UserId} in guild {GuildId}", userId, guildId);
+                continue;
+            }
+
+            guilds.Add(new
+            {
+                id = guild.Id.ToString(CultureInfo.InvariantCulture),
+                name = guild.Name,
+                icon = guild.IconUrl,
+                memberCount = guild.MemberCount
+            });
+        }
+
+        return JsonSerializer.Serialize(new { guilds });
+    }
+
+    private async Task<string> BuildExportReplyAsync(ulong userId, ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return JsonSerializer.Serialize(new { error = "not_found" });
+
+        try
+        {
+            if (!await CanMigrateAsync(guild, userId).ConfigureAwait(false))
+                return JsonSerializer.Serialize(new { error = "not_admin" });
+
+            var result = await ExportAsync(guild, userId).ConfigureAwait(false);
+            return JsonSerializer.Serialize(new { code = result.Code, tables = result.Tables, rows = result.Rows });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Dashboard export failed for guild {GuildId}", guildId);
+            return JsonSerializer.Serialize(new { error = "failed" });
+        }
+    }
+
+    private async Task<ExportResult> ExportCoreAsync(IGuild guild, ulong requestedBy)
     {
         var redis = cache.Redis.GetDatabase();
         var code = GenerateCode();
