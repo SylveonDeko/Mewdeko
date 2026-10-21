@@ -708,6 +708,14 @@ public class FluxerMigrationService(
                 name = x.Name,
                 animated = x.Animated
             }),
+            stickers = guild.Stickers.Select(x => new
+            {
+                id = x.Id.ToString(CultureInfo.InvariantCulture),
+                name = x.Name,
+                description = string.IsNullOrEmpty(x.Description) ? null : x.Description,
+                tags = (x.Tags ?? []).Select(t => t.Trim()).Where(t => t.Length > 0).ToArray(),
+                format = (int)x.Format
+            }),
             tables = tables.OrderBy(x => x, StringComparer.Ordinal)
         };
 
