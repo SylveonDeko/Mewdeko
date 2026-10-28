@@ -30,6 +30,8 @@ public sealed class AchievementUnlockRenderer : INService
 
     private static readonly SKSamplingOptions Sampling = new(SKFilterMode.Linear);
     private static readonly ConcurrentDictionary<string, byte[]> EmojiCache = new();
+    private static readonly ConcurrentDictionary<string, DateTime> EmojiMisses = new();
+    private static readonly TimeSpan EmojiRetry = TimeSpan.FromMinutes(5);
 
     private readonly IHttpClientFactory httpClientFactory;
     private readonly AchievementIconService icons;
@@ -185,8 +187,10 @@ public sealed class AchievementUnlockRenderer : INService
         try
         {
             var context = new DrawContext(this, data, template, palette, grade, images, hiddenTextId);
-            foreach (var url in context.EmojiUrls().Take(MaxInlineImages))
-                images["emoji:" + url] = await LoadEmojiAsync(url);
+            var urls = context.EmojiUrls().Take(MaxInlineImages).ToList();
+            var emoji = await Task.WhenAll(urls.Select(LoadEmojiAsync));
+            for (var i = 0; i < urls.Count; i++)
+                images["emoji:" + urls[i]] = emoji[i];
             var laid = context.Layout();
 
             using var surface = SKSurface.Create(new SKImageInfo(template.Width + Margin * 2,
@@ -1005,7 +1009,7 @@ public sealed class AchievementUnlockRenderer : INService
             var last = trimmed[^1];
             if (last.Kind == AchievementTextPieceKind.Text && last.Text.Length > 1)
             {
-                var cut = char.IsLowSurrogate(last.Text[^1]) && last.Text.Length > 2 ? 2 : 1;
+                var cut = char.IsLowSurrogate(last.Text[^1]) ? 2 : 1;
                 trimmed[^1] = last with
                 {
                     Text = last.Text[..^cut]
@@ -1150,9 +1154,17 @@ public sealed class AchievementUnlockRenderer : INService
     {
         if (!EmojiCache.TryGetValue(url, out var bytes))
         {
+            if (EmojiMisses.TryGetValue(url, out var missed) && DateTime.UtcNow - missed < EmojiRetry)
+                return null;
             bytes = await FetchAsync(url);
             if (bytes is null)
+            {
+                if (EmojiMisses.Count >= MaxCachedEmoji)
+                    EmojiMisses.Clear();
+                EmojiMisses[url] = DateTime.UtcNow;
                 return null;
+            }
+
             if (EmojiCache.Count >= MaxCachedEmoji)
                 EmojiCache.Clear();
             EmojiCache[url] = bytes;
