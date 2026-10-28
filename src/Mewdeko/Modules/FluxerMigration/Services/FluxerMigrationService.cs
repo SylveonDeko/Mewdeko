@@ -15,8 +15,8 @@ using StackExchange.Redis;
 namespace Mewdeko.Modules.FluxerMigration.Services;
 
 /// <summary>
-///     Exports a server's data from the Postgres schema into Redis so it can be redeemed on Fluxer, and issues the
-///     codes used to link a Discord account to its Fluxer account.
+///     Exports a server's data from the Postgres schema into Redis when the Fluxer dashboard asks, so it can be
+///     redeemed on Fluxer.
 /// </summary>
 /// <param name="dbFactory">The connection factory, used for its connection string.</param>
 /// <param name="cache">The data cache that exposes the shared Redis connection.</param>
@@ -37,10 +37,12 @@ public class FluxerMigrationService(
 
     private const string CodeAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     private const int CodeLength = 8;
-    private const int ExportVersion = 1;
+    private const int ExportVersion = 2;
+    private const int MaxConcurrentExports = 4;
+    private const int ChunkRows = 5000;
 
     private static readonly TimeSpan ExportLifetime = TimeSpan.FromHours(24);
-    private static readonly TimeSpan LinkLifetime = TimeSpan.FromMinutes(15);
+    private static readonly SemaphoreSlim ExportSlots = new(MaxConcurrentExports);
 
     private static readonly string[] GuildColumnNames = ["guildid", "guild_id", "serverid"];
     private static readonly string[] ChannelColumnNames = ["channelid", "channel_id"];
@@ -79,7 +81,8 @@ public class FluxerMigrationService(
     private record Filter(string Column, string UdtName, ICollection<object> Values);
 
     /// <summary>
-    ///     Exports everything the bot stores for a server into Redis under a fresh code.
+    ///     Exports everything the bot stores for a server into Redis under a fresh code, replacing the server's previous
+    ///     export.
     /// </summary>
     /// <param name="guild">The server to export.</param>
     /// <param name="requestedBy">The id of the user who asked for the export.</param>
@@ -87,7 +90,7 @@ public class FluxerMigrationService(
     public async Task<ExportResult> ExportAsync(IGuild guild, ulong requestedBy)
     {
         var lazy = runningExports.GetOrAdd(guild.Id,
-            _ => new Lazy<Task<ExportResult>>(() => ExportCoreAsync(guild, requestedBy)));
+            _ => new Lazy<Task<ExportResult>>(() => ExportQueuedAsync(guild, requestedBy)));
         try
         {
             return await lazy.Value.ConfigureAwait(false);
@@ -272,12 +275,27 @@ public class FluxerMigrationService(
         }
     }
 
+    private async Task<ExportResult> ExportQueuedAsync(IGuild guild, ulong requestedBy)
+    {
+        await ExportSlots.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            return await ExportCoreAsync(guild, requestedBy).ConfigureAwait(false);
+        }
+        finally
+        {
+            ExportSlots.Release();
+        }
+    }
+
     private async Task<ExportResult> ExportCoreAsync(IGuild guild, ulong requestedBy)
     {
         var redis = cache.Redis.GetDatabase();
         var code = GenerateCode();
         var prefix = $"mewdeko_migration:{code}:";
         var written = new List<string>();
+        var chunks = new Dictionary<string, int>(StringComparer.Ordinal);
+        var keys = new List<RedisKey>();
         var rows = 0L;
 
         var channels = await guild.GetChannelsAsync().ConfigureAwait(false);
@@ -285,7 +303,8 @@ public class FluxerMigrationService(
 
         try
         {
-            await using var connection = new NpgsqlConnection(await GetConnectionStringAsync().ConfigureAwait(false));
+            await using var connection =
+                new NpgsqlConnection(await GetExportConnectionStringAsync().ConfigureAwait(false));
             await connection.OpenAsync().ConfigureAwait(false);
 
             var schema = await LoadSchemaAsync(connection).ConfigureAwait(false);
@@ -299,12 +318,14 @@ public class FluxerMigrationService(
             async Task ExportTableAsync(TableInfo table, List<Filter> filters)
             {
                 processed.Add(table.Name);
-                var count = await WriteTableAsync(connection, redis, prefix, table, filters, referenced, captured)
-                    .ConfigureAwait(false);
-                if (count < 0)
+                var (count, pieces) = await WriteTableAsync(connection, redis, prefix, table, filters, referenced,
+                    captured, keys).ConfigureAwait(false);
+                if (count == 0)
                     return;
 
                 written.Add(table.Name);
+                if (pieces > 1)
+                    chunks[table.Name] = pieces;
                 rows += count;
             }
 
@@ -372,38 +393,38 @@ public class FluxerMigrationService(
                 await ExportTableAsync(table, filters).ConfigureAwait(false);
             }
 
-            var meta = await BuildMetaAsync(guild, requestedBy, channels, written).ConfigureAwait(false);
+            var meta = await BuildMetaAsync(guild, requestedBy, channels, written, chunks).ConfigureAwait(false);
+            keys.Add($"{prefix}meta");
             await redis.StringSetAsync($"{prefix}meta", meta, ExportLifetime).ConfigureAwait(false);
+            await ReplacePreviousExportAsync(redis, guild.Id, keys).ConfigureAwait(false);
 
             return new ExportResult(code, written.Count, rows);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Fluxer migration export failed for guild {GuildId}", guild.Id);
-            var keys = written.Select(x => (RedisKey)$"{prefix}table:{x}").Append($"{prefix}meta").ToArray();
-            await redis.KeyDeleteAsync(keys).ConfigureAwait(false);
+            await redis.KeyDeleteAsync(keys.Append($"{prefix}meta").ToArray()).ConfigureAwait(false);
             throw;
         }
     }
 
-    /// <summary>
-    ///     Creates a link code for a Discord user and stores it in Redis.
-    /// </summary>
-    /// <param name="userId">The Discord user id the code resolves to.</param>
-    /// <returns>The new code.</returns>
-    public async Task<string> CreateLinkCodeAsync(ulong userId)
+    private static async Task ReplacePreviousExportAsync(IDatabase redis, ulong guildId, List<RedisKey> keys)
     {
-        var redis = cache.Redis.GetDatabase();
-        var code = GenerateCode();
-        await redis.StringSetAsync($"mewdeko_link:{code}", userId.ToString(CultureInfo.InvariantCulture),
-            LinkLifetime).ConfigureAwait(false);
-        return code;
+        var previous = await redis.StringSetAndGetAsync($"mewdeko_migration_guild:{guildId}",
+            JsonSerializer.Serialize(keys.Select(x => x.ToString())), ExportLifetime).ConfigureAwait(false);
+        if (previous.IsNullOrEmpty || JsonSerializer.Deserialize<string[]>(previous.ToString()) is not { } old)
+            return;
+
+        await redis.KeyDeleteAsync(old.Select(x => (RedisKey)x).ToArray()).ConfigureAwait(false);
     }
 
-    private async Task<string> GetConnectionStringAsync()
+    private async Task<string> GetExportConnectionStringAsync()
     {
         await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
-        return db.ConnectionString;
+        return new NpgsqlConnectionStringBuilder(db.ConnectionString)
+        {
+            ApplicationName = "Mewdeko migration export", MinPoolSize = 0, MaxPoolSize = MaxConcurrentExports
+        }.ConnectionString;
     }
 
     private static string GenerateCode()
@@ -529,14 +550,15 @@ public class FluxerMigrationService(
         };
     }
 
-    private static async Task<long> WriteTableAsync(
+    private static async Task<(long Rows, int Chunks)> WriteTableAsync(
         NpgsqlConnection connection,
         IDatabase redis,
         string prefix,
         TableInfo table,
         List<Filter> filters,
         HashSet<(string Parent, string ParentColumn)> referenced,
-        Dictionary<(string Table, string Column), HashSet<object>> captured)
+        Dictionary<(string Table, string Column), HashSet<object>> captured,
+        List<RedisKey> keys)
     {
         var select = string.Join(", ", table.Columns.Select(x => Quote(x.Name)));
         var where = string.Join(" or ", filters.Select((x, i) => $"{Quote(x.Column)} = any(@p{i})"));
@@ -561,11 +583,71 @@ public class FluxerMigrationService(
             captureIndexes[i] = set;
         }
 
-        using var buffer = new MemoryStream();
         var rowCount = 0L;
-        await using (var gzip = new GZipStream(buffer, CompressionLevel.Optimal, true))
-        await using (var writer = new Utf8JsonWriter(gzip))
+        var chunkCount = 0;
+        var chunk = new TableChunk(table);
+
+        try
         {
+            await using (var reader = await command.ExecuteReaderAsync().ConfigureAwait(false))
+            {
+                var values = new object[table.Columns.Count];
+                while (await reader.ReadAsync().ConfigureAwait(false))
+                {
+                    reader.GetValues(values);
+                    chunk.WriteRow(values);
+                    for (var i = 0; i < values.Length; i++)
+                    {
+                        if (values[i] is not DBNull && captureIndexes.TryGetValue(i, out var set))
+                            set.Add(values[i]);
+                    }
+
+                    rowCount++;
+                    if (chunk.Rows < ChunkRows)
+                        continue;
+
+                    await StoreChunkAsync().ConfigureAwait(false);
+                    chunk = new TableChunk(table);
+                }
+            }
+
+            if (chunk.Rows > 0)
+                await StoreChunkAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            chunk.Dispose();
+        }
+
+        return (rowCount, chunkCount);
+
+        async Task StoreChunkAsync()
+        {
+            var key = chunkCount == 0 ? $"{prefix}table:{table.Name}" : $"{prefix}table:{table.Name}:{chunkCount}";
+            var data = chunk.Finish();
+            keys.Add(key);
+            await redis.StringSetAsync(key, data, ExportLifetime).ConfigureAwait(false);
+            chunkCount++;
+        }
+    }
+
+    /// <summary>
+    ///     Up to <see cref="ChunkRows" /> rows of one table, written as gzipped JSON in the same shape as a whole table.
+    /// </summary>
+    private sealed class TableChunk : IDisposable
+    {
+        private readonly MemoryStream buffer = new();
+        private readonly GZipStream gzip;
+        private readonly Utf8JsonWriter writer;
+
+        /// <summary>
+        ///     Starts a chunk with the table's column names and types.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        public TableChunk(TableInfo table)
+        {
+            gzip = new GZipStream(buffer, CompressionLevel.Optimal, true);
+            writer = new Utf8JsonWriter(gzip);
             writer.WriteStartObject();
             writer.WriteStartArray("columns");
             foreach (var column in table.Columns)
@@ -578,35 +660,46 @@ public class FluxerMigrationService(
 
             writer.WriteEndArray();
             writer.WriteStartArray("rows");
-
-            await using var reader = await command.ExecuteReaderAsync().ConfigureAwait(false);
-            var values = new object[table.Columns.Count];
-            while (await reader.ReadAsync().ConfigureAwait(false))
-            {
-                reader.GetValues(values);
-                writer.WriteStartArray();
-                for (var i = 0; i < values.Length; i++)
-                {
-                    WriteValue(writer, values[i]);
-                    if (values[i] is not DBNull && captureIndexes.TryGetValue(i, out var set))
-                        set.Add(values[i]);
-                }
-
-                writer.WriteEndArray();
-                rowCount++;
-            }
-
-            writer.WriteEndArray();
-            writer.WriteEndObject();
-            await writer.FlushAsync().ConfigureAwait(false);
         }
 
-        if (rowCount == 0)
-            return -1;
+        /// <summary>
+        ///     Gets how many rows the chunk holds.
+        /// </summary>
+        public int Rows { get; private set; }
 
-        await redis.StringSetAsync($"{prefix}table:{table.Name}", buffer.ToArray(), ExportLifetime)
-            .ConfigureAwait(false);
-        return rowCount;
+        /// <summary>
+        ///     Adds a row.
+        /// </summary>
+        /// <param name="values">The row's values in column order.</param>
+        public void WriteRow(object[] values)
+        {
+            writer.WriteStartArray();
+            foreach (var value in values)
+                WriteValue(writer, value);
+
+            writer.WriteEndArray();
+            Rows++;
+        }
+
+        /// <summary>
+        ///     Closes the JSON and returns the compressed chunk.
+        /// </summary>
+        /// <returns>The gzipped bytes.</returns>
+        public byte[] Finish()
+        {
+            writer.WriteEndArray();
+            writer.WriteEndObject();
+            writer.Flush();
+            Dispose();
+            return buffer.ToArray();
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            writer.Dispose();
+            gzip.Dispose();
+        }
     }
 
     private static void WriteValue(Utf8JsonWriter writer, object? value)
@@ -675,7 +768,7 @@ public class FluxerMigrationService(
     }
 
     private static async Task<byte[]> BuildMetaAsync(IGuild guild, ulong requestedBy,
-        IReadOnlyCollection<IGuildChannel> channels, List<string> tables)
+        IReadOnlyCollection<IGuildChannel> channels, List<string> tables, Dictionary<string, int> chunks)
     {
         var meta = new
         {
@@ -716,7 +809,8 @@ public class FluxerMigrationService(
                 tags = (x.Tags ?? []).Select(t => t.Trim()).Where(t => t.Length > 0).ToArray(),
                 format = (int)x.Format
             }),
-            tables = tables.OrderBy(x => x, StringComparer.Ordinal)
+            tables = tables.OrderBy(x => x, StringComparer.Ordinal),
+            chunks
         };
 
         using var buffer = new MemoryStream();
