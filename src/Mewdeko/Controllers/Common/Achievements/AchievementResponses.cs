@@ -1174,6 +1174,16 @@ public class AchievementCardResponse
     public List<string> Placeholders { get; set; } = [];
 
     /// <summary>
+    ///     What the label says on unlocked achievements when a design doesn't change it.
+    /// </summary>
+    public string DefaultLabel { get; set; } = "";
+
+    /// <summary>
+    ///     What the label says on locked achievements when a design doesn't change it.
+    /// </summary>
+    public string DefaultLockedLabel { get; set; } = "";
+
+    /// <summary>
     ///     The server's dashboard palette as the bot derives it, for swatches.
     /// </summary>
     public Dictionary<string, string> Palette { get; set; } = [];

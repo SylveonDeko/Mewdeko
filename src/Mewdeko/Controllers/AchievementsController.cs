@@ -1005,7 +1005,8 @@ public class AchievementsController : Controller
             template = await service.GetCardForAsync(guildId, definition);
         var memberId = await HttpContext.GetDashboardUserIdAsync() ?? 0;
         var member = guild.GetUser(memberId) ?? guild.CurrentUser;
-        var result = await service.RenderCardPreviewAsync(member, template, definition, catalog, request.Locked);
+        var result = await service.RenderCardPreviewAsync(member, template, definition, catalog, request.Locked,
+            request.EditingId);
         if (result is null)
             return StatusCode(500, "Couldn't draw that card.");
 
@@ -1086,6 +1087,8 @@ public class AchievementsController : Controller
                 Url = catalog.UploadUrls.GetValueOrDefault(id) ?? AchievementService.IconUploadPath(guild.Id, id)
             }).ToList(),
             Placeholders = AchievementCardRules.Placeholders.ToList(),
+            DefaultLabel = service.CardLabel(guild.Id, false),
+            DefaultLockedLabel = service.CardLabel(guild.Id, true),
             Palette = new Dictionary<string, string>
             {
                 ["primary"] = palette.Primary,

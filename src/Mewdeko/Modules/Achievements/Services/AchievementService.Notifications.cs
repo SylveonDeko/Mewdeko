@@ -250,10 +250,11 @@ public sealed partial class AchievementService
     /// <param name="definition">The achievement to show.</param>
     /// <param name="catalog">The server's catalog.</param>
     /// <param name="locked">Whether to draw the locked state.</param>
+    /// <param name="editingId">An element to draw without its text, or null.</param>
     /// <returns>The image and where each element landed, or null when drawing failed.</returns>
     public async Task<AchievementUnlockRenderer.RenderResult?> RenderCardPreviewAsync(SocketGuildUser user,
         AchievementCardTemplate template, AchievementDefinition definition, AchievementGuildCatalog catalog,
-        bool locked)
+        bool locked, string? editingId = null)
     {
         var guildId = user.Guild.Id;
         var target = definition.IsMetric && definition.Threshold > 0 ? definition.Threshold : 100;
@@ -267,13 +268,24 @@ public sealed partial class AchievementService
         try
         {
             return await services.GetRequiredService<AchievementUnlockRenderer>()
-                .RenderWithLayoutAsync(data, template);
+                .RenderWithLayoutAsync(data, template, editingId);
         }
         catch (Exception ex)
         {
             logger.LogWarning(ex, "Failed to draw an achievement card preview in {GuildId}", guildId);
             return null;
         }
+    }
+
+    /// <summary>
+    ///     What a card's label says when its design doesn't change it.
+    /// </summary>
+    /// <param name="guildId">The guild ID, for its language.</param>
+    /// <param name="locked">Whether the achievement is locked.</param>
+    /// <returns>The label.</returns>
+    public string CardLabel(ulong guildId, bool locked)
+    {
+        return locked ? strings.AchievementImageLocked(guildId) : strings.AchievementImageUnlocked(guildId);
     }
 
     private async Task<MemoryStream?> RenderImageAsync(SocketGuildUser user, AchievementDefinition def,

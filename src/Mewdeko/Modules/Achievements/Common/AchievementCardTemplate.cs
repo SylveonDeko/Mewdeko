@@ -492,8 +492,14 @@ public sealed class AchievementCardElement
     /// <summary>Most lines text wraps to.</summary>
     public int MaxLines { get; set; } = 1;
 
-    /// <summary>Text with placeholders, for text elements.</summary>
+    /// <summary>
+    ///     Text with placeholders, emoji, and <c>{icon:name}</c> glyphs. Text elements draw it; built in text and
+    ///     badges draw it in place of their own text when it is not blank.
+    /// </summary>
     public string Text { get; set; } = "";
+
+    /// <summary>What the label says on locked achievements instead of its own text, when not blank.</summary>
+    public string LockedText { get; set; } = "";
 
     /// <summary>
     ///     A Font Awesome glyph name: the glyph of glyph elements, or one drawn before text. <c>none</c> hides the
@@ -541,9 +547,9 @@ public static partial class AchievementCardRules
     /// </summary>
     public static readonly IReadOnlyList<string> Placeholders =
     [
-        "{achievement.name}", "{achievement.description}", "{achievement.grade}", "{achievement.points}",
-        "{achievement.category}", "{user.name}", "{server.name}", "{label}", "{progress}", "{progress.percent}",
-        "{more}"
+        "%achievement.name%", "%achievement.description%", "%achievement.grade%", "%achievement.points%",
+        "%achievement.category%", "%user.name%", "%server.name%", "%label%", "%points%", "%progress%",
+        "%progress.percent%", "%more%"
     ];
 
     [GeneratedRegex("^[a-z0-9-]{1,40}$")]
@@ -710,9 +716,12 @@ public static partial class AchievementCardRules
         e.Spacing = Clamp(e.Spacing, -5, 40);
         e.LineHeight = Clamp(e.LineHeight, 0.8f, 3);
         e.MaxLines = Math.Clamp(e.MaxLines, 1, 6);
-        e.Text = e.Text ?? "";
+        e.Text = Percent(e.Text ?? "");
         if (e.Text.Length > AchievementCardTemplate.MaxText)
             e.Text = e.Text[..AchievementCardTemplate.MaxText];
+        e.LockedText = Percent(e.LockedText ?? "");
+        if (e.LockedText.Length > AchievementCardTemplate.MaxText)
+            e.LockedText = e.LockedText[..AchievementCardTemplate.MaxText];
         e.Glyph = (e.Glyph ?? "").Trim().ToLowerInvariant();
         if (e.Glyph != "none" && e.Glyph.Length > 0 && AchievementIcons.FindGlyph(e.Glyph) is null)
             e.Glyph = "";
@@ -721,6 +730,15 @@ public static partial class AchievementCardRules
         e.FollowId ??= "";
         e.BesideId ??= "";
         e.Gap = Clamp(e.Gap, -200, 200);
+    }
+
+    private static string Percent(string text)
+    {
+        if (!text.Contains('{'))
+            return text;
+        foreach (var placeholder in Placeholders)
+            text = text.Replace($"{{{placeholder[1..^1]}}}", placeholder);
+        return text;
     }
 
     private static string ColorOr(string? value, string fallback)

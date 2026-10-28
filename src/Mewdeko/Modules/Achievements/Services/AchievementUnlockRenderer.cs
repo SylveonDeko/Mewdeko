@@ -24,8 +24,12 @@ public sealed class AchievementUnlockRenderer : INService
     private const float PillPadding = 16;
     private const float PillGlyphSlot = 36;
     private const float TextGlyphSlot = 1.8f;
+    private const float InlineSlot = 1.3f;
+    private const int MaxInlineImages = 40;
+    private const int MaxCachedEmoji = 500;
 
     private static readonly SKSamplingOptions Sampling = new(SKFilterMode.Linear);
+    private static readonly ConcurrentDictionary<string, byte[]> EmojiCache = new();
 
     private readonly IHttpClientFactory httpClientFactory;
     private readonly AchievementIconService icons;
@@ -168,8 +172,10 @@ public sealed class AchievementUnlockRenderer : INService
     /// </summary>
     /// <param name="data">What to show.</param>
     /// <param name="template">The design.</param>
+    /// <param name="hiddenTextId">An element drawn without its text, as the designer shows one being typed over.</param>
     /// <returns>The image and layout.</returns>
-    public async Task<RenderResult> RenderWithLayoutAsync(UnlockImageData data, AchievementCardTemplate template)
+    public async Task<RenderResult> RenderWithLayoutAsync(UnlockImageData data, AchievementCardTemplate template,
+        string? hiddenTextId = null)
     {
         var palette = data.Palette;
         var grade = data.Locked
@@ -178,7 +184,9 @@ public sealed class AchievementUnlockRenderer : INService
         var images = await LoadImagesAsync(data, template);
         try
         {
-            var context = new DrawContext(this, data, template, palette, grade, images);
+            var context = new DrawContext(this, data, template, palette, grade, images, hiddenTextId);
+            foreach (var url in context.EmojiUrls().Take(MaxInlineImages))
+                images["emoji:" + url] = await LoadEmojiAsync(url);
             var laid = context.Layout();
 
             using var surface = SKSurface.Create(new SKImageInfo(template.Width + Margin * 2,
@@ -338,11 +346,11 @@ public sealed class AchievementUnlockRenderer : INService
         public required AchievementCardElement Element { get; init; }
         public SKRect Rect { get; set; }
         public bool Drawn { get; set; }
-        public List<string> Lines { get; set; } = [];
+        public List<List<AchievementTextPiece>> Lines { get; set; } = [];
         public float LineHeight { get; set; }
         public float BaseHeight { get; set; }
         public float UsedHeight { get; set; }
-        public string PillText { get; set; } = "";
+        public List<AchievementTextPiece> Pill { get; set; } = [];
         public AchievementGlyph? Glyph { get; set; }
     }
 
@@ -355,7 +363,8 @@ public sealed class AchievementUnlockRenderer : INService
         AchievementCardTemplate template,
         DashboardPalette palette,
         SKColor grade,
-        Dictionary<string, SKBitmap?> images)
+        Dictionary<string, SKBitmap?> images,
+        string? hiddenTextId)
     {
         private readonly Dictionary<string, Laid> laid = new();
         private readonly HashSet<string> visiting = [];
@@ -363,6 +372,58 @@ public sealed class AchievementUnlockRenderer : INService
         public List<Laid> Layout()
         {
             return template.Elements.Select(LayOut).ToList();
+        }
+
+        public IEnumerable<string> EmojiUrls()
+        {
+            return template.Elements
+                .Where(e => e.Visible)
+                .SelectMany(e => AchievementCardText.Parse(TextOf(e)))
+                .Where(p => p.Kind == AchievementTextPieceKind.Emoji)
+                .Select(p => p.Url!)
+                .Distinct();
+        }
+
+        private string TextOf(AchievementCardElement e)
+        {
+            if (e.Type == AchievementCardElementType.More && data.MoreLabel is null)
+                return "";
+            var custom = e.Type switch
+            {
+                AchievementCardElementType.Member => "",
+                AchievementCardElementType.Label when data.Locked => e.LockedText,
+                _ => e.Text
+            };
+            if (custom.Trim().Length > 0)
+                return Resolve(custom);
+
+            var def = data.Definition;
+            return e.Type switch
+            {
+                AchievementCardElementType.Label => data.Label,
+                AchievementCardElementType.Title => def.Name,
+                AchievementCardElementType.Description => def.Description,
+                AchievementCardElementType.Member => data.MemberName,
+                AchievementCardElementType.Grade => AchievementCatalog.GetGrade(def.Grade).Name,
+                AchievementCardElementType.Category => data.CategoryName,
+                AchievementCardElementType.Points => data.PointsLabel,
+                AchievementCardElementType.More => data.MoreLabel ?? "",
+                _ => ""
+            };
+        }
+
+        private List<AchievementTextPiece> Pieces(AchievementCardElement e)
+        {
+            return AchievementCardText.Parse(TextOf(e)).Select(p => p.Kind switch
+            {
+                AchievementTextPieceKind.Text when e.Uppercase => p with
+                {
+                    Text = p.Text.ToUpperInvariant()
+                },
+                AchievementTextPieceKind.Emoji when images.GetValueOrDefault("emoji:" + p.Url) is null =>
+                    new AchievementTextPiece(AchievementTextPieceKind.Text, p.Text),
+                _ => p
+            }).ToList();
         }
 
         private Laid LayOut(AchievementCardElement e)
@@ -442,23 +503,13 @@ public sealed class AchievementUnlockRenderer : INService
             item.LineHeight = e.FontSize * e.LineHeight;
             item.BaseHeight = item.LineHeight;
             item.Glyph = TextGlyph(e);
-            var text = e.Type switch
-            {
-                AchievementCardElementType.Label => data.Label,
-                AchievementCardElementType.Title => data.Definition.Name,
-                AchievementCardElementType.Description => data.Definition.Description,
-                AchievementCardElementType.Member => data.MemberName,
-                _ => Resolve(e.Text)
-            };
-            if (e.Uppercase)
-                text = text.ToUpperInvariant();
-
+            var pieces = Pieces(e);
             var maxLines = e.Type == AchievementCardElementType.Member
                 ? 1
                 : Math.Min(e.MaxLines, (int)Math.Floor(item.Rect.Height / item.LineHeight + 0.01f));
             var glyphWidth = item.Glyph is null ? 0 : e.FontSize * TextGlyphSlot;
-            item.Lines = item.Drawn && maxLines > 0 && text.Trim().Length > 0
-                ? Wrap(text, font, item.Rect.Width - glyphWidth, maxLines, e.Spacing)
+            item.Lines = item.Drawn && maxLines > 0 && HasContent(pieces)
+                ? Wrap(pieces, font, item.Rect.Width - glyphWidth, maxLines, e.Spacing, e.FontSize)
                 : [];
             item.Drawn &= item.Lines.Count > 0;
             item.UsedHeight = item.Drawn ? item.Lines.Count * item.LineHeight : 0;
@@ -467,16 +518,10 @@ public sealed class AchievementUnlockRenderer : INService
         private void LayOutPill(Laid item)
         {
             var e = item.Element;
-            item.PillText = e.Type switch
-            {
-                AchievementCardElementType.Grade => AchievementCatalog.GetGrade(data.Definition.Grade).Name,
-                AchievementCardElementType.Category => data.CategoryName,
-                AchievementCardElementType.Points => data.PointsLabel,
-                _ => data.MoreLabel ?? ""
-            };
-            if (e.Uppercase)
-                item.PillText = item.PillText.ToUpperInvariant();
-            item.Drawn &= item.PillText.Length > 0;
+            item.Pill = Pieces(e)
+                .Select(p => p.Kind == AchievementTextPieceKind.Break ? AchievementCardText.Space : p)
+                .ToList();
+            item.Drawn &= HasContent(item.Pill);
             item.Glyph = e.Glyph == "none"
                 ? null
                 : e.Glyph.Length > 0
@@ -492,7 +537,8 @@ public sealed class AchievementUnlockRenderer : INService
 
             using var font = renderer.Font(e);
             var width = Math.Min(item.Rect.Width,
-                MeasureSpaced(item.PillText, font, e.Spacing) + PillPadding * 2 + (item.Glyph is null ? 0 : PillGlyphSlot));
+                MeasurePieces(item.Pill, font, e.Spacing, e.FontSize) + PillPadding * 2 +
+                (item.Glyph is null ? 0 : PillGlyphSlot));
             var box = item.Rect;
             var left = e.Align switch
             {
@@ -528,17 +574,18 @@ public sealed class AchievementUnlockRenderer : INService
             var def = data.Definition;
             var percent = data.Progress is { } p ? $"{Math.Round(Math.Clamp(p, 0, 1) * 100)}%" : "";
             return text
-                .Replace("{achievement.name}", def.Name)
-                .Replace("{achievement.description}", def.Description)
-                .Replace("{achievement.grade}", AchievementCatalog.GetGrade(def.Grade).Name)
-                .Replace("{achievement.points}", def.Points.ToString("N0"))
-                .Replace("{achievement.category}", data.CategoryName)
-                .Replace("{user.name}", data.MemberName)
-                .Replace("{server.name}", data.Scope)
-                .Replace("{label}", data.Label)
-                .Replace("{progress}", data.ProgressLabel ?? "")
-                .Replace("{progress.percent}", percent)
-                .Replace("{more}", data.MoreLabel ?? "");
+                .Replace("%achievement.name%", def.Name)
+                .Replace("%achievement.description%", def.Description)
+                .Replace("%achievement.grade%", AchievementCatalog.GetGrade(def.Grade).Name)
+                .Replace("%achievement.points%", def.Points.ToString("N0"))
+                .Replace("%achievement.category%", data.CategoryName)
+                .Replace("%user.name%", data.MemberName)
+                .Replace("%server.name%", data.Scope)
+                .Replace("%label%", data.Label)
+                .Replace("%points%", data.PointsLabel)
+                .Replace("%progress%", data.ProgressLabel ?? "")
+                .Replace("%progress.percent%", percent)
+                .Replace("%more%", data.MoreLabel ?? "");
         }
 
         private SKColor? Color(string token)
@@ -745,8 +792,8 @@ public sealed class AchievementUnlockRenderer : INService
             using var nameFont = renderer.Font(e);
             using var scopeFont = new SKFont(renderer.regularFace.Value, e.FontSize);
             var centerY = rect.Top + item.LineHeight / 2;
-            var name = Fit(item.Lines[0], nameFont, rect.Width * 0.6f);
-            var nameWidth = nameFont.MeasureText(name);
+            var name = Fit(item.Lines[0], nameFont, rect.Width * 0.6f, 0, e.FontSize);
+            var nameWidth = MeasurePieces(name, nameFont, 0, e.FontSize);
             var scopeWidth = Math.Max(0, rect.Width - nameWidth - 10);
             var scope = Fit(e.Uppercase ? data.Scope.ToUpperInvariant() : data.Scope, scopeFont, scopeWidth);
             var total = nameWidth + (scope.Length > 0 ? 10 + scopeFont.MeasureText(scope) : 0);
@@ -757,10 +804,7 @@ public sealed class AchievementUnlockRenderer : INService
                 _ => rect.Left
             };
             if (Color(e.Color) is { } nameColor)
-            {
-                using var ink = Ink(nameColor);
-                canvas.DrawText(name, x, Baseline(nameFont, centerY), SKTextAlign.Left, nameFont, ink);
-            }
+                DrawPieces(canvas, name, x, centerY, nameFont, nameColor, e, 0);
 
             if (scope.Length == 0 || Color(e.Color2) is not { } scopeColor)
                 return;
@@ -775,11 +819,10 @@ public sealed class AchievementUnlockRenderer : INService
             var rect = item.Rect;
             DrawShape(canvas, rect, e, false);
             using var font = renderer.Font(e);
-            var textWidth = MeasureSpaced(item.PillText, font, e.Spacing);
             var glyphWidth = item.Glyph is null ? 0 : PillGlyphSlot - 4;
             var available = rect.Width - PillPadding * 2 - glyphWidth;
-            var text = textWidth > available ? Fit(item.PillText, font, available) : item.PillText;
-            textWidth = MeasureSpaced(text, font, e.Spacing);
+            var text = Fit(item.Pill, font, available, e.Spacing, e.FontSize);
+            var textWidth = MeasurePieces(text, font, e.Spacing, e.FontSize);
             var left = rect.MidX - (glyphWidth + textWidth) / 2;
             if (item.Glyph is not null)
             {
@@ -789,10 +832,8 @@ public sealed class AchievementUnlockRenderer : INService
                 left += glyphWidth;
             }
 
-            if (Color(e.Color) is not { } ink)
-                return;
-            using var paint = Ink(ink);
-            DrawSpaced(canvas, text, left, Baseline(font, rect.MidY), font, paint, e.Spacing);
+            if (Color(e.Color) is { } ink)
+                DrawPieces(canvas, text, left, rect.MidY, font, ink, e, e.Spacing);
         }
 
         private void DrawText(SKCanvas canvas, Laid item)
@@ -801,14 +842,13 @@ public sealed class AchievementUnlockRenderer : INService
             var rect = item.Rect;
             using var font = renderer.Font(e);
             var ink = Color(e.Color);
-            using var paint = ink is { } c ? Ink(c) : null;
             var glyphWidth = item.Glyph is null ? 0 : e.FontSize * TextGlyphSlot;
             for (var i = 0; i < item.Lines.Count; i++)
             {
                 var line = item.Lines[i];
                 var centerY = rect.Top + item.LineHeight * i + item.LineHeight / 2;
                 var lineGlyph = i == 0 ? glyphWidth : 0;
-                var width = MeasureSpaced(line, font, e.Spacing) + lineGlyph;
+                var width = MeasurePieces(line, font, e.Spacing, e.FontSize) + lineGlyph;
                 var x = e.Align switch
                 {
                     "right" => rect.Right - width,
@@ -822,10 +862,165 @@ public sealed class AchievementUnlockRenderer : INService
                         e.FontSize * 1.2f, glyphInk, Color(e.Color3) ?? glyphInk);
                 }
 
-                if (paint is not null)
-                    DrawSpaced(canvas, line, x + lineGlyph, Baseline(font, centerY), font, paint, e.Spacing);
+                if (ink is { } color)
+                    DrawPieces(canvas, line, x + lineGlyph, centerY, font, color, e, e.Spacing);
             }
         }
+
+        private void DrawPieces(SKCanvas canvas, List<AchievementTextPiece> pieces, float x, float centerY,
+            SKFont font, SKColor ink, AchievementCardElement e, float spacing)
+        {
+            if (e.Id == hiddenTextId)
+                return;
+            using var paint = Ink(ink);
+            var baseline = Baseline(font, centerY);
+            var slot = e.FontSize * InlineSlot;
+            foreach (var piece in pieces)
+            {
+                switch (piece.Kind)
+                {
+                    case AchievementTextPieceKind.Text:
+                        DrawSpaced(canvas, piece.Text, x, baseline, font, paint, spacing);
+                        break;
+                    case AchievementTextPieceKind.Glyph:
+                        renderer.DrawGlyph(canvas, piece.Glyph, new SKPoint(x + slot / 2, centerY), e.FontSize, ink,
+                            Color(e.Color3) ?? ink);
+                        break;
+                    case AchievementTextPieceKind.Emoji
+                        when images.GetValueOrDefault("emoji:" + piece.Url) is { } image:
+                    {
+                        var size = e.FontSize * 1.15f;
+                        using var img = SKImage.FromBitmap(image);
+                        canvas.DrawImage(img,
+                            Contain(image, SKRect.Create(x + (slot - size) / 2, centerY - size / 2, size, size)),
+                            Sampling);
+                        break;
+                    }
+                }
+
+                x += Measure(piece, font, spacing, e.FontSize);
+            }
+        }
+    }
+
+    private static bool HasContent(List<AchievementTextPiece> pieces)
+    {
+        return pieces.Any(p => p.Kind is not (AchievementTextPieceKind.Space or AchievementTextPieceKind.Break) &&
+                               (p.Kind != AchievementTextPieceKind.Text || p.Text.Trim().Length > 0));
+    }
+
+    private static float Measure(AchievementTextPiece piece, SKFont font, float spacing, float size)
+    {
+        return piece.Kind switch
+        {
+            AchievementTextPieceKind.Glyph or AchievementTextPieceKind.Emoji => size * InlineSlot,
+            AchievementTextPieceKind.Space or AchievementTextPieceKind.Break => font.MeasureText(" ") + spacing * 2,
+            _ => MeasureSpaced(piece.Text, font, spacing)
+        };
+    }
+
+    private static float MeasurePieces(List<AchievementTextPiece> pieces, SKFont font, float spacing, float size)
+    {
+        return pieces.Sum(p => Measure(p, font, spacing, size));
+    }
+
+    private static List<List<AchievementTextPiece>> Wrap(List<AchievementTextPiece> pieces, SKFont font,
+        float maxWidth, int maxLines, float spacing, float size)
+    {
+        var words = new List<List<AchievementTextPiece>?>();
+        var word = new List<AchievementTextPiece>();
+        foreach (var piece in pieces)
+        {
+            if (piece.Kind is not (AchievementTextPieceKind.Space or AchievementTextPieceKind.Break))
+            {
+                word.Add(piece);
+                continue;
+            }
+
+            if (word.Count > 0)
+                words.Add(word);
+            word = [];
+            if (piece.Kind == AchievementTextPieceKind.Break)
+                words.Add(null);
+        }
+
+        if (word.Count > 0)
+            words.Add(word);
+
+        var space = Measure(AchievementCardText.Space, font, spacing, size);
+        var lines = new List<List<AchievementTextPiece>>();
+        var current = new List<AchievementTextPiece>();
+        for (var i = 0; i < words.Count; i++)
+        {
+            if (lines.Count == maxLines - 1)
+            {
+                foreach (var rest in words.Skip(i).OfType<List<AchievementTextPiece>>())
+                    Append(current, rest);
+                break;
+            }
+
+            if (words[i] is not { } next)
+            {
+                lines.Add(current);
+                current = [];
+                continue;
+            }
+
+            if (current.Count == 0 || MeasurePieces(current, font, spacing, size) + space +
+                MeasurePieces(next, font, spacing, size) <= maxWidth)
+            {
+                Append(current, next);
+                continue;
+            }
+
+            lines.Add(current);
+            current = [..next];
+        }
+
+        if (current.Count > 0)
+            lines.Add(current);
+        while (lines.Count > 0 && lines[^1].Count == 0)
+            lines.RemoveAt(lines.Count - 1);
+        return lines.Take(maxLines).Select(l => Fit(l, font, maxWidth, spacing, size)).ToList();
+
+        static void Append(List<AchievementTextPiece> line, List<AchievementTextPiece> next)
+        {
+            if (line.Count > 0)
+                line.Add(AchievementCardText.Space);
+            line.AddRange(next);
+        }
+    }
+
+    private static List<AchievementTextPiece> Fit(List<AchievementTextPiece> pieces, SKFont font, float maxWidth,
+        float spacing, float size)
+    {
+        if (maxWidth <= 0)
+            return [];
+        if (MeasurePieces(pieces, font, spacing, size) <= maxWidth)
+            return pieces;
+        var ellipsis = MeasureSpaced("...", font, spacing);
+        var trimmed = pieces.ToList();
+        while (trimmed.Count > 0 && MeasurePieces(trimmed, font, spacing, size) + ellipsis > maxWidth)
+        {
+            var last = trimmed[^1];
+            if (last.Kind == AchievementTextPieceKind.Text && last.Text.Length > 1)
+            {
+                var cut = char.IsLowSurrogate(last.Text[^1]) && last.Text.Length > 2 ? 2 : 1;
+                trimmed[^1] = last with
+                {
+                    Text = last.Text[..^cut]
+                };
+            }
+            else
+            {
+                trimmed.RemoveAt(trimmed.Count - 1);
+            }
+        }
+
+        while (trimmed.Count > 0 && trimmed[^1].Kind == AchievementTextPieceKind.Space)
+            trimmed.RemoveAt(trimmed.Count - 1);
+        trimmed.Add(new AchievementTextPiece(AchievementTextPieceKind.Text, "..."));
+        return trimmed;
     }
 
     private SKFont Font(AchievementCardElement e)
@@ -918,37 +1113,6 @@ public sealed class AchievementUnlockRenderer : INService
         return text.Sum(c => font.MeasureText(c.ToString()) + spacing) - spacing;
     }
 
-    private static List<string> Wrap(string text, SKFont font, float maxWidth, int maxLines, float spacing)
-    {
-        var lines = new List<string>();
-        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        var current = "";
-        for (var i = 0; i < words.Length; i++)
-        {
-            var candidate = current.Length == 0 ? words[i] : $"{current} {words[i]}";
-            if (MeasureSpaced(candidate, font, spacing) <= maxWidth)
-            {
-                current = candidate;
-                continue;
-            }
-
-            if (current.Length > 0)
-                lines.Add(current);
-            current = words[i];
-            if (lines.Count == maxLines - 1)
-            {
-                current = string.Join(' ', words[i..]);
-                break;
-            }
-        }
-
-        if (current.Length > 0)
-            lines.Add(current);
-        if (lines.Count > 0)
-            lines[^1] = Fit(lines[^1], font, maxWidth, spacing);
-        return lines.Take(maxLines).ToList();
-    }
-
     private static string Fit(string text, SKFont font, float maxWidth, float spacing = 0)
     {
         if (maxWidth <= 0)
@@ -979,15 +1143,35 @@ public sealed class AchievementUnlockRenderer : INService
 
     private async Task<SKBitmap?> LoadAsync(string url)
     {
+        return await FetchAsync(url) is { } bytes ? SKBitmap.Decode(bytes) : null;
+    }
+
+    private async Task<SKBitmap?> LoadEmojiAsync(string url)
+    {
+        if (!EmojiCache.TryGetValue(url, out var bytes))
+        {
+            bytes = await FetchAsync(url);
+            if (bytes is null)
+                return null;
+            if (EmojiCache.Count >= MaxCachedEmoji)
+                EmojiCache.Clear();
+            EmojiCache[url] = bytes;
+        }
+
+        return SKBitmap.Decode(bytes);
+    }
+
+    private async Task<byte[]?> FetchAsync(string url)
+    {
         try
         {
             using var http = httpClientFactory.CreateClient();
             http.Timeout = TimeSpan.FromSeconds(5);
-            return SKBitmap.Decode(await http.GetByteArrayAsync(url));
+            return await http.GetByteArrayAsync(url);
         }
         catch (Exception ex)
         {
-            logger.LogDebug(ex, "Could not load an avatar for an achievement image");
+            logger.LogDebug(ex, "Could not load {Url} for an achievement image", url);
             return null;
         }
     }

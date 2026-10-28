@@ -475,4 +475,9 @@ public class AchievementCardPreviewRequest
     ///     The achievement to show, or null for a sample.
     /// </summary>
     public string? Key { get; set; }
+
+    /// <summary>
+    ///     An element being typed over in the designer, drawn without its text so the typed text can sit in its place.
+    /// </summary>
+    public string? EditingId { get; set; }
 }

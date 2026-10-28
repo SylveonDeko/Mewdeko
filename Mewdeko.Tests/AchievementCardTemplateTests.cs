@@ -114,4 +114,51 @@ public class AchievementCardTemplateTests
             Assert.That(AchievementCardRules.Resolve("blue", palette, grade), Is.Null);
         });
     }
+
+    /// <summary>
+    ///     Card text splits into words, spaces, breaks, custom emoji, and Unicode emoji with Twemoji file names.
+    /// </summary>
+    [Test]
+    public void CardTextSplitsIntoPieces()
+    {
+        var pieces = AchievementCardText.Parse("Hi <a:party:123456789012345678> 🎉\nGG 👋🏽 ❤️ 👨‍👩‍👧 {icon:no-such-glyph}");
+        var kinds = pieces.Select(p => p.Kind).ToList();
+        Assert.Multiple(() =>
+        {
+            Assert.That(kinds, Is.EqualTo(new[]
+            {
+                AchievementTextPieceKind.Text, AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji,
+                AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji, AchievementTextPieceKind.Break,
+                AchievementTextPieceKind.Text, AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji,
+                AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji, AchievementTextPieceKind.Space,
+                AchievementTextPieceKind.Emoji, AchievementTextPieceKind.Space
+            }));
+            Assert.That(pieces[2].Url, Is.EqualTo("https://cdn.discordapp.com/emojis/123456789012345678.png?size=96"));
+            Assert.That(pieces[2].Text, Is.EqualTo(":party:"));
+            Assert.That(pieces[4].Url, Does.EndWith("/1f389.png"));
+            Assert.That(pieces[8].Url, Does.EndWith("/1f44b-1f3fd.png"));
+            Assert.That(pieces[10].Url, Does.EndWith("/2764.png"));
+            Assert.That(pieces[12].Url, Does.EndWith("/1f468-200d-1f469-200d-1f467.png"));
+            Assert.That(AchievementCardText.Parse("Level 5 © ✓").All(p => p.Kind != AchievementTextPieceKind.Emoji));
+        });
+    }
+
+    /// <summary>
+    ///     Card text saved with brace placeholders reads back with the percent placeholders the rest of the bot uses.
+    /// </summary>
+    [Test]
+    public void BracePlaceholdersBecomePercent()
+    {
+        var template = AchievementCardTemplate.Default();
+        var label = template.Elements.First(e => e.Type == AchievementCardElementType.Label);
+        label.Text = "{achievement.name} by {user.name} {icon:star} {nope}";
+        label.LockedText = "{progress.percent} left";
+        var read = AchievementCardTemplate.Parse(template.Serialize());
+        var after = read.Elements.First(e => e.Type == AchievementCardElementType.Label);
+        Assert.Multiple(() =>
+        {
+            Assert.That(after.Text, Is.EqualTo("%achievement.name% by %user.name% {icon:star} {nope}"));
+            Assert.That(after.LockedText, Is.EqualTo("%progress.percent% left"));
+        });
+    }
 }
