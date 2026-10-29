@@ -207,13 +207,13 @@ public static class DependencyInstaller
                     else
                     {
                         Log.Information("PostgreSQL and Redis are already installed.");
-                        if (!string.IsNullOrWhiteSpace(psqlString) && setupCompleted)
+                        if (CanReachPostgres(psqlString))
                         {
-                            Log.Information("PSQL string is already set and setup is completed.");
+                            Log.Information("The configured database connects, skipping database setup.");
                             return;
                         }
 
-                        if (!setupCompleted && PromptForDatabaseSetup())
+                        if (PromptForDatabaseSetup())
                         {
                             var (dbName, dbUser, dbPassword) = GetDatabaseDetails();
                             SetupPostgresDb(dbName, dbUser, dbPassword);
@@ -241,13 +241,13 @@ public static class DependencyInstaller
                 else
                 {
                     Log.Information("PostgreSQL and Redis are already installed.");
-                    if (!string.IsNullOrWhiteSpace(psqlString) && setupCompleted)
+                    if (CanReachPostgres(psqlString))
                     {
-                        Log.Information("PSQL string is already set and setup is completed.");
+                        Log.Information("The configured database connects, skipping database setup.");
                         return;
                     }
 
-                    if (!setupCompleted && PromptForDatabaseSetup())
+                    if (PromptForDatabaseSetup())
                     {
                         var (dbName, dbUser, dbPassword) = GetDatabaseDetails();
                         ShowWindowsDatabaseSetup(dbName, dbUser, dbPassword);
