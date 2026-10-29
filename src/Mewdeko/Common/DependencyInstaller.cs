@@ -4,7 +4,9 @@ using System.Runtime.Versioning;
 using System.ServiceProcess;
 using System.Text;
 using System.Text.Json;
+using Npgsql;
 using Serilog;
+using StackExchange.Redis;
 
 namespace Mewdeko.Common;
 
@@ -164,9 +166,10 @@ public static class DependencyInstaller
     ///     Throws no exceptions - all errors are logged.
     /// </remarks>
     /// <param name="psqlString">The psqlstring string.</param>
+    /// <param name="redisConnections">The configured Redis endpoints, separated by semicolons.</param>
     /// <param name="isMasterInstance">Whether this is the master instance.</param>
     /// <param name="setupCompleted">Whether PostgreSQL setup has been completed before.</param>
-    public static void CheckAndInstallDependencies(string psqlString, bool isMasterInstance,
+    public static void CheckAndInstallDependencies(string psqlString, string redisConnections, bool isMasterInstance,
         bool setupCompleted = false)
     {
         if (setupCompleted)
@@ -192,10 +195,14 @@ public static class DependencyInstaller
                 var distro = DetectLinuxDistro();
                 if (distro != LinuxDistro.Unknown)
                 {
-                    var (postgresInstalled, redisInstalled) = CheckLinuxDependencies(distro);
+                    var (postgresInstalled, redisInstalled) =
+                        CheckLinuxDependencies(distro, psqlString, redisConnections);
                     if (!postgresInstalled || !redisInstalled)
                     {
-                        InstallOnLinux(distro, postgresInstalled, redisInstalled);
+                        if (PromptForInstall())
+                            InstallOnLinux(distro, postgresInstalled, redisInstalled);
+                        else
+                            ShowManualInstructions();
                     }
                     else
                     {
@@ -225,7 +232,7 @@ public static class DependencyInstaller
             case PlatformID.Win32NT:
             {
                 var (postgresInstalled, redisInstalled) = OperatingSystem.IsWindows()
-                    ? CheckWindowsDependencies()
+                    ? CheckWindowsDependencies(psqlString, redisConnections)
                     : (false, false);
                 if (!postgresInstalled || !redisInstalled)
                 {
@@ -282,12 +289,13 @@ public static class DependencyInstaller
         }
     }
 
-    private static (bool postgresInstalled, bool redisInstalled) CheckLinuxDependencies(LinuxDistro distro)
+    private static (bool postgresInstalled, bool redisInstalled) CheckLinuxDependencies(LinuxDistro distro,
+        string psqlString, string redisConnections)
     {
         var (pgCheck, redisCheck) = PackageChecks[distro];
 
-        var postgresInstalled = CheckPackage(pgCheck) && CheckService("postgresql");
-        var redisInstalled = CheckPackage(redisCheck) && CheckService("redis");
+        var postgresInstalled = CanReachPostgres(psqlString) || CheckPackage(pgCheck) && CheckService("postgresql");
+        var redisInstalled = CanReachRedis(redisConnections) || CheckPackage(redisCheck) && CheckService("redis");
 
         Log.Information($"PostgreSQL installed and running: {postgresInstalled}");
         Log.Information($"Redis installed and running: {redisInstalled}");
@@ -354,8 +362,63 @@ public static class DependencyInstaller
         }
     }
 
+    private static bool CanReachPostgres(string psqlString)
+    {
+        if (string.IsNullOrWhiteSpace(psqlString))
+            return false;
+
+        try
+        {
+            var builder = new NpgsqlConnectionStringBuilder(psqlString) { Timeout = 5 };
+            using var connection = new NpgsqlConnection(builder.ConnectionString);
+            connection.Open();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool CanReachRedis(string redisConnections)
+    {
+        if (string.IsNullOrWhiteSpace(redisConnections))
+            return false;
+
+        try
+        {
+            var options = new ConfigurationOptions { ConnectTimeout = 5000, AbortOnConnectFail = true };
+            foreach (var endpoint in redisConnections.Split(';', StringSplitOptions.RemoveEmptyEntries))
+                options.EndPoints.Add(endpoint);
+
+            using var connection = ConnectionMultiplexer.Connect(options);
+            connection.GetDatabase().Ping();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool PromptForInstall()
+    {
+        Log.Information("PostgreSQL or Redis was not found. Install them now with sudo? (y/n) [timeout: 10s]");
+
+        var task = Task.Run(() => Console.ReadLine()?.ToLower());
+        if (task.Wait(TimeSpan.FromSeconds(10)))
+        {
+            var response = task.Result;
+            return response is "y" or "yes";
+        }
+
+        Log.Information("No response received within 10 seconds. Skipping installation.");
+        return false;
+    }
+
     [SupportedOSPlatform("windows")]
-    private static (bool postgresInstalled, bool redisInstalled) CheckWindowsDependencies()
+    private static (bool postgresInstalled, bool redisInstalled) CheckWindowsDependencies(string psqlString,
+        string redisConnections)
     {
         bool CheckService(string serviceName)
         {
@@ -371,8 +434,8 @@ public static class DependencyInstaller
             }
         }
 
-        var postgresInstalled = CheckService("postgresql");
-        var redisInstalled = CheckService("redis");
+        var postgresInstalled = CanReachPostgres(psqlString) || CheckService("postgresql");
+        var redisInstalled = CanReachRedis(redisConnections) || CheckService("redis");
 
         Log.Information($"PostgreSQL installed and running: {postgresInstalled}");
         Log.Information($"Redis installed and running: {redisInstalled}");

@@ -84,8 +84,8 @@ public class Program
         }
 
         // Check and install dependencies (pass setup status to avoid prompting if already done)
-        DependencyInstaller.CheckAndInstallDependencies(credentials.PsqlConnectionString, credentials.IsMasterInstance,
-            credentials.PostgresSetupCompleted);
+        DependencyInstaller.CheckAndInstallDependencies(credentials.PsqlConnectionString,
+            credentials.RedisConnections, credentials.IsMasterInstance, credentials.PostgresSetupCompleted);
         var dbUpgrader = new DatabaseUpgrader(credentials.PsqlConnectionString);
 
         // Test connection first
