@@ -195,19 +195,20 @@ public static class DependencyInstaller
                 var distro = DetectLinuxDistro();
                 if (distro != LinuxDistro.Unknown)
                 {
+                    var databaseConnects = CanReachPostgres(psqlString);
                     var (postgresInstalled, redisInstalled) =
-                        CheckLinuxDependencies(distro, psqlString, redisConnections);
+                        CheckLinuxDependencies(distro, databaseConnects, redisConnections);
                     if (!postgresInstalled || !redisInstalled)
                     {
                         if (PromptForInstall())
-                            InstallOnLinux(distro, postgresInstalled, redisInstalled);
+                            InstallOnLinux(distro, postgresInstalled, redisInstalled, databaseConnects);
                         else
                             ShowManualInstructions();
                     }
                     else
                     {
                         Log.Information("PostgreSQL and Redis are already installed.");
-                        if (CanReachPostgres(psqlString))
+                        if (databaseConnects)
                         {
                             Log.Information("The configured database connects, skipping database setup.");
                             return;
@@ -231,8 +232,9 @@ public static class DependencyInstaller
             }
             case PlatformID.Win32NT:
             {
+                var databaseConnects = CanReachPostgres(psqlString);
                 var (postgresInstalled, redisInstalled) = OperatingSystem.IsWindows()
-                    ? CheckWindowsDependencies(psqlString, redisConnections)
+                    ? CheckWindowsDependencies(databaseConnects, redisConnections)
                     : (false, false);
                 if (!postgresInstalled || !redisInstalled)
                 {
@@ -241,7 +243,7 @@ public static class DependencyInstaller
                 else
                 {
                     Log.Information("PostgreSQL and Redis are already installed.");
-                    if (CanReachPostgres(psqlString))
+                    if (databaseConnects)
                     {
                         Log.Information("The configured database connects, skipping database setup.");
                         return;
@@ -290,11 +292,11 @@ public static class DependencyInstaller
     }
 
     private static (bool postgresInstalled, bool redisInstalled) CheckLinuxDependencies(LinuxDistro distro,
-        string psqlString, string redisConnections)
+        bool databaseConnects, string redisConnections)
     {
         var (pgCheck, redisCheck) = PackageChecks[distro];
 
-        var postgresInstalled = CanReachPostgres(psqlString) || CheckPackage(pgCheck) && CheckService("postgresql");
+        var postgresInstalled = databaseConnects || CheckPackage(pgCheck) && CheckService("postgresql");
         var redisInstalled = CanReachRedis(redisConnections) || CheckPackage(redisCheck) && CheckService("redis");
 
         Log.Information($"PostgreSQL installed and running: {postgresInstalled}");
@@ -374,8 +376,9 @@ public static class DependencyInstaller
             connection.Open();
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            Log.Warning("Could not connect to the configured PostgreSQL database: {Message}", ex.Message);
             return false;
         }
     }
@@ -387,7 +390,10 @@ public static class DependencyInstaller
 
         try
         {
-            var options = new ConfigurationOptions { ConnectTimeout = 5000, AbortOnConnectFail = true };
+            var options = new ConfigurationOptions
+            {
+                ConnectTimeout = 5000, ConnectRetry = 1, AbortOnConnectFail = true
+            };
             foreach (var endpoint in redisConnections.Split(';', StringSplitOptions.RemoveEmptyEntries))
                 options.EndPoints.Add(endpoint);
 
@@ -395,8 +401,9 @@ public static class DependencyInstaller
             connection.GetDatabase().Ping();
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            Log.Warning("Could not connect to the configured Redis: {Message}", ex.Message);
             return false;
         }
     }
@@ -417,7 +424,7 @@ public static class DependencyInstaller
     }
 
     [SupportedOSPlatform("windows")]
-    private static (bool postgresInstalled, bool redisInstalled) CheckWindowsDependencies(string psqlString,
+    private static (bool postgresInstalled, bool redisInstalled) CheckWindowsDependencies(bool databaseConnects,
         string redisConnections)
     {
         bool CheckService(string serviceName)
@@ -434,7 +441,7 @@ public static class DependencyInstaller
             }
         }
 
-        var postgresInstalled = CanReachPostgres(psqlString) || CheckService("postgresql");
+        var postgresInstalled = databaseConnects || CheckService("postgresql");
         var redisInstalled = CanReachRedis(redisConnections) || CheckService("redis");
 
         Log.Information($"PostgreSQL installed and running: {postgresInstalled}");
@@ -443,13 +450,14 @@ public static class DependencyInstaller
         return (postgresInstalled, redisInstalled);
     }
 
-    private static void InstallOnLinux(LinuxDistro distro, bool postgresInstalled, bool redisInstalled)
+    private static void InstallOnLinux(LinuxDistro distro, bool postgresInstalled, bool redisInstalled,
+        bool databaseConnects)
     {
         var commands = InstallCommands[distro].ToList();
 
         if (postgresInstalled)
         {
-            commands.RemoveAll(cmd => cmd.Contains("postgresql"));
+            commands.RemoveAll(cmd => cmd.Contains("postgres"));
             Log.Information("PostgreSQL is already installed, skipping installation steps.");
         }
 
@@ -499,6 +507,12 @@ public static class DependencyInstaller
         if (!postgresInstalled || !redisInstalled)
         {
             Log.Information("Dependencies installed successfully!");
+        }
+
+        if (databaseConnects)
+        {
+            Log.Information("The configured database connects, skipping database setup.");
+            return;
         }
 
         if (PromptForDatabaseSetup())
