@@ -7,6 +7,8 @@ using IF.Lastfm.Core.Api;
 using IF.Lastfm.Core.Api.Enums;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.AuthHandlers;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +43,7 @@ public class LastFmController : ControllerBase
     }
 
     /// <summary>
-    ///     Gets the Last.fm OAuth authorization URL
+    ///     Gets the Last.fm authorization URL, which returns the user to the dashboard's Last.fm callback.
     /// </summary>
     /// <param name="userId">The Discord user ID</param>
     /// <returns>The authorization URL</returns>
@@ -57,7 +59,7 @@ public class LastFmController : ControllerBase
             });
         }
 
-        var callbackUrl = $"{Request.Scheme}://{Request.Host}/botapi/lastfm/callback?userId={userId}";
+        var callbackUrl = $"{creds.DashboardUrl.TrimEnd('/')}/api/lastfm/callback?port={Request.Host.Port}";
         var authUrl =
             $"https://www.last.fm/api/auth/?api_key={creds.LastFmApiKey}&cb={Uri.EscapeDataString(callbackUrl)}";
 
@@ -68,15 +70,21 @@ public class LastFmController : ControllerBase
     }
 
     /// <summary>
-    ///     Handles the Last.fm OAuth callback
+    ///     Links a Last.fm account to a user with the token Last.fm returned to the dashboard.
     /// </summary>
     /// <param name="token">The Last.fm auth token</param>
     /// <param name="userId">The Discord user ID</param>
-    /// <returns>Redirect or success result</returns>
-    [HttpGet("callback")]
-    [AllowAnonymous]
-    public async Task<IActionResult> HandleCallback([FromQuery] string token, [FromQuery] ulong userId)
+    /// <returns>The linked Last.fm username</returns>
+    [HttpPost("link")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> Link([FromQuery] string token, [FromQuery] ulong userId)
     {
+        var authResult = await HttpContext.AuthenticateAsync(DashJwtConstants.SchemeName);
+        if (!authResult.Succeeded
+            || !ulong.TryParse(authResult.Principal?.FindFirst(DashJwtConstants.UserIdClaim)?.Value, out var signedInId)
+            || signedInId != userId)
+            return Forbid();
+
         try
         {
             if (string.IsNullOrEmpty(token))
@@ -135,12 +143,14 @@ public class LastFmController : ControllerBase
             logger.LogInformation(
                 $"Successfully linked Last.fm account {sessionData.Value.Username} for user {userId}");
 
-            // Redirect to dashboard
-            return Redirect($"{creds.DashboardUrl}/me?lastfm=success");
+            return Ok(new
+            {
+                username = sessionData.Value.Username
+            });
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error handling Last.fm callback");
+            logger.LogError(ex, "Error linking Last.fm account");
             return StatusCode(500, new
             {
                 error = "Internal server error"
