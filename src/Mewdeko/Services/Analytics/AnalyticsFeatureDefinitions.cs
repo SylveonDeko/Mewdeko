@@ -137,7 +137,10 @@ public static class AnalyticsFeatureDefinitions
             db => db.RoleMenus.Where(x => x.Enabled && x.MessageId != null).Select(x => x.GuildId)),
         new("achievements",
             db => db.AchievementSettings.Select(x => x.GuildId),
-            db => db.AchievementSettings.Where(x => x.Enabled).Select(x => x.GuildId))
+            db => db.AchievementSettings.Where(x => x.Enabled).Select(x => x.GuildId)),
+        new("link_fix",
+            db => db.LinkFixSettings.Select(x => x.GuildId),
+            db => db.LinkFixSettings.Where(x => x.Enabled).Select(x => x.GuildId))
     ];
 
     /// <summary>

@@ -569,6 +569,17 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the link fixing settings table.
+    /// </summary>
+    public ITable<LinkFixSetting> LinkFixSettings
+    {
+        get
+        {
+            return this.GetTable<LinkFixSetting>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the table of data imported from other bots.
     /// </summary>
     public ITable<DataImport> DataImports

@@ -146,5 +146,19 @@
   "autopublish_user_not_blacklisted": "{0} is not blacklisted in that channel.",
   "user_not_found_id": "That user could not be found. Please ensure that was the correct ID.",
   "autopublish_user_blacklisted": "Messages from {0} in {1} will no longer be auto published.",
-  "autopublish_user_unblacklisted": "{0} has been removed from the auto-publish blacklist in {1}"
+  "autopublish_user_unblacklisted": "{0} has been removed from the auto-publish blacklist in {1}",
+  "linkfix_enabled": "Link fixing is on. Links to supported sites get a reply with a copy that embeds properly.",
+  "linkfix_disabled": "Link fixing is off.",
+  "linkfix_platform_enabled": "{0} links will be fixed.",
+  "linkfix_platform_disabled": "{0} links will be left alone.",
+  "linkfix_unknown_platform": "That isn't a supported site. Supported sites: {0}",
+  "linkfix_invalid_host": "That isn't a valid host. Use a host name like fixupx.com.",
+  "linkfix_host_set": "{0} links now go through {1}.",
+  "linkfix_host_reset": "{0} links now go through the default, {1}.",
+  "linkfix_list_title": "Link Fixing",
+  "linkfix_status_on": "Link fixing is on.",
+  "linkfix_status_off": "Link fixing is off. Turn it on with `{0}linkfix`.",
+  "linkfix_list_entry": "**{0}**: {1} ({2})",
+  "linkfix_on": "on",
+  "linkfix_off": "off"
 }

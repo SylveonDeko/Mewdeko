@@ -4880,3 +4880,54 @@ invitemassbancode:
       name: reason
       optional: true
       type: string
+linkfix:
+  args:
+    - ''
+    - twitter
+  desc: 'Turns link fixing on or off. While it is on, links to Twitter/X, Instagram, TikTok, Reddit, Pinterest, Bluesky and Pixiv get a reply with a copy that embeds properly. Give a site to turn just that site on or off.'
+  params:
+    - desc: 'The site to turn on or off.'
+      name: platform
+      optional: true
+      type: string
+linkfix_string:
+  args:
+    - twitter
+  desc: 'Turns link fixing for one site on or off.'
+  params:
+    - desc: 'The site to turn on or off.'
+      name: platform
+      optional: false
+      type: string
+linkfixhost:
+  args:
+    - 'twitter fixupx.com'
+    - 'instagram default'
+  desc: 'Sets the embed fixing host a site''s links are rewritten to. Use "default" to go back to the built-in host.'
+  params:
+    - desc: 'The site, such as twitter or instagram.'
+      name: platform
+      optional: false
+      type: string
+    - desc: 'The host to rewrite links to, or "default".'
+      name: host
+      optional: false
+      type: string
+linkfixhost_string_string:
+  args:
+    - 'twitter fixupx.com'
+  desc: 'Sets the embed fixing host a site''s links are rewritten to. Use "default" to go back to the built-in host.'
+  params:
+    - desc: 'The site, such as twitter or instagram.'
+      name: platform
+      optional: false
+      type: string
+    - desc: 'The host to rewrite links to, or "default".'
+      name: host
+      optional: false
+      type: string
+linkfixes:
+  args:
+    - ''
+  desc: 'Shows whether link fixing is on, and the host used for each site.'
+  params: [ ]
