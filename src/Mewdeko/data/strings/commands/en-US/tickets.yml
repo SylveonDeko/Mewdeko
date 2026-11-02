@@ -1556,6 +1556,20 @@ ticketarchive:
     - ''
   desc: 'Archives a ticket, moving it to the archive category if set.'
   params: [ ]
+ticketthreadchannel:
+  args:
+    - '<buttonId> [channel]'
+    - '5 #support'
+  desc: 'Sets the text or forum channel a button''s tickets open in. A text channel gets a private thread for each ticket, and a forum gets a post. Leave out the channel to go back to a channel for each ticket.'
+  params:
+    - desc: 'The button ID.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'The text or forum channel, or none to stop using threads.'
+      name: channel
+      optional: true
+      type: IGuildChannel
 ticketarchivecategory:
   args:
     - '<buttonId> [category]'

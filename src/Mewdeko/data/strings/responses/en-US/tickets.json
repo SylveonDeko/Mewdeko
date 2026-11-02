@@ -106,5 +106,9 @@
   "ticket_blacklist_user_title": "User Blacklisted",
   "ticket_user_stats": "Ticket Statistics for {0}",
   "ticket_user_unblacklisted": "<@{0}> has been removed from the ticket blacklist.",
-  "ticket_unblacklist_user_title": "User Unblacklisted"
+  "ticket_unblacklist_user_title": "User Unblacklisted",
+  "ticket_thread_channel_threads": "Tickets from button {0} now open as private threads in {1}.",
+  "ticket_thread_channel_forum": "Tickets from button {0} now open as posts in {1}. Anyone who can see that forum can see them.",
+  "ticket_thread_channel_removed": "Tickets from button {0} now open in their own channels again.",
+  "ticket_thread_channel_invalid": "Pick a text or forum channel in this server."
 }

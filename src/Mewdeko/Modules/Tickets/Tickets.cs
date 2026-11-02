@@ -245,6 +245,50 @@ public partial class Tickets(ILogger<Tickets> logger) : MewdekoModuleBase<Ticket
     }
 
     /// <summary>
+    ///     Sets the text or forum channel a button's tickets open in, as private threads or forum posts. Without a
+    ///     channel, the button goes back to creating a channel for each ticket.
+    /// </summary>
+    /// <param name="buttonId">The button ID.</param>
+    /// <param name="channel">The text or forum channel, or none to stop using threads.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task TicketThreadChannel(int buttonId, IGuildChannel? channel = null)
+    {
+        var button = await Service.GetButtonAsync(buttonId);
+        if (button == null || button.Panel.GuildId != ctx.Guild.Id)
+        {
+            await ctx.Channel.SendErrorAsync(Strings.TicketPanelNotFound(ctx.Guild.Id), Config);
+            return;
+        }
+
+        var channelType = channel?.GetChannelType();
+        if (channel != null && (channel.GuildId != ctx.Guild.Id
+                                || channelType is not (ChannelType.Text or ChannelType.Forum)))
+        {
+            await ctx.Channel.SendErrorAsync(Strings.TicketThreadChannelInvalid(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await Service.UpdateButtonSettingsAsync(ctx.Guild, buttonId, new Dictionary<string, object>
+        {
+            {
+                "threadChannelId", channel?.Id
+            }
+        });
+
+        if (channel == null)
+            await ctx.Channel.SendConfirmAsync(Strings.TicketThreadChannelRemoved(ctx.Guild.Id, buttonId));
+        else if (channelType == ChannelType.Forum)
+            await ctx.Channel.SendConfirmAsync(Strings.TicketThreadChannelForum(ctx.Guild.Id, buttonId,
+                MentionUtils.MentionChannel(channel.Id)));
+        else
+            await ctx.Channel.SendConfirmAsync(Strings.TicketThreadChannelThreads(ctx.Guild.Id, buttonId,
+                MentionUtils.MentionChannel(channel.Id)));
+    }
+
+    /// <summary>
     ///     Claims the current ticket as a staff member.
     /// </summary>
     [Cmd]

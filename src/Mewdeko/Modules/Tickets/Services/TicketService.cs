@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using DataModel;
+using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.TriggerPlaceholders;
@@ -24,6 +25,7 @@ public class TicketService : INService
 {
     private const string ClaimButtonId = "ticket_claim";
     private const string CloseButtonId = "ticket_close";
+    private const int MaxThreadStaff = 25;
     private readonly ChatLogService chatLogService;
     private readonly DiscordShardedClient client;
     private readonly IAnalyticsCollector collector;
@@ -414,7 +416,7 @@ public class TicketService : INService
                             if (guild != null)
                             {
                                 var channel = await guild.GetTextChannelAsync(item.Ticket.ChannelId);
-                                if (channel != null)
+                                if (channel is not null and not IThreadChannel)
                                 {
                                     await channel.ModifyAsync(props =>
                                         props.CategoryId = archiveCategoryId.Value);
@@ -881,15 +883,24 @@ public class TicketService : INService
         ITextChannel channel;
         try
         {
-            // Overwrites go in with the create call so the channel is never briefly visible to everyone and the
-            // bot cannot lock itself out of a channel whose category denies it View Channel.
-            var overwrites = await BuildTicketOverwritesAsync(guild, creator, button, option);
-            channel = await guild.CreateTextChannelAsync(channelName, props =>
+            var threadChannelId = button?.ThreadChannelId ?? option?.ThreadChannelId;
+            if (threadChannelId.HasValue)
             {
-                if (category != null)
-                    props.CategoryId = category.Id;
-                props.PermissionOverwrites = overwrites;
-            });
+                channel = await CreateTicketThreadAsync(guild, creator, threadChannelId.Value, channelName, button,
+                    option);
+            }
+            else
+            {
+                // Overwrites go in with the create call so the channel is never briefly visible to everyone and the
+                // bot cannot lock itself out of a channel whose category denies it View Channel.
+                var overwrites = await BuildTicketOverwritesAsync(guild, creator, button, option);
+                channel = await guild.CreateTextChannelAsync(channelName, props =>
+                {
+                    if (category != null)
+                        props.CategoryId = category.Id;
+                    props.PermissionOverwrites = overwrites;
+                });
+            }
         }
         catch (Exception ex)
         {
@@ -993,6 +1004,66 @@ public class TicketService : INService
         collector.Feature("ticket_open", guild.Id);
         return ticket;
     }
+
+    /// <summary>
+    ///     Opens a ticket as a post when the thread channel is a forum, or as a private thread in it otherwise. A
+    ///     private thread gets the creator and the members of the support roles added, since nobody else can see it.
+    /// </summary>
+    private async Task<IThreadChannel> CreateTicketThreadAsync(IGuild guild, IUser creator, ulong parentId,
+        string name, PanelButton? button, SelectMenuOption? option)
+    {
+        var parent = await guild.GetChannelAsync(parentId);
+        if (parent is IForumChannel forum)
+            return await forum.CreatePostAsync(name, text: creator.Mention);
+
+        if (parent is not ITextChannel textChannel || parent is IThreadChannel)
+            throw new InvalidOperationException($"Ticket thread channel {parentId} no longer exists.");
+
+        var thread = await textChannel.CreateThreadAsync(name, ThreadType.PrivateThread, invitable: false);
+        if ((creator as IGuildUser ?? await guild.GetUserAsync(creator.Id)) is { } member)
+            await thread.AddUserAsync(member);
+
+        var supportRoles = button?.SupportRoles ?? option?.SupportRoles ?? [];
+        var staff = (await guild.GetUsersAsync())
+            .Where(user => user.Id != creator.Id && !user.IsBot && user.RoleIds.Any(supportRoles.Contains))
+            .Take(MaxThreadStaff);
+        foreach (var user in staff)
+        {
+            try
+            {
+                await thread.AddUserAsync(user);
+            }
+            catch (HttpException ex)
+            {
+                logger.LogDebug(ex, "Could not add {UserId} to ticket thread {ThreadId}", user.Id, thread.Id);
+            }
+        }
+
+        return thread;
+    }
+
+    /// <summary>
+    ///     Renames a ticket channel or thread. A thread is unarchived as well, since an archived one cannot be renamed.
+    /// </summary>
+    private static Task RenameTicketChannelAsync(ITextChannel channel, string name) =>
+        channel is IThreadChannel thread
+            ? thread.ModifyAsync(x =>
+            {
+                x.Name = name;
+                x.Archived = false;
+            })
+            : channel.ModifyAsync(x => x.Name = name);
+
+    /// <summary>
+    ///     Locks a ticket thread, and archives it as well when <paramref name="archive" /> is set.
+    /// </summary>
+    private static Task LockTicketThreadAsync(IThreadChannel thread, bool archive) =>
+        thread.ModifyAsync(x =>
+        {
+            x.Locked = true;
+            if (archive)
+                x.Archived = true;
+        });
 
     /// <summary>
     ///     Sends a panel's own opening message in a new ticket.
@@ -1206,7 +1277,7 @@ public class TicketService : INService
             {
                 // Get archive category from existing configuration
                 var archiveCategoryId = ticket.Button?.ArchiveCategoryId ?? ticket.SelectOption?.ArchiveCategoryId;
-                if (archiveCategoryId.HasValue)
+                if (archiveCategoryId.HasValue && channel is not IThreadChannel)
                 {
                     var category = await guild.GetCategoryChannelAsync(archiveCategoryId.Value);
                     if (category != null)
@@ -1276,7 +1347,7 @@ public class TicketService : INService
                     var newName = channel.Name.StartsWith("closed-")
                         ? channel.Name.Replace("closed-", "archived-")
                         : $"archived-{channel.Name}";
-                    await channel.ModifyAsync(c => c.Name = newName);
+                    await RenameTicketChannelAsync(channel, newName);
                 }
                 catch (Exception ex)
                 {
@@ -1288,13 +1359,16 @@ public class TicketService : INService
             // If not locked yet, lock it now
             try
             {
-                await channel.AddPermissionOverwriteAsync(guild.EveryoneRole,
-                    new OverwritePermissions(
-                        viewChannel: PermValue.Allow,
-                        sendMessages: PermValue.Deny,
-                        addReactions: PermValue.Deny,
-                        useSlashCommands: PermValue.Deny
-                    ));
+                if (channel is IThreadChannel thread)
+                    await LockTicketThreadAsync(thread, true);
+                else
+                    await channel.AddPermissionOverwriteAsync(guild.EveryoneRole,
+                        new OverwritePermissions(
+                            viewChannel: PermValue.Allow,
+                            sendMessages: PermValue.Deny,
+                            addReactions: PermValue.Deny,
+                            useSlashCommands: PermValue.Deny
+                        ));
             }
             catch (Exception ex)
             {
@@ -2286,6 +2360,7 @@ public class TicketService : INService
             Emoji = b.Emoji,
             CategoryId = b.CategoryId,
             ArchiveCategoryId = b.ArchiveCategoryId,
+            ThreadChannelId = b.ThreadChannelId,
             SupportRoles = b.SupportRoles.ToList(),
             ViewerRoles = b.ViewerRoles.ToList(),
             HasModal = !string.IsNullOrEmpty(b.ModalJson),
@@ -2346,6 +2421,7 @@ public class TicketService : INService
                 Emoji = o.Emoji ?? "",
                 CategoryId = o.CategoryId,
                 ArchiveCategoryId = o.ArchiveCategoryId,
+                ThreadChannelId = o.ThreadChannelId,
                 HasModal = !string.IsNullOrEmpty(o.ModalJson),
                 HasCustomOpenMessage = !string.IsNullOrEmpty(o.OpenMessageJson)
             }).ToList()
@@ -2411,6 +2487,7 @@ public class TicketService : INService
                 Emoji = b.Emoji,
                 CategoryId = b.CategoryId,
                 ArchiveCategoryId = b.ArchiveCategoryId,
+                ThreadChannelId = b.ThreadChannelId,
                 SupportRoles = b.SupportRoles.ToList(),
                 ViewerRoles = b.ViewerRoles.ToList(),
                 HasModal = !string.IsNullOrEmpty(b.ModalJson),
@@ -2430,6 +2507,7 @@ public class TicketService : INService
                     Emoji = o.Emoji,
                     CategoryId = o.CategoryId,
                     ArchiveCategoryId = o.ArchiveCategoryId,
+                    ThreadChannelId = o.ThreadChannelId,
                     HasModal = !string.IsNullOrEmpty(o.ModalJson),
                     HasCustomOpenMessage = !string.IsNullOrEmpty(o.OpenMessageJson)
                 }).ToList()
@@ -3107,8 +3185,7 @@ public class TicketService : INService
             {
                 try
                 {
-                    var newName = $"closed-{channel.Name}";
-                    await channel.ModifyAsync(c => c.Name = newName);
+                    await RenameTicketChannelAsync(channel, $"closed-{channel.Name}");
                 }
                 catch (Exception ex)
                 {
@@ -3124,7 +3201,10 @@ public class TicketService : INService
                     var creator = await guild.GetUserAsync(ticket.CreatorId);
                     if (creator != null)
                     {
-                        await channel.RemovePermissionOverwriteAsync(creator);
+                        if (channel is IThreadChannel { Type: ThreadType.PrivateThread } privateThread)
+                            await privateThread.RemoveUserAsync(creator);
+                        else if (channel is not IThreadChannel)
+                            await channel.RemovePermissionOverwriteAsync(creator);
                     }
                 }
                 catch (Exception ex)
@@ -3134,7 +3214,22 @@ public class TicketService : INService
             }
 
             // 3. Lock channel if enabled
-            if (lockOnClose)
+            if (lockOnClose && channel is IThreadChannel lockThread)
+            {
+                try
+                {
+                    await channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(strings.TicketLocked(guild.Id))
+                        .WithColor(Color.Orange)
+                        .Build());
+                    await LockTicketThreadAsync(lockThread, false);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "Failed to lock ticket thread {ChannelId}", channel.Id);
+                }
+            }
+            else if (lockOnClose)
             {
                 try
                 {
@@ -3196,6 +3291,19 @@ public class TicketService : INService
             switch (deleteOnClose)
             {
                 // 4. Move to archive category (if not deleting and not auto-archiving)
+                case false when channel is IThreadChannel archiveThread:
+                {
+                    try
+                    {
+                        await archiveThread.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning(ex, "Failed to archive ticket thread {ChannelId}", channel.Id);
+                    }
+
+                    break;
+                }
                 case false:
                 {
                     var archiveCategoryId = ticket.Button?.ArchiveCategoryId ?? ticket.SelectOption?.ArchiveCategoryId;
@@ -4698,6 +4806,7 @@ public class TicketService : INService
             .ToListAsync();
 
         var ticketChannels = sourceChannels
+            .Where(c => c is not IThreadChannel)
             .Where(c => c.Name.StartsWith("ticket-") ||
                         guildTickets.Any(t => t.ChannelId == c.Id)); // Check both default and custom names
 
@@ -4752,6 +4861,19 @@ public class TicketService : INService
             {
                 var channel = await guild.GetTextChannelAsync(ticket.ChannelId);
                 if (channel == null) continue;
+
+                if (channel is IThreadChannel thread)
+                {
+                    if (thread.Type == ThreadType.PrivateThread)
+                    {
+                        foreach (var member in (await guild.GetUsersAsync()).Where(m => m.RoleIds.Contains(role.Id))
+                                     .Take(MaxThreadStaff))
+                            await thread.AddUserAsync(member);
+                    }
+
+                    updated++;
+                    continue;
+                }
 
                 var permissions = new OverwritePermissions(
                     viewChannel: PermValue.Allow,
@@ -5057,6 +5179,7 @@ public class TicketService : INService
                         ChannelNameFormat = sourceButton.ChannelNameFormat,
                         CategoryId = sourceButton.CategoryId,
                         ArchiveCategoryId = sourceButton.ArchiveCategoryId,
+                        ThreadChannelId = sourceButton.ThreadChannelId,
                         SupportRoles = [.. sourceButton.SupportRoles ?? []],
                         ViewerRoles = [.. sourceButton.ViewerRoles ?? []],
                         AutoCloseTime = sourceButton.AutoCloseTime,
@@ -5100,6 +5223,7 @@ public class TicketService : INService
                             ChannelNameFormat = sourceOption.ChannelNameFormat,
                             CategoryId = sourceOption.CategoryId,
                             ArchiveCategoryId = sourceOption.ArchiveCategoryId,
+                            ThreadChannelId = sourceOption.ThreadChannelId,
                             SupportRoles = [.. sourceOption.SupportRoles ?? []],
                             ViewerRoles = [.. sourceOption.ViewerRoles ?? []],
                             AutoCloseTime = sourceOption.AutoCloseTime,
@@ -5201,6 +5325,7 @@ public class TicketService : INService
                         ChannelNameFormat = originalButton.ChannelNameFormat,
                         CategoryId = originalButton.CategoryId,
                         ArchiveCategoryId = originalButton.ArchiveCategoryId,
+                        ThreadChannelId = originalButton.ThreadChannelId,
                         SupportRoles = [.. originalButton.SupportRoles ?? []],
                         ViewerRoles = [.. originalButton.ViewerRoles ?? []],
                         AutoCloseTime = originalButton.AutoCloseTime,
@@ -5343,6 +5468,9 @@ public class TicketService : INService
                     case "archivecategoryid":
                         button.ArchiveCategoryId = (ulong?)setting.Value;
                         break;
+                    case "threadchannelid":
+                        button.ThreadChannelId = (ulong?)setting.Value;
+                        break;
                     case "channelnameformat":
                         button.ChannelNameFormat = (string)setting.Value;
                         break;
@@ -5474,6 +5602,9 @@ public class TicketService : INService
                         break;
                     case "archivecategoryid":
                         option.ArchiveCategoryId = (ulong?)setting.Value;
+                        break;
+                    case "threadchannelid":
+                        option.ThreadChannelId = (ulong?)setting.Value;
                         break;
                     case "channelnameformat":
                         option.ChannelNameFormat = (string)setting.Value;

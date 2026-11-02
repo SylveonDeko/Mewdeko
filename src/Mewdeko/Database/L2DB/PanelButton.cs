@@ -42,6 +42,9 @@ public class PanelButton
     [Column("ArchiveCategoryId")]
     public ulong? ArchiveCategoryId { get; set; }
 
+    [Column("ThreadChannelId")]
+    public ulong? ThreadChannelId { get; set; }
+
     // Public storage as long[] for database compatibility (must be public for linq2db)
     [Column("SupportRoles")]
     public long[] _supportRoles { get; set; } = [];

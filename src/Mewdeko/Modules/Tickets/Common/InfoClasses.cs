@@ -41,6 +41,11 @@ public class ButtonInfo
     public ulong? ArchiveCategoryId { get; set; }
 
     /// <summary>
+    ///     The ID of the text or forum channel tickets open in as threads or posts, or null for their own channels
+    /// </summary>
+    public ulong? ThreadChannelId { get; set; }
+
+    /// <summary>
     ///     List of role IDs that have support permissions for tickets created by this button
     /// </summary>
     public List<ulong> SupportRoles { get; set; }
@@ -126,6 +131,11 @@ public class SelectOptionInfo
     ///     The ID of the category where tickets will be moved when archived
     /// </summary>
     public ulong? ArchiveCategoryId { get; set; }
+
+    /// <summary>
+    ///     The ID of the text or forum channel tickets open in as threads or posts, or null for their own channels
+    /// </summary>
+    public ulong? ThreadChannelId { get; set; }
 
     /// <summary>
     ///     Indicates whether this option shows a modal form when selected

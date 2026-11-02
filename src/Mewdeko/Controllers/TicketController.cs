@@ -473,6 +473,14 @@ public class TicketController : Controller
             if (button == null)
                 return BadRequest("This panel has no room for another component. Discord allows 25 per message.");
 
+            if (request.ThreadChannelId is > 0 && client.GetGuild(guildId) is { } guild)
+            {
+                await ticketService.UpdateButtonSettingsAsync(guild, button.Id, new Dictionary<string, object>
+                {
+                    ["threadChannelId"] = request.ThreadChannelId.Value
+                });
+            }
+
             return Ok(new
             {
                 button.Id,
@@ -524,6 +532,7 @@ public class TicketController : Controller
                 CategoryName = category?.Name,
                 button.ArchiveCategoryId,
                 ArchiveCategoryName = archiveCategory?.Name,
+                button.ThreadChannelId,
                 button.SupportRoles,
                 button.ViewerRoles,
                 button.AutoCloseTime,
@@ -580,6 +589,8 @@ public class TicketController : Controller
                 settings["categoryId"] = request.CategoryId.Value == 0 ? null : request.CategoryId.Value;
             if (request.ArchiveCategoryId.HasValue)
                 settings["archiveCategoryId"] = request.ArchiveCategoryId.Value == 0 ? null : request.ArchiveCategoryId.Value;
+            if (request.ThreadChannelId.HasValue)
+                settings["threadChannelId"] = request.ThreadChannelId.Value == 0 ? null : request.ThreadChannelId.Value;
             if (request.ChannelFormat != null) settings["channelNameFormat"] = request.ChannelFormat;
             if (request.SupportRoles != null) settings["supportRoles"] = request.SupportRoles.ToArray();
             if (request.ViewerRoles != null) settings["viewerRoles"] = request.ViewerRoles.ToArray();
@@ -817,6 +828,14 @@ public class TicketController : Controller
                 request.AllowedPriorities,
                 request.DefaultPriority);
 
+            if (request.ThreadChannelId is > 0 && client.GetGuild(guildId) is { } guild)
+            {
+                await ticketService.UpdateSelectOptionSettingsAsync(guild, option.Id, new Dictionary<string, object>
+                {
+                    ["threadChannelId"] = request.ThreadChannelId.Value
+                });
+            }
+
             return Ok(new
             {
                 option.Id,
@@ -896,6 +915,7 @@ public class TicketController : Controller
                 CategoryName = category?.Name,
                 option.ArchiveCategoryId,
                 ArchiveCategoryName = archiveCategory?.Name,
+                option.ThreadChannelId,
                 option.SupportRoles,
                 option.ViewerRoles,
                 option.AutoCloseTime,
@@ -950,6 +970,8 @@ public class TicketController : Controller
                 settings["categoryId"] = request.CategoryId.Value == 0 ? null : request.CategoryId.Value;
             if (request.ArchiveCategoryId.HasValue)
                 settings["archiveCategoryId"] = request.ArchiveCategoryId.Value == 0 ? null : request.ArchiveCategoryId.Value;
+            if (request.ThreadChannelId.HasValue)
+                settings["threadChannelId"] = request.ThreadChannelId.Value == 0 ? null : request.ThreadChannelId.Value;
             if (request.ChannelFormat != null) settings["channelNameFormat"] = request.ChannelFormat;
             if (request.SupportRoles != null) settings["supportRoles"] = request.SupportRoles.ToArray();
             if (request.ViewerRoles != null) settings["viewerRoles"] = request.ViewerRoles.ToArray();

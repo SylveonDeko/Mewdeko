@@ -36,6 +36,11 @@ public abstract class TicketComponentRequestBase
     public ulong? ArchiveCategoryId { get; set; }
 
     /// <summary>
+    ///     Optional text or forum channel tickets open in as threads or posts. 0 clears it on an update.
+    /// </summary>
+    public ulong? ThreadChannelId { get; set; }
+
+    /// <summary>
     ///     List of support role IDs.
     /// </summary>
     public List<ulong>? SupportRoles { get; set; }

@@ -3041,6 +3041,10 @@ ticketarchive:
 ticketarchivecategory:
   - ticketarchivecategory
   - tarchivecat
+ticketthreadchannel:
+  - ticketthreadchannel
+  - tthreadchannel
+  - ticketthreads
 ticketautoarchive:
   - ticketautoarchive
   - tautoarchive
