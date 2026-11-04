@@ -569,6 +569,28 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the join role timeout settings table.
+    /// </summary>
+    public ITable<JoinRoleTimeoutSetting> JoinRoleTimeoutSettings
+    {
+        get
+        {
+            return this.GetTable<JoinRoleTimeoutSetting>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of members counting down toward a join role timeout.
+    /// </summary>
+    public ITable<JoinRoleTimeoutPending> JoinRoleTimeoutPending
+    {
+        get
+        {
+            return this.GetTable<JoinRoleTimeoutPending>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the link fixing settings table.
     /// </summary>
     public ITable<LinkFixSetting> LinkFixSettings

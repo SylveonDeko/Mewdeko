@@ -1,0 +1,24 @@
+joinroletimeout:
+  args:
+    - show
+    - enable
+    - disable
+    - 'timeout 24h'
+    - 'required Verified'
+    - 'exempt Staff'
+    - 'action kick'
+    - 'action addrole Unverified'
+    - 'warn 1h'
+    - 'logchannel #logs'
+    - 'existing on'
+    - pending
+  desc: 'Acts on members who still do not have a required role some time after joining, such as kicking people who never accepted the rules. Options: show, enable, disable, timeout (30m, 24h, 2d), required and exempt (roles or none), action (kick, ban, addrole, removeroles, timeout), warn (a time before the timeout, or off), logchannel, existing (on or off), warnmessage and actionmessage (text or default) and pending.'
+  params:
+    - desc: 'show, enable, disable, timeout, required, exempt, action, warn, logchannel, existing, warnmessage, actionmessage or pending.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'The value for the option, such as a time, roles, an action, a channel or on or off.'
+      name: value
+      optional: true
+      type: string
