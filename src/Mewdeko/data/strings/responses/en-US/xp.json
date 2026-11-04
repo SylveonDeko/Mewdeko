@@ -53,7 +53,7 @@
   "xp_channel_multiplier_set": "Channel {0} XP multiplier set to {1}x.",
   "xp_competition_already_ended": "Competition '{0}' has already ended.",
   "xp_competition_amount_invalid": "Amount must be a positive number.",
-  "xp_competition_created": "Created {0} competition **{1}** lasting {2}{3}",
+  "xp_competition_created": "Created {0} competition **{1}** (#{4}) lasting {2}{3}",
   "xp_competition_currency_reward_added": "Added currency reward of {1} {2} for position #{0} in competition #{3}.",
   "xp_competition_ended": "Competition has ended",
   "xp_competition_info": "Type: **{0}**\nTime left: **{1}**{2}",

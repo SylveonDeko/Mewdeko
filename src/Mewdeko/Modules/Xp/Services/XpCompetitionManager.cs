@@ -230,8 +230,7 @@ public class XpCompetitionManager : INService, IDisposable
             AnnouncementChannelId = announcementChannelId
         };
 
-        // Insert using LinqToDB
-        await db.InsertAsync(competition);
+        competition.Id = await db.InsertWithInt32IdentityAsync(competition);
 
         // If competition is active, add to active competitions
         var now = DateTime.UtcNow;

@@ -1079,10 +1079,11 @@ public class Xp(
 
         await ReplyConfirmAsync(Strings.XpCompetitionCreated(
             ctx.Guild.Id,
+            ((XpCompetitionType)competition.Type).Humanize(),
             competition.Name,
-            competition.Type.ToString(),
             time.Time.Humanize(),
-            competition.Type == (int)XpCompetitionType.ReachLevel ? competition.TargetLevel.ToString() : ""
+            competition.Type == (int)XpCompetitionType.ReachLevel ? competition.TargetLevel.ToString() : "",
+            competition.Id
         )).ConfigureAwait(false);
     }
 
@@ -1194,12 +1195,12 @@ public class Xp(
             var timeLeft = comp.EndTime - DateTime.UtcNow;
             var description = Strings.XpCompetitionInfo(
                 ctx.Guild.Id,
-                comp.Type.ToString(),
+                ((XpCompetitionType)comp.Type).Humanize(),
                 timeLeft.Humanize(),
                 comp.Type == (int)XpCompetitionType.ReachLevel ? comp.TargetLevel.ToString() : ""
             );
 
-            embed.AddField(comp.Name, description);
+            embed.AddField($"{comp.Name} (#{comp.Id})", description);
         }
 
         await ctx.Channel.EmbedAsync(embed);
