@@ -1,0 +1,41 @@
+bridge:
+  args:
+    - create
+    - 'link ABCD2345'
+    - list
+    - settings
+    - pause
+    - resume
+    - remove
+    - 'allowbots true'
+    - 'direction send'
+    - 'allowrole @Members'
+    - 'blockrole @Muted'
+    - 'block @user'
+    - 'unblock @user'
+    - 'minage 7d'
+    - 'invites off'
+    - 'filter on'
+    - 'nameformat [{platform}] {name}'
+    - pair
+    - 'pair ABCD2345'
+    - pairs
+    - 'channels 1'
+    - 'connect #general their-channel 1'
+    - proposals
+    - 'accept 1'
+    - 'decline 1'
+    - 'share #general 1'
+    - 'hide #staff 1'
+    - 'approval auto 1'
+    - 'unpair 1 keep'
+  desc: 'Bridges this channel to a channel in a server on Fluxer. Use create to get a code, link with that code in the other channel, list, pause, resume and remove to manage bridges, and allowbots to let bot messages through. Run in a bridged channel, settings shows the options and direction, allowrole, blockrole, block, unblock, minage, invites, filter and nameformat change them. To pair the whole server once, run pair for a code and pair with that code on the other platform. Then channels shows what the other server shares, connect proposes a bridge, proposals, accept and decline handle the ones that need approval, share and hide choose what you share, approval sets whether proposals are accepted automatically, and unpair ends the pair.'
+  params:
+    - desc: 'create, link, list, settings, pause, resume, remove, allowbots, direction, allowrole, blockrole, block, unblock, minage, invites, filter, nameformat, pair, pairs, channels, connect, proposals, accept, decline, share, hide, approval or unpair.'
+      name: action
+      optional: true
+      type: string
+    - desc: 'The link code for link, true or false for allowbots, both, send or receive for direction, roles or none for allowrole and blockrole, a user for block and unblock, a duration or off for minage, on or off for invites and filter, a format or reset for nameformat, a pair code for pair, a channel and a pair for share, hide, connect and channels, a proposal number or id for accept and decline, approve or auto for approval, or a pair and keep for unpair.'
+      name: argument
+      optional: true
+      type: string

@@ -35,6 +35,7 @@
   "module_description_administration": "Moderation, punish users, setup self assignable roles and greet messages",
   "module_description_afk": "Set or cusotmize afk",
   "module_description_birthday": "Track member birthdays and announce them automatically",
+  "module_description_bridge": "Relay a channel to a channel on the other platform, with controls for who and what gets through",
   "module_description_channelaccess": "Let members apply for locked channels and have the people inside vote them in",
   "module_description_chattriggers": "Setup custom bot responses to certain words or phrases",
   "module_description_confessions": "Send anonymous messages to a set channel",

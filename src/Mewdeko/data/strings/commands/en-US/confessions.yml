@@ -1,7 +1,7 @@
 confess:
   args:
-    - serverid text
-  desc: 'Allows users to confess anonymously.'
+    - '[server id] message'
+  desc: 'Confess anonymously. Send it in a DM to the bot. The server id is optional when you share one server with confessions enabled.'
   params:
     - &ref_139
       desc: 'The ID of the server.'
@@ -13,10 +13,19 @@ confess:
       name: confession
       optional: false
       type: string
+confess_string:
+  args:
+    - '[server id] message'
+  desc: 'Confess anonymously. Send it in a DM to the bot. The server id is optional when you share one server with confessions enabled.'
+  params:
+    - desc: 'The confession message'
+      name: confession
+      optional: false
+      type: string
 confess_ulong_string:
   args:
-    - serverid text
-  desc: 'Allows users to confess anonymously.'
+    - '[server id] message'
+  desc: 'Confess anonymously. Send it in a DM to the bot. The server id is optional when you share one server with confessions enabled.'
   params:
     - desc: 'The ID of the server.'
       name: serverId
@@ -28,8 +37,8 @@ confess_ulong_string:
       type: string
 confess_ulong_string_1:
   args:
-    - serverid text
-  desc: 'Allows users to confess anonymously.'
+    - '[server id] message'
+  desc: 'Confess anonymously. Send it in a DM to the bot. The server id is optional when you share one server with confessions enabled.'
   params:
     - desc: 'The ID of the server.'
       name: serverId
@@ -41,8 +50,8 @@ confess_ulong_string_1:
       type: string
 confess_ulong_string_2:
   args:
-    - serverid text
-  desc: 'Allows users to confess anonymously.'
+    - '[server id] message'
+  desc: 'Confess anonymously. Send it in a DM to the bot. The server id is optional when you share one server with confessions enabled.'
   params:
     - desc: 'The ID of the server.'
       name: serverId

@@ -339,6 +339,28 @@ public class FilterService : IEarlyBehavior, INService
         return false;
     }
 
+    /// <summary>
+    ///     Checks whether text contains a word from the guild's filtered words, without acting on it.
+    /// </summary>
+    /// <param name="guildId">The guild whose filtered words are used.</param>
+    /// <param name="content">The text to check.</param>
+    /// <returns>True if a filtered word matched; otherwise, false.</returns>
+    public async Task<bool> ContainsFilteredWord(ulong guildId, string content)
+    {
+        var filteredWords = await GetFilteredWordsForServer(guildId);
+        if (filteredWords.Count == 0)
+            return false;
+
+        var lowerContent = content.ToLower();
+        foreach (var word in filteredWords)
+        {
+            if (await IsWordMatched(word, lowerContent, guildId))
+                return true;
+        }
+
+        return false;
+    }
+
     private async Task<bool> ShouldFilterChannel(ulong channelId, ulong guildId)
     {
         await using var db = await dbFactory.CreateConnectionAsync();

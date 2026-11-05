@@ -569,6 +569,39 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the bridged channels table.
+    /// </summary>
+    public ITable<ChannelBridge> ChannelBridges
+    {
+        get
+        {
+            return this.GetTable<ChannelBridge>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the bridge pairs table.
+    /// </summary>
+    public ITable<BridgePair> BridgePairs
+    {
+        get
+        {
+            return this.GetTable<BridgePair>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the bridge proposals table.
+    /// </summary>
+    public ITable<BridgeProposal> BridgeProposals
+    {
+        get
+        {
+            return this.GetTable<BridgeProposal>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the join role timeout settings table.
     /// </summary>
     public ITable<JoinRoleTimeoutSetting> JoinRoleTimeoutSettings

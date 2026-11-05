@@ -18,41 +18,114 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
     /// <example>.confess 1234567890 falafel.</example>
     [Cmd]
     [Aliases]
-    [RequireContext(ContextType.DM)]
-    public async Task Confess(ulong serverId, string confession)
+    [Priority(1)]
+    public async Task Confess(ulong serverId, [Remainder] string confession)
+    {
+        if (ctx.Guild is not null)
+        {
+            await ReplyHowToConfessAsync().ConfigureAwait(false);
+            return;
+        }
+
+        await PostConfessionAsync(serverId, confession).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Allows users to confess anonymously without an ID when they share one server with confessions enabled.
+    /// </summary>
+    /// <param name="confession">The confession message</param>
+    /// <example>.confess falafel.</example>
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
+    public async Task Confess([Remainder] string confession)
+    {
+        if (ctx.Guild is not null)
+        {
+            await ReplyHowToConfessAsync().ConfigureAwait(false);
+            return;
+        }
+
+        var user = (SocketUser)ctx.User;
+        var enabled = new List<(string Name, ulong Id, string Prefix)>();
+        foreach (var guild in user.MutualGuilds)
+        {
+            if ((await guildSettings.GetGuildConfig(guild.Id)).ConfessionChannel is 0)
+                continue;
+
+            enabled.Add((guild.Name, guild.Id, await guildSettings.GetPrefix(guild)));
+        }
+
+        switch (enabled.Count)
+        {
+            case 0:
+                await ErrorAsync(Strings.ConfessionsNoneAny(null)).ConfigureAwait(false);
+                return;
+            case 1:
+                await PostConfessionAsync(enabled[0].Id, confession).ConfigureAwait(false);
+                return;
+            default:
+                var lines = string.Join("\n",
+                    enabled.Select(x => Strings.ConfessionsPickLine(null, x.Name, x.Prefix, x.Id)));
+                await ConfirmAsync(Strings.ConfessionsPick(null, lines)).ConfigureAwait(false);
+                return;
+        }
+    }
+
+    private async Task ReplyHowToConfessAsync()
+    {
+        var guild = ctx.Guild;
+        if ((await guildSettings.GetGuildConfig(guild.Id)).ConfessionChannel is 0)
+        {
+            await ErrorAsync(Strings.ConfessionsNone(guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        try
+        {
+            await ctx.Message.DeleteAsync().ConfigureAwait(false);
+        }
+        catch
+        {
+            // the bot may lack Manage Messages
+        }
+
+        try
+        {
+            await ctx.User.SendConfirmAsync(Strings.ConfessionsDmHowto(guild.Id,
+                await guildSettings.GetPrefix(guild), guild.Id)).ConfigureAwait(false);
+        }
+        catch
+        {
+            (await ErrorAsync(Strings.ConfessionsDmClosed(guild.Id)).ConfigureAwait(false)).DeleteAfter(8);
+        }
+    }
+
+    private async Task PostConfessionAsync(ulong serverId, string confession)
     {
         var gc = await guildSettings.GetGuildConfig(serverId);
         var attachment = ctx.Message.Attachments.FirstOrDefault()?.Url;
-        var user = ctx.User as SocketUser;
-        if (user!.MutualGuilds.Select(x => x.Id).Contains(serverId))
+        var user = (SocketUser)ctx.User;
+        if (!user.MutualGuilds.Select(x => x.Id).Contains(serverId))
         {
-            if (gc.ConfessionChannel is 0)
-            {
-                await ErrorAsync(Strings.ConfessionsNone(ctx.Guild.Id)).ConfigureAwait(false);
-                return;
-            }
-
-            if (gc.ConfessionBlacklist.Split(" ").Length > 0)
-            {
-                if (gc.ConfessionBlacklist.Split(" ").Contains(ctx.User.Id.ToString()))
-                {
-                    await ErrorAsync(Strings.ConfessionsBlacklisted(ctx.Guild.Id)).ConfigureAwait(false);
-                    return;
-                }
-
-                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment)
-                    .ConfigureAwait(false);
-            }
+            await ErrorAsync(Strings.ConfessionsNoneAny(null)).ConfigureAwait(false);
+            return;
         }
-        else
+
+        if (gc.ConfessionChannel is 0)
         {
-            await ErrorAsync(Strings.ConfessionsNoneAny(ctx.Guild.Id)).ConfigureAwait(false);
+            await ErrorAsync(Strings.ConfessionsNone(serverId)).ConfigureAwait(false);
+            return;
         }
+
+        if (gc.ConfessionBlacklist.Split(" ").Contains(ctx.User.Id.ToString()))
+        {
+            await ErrorAsync(Strings.ConfessionsBlacklisted(serverId)).ConfigureAwait(false);
+            return;
+        }
+
+        await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment)
+            .ConfigureAwait(false);
     }
 
     /// <summary>

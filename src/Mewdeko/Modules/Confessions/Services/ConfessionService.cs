@@ -53,7 +53,7 @@ public class ConfessionService(
                 var current = confessions.LastOrDefault();
                 var currentUser = guild.GetUser(client.CurrentUser.Id);
                 var confessionChannel =
-                    guild.GetTextChannel((await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel);
+                    guild.GetTextChannel((await guildSettings.GetGuildConfig(serverId)).ConfessionChannel);
                 if (confessionChannel is null)
                 {
                     if (ctx?.Interaction is not null)

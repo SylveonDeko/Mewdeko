@@ -4296,6 +4296,8 @@ linkfixhost:
 linkfixes:
   - linkfixes
   - linkfixlist
+bridgecommand:
+  - bridge
 joinroletimeout:
   - joinroletimeout
   - jrt
