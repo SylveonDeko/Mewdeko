@@ -141,8 +141,75 @@ voicechannels:
 voiceclaim:
   args:
     - ''
-  desc: 'Claims ownership of a custom voice channel if the owner is not present.'
+  desc: 'Claims ownership of a custom voice channel if the owner is not present. A hub can make the owner keep control for a set time after leaving.'
   params: [ ]
+voicehide:
+  args:
+    - ''
+  desc: 'Hides your custom voice channel from everyone who is not already in it.'
+  params: [ ]
+voicereveal:
+  args:
+    - ''
+  desc: 'Makes your hidden custom voice channel visible again.'
+  params: [ ]
+voicekick:
+  args:
+    - '<user>'
+    - '@user'
+  desc: 'Disconnects a member from your custom voice channel. They can join again unless you deny them.'
+  params:
+    - desc: 'The member to disconnect.'
+      name: target
+      optional: false
+      type: user
+voicehubs:
+  args:
+    - ''
+  desc: 'Lists the join-to-create hubs and how many channels each has made.'
+  params: [ ]
+voicehubadd:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Adds another join-to-create hub with its own settings.'
+  params:
+    - desc: 'The voice channel members join to get their own channel.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'The category the hub creates channels in.'
+      name: category
+      optional: true
+      type: category
+voicehubremove:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Removes a join-to-create hub and its settings. Channels it already made are left alone.'
+  params:
+    - desc: 'The hub voice channel.'
+      name: channel
+      optional: false
+      type: voice channel
+voicehubconfig:
+  args:
+    - '<hub> [setting] [value]'
+    - 'hub ownerlock 10'
+  desc: 'Shows or changes the settings of one hub. Besides the settings voiceconfig has, a hub takes hubname, modroles (roles or none), ownerlock (minutes the owner keeps control after leaving), ownermanagechannel, ownermanageroles, ownermovemembers, ownerpriority, syncperms (none, hub or category) and cleanup.'
+  params:
+    - desc: 'The hub voice channel.'
+      name: hub
+      optional: false
+      type: voice channel
+    - desc: 'The setting to view or change.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'The new value.'
+      name: value
+      optional: true
+      type: string
 voiceconfig:
   args:
     - '[setting] [value]'

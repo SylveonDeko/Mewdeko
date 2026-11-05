@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text;
 using DataModel;
 using Discord.Interactions;
@@ -254,6 +255,132 @@ public class LogSlashCommands : MewdekoSlashModuleBase<LogCommandService>
     }
 
     /// <summary>
+    ///     Creates a private Logs category with channels for each kind of log and routes every log type to them.
+    /// </summary>
+    [SlashCommand("setup", "Create a private Logs category and route every log type to it")]
+    [RequireContext(ContextType.Guild)]
+    [RequireBotPermission(GuildPermission.ManageChannels)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LogSetup()
+    {
+        await DeferAsync();
+        var channels = await Service.SetupLogChannels(ctx.Guild);
+        if (channels is null)
+        {
+            await ErrorAsync(Strings.LogSetupFailed(ctx.Guild.Id));
+            return;
+        }
+
+        await ConfirmAsync(Strings.LogSetupDone(ctx.Guild.Id, "**Logs**",
+            string.Join("\n", channels.Values.Select(c => c.Mention))));
+    }
+
+    /// <summary>
+    ///     Exports the log configuration as a code and a JSON file.
+    /// </summary>
+    [SlashCommand("export", "Export the log configuration as a code and a file")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LogExport()
+    {
+        await DeferAsync();
+        var export = await Service.ExportConfig(ctx.Guild);
+        if (export is null)
+        {
+            await ErrorAsync(Strings.LogExportEmpty(ctx.Guild.Id));
+            return;
+        }
+
+        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(export.Value.Json));
+        await FollowupWithFileAsync(stream, "log-config.json",
+            export.Value.Code.Length <= 1800 ? Strings.LogExportCode(ctx.Guild.Id, export.Value.Code) : null);
+    }
+
+    /// <summary>
+    ///     Imports a log configuration from an export code or an attached JSON file.
+    /// </summary>
+    /// <param name="code">The export code.</param>
+    /// <param name="file">The exported JSON file.</param>
+    [SlashCommand("import", "Import a log configuration from a code or file")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LogImport(
+        [Summary("code", "The export code")] string? code = null,
+        [Summary("file", "The exported file")] IAttachment? file = null)
+    {
+        await DeferAsync();
+        if (file is not null)
+            code = await Service.DownloadText(file.Url);
+
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            await ErrorAsync(file is null
+                ? Strings.LogImportMissing(ctx.Guild.Id)
+                : Strings.LogImportInvalid(ctx.Guild.Id));
+            return;
+        }
+
+        var result = await Service.ImportConfig(ctx.Guild, code);
+        if (!result.Valid)
+        {
+            await ErrorAsync(Strings.LogImportInvalid(ctx.Guild.Id));
+            return;
+        }
+
+        var message = Strings.LogImportApplied(ctx.Guild.Id, result.Applied);
+        if (result.Unmapped.Count > 0)
+            message += "\n" + Strings.LogImportUnmapped(ctx.Guild.Id, string.Join("\n", result.Unmapped));
+
+        await ConfirmAsync(message);
+    }
+
+    /// <summary>
+    ///     Sets prefixes whose messages are skipped by message edit and delete logs.
+    /// </summary>
+    /// <param name="prefixes">The prefixes separated by spaces. Leave empty to show them, or use "none" to clear.</param>
+    [SlashCommand("prefix", "Skip message logs for messages starting with these prefixes")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LogPrefix(
+        [Summary("prefixes", "Prefixes separated by spaces, or none to clear. Leave empty to show them")]
+        string? prefixes = null)
+    {
+        var list = (prefixes ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (list.Length == 0)
+        {
+            var current = Service.GetMessageIgnorePrefixes(ctx.Guild.Id);
+            await ConfirmAsync(current.Count == 0
+                ? Strings.LogPrefixesNone(ctx.Guild.Id)
+                : Strings.LogPrefixesSet(ctx.Guild.Id, string.Join(" ", current.Select(p => $"`{p}`"))));
+            return;
+        }
+
+        if (list.Length == 1 && list[0].Equals("none", StringComparison.OrdinalIgnoreCase))
+        {
+            await Service.SetMessageIgnorePrefixes(ctx.Guild.Id, []);
+            await ConfirmAsync(Strings.LogPrefixesCleared(ctx.Guild.Id));
+            return;
+        }
+
+        await Service.SetMessageIgnorePrefixes(ctx.Guild.Id, list);
+        await ConfirmAsync(Strings.LogPrefixesSet(ctx.Guild.Id, string.Join(" ", list.Select(p => $"`{p}`"))));
+    }
+
+    /// <summary>
+    ///     Sets whether logs skip actions by bots.
+    /// </summary>
+    /// <param name="ignore">Whether to skip bots.</param>
+    [SlashCommand("ignore-bots", "Sets whether logs skip actions by bots")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LogIgnoreBots([Summary("ignore", "Skip bots in logs")] bool ignore)
+    {
+        await Service.SetIgnoreBots(ctx.Guild.Id, ignore);
+        await ConfirmAsync(ignore ? Strings.LogIgnoreBotsOn(ctx.Guild.Id) : Strings.LogIgnoreBotsOff(ctx.Guild.Id));
+    }
+
+    /// <summary>
     ///     Lists all channels that are currently ignored for logging.
     /// </summary>
     [SlashCommand("ignore-list", "Lists every channel ignored for logging")]
@@ -496,40 +623,6 @@ public class LogSlashCommands : MewdekoSlashModuleBase<LogCommandService>
 
     private static ulong? GetLogProperty(LoggingV2 l, LogType type)
     {
-        return type switch
-        {
-            LogType.Other => l.LogOtherId,
-            LogType.MessageUpdated => l.MessageUpdatedId,
-            LogType.UserUpdated => l.UserUpdatedId,
-            LogType.MessageDeleted => l.MessageDeletedId,
-            LogType.UserJoined => l.UserJoinedId,
-            LogType.UserLeft => l.UserLeftId,
-            LogType.UserBanned => l.UserBannedId,
-            LogType.UserUnbanned => l.UserUnbannedId,
-            LogType.ChannelCreated => l.ChannelCreatedId,
-            LogType.ChannelDestroyed => l.ChannelDestroyedId,
-            LogType.ChannelUpdated => l.ChannelUpdatedId,
-            LogType.VoicePresence => l.LogVoicePresenceId,
-            LogType.VoicePresenceTts => l.LogVoicePresenceTtsId,
-            LogType.UserMuted => l.UserMutedId,
-            LogType.EventCreated => l.EventCreatedId,
-            LogType.ThreadCreated => l.ThreadCreatedId,
-            LogType.ThreadDeleted => l.ThreadDeletedId,
-            LogType.ThreadUpdated => l.ThreadUpdatedId,
-            LogType.NicknameUpdated => l.NicknameUpdatedId,
-            LogType.RoleCreated => l.RoleCreatedId,
-            LogType.RoleDeleted => l.RoleDeletedId,
-            LogType.RoleUpdated => l.RoleUpdatedId,
-            LogType.ServerUpdated => l.ServerUpdatedId,
-            LogType.UserRoleAdded => l.UserRoleAddedId,
-            LogType.UserRoleRemoved => l.UserRoleRemovedId,
-            LogType.UsernameUpdated => l.UsernameUpdatedId,
-            LogType.AvatarUpdated => l.AvatarUpdatedId,
-            LogType.InviteCreated => l.InviteCreatedId,
-            LogType.InviteDeleted => l.InviteDeletedId,
-            LogType.MessagesBulkDeleted => l.MessagesBulkDeletedId,
-            LogType.ReactionEvents => l.ReactionEventsId,
-            _ => null
-        };
+        return LogCommandService.GetLogChannelId(l, type);
     }
 }

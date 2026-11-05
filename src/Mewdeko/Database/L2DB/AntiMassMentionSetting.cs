@@ -27,6 +27,10 @@ namespace DataModel
 		[Column("IgnoreBots"                                                                                               )] public bool      IgnoreBots              { get; set; } // boolean
 		[Column("DateAdded"                                                                                                )] public DateTime? DateAdded               { get; set; } // timestamp (6) without time zone
 		[Column("GuildId"                                                                                                  )] public ulong?  GuildId                 { get; set; } // numeric(20,0)
+		[Column("DeleteMessage"                                                                                            )] public bool      DeleteMessage           { get; set; } // boolean
+		[Column("NotifyUser"                                                                                               )] public bool      NotifyUser              { get; set; } // boolean
+		[Column("ExemptRoleIds"                                                                                            )] public string    ExemptRoleIds           { get; set; } = ""; // text
+		[Column("ExemptChannelIds"                                                                                         )] public string    ExemptChannelIds        { get; set; } = ""; // text
 
 		#region Associations
 		/// <summary>

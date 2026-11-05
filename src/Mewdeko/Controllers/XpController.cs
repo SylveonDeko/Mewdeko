@@ -2,6 +2,8 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.DashboardAccess;
+using Mewdeko.Controllers.Common.XpBackgrounds;
+using Mewdeko.Modules.Import.Services;
 using Mewdeko.Modules.Xp.Models;
 using Mewdeko.Modules.Xp.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -23,8 +25,55 @@ public class XpController(
     ILogger<XpController> logger,
     IServiceProvider serviceProvider,
     XpRewardManager xpRewardManager,
+    XpBackgroundService backgroundService,
+    XpExportService exportService,
     IDashboardAuditContext auditContext) : Controller
 {
+    /// <summary>
+    ///     Exports every member's XP as a file that the XP import can restore
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <returns>The export as a JSON file</returns>
+    [HttpGet("export")]
+    public async Task<IActionResult> ExportXp(ulong guildId)
+    {
+        var json = await exportService.ExportAsync(guildId);
+        return File(System.Text.Encoding.UTF8.GetBytes(json), "application/json", $"xp-{guildId}.json");
+    }
+
+    /// <summary>
+    ///     Sets the rank card background used for the whole server
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="request">The image URL</param>
+    /// <returns>An empty result, or the reason the image was refused</returns>
+    [HttpPost("background")]
+    public async Task<IActionResult> SetBackground(ulong guildId, [FromBody] XpBackgroundRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Url))
+            return BadRequest("Url is required");
+
+        auditContext.RecordBefore(await xp.GetGuildXpSettingsAsync(guildId));
+        var result = await backgroundService.SetGuildBackgroundAsync(guildId, request.Url.Trim());
+        if (result != XpBackgroundResult.Saved)
+            return BadRequest(result.ToString());
+
+        auditContext.RecordAfter(await xp.GetGuildXpSettingsAsync(guildId));
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Removes the server rank card background
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <returns>An empty result, or a 404 when there was none</returns>
+    [HttpDelete("background")]
+    public async Task<IActionResult> ClearBackground(ulong guildId)
+    {
+        auditContext.RecordBefore(await xp.GetGuildXpSettingsAsync(guildId));
+        return await backgroundService.ClearGuildBackgroundAsync(guildId) ? Ok() : NotFound("No background set");
+    }
+
     /// <summary>
     ///     Gets the XP settings for a guild
     /// </summary>
@@ -65,6 +114,9 @@ public class XpController(
             s.XpCurveType = settings.XpCurveType;
             s.CustomXpImageUrl = settings.CustomXpImageUrl;
             s.XpGainDisabled = settings.XpGainDisabled;
+            s.LevelUpInterval = Math.Max(1, settings.LevelUpInterval);
+            s.LevelUpMinLevel = Math.Max(0, settings.LevelUpMinLevel);
+            s.LevelUpRewardsOnly = settings.LevelUpRewardsOnly;
         });
 
         if (curveTypeChanged)
@@ -84,6 +136,18 @@ public class XpController(
 
         auditContext.RecordAfter(updatedSettings);
         return Ok(updatedSettings);
+    }
+
+    /// <summary>
+    ///     Gets the last 25 level-ups in a guild, newest first
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <returns>The level-up log</returns>
+    [HttpGet("level-up-log")]
+    public async Task<IActionResult> GetLevelUpLog(ulong guildId)
+    {
+        var entries = await xp.GetLevelUpLogAsync(guildId);
+        return Ok(entries);
     }
 
     /// <summary>

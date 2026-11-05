@@ -228,7 +228,7 @@ public class ServerReportService : INService, IReadyExecutor, IDisposable
 
         var title = strings.ReportTitle(guild.Id, frequency.ToString(), ServerStatsEmbeds.WindowName(days));
         var eb = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithAuthor(guild.Name, guild.IconUrl)
             .WithTitle(title)
             .WithImageUrl("attachment://graph.png")

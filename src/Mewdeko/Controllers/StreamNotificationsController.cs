@@ -1,6 +1,8 @@
+using System.Net.Http;
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.StreamNotifications;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 using Mewdeko.Modules.Searches.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +19,8 @@ public class StreamNotificationsController(
     StreamNotificationService service,
     DiscordShardedClient client,
     IDataConnectionFactory dbFactory,
-    IDashboardAuditContext auditContext)
+    IDashboardAuditContext auditContext,
+    IHttpClientFactory httpFactory)
     : Controller
 {
     /// <summary>
@@ -53,6 +56,9 @@ public class StreamNotificationsController(
                 typeName = GetStreamTypeName(x.stream.Type),
                 x.stream.OnlineMessage,
                 x.stream.OfflineMessage,
+                x.stream.VideoMessage,
+                x.stream.UpdateLiveMessage,
+                x.stream.DeleteOnEnd,
                 x.stream.DateAdded,
                 channelName = client.GetGuild(guildId)?.GetTextChannel(x.stream.ChannelId)?.Name ?? "Unknown"
             });
@@ -72,7 +78,19 @@ public class StreamNotificationsController(
         if (string.IsNullOrWhiteSpace(request.Url))
             return BadRequest("Stream URL cannot be empty");
 
-        var result = await service.FollowStream(guildId, request.ChannelId, request.Url);
+        StreamData? result;
+        if (!string.IsNullOrWhiteSpace(request.Platform))
+        {
+            if (!StreamNotificationService.TryParseSocialType(request.Platform, out var type))
+                return BadRequest("Platform must be youtube, bluesky, reddit or podcast");
+
+            result = await service.FollowSocial(guildId, request.ChannelId, type, request.Url,
+                request.IncludeReposts);
+        }
+        else
+        {
+            result = await service.FollowStream(guildId, request.ChannelId, request.Url);
+        }
 
         if (result == null)
             return BadRequest("Failed to follow stream. URL may be invalid or stream already followed.");
@@ -154,6 +172,83 @@ public class StreamNotificationsController(
             return NotFound("Stream not found at the specified index");
 
         return Ok();
+    }
+
+    /// <summary>
+    ///     Sets the new video message for a specific stream
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="index">The index of the stream</param>
+    /// <param name="message">The custom video message, empty to reset</param>
+    /// <returns>Success or error response</returns>
+    [HttpPut("{index:int}/videoMessage")]
+    public async Task<IActionResult> SetStreamVideoMessage(ulong guildId, int index, [FromBody] string message)
+    {
+        var (success, _) = await service.SetStreamVideoMessage(guildId, index, message);
+
+        if (!success)
+            return NotFound("Stream not found at the specified index");
+
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Toggles editing a stream's live message in place while the stream runs
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="index">The index of the stream</param>
+    /// <returns>The new setting</returns>
+    [HttpPost("{index:int}/liveMessage/toggle")]
+    public async Task<IActionResult> ToggleLiveMessage(ulong guildId, int index)
+    {
+        var (success, _, enabled) = await service.ToggleLiveMessage(guildId, index);
+
+        if (!success)
+            return NotFound("Stream not found at the specified index");
+
+        auditContext.RecordBefore(!enabled);
+        auditContext.RecordAfter(enabled);
+        return Ok(new
+        {
+            updateLiveMessage = enabled
+        });
+    }
+
+    /// <summary>
+    ///     Toggles deleting a stream's notification message when the stream ends
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="index">The index of the stream</param>
+    /// <returns>The new setting</returns>
+    [HttpPost("{index:int}/deleteOnEnd/toggle")]
+    public async Task<IActionResult> ToggleDeleteOnEnd(ulong guildId, int index)
+    {
+        var (success, _, enabled) = await service.ToggleDeleteOnEnd(guildId, index);
+
+        if (!success)
+            return NotFound("Stream not found at the specified index");
+
+        auditContext.RecordBefore(!enabled);
+        auditContext.RecordAfter(enabled);
+        return Ok(new
+        {
+            deleteOnEnd = enabled
+        });
+    }
+
+    /// <summary>
+    ///     Searches the free iTunes Search API for podcasts to follow
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="term">What to search for</param>
+    /// <returns>The podcasts found</returns>
+    [HttpGet("podcasts/search")]
+    public async Task<IActionResult> SearchPodcasts(ulong guildId, [FromQuery] string term)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+            return BadRequest("Search term cannot be empty");
+
+        return Ok(await PodcastProvider.SearchAsync(httpFactory, term, 10));
     }
 
     /// <summary>
@@ -303,6 +398,11 @@ public class StreamNotificationsController(
             FType.Facebook => "Facebook",
             FType.Trovo => "Trovo",
             FType.Kick => "Kick",
+            FType.TikTok => "TikTok",
+            FType.Bluesky => "Bluesky",
+            FType.Reddit => "Reddit",
+            FType.Podcast => "Podcast",
+            FType.YoutubeUploads => "YouTube Uploads",
             _ => "Unknown"
         };
     }

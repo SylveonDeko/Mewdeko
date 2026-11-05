@@ -51,6 +51,11 @@ public static class AchievementMapping
             ChannelId = def.ChannelId,
             RoleRewardId = def.RoleRewardId,
             RoleRewardName = def.RoleRewardId is { } roleId ? guild?.GetRole(roleId)?.Name : null,
+            RoleRemoveId = def.RoleRemoveId,
+            RoleRemoveName = def.RoleRemoveId is { } removeId ? guild?.GetRole(removeId)?.Name : null,
+            TargetRoleId = def.TargetRoleId,
+            TargetRoleName = def.TargetRoleId is { } targetId ? guild?.GetRole(targetId)?.Name : null,
+            UnlockMessage = def.UnlockMessage,
             CurrencyReward = def.CurrencyReward,
             XpReward = def.XpReward,
             IsCustom = def.IsCustom,
@@ -112,6 +117,7 @@ public static class AchievementMapping
             AnnounceMode = row.AnnounceMode,
             LogChannelId = row.LogChannelId,
             DmByDefault = row.DmByDefault,
+            AlmostThereDm = row.AlmostThereDm,
             MentionUsers = row.MentionUsers,
             UnlockMessage = row.UnlockMessage,
             XpPerPoint = row.XpPerPoint,
@@ -292,6 +298,7 @@ public static class AchievementMapping
             AchievementError.RewardInvalid => "Points and rewards have to be zero or more, and within limits.",
             AchievementError.AlreadyInState => "Nothing to change.",
             AchievementError.BadgeInvalid => "That badge isn't owned, or that slot doesn't exist.",
+            AchievementError.TargetRoleMissing => "Pick the role members have to receive.",
             _ => "Something went wrong saving that."
         };
     }

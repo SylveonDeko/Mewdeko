@@ -34,5 +34,8 @@ namespace DataModel
 		[Column("InactivityDaysBeforeDecay"                                                                                   )] public int       InactivityDaysBeforeDecay { get; set; } // integer
 		[Column("DailyDecayPercentage"                                                                                        )] public double    DailyDecayPercentage      { get; set; } // double precision
 		[Column("DateAdded"                                                                                                   )] public DateTime? DateAdded                 { get; set; } // timestamp (6) without time zone
+		[Column("LevelUpInterval"                                                                                             )] public int       LevelUpInterval           { get; set; } = 1; // integer
+		[Column("LevelUpMinLevel"                                                                                             )] public int       LevelUpMinLevel           { get; set; } // integer
+		[Column("LevelUpRewardsOnly"                                                                                          )] public bool      LevelUpRewardsOnly        { get; set; } // boolean
 	}
 }

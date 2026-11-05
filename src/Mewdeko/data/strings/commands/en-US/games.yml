@@ -362,6 +362,45 @@ polltemplates:
     - ''
   desc: 'Lists all poll templates available in the guild.'
   params: [ ]
+pollmaxvotes:
+  args:
+    - pollId votes
+  desc: 'Ends a poll automatically once it has this many votes. Use 0 to remove the limit.'
+  params:
+    - desc: 'The ID of the poll.'
+      name: pollId
+      optional: false
+      type: int
+    - desc: 'The number of votes, or 0 for no limit.'
+      name: votes
+      optional: false
+      type: int
+pollblockrole:
+  args:
+    - pollId role
+  desc: 'Stops a role from voting on a poll, or lets it vote again if it was blocked.'
+  params:
+    - desc: 'The ID of the poll.'
+      name: pollId
+      optional: false
+      type: int
+    - desc: 'The role to block or unblock.'
+      name: role
+      optional: false
+      type: IRole
+pollresultsmessage:
+  args:
+    - pollId message
+  desc: 'Sets the message posted when a poll ends. Leave it out to clear it.'
+  params:
+    - desc: 'The ID of the poll.'
+      name: pollId
+      optional: false
+      type: int
+    - desc: 'The message. Uses %poll.question%, %poll.votes%, %poll.voters%, %poll.winner%, %poll.winner.votes%, %poll.results%, %poll.id% and %poll.link%.'
+      name: message
+      optional: true
+      type: string
 rategirl:
   args:
     - ''
@@ -592,6 +631,67 @@ hangmanstop:
   args:
     - ''
   desc: 'Stops the currently running hangman game in the current channel.'
+  params: [ ]
+dailydice:
+  args:
+    - ''
+  desc: 'Rolls your one die for the day.'
+  params: [ ]
+dailydiceboard:
+  args:
+    - ''
+    - 'true'
+  desc: 'Shows the best rolls of the month.'
+  params:
+    - desc: 'Shows last month instead.'
+      name: lastMonth
+      optional: true
+      type: bool
+freegamealert:
+  args:
+    - channel
+    - 'channel role'
+  desc: 'Posts free game alerts for the Epic Games Store, Steam and GOG in a channel, with an optional role ping.'
+  params:
+    - desc: 'The channel to post in.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'The role to ping. Leave empty for no ping.'
+      name: role
+      optional: true
+      type: IRole
+freegameremove:
+  args:
+    - channel
+  desc: 'Stops free game alerts in a channel.'
+  params:
+    - desc: 'The channel to stop alerts in.'
+      name: channel
+      optional: false
+      type: ITextChannel
+freegamestores:
+  args:
+    - 'channel epic gog'
+  desc: 'Chooses which stores a channel gets free game alerts for.'
+  params:
+    - desc: 'The alert channel.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Any of epic, steam and gog.'
+      name: stores
+      optional: false
+      type: string
+freegamelist:
+  args:
+    - ''
+  desc: 'Lists the channels that get free game alerts.'
+  params: [ ]
+freegamesnow:
+  args:
+    - ''
+  desc: 'Shows the games that are free right now.'
   params: [ ]
 nunchi:
   args:

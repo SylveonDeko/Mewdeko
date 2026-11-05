@@ -22,6 +22,7 @@ public static class ImportFileReader
     private static readonly string[] NameKeys = ["username", "tag", "name", "displayname", "display_name"];
     private static readonly string[] CashKeys = ["cash", "wallet", "balance"];
     private static readonly string[] BankKeys = ["bank"];
+    private static readonly string[] BonusKeys = ["bonusxp", "bonus_xp"];
 
     private static readonly string[] ListKeys =
         ["levels", "users", "players", "data", "rankings", "leaderboard", "members", "entries"];
@@ -83,8 +84,24 @@ public static class ImportFileReader
 
             var rewards = root.ValueKind == JsonValueKind.Object ? ReadRewards(root) : [];
 
+            if (root.ValueKind == JsonValueKind.Object && ReadOwnExportCurve(root) is { } ownCurve)
+                return new ImportDataset
+                {
+                    Kind = ImportKind.Xp, Members = members, NativeCurve = ownCurve,
+                    SourceXpForLevel = level => XpCalculator.CalculateXpForLevel(level, ownCurve)
+                };
+
             return BuildDataset(source, members, rewards, null);
         }
+    }
+
+    private static XpCurveType? ReadOwnExportCurve(JsonElement root)
+    {
+        return root.TryGetPropertyIgnoreCase("format", out var format) && format.GetString() == XpExport.Format &&
+               root.TryGetPropertyIgnoreCase("curve", out var curve) &&
+               Enum.TryParse<XpCurveType>(curve.GetString(), true, out var parsed)
+            ? parsed
+            : null;
     }
 
     private static ImportDataset ReadPolarisEverything(JsonElement settings, JsonElement users)
@@ -200,7 +217,10 @@ public static class ImportFileReader
             ReadLong(element, MessageKeys),
             ReadLong(element, CashKeys),
             ReadLong(element, BankKeys),
-            ReadString(element, NameKeys) ?? name);
+            ReadString(element, NameKeys) ?? name)
+        {
+            BonusXp = ReadLong(element, BonusKeys)
+        };
     }
 
     private static List<ImportedRoleReward> ReadRewards(JsonElement root)
@@ -272,6 +292,7 @@ public static class ImportFileReader
         var hasHeader = !header.Any(x => ulong.TryParse(x, out _));
 
         int idColumn, xpColumn, levelColumn, messageColumn, cashColumn, bankColumn, nameColumn;
+        var bonusColumn = -1;
         if (hasHeader)
         {
             idColumn = FindColumn(header, IdKeys);
@@ -281,6 +302,7 @@ public static class ImportFileReader
             cashColumn = FindColumn(header, CashKeys);
             bankColumn = FindColumn(header, BankKeys);
             nameColumn = FindColumn(header, NameKeys);
+            bonusColumn = FindColumn(header, BonusKeys);
         }
         else
         {
@@ -307,7 +329,10 @@ public static class ImportFileReader
                 ParseLong(Cell(cells, messageColumn)),
                 ParseLong(Cell(cells, cashColumn)),
                 ParseLong(Cell(cells, bankColumn)),
-                Cell(cells, nameColumn)));
+                Cell(cells, nameColumn))
+            {
+                BonusXp = ParseLong(Cell(cells, bonusColumn))
+            });
         }
 
         return BuildDataset(source, Deduplicate(members), [], null);

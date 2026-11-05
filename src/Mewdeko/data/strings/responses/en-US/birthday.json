@@ -1,4 +1,9 @@
 {
+  "birthday_admin_none": "{0} doesn't have a birthday set.",
+  "birthday_admin_removed": "Removed the birthday for {0}.",
+  "birthday_admin_set": "Set the birthday for {0} to {1}.",
+  "birthday_age_message_cleared": "Cleared the age message.",
+  "birthday_age_message_set": "Set the age message.",
   "birthday_announcements_disabled": "🔕 Birthday announcements disabled. Your birthday will not be announced.",
   "birthday_announcements_enabled": "🎉 Birthday announcements enabled! You'll receive birthday wishes when your special day arrives.",
   "birthday_channel_set": "🎂 Birthday announcements will now be posted in {0}!",
@@ -9,7 +14,10 @@
   "birthday_current_message_msg": "Current birthday message: {0}",
   "birthday_days_range_error": "Days must be between 1 and 30!",
   "birthday_display_disabled": "You cannot enable birthday announcements while your birthday display is disabled!",
+  "birthday_forgotten": "Your birthday and birthday settings have been deleted.",
   "birthday_format_invalid": "The format you input was incorrect. please use mm/dd/yyyy",
+  "birthday_hour_invalid": "The hour must be from 0 to 23.",
+  "birthday_hour_set": "Birthdays will be announced at {0}:00 in the server timezone.",
   "birthday_invalid_timezone": "Invalid timezone! Please use a valid timezone like 'America/New_York' or 'Europe/London'.",
   "birthday_message_updated": "🎉 Birthday message updated! Preview: {0}",
   "birthday_no_birthday_set": "You must set your birthday first using the profile commands!",
@@ -25,5 +33,6 @@
   "birthday_set": "Your birthday has been set to {0}",
   "birthday_timezone_invalid": "Invalid timezone! Please use a valid timezone like 'America/New_York' or 'Europe/London'.",
   "birthday_timezone_set": "🌍 Timezone set to {0}. Your birthday will be calculated using this timezone.",
-  "birthday_today_title": "🎉 Today's Birthdays! 🎂"
+  "birthday_today_title": "🎉 Today's Birthdays! 🎂",
+  "birthday_year_rule_set": "Birth years are now: {0}."
 }

@@ -29,6 +29,18 @@ public class AchievementMember
     [Column("MutedSeconds")]
     public long MutedSeconds { get; set; }
 
+    [Column("ThreadsCreated")]
+    public long ThreadsCreated { get; set; }
+
+    [Column("ThreadsJoined")]
+    public long ThreadsJoined { get; set; }
+
+    [Column("GiveawaysEntered")]
+    public long GiveawaysEntered { get; set; }
+
+    [Column("ShopPurchases")]
+    public long ShopPurchases { get; set; }
+
     [Column("Badge1")]
     public string? Badge1 { get; set; }
 

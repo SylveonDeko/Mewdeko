@@ -1,12 +1,15 @@
+using Mewdeko.Common.Cards;
 using Mewdeko.Common.Palette;
 using Mewdeko.Modules.Achievements.Common;
+using Mewdeko.Modules.MultiGreets.Common;
 using NUnit.Framework;
 using SkiaSharp;
 
 namespace Mewdeko.Tests;
 
 /// <summary>
-///     Tests for achievement card templates: storage round trips, limits, and color tokens.
+///     Tests for the shared card engine through achievement cards and welcome cards: storage round trips, limits, and
+///     color tokens.
 /// </summary>
 [TestFixture]
 public class AchievementCardTemplateTests
@@ -17,8 +20,8 @@ public class AchievementCardTemplateTests
     [Test]
     public void DefaultRoundTrips()
     {
-        var json = AchievementCardTemplate.Default().Serialize();
-        Assert.That(AchievementCardTemplate.Parse(json).Serialize(), Is.EqualTo(json));
+        var json = AchievementCards.Default().Serialize();
+        Assert.That(AchievementCards.Parse(json).Serialize(), Is.EqualTo(json));
     }
 
     /// <summary>
@@ -27,11 +30,11 @@ public class AchievementCardTemplateTests
     [Test]
     public void BadStorageFallsBackToDefault()
     {
-        var expected = AchievementCardTemplate.Default().Serialize();
+        var expected = AchievementCards.Default().Serialize();
         Assert.Multiple(() =>
         {
-            Assert.That(AchievementCardTemplate.Parse(null).Serialize(), Is.EqualTo(expected));
-            Assert.That(AchievementCardTemplate.Parse("{not json").Serialize(), Is.EqualTo(expected));
+            Assert.That(AchievementCards.Parse(null).Serialize(), Is.EqualTo(expected));
+            Assert.That(AchievementCards.Parse("{not json").Serialize(), Is.EqualTo(expected));
         });
     }
 
@@ -41,19 +44,19 @@ public class AchievementCardTemplateTests
     [Test]
     public void BuiltInsStayUnique()
     {
-        var template = AchievementCardTemplate.Default();
-        template.Elements.RemoveAll(e => e.Type == AchievementCardElementType.Points);
-        template.Elements.Add(new AchievementCardElement
+        var template = AchievementCards.Default();
+        template.Elements.RemoveAll(e => e.Type == CardElementType.Points);
+        template.Elements.Add(new CardElement
         {
-            Id = "second-title", Type = AchievementCardElementType.Title
+            Id = "second-title", Type = CardElementType.Title
         });
 
-        var clean = AchievementCardRules.Sanitize(template);
+        var clean = AchievementCards.Sanitize(template);
         Assert.Multiple(() =>
         {
-            Assert.That(clean.Elements.Count(e => e.Type == AchievementCardElementType.Title), Is.EqualTo(1));
-            Assert.That(clean.Elements.Single(e => e.Type == AchievementCardElementType.Points).Visible, Is.False);
-            Assert.That(clean.Elements.Where(e => AchievementCardElementType.IsBuiltIn(e.Type)).All(e => e.Id == e.Type),
+            Assert.That(clean.Elements.Count(e => e.Type == CardElementType.Title), Is.EqualTo(1));
+            Assert.That(clean.Elements.Single(e => e.Type == CardElementType.Points).Visible, Is.False);
+            Assert.That(clean.Elements.Where(e => AchievementCards.Profile.IsBuiltIn(e.Type)).All(e => e.Id == e.Type),
                 Is.True);
         });
     }
@@ -64,33 +67,33 @@ public class AchievementCardTemplateTests
     [Test]
     public void BadValuesAreCorrected()
     {
-        var template = AchievementCardTemplate.Default();
+        var template = AchievementCards.Default();
         template.Width = 99999;
-        template.Elements.Add(new AchievementCardElement { Id = "x", Type = "spaceship" });
-        template.Elements.Add(new AchievementCardElement
+        template.Elements.Add(new CardElement { Id = "x", Type = "spaceship" });
+        template.Elements.Add(new CardElement
         {
-            Id = "box", Type = AchievementCardElementType.Rectangle, Fill = "red", Opacity = 5, Url = "http://insecure"
+            Id = "box", Type = CardElementType.Rectangle, Fill = "red", Opacity = 5, Url = "http://insecure"
         });
-        template.Elements.Add(new AchievementCardElement { Id = "box", Type = AchievementCardElementType.Ellipse });
-        template.Elements.Add(new AchievementCardElement
+        template.Elements.Add(new CardElement { Id = "box", Type = CardElementType.Ellipse });
+        template.Elements.Add(new CardElement
         {
-            Id = "pic", Type = AchievementCardElementType.Image, Url = "upload:12", FollowId = "nowhere"
+            Id = "pic", Type = CardElementType.Image, Url = "upload:12", FollowId = "nowhere"
         });
 
-        var clean = AchievementCardRules.Sanitize(template);
+        var clean = AchievementCards.Sanitize(template);
         var box = clean.Elements.Single(e => e.Id == "box");
         Assert.Multiple(() =>
         {
-            Assert.That(clean.Width, Is.EqualTo(AchievementCardTemplate.MaxWidth));
+            Assert.That(clean.Width, Is.EqualTo(CardTemplate.MaxWidth));
             Assert.That(clean.Elements.Any(e => e.Type == "spaceship"), Is.False);
             Assert.That(box.Fill, Is.Empty);
             Assert.That(box.Opacity, Is.EqualTo(1));
             Assert.That(box.Url, Is.Empty);
-            Assert.That(clean.Elements.Single(e => e.Type == AchievementCardElementType.Ellipse).Id,
+            Assert.That(clean.Elements.Single(e => e.Type == CardElementType.Ellipse).Id,
                 Is.Not.EqualTo("box"));
             Assert.That(clean.Elements.Single(e => e.Id == "pic").Url, Is.EqualTo("upload:12"));
             Assert.That(clean.Elements.Single(e => e.Id == "pic").FollowId, Is.Empty);
-            Assert.That(AchievementCardRules.Uploads(clean), Is.EquivalentTo(new[] { 12 }));
+            Assert.That(CardRules.Uploads(clean), Is.EquivalentTo(new[] { 12 }));
         });
     }
 
@@ -104,14 +107,14 @@ public class AchievementCardTemplateTests
         var grade = new SKColor(0x10, 0xB9, 0x81);
         Assert.Multiple(() =>
         {
-            Assert.That(AchievementCardRules.Resolve("primary", palette, grade), Is.EqualTo(palette.PrimaryColor));
-            Assert.That(AchievementCardRules.Resolve("primary@30", palette, grade),
+            Assert.That(CardRules.Resolve("primary", palette, grade), Is.EqualTo(palette.PrimaryColor));
+            Assert.That(CardRules.Resolve("primary@30", palette, grade),
                 Is.EqualTo(palette.PrimaryColor.WithAlpha(0x30)));
-            Assert.That(AchievementCardRules.Resolve("grade@20", palette, grade), Is.EqualTo(grade.WithAlpha(0x20)));
-            Assert.That(AchievementCardRules.Resolve("#ff000080", palette, grade),
+            Assert.That(CardRules.Resolve("grade@20", palette, grade), Is.EqualTo(grade.WithAlpha(0x20)));
+            Assert.That(CardRules.Resolve("#ff000080", palette, grade),
                 Is.EqualTo(new SKColor(0xFF, 0, 0, 0x80)));
-            Assert.That(AchievementCardRules.Resolve("", palette, grade), Is.Null);
-            Assert.That(AchievementCardRules.Resolve("blue", palette, grade), Is.Null);
+            Assert.That(CardRules.Resolve("", palette, grade), Is.Null);
+            Assert.That(CardRules.Resolve("blue", palette, grade), Is.Null);
         });
     }
 
@@ -121,17 +124,17 @@ public class AchievementCardTemplateTests
     [Test]
     public void CardTextSplitsIntoPieces()
     {
-        var pieces = AchievementCardText.Parse("Hi <a:party:123456789012345678> 🎉\nGG 👋🏽 ❤️ 👨‍👩‍👧 {icon:no-such-glyph}");
+        var pieces = CardText.Parse("Hi <a:party:123456789012345678> 🎉\nGG 👋🏽 ❤️ 👨‍👩‍👧 {icon:no-such-glyph}");
         var kinds = pieces.Select(p => p.Kind).ToList();
         Assert.Multiple(() =>
         {
             Assert.That(kinds, Is.EqualTo(new[]
             {
-                AchievementTextPieceKind.Text, AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji,
-                AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji, AchievementTextPieceKind.Break,
-                AchievementTextPieceKind.Text, AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji,
-                AchievementTextPieceKind.Space, AchievementTextPieceKind.Emoji, AchievementTextPieceKind.Space,
-                AchievementTextPieceKind.Emoji, AchievementTextPieceKind.Space
+                CardTextPieceKind.Text, CardTextPieceKind.Space, CardTextPieceKind.Emoji,
+                CardTextPieceKind.Space, CardTextPieceKind.Emoji, CardTextPieceKind.Break,
+                CardTextPieceKind.Text, CardTextPieceKind.Space, CardTextPieceKind.Emoji,
+                CardTextPieceKind.Space, CardTextPieceKind.Emoji, CardTextPieceKind.Space,
+                CardTextPieceKind.Emoji, CardTextPieceKind.Space
             }));
             Assert.That(pieces[2].Url, Is.EqualTo("https://cdn.discordapp.com/emojis/123456789012345678.png?size=96"));
             Assert.That(pieces[2].Text, Is.EqualTo(":party:"));
@@ -139,7 +142,7 @@ public class AchievementCardTemplateTests
             Assert.That(pieces[8].Url, Does.EndWith("/1f44b-1f3fd.png"));
             Assert.That(pieces[10].Url, Does.EndWith("/2764.png"));
             Assert.That(pieces[12].Url, Does.EndWith("/1f468-200d-1f469-200d-1f467.png"));
-            Assert.That(AchievementCardText.Parse("Level 5 © ✓").All(p => p.Kind != AchievementTextPieceKind.Emoji));
+            Assert.That(CardText.Parse("Level 5 © ✓").All(p => p.Kind != CardTextPieceKind.Emoji));
         });
     }
 
@@ -149,16 +152,105 @@ public class AchievementCardTemplateTests
     [Test]
     public void BracePlaceholdersBecomePercent()
     {
-        var template = AchievementCardTemplate.Default();
-        var label = template.Elements.First(e => e.Type == AchievementCardElementType.Label);
+        var template = AchievementCards.Default();
+        var label = template.Elements.First(e => e.Type == CardElementType.Label);
         label.Text = "{achievement.name} by {user.name} {icon:star} {nope}";
         label.LockedText = "{progress.percent} left";
-        var read = AchievementCardTemplate.Parse(template.Serialize());
-        var after = read.Elements.First(e => e.Type == AchievementCardElementType.Label);
+        var read = AchievementCards.Parse(template.Serialize());
+        var after = read.Elements.First(e => e.Type == CardElementType.Label);
         Assert.Multiple(() =>
         {
             Assert.That(after.Text, Is.EqualTo("%achievement.name% by %user.name% {icon:star} {nope}"));
             Assert.That(after.LockedText, Is.EqualTo("%progress.percent% left"));
+        });
+    }
+
+    /// <summary>
+    ///     Each feature's profile decides which kinds a design holds: welcome cards drop the achievement kinds and
+    ///     never force built in elements, and achievement cards drop the welcome kinds.
+    /// </summary>
+    [Test]
+    public void ProfilesDecideWhichKindsAreKept()
+    {
+        var welcome = new CardTemplate
+        {
+            Elements =
+            [
+                new CardElement { Id = "a", Type = CardElementType.Username },
+                new CardElement { Id = "b", Type = CardElementType.Title },
+                new CardElement { Id = "c", Type = CardElementType.ServerIcon }
+            ]
+        };
+        var achievement = new CardTemplate
+        {
+            Elements =
+            [
+                new CardElement { Id = "a", Type = CardElementType.Username },
+                new CardElement { Id = "b", Type = CardElementType.ServerIcon }
+            ]
+        };
+
+        var cleanWelcome = WelcomeCardTemplates.Sanitize(welcome);
+        var cleanAchievement = AchievementCards.Sanitize(achievement);
+        Assert.Multiple(() =>
+        {
+            Assert.That(cleanWelcome.Elements.Select(e => e.Type),
+                Is.EqualTo(new[] { CardElementType.Username, CardElementType.ServerIcon }));
+            Assert.That(cleanAchievement.Elements.Any(e => e.Type is CardElementType.Username or CardElementType.ServerIcon),
+                Is.False);
+            Assert.That(cleanAchievement.Elements.Count(e => AchievementCards.Profile.IsBuiltIn(e.Type)),
+                Is.EqualTo(AchievementCards.BuiltIn.Count));
+        });
+    }
+
+    /// <summary>
+    ///     State filters only survive on features that have states, and the font and brace placeholders follow the
+    ///     feature's own list.
+    /// </summary>
+    [Test]
+    public void ShowFontAndPlaceholdersFollowTheProfile()
+    {
+        var template = new CardTemplate
+        {
+            Elements =
+            [
+                new CardElement
+                {
+                    Id = "t", Type = CardElementType.Text, Show = CardShow.Locked, Font = "comic",
+                    Text = "{server.members} {achievement.name}"
+                },
+                new CardElement { Id = "u", Type = CardElementType.Text, Font = CardRenderer.UniSans }
+            ]
+        };
+
+        var clean = WelcomeCardTemplates.Sanitize(template);
+        var text = clean.Elements.Single(e => e.Id == "t");
+        Assert.Multiple(() =>
+        {
+            Assert.That(text.Show, Is.EqualTo(CardShow.Always));
+            Assert.That(text.Font, Is.Empty);
+            Assert.That(text.Text, Is.EqualTo("%server.members% {achievement.name}"));
+            Assert.That(clean.Elements.Single(e => e.Id == "u").Font, Is.EqualTo(CardRenderer.UniSans));
+        });
+    }
+
+    /// <summary>
+    ///     Every starter layout is already within limits, so saving it changes nothing, and it holds only kinds welcome
+    ///     cards allow.
+    /// </summary>
+    [Test]
+    public void StartersAreValid()
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.That(WelcomeCardTemplates.Starters.Select(s => s.Id), Is.Unique);
+            Assert.That(WelcomeCardTemplates.Starters.Any(s => s.Id == WelcomeCardTemplates.ClassicId));
+            foreach (var starter in WelcomeCardTemplates.Starters)
+            {
+                var built = starter.Build();
+                Assert.That(WelcomeCardTemplates.Sanitize(built.Clone()).Serialize(), Is.EqualTo(built.Serialize()),
+                    starter.Id);
+            }
         });
     }
 }

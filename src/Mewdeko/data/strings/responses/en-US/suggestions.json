@@ -1,4 +1,5 @@
 {
+  "anonymous_suggestions_set": "Anonymous suggestions are now `{0}`",
   "suggest_button_channel_set": "Suggest Button Channel set to {0}",
   "suggest_button_color_set": "Suggest Button Color will now be `{0}`",
   "suggest_button_custom": "Successfully set suggest button message to a custom message.",
@@ -8,6 +9,8 @@
   "suggest_button_type_set": "Suggest Button {0} will now be `{1}`",
   "suggest_channel_not_set": "The suggestions channel is not set!",
   "suggestion_accepted": "Suggestion #{0} Accepted",
+  "suggestion_author": "Suggestion #{0} was made by <@{1}> (`{1}`)",
+  "suggestion_author_dm_failed": "I couldn't DM you. Open your DMs or use the slash command.",
   "suggestion_channel_set": "Your Suggestion channel has been set to {0}",
   "suggestion_considered": "Suggestion #{0} Considered",
   "suggestion_denied": "Suggestion #{0} Denied",
@@ -23,5 +26,8 @@
   "vote_changed": "Vote changed!",
   "vote_not_changed": "Vote not changed.",
   "vote_not_removed": "Vote not removed.",
-  "vote_removed": "Vote removed."
+  "vote_removed": "Vote removed.",
+  "suggest_vote_color_set": "Suggestions turn green or red when one side leads by {0} votes.",
+  "suggest_vote_color_off": "Suggestions no longer change colour with votes.",
+  "suggest_vote_color_invalid": "Use a number from 0 to 1000. 0 turns it off."
 }

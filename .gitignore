@@ -40,7 +40,7 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 bot.yml
-xp.yml
+/src/Mewdeko/data/xp.yml
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
@@ -391,3 +391,4 @@ api/*
 /src/Mewdeko/certs/fedora-cert.pem
 /src/Mewdeko/gcreds.json
 src/Mewdeko/data/strings/responses/unused_keys.txt
+/src/Mewdeko/data/card_presets/

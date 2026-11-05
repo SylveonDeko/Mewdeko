@@ -851,6 +851,149 @@ shoptoggle:
       name: name
       optional: false
       type: string
+shopaddstatic:
+  args:
+    - '<price> <name>'
+  desc: 'Adds an item to the shop that can be owned but never used.'
+  params:
+    - desc: 'What the item costs.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'The display name of the shop entry.'
+      name: name
+      optional: false
+      type: string
+shopbuymessage:
+  args:
+    - '<item name> | <message>'
+  desc: 'Sets the message shown to a member after buying an item. Placeholders are %user%, %item% and %price%.'
+  params:
+    - desc: 'The name of the item, followed by a pipe and the message. Leave the message out to clear it.'
+      name: input
+      optional: false
+      type: string
+shopusemessage:
+  args:
+    - '<item name> | <message>'
+  desc: 'Sets the message shown to a member when they use an item. Placeholders are %user%, %item% and %price%.'
+  params:
+    - desc: 'The name of the item, followed by a pipe and the message. Leave the message out to clear it.'
+      name: input
+      optional: false
+      type: string
+shopuseonbuy:
+  args:
+    - '<item name>'
+  desc: 'Turns on or off using an item automatically the moment it is bought.'
+  params:
+    - desc: 'The name of the item to toggle.'
+      name: name
+      optional: false
+      type: string
+shopgive:
+  args:
+    - '<user> <amount> <item name>'
+  desc: 'Gives a member copies of a shop item for free. Limited stock is used up.'
+  params:
+    - desc: 'The member to give the item to.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'How many copies to give.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'The name of the item.'
+      name: name
+      optional: false
+      type: string
+shoptake:
+  args:
+    - '<user> <amount> <item name>'
+  desc: 'Takes copies of an item out of a member''s inventory.'
+  params:
+    - desc: 'The member to take the item from.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'How many copies to take.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'The name of the item.'
+      name: name
+      optional: false
+      type: string
+shopspawn:
+  args:
+    - '<user> <amount> <item name>'
+  desc: 'Creates copies of an item out of thin air for a member. An item that is not in the shop is created hidden.'
+  params:
+    - desc: 'The member to give the item to.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'How many copies to create.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'The name of the item.'
+      name: name
+      optional: false
+      type: string
+boostadd:
+  args:
+    - '<name> <percent> <duration> [schedule] [commands] [start]'
+  desc: 'Adds a window in which earnings from chosen commands are raised or lowered by a percent.'
+  params:
+    - desc: 'A short name for the boost.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'The percent to add. Negative values lower earnings.'
+      name: percent
+      optional: false
+      type: int
+    - desc: 'How long each window lasts, such as 2h.'
+      name: duration
+      optional: false
+      type: StoopidTime
+    - desc: 'One-off, daily, weekly or monthly.'
+      name: schedule
+      optional: true
+      type: EconomyBoostSchedule
+    - desc: 'Daily, work, crime, rob, games or a game name, separated by commas, or all.'
+      name: commands
+      optional: true
+      type: string
+    - desc: 'When the first window opens in UTC. Defaults to now.'
+      name: start
+      optional: true
+      type: string
+boostremove:
+  args:
+    - '<name>'
+  desc: 'Deletes a scheduled earning boost.'
+  params:
+    - desc: 'The name of the boost.'
+      name: name
+      optional: false
+      type: string
+boosttoggle:
+  args:
+    - '<name>'
+  desc: 'Switches a scheduled earning boost on or off without deleting it.'
+  params:
+    - desc: 'The name of the boost.'
+      name: name
+      optional: false
+      type: string
+boostlist:
+  args:
+    - ''
+  desc: 'Lists the server''s scheduled earning boosts.'
+  params: []
 economyconfig:
   args:
     - ''

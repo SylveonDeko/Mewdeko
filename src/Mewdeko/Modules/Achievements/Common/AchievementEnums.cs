@@ -174,7 +174,37 @@ public enum AchievementMetric
     /// <summary>
     ///     Achievements unlocked across every server.
     /// </summary>
-    GlobalUnlocks = 26
+    GlobalUnlocks = 26,
+
+    /// <summary>
+    ///     Threads the member created.
+    /// </summary>
+    ThreadsCreated = 27,
+
+    /// <summary>
+    ///     Threads the member joined.
+    /// </summary>
+    ThreadsJoined = 28,
+
+    /// <summary>
+    ///     Giveaways the member entered.
+    /// </summary>
+    GiveawaysEntered = 29,
+
+    /// <summary>
+    ///     Shop items the member bought.
+    /// </summary>
+    ShopPurchases = 30,
+
+    /// <summary>
+    ///     1 once the member has set their birthday.
+    /// </summary>
+    BirthdaySet = 31,
+
+    /// <summary>
+    ///     1 once the member has a specific role the achievement names.
+    /// </summary>
+    RoleReceived = 32
 }
 
 /// <summary>
@@ -527,7 +557,18 @@ public enum AchievementDirty
     Currency = 256,
 
     /// <summary>
+    ///     Threads, giveaways, and shop purchases.
+    /// </summary>
+    Activity = 512,
+
+    /// <summary>
+    ///     Birthday.
+    /// </summary>
+    Birthday = 1024,
+
+    /// <summary>
     ///     Every metric.
     /// </summary>
-    All = Messages | Voice | Reactions | Invites | Commands | Membership | Xp | Reputation | Currency
+    All = Messages | Voice | Reactions | Invites | Commands | Membership | Xp | Reputation | Currency | Activity |
+          Birthday
 }

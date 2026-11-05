@@ -44,4 +44,19 @@ public class CustomVoiceChannelResponse
     ///     List of user IDs explicitly denied from joining the channel
     /// </summary>
     public List<ulong> DeniedUsers { get; set; } = new();
+
+    /// <summary>
+    ///     Whether the channel is hidden from members who are not in it
+    /// </summary>
+    public bool IsHidden { get; set; }
+
+    /// <summary>
+    ///     The hub voice channel this channel was created from, if known
+    /// </summary>
+    public ulong? HubVoiceChannelId { get; set; }
+
+    /// <summary>
+    ///     When the owner last left the channel, or null while they are in it
+    /// </summary>
+    public DateTime? OwnerLeftAt { get; set; }
 }

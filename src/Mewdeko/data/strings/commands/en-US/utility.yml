@@ -2329,7 +2329,7 @@ remind:
       optional: false
       type: MeOrHere
     - &ref_386
-      desc: 'The reminder message and timing information.'
+      desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2343,7 +2343,7 @@ remind_ITextChannel_string:
       name: channel
       optional: false
       type: ITextChannel
-    - desc: 'The reminder message and timing information.'
+    - desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2356,7 +2356,7 @@ remind_ITextChannel_string_1:
       name: channel
       optional: false
       type: ITextChannel
-    - desc: 'The reminder message and timing information.'
+    - desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2369,7 +2369,7 @@ remind_ITextChannel_string_2:
       name: channel
       optional: false
       type: ITextChannel
-    - desc: 'The reminder message and timing information.'
+    - desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2382,7 +2382,7 @@ remind_ITextChannel_string_3:
       name: channel
       optional: false
       type: ITextChannel
-    - desc: 'The reminder message and timing information.'
+    - desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2397,7 +2397,7 @@ remind_MeOrHere_string:
       name: meorhere
       optional: false
       type: MeOrHere
-    - desc: 'The reminder message and timing information.'
+    - desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2412,7 +2412,7 @@ remind_MeOrHere_string_1:
       name: meorhere
       optional: false
       type: MeOrHere
-    - desc: 'The reminder message and timing information.'
+    - desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2427,7 +2427,7 @@ remind_MeOrHere_string_2:
       name: meorhere
       optional: false
       type: MeOrHere
-    - desc: 'The reminder message and timing information.'
+    - desc: 'The reminder message and timing information. Add every and an interval after the time to repeat it, such as 1h every 1d to drink water.'
       name: remindString
       optional: false
       type: string
@@ -2473,6 +2473,147 @@ remindlist:
     - ''
   desc: 'Lists all reminders for the current user.'
   params: [ ]
+remindrepeat:
+  args:
+    - number interval|off
+  desc: 'Makes one of your reminders repeat on an interval of at least one hour, or stops it repeating.'
+  params:
+    - desc: 'The number of the reminder in your reminder list.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'How often to repeat, at least one hour. Use off to stop repeating.'
+      name: interval
+      optional: false
+      type: string
+remindsubscribe:
+  args:
+    - id
+  desc: 'Subscribes you to someone''s reminder so you get pinged with it.'
+  params:
+    - desc: 'The reminder id shown in the reminder list.'
+      name: id
+      optional: false
+      type: int
+remindunsubscribe:
+  args:
+    - id
+  desc: 'Removes your subscription from a reminder.'
+  params:
+    - desc: 'The reminder id shown in the reminder list.'
+      name: id
+      optional: false
+      type: int
+youngestaccounts:
+  args:
+    - ''
+  desc: 'Lists the members with the newest accounts.'
+  params: [ ]
+oldestaccounts:
+  args:
+    - ''
+  desc: 'Lists the members with the oldest accounts.'
+  params: [ ]
+latestjoiners:
+  args:
+    - ''
+  desc: 'Lists the members who joined most recently.'
+  params: [ ]
+earliestjoiners:
+  args:
+    - ''
+  desc: 'Lists the members who joined first.'
+  params: [ ]
+fancy:
+  args:
+    - text
+  desc: 'Converts text to script letters.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+boldfancy:
+  args:
+    - text
+  desc: 'Converts text to bold script letters.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+fraktur:
+  args:
+    - text
+  desc: 'Converts text to fraktur letters.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+boldfraktur:
+  args:
+    - text
+  desc: 'Converts text to bold fraktur letters.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+doublestruck:
+  args:
+    - text
+  desc: 'Converts text to double-struck letters.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+smallcaps:
+  args:
+    - text
+  desc: 'Converts text to small capital letters.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+aesthetic:
+  args:
+    - text
+  desc: 'Converts text to full-width letters.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+clap:
+  args:
+    - text
+  desc: 'Puts a clap between each word.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+spaceout:
+  args:
+    - text
+  desc: 'Puts a space between each letter.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
+emojify:
+  args:
+    - text
+  desc: 'Converts text to regional indicator emoji.'
+  params:
+    - desc: 'The text to convert.'
+      name: input
+      optional: false
+      type: string
 removeautopublish:
   args:
     - channel
@@ -3139,6 +3280,37 @@ repeatthreadonly:
       name: index
       optional: false
       type: int
+announcerole:
+  args:
+    - 'channel role message'
+  desc: 'Pings a role in a channel with a message. The role is made mentionable only while the message is sent.'
+  params:
+    - desc: 'The channel to post in.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'The role to ping.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'The announcement text.'
+      name: message
+      optional: false
+      type: string
+repeatpingrole:
+  args:
+    - index
+    - 'index role'
+  desc: 'Sets the role a repeater pings each time it posts, or clears it. The role is made mentionable only while the message is sent.'
+  params:
+    - desc: 'The one-based index of the repeater to modify.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The role to ping. Leave empty to stop pinging.'
+      name: role
+      optional: true
+      type: IRole
 repeatsuppressnotifications:
   args:
     - index
@@ -4836,6 +5008,53 @@ invitelabels:
     - ''
   desc: 'Lists labelled invite codes with their roles and owners.'
   params: [ ]
+inviteroleadd:
+  args:
+    - '@role 10'
+  desc: 'Gives a role to members who reach a number of net invites. Running it again for the same role moves it to a new milestone.'
+  params:
+    - desc: 'The role.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'The net invites needed.'
+      name: invites
+      optional: false
+      type: int
+inviteroleremove:
+  args:
+    - '@role'
+  desc: 'Stops giving a role at a number of invites. Members keep the role.'
+  params:
+    - desc: 'The role.'
+      name: role
+      optional: false
+      type: IRole
+inviteroles:
+  args:
+    - ''
+  desc: 'Lists the invite milestone roles and how they are handed out.'
+  params: [ ]
+inviterolemode:
+  args:
+    - 'StackAll'
+    - 'HighestOnly'
+  desc: 'Sets whether members keep every milestone role they reach or only the role for their highest milestone.'
+  params:
+    - desc: 'StackAll or HighestOnly.'
+      name: mode
+      optional: false
+      type: InviteRoleMode
+inviteroledrop:
+  args:
+    - ''
+  desc: 'Toggles whether members lose a milestone role when their invites fall below it.'
+  params: [ ]
+inviterolesync:
+  args:
+    - ''
+  desc: 'Gives or takes milestone roles for every member to match their current invites.'
+  params: [ ]
 inviteexport:
   args:
     - '[AllTime]'
@@ -4931,3 +5150,28 @@ linkfixes:
     - ''
   desc: 'Shows whether link fixing is on, and the host used for each site.'
   params: [ ]
+autoreact:
+  args:
+    - list
+    - 'show 1'
+    - 'add #general 👍 🔥'
+    - 'edit 1 type images'
+    - 'edit 1 bots on'
+    - 'edit 1 skipwords spoiler, nsfw'
+    - 'edit 1 type links'
+    - 'edit 1 delete on'
+    - 'move 3 1'
+    - 'manager @Moderators'
+    - 'remove 1'
+    - 'enable 1'
+    - 'disable 1'
+  desc: 'Reacts to new messages in a channel, or to the first post of each thread in a forum channel. Options: list, show, add (channel and emojis), edit (channel, emojis, type, delete, bots, webhooks, replies, allowedroles, ignoredroles, ignoredmembers, skipwords, requiredwords), move (rule and position, rules earlier in the list add their reactions first), remove, enable, disable and manager (the role that can manage auto reactions without Manage Server). Types are any, text, images, videos, media and links. Delete on removes messages that do not fit the type.'
+  params:
+    - desc: 'list, show, add, edit, move, remove, enable, disable or manager.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'The channel and emojis for add, the role for manager, or the rule number and what to change for the rest.'
+      name: value
+      optional: true
+      type: string

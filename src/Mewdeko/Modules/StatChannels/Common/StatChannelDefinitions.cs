@@ -407,7 +407,12 @@ public static class StatChannelDefinitions
         new(StatChannelType.PlayingNow, "Playing Now", "Activity",
             "Members currently in a tracked game or app. Needs game tracking enabled.", "🎮 Playing: %count%", [],
             StatChannelValueKind.Number, StatChannelRequirement.None, "🎮 Playing: 38",
-            StatChannelDisplayStyle.Comma, true)
+            StatChannelDisplayStyle.Comma, true),
+        new(StatChannelType.PeakOnline, "Peak Online", "Members",
+            "The most members seen online at once, counted while this stat is shown.", "📈 Peak Online: %count%",
+            ["%peak.date%", "%online%"],
+            StatChannelValueKind.Number, StatChannelRequirement.None, "📈 Peak Online: 2,140",
+            StatChannelDisplayStyle.Comma, false)
     ];
 
     private static readonly Dictionary<StatChannelType, StatChannelDefinition> ByType =

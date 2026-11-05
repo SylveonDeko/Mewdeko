@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using DataModel;
 using Discord.Interactions;
+using Humanizer;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Attributes.InteractionCommands;
@@ -19,7 +20,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
     : MewdekoSlashModuleBase<CustomVoiceService>
 {
     private async Task<(IGuildUser User, CustomVoiceChannel Channel)?> GetManagedChannelAsync(
-        bool requireOwnerOrAdmin = true, string? notOwnerText = null)
+        bool requireOwnerOrAdmin = true, string? notOwnerText = null, bool allowModerators = false)
     {
         var user = ctx.User as IGuildUser;
         if (user?.VoiceChannel == null)
@@ -38,8 +39,10 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
         if (!requireOwnerOrAdmin || customChannel.OwnerId == user.Id)
             return (user, customChannel);
 
-        var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
-        if (config.CustomVoiceAdminRoleId.HasValue && user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
+        var config = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
+        var isAdmin = config.CustomVoiceAdminRoleId.HasValue &&
+                      user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
+        if (isAdmin || allowModerators && CustomVoiceService.IsModerator(config, user))
             return (user, customChannel);
 
         await ReplyErrorAsync(notOwnerText ?? Strings.CustomVoiceNotOwner(ctx.Guild.Id));
@@ -69,7 +72,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
         await DeferAsync();
 
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
         var users = await channel.GetUsersAsync().FlattenAsync();
         users = users.Where(x => x.VoiceChannel == channel);
 
@@ -138,6 +141,15 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
                 : Strings.CustomVoiceControlsLockButton(ctx.Guild.Id),
             style: customChannel.IsLocked ? ButtonStyle.Success : ButtonStyle.Danger,
             disabled: !guildConfig.AllowLocking,
+            row: 1
+        );
+
+        components.WithButton(
+            customId: $"voice:{(customChannel.IsHidden ? "reveal" : "hide")}:{channel.Id}",
+            label: customChannel.IsHidden
+                ? Strings.CustomVoiceControlsRevealButton(ctx.Guild.Id)
+                : Strings.CustomVoiceControlsHideButton(ctx.Guild.Id),
+            style: customChannel.IsHidden ? ButtonStyle.Success : ButtonStyle.Secondary,
             row: 1
         );
 
@@ -315,7 +327,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
         var (user, _) = managed.Value;
 
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
         if (!guildConfig.AllowNameCustomization)
         {
             await ReplyErrorAsync(Strings.CustomVoiceNameCustomizationDisabled(ctx.Guild.Id));
@@ -347,7 +359,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
         var (user, _) = managed.Value;
 
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
         if (!guildConfig.AllowUserLimitCustomization)
         {
             await ReplyErrorAsync(Strings.CustomVoiceLimitCustomizationDisabled(ctx.Guild.Id));
@@ -386,7 +398,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
         var (user, _) = managed.Value;
 
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
         if (!guildConfig.AllowBitrateCustomization)
         {
             await ReplyErrorAsync(Strings.CustomVoiceBitrateCustomizationDisabled(ctx.Guild.Id));
@@ -417,7 +429,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
         var (user, customChannel) = managed.Value;
 
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
         if (!guildConfig.AllowLocking)
         {
             await ReplyErrorAsync(Strings.CustomVoiceLockingDisabled(ctx.Guild.Id));
@@ -489,7 +501,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
         var (user, _) = managed.Value;
 
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
         if (!guildConfig.AllowUserManagement)
         {
             await ReplyErrorAsync(Strings.CustomVoiceUserManagementDisabled(ctx.Guild.Id));
@@ -521,7 +533,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
         var (user, customChannel) = managed.Value;
 
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
         if (!guildConfig.AllowUserManagement)
         {
             await ReplyErrorAsync(Strings.CustomVoiceUserManagementDisabled(ctx.Guild.Id));
@@ -574,6 +586,14 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
             return;
         }
 
+        var claimWait = CustomVoiceService.GetClaimWait(
+            await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId), customChannel);
+        if (claimWait > TimeSpan.Zero)
+        {
+            await ReplyErrorAsync(Strings.CustomVoiceOwnerLocked(ctx.Guild.Id, claimWait.Humanize(2)));
+            return;
+        }
+
         if (await Service.TransferOwnershipAsync(ctx.Guild.Id, user.VoiceChannel.Id, user.Id))
         {
             await ReplyConfirmAsync(Strings.CustomVoiceOwnershipClaimed(ctx.Guild.Id));
@@ -582,6 +602,73 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
         {
             await ReplyErrorAsync(Strings.CustomVoiceClaimError(ctx.Guild.Id));
         }
+    }
+
+    /// <summary>
+    ///     Hides your custom voice channel from everyone who isn't already in it.
+    /// </summary>
+    [SlashCommand("hide", "Hide your custom voice channel from everyone who isn't in it")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task VoiceHide()
+    {
+        var managed = await GetManagedChannelAsync(allowModerators: true);
+        if (managed is null)
+            return;
+
+        if (managed.Value.Channel.IsHidden)
+        {
+            await ReplyConfirmAsync(Strings.CustomVoiceAlreadyHidden(ctx.Guild.Id));
+            return;
+        }
+
+        if (await Service.SetHiddenAsync(ctx.Guild.Id, managed.Value.Channel.ChannelId, true))
+            await ReplyConfirmAsync(Strings.CustomVoiceHidden(ctx.Guild.Id));
+        else
+            await ReplyErrorAsync(Strings.CustomVoiceHideError(ctx.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Makes your hidden custom voice channel visible again.
+    /// </summary>
+    [SlashCommand("reveal", "Make your hidden custom voice channel visible again")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task VoiceReveal()
+    {
+        var managed = await GetManagedChannelAsync(allowModerators: true);
+        if (managed is null)
+            return;
+
+        if (!managed.Value.Channel.IsHidden)
+        {
+            await ReplyConfirmAsync(Strings.CustomVoiceAlreadyRevealed(ctx.Guild.Id));
+            return;
+        }
+
+        if (await Service.SetHiddenAsync(ctx.Guild.Id, managed.Value.Channel.ChannelId, false))
+            await ReplyConfirmAsync(Strings.CustomVoiceRevealed(ctx.Guild.Id));
+        else
+            await ReplyErrorAsync(Strings.CustomVoiceHideError(ctx.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Disconnects a member from your custom voice channel. They can join again unless you deny them.
+    /// </summary>
+    /// <param name="target">The member to disconnect.</param>
+    [SlashCommand("kick", "Disconnect a member from your custom voice channel")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task VoiceKick([Summary("user", "The member to disconnect")] IGuildUser target)
+    {
+        var managed = await GetManagedChannelAsync(allowModerators: true);
+        if (managed is null)
+            return;
+
+        if (await Service.KickUserAsync(ctx.Guild.Id, managed.Value.Channel.ChannelId, target.Id))
+            await ReplyConfirmAsync(Strings.CustomVoiceKicked(ctx.Guild.Id, target.Mention));
+        else
+            await ReplyErrorAsync(Strings.CustomVoiceKickError(ctx.Guild.Id, target.Mention));
     }
 
     /// <summary>
@@ -713,10 +800,75 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
         }
 
         /// <summary>
+        ///     Lists the join-to-create hubs and how many channels each has made.
+        /// </summary>
+        [SlashCommand("hubs", "List the join-to-create hubs")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageChannels)]
+        public async Task VoiceHubs()
+        {
+            var hubs = await Service.GetHubConfigsAsync(ctx.Guild.Id);
+            if (hubs.Count == 0)
+            {
+                await ReplyErrorAsync(Strings.CustomVoiceNoHubs(ctx.Guild.Id));
+                return;
+            }
+
+            var channels = await Service.GetActiveChannelsAsync(ctx.Guild.Id);
+            var lines = hubs.Select(hub => Strings.CustomVoiceHubLine(ctx.Guild.Id,
+                hub.HubName ?? hub.HubVoiceChannelId.ToString(), MentionUtils.MentionChannel(hub.HubVoiceChannelId),
+                channels.Count(c => c.HubVoiceChannelId == hub.HubVoiceChannelId || c.HubVoiceChannelId == null &&
+                    hub == hubs[0])));
+
+            await RespondAsync(embed: new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle(Strings.CustomVoiceHubsTitle(ctx.Guild.Id))
+                .WithDescription(string.Join('\n', lines))
+                .Build());
+        }
+
+        /// <summary>
+        ///     Adds another join-to-create hub with its own settings.
+        /// </summary>
+        /// <param name="channel">The hub voice channel.</param>
+        /// <param name="category">The category to create custom channels in.</param>
+        [SlashCommand("add-hub", "Add another join-to-create hub with its own settings")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageChannels)]
+        public async Task VoiceHubAdd(
+            [Summary("channel", "The hub voice channel")]
+            IVoiceChannel channel,
+            [Summary("category", "Category for created channels")]
+            ICategoryChannel? category = null)
+        {
+            await Service.AddHubAsync(ctx.Guild.Id, channel.Id, category?.Id);
+            await ReplyConfirmAsync(Strings.CustomVoiceHubAdded(ctx.Guild.Id, channel.Name));
+        }
+
+        /// <summary>
+        ///     Removes a join-to-create hub and its settings. Channels it already made are left alone.
+        /// </summary>
+        /// <param name="channel">The hub voice channel.</param>
+        [SlashCommand("remove-hub", "Remove a join-to-create hub and its settings")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageChannels)]
+        public async Task VoiceHubRemove([Summary("channel", "The hub voice channel")] IVoiceChannel channel)
+        {
+            if (await Service.RemoveHubAsync(ctx.Guild.Id, channel.Id))
+                await ReplyConfirmAsync(Strings.CustomVoiceHubRemoved(ctx.Guild.Id, channel.Name));
+            else
+                await ReplyErrorAsync(Strings.CustomVoiceHubNotFound(ctx.Guild.Id, channel.Name));
+        }
+
+        /// <summary>
         ///     Views or configures the custom voice settings.
         /// </summary>
         /// <param name="setting">The setting to view or change. Leave empty to show everything.</param>
         /// <param name="value">The new value. Leave empty to show the current value.</param>
+        /// <param name="hub">The hub to configure. Defaults to the first hub.</param>
         [SlashCommand("config", "View or change custom voice settings")]
         [RequireContext(ContextType.Guild)]
         [CheckPermissions]
@@ -725,9 +877,18 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
             [Summary("setting", "The setting to view or change")]
             [Autocomplete(typeof(VoiceConfigSettingAutocompleter))]
             string? setting = null,
-            [Summary("value", "The new value")] string? value = null)
+            [Summary("value", "The new value")] string? value = null,
+            [Summary("hub", "The hub to configure, defaults to the first one")]
+            IVoiceChannel? hub = null)
         {
-            var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var config = hub == null
+                ? await Service.GetPrimaryConfigAsync(ctx.Guild.Id)
+                : await Service.GetHubConfigAsync(ctx.Guild.Id, hub.Id);
+            if (config == null)
+            {
+                await ReplyErrorAsync(Strings.CustomVoiceHubNotFound(ctx.Guild.Id, hub!.Name));
+                return;
+            }
 
             if (setting == null)
             {
@@ -789,11 +950,16 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
                         config.AutoPermission
                             ? Strings.CustomVoiceConfigYes(ctx.Guild.Id)
                             : Strings.CustomVoiceConfigNo(ctx.Guild.Id), true)
+                    .AddField(Strings.CustomVoiceConfigTextChannel(ctx.Guild.Id),
+                        config.CreateTextChannel
+                            ? Strings.CustomVoiceConfigYes(ctx.Guild.Id)
+                            : Strings.CustomVoiceConfigNo(ctx.Guild.Id), true)
                     .AddField(Strings.CustomVoiceConfigAdminRole(ctx.Guild.Id),
                         config.CustomVoiceAdminRoleId.HasValue
                             ? $"<@&{config.CustomVoiceAdminRoleId}>"
                             : Strings.CustomVoiceConfigNone(ctx.Guild.Id), true);
 
+                Service.AddExtraConfigFields(embed, ctx.Guild.Id, config);
                 await ctx.Interaction.RespondAsync(embed: embed.Build());
                 return;
             }
@@ -817,9 +983,10 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
                     "maxbitrate" => config.MaxBitrate.ToString(),
                     "persistpreferences" => config.PersistUserPreferences.ToString(),
                     "autopermission" => config.AutoPermission.ToString(),
+                    "textchannel" => config.CreateTextChannel.ToString(),
                     "adminrole" => config.CustomVoiceAdminRoleId?.ToString() ??
                                    Strings.CustomVoiceConfigNone(ctx.Guild.Id),
-                    _ => null
+                    _ => Service.GetExtraSetting(ctx.Guild, config, setting)
                 };
 
                 if (currentValue != null)
@@ -1039,6 +1206,19 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
 
                     break;
 
+                case "textchannel":
+                    if (bool.TryParse(value, out var textChannel))
+                    {
+                        config.CreateTextChannel = textChannel;
+                    }
+                    else
+                    {
+                        await ReplyErrorAsync(Strings.CustomVoiceConfigBooleanRequired(ctx.Guild.Id));
+                        return;
+                    }
+
+                    break;
+
                 case "adminrole":
                     if (value.Equals("none", StringComparison.OrdinalIgnoreCase))
                     {
@@ -1066,8 +1246,16 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
                     break;
 
                 default:
-                    updated = false;
-                    await ReplyErrorAsync(Strings.CustomVoiceConfigUnknownSetting(ctx.Guild.Id, setting, "/"));
+                    var extra = Service.ApplyExtraSetting(ctx.Guild, config, setting, value);
+                    if (extra == CustomVoiceSettingResult.Invalid)
+                    {
+                        await ReplyErrorAsync(Strings.CustomVoiceConfigExtraInvalid(ctx.Guild.Id, setting));
+                        return;
+                    }
+
+                    updated = extra == CustomVoiceSettingResult.Applied;
+                    if (!updated)
+                        await ReplyErrorAsync(Strings.CustomVoiceConfigUnknownSetting(ctx.Guild.Id, setting, "/"));
                     break;
             }
 
@@ -1088,7 +1276,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
     {
         private async Task<UserVoicePreference?> GetPrefsOrErrorAsync()
         {
-            var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
             if (!guildConfig.PersistUserPreferences)
             {
                 await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(ctx.Guild.Id));
@@ -1109,7 +1297,7 @@ public class SlashCustomVoice(IDataConnectionFactory dbFactory)
         [CheckPermissions]
         public async Task VoicePreferences()
         {
-            var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var guildConfig = await Service.GetConfigForMemberAsync(ctx.Guild.Id, ctx.User.Id);
             if (!guildConfig.PersistUserPreferences)
             {
                 await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(ctx.Guild.Id));

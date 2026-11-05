@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl;
 ///     Service implementation for managing trivia chain games.
 /// </summary>
 /// <param name="strings">The localized strings service.</param>
-public class TriviaChainService(GeneratedBotStrings strings) : ITriviaChainService
+public class TriviaChainService(GeneratedBotStrings strings, EconomyBoostService boostService) : ITriviaChainService
 {
     private static readonly Dictionary<ulong, TriviaChainState> TriviaChainStates = new();
 
@@ -100,6 +100,9 @@ public class TriviaChainService(GeneratedBotStrings strings) : ITriviaChainServi
             if (newChainLength == 5)
             {
                 // Game completed successfully
+                potentialWin = await boostService.ApplyToWinningsAsync(guild.Id, "triviachain",
+                    chainState.BetAmount, potentialWin);
+
                 await currencyService.CreditAsync(user.Id, potentialWin,
                     strings.TriviaChainTransactionCompleted(guild.Id), CurrencyCategory.GamePayout, guild.Id,
                     "triviachain");

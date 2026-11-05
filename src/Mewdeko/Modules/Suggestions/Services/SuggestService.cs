@@ -49,6 +49,8 @@ public class SuggestionsService : INService
         Implemented = 4
     }
 
+    private const string AnonymousName = "Anonymous";
+
     private readonly AdministrationService adminserv;
     private readonly DiscordShardedClient client;
     private readonly IAnalyticsCollector collector;
@@ -97,6 +99,8 @@ public class SuggestionsService : INService
         eventHandler.Subscribe("MessageReceived", "SuggestService", MessageRecieved);
         eventHandler.Subscribe("ReactionAdded", "SuggestService", UpdateCountOnReact);
         eventHandler.Subscribe("ReactionRemoved", "SuggestService", UpdateCountOnRemoveReact);
+        eventHandler.Subscribe("ReactionAdded", "SuggestService", ColorOnReaction);
+        eventHandler.Subscribe("ReactionRemoved", "SuggestService", ColorOnReaction);
         eventHandler.Subscribe("MessageReceived", "SuggestService", RepostButton);
         this.dbFactory = dbFactory;
     }
@@ -158,7 +162,8 @@ public class SuggestionsService : INService
         var message = await GetSuggestButtonMessage(channel.Guild);
         if (string.IsNullOrWhiteSpace(message) || message is "disabled" or "-")
         {
-            var eb = new EmbedBuilder().WithOkColor().WithDescription(strings.MakeSuggestionPrompt(channel.Guild.Id));
+            var eb = new EmbedBuilder().WithOkColor(channel.Guild.Id)
+                .WithDescription(strings.MakeSuggestionPrompt(channel.Guild.Id));
             var toAdd = await channel
                 .SendMessageAsync(embed: eb.Build(), components: (await GetSuggestButton(channel.Guild)).Build())
                 .ConfigureAwait(false);
@@ -199,6 +204,46 @@ public class SuggestionsService : INService
         }
 
         repostChecking.Remove(channel.Id);
+    }
+
+    private async Task ColorOnReaction(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2,
+        SocketReaction arg3)
+    {
+        try
+        {
+            if (await arg2.GetOrDownloadAsync().ConfigureAwait(false) is not ITextChannel channel)
+                return;
+            if (channel.Id != await GetSuggestionChannel(channel.Guild.Id))
+                return;
+            if (await GetVoteColorThreshold(channel.GuildId) <= 0)
+                return;
+
+            var suggest = await GetSuggestByMessage(arg1.Id);
+            if (suggest is null || suggest.CurrentState != 0)
+                return;
+
+            var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
+            if (message is null)
+                return;
+
+            var emotes = await GetEmotes(channel.GuildId);
+            var (up, down) = emotes is "disabled" or "-" or null
+                ? ((IEmote)new Emoji("👍"), new Emoji("👎"))
+                : (emotes.Split(",")[0].ToIEmote(), emotes.Split(",")[1].ToIEmote());
+
+            int Votes(IEmote emote)
+            {
+                return message.Reactions.TryGetValue(emote, out var data)
+                    ? data.ReactionCount - (data.IsMe ? 1 : 0)
+                    : 0;
+            }
+
+            await ApplyVoteColor(message, channel.GuildId, Votes(up), Votes(down)).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Could not recolour suggestion {MessageId}", arg1.Id);
+        }
     }
 
     private async Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2,
@@ -476,6 +521,73 @@ public class SuggestionsService : INService
     }
 
     /// <summary>
+    ///     Gets how many votes one side has to lead by to recolour a suggestion embed.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The threshold, or 0 when recolouring is off.</returns>
+    public async Task<int> GetVoteColorThreshold(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        return await db.SuggestionVoteColors.Where(x => x.GuildId == guildId).Select(x => x.Threshold)
+            .FirstOrDefaultAsync();
+    }
+
+    /// <summary>
+    ///     Sets how many votes one side has to lead by to recolour a suggestion embed.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="threshold">The threshold, or 0 to turn recolouring off.</param>
+    public async Task SetVoteColorThreshold(ulong guildId, int threshold)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var updated = await db.SuggestionVoteColors.Where(x => x.GuildId == guildId)
+            .Set(x => x.Threshold, threshold)
+            .UpdateAsync();
+        if (updated == 0)
+            await db.InsertAsync(new SuggestionVoteColor
+            {
+                GuildId = guildId, Threshold = threshold, DateAdded = DateTime.UtcNow
+            });
+    }
+
+    /// <summary>
+    ///     Recolours an open suggestion's embed green when upvotes lead by the threshold and red when downvotes do.
+    /// </summary>
+    /// <param name="message">The suggestion message.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="upvotes">The current upvotes.</param>
+    /// <param name="downvotes">The current downvotes.</param>
+    public async Task ApplyVoteColor(IUserMessage message, ulong guildId, int upvotes, int downvotes)
+    {
+        var threshold = await GetVoteColorThreshold(guildId);
+        if (threshold <= 0)
+            return;
+
+        var embed = message.Embeds.FirstOrDefault();
+        if (embed is null)
+            return;
+
+        var lead = upvotes - downvotes;
+        Color? target = lead >= threshold ? Color.Green : -lead >= threshold ? Color.Red : null;
+        if (target is null)
+        {
+            if (embed.Color != Color.Green && embed.Color != Color.Red)
+                return;
+            target = GuildEmbedColorService.OkFor(guildId);
+        }
+
+        if (embed.Color == target)
+            return;
+
+        var rebuilt = embed.ToEmbedBuilder().WithColor(target.Value).Build();
+        var embeds = new[]
+        {
+            rebuilt
+        }.Concat(message.Embeds.Skip(1).Select(x => x.ToEmbedBuilder().Build())).ToArray();
+        await message.ModifyAsync(x => x.Embeds = embeds).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Retrieves the custom emotes set for suggestions in a guild.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
@@ -699,7 +811,7 @@ public class SuggestionsService : INService
 
                 if (code is "-")
                 {
-                    var eb = new EmbedBuilder().WithOkColor()
+                    var eb = new EmbedBuilder().WithOkColor(channel.Guild.Id)
                         .WithDescription(strings.MakeSuggestionPrompt(channel.Guild.Id));
                     var toadd = await channel.SendMessageAsync(plainText, embed: eb.Build(),
                         components: (await GetSuggestButton(channel.Guild)).Build()).ConfigureAwait(false);
@@ -718,7 +830,7 @@ public class SuggestionsService : INService
 
             if (code is "-")
             {
-                var eb = new EmbedBuilder().WithOkColor()
+                var eb = new EmbedBuilder().WithOkColor(channel.Guild.Id)
                     .WithDescription(strings.MakeSuggestionPrompt(channel.Guild.Id));
                 try
                 {
@@ -1364,6 +1476,30 @@ public class SuggestionsService : INService
     }
 
     /// <summary>
+    ///     Determines whether suggestions hide their author in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to check the setting for.</param>
+    /// <returns>True if suggestions are anonymous; otherwise, false.</returns>
+    public async Task<bool> GetAnonymousSuggestions(IGuild guild)
+    {
+        return (await guildSettings.GetGuildConfig(guild.Id)).AnonymousSuggestions;
+    }
+
+    /// <summary>
+    ///     Sets whether suggestions hide their author in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure.</param>
+    /// <param name="value">True to hide the suggester; otherwise, false.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetAnonymousSuggestions(IGuild guild, bool value)
+    {
+        var gc = await guildSettings.GetGuildConfig(guild.Id);
+        gc.AnonymousSuggestions = value;
+
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
+    }
+
+    /// <summary>
     ///     Retrieves the name of the suggest button in a guild.
     /// </summary>
     /// <param name="guild">The guild from which to retrieve the suggest button name.</param>
@@ -1590,28 +1726,31 @@ public class SuggestionsService : INService
     private async Task<Embed> CreateStatusEmbed(IGuild guild, IUser user, Suggestion suggest, SuggestState state,
         string reason, StatusConfig statusConfig)
     {
+        var anonymous = await GetAnonymousSuggestions(guild);
         var suggestUser = await guild.GetUserAsync(suggest.UserId);
         var sug = suggest.Suggestion1 ?? await GetSuggestionContent(guild, suggest);
 
         if (statusConfig.Message is "-" or "" or null)
         {
-            return new EmbedBuilder()
-                .WithAuthor(suggestUser)
+            var defaultEmbed = new EmbedBuilder()
                 .WithTitle(GetSuggestionStateTitle(guild.Id, suggest.SuggestionId, state))
                 .WithDescription(sug)
                 .WithColor(GetColorForState(state))
-                .AddField("Reason", reason)
-                .Build();
+                .AddField("Reason", reason);
+            if (!anonymous)
+                defaultEmbed.WithAuthor(suggestUser);
+            return defaultEmbed.Build();
         }
 
         var replacer = new ReplacementBuilder()
             .WithServer(client, guild as SocketGuild)
-            .WithOverride("%suggest.user%", () => suggestUser.ToString())
-            .WithOverride("%suggest.user.id%", () => suggestUser.Id.ToString())
+            .WithOverride("%suggest.user%", () => anonymous ? AnonymousName : suggestUser.ToString())
+            .WithOverride("%suggest.user.id%", () => anonymous ? AnonymousName : suggestUser.Id.ToString())
             .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
             .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
-            .WithOverride("%suggest.user.name%", () => suggestUser.Username)
-            .WithOverride("%suggest.user.avatar%", () => suggestUser.RealAvatarUrl().ToString())
+            .WithOverride("%suggest.user.name%", () => anonymous ? AnonymousName : suggestUser.Username)
+            .WithOverride("%suggest.user.avatar%",
+                () => anonymous ? CDN.GetDefaultUserAvatarUrl(0) : suggestUser.RealAvatarUrl().ToString())
             .WithOverride("%suggest.mod.user%", user.ToString)
             .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
             .WithOverride("%suggest.mod.name%", () => user.Username)
@@ -1855,6 +1994,7 @@ public class SuggestionsService : INService
             }
         }
 
+        var anonymous = await GetAnonymousSuggestions(guild);
         var snum = await GetSNum(guild.Id);
         if (await GetThreadType(guild) == 1)
         {
@@ -1871,12 +2011,13 @@ public class SuggestionsService : INService
         if (await GetSuggestionMessage(guild) is "-" or "")
         {
             var sugnum1 = await GetSNum(guild.Id);
+            var suggestEmbed = new EmbedBuilder()
+                .WithTitle(strings.SuggestionNumber(channel.Guild.Id, sugnum1))
+                .WithDescription(suggestion).WithOkColor(channel.Guild.Id);
+            if (!anonymous)
+                suggestEmbed.WithAuthor(user);
             var t = await (await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false))
-                .SendMessageAsync(
-                    embed: new EmbedBuilder().WithAuthor(user)
-                        .WithTitle(strings.SuggestionNumber(channel.Guild.Id, sugnum1))
-                        .WithDescription(suggestion).WithOkColor().Build(),
-                    components: builder.Build()).ConfigureAwait(false);
+                .SendMessageAsync(embed: suggestEmbed.Build(), components: builder.Build()).ConfigureAwait(false);
             if (await GetEmoteMode(guild) == 0)
             {
                 if (em is null or "disabled")
@@ -1901,11 +2042,14 @@ public class SuggestionsService : INService
         {
             var sugnum1 = await GetSNum(guild.Id);
             var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild)
-                .WithOverride("%suggest.user%", user.ToString)
+                .WithOverride("%suggest.user%", () => anonymous ? AnonymousName : user.ToString())
                 .WithOverride("%suggest.message%", () => suggestion.SanitizeMentions(true))
                 .WithOverride("%suggest.number%", () => sugnum1.ToString())
-                .WithOverride("%suggest.user.name%", () => user.Username)
-                .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl().ToString()).Build();
+                .WithOverride("%suggest.user.name%", () => anonymous ? AnonymousName : user.Username)
+                .WithOverride("%suggest.user.avatar%",
+                    () => anonymous ? CDN.GetDefaultUserAvatarUrl(0) : user.RealAvatarUrl().ToString())
+                .WithOverride("%suggest.user.id%", () => anonymous ? AnonymousName : user.Id.ToString())
+                .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(await GetSuggestionMessage(guild)), guild.Id, out var embed,
                 out var plainText, out _);
             var chan = await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false);

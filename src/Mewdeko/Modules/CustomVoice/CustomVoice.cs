@@ -2,6 +2,7 @@
 using System.Text.Json;
 using DataModel;
 using Discord.Commands;
+using Humanizer;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Attributes.TextCommands;
@@ -47,7 +48,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
 
         if (!isOwner)
         {
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             hasAdminRole = config.CustomVoiceAdminRoleId.HasValue &&
                            user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
 
@@ -67,7 +68,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         }
 
         // Get server config to check permissions
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         var users = await channel.GetUsersAsync().FlattenAsync();
         users = users.Where(x => x.VoiceChannel == channel);
 
@@ -141,6 +142,15 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
                 : Strings.CustomVoiceControlsLockButton(Context.Guild.Id),
             style: customChannel.IsLocked ? ButtonStyle.Success : ButtonStyle.Danger,
             disabled: !guildConfig.AllowLocking,
+            row: 1
+        );
+
+        components.WithButton(
+            customId: $"voice:{(customChannel.IsHidden ? "reveal" : "hide")}:{channel.Id}",
+            label: customChannel.IsHidden
+                ? Strings.CustomVoiceControlsRevealButton(Context.Guild.Id)
+                : Strings.CustomVoiceControlsHideButton(Context.Guild.Id),
+            style: customChannel.IsHidden ? ButtonStyle.Success : ButtonStyle.Secondary,
             row: 1
         );
 
@@ -324,8 +334,11 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
     [UserPerm(GuildPermission.ManageChannels)]
     public async Task VoiceConfig(string setting = null, string value = null)
     {
-        var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        await ConfigureAsync(await Service.GetPrimaryConfigAsync(Context.Guild.Id), setting, value);
+    }
 
+    private async Task ConfigureAsync(CustomVoiceConfig config, string setting, string value)
+    {
         // If no parameters, show current configuration
         if (setting == null)
         {
@@ -386,11 +399,16 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
                     config.AutoPermission
                         ? Strings.CustomVoiceConfigYes(Context.Guild.Id)
                         : Strings.CustomVoiceConfigNo(Context.Guild.Id), true)
+                .AddField(Strings.CustomVoiceConfigTextChannel(Context.Guild.Id),
+                    config.CreateTextChannel
+                        ? Strings.CustomVoiceConfigYes(Context.Guild.Id)
+                        : Strings.CustomVoiceConfigNo(Context.Guild.Id), true)
                 .AddField(Strings.CustomVoiceConfigAdminRole(Context.Guild.Id),
                     config.CustomVoiceAdminRoleId.HasValue
                         ? $"<@&{config.CustomVoiceAdminRoleId}>"
                         : Strings.CustomVoiceConfigNone(Context.Guild.Id), true);
 
+            Service.AddExtraConfigFields(embed, Context.Guild.Id, config);
             await ReplyAsync(embed: embed.Build());
             return;
         }
@@ -415,9 +433,10 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
                 "maxbitrate" => config.MaxBitrate.ToString(),
                 "persistpreferences" => config.PersistUserPreferences.ToString(),
                 "autopermission" => config.AutoPermission.ToString(),
+                "textchannel" => config.CreateTextChannel.ToString(),
                 "adminrole" => config.CustomVoiceAdminRoleId?.ToString() ??
                                Strings.CustomVoiceConfigNone(Context.Guild.Id),
-                _ => null
+                _ => Service.GetExtraSetting(Context.Guild, config, setting)
             };
 
             if (currentValue != null)
@@ -639,6 +658,19 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
 
                 break;
 
+            case "textchannel":
+                if (bool.TryParse(value, out var textChannel))
+                {
+                    config.CreateTextChannel = textChannel;
+                }
+                else
+                {
+                    await ReplyErrorAsync(Strings.CustomVoiceConfigBooleanRequired(Context.Guild.Id));
+                    return;
+                }
+
+                break;
+
             case "adminrole":
                 if (value.Equals("none", StringComparison.OrdinalIgnoreCase))
                 {
@@ -666,9 +698,20 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
                 break;
 
             default:
-                updated = false;
-                var pref = await settingsService.GetPrefix(ctx.Guild);
-                await ReplyErrorAsync(Strings.CustomVoiceConfigUnknownSetting(Context.Guild.Id, setting, pref));
+                var extra = Service.ApplyExtraSetting(Context.Guild, config, setting, value);
+                if (extra == CustomVoiceSettingResult.Invalid)
+                {
+                    await ReplyErrorAsync(Strings.CustomVoiceConfigExtraInvalid(Context.Guild.Id, setting));
+                    return;
+                }
+
+                updated = extra == CustomVoiceSettingResult.Applied;
+                if (!updated)
+                {
+                    var pref = await settingsService.GetPrefix(ctx.Guild);
+                    await ReplyErrorAsync(Strings.CustomVoiceConfigUnknownSetting(Context.Guild.Id, setting, pref));
+                }
+
                 break;
         }
 
@@ -757,7 +800,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -766,7 +809,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         }
 
         // Check if name customization is allowed
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.AllowNameCustomization)
         {
             await ReplyErrorAsync(Strings.CustomVoiceNameCustomizationDisabled(Context.Guild.Id));
@@ -812,7 +855,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -821,7 +864,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         }
 
         // Check if limit customization is allowed
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.AllowUserLimitCustomization)
         {
             await ReplyErrorAsync(Strings.CustomVoiceLimitCustomizationDisabled(Context.Guild.Id));
@@ -875,7 +918,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -884,7 +927,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         }
 
         // Check if bitrate customization is allowed
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.AllowBitrateCustomization)
         {
             await ReplyErrorAsync(Strings.CustomVoiceBitrateCustomizationDisabled(Context.Guild.Id));
@@ -937,7 +980,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -946,7 +989,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         }
 
         // Check if locking is allowed
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.AllowLocking)
         {
             await ReplyErrorAsync(Strings.CustomVoiceLockingDisabled(Context.Guild.Id));
@@ -1022,7 +1065,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -1031,7 +1074,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         }
 
         // Check if user management is allowed
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.AllowUserManagement)
         {
             await ReplyErrorAsync(Strings.CustomVoiceUserManagementDisabled(Context.Guild.Id));
@@ -1077,7 +1120,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -1086,7 +1129,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         }
 
         // Check if user management is allowed
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.AllowUserManagement)
         {
             await ReplyErrorAsync(Strings.CustomVoiceUserManagementDisabled(Context.Guild.Id));
@@ -1153,6 +1196,14 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
             return;
         }
 
+        var claimWait = CustomVoiceService.GetClaimWait(
+            await Service.GetConfigForChannelAsync(Context.Guild.Id, customChannel.ChannelId), customChannel);
+        if (claimWait > TimeSpan.Zero)
+        {
+            await ReplyErrorAsync(Strings.CustomVoiceOwnerLocked(Context.Guild.Id, claimWait.Humanize(2)));
+            return;
+        }
+
         // Transfer ownership
         if (await Service.TransferOwnershipAsync(Context.Guild.Id, user.VoiceChannel.Id, user.Id))
         {
@@ -1162,6 +1213,176 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         {
             await ReplyErrorAsync(Strings.CustomVoiceClaimError(Context.Guild.Id));
         }
+    }
+
+    /// <summary>
+    ///     Hides your custom voice channel from everyone who isn't already in it.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task VoiceHide()
+    {
+        if (await GetManagedChannelAsync() is not { } managed)
+            return;
+
+        if (managed.Channel.IsHidden)
+        {
+            await ReplyConfirmAsync(Strings.CustomVoiceAlreadyHidden(Context.Guild.Id));
+            return;
+        }
+
+        if (await Service.SetHiddenAsync(Context.Guild.Id, managed.Channel.ChannelId, true))
+            await ReplyConfirmAsync(Strings.CustomVoiceHidden(Context.Guild.Id));
+        else
+            await ReplyErrorAsync(Strings.CustomVoiceHideError(Context.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Makes your hidden custom voice channel visible again.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task VoiceReveal()
+    {
+        if (await GetManagedChannelAsync() is not { } managed)
+            return;
+
+        if (!managed.Channel.IsHidden)
+        {
+            await ReplyConfirmAsync(Strings.CustomVoiceAlreadyRevealed(Context.Guild.Id));
+            return;
+        }
+
+        if (await Service.SetHiddenAsync(Context.Guild.Id, managed.Channel.ChannelId, false))
+            await ReplyConfirmAsync(Strings.CustomVoiceRevealed(Context.Guild.Id));
+        else
+            await ReplyErrorAsync(Strings.CustomVoiceHideError(Context.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Disconnects a member from your custom voice channel. They can join again unless you deny them.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task VoiceKick(IGuildUser target)
+    {
+        if (await GetManagedChannelAsync() is not { } managed)
+            return;
+
+        if (await Service.KickUserAsync(Context.Guild.Id, managed.Channel.ChannelId, target.Id))
+            await ReplyConfirmAsync(Strings.CustomVoiceKicked(Context.Guild.Id, target.Mention));
+        else
+            await ReplyErrorAsync(Strings.CustomVoiceKickError(Context.Guild.Id, target.Mention));
+    }
+
+    /// <summary>
+    ///     Lists the join-to-create hubs and how many channels each has made.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageChannels)]
+    public async Task VoiceHubs()
+    {
+        var hubs = await Service.GetHubConfigsAsync(Context.Guild.Id);
+        if (hubs.Count == 0)
+        {
+            await ReplyErrorAsync(Strings.CustomVoiceNoHubs(Context.Guild.Id));
+            return;
+        }
+
+        var channels = await Service.GetActiveChannelsAsync(Context.Guild.Id);
+        var lines = hubs.Select(hub => Strings.CustomVoiceHubLine(Context.Guild.Id,
+            hub.HubName ?? hub.HubVoiceChannelId.ToString(), MentionUtils.MentionChannel(hub.HubVoiceChannelId),
+            channels.Count(c => c.HubVoiceChannelId == hub.HubVoiceChannelId || c.HubVoiceChannelId == null &&
+                hub == hubs[0])));
+
+        await ReplyAsync(embed: new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.CustomVoiceHubsTitle(Context.Guild.Id))
+            .WithDescription(string.Join('\n', lines))
+            .Build());
+    }
+
+    /// <summary>
+    ///     Adds another join-to-create hub with its own settings.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageChannels)]
+    public async Task VoiceHubAdd(IVoiceChannel channel, ICategoryChannel category = null)
+    {
+        await Service.AddHubAsync(Context.Guild.Id, channel.Id, category?.Id);
+        await ReplyConfirmAsync(Strings.CustomVoiceHubAdded(Context.Guild.Id, channel.Name));
+    }
+
+    /// <summary>
+    ///     Removes a join-to-create hub and its settings. Channels it already made are left alone.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageChannels)]
+    public async Task VoiceHubRemove(IVoiceChannel channel)
+    {
+        if (await Service.RemoveHubAsync(Context.Guild.Id, channel.Id))
+            await ReplyConfirmAsync(Strings.CustomVoiceHubRemoved(Context.Guild.Id, channel.Name));
+        else
+            await ReplyErrorAsync(Strings.CustomVoiceHubNotFound(Context.Guild.Id, channel.Name));
+    }
+
+    /// <summary>
+    ///     Shows or changes the settings of one join-to-create hub.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageChannels)]
+    public async Task VoiceHubConfig(IVoiceChannel hub, string setting = null, string value = null)
+    {
+        var config = await Service.GetHubConfigAsync(Context.Guild.Id, hub.Id);
+        if (config == null)
+        {
+            await ReplyErrorAsync(Strings.CustomVoiceHubNotFound(Context.Guild.Id, hub.Name));
+            return;
+        }
+
+        await ConfigureAsync(config, setting, value);
+    }
+
+    /// <summary>
+    ///     Finds the temporary channel the member is in, replying when they can't manage it. Owners, the admin role
+    ///     and moderator roles can.
+    /// </summary>
+    private async Task<(IGuildUser User, CustomVoiceChannel Channel)?> GetManagedChannelAsync()
+    {
+        var user = Context.User as IGuildUser;
+        if (user?.VoiceChannel == null)
+        {
+            await ReplyErrorAsync(Strings.CustomVoiceNotInChannel(Context.Guild.Id));
+            return null;
+        }
+
+        var customChannel = await Service.GetChannelAsync(Context.Guild.Id, user.VoiceChannel.Id);
+        if (customChannel == null)
+        {
+            await ReplyErrorAsync(Strings.CustomVoiceNotCustomChannel(Context.Guild.Id));
+            return null;
+        }
+
+        if (customChannel.OwnerId == user.Id)
+            return (user, customChannel);
+
+        var config = await Service.GetConfigForChannelAsync(Context.Guild.Id, customChannel.ChannelId);
+        if (CustomVoiceService.IsModerator(config, user))
+            return (user, customChannel);
+
+        await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
+        return null;
     }
 
     /// <summary>
@@ -1192,7 +1413,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -1247,7 +1468,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         if (customChannel.OwnerId != user.Id)
         {
             // Check if the user has admin role
-            var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+            var config = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
             if (!config.CustomVoiceAdminRoleId.HasValue || !user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value))
             {
                 await ReplyErrorAsync(Strings.CustomVoiceNotOwner(Context.Guild.Id));
@@ -1285,7 +1506,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
     [RequireContext(ContextType.Guild)]
     public async Task VoicePreferences()
     {
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.PersistUserPreferences)
         {
             await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(Context.Guild.Id));
@@ -1389,7 +1610,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
     [RequireContext(ContextType.Guild)]
     public async Task VoicePrefsName([Remainder] string format = null)
     {
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.PersistUserPreferences)
         {
             await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(Context.Guild.Id));
@@ -1429,7 +1650,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
     [RequireContext(ContextType.Guild)]
     public async Task VoicePrefsLimit(int? limit = null)
     {
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.PersistUserPreferences)
         {
             await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(Context.Guild.Id));
@@ -1476,7 +1697,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
     [RequireContext(ContextType.Guild)]
     public async Task VoicePrefsBitrate(int? bitrate = null)
     {
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.PersistUserPreferences)
         {
             await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(Context.Guild.Id));
@@ -1521,7 +1742,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
     [RequireContext(ContextType.Guild)]
     public async Task VoicePrefsLock(bool? locked = null)
     {
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.PersistUserPreferences)
         {
             await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(Context.Guild.Id));
@@ -1565,7 +1786,7 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
     [RequireContext(ContextType.Guild)]
     public async Task VoicePrefsKeepAlive(bool? keepAlive = null)
     {
-        var guildConfig = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
+        var guildConfig = await Service.GetConfigForMemberAsync(Context.Guild.Id, Context.User.Id);
         if (!guildConfig.PersistUserPreferences)
         {
             await ReplyErrorAsync(Strings.CustomVoicePreferencesDisabled(Context.Guild.Id));

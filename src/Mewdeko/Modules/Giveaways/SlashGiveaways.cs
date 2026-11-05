@@ -1,8 +1,10 @@
-﻿using Discord.Interactions;
+﻿using DataModel;
+using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Modals;
+using Mewdeko.Modules.Giveaways.Common;
 using Mewdeko.Modules.Giveaways.Services;
 using SkiaSharp;
 
@@ -262,12 +264,19 @@ public class SlashGiveaways(
     /// <param name="useCaptcha">Whether to require captcha verification for joining</param>
     /// <param name="requiredRoles">Array of roles required to join the giveaway</param>
     /// <param name="requiredMessages">Number of messages required to join the giveaway</param>
+    /// <param name="extraEntriesRole">A role that gets extra entries</param>
+    /// <param name="extraEntries">How many extra entries that role gets</param>
+    /// <param name="prize">An XP or coin prize paid to every winner</param>
+    /// <param name="prizeAmount">How much each winner gets</param>
+    /// <param name="draft">Save the giveaway as a draft instead of starting it</param>
     [SlashCommand("start", "Start a giveaway!")]
     [SlashUserPerm(GuildPermission.ManageMessages)]
     [CheckPermissions]
     public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null,
         IAttachment attachment = null, IUser host = null, bool useButton = false, bool useCaptcha = false,
-        IRole[] requiredRoles = null, ulong requiredMessages = 0)
+        IRole[] requiredRoles = null, ulong requiredMessages = 0, IRole extraEntriesRole = null,
+        int extraEntries = 0, GiveawayPrizeType prize = GiveawayPrizeType.None, long prizeAmount = 0,
+        bool draft = false)
     {
         host ??= ctx.User;
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -283,7 +292,41 @@ public class SlashGiveaways(
         else
             reqs = string.Join("\n", requiredRoles.Select(x => x.Id));
 
-        var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
+        if (prize != GiveawayPrizeType.None && prizeAmount <= 0)
+        {
+            await ctx.Interaction.SendErrorFollowupAsync(Strings.GiveawayInvalidPrize(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var extraEntryRoles = extraEntriesRole is not null && extraEntries > 0
+            ? $"{extraEntriesRole.Id}:{extraEntries}"
+            : null;
+
+        if (draft)
+        {
+            var saved = await Service.CreateDraftAsync(ctx.Guild.Id, new Giveaway
+            {
+                ChannelId = chan.Id,
+                UserId = host.Id,
+                Item = what,
+                Winners = winners,
+                DraftDurationSeconds = (int)time.TotalSeconds,
+                UseButton = useButton,
+                UseCaptcha = useCaptcha,
+                RestrictTo = reqs,
+                MessageCountReq = requiredMessages,
+                ExtraEntryRoles = extraEntryRoles,
+                PrizeType = (int)prize,
+                PrizeAmount = prizeAmount
+            });
+
+            await ctx.Interaction.SendConfirmFollowupAsync(Strings.GiveawayDraftSaved(ctx.Guild.Id, saved.Id))
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var emote =(await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         if (!useButton && !useCaptcha)
         {
             try
@@ -324,7 +367,175 @@ public class SlashGiveaways(
 
         await Service.GiveawaysInternal(chan, time, what, winners, host.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingRole: pingRole, useButton: useButton,
-            useCaptcha: useCaptcha, reqroles: reqs, messageCount: requiredMessages).ConfigureAwait(false);
+            useCaptcha: useCaptcha, reqroles: reqs, messageCount: requiredMessages,
+            extraEntryRoles: extraEntryRoles, prizeType: (int)prize, prizeAmount: prizeAmount).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists saved giveaway drafts.
+    /// </summary>
+    [SlashCommand("drafts", "List saved giveaway drafts")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task GDrafts()
+    {
+        var drafts = await Service.GetDraftsAsync(ctx.Guild.Id);
+
+        if (drafts.Count == 0)
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.GiveawayNoDrafts(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.GiveawayDraftsTitle(ctx.Guild.Id))
+            .WithDescription(string.Join("\n", drafts.Take(25).Select(x =>
+                Strings.GiveawayDraftEntry(ctx.Guild.Id, x.Id, x.Item, x.Winners, $"<#{x.ChannelId}>"))));
+
+        await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Starts a saved giveaway draft.
+    /// </summary>
+    /// <param name="draftId">The ID of the draft</param>
+    [SlashCommand("start-draft", "Start a saved giveaway draft")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task GDraftStart([Summary("draft-id", "The ID of the draft")] int draftId)
+    {
+        var draft = await Service.FindGiveawayOrDraftAsync(ctx.Guild.Id, (ulong)Math.Max(0, draftId));
+
+        if (draft is not { Ended: GiveawayStatus.Draft })
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.GiveawayDraftNotFound(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        try
+        {
+            await Service.StartDraftAsync(draft, ctx.User.Id).ConfigureAwait(false);
+        }
+        catch (Exception)
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.GiveawayDraftStartFailed(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Interaction.SendConfirmAsync(Strings.GiveawayStarted(ctx.Guild.Id, $"<#{draft.ChannelId}>"))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Deletes a saved giveaway draft.
+    /// </summary>
+    /// <param name="draftId">The ID of the draft</param>
+    [SlashCommand("delete-draft", "Delete a saved giveaway draft")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task GDraftDelete([Summary("draft-id", "The ID of the draft")] int draftId)
+    {
+        if (!await Service.DeleteDraftAsync(ctx.Guild.Id, draftId))
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.GiveawayDraftNotFound(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Interaction.SendConfirmAsync(Strings.GiveawayDraftDeleted(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Gives a role extra entries in a giveaway. Use 0 to remove them.
+    /// </summary>
+    /// <param name="target">The message ID of a running giveaway or the ID of a draft</param>
+    /// <param name="role">The role that gets extra entries</param>
+    /// <param name="extra">How many extra entries members with the role get</param>
+    [SlashCommand("extra-entries", "Give a role extra entries in a giveaway")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task GEntries(
+        [Summary("target", "The message ID of a running giveaway or the ID of a draft")]
+        ulong target,
+        [Summary("role", "The role that gets extra entries")]
+        IRole role,
+        [Summary("extra", "How many extra entries, 0 removes them")] [MinValue(0)]
+        int extra)
+    {
+        var gway = await Service.FindGiveawayOrDraftAsync(ctx.Guild.Id, target);
+
+        if (gway is null || gway.Ended == GiveawayStatus.Ended)
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.GiveawayNotFound(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var entries = GiveawayExtraEntries.Parse(gway.ExtraEntryRoles);
+
+        if (extra <= 0)
+            entries.Remove(role.Id);
+        else
+            entries[role.Id] = extra;
+
+        gway.ExtraEntryRoles = GiveawayExtraEntries.Format(entries);
+        await Service.UpdateGiveawayOptionsAsync(gway);
+
+        await ctx.Interaction.SendConfirmAsync(extra <= 0
+                ? Strings.GiveawayEntriesRemoved(ctx.Guild.Id, role.Mention)
+                : Strings.GiveawayEntriesSet(ctx.Guild.Id, role.Mention, extra))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets an XP or coin prize paid to every winner automatically. Use none to remove it.
+    /// </summary>
+    /// <param name="target">The message ID of a running giveaway or the ID of a draft</param>
+    /// <param name="type">None, xp or coins</param>
+    /// <param name="amount">How much each winner gets</param>
+    [SlashCommand("prize", "Set an XP or coin prize paid to every winner")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task GPrize(
+        [Summary("target", "The message ID of a running giveaway or the ID of a draft")]
+        ulong target,
+        [Summary("type", "None, xp or coins")] GiveawayPrizeType type,
+        [Summary("amount", "How much each winner gets")]
+        long amount = 0)
+    {
+        var gway = await Service.FindGiveawayOrDraftAsync(ctx.Guild.Id, target);
+
+        if (gway is null || gway.Ended == GiveawayStatus.Ended)
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.GiveawayNotFound(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        if (type != GiveawayPrizeType.None && amount <= 0)
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.GiveawayInvalidPrize(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        gway.PrizeType = (int)type;
+        gway.PrizeAmount = type == GiveawayPrizeType.None ? 0 : amount;
+        await Service.UpdateGiveawayOptionsAsync(gway);
+
+        await ctx.Interaction.SendConfirmAsync(type == GiveawayPrizeType.None
+                ? Strings.GiveawayPrizeRemoved(ctx.Guild.Id)
+                : Strings.GiveawayPrizeSet(ctx.Guild.Id, amount, type.ToString().ToLowerInvariant()))
+            .ConfigureAwait(false);
     }
 
     /// <summary>

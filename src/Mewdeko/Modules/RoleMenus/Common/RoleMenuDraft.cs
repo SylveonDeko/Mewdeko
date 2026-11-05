@@ -1,4 +1,5 @@
 using DataModel;
+using Mewdeko.Modules.RoleMenus.Services;
 
 namespace Mewdeko.Modules.RoleMenus.Common;
 
@@ -53,6 +54,36 @@ public class RoleMenuDraft
     public ulong? RequiredRoleId { get; set; }
 
     /// <summary>
+    ///     Roles that stop a member from using the menu.
+    /// </summary>
+    public List<ulong> BlockedRoleIds { get; set; } = [];
+
+    /// <summary>
+    ///     Seconds a role from this menu lasts before it is taken back. Zero means it stays.
+    /// </summary>
+    public int TempRoleSeconds { get; set; }
+
+    /// <summary>
+    ///     When the menu deletes its message and turns itself off, in UTC. Null means never.
+    /// </summary>
+    public DateTime? ExpiresAt { get; set; }
+
+    /// <summary>
+    ///     Group this menu is linked into. Null means the menu stands alone.
+    /// </summary>
+    public int? GroupId { get; set; }
+
+    /// <summary>
+    ///     RGB colour of the default embed. Null means the bot's usual colour.
+    /// </summary>
+    public int? AccentColor { get; set; }
+
+    /// <summary>
+    ///     Button style 1 to 4 for options left on grey. Zero means grey stays grey.
+    /// </summary>
+    public int ButtonColor { get; set; }
+
+    /// <summary>
     ///     Private confirmation or no confirmation.
     /// </summary>
     public RoleMenuReplyMode ReplyMode { get; set; }
@@ -85,6 +116,12 @@ public class RoleMenuDraft
             MinRoles = menu.MinRoles,
             MaxRoles = menu.MaxRoles,
             RequiredRoleId = menu.RequiredRoleId,
+            BlockedRoleIds = RoleMenuService.ParseRoleIds(menu.BlockedRoleIds),
+            TempRoleSeconds = menu.TempRoleSeconds,
+            ExpiresAt = menu.ExpiresAt,
+            GroupId = menu.GroupId,
+            AccentColor = menu.AccentColor,
+            ButtonColor = menu.ButtonColor,
             ReplyMode = (RoleMenuReplyMode)menu.ReplyMode,
             Enabled = menu.Enabled,
             Options = menu.Options
@@ -97,7 +134,9 @@ public class RoleMenuDraft
                     Label = x.Label,
                     Emoji = x.Emoji,
                     Description = x.Description,
-                    ButtonStyle = x.ButtonStyle
+                    ButtonStyle = x.ButtonStyle,
+                    TempRoleSeconds = x.TempRoleSeconds,
+                    MaxHolders = x.MaxHolders
                 })
                 .ToList()
         };
@@ -138,6 +177,16 @@ public class RoleMenuOptionDraft
     ///     Discord button style from 1 to 4. Ignored for dropdowns.
     /// </summary>
     public int ButtonStyle { get; set; } = 2;
+
+    /// <summary>
+    ///     Seconds this role lasts before it is taken back. Zero uses the menu's setting.
+    /// </summary>
+    public int TempRoleSeconds { get; set; }
+
+    /// <summary>
+    ///     Most members who can hold this role through the menu. Zero means no limit.
+    /// </summary>
+    public int MaxHolders { get; set; }
 }
 
 /// <summary>

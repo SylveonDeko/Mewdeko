@@ -16,6 +16,7 @@ public class ShopService : INService
 {
     private readonly ICurrencyService currencyService;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly EventHandler eventHandler;
     private readonly ILogger<ShopService> logger;
 
     /// <summary>
@@ -24,11 +25,14 @@ public class ShopService : INService
     /// <param name="dbFactory">The database connection factory.</param>
     /// <param name="currencyService">The currency service used to charge and refund buyers.</param>
     /// <param name="logger">The logger.</param>
-    public ShopService(IDataConnectionFactory dbFactory, ICurrencyService currencyService, ILogger<ShopService> logger)
+    /// <param name="eventHandler">Publishes purchases to other services.</param>
+    public ShopService(IDataConnectionFactory dbFactory, ICurrencyService currencyService, ILogger<ShopService> logger,
+        EventHandler eventHandler)
     {
         this.dbFactory = dbFactory;
         this.currencyService = currencyService;
         this.logger = logger;
+        this.eventHandler = eventHandler;
     }
 
     /// <summary>
@@ -241,6 +245,7 @@ public class ShopService : INService
             }
         }
 
+        _ = eventHandler.PublishEventAsync("ShopItemPurchased", new MemberActivityEventArgs(guildId, userId));
         return new PurchaseResult(PurchaseOutcome.Success, item);
     }
 
@@ -257,7 +262,7 @@ public class ShopService : INService
 
         if (item is null)
             return new PurchaseResult(PurchaseOutcome.NoSuchItem, null);
-        if (!item.Consumable)
+        if (!item.Consumable || item.ItemType == (int)ShopItemType.Static)
             return new PurchaseResult(PurchaseOutcome.NotConsumable, item);
 
         await using var db = await dbFactory.CreateConnectionAsync();
@@ -270,6 +275,141 @@ public class ShopService : INService
         return consumed > 0
             ? new PurchaseResult(PurchaseOutcome.Success, item)
             : new PurchaseResult(PurchaseOutcome.NotOwned, item);
+    }
+
+    /// <summary>
+    ///     Puts copies of an item into a user's inventory without charging them.
+    /// </summary>
+    /// <param name="guildId">The guild the inventory belongs to.</param>
+    /// <param name="userId">The receiving user.</param>
+    /// <param name="item">The item to add.</param>
+    /// <param name="amount">How many copies to add.</param>
+    /// <param name="takeFromStock">Whether limited shop stock is used up, failing when there is not enough.</param>
+    /// <returns><see langword="true" /> if the copies were added.</returns>
+    public async Task<bool> GrantItemAsync(ulong guildId, ulong userId, ShopItem item, int amount,
+        bool takeFromStock)
+    {
+        if (amount <= 0)
+            return false;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        if (takeFromStock && item.Stock >= 0)
+        {
+            var taken = await db.ShopItems
+                .Where(x => x.Id == item.Id && x.Stock >= amount)
+                .Set(x => x.Stock, x => x.Stock - amount)
+                .UpdateAsync();
+
+            if (taken == 0)
+                return false;
+        }
+
+        var updated = await db.UserInventoryItems
+            .Where(x => x.GuildId == guildId && x.UserId == userId && x.ShopItemId == item.Id)
+            .Set(x => x.Quantity, x => x.Quantity + amount)
+            .UpdateAsync();
+
+        if (updated > 0)
+            return true;
+
+        try
+        {
+            await db.InsertAsync(new UserInventoryItem
+            {
+                GuildId = guildId,
+                UserId = userId,
+                ShopItemId = item.Id,
+                Quantity = amount,
+                TotalPaid = 0,
+                DateAdded = DateTime.UtcNow
+            });
+        }
+        catch (Exception)
+        {
+            await db.UserInventoryItems
+                .Where(x => x.GuildId == guildId && x.UserId == userId && x.ShopItemId == item.Id)
+                .Set(x => x.Quantity, x => x.Quantity + amount)
+                .UpdateAsync();
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    ///     Takes copies of an item out of a user's inventory.
+    /// </summary>
+    /// <param name="guildId">The guild the inventory belongs to.</param>
+    /// <param name="userId">The owning user.</param>
+    /// <param name="item">The item to take.</param>
+    /// <param name="amount">How many copies to take at most.</param>
+    /// <returns>How many copies were actually taken.</returns>
+    public async Task<int> TakeItemAsync(ulong guildId, ulong userId, ShopItem item, int amount)
+    {
+        if (amount <= 0)
+            return 0;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var owned = await db.UserInventoryItems
+            .Where(x => x.GuildId == guildId && x.UserId == userId && x.ShopItemId == item.Id)
+            .Select(x => x.Quantity)
+            .FirstOrDefaultAsync();
+
+        var taking = Math.Min(owned, amount);
+
+        if (taking <= 0)
+            return 0;
+
+        var updated = await db.UserInventoryItems
+            .Where(x => x.GuildId == guildId && x.UserId == userId && x.ShopItemId == item.Id &&
+                        x.Quantity >= taking)
+            .Set(x => x.Quantity, x => x.Quantity - taking)
+            .UpdateAsync();
+
+        return updated > 0 ? taking : 0;
+    }
+
+    /// <summary>
+    ///     Creates an item that is not for sale, if the guild does not have one by that name, and puts copies of it
+    ///     into a user's inventory.
+    /// </summary>
+    /// <param name="guildId">The guild the item belongs to.</param>
+    /// <param name="userId">The receiving user.</param>
+    /// <param name="name">The item name.</param>
+    /// <param name="amount">How many copies to add.</param>
+    /// <returns>The item that was granted.</returns>
+    public async Task<ShopItem?> SpawnItemAsync(ulong guildId, ulong userId, string name, int amount)
+    {
+        var item = await GetItemAsync(guildId, name) ?? await AddItemAsync(new ShopItem
+        {
+            GuildId = guildId,
+            Name = name,
+            ItemType = (int)ShopItemType.Collectible,
+            Stock = -1,
+            Enabled = false,
+            Consumable = true
+        });
+
+        if (item is null)
+            return null;
+
+        return await GrantItemAsync(guildId, userId, item, amount, false) ? item : null;
+    }
+
+    /// <summary>
+    ///     Fills in the placeholders of an item's buy or use message.
+    /// </summary>
+    /// <param name="template">The message with %user% and %item% placeholders.</param>
+    /// <param name="user">The member the message is for.</param>
+    /// <param name="item">The item concerned.</param>
+    /// <returns>The finished message.</returns>
+    public static string FormatMessage(string template, IUser user, ShopItem item)
+    {
+        return template
+            .Replace("%user%", user.Mention, StringComparison.OrdinalIgnoreCase)
+            .Replace("%item%", item.Name, StringComparison.OrdinalIgnoreCase)
+            .Replace("%price%", item.Price.ToString(), StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>

@@ -45,6 +45,8 @@ public class HelpService : INService, IReadyExecutor
             ["StatusRoles"] = "moderation",
             ["CountingModeration"] = "moderation",
             ["MultiGreets"] = "serversetup",
+            ["WelcomeCards"] = "serversetup",
+            ["Verification"] = "serversetup",
             ["RoleGreets"] = "serversetup",
             ["Starboard"] = "serversetup",
             ["Bridge"] = "serversetup",
@@ -943,7 +945,7 @@ public class HelpService : INService, IReadyExecutor
                 .WithIsInline(false))
             .WithFooter(
                 $"Module: {com.Module.GetTopLevelModule().Name} || Submodule: {com.Module.Name.Replace("Commands", "")} || Method Name: {com.MethodName()}")
-            .WithColor(Mewdeko.OkColor);
+            .WithColor(GuildEmbedColorService.OkFor(guild?.Id));
 
         var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
             ?.OptionType;

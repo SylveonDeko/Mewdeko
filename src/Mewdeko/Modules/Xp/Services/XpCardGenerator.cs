@@ -15,6 +15,7 @@ namespace Mewdeko.Modules.Xp.Services;
 /// </summary>
 public class XpCardGenerator : INService
 {
+    private readonly XpBackgroundService backgrounds;
     private readonly IDataConnectionFactory dbFactory;
     private readonly byte[] defaultBackground;
     private readonly IHttpClientFactory httpClientFactory;
@@ -28,11 +29,13 @@ public class XpCardGenerator : INService
     /// <param name="xpService">The XP service.</param>
     /// <param name="httpClientFactory">The HTTP client factory.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="backgrounds">The rank card background service.</param>
     public XpCardGenerator(
         IDataConnectionFactory dbFactory,
         XpService xpService,
-        IHttpClientFactory httpClientFactory, ILogger<XpCardGenerator> logger)
+        IHttpClientFactory httpClientFactory, ILogger<XpCardGenerator> logger, XpBackgroundService backgrounds)
     {
+        this.backgrounds = backgrounds;
         this.dbFactory = dbFactory ?? throw new ArgumentNullException(nameof(dbFactory));
         this.xpService = xpService ?? throw new ArgumentNullException(nameof(xpService));
         this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
@@ -95,26 +98,9 @@ public class XpCardGenerator : INService
     private async Task<Stream> GenerateXpImageAsync(FullUserStats stats, Template template)
     {
         // Load the background image
-        await using var xpstream = new MemoryStream();
-        var xpImage = await GetXpImageAsync(stats.FullGuildStats.GuildId);
-        if (xpImage is not null)
-        {
-            using var httpClient = httpClientFactory.CreateClient();
-            var httpResponse = await httpClient.GetAsync(xpImage);
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                await httpResponse.Content.CopyToAsync(xpstream);
-                xpstream.Position = 0;
-            }
-        }
-        else
-        {
-            await xpstream.WriteAsync(defaultBackground.AsMemory(0, defaultBackground.Length));
-            xpstream.Position = 0;
-        }
-
-        var imgData = SKData.Create(xpstream);
-        var originalImg = SKBitmap.Decode(imgData);
+        var backgroundBytes = await LoadBackgroundAsync(stats.User.Id, stats.FullGuildStats.GuildId);
+        var originalImg = (backgroundBytes is null ? null : SKBitmap.Decode(backgroundBytes))
+                          ?? SKBitmap.Decode(defaultBackground);
 
         // The background defines the card's natural canvas size. Template dimensions are retained
         // for compatibility, but stretching or cropping the source image produces surprising cards.
@@ -764,6 +750,22 @@ public class XpCardGenerator : INService
             .LoadWithAsTable(t => t.TemplateClub)
             .LoadWithAsTable(t => t.TemplateGuild)
             .FirstOrDefaultAsync(x => x.GuildId == guildId);
+    }
+
+    /// <summary>
+    ///     Loads the card background: the user's own, else the server's, else null for the default.
+    /// </summary>
+    /// <param name="userId">The user ID.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The image bytes, or null.</returns>
+    private async Task<byte[]?> LoadBackgroundAsync(ulong userId, ulong guildId)
+    {
+        var own = await backgrounds.GetUserBackgroundAsync(userId);
+        if (own is not null && await backgrounds.LoadAsync(own) is { } ownBytes)
+            return ownBytes;
+
+        var server = await GetXpImageAsync(guildId);
+        return server is null ? null : await backgrounds.LoadAsync(server);
     }
 
     /// <summary>

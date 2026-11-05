@@ -688,6 +688,51 @@ fwclear:
     - ''
   desc: 'Clears all filtered words for the current guild.'
   params: [ ]
+filternormalize:
+  args:
+    - ''
+  desc: >-
+    Toggles whether filtered words are also caught when split by spaces or
+    punctuation, stretched with repeated letters, or written with symbols and
+    look-alike characters. On by default.
+  params: [ ]
+filterinvnoroles:
+  args:
+    - ''
+  desc: 'Toggles the invite filter only acting on members who have no roles.'
+  params: [ ]
+filterlinnoroles:
+  args:
+    - ''
+  desc: 'Toggles the link filter only acting on members who have no roles.'
+  params: [ ]
+linklimit:
+  args:
+    - '#general 3 30'
+    - '#general'
+  desc: >-
+    Limits how many links one member may post in a channel within a number of
+    seconds. Give only the channel to remove its limit.
+  params: [ ]
+filterlinkallow:
+  args:
+    - 'youtube.com'
+  desc: >-
+    Adds a domain to the link filter's allowed list, or removes it. Allowed
+    domains and their subdomains get past the link filter.
+  params: [ ]
+filterlinkblock:
+  args:
+    - 'example.com'
+  desc: >-
+    Adds a domain to the link filter's blocked list, or removes it. Messages
+    with a blocked domain or its subdomains are always deleted.
+  params: [ ]
+filterlinkdomains:
+  args:
+    - ''
+  desc: 'Shows the link filter''s allowed and blocked domains.'
+  params: [ ]
 globalcommand:
   args:
     - cmd

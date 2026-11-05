@@ -161,7 +161,7 @@ public class GuildLeaveFeedbackService : INService, IReadyExecutor
             return;
 
         var eb = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithTitle(strings.LeaveFeedbackTitle(guild.Id))
             .WithDescription(strings.LeaveFeedbackDesc(guild.Id, guild.Name))
             .WithFooter(strings.LeaveFeedbackFooter(guild.Id));

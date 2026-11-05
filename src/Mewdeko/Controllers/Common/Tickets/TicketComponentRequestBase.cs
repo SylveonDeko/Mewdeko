@@ -36,6 +36,16 @@ public abstract class TicketComponentRequestBase
     public ulong? ArchiveCategoryId { get; set; }
 
     /// <summary>
+    ///     Optional category tickets move to when claimed. 0 clears it on an update.
+    /// </summary>
+    public ulong? ClaimedCategoryId { get; set; }
+
+    /// <summary>
+    ///     Whether closing a ticket DMs the transcript to its creator.
+    /// </summary>
+    public bool? DmTranscript { get; set; }
+
+    /// <summary>
     ///     Optional text or forum channel tickets open in as threads or posts. 0 clears it on an update.
     /// </summary>
     public ulong? ThreadChannelId { get; set; }

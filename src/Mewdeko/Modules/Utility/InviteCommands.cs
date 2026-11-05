@@ -904,7 +904,7 @@ public partial class Utility
                 return;
 
             var (banned, failed) = await Service.MassBanAsync(ctx.Guild, inviter.Id, null,
-                reason ?? Strings.InviteMassBanReason(ctx.Guild.Id, ctx.User.ToString()));
+                reason ?? Strings.InviteMassBanReason(ctx.Guild.Id, ctx.User.ToString()), moderatorId: ctx.User.Id);
             await ReplyConfirmAsync(Strings.InviteMassBanDone(ctx.Guild.Id, banned, failed));
         }
 
@@ -932,7 +932,7 @@ public partial class Utility
                 return;
 
             var (banned, failed) = await Service.MassBanAsync(ctx.Guild, null, code,
-                reason ?? Strings.InviteMassBanReason(ctx.Guild.Id, ctx.User.ToString()));
+                reason ?? Strings.InviteMassBanReason(ctx.Guild.Id, ctx.User.ToString()), moderatorId: ctx.User.Id);
             await ReplyConfirmAsync(Strings.InviteMassBanDone(ctx.Guild.Id, banned, failed));
         }
 

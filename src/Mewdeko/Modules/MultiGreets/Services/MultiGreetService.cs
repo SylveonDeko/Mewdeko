@@ -1,4 +1,5 @@
-﻿using DataModel;
+﻿using System.IO;
+using DataModel;
 using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
@@ -19,6 +20,7 @@ public class MultiGreetService : INService
     private readonly GuildSettingsService guildSettingsService;
     private readonly InviteCountService inviteCountService;
     private readonly ILogger<MultiGreetService> logger;
+    private readonly WelcomeCardService welcomeCards;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="MultiGreetService" /> class.
@@ -30,10 +32,12 @@ public class MultiGreetService : INService
     /// <param name="inviteCountService">The invite count service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="welcomeCards">The service drawing welcome cards.</param>
     public MultiGreetService(IDataConnectionFactory dbFactory, DiscordShardedClient client,
         GuildSettingsService guildSettingsService, EventHandler eventHandler, InviteCountService inviteCountService,
-        ILogger<MultiGreetService> logger, IAnalyticsCollector collector)
+        ILogger<MultiGreetService> logger, IAnalyticsCollector collector, WelcomeCardService welcomeCards)
     {
+        this.welcomeCards = welcomeCards;
         this.collector = collector;
         this.client = client;
         this.guildSettingsService = guildSettingsService;
@@ -205,36 +209,47 @@ public class MultiGreetService : INService
     }
 
     private static async Task SendSmartEmbedMessage(IMessageChannel channel, string content, ulong guildId,
-        int deleteTime = 0)
+        int deleteTime = 0, byte[]? card = null)
     {
         var built = SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components)
             ? components?.Build()
             : null;
         if (!string.IsNullOrWhiteSpace(plainText) || embedData?.Length > 0 || built?.Components.Count > 0)
         {
-            var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: built);
+            var msg = card is null
+                ? await channel.SendMessageAsync(plainText, embeds: embedData, components: built)
+                : await channel.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, plainText,
+                    embeds: embedData, components: built);
             if (deleteTime > 0)
                 msg.DeleteAfter(deleteTime);
         }
-        else if (!string.IsNullOrWhiteSpace(content))
+        else if (!string.IsNullOrWhiteSpace(content) || card is not null)
         {
-            var msg = await channel.SendMessageAsync(content);
+            var msg = card is null
+                ? await channel.SendMessageAsync(content)
+                : await channel.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, content);
             if (deleteTime > 0)
                 msg.DeleteAfter(deleteTime);
         }
     }
 
-    private async Task<ulong> SendSmartEmbedWebhookMessage(DiscordWebhookClient webhook, string content, ulong guildId)
+    private async Task<ulong> SendSmartEmbedWebhookMessage(DiscordWebhookClient webhook, string content, ulong guildId,
+        byte[]? card = null)
     {
         var built = SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components)
             ? components?.Build()
             : null;
         if (!string.IsNullOrWhiteSpace(plainText) || embedData?.Length > 0 || built?.Components.Count > 0)
         {
-            return await webhook.SendMessageAsync(plainText, embeds: embedData, components: built);
+            return card is null
+                ? await webhook.SendMessageAsync(plainText, embeds: embedData, components: built)
+                : await webhook.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, plainText,
+                    embeds: embedData, components: built);
         }
 
-        return await webhook.SendMessageAsync(content);
+        return card is null
+            ? await webhook.SendMessageAsync(content)
+            : await webhook.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, content);
     }
 
     private async Task HandleGreet(MultiGreet greet, IGuildUser user, ReplacementBuilder replacer)
@@ -257,12 +272,14 @@ public class MultiGreetService : INService
             return;
         }
 
+        var card = await welcomeCards.TryRenderAsync(user.Guild.Id, WelcomeCardTarget.Greet, user);
+
         try
         {
             if (greet.WebhookUrl != null)
             {
                 var webhook = new DiscordWebhookClient(greet.WebhookUrl);
-                var msgId = await SendSmartEmbedWebhookMessage(webhook, content, user.Guild.Id);
+                var msgId = await SendSmartEmbedWebhookMessage(webhook, content, user.Guild.Id, card);
                 if (greet.DeleteTime > 0)
                 {
                     var msg = await channel.GetMessageAsync(msgId);
@@ -271,7 +288,7 @@ public class MultiGreetService : INService
             }
             else
             {
-                await SendSmartEmbedMessage(channel, content, user.Guild.Id, greet.DeleteTime);
+                await SendSmartEmbedMessage(channel, content, user.Guild.Id, greet.DeleteTime, card);
             }
 
             collector.Feature("greet", user.Guild.Id);

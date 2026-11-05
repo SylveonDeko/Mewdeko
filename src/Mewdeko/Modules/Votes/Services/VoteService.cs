@@ -77,7 +77,7 @@ public class VoteService : INService
                 .WithTitle(Strings.VoteThanks(guild.Id, guild.Name))
                 .WithDescription(Strings.VoteCountCorrect(guild.Id, votes))
                 .WithThumbnailUrl(user.RealAvatarUrl().AbsoluteUri)
-                .WithOkColor();
+                .WithOkColor(guild.Id);
 
             await channel.SendMessageAsync(user.Mention, embed: eb.Build());
 
@@ -473,7 +473,7 @@ public class VoteService : INService
             return new EmbedBuilder().WithErrorColor().WithDescription(Strings.YouDoNotHaveAnyVotes(guild.Id));
 
         return new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithTitle(Strings.VoteStatsFor(guild.Id, guild.Name))
             .AddField(Strings.VotesThisMonth(guild.Id), thisMonth)
             .AddField(Strings.TotalVotes(guild.Id), total)

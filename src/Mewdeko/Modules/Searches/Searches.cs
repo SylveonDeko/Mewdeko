@@ -595,14 +595,16 @@ public partial class Searches(
     ///     This command fetches a random cat image from an online source and posts it in the channel.
     ///     It's a fun command intended to provide users with a random cute cat picture to lighten the mood.
     /// </remarks>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     /// <example>
     ///     <code>.randomcat</code>
+    ///     <code>.randomcat 4</code>
     /// </example>
     [Cmd]
     [Aliases]
-    public Task RandomCat()
+    public Task RandomCat(int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Cats);
+        return InternalRandomImage(SearchesService.ImageTag.Cats, bomb);
     }
 
     /// <summary>
@@ -612,14 +614,16 @@ public partial class Searches(
     ///     Similar to the RandomCat command, this fetches and displays a random dog image.
     ///     It aims to delight users with a surprise dog picture, contributing to a positive and engaging community atmosphere.
     /// </remarks>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     /// <example>
     ///     <code>.randomdog</code>
+    ///     <code>.randomdog 4</code>
     /// </example>
     [Cmd]
     [Aliases]
-    public Task RandomDog()
+    public Task RandomDog(int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Dogs);
+        return InternalRandomImage(SearchesService.ImageTag.Dogs, bomb);
     }
 
     /// <summary>
@@ -630,14 +634,16 @@ public partial class Searches(
     ///     It aims to delight users with a surprise food picture, contributing to a positive and engaging community
     ///     atmosphere. Maybe even leaving some salivating. Maybe disgusted. Idk.
     /// </remarks>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     /// <example>
     ///     <code>.randomfood</code>
+    ///     <code>.randomfood 4</code>
     /// </example>
     [Cmd]
     [Aliases]
-    public Task RandomFood()
+    public Task RandomFood(int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Food);
+        return InternalRandomImage(SearchesService.ImageTag.Food, bomb);
     }
 
     /// <summary>
@@ -648,30 +654,55 @@ public partial class Searches(
     ///     It aims to delight users with a surprise birb picture, contributing to a positive and engaging community
     ///     atmosphere.
     /// </remarks>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     /// <example>
     ///     <code>.randombird</code>
+    ///     <code>.randombird 4</code>
     /// </example>
     [Cmd]
     [Aliases]
-    public Task RandomBird()
+    public Task RandomBird(int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Birds);
+        return InternalRandomImage(SearchesService.ImageTag.Birds, bomb);
     }
 
 
     /// <summary>
-    ///     Fetches and displays a random image from the specified category using Martine API.
+    ///     Fetches and displays random images from the specified category using Martine API.
     /// </summary>
     /// <param name="tag">The category of image to display.</param>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     /// <returns>A task representing the asynchronous operation, containing the sent message.</returns>
     /// <exception cref="ApiException">Thrown when the API request fails.</exception>
-    private async Task<IUserMessage> InternalRandomImage(SearchesService.ImageTag tag)
+    private async Task<IUserMessage> InternalRandomImage(SearchesService.ImageTag tag, int bomb = 1)
     {
         var msg = await ctx.Channel.SendConfirmAsync(Strings.FetchingImage(ctx.Guild.Id)).ConfigureAwait(false);
         try
         {
-            var image = await Service.GetRandomImageAsync(tag).ConfigureAwait(false);
+            bomb = Math.Clamp(bomb, 1, 5);
             var button = new ComponentBuilder().WithButton("Another!", $"randomimage:{tag}.{ctx.User.Id}");
+
+            if (bomb > 1)
+            {
+                var images = await Service.GetRandomImagesAsync(tag, bomb).ConfigureAwait(false);
+                var embeds = images.Select(image => new EmbedBuilder()
+                    .WithOkColor()
+                    .WithAuthor(Strings.RedditAuthor(ctx.Guild.Id, image.Data.Author.Name))
+                    .WithDescription($"Title: {image.Data.Title}\n[Source]({image.Data.PostUrl})")
+                    .WithImageUrl(image.Data.ImageUrl)
+                    .Build()).ToArray();
+
+                await msg.ModifyAsync(x =>
+                {
+                    x.Embed = null;
+                    x.Embeds = embeds;
+                    x.Components = button.Build();
+                }).ConfigureAwait(false);
+
+                return msg;
+            }
+
+            var image = await Service.GetRandomImageAsync(tag).ConfigureAwait(false);
 
             var em = new EmbedBuilder()
                 .WithOkColor()

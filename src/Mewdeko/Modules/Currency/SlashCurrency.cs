@@ -59,9 +59,13 @@ public partial class SlashCurrency : SlashCurrencyBase
 
         var challenger = await ctx.Guild.GetUserAsync(challengerId);
 
+        var boostedPot = challengerRoll == accepterRoll
+            ? pot
+            : await BoostService.ApplyToWinningsAsync(ctx.Guild.Id, "diceduel", betAmount, pot);
+
         if (challengerRoll > accepterRoll)
         {
-            await Service.CreditAsync(challengerId, pot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
+            await Service.CreditAsync(challengerId, boostedPot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
                 CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
 
             eb.WithDescription(Strings.DiceDuelChallengerWin(ctx.Guild.Id, challenger?.Mention ?? "Challenger",
@@ -69,7 +73,7 @@ public partial class SlashCurrency : SlashCurrencyBase
         }
         else if (accepterRoll > challengerRoll)
         {
-            await Service.CreditAsync(ctx.User.Id, pot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
+            await Service.CreditAsync(ctx.User.Id, boostedPot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
                 CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
 
             eb.WithDescription(Strings.DiceDuelAccepterWin(ctx.Guild.Id, ctx.User.Mention, accepterRoll,
@@ -117,6 +121,9 @@ public partial class SlashCurrency : SlashCurrencyBase
 
         if (winnings > 0)
         {
+            var stake = TriviaChainService.GetTriviaChainState(userId)?.BetAmount ?? winnings;
+            winnings = await BoostService.ApplyToWinningsAsync(ctx.Guild.Id, "triviachain", stake, winnings);
+
             await Service.CreditAsync(userId, winnings, Strings.TriviaChainTransactionCashedOut(ctx.Guild.Id),
                 CurrencyCategory.GamePayout, ctx.Guild.Id, "triviachain");
 

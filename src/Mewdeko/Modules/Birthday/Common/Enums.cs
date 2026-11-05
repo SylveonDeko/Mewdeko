@@ -36,3 +36,24 @@ public enum BirthdayFeature
     /// </summary>
     TimezoneSupport = 16
 }
+
+/// <summary>
+///     Whether members of a guild may share their birth year.
+/// </summary>
+public enum BirthYearRule
+{
+    /// <summary>
+    ///     The birth year is never shown and ages are never announced.
+    /// </summary>
+    NotAllowed = 0,
+
+    /// <summary>
+    ///     Members choose whether to share their birth year.
+    /// </summary>
+    Optional = 1,
+
+    /// <summary>
+    ///     Only members who share their birth year are announced.
+    /// </summary>
+    Required = 2
+}

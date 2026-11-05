@@ -59,6 +59,26 @@ public abstract class Provider
     public abstract Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> usernames);
 
     /// <summary>
+    ///     Looks up a source from a URL, handle or name. Providers whose sources take more than a URL override this.
+    /// </summary>
+    /// <param name="input">The URL, handle or name to resolve.</param>
+    /// <param name="includeReposts">Whether reposts count as new posts, where the platform has them.</param>
+    /// <returns><see cref="StreamData" /> of the source. Null if none found</returns>
+    public virtual Task<StreamData?> ResolveAsync(string input, bool includeReposts)
+    {
+        return GetStreamDataByUrlAsync(input);
+    }
+
+    /// <summary>
+    ///     Remembers the feed URL of a followed source whose key cannot hold it.
+    /// </summary>
+    /// <param name="name">The followed name.</param>
+    /// <param name="sourceUrl">The feed URL.</param>
+    public virtual void RegisterSource(string name, string sourceUrl)
+    {
+    }
+
+    /// <summary>
     ///     Unmark the stream as errored. You should override this method
     ///     if you've overridden the <see cref="FailingStreams" /> property.
     /// </summary>

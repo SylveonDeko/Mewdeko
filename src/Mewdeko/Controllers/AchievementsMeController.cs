@@ -68,6 +68,11 @@ public class AchievementsMeController : Controller
             }
 
             response.RoleRewardId = null;
+            response.RoleRemoveId = null;
+            response.RoleRemoveName = null;
+            response.TargetRoleId = null;
+            response.TargetRoleName = null;
+            response.UnlockMessage = null;
             response.RoleRewardName = p.Definition.RoleRewardId is { } roleId ? guild!.GetRole(roleId)?.Name : null;
             return response;
         }).ToList();

@@ -44,5 +44,7 @@ namespace DataModel
 		[Column("ThreadOnlyMode"                                                                                  )] public bool      ThreadOnlyMode { get; set; } = false; // boolean
 		[Column("ThreadStickyMessages"                                                                            )] public string?   ThreadStickyMessages { get; set; } // text - JSON tracking thread sticky message IDs
 		[Column("SuppressNotifications"                                                                           )] public bool      SuppressNotifications { get; set; } = false; // boolean
+		[Column("PingRoleId"                                                                                      )] public ulong?    PingRoleId     { get; set; } // numeric(20,0) - role made mentionable for each send
+		[Column("DisabledReason"                                                                                  )] public string?   DisabledReason { get; set; } // text - why the repeater turned itself off after a failure
 	}
 }

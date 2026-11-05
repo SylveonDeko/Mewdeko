@@ -820,6 +820,40 @@ public partial class Utility
         }
 
         /// <summary>
+        ///     Sets the role a repeater pings each time it posts. The role is made mentionable only while the message is
+        ///     sent.
+        /// </summary>
+        /// <param name="index">The one-based index of the repeater to modify.</param>
+        /// <param name="role">The role to ping. Leave empty to stop pinging.</param>
+        /// <example>.repeatpingrole 1 @Announcements</example>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        public async Task RepeatPingRole(int index, IRole? role = null)
+        {
+            if (!Service.RepeaterReady)
+                return;
+
+            var repeater = Service.GetRepeaterByIndex(ctx.Guild.Id, index - 1);
+            if (repeater == null)
+            {
+                await ReplyErrorAsync(Strings.IndexOutOfRange(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            if (!await Service.SetRepeaterPingRoleAsync(ctx.Guild.Id, repeater.Repeater.Id, role?.Id))
+            {
+                await ReplyErrorAsync(Strings.RepeatActionFailed(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await ReplyConfirmAsync(role is null
+                ? Strings.RepeaterPingRoleCleared(ctx.Guild.Id, index)
+                : Strings.RepeaterPingRoleSet(ctx.Guild.Id, index, role.Mention)).ConfigureAwait(false);
+        }
+
+        /// <summary>
         ///     Sets forum tag conditions for a repeater.
         /// </summary>
         /// <param name="index">The one-based index of the repeater to modify.</param>

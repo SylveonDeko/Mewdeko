@@ -1,0 +1,79 @@
+automations:
+  args:
+    - ''
+  desc: 'Lists the automations of the server. Build them in the dashboard or start from a template.'
+  params: [ ]
+automationshow:
+  args:
+    - '3'
+  desc: 'Shows the trigger, conditions, actions and settings of an automation.'
+  params:
+    - desc: 'The automation ID.'
+      name: id
+      optional: false
+      type: int
+automationenable:
+  args:
+    - '3'
+  desc: 'Turns an automation on.'
+  params:
+    - desc: 'The automation ID.'
+      name: id
+      optional: false
+      type: int
+automationdisable:
+  args:
+    - '3'
+  desc: 'Turns an automation off.'
+  params:
+    - desc: 'The automation ID.'
+      name: id
+      optional: false
+      type: int
+automationdelete:
+  args:
+    - '3'
+  desc: 'Deletes an automation and its run log.'
+  params:
+    - desc: 'The automation ID.'
+      name: id
+      optional: false
+      type: int
+automationtest:
+  args:
+    - '3'
+  desc: 'Runs an automation once as if you had triggered it here, ignoring its conditions and cooldown.'
+  params:
+    - desc: 'The automation ID.'
+      name: id
+      optional: false
+      type: int
+automationlog:
+  args:
+    - '3'
+  desc: 'Shows the latest runs of an automation and why any of them failed.'
+  params:
+    - desc: 'The automation ID.'
+      name: id
+      optional: false
+      type: int
+automationtemplates:
+  args:
+    - ''
+  desc: 'Lists the starter templates for automations.'
+  params: [ ]
+automationtemplate:
+  args:
+    - 'welcome #general'
+    - 'thread-joiner @member'
+    - 'button-role #roles @role'
+  desc: 'Creates automations from a starter template. Mention the channel, role or member the template needs.'
+  params:
+    - desc: 'The template ID, such as thank-boosters, welcome, thread-joiner, starboard or button-role.'
+      name: template
+      optional: false
+      type: string
+    - desc: 'The channel, role or member mentions the template needs.'
+      name: targets
+      optional: true
+      type: string

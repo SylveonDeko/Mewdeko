@@ -92,6 +92,21 @@ public sealed class AchievementDefinition
     public ulong? RoleRewardId { get; init; }
 
     /// <summary>
+    ///     Role taken away on unlock.
+    /// </summary>
+    public ulong? RoleRemoveId { get; init; }
+
+    /// <summary>
+    ///     The role a role achievement waits for.
+    /// </summary>
+    public ulong? TargetRoleId { get; init; }
+
+    /// <summary>
+    ///     Unlock message source that replaces the server's for this achievement, or null to use the server's.
+    /// </summary>
+    public string? UnlockMessage { get; init; }
+
+    /// <summary>
     ///     Currency handed out on unlock.
     /// </summary>
     public long CurrencyReward { get; init; }

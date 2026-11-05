@@ -336,11 +336,48 @@ achreset:
       name: user
       optional: false
       type: IGuildUser
+achresetall:
+  args:
+    - ''
+  desc: 'Clears every achievement for every member of the server after asking to confirm. Tracked stats stay, so anything members still qualify for comes back quietly.'
+  params: [ ]
+achresetone:
+  args:
+    - 'Chatterbox'
+  desc: 'Clears one achievement for every member of the server after asking to confirm.'
+  params:
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achalmostthere:
+  args:
+    - 'true'
+  desc: 'Sets whether members get one DM when they are 75% of the way to an achievement. Members who turned achievement DMs off never get it.'
+  params:
+    - desc: True for on, false for off.
+      name: enabled
+      optional: false
+      type: bool
+achunlockmessage:
+  args:
+    - '"Chatterbox" %user.mention% is chatty now!'
+    - '"Chatterbox"'
+  desc: 'Sets the message sent when one achievement is unlocked, in place of the server''s unlock message. Leave the message out to use the server''s again.'
+  params:
+    - desc: The achievement name or key, in quotes when it has spaces.
+      name: achievement
+      optional: false
+      type: string
+    - desc: Text or embed JSON with placeholders, or nothing to clear it.
+      name: message
+      optional: true
+      type: string
 achcreate:
   args:
     - 'MessagesTotal 500 Silver Getting Chatty'
     - 'VoiceHours 50 Gold Night Shift'
-  desc: 'Makes an achievement unlocked by reaching a number. Metrics include MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation, and NetWorth.'
+  desc: 'Makes an achievement unlocked by reaching a number. Metrics include MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation, NetWorth, ThreadsCreated, ThreadsJoined, GiveawaysEntered, ShopPurchases, and BirthdaySet. Use achcreaterole for role achievements.'
   params:
     - desc: What to count.
       name: metric
@@ -405,6 +442,23 @@ achcreatemanual:
       name: name
       optional: false
       type: string
+achcreaterole:
+  args:
+    - '@Veteran Gold Veteran'
+  desc: 'Makes an achievement unlocked when a member receives a role.'
+  params:
+    - desc: The role members have to receive.
+      name: role
+      optional: false
+      type: IRole
+    - desc: Bronze, Silver, Gold, Emerald, Amethyst, or Champion.
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: The name.
+      name: name
+      optional: false
+      type: string
 achdelete:
   args:
     - 'Pizza Fan'
@@ -456,8 +510,21 @@ achrewardxp:
 achrewardclear:
   args:
     - 'Chatterbox'
-  desc: 'Removes every reward from an achievement.'
+  desc: 'Removes every reward from an achievement, including a role it takes away.'
   params:
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achrewardtakerole:
+  args:
+    - '@Newcomer Regular'
+  desc: 'Takes a role away from members when they unlock an achievement.'
+  params:
+    - desc: The role.
+      name: role
+      optional: false
+      type: IRole
     - desc: The achievement name or key.
       name: achievement
       optional: false

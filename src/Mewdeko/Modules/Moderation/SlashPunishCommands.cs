@@ -109,6 +109,7 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
             return;
         }
 
+        reason = await Service.Cases.ResolveReasonAsync(ctx.Guild.Id, reason).ConfigureAwait(false);
         reason ??= $"{ctx.User} || None Specified";
         if (time.Time.Days > 28)
         {
@@ -116,10 +117,11 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
             return;
         }
 
-        await user.SetTimeOutAsync(time.Time, new RequestOptions
-        {
-            AuditLogReason = reason
-        }).ConfigureAwait(false);
+        await Service.Cases.PunishAsync(ctx.Guild, user, ctx.User, ModCaseAction.Timeout, reason, time.Time,
+            () => user.SetTimeOutAsync(time.Time, new RequestOptions
+            {
+                AuditLogReason = reason
+            })).ConfigureAwait(false);
         await ReplyConfirmAsync(Strings.TimeoutSet(ctx.Guild.Id, user.Mention,
                 time.Time.Humanize(maxUnit: TimeUnit.Day)))
             .ConfigureAwait(false);
@@ -142,6 +144,8 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
         {
             AuditLogReason = $"Removal requested by {ctx.User}"
         }).ConfigureAwait(false);
+        await Service.Cases.RecordAsync(ctx.Guild.Id, user.Id, ctx.User.Id, ModCaseAction.Untimeout, null)
+            .ConfigureAwait(false);
         await ReplyConfirmAsync(Strings.TimeoutRemoved(ctx.Guild.Id, user.Mention)).ConfigureAwait(false);
     }
 
@@ -159,25 +163,42 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
         if (!await CheckRoleHierarchy(user))
             return;
 
+        reason = await Service.Cases.ResolveReasonAsync(ctx.Guild.Id, reason).ConfigureAwait(false);
         var dmFailed = false;
-        try
+
+        async Task SendWarnDm(int? caseNumber)
         {
-            await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
-                    .WithErrorColor()
-                    .WithDescription(Strings.WarnedOn(ctx.Guild.Id, ctx.Guild.ToString()))
-                    .AddField(efb => efb.WithName(Strings.Moderator(ctx.Guild.Id)).WithValue(ctx.User.ToString()))
-                    .AddField(efb => efb.WithName(Strings.Reason(ctx.Guild.Id)).WithValue(reason ?? "-")))
-                .ConfigureAwait(false);
-        }
-        catch
-        {
-            dmFailed = true;
+            try
+            {
+                var custom = await Service.Cases
+                    .SendPunishDmAsync(ctx.Guild, user, ctx.User, ModCaseAction.Warn, reason, null, caseNumber)
+                    .ConfigureAwait(false);
+                if (custom is null)
+                {
+                    await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
+                            .WithErrorColor()
+                            .WithDescription(Strings.WarnedOn(ctx.Guild.Id, ctx.Guild.ToString()))
+                            .AddField(efb =>
+                                efb.WithName(Strings.Moderator(ctx.Guild.Id)).WithValue(ctx.User.ToString()))
+                            .AddField(efb => efb.WithName(Strings.Reason(ctx.Guild.Id)).WithValue(reason ?? "-")))
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    dmFailed = !custom.Value;
+                }
+            }
+            catch
+            {
+                dmFailed = true;
+            }
         }
 
         WarningPunishment punishment;
         try
         {
-            punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason).ConfigureAwait(false);
+            punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason, SendWarnDm)
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -424,6 +445,30 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
     }
 
     /// <summary>
+    ///     Clears every active warning in the server after a confirmation
+    /// </summary>
+    [SlashCommand("warnclear-all", "Clear every active warning in the server.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.BanMembers)]
+    [CheckPermissions]
+    public async Task WarnClearAll()
+    {
+        var count = await Service.CountActiveWarningsAsync(ctx.Guild.Id).ConfigureAwait(false);
+        if (count == 0)
+        {
+            await ReplyErrorAsync(Strings.WarnClearAllNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (!await PromptUserConfirmAsync(Strings.WarnClearAllConfirm(ctx.Guild.Id, count), ctx.User.Id)
+                .ConfigureAwait(false))
+            return;
+
+        var cleared = await Service.WarnClearAllAsync(ctx.Guild.Id, ctx.User.ToString()).ConfigureAwait(false);
+        await ReplyConfirmAsync(Strings.WarnClearAllDone(ctx.Guild.Id, cleared)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Sets what each warn count does
     /// </summary>
     /// <param name="number">The number of warns to set the punishment for</param>
@@ -594,6 +639,29 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
         }
     }
 
+    private async Task<bool> SendBanDmAsync(IGuildUser user, string? reason, TimeSpan? duration, int? caseNumber)
+    {
+        try
+        {
+            var defaultMessage = Strings.Bandm(ctx.Guild.Id, Format.Bold(ctx.Guild.Name), reason);
+            var (embedBuilder, message, components) = await Service
+                .GetBanUserDmEmbed(ctx, user, defaultMessage, reason, duration, caseNumber).ConfigureAwait(false);
+            if (embedBuilder is not null || message is not null)
+            {
+                var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
+                await userChannel
+                    .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                    .ConfigureAwait(false);
+            }
+
+            return false;
+        }
+        catch
+        {
+            return true;
+        }
+    }
+
     private async Task InternalBanAsync(
         ulong userId = 0,
         bool hackBan = false,
@@ -602,6 +670,7 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
         IGuildUser? user = null,
         int? pruneDays = null)
     {
+        reason = await Service.Cases.ResolveReasonAsync(ctx.Guild.Id, reason).ConfigureAwait(false);
         if (hackBan)
         {
             if (time != default)
@@ -610,6 +679,8 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
                 {
                     AuditLogReason = $"{ctx.User} | {reason}"
                 }).ConfigureAwait(false);
+                await Service.Cases.RecordAsync(ctx.Guild.Id, userId, ctx.User.Id, ModCaseAction.Ban, reason)
+                    .ConfigureAwait(false);
 
                 await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
                         .WithTitle($"⛔️ {Strings.BannedUser(ctx.Guild.Id)}")
@@ -625,6 +696,8 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
                 {
                     AuditLogReason = $"{ctx.User} | {reason}"
                 }).ConfigureAwait(false);
+                await Service.Cases.RecordAsync(ctx.Guild.Id, userId, ctx.User.Id, ModCaseAction.Ban, reason)
+                    .ConfigureAwait(false);
 
                 await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
                         .WithTitle($"⛔️ {Strings.BannedUser(ctx.Guild.Id)}")
@@ -636,37 +709,20 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
         {
             if (time != default)
             {
-                var dmFailed = false;
-
-                try
-                {
-                    var defaultMessage = Strings.Bandm(ctx.Guild.Id, Format.Bold(ctx.Guild.Name), reason);
-                    var (embedBuilder, message, components) = await Service
-                        .GetBanUserDmEmbed(Context, user, defaultMessage, reason, null).ConfigureAwait(false);
-                    if (embedBuilder is not null || message is not null)
-                    {
-                        var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
-                        await userChannel
-                            .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
-                            .ConfigureAwait(false);
-                    }
-                }
-                catch
-                {
-                    dmFailed = true;
-                }
-
+                bool dmFailed;
                 if (pruneDays.HasValue)
                 {
-                    await mute.TimedBan(ctx.Guild, user, time, $"{ctx.User} | {reason}",
-                        TimeSpan.FromDays(pruneDays.Value)).ConfigureAwait(false);
+                    dmFailed = await mute.TimedBan(ctx.Guild, user, time, $"{ctx.User} | {reason}",
+                        TimeSpan.FromDays(pruneDays.Value), ctx.User,
+                        n => SendBanDmAsync(user, reason, null, n)).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Guild.AddBanAsync(user, time.Days, options: new RequestOptions
-                    {
-                        AuditLogReason = $"{ctx.User} | {reason}"
-                    }).ConfigureAwait(false);
+                    (_, dmFailed) = await Service.Cases.PunishAsync(ctx.Guild, user, ctx.User, ModCaseAction.Ban,
+                        reason, null, () => ctx.Guild.AddBanAsync(user, time.Days, options: new RequestOptions
+                        {
+                            AuditLogReason = $"{ctx.User} | {reason}"
+                        }), n => SendBanDmAsync(user, reason, null, n)).ConfigureAwait(false);
                 }
 
                 var toSend = new EmbedBuilder().WithOkColor()
@@ -694,33 +750,14 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
             }
             else
             {
-                var dmFailed = false;
-
-                try
-                {
-                    var defaultMessage = Strings.Bandm(ctx.Guild.Id, Format.Bold(ctx.Guild.Name), reason);
-                    var (embedBuilder, message, components) = await Service
-                        .GetBanUserDmEmbed(ctx, user, defaultMessage, reason, null).ConfigureAwait(false);
-                    if (embedBuilder is not null || message is not null)
-                    {
-                        var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
-                        await userChannel
-                            .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
-                            .ConfigureAwait(false);
-                    }
-                }
-                catch
-                {
-                    dmFailed = true;
-                }
-
                 var banPruneDays = pruneDays ?? await banPrune
                     .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.Ban, ctx.Channel)
                     .ConfigureAwait(false);
-                await ctx.Guild.AddBanAsync(user, banPruneDays, options: new RequestOptions
-                {
-                    AuditLogReason = $"{ctx.User} | {reason}"
-                }).ConfigureAwait(false);
+                var (_, dmFailed) = await Service.Cases.PunishAsync(ctx.Guild, user, ctx.User, ModCaseAction.Ban,
+                    reason, null, () => ctx.Guild.AddBanAsync(user, banPruneDays, options: new RequestOptions
+                    {
+                        AuditLogReason = $"{ctx.User} | {reason}"
+                    }), n => SendBanDmAsync(user, reason, null, n)).ConfigureAwait(false);
 
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle($"⛔️ {Strings.BannedUser(ctx.Guild.Id)}")
@@ -763,6 +800,8 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
     private async Task UnbanInternal(IUser user)
     {
         await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
+        await Service.Cases.RecordAsync(ctx.Guild.Id, user.Id, ctx.User.Id, ModCaseAction.Unban, null)
+            .ConfigureAwait(false);
 
         await ReplyConfirmAsync(Strings.UnbannedUser(ctx.Guild.Id, Format.Bold(user.ToString()))).ConfigureAwait(false);
     }
@@ -788,35 +827,32 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
         if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
             return;
 
-        var dmFailed = false;
-
-        try
-        {
-            await user.SendErrorAsync(Strings.Sbdm(ctx.Guild.Id, Format.Bold(ctx.Guild.Name), msg))
-                .ConfigureAwait(false);
-        }
-        catch
-        {
-            dmFailed = true;
-        }
+        msg = await Service.Cases.ResolveReasonAsync(ctx.Guild.Id, msg).ConfigureAwait(false);
 
         var softPruneDays = await banPrune
             .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.SoftBan, ctx.Channel).ConfigureAwait(false);
-        await ctx.Guild.AddBanAsync(user, softPruneDays, options: new RequestOptions
-        {
-            AuditLogReason = $"Softban: {ctx.User} | {msg}"
-        }).ConfigureAwait(false);
-        try
-        {
-            await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
-        }
-        catch
-        {
-            await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
-        }
+        var (_, dmFailed) = await Service.Cases.PunishAsync(ctx.Guild, user, ctx.User, ModCaseAction.Softban, msg,
+            null, async () =>
+            {
+                await ctx.Guild.AddBanAsync(user, softPruneDays, options: new RequestOptions
+                {
+                    AuditLogReason = $"Softban: {ctx.User} | {msg}"
+                }).ConfigureAwait(false);
+                try
+                {
+                    await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
+                }
+                catch
+                {
+                    await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
+                }
+            },
+            n => Service.Cases.SendDmOrDefaultAsync(ctx.Guild, user, ctx.User, ModCaseAction.Softban, msg, null, n,
+                () => user.SendErrorAsync(Strings.Sbdm(ctx.Guild.Id, Format.Bold(ctx.Guild.Name), msg))))
+            .ConfigureAwait(false);
 
         var toSend = new EmbedBuilder().WithOkColor()
-            .WithTitle($"☣ {Strings.SbUser(ctx.Guild.Id)}")
+            .WithTitle($"☣{Strings.SbUser(ctx.Guild.Id)}")
             .AddField(efb => efb.WithName(Strings.Username(ctx.Guild.Id)).WithValue(user.ToString()).WithIsInline(true))
             .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
             .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
@@ -848,19 +884,13 @@ public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishServi
         if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
             return;
 
-        var dmFailed = false;
+        msg = await Service.Cases.ResolveReasonAsync(ctx.Guild.Id, msg).ConfigureAwait(false);
 
-        try
-        {
-            await user.SendErrorAsync(Strings.Kickdm(ctx.Guild.Id, Format.Bold(ctx.Guild.Name), msg))
-                .ConfigureAwait(false);
-        }
-        catch
-        {
-            dmFailed = true;
-        }
-
-        await user.KickAsync($"{ctx.User} | {msg}").ConfigureAwait(false);
+        var (_, dmFailed) = await Service.Cases.PunishAsync(ctx.Guild, user, ctx.User, ModCaseAction.Kick, msg, null,
+            () => user.KickAsync($"{ctx.User} | {msg}"),
+            n => Service.Cases.SendDmOrDefaultAsync(ctx.Guild, user, ctx.User, ModCaseAction.Kick, msg, null, n,
+                () => user.SendErrorAsync(Strings.Kickdm(ctx.Guild.Id, Format.Bold(ctx.Guild.Name), msg))))
+            .ConfigureAwait(false);
 
         var toSend = new EmbedBuilder().WithOkColor()
             .WithTitle(Strings.KickedUser(ctx.Guild.Id))

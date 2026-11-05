@@ -1142,7 +1142,7 @@ public partial class SlashCurrency
             var payout = Math.Max(0, betAmount + delta);
 
             if (payout > 0)
-                await PayoutAsync(payout, "wheelfortune");
+                payout = await PayoutAsync(payout, "wheelfortune", betAmount);
 
             var balanceChange = payout - betAmount;
 
@@ -1193,7 +1193,7 @@ public partial class SlashCurrency
             var payout = Math.Max(0, betAmount + delta);
 
             if (payout > 0)
-                await PayoutAsync(payout, "spinwheel");
+                payout = await PayoutAsync(payout, "spinwheel", betAmount);
 
             var net = payout - betAmount;
             var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);

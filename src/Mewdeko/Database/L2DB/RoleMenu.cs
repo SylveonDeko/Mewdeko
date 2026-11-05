@@ -44,6 +44,24 @@ public class RoleMenu
     [Column("RequiredRoleId")]
     public ulong? RequiredRoleId { get; set; }
 
+    [Column("TempRoleSeconds")]
+    public int TempRoleSeconds { get; set; }
+
+    [Column("BlockedRoleIds")]
+    public string BlockedRoleIds { get; set; } = "";
+
+    [Column("ExpiresAt")]
+    public DateTime? ExpiresAt { get; set; }
+
+    [Column("GroupId")]
+    public int? GroupId { get; set; }
+
+    [Column("AccentColor")]
+    public int? AccentColor { get; set; }
+
+    [Column("ButtonColor")]
+    public int ButtonColor { get; set; }
+
     [Column("ReplyMode")]
     public int ReplyMode { get; set; }
 

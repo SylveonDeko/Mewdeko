@@ -1,3 +1,4 @@
+using System.Net.Http;
 using DataModel;
 using Discord.Interactions;
 using Fergun.Interactive;
@@ -6,6 +7,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 using Mewdeko.Modules.Searches.Services;
 
 namespace Mewdeko.Modules.Searches;
@@ -16,7 +18,10 @@ namespace Mewdeko.Modules.Searches;
 /// <param name="dbFactory">The database connection factory.</param>
 /// <param name="interactivity">The interactive service used for pagination.</param>
 [Group("stream", "Manage stream notifications")]
-public class SlashStreams(IDataConnectionFactory dbFactory, InteractiveService interactivity)
+public class SlashStreams(
+    IDataConnectionFactory dbFactory,
+    InteractiveService interactivity,
+    IHttpClientFactory httpFactory)
     : MewdekoSlashModuleBase<StreamNotificationService>
 {
     /// <summary>
@@ -247,6 +252,177 @@ public class SlashStreams(IDataConnectionFactory dbFactory, InteractiveService i
             await ReplyConfirmAsync(Strings.StreamOfflineMessageSet(ctx.Guild.Id, Format.Bold(fs.Username)))
                 .ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    ///     Sets the message sent when a followed TikTok account posts a new video.
+    /// </summary>
+    /// <param name="index">The 1-based index of the stream.</param>
+    /// <param name="message">The video message template with placeholders. Leave empty to reset.</param>
+    [SlashCommand("video-message", "Set the new video message for a followed TikTok account")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task StreamVideoMessage([Summary("index", "The stream number from the list")] int index,
+        [Summary("message", "The message, leave empty to reset")]
+        string? message = null)
+    {
+        if (--index < 0)
+        {
+            await ReplyErrorAsync(Strings.StreamNo(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        message ??= string.Empty;
+
+        var (followed, fs) = await Service.SetStreamVideoMessage(ctx.Guild.Id, index, message);
+
+        if (!followed)
+        {
+            await ReplyConfirmAsync(Strings.StreamNotFollowing(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(message))
+            await ReplyConfirmAsync(Strings.StreamVideoMessageReset(ctx.Guild.Id, Format.Bold(fs.Username)))
+                .ConfigureAwait(false);
+        else
+            await ReplyConfirmAsync(Strings.StreamVideoMessageSet(ctx.Guild.Id, Format.Bold(fs.Username)))
+                .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Toggles editing a stream's live message in place while the stream runs.
+    /// </summary>
+    /// <param name="index">The 1-based index of the stream.</param>
+    [SlashCommand("live-message", "Toggle updating the live message in place while a stream runs")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task StreamLiveMessage([Summary("index", "The stream number from the list")] int index)
+    {
+        if (--index < 0)
+        {
+            await ReplyErrorAsync(Strings.StreamNo(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var (followed, fs, enabled) = await Service.ToggleLiveMessage(ctx.Guild.Id, index);
+
+        if (!followed)
+        {
+            await ReplyConfirmAsync(Strings.StreamNotFollowing(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (enabled)
+            await ReplyConfirmAsync(Strings.StreamLiveMessageEnabled(ctx.Guild.Id, Format.Bold(fs.Username)))
+                .ConfigureAwait(false);
+        else
+            await ReplyConfirmAsync(Strings.StreamLiveMessageDisabled(ctx.Guild.Id, Format.Bold(fs.Username)))
+                .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Toggles deleting a stream's notification message when the stream ends.
+    /// </summary>
+    /// <param name="index">The 1-based index of the stream.</param>
+    [SlashCommand("delete-on-end", "Toggle deleting the notification message when a stream ends")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task StreamDeleteOnEnd([Summary("index", "The stream number from the list")] int index)
+    {
+        if (--index < 0)
+        {
+            await ReplyErrorAsync(Strings.StreamNo(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var (followed, fs, enabled) = await Service.ToggleDeleteOnEnd(ctx.Guild.Id, index);
+
+        if (!followed)
+        {
+            await ReplyConfirmAsync(Strings.StreamNotFollowing(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (enabled)
+            await ReplyConfirmAsync(Strings.StreamDeleteOnEndEnabled(ctx.Guild.Id, Format.Bold(fs.Username)))
+                .ConfigureAwait(false);
+        else
+            await ReplyConfirmAsync(Strings.StreamDeleteOnEndDisabled(ctx.Guild.Id, Format.Bold(fs.Username)))
+                .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Follows a YouTube channel's uploads, a Bluesky account, a subreddit or a podcast.
+    /// </summary>
+    /// <param name="platform">The platform to follow on.</param>
+    /// <param name="target">A URL, handle or name, or a feed URL for a podcast.</param>
+    /// <param name="reposts">Whether Bluesky reposts count as new posts.</param>
+    [SlashCommand("social", "Follow YouTube uploads, a Bluesky account, a subreddit or a podcast")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task StreamSocial(
+        [Summary("platform", "Where to follow")]
+        [Choice("YouTube uploads", "youtube")]
+        [Choice("Bluesky", "bluesky")]
+        [Choice("Reddit", "reddit")]
+        [Choice("Podcast", "podcast")]
+        string platform,
+        [Summary("target", "A URL, handle or name, or a feed URL for a podcast")]
+        string target,
+        [Summary("reposts", "Count Bluesky reposts as new posts")]
+        bool reposts = false)
+    {
+        await DeferAsync().ConfigureAwait(false);
+        if (!StreamNotificationService.TryParseSocialType(platform, out var type))
+        {
+            await ReplyErrorAsync(Strings.StreamSocialUnknownType(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var data = await Service.FollowSocial(ctx.Guild.Id, ctx.Channel.Id, type, target, reposts)
+            .ConfigureAwait(false);
+        if (data is null)
+        {
+            await ReplyErrorAsync(Strings.StreamSocialNotAdded(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ReplyConfirmAsync(Strings.StreamSocialAdded(ctx.Guild.Id, Format.Bold(data.Name ?? data.UniqueName),
+            type)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Searches for podcasts to follow.
+    /// </summary>
+    /// <param name="term">What to search for.</param>
+    [SlashCommand("podcast-search", "Search for podcasts to follow")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task PodcastSearch([Summary("term", "What to search for")] string term)
+    {
+        await DeferAsync().ConfigureAwait(false);
+        var results = await PodcastProvider.SearchAsync(httpFactory, term).ConfigureAwait(false);
+        if (results.Count == 0)
+        {
+            await ReplyErrorAsync(Strings.PodcastSearchNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.PodcastSearchTitle(ctx.Guild.Id, term.TrimTo(100)))
+            .WithThumbnailUrl(results[0].ArtworkUrl)
+            .WithFooter(Strings.PodcastSearchFooter(ctx.Guild.Id));
+
+        foreach (var result in results)
+            eb.AddField(result.Name.TrimTo(250), $"{result.Author}\n{result.FeedUrl}".TrimTo(1000));
+
+        await ctx.Interaction.FollowupAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     /// <summary>

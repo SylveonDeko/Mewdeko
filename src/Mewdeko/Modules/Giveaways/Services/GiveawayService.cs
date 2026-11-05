@@ -4,8 +4,12 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.TriggerPlaceholders;
+using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Chat_Triggers.Common;
+using Mewdeko.Modules.Currency.Services;
+using Mewdeko.Modules.Giveaways.Common;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Modules.Xp.Services;
 using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Strings;
@@ -23,7 +27,12 @@ public class GiveawayService : INService, IDisposable
     private readonly IAnalyticsCollector collector;
     private readonly BotConfig config;
     private readonly BotCredentials credentials;
+    private readonly ICurrencyService currencyService;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly EventHandler eventHandler;
+    private readonly ConcurrentDictionary<ulong, (Giveaway? Giveaway, DateTime At)> reactionGiveaways = new();
+    private readonly ConcurrentDictionary<(int GiveawayId, ulong UserId), byte> reactionEntrants = new();
+    private readonly XpService xpService;
 
 
     /// <summary>
@@ -56,6 +65,9 @@ public class GiveawayService : INService, IDisposable
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="triggerEvents">Publishes giveaway events to chat triggers.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="eventHandler">Publishes giveaway entries to other services.</param>
+    /// <param name="currencyService">The currency service, used to pay coin prizes.</param>
+    /// <param name="xpService">The XP service, used to pay XP prizes.</param>
     public GiveawayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -64,8 +76,12 @@ public class GiveawayService : INService, IDisposable
         BotCredentials credentials,
         MessageCountService msgCntService,
         GeneratedBotStrings strings, ILogger<GiveawayService> logger, TriggerEventPublisher triggerEvents,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector, EventHandler eventHandler, ICurrencyService currencyService,
+        XpService xpService)
     {
+        this.eventHandler = eventHandler;
+        this.currencyService = currencyService;
+        this.xpService = xpService;
         this.collector = collector;
         this.triggerEvents = triggerEvents;
         this.client = client;
@@ -80,8 +96,40 @@ public class GiveawayService : INService, IDisposable
         // Set up periodic cleanup (every 60 minutes)
         cleanupTimer = new Timer(_ => CleanupResources(), null, TimeSpan.FromMinutes(60), TimeSpan.FromMinutes(60));
 
+        eventHandler.Subscribe("ReactionAdded", "GiveawayService", OnReactionAdded);
+
         // Initialize giveaways
         _ = InitializeGiveawaysAsync();
+    }
+
+    private async Task OnReactionAdded(Cacheable<IUserMessage, ulong> message,
+        Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
+    {
+        if (reaction.UserId == client.CurrentUser.Id || reaction.Channel is not SocketGuildChannel)
+            return;
+
+        if (!reactionGiveaways.TryGetValue(message.Id, out var cached) ||
+            DateTime.UtcNow - cached.At > TimeSpan.FromSeconds(60))
+        {
+            await using var dbContext = await dbFactory.CreateConnectionAsync();
+            var found = await dbContext.Giveaways.FirstOrDefaultAsync(x =>
+                x.MessageId == message.Id && x.Ended == 0 && !x.UseButton && !x.UseCaptcha);
+            cached = (found, DateTime.UtcNow);
+            reactionGiveaways[message.Id] = cached;
+        }
+
+        var giveaway = cached.Giveaway;
+        if (giveaway is null || reaction.User.GetValueOrDefault()?.IsBot == true ||
+            !giveaway.Emote.ToIEmote().Equals(reaction.Emote))
+            return;
+
+        if (reactionEntrants.Count > 100000)
+            reactionEntrants.Clear();
+        if (!reactionEntrants.TryAdd((giveaway.Id, reaction.UserId), 0))
+            return;
+
+        _ = eventHandler.PublishEventAsync("GiveawayEntered",
+            new MemberActivityEventArgs(giveaway.ServerId, reaction.UserId));
     }
 
     #region Public Methods
@@ -140,7 +188,7 @@ public class GiveawayService : INService, IDisposable
         if (giveaway == null)
             return (false, strings.GiveawayNotFound(giveaway?.ServerId ?? 0));
 
-        if (giveaway.Ended == 1)
+        if (giveaway.Ended != GiveawayStatus.Active)
             return (false, strings.GiveawayAlreadyEnded(giveaway.ServerId, "", 0));
 
         if (!giveaway.UseButton && !giveaway.UseCaptcha)
@@ -168,6 +216,7 @@ public class GiveawayService : INService, IDisposable
             UserId = userId, GiveawayId = giveawayId
         });
         collector.Feature("giveaway_enter", giveaway.ServerId);
+        _ = eventHandler.PublishEventAsync("GiveawayEntered", new MemberActivityEventArgs(giveaway.ServerId, userId));
         return (true, null);
     }
 
@@ -189,6 +238,19 @@ public class GiveawayService : INService, IDisposable
         var channel = await guild.GetTextChannelAsync(giveaway.ChannelId);
         if (channel == null)
             throw new Exception(strings.GiveawayChannelNotFound(serverId));
+
+        giveaway.ExtraEntryRoles = GiveawayExtraEntries.Format(GiveawayExtraEntries.Parse(giveaway.ExtraEntryRoles));
+
+        if (giveaway.PrizeType is < 0 or > (int)GiveawayPrizeType.Coins || giveaway.PrizeAmount < 0)
+            throw new Exception(strings.GiveawayInvalidPrize(serverId));
+
+        if (giveaway.Ended == GiveawayStatus.Draft)
+        {
+            if (giveaway.DraftDurationSeconds <= 0)
+                throw new Exception(strings.GiveawayInvalidDraftDuration(serverId));
+
+            return await CreateDraftAsync(serverId, giveaway);
+        }
 
         // Get guild config with caching
         var gconfig = await GetGuildConfigCached(serverId);
@@ -265,6 +327,124 @@ public class GiveawayService : INService, IDisposable
     }
 
     /// <summary>
+    ///     Saves a giveaway without starting it.
+    /// </summary>
+    /// <param name="serverId">The ID of the server the draft belongs to.</param>
+    /// <param name="draft">The giveaway settings to save. <c>DraftDurationSeconds</c> is how long it runs once started.</param>
+    /// <returns>The saved draft.</returns>
+    public async Task<Giveaway> CreateDraftAsync(ulong serverId, Giveaway draft)
+    {
+        draft.Id = 0;
+        draft.ServerId = serverId;
+        draft.Ended = GiveawayStatus.Draft;
+        draft.MessageId = 0;
+        draft.When = DateTime.UtcNow;
+
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        draft.Id = await dbContext.InsertWithInt32IdentityAsync(draft);
+        return draft;
+    }
+
+    /// <summary>
+    ///     Gets a guild's saved drafts.
+    /// </summary>
+    /// <param name="serverId">The ID of the server.</param>
+    /// <returns>The drafts, oldest first.</returns>
+    public async Task<IReadOnlyList<Giveaway>> GetDraftsAsync(ulong serverId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        return await dbContext.Giveaways
+            .Where(x => x.ServerId == serverId && x.Ended == GiveawayStatus.Draft)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    ///     Finds a running giveaway by its message ID, or a draft by its ID.
+    /// </summary>
+    /// <param name="serverId">The ID of the server.</param>
+    /// <param name="target">A giveaway message ID or a draft ID.</param>
+    /// <returns>The giveaway or draft, or null if neither exists.</returns>
+    public async Task<Giveaway?> FindGiveawayOrDraftAsync(ulong serverId, ulong target)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var draftId = target <= int.MaxValue ? (int)target : -1;
+
+        return await dbContext.Giveaways.FirstOrDefaultAsync(x => x.ServerId == serverId &&
+                                                                   ((x.Ended == GiveawayStatus.Draft &&
+                                                                     x.Id == draftId) ||
+                                                                    (x.Ended != GiveawayStatus.Draft &&
+                                                                     x.MessageId == target)));
+    }
+
+    /// <summary>
+    ///     Changes the settings of a draft or of a giveaway that has not ended.
+    /// </summary>
+    /// <param name="giveaway">The giveaway with its new values.</param>
+    public async Task UpdateGiveawayOptionsAsync(Giveaway giveaway)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        await dbContext.Giveaways
+            .Where(x => x.Id == giveaway.Id && x.Ended != GiveawayStatus.Ended)
+            .Set(x => x.ExtraEntryRoles, giveaway.ExtraEntryRoles)
+            .Set(x => x.PrizeType, giveaway.PrizeType)
+            .Set(x => x.PrizeAmount, giveaway.PrizeAmount)
+            .UpdateAsync();
+    }
+
+    /// <summary>
+    ///     Deletes a saved draft.
+    /// </summary>
+    /// <param name="serverId">The ID of the server.</param>
+    /// <param name="draftId">The draft's ID.</param>
+    /// <returns><see langword="true" /> if a draft was deleted.</returns>
+    public async Task<bool> DeleteDraftAsync(ulong serverId, int draftId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        return await dbContext.Giveaways
+            .Where(x => x.Id == draftId && x.ServerId == serverId && x.Ended == GiveawayStatus.Draft)
+            .DeleteAsync() > 0;
+    }
+
+    /// <summary>
+    ///     Starts a saved draft as a running giveaway and removes the draft.
+    /// </summary>
+    /// <param name="draft">The draft to start.</param>
+    /// <param name="hostId">The ID of the user hosting the giveaway.</param>
+    /// <returns>The running giveaway.</returns>
+    /// <exception cref="Exception">Thrown when the guild or channel is not found.</exception>
+    public async Task<Giveaway> StartDraftAsync(Giveaway draft, ulong hostId)
+    {
+        var running = new Giveaway
+        {
+            ChannelId = draft.ChannelId,
+            ServerId = draft.ServerId,
+            UserId = hostId,
+            Item = draft.Item,
+            Winners = draft.Winners,
+            RestrictTo = draft.RestrictTo,
+            BlacklistUsers = draft.BlacklistUsers,
+            BlacklistRoles = draft.BlacklistRoles,
+            Emote = draft.Emote,
+            UseButton = draft.UseButton,
+            UseCaptcha = draft.UseCaptcha,
+            MessageCountReq = draft.MessageCountReq,
+            ExtraEntryRoles = draft.ExtraEntryRoles,
+            PrizeType = draft.PrizeType,
+            PrizeAmount = draft.PrizeAmount,
+            When = DateTime.UtcNow.AddSeconds(draft.DraftDurationSeconds)
+        };
+
+        var created = await CreateGiveawayFromDashboard(draft.ServerId, running);
+        await DeleteDraftAsync(draft.ServerId, draft.Id);
+        return created;
+    }
+
+    /// <summary>
     ///     Initiates a giveaway with specified parameters.
     /// </summary>
     /// <param name="chan">The text channel where the giveaway will be initiated.</param>
@@ -284,6 +464,9 @@ public class GiveawayService : INService, IDisposable
     /// <param name="useButton">Whether to use a button for entry instead of reaction.</param>
     /// <param name="useCaptcha">Whether to use captcha for giveaway entry.</param>
     /// <param name="messageCount">Minimum message count required to enter.</param>
+    /// <param name="extraEntryRoles">Optional: Roles that grant extra entries, as space separated roleId:extra pairs.</param>
+    /// <param name="prizeType">The prize paid to winners automatically. See <see cref="GiveawayPrizeType" />.</param>
+    /// <param name="prizeAmount">The amount of the automatic prize.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task GiveawaysInternal(
         ITextChannel chan,
@@ -302,7 +485,10 @@ public class GiveawayService : INService, IDisposable
         IRole? pingRole = null,
         bool useButton = false,
         bool useCaptcha = false,
-        ulong messageCount = 0)
+        ulong messageCount = 0,
+        string? extraEntryRoles = null,
+        int prizeType = 0,
+        long prizeAmount = 0)
     {
         // Get guild config
         var gconfig = await GetGuildConfigCached(serverId);
@@ -332,7 +518,8 @@ public class GiveawayService : INService, IDisposable
             When = endTime,
             Winners = winners,
             RestrictTo = reqroles,
-            MessageCountReq = messageCount
+            MessageCountReq = messageCount,
+            ExtraEntryRoles = extraEntryRoles
         };
 
         var eb = CreateGiveawayEmbed(guild, giveawayData, emote, gconfig, hostuser);
@@ -367,7 +554,10 @@ public class GiveawayService : INService, IDisposable
             UseButton = useButton,
             UseCaptcha = useCaptcha,
             MessageCountReq = messageCount,
-            RestrictTo = reqroles
+            RestrictTo = reqroles,
+            ExtraEntryRoles = extraEntryRoles,
+            PrizeType = prizeType,
+            PrizeAmount = prizeAmount
         };
 
         // Save to database
@@ -686,10 +876,7 @@ public class GiveawayService : INService, IDisposable
         GuildConfig guildSettings,
         string prefix)
     {
-        // Select single winner randomly
-        var rand = new Random();
-        var index = rand.Next(eligibleUsers.Count);
-        var winner = eligibleUsers[index];
+        var winner = PickGiveawayWinners(giveaway, eligibleUsers, 1)[0];
 
         // Send DM to winner if configured
         if (guildSettings.DmOnGiveawayWin)
@@ -724,8 +911,55 @@ public class GiveawayService : INService, IDisposable
                         giveaway.ChannelId, giveaway.MessageId, giveaway.UserId, prefix))
                 .Build());
 
+        await AwardPrizeAsync(giveaway, [winner], channel);
+
         // Mark giveaway as ended
         await MarkGiveawayEnded(giveaway);
+    }
+
+    private List<IGuildUser> PickGiveawayWinners(Giveaway giveaway, List<IGuildUser> eligibleUsers, int count)
+    {
+        var extraEntries = GiveawayExtraEntries.Parse(giveaway.ExtraEntryRoles);
+
+        return GiveawayExtraEntries.PickWinners(
+            eligibleUsers.Select(x => (x, GiveawayExtraEntries.WeightFor(x.RoleIds, extraEntries))), count);
+    }
+
+    private async Task AwardPrizeAsync(Giveaway giveaway, IReadOnlyList<IGuildUser> winners, ITextChannel channel)
+    {
+        if (giveaway.Ended != GiveawayStatus.Active || giveaway.PrizeAmount <= 0 ||
+            giveaway.PrizeType == (int)GiveawayPrizeType.None)
+            return;
+
+        try
+        {
+            string unit;
+
+            if (giveaway.PrizeType == (int)GiveawayPrizeType.Xp)
+            {
+                foreach (var winner in winners)
+                    await xpService.AddXpAsync(giveaway.ServerId, winner.Id,
+                        (int)Math.Min(giveaway.PrizeAmount, int.MaxValue));
+
+                unit = strings.GiveawayPrizeXp(giveaway.ServerId);
+            }
+            else
+            {
+                foreach (var winner in winners)
+                    await currencyService.CreditAsync(winner.Id, giveaway.PrizeAmount,
+                        strings.GiveawayPrizeTransaction(giveaway.ServerId, giveaway.Item ?? string.Empty),
+                        CurrencyCategory.GiveawayPrize, giveaway.ServerId, "giveaway");
+
+                unit = await currencyService.GetCurrencyEmote(giveaway.ServerId);
+            }
+
+            await channel.SendMessageAsync(strings.GiveawayPrizePaid(giveaway.ServerId, giveaway.PrizeAmount, unit),
+                allowedMentions: AllowedMentions.None);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to pay the prize for giveaway {GiveawayId}", giveaway.Id);
+        }
     }
 
     private async Task HandleMultipleWinners(
@@ -736,12 +970,7 @@ public class GiveawayService : INService, IDisposable
         IGuild guild,
         string prefix)
     {
-        // Select multiple winners randomly
-        var rand = new Random();
-        var winners = eligibleUsers
-            .OrderBy(_ => rand.Next())
-            .Take(giveaway.Winners)
-            .ToList();
+        var winners = PickGiveawayWinners(giveaway, eligibleUsers, giveaway.Winners);
 
         // Update giveaway message
         var winnerEmbed = message.Embeds.FirstOrDefault().ToEmbedBuilder()
@@ -776,6 +1005,8 @@ public class GiveawayService : INService, IDisposable
                             giveaway.ChannelId, giveaway.MessageId, giveaway.UserId, prefix))
                     .Build());
         }
+
+        await AwardPrizeAsync(giveaway, winners, channel);
 
         // Mark giveaway as ended
         await MarkGiveawayEnded(giveaway);
@@ -815,7 +1046,7 @@ public class GiveawayService : INService, IDisposable
                 {
                     // Send as regular embed with custom message
                     var embed = new EmbedBuilder()
-                        .WithOkColor()
+                        .WithOkColor(giveaway.ServerId)
                         .WithDescription(
                             strings.GiveawayWinnerDm(guild.Id, giveaway.Item, giveaway.ServerId, giveaway.ChannelId,
                                 giveaway.MessageId));
@@ -828,7 +1059,7 @@ public class GiveawayService : INService, IDisposable
             {
                 // Send default winner DM
                 var embed = new EmbedBuilder()
-                    .WithOkColor()
+                    .WithOkColor(giveaway.ServerId)
                     .WithDescription(
                         strings.GiveawayWinnerDm(guild.Id, giveaway.Item, giveaway.ServerId, giveaway.ChannelId,
                             giveaway.MessageId));
@@ -854,7 +1085,7 @@ public class GiveawayService : INService, IDisposable
         // Create base embed
         var eb = new EmbedBuilder
         {
-            Color = Mewdeko.OkColor, Title = giveaway.Item
+            Color = GuildEmbedColorService.OkFor(giveaway.ServerId), Title = giveaway.Item
         };
 
         // Build description based on available information
@@ -908,6 +1139,12 @@ public class GiveawayService : INService, IDisposable
         {
             description += $"\n{giveaway.MessageCountReq} Messages Required.";
         }
+
+        var extraEntries = GiveawayExtraEntries.Parse(giveaway.ExtraEntryRoles);
+
+        if (extraEntries.Count > 0)
+            description += "\n" + strings.GiveawayEmbedExtraEntries(guild.Id,
+                string.Join("\n", extraEntries.Select(x => $"<@&{x.Key}> +{x.Value}")));
 
         eb.WithDescription(description);
 
@@ -973,7 +1210,7 @@ public class GiveawayService : INService, IDisposable
 
         // Find active giveaways that should have ended by now
         var giveaways = await dbContext.Giveaways
-            .Where(x => x.Ended != 1 && x.When < now)
+            .Where(x => x.Ended == GiveawayStatus.Active && x.When < now)
             .ToListAsync();
 
         return giveaways;
@@ -1095,6 +1332,14 @@ public class GiveawayService : INService, IDisposable
                 guildConfigCache.TryRemove(guildId, out _);
             }
 
+            foreach (var key in reactionGiveaways
+                         .Where(kv => DateTime.UtcNow - kv.Value.At > TimeSpan.FromMinutes(5))
+                         .Select(kv => kv.Key)
+                         .ToList())
+            {
+                reactionGiveaways.TryRemove(key, out _);
+            }
+
             // Clean up orphaned giveaways and query for all active giveaways to validate timers
             Task.Run(async () =>
             {
@@ -1111,7 +1356,7 @@ public class GiveawayService : INService, IDisposable
                 {
                     await using var dbContext = await dbFactory.CreateConnectionAsync();
                     var activeGiveaways = await dbContext.Giveaways
-                        .Where(g => g.Ended != 1)
+                        .Where(g => g.Ended == GiveawayStatus.Active)
                         .Select(g => g.Id)
                         .ToListAsync();
 
@@ -1219,7 +1464,7 @@ public class GiveawayService : INService, IDisposable
 
             // Get all active giveaways
             var activeGiveaways = await dbContext.Giveaways
-                .Where(g => g.Ended != 1)
+                .Where(g => g.Ended == GiveawayStatus.Active)
                 .ToListAsync();
 
             var orphanedCount = 0;

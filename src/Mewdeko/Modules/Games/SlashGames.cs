@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Text;
 using System.Threading;
 using Discord.Interactions;
 using LinqToDB;
@@ -1283,6 +1284,175 @@ public class SlashGames(IDataConnectionFactory dbFactory, EventHandler handler) 
             }
 
             await ReplyErrorAsync(Strings.TriviaNone(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Free game alert commands.
+    /// </summary>
+    [Group("freegames", "Alerts for games that become free on Epic, Steam and GOG")]
+    public class GameFreeGames : MewdekoSlashSubmodule<FreeGameService>
+    {
+        /// <summary>
+        ///     Posts free game alerts in a channel, with an optional role ping.
+        /// </summary>
+        /// <param name="channel">The channel to post in.</param>
+        /// <param name="role">The role to ping.</param>
+        /// <param name="epic">Announce Epic Games Store games.</param>
+        /// <param name="steam">Announce Steam games.</param>
+        /// <param name="gog">Announce GOG games.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("set", "Post free game alerts in a channel")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public async Task Set([Summary("channel", "The channel to post in")] ITextChannel channel,
+            [Summary("role", "The role to ping")] IRole? role = null,
+            [Summary("epic", "Announce Epic Games Store games")]
+            bool epic = true,
+            [Summary("steam", "Announce Steam games")]
+            bool steam = true,
+            [Summary("gog", "Announce GOG games")] bool gog = true)
+        {
+            if (!epic && !steam && !gog)
+            {
+                await ReplyErrorAsync(Strings.FreeGameStoresInvalid(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await Service.SaveAlertAsync(ctx.Guild.Id, channel.Id, role?.Id, epic, steam, gog);
+            await ReplyConfirmAsync(role is null
+                ? Strings.FreeGameAdded(ctx.Guild.Id, channel.Mention)
+                : Strings.FreeGameAddedRole(ctx.Guild.Id, channel.Mention, role.Mention)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Stops free game alerts in a channel.
+        /// </summary>
+        /// <param name="channel">The channel to stop alerts in.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("remove", "Stop free game alerts in a channel")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public async Task Remove([Summary("channel", "The channel to stop alerts in")] ITextChannel channel)
+        {
+            await (await Service.RemoveAlertAsync(ctx.Guild.Id, channel.Id)
+                ? ReplyConfirmAsync(Strings.FreeGameRemoved(ctx.Guild.Id, channel.Mention))
+                : ReplyErrorAsync(Strings.FreeGameNone(ctx.Guild.Id, channel.Mention)));
+        }
+
+        /// <summary>
+        ///     Lists the channels that get free game alerts.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("list", "List the channels that get free game alerts")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public async Task List()
+        {
+            var alerts = await Service.GetAlertsAsync(ctx.Guild.Id);
+            if (alerts.Count == 0)
+            {
+                await ReplyErrorAsync(Strings.FreeGameListEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var text = new StringBuilder();
+            foreach (var alert in alerts)
+                text.AppendLine(Strings.FreeGameListRow(ctx.Guild.Id, $"<#{alert.ChannelId}>",
+                    alert.RoleId is { } roleId ? $"<@&{roleId}>" : "-",
+                    string.Join(", ", new[]
+                    {
+                        alert.Epic ? FreeGameService.Epic : null, alert.Steam ? FreeGameService.Steam : null,
+                        alert.Gog ? FreeGameService.Gog : null
+                    }.Where(x => x is not null))));
+
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithTitle(Strings.FreeGameListTitle(ctx.Guild.Id))
+                .WithDescription(text.ToString());
+            await ctx.Interaction.RespondAsync(embed: embed.Build()).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Shows the games that are free right now.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("now", "Show the games that are free right now")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        public async Task Now()
+        {
+            await DeferAsync().ConfigureAwait(false);
+            var games = await Service.GetCurrentAsync();
+            if (games.Count == 0)
+            {
+                await ReplyErrorAsync(Strings.FreeGameNowNone(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithTitle(Strings.FreeGameNowTitle(ctx.Guild.Id))
+                .WithDescription(string.Join("\n", games.Select(x => $"[{x.Title}]({x.Url}) ({x.Store})")));
+            await ctx.Interaction.FollowupAsync(embed: embed.Build()).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Daily dice game commands.
+    /// </summary>
+    [Group("dice", "Daily dice with a monthly leaderboard")]
+    public class GameDailyDice : MewdekoSlashSubmodule<DailyDiceService>
+    {
+        /// <summary>
+        ///     Rolls your one die for the day.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("roll", "Roll your one die for the day")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        public async Task Roll()
+        {
+            var (rolled, roll) = await Service.RollAsync(ctx.Guild.Id, ctx.User.Id);
+            await (rolled
+                ? ReplyConfirmAsync(Strings.DiceDailyRolled(ctx.Guild.Id, ctx.User.Mention, roll,
+                    DailyDiceService.Sides))
+                : ReplyErrorAsync(Strings.DiceDailyAlready(ctx.Guild.Id, roll)));
+        }
+
+        /// <summary>
+        ///     Shows the best rolls of the month.
+        /// </summary>
+        /// <param name="lastMonth">Shows last month instead.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("leaderboard", "Shows the best rolls of the month")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        public async Task Leaderboard([Summary("last-month", "Show last month instead")] bool lastMonth = false)
+        {
+            var month = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+            if (lastMonth)
+                month = month.AddMonths(-1);
+
+            var standings = await Service.GetStandingsAsync(ctx.Guild.Id, month);
+            if (standings.Count == 0)
+            {
+                await ReplyErrorAsync(Strings.DiceBoardEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var text = new StringBuilder();
+            for (var i = 0; i < standings.Count; i++)
+            {
+                var row = standings[i];
+                text.AppendLine(Strings.DiceBoardRow(ctx.Guild.Id, i + 1, row.UserId, row.BestRoll, row.Rolls));
+            }
+
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithTitle(Strings.DiceBoardTitle(ctx.Guild.Id, month.ToString("MMMM yyyy")))
+                .WithDescription(text.ToString());
+            await ctx.Interaction.RespondAsync(embed: embed.Build()).ConfigureAwait(false);
         }
     }
 }

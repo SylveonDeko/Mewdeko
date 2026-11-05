@@ -723,8 +723,13 @@ public class XpRewardManager : INService
     {
         try
         {
+            if (eventArgs.NewLevel > eventArgs.OldLevel)
+                await RecordLevelUpAsync(eventArgs).ConfigureAwait(false);
+
             // Only process notifications for actual level UPS (not downs)
-            if (eventArgs.NotificationType != XpNotificationType.None && eventArgs.NewLevel > eventArgs.OldLevel)
+            if (eventArgs.NotificationType != XpNotificationType.None && eventArgs.NewLevel > eventArgs.OldLevel
+                                                                      && await ShouldAnnounceAsync(eventArgs)
+                                                                          .ConfigureAwait(false))
             {
                 var notification = new XpNotification
                 {
@@ -750,6 +755,56 @@ public class XpRewardManager : INService
             logger.LogError(ex, "Error handling level up notification for user {UserId} in guild {GuildId}",
                 eventArgs.UserId, eventArgs.GuildId);
         }
+    }
+
+    /// <summary>
+    ///     Adds a level-up to the guild's log and drops entries beyond the newest 25.
+    /// </summary>
+    /// <param name="eventArgs">The level change event arguments.</param>
+    private async Task RecordLevelUpAsync(XpLevelChangedEventArgs eventArgs)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.InsertAsync(new XpLevelUpLog
+        {
+            GuildId = eventArgs.GuildId,
+            UserId = eventArgs.UserId,
+            OldLevel = eventArgs.OldLevel,
+            NewLevel = eventArgs.NewLevel,
+            DateAdded = DateTime.UtcNow
+        });
+
+        var keepFrom = await db.XpLevelUpLogs
+            .Where(x => x.GuildId == eventArgs.GuildId)
+            .OrderByDescending(x => x.Id)
+            .Skip(XpService.LevelUpLogSize - 1)
+            .Select(x => (int?)x.Id)
+            .FirstOrDefaultAsync();
+
+        if (keepFrom.HasValue)
+            await db.XpLevelUpLogs.Where(x => x.GuildId == eventArgs.GuildId && x.Id < keepFrom.Value).DeleteAsync();
+    }
+
+    /// <summary>
+    ///     Checks a level-up against the guild's announcement filters.
+    /// </summary>
+    /// <param name="eventArgs">The level change event arguments.</param>
+    /// <returns>True when the level-up should be announced.</returns>
+    private async Task<bool> ShouldAnnounceAsync(XpLevelChangedEventArgs eventArgs)
+    {
+        var settings = await cacheManager.GetGuildXpSettingsAsync(eventArgs.GuildId);
+
+        if (eventArgs.NewLevel < settings.LevelUpMinLevel)
+            return false;
+
+        if (settings.LevelUpInterval > 1 &&
+            eventArgs.NewLevel / settings.LevelUpInterval == eventArgs.OldLevel / settings.LevelUpInterval)
+            return false;
+
+        if (!settings.LevelUpRewardsOnly)
+            return true;
+
+        var rewards = await GetRoleRewardsAsync(eventArgs.GuildId);
+        return rewards.Any(x => x.Level > eventArgs.OldLevel && x.Level <= eventArgs.NewLevel);
     }
 
     /// <summary>

@@ -257,6 +257,22 @@ public partial class SlashChatTriggers(
 
 
     /// <summary>
+    ///     Lists the logic blocks chat trigger responses support.
+    /// </summary>
+    /// <example>/triggers blocks</example>
+    [SlashCommand("blocks", "Lists the logic blocks trigger responses support.")]
+    [CheckPermissions]
+    public async Task CtBlocks()
+    {
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.CtBlocksTitle(ctx.Guild.Id))
+            .WithDescription(ChatTriggers.BlocksHelp);
+
+        await RespondAsync(embed: eb.Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Lists chat triggers.
     /// </summary>
     /// <example>/triggers list</example>

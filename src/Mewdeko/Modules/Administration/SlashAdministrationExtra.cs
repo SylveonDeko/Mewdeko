@@ -1,3 +1,4 @@
+using DataModel;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -195,12 +196,14 @@ public partial class SlashAdministration
     /// <param name="interactivity">The interactivity service by Fergun.Interactive</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges.</param>
+    /// <param name="modCases">The service recording moderation cases.</param>
     /// <param name="guildSettings">Guild settings service for prefix lookups.</param>
     [Group("purge-members", "Ban, kick or prune members in bulk")]
     public class AdministrationPurgeMembers(
         InteractiveService interactivity,
         ILogger<AdministrationPurgeMembers> logger,
         BanPruneService banPrune,
+        ModCaseService modCases,
         GuildSettingsService guildSettings) : MewdekoSlashSubmodule<AdministrationService>
     {
         /// <summary>
@@ -280,10 +283,12 @@ public partial class SlashAdministration
                 {
                     try
                     {
-                        await ctx.Guild.AddBanAsync(i, underPruneDays, options: new RequestOptions
-                        {
-                            AuditLogReason = Strings.BanunderStarting(ctx.Guild.Id, ctx.User)
-                        }).ConfigureAwait(false);
+                        var banReason = Strings.BanunderStarting(ctx.Guild.Id, ctx.User);
+                        await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban, banReason, null,
+                            () => ctx.Guild.AddBanAsync(i, underPruneDays, options: new RequestOptions
+                            {
+                                AuditLogReason = banReason
+                            })).ConfigureAwait(false);
                         banned++;
                     }
                     catch
@@ -363,7 +368,9 @@ public partial class SlashAdministration
             {
                 try
                 {
-                    await i.KickAsync(Strings.KickunderStarting(ctx.Guild.Id, ctx.User)).ConfigureAwait(false);
+                    var kickReason = Strings.KickunderStarting(ctx.Guild.Id, ctx.User);
+                    await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Kick, kickReason, null,
+                        () => i.KickAsync(kickReason)).ConfigureAwait(false);
                     kicked++;
                 }
                 catch

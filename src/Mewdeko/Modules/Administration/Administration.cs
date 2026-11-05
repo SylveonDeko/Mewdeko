@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using DataModel;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -19,11 +20,13 @@ namespace Mewdeko.Modules.Administration;
 /// <param name="logger">The logger instance for structured logging.</param>
 /// <param name="guildSettings">Guild settings service for prefix lookups.</param>
 /// <param name="banPrune">The service resolving how many days of messages a ban purges.</param>
+/// <param name="modCases">The service recording moderation cases.</param>
 public partial class Administration(
     InteractiveService serv,
     ILogger<Administration> logger,
     GuildSettingsService guildSettings,
-    BanPruneService banPrune)
+    BanPruneService banPrune,
+    ModCaseService modCases)
     : MewdekoModuleBase<AdministrationService>
 {
     /// <summary>
@@ -155,8 +158,10 @@ public partial class Administration(
             {
                 try
                 {
-                    await ctx.Guild.AddBanAsync(i, hashPruneDays,
-                        $"{ctx.User.Id} banning by hash {avatarHash}");
+                    await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban,
+                        $"Banning by hash {avatarHash}", null,
+                        () => ctx.Guild.AddBanAsync(i, hashPruneDays,
+                            $"{ctx.User.Id} banning by hash {avatarHash}")).ConfigureAwait(false);
                     bannedUsers++;
                 }
                 catch
@@ -269,10 +274,9 @@ public partial class Administration(
         {
             try
             {
-                await ctx.Guild
-                    .AddBanAsync(i, rolePruneDays,
-                        reason ?? Strings.BanInRoleDefaultReason(ctx.Guild.Id, ctx.User, ctx.User.Id))
-                    .ConfigureAwait(false);
+                var banReason = reason ?? Strings.BanInRoleDefaultReason(ctx.Guild.Id, ctx.User, ctx.User.Id);
+                await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban, banReason, null,
+                    () => ctx.Guild.AddBanAsync(i, rolePruneDays, banReason)).ConfigureAwait(false);
             }
             catch
             {
@@ -395,10 +399,12 @@ public partial class Administration(
                     {
                         try
                         {
-                            await ctx.Guild.AddBanAsync(i, deleteCount, options: new RequestOptions
-                            {
-                                AuditLogReason = Strings.MassBanRequestedBy(ctx.Guild.Id, ctx.User)
-                            });
+                            var banReason = Strings.MassBanRequestedBy(ctx.Guild.Id, ctx.User);
+                            await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban, banReason, null,
+                                () => ctx.Guild.AddBanAsync(i, deleteCount, options: new RequestOptions
+                                {
+                                    AuditLogReason = banReason
+                                })).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -492,10 +498,12 @@ public partial class Administration(
             {
                 try
                 {
-                    await ctx.Guild.AddBanAsync(i, underPruneDays, options: new RequestOptions
-                    {
-                        AuditLogReason = Strings.BanunderStarting(ctx.Guild.Id, ctx.User)
-                    }).ConfigureAwait(false);
+                    var banReason = Strings.BanunderStarting(ctx.Guild.Id, ctx.User);
+                    await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban, banReason, null,
+                        () => ctx.Guild.AddBanAsync(i, underPruneDays, options: new RequestOptions
+                        {
+                            AuditLogReason = banReason
+                        })).ConfigureAwait(false);
                     banned++;
                 }
                 catch
@@ -579,7 +587,9 @@ public partial class Administration(
         {
             try
             {
-                await i.KickAsync(Strings.KickunderStarting(ctx.Guild.Id, ctx.User)).ConfigureAwait(false);
+                var kickReason = Strings.KickunderStarting(ctx.Guild.Id, ctx.User);
+                await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Kick, kickReason, null,
+                    () => i.KickAsync(kickReason)).ConfigureAwait(false);
                 banned++;
             }
             catch

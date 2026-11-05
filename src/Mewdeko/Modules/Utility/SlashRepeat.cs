@@ -763,6 +763,41 @@ public class SlashRepeat(
     }
 
     /// <summary>
+    ///     Sets the role a repeater pings each time it posts. The role is made mentionable only while the message is
+    ///     sent.
+    /// </summary>
+    /// <param name="index">The one-based index of the repeater to modify.</param>
+    /// <param name="role">The role to ping. Leave empty to stop pinging.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [SlashCommand("ping-role", "Sets the role a repeater pings, or clears it")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task RepeatPingRole([Summary("index", "The repeater number from the list")] int index,
+        [Summary("role", "The role to ping, empty to stop pinging")]
+        IRole? role = null)
+    {
+        if (!Service.RepeaterReady)
+            return;
+
+        var repeater = Service.GetRepeaterByIndex(ctx.Guild.Id, index - 1);
+        if (repeater == null)
+        {
+            await ReplyErrorAsync(Strings.IndexOutOfRange(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (!await Service.SetRepeaterPingRoleAsync(ctx.Guild.Id, repeater.Repeater.Id, role?.Id))
+        {
+            await ReplyErrorAsync(Strings.RepeatActionFailed(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ReplyConfirmAsync(role is null
+            ? Strings.RepeaterPingRoleCleared(ctx.Guild.Id, index)
+            : Strings.RepeaterPingRoleSet(ctx.Guild.Id, index, role.Mention)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Toggles notification suppression for a repeater. When enabled, the repeater messages will not send push or
     ///     desktop notifications to users.
     /// </summary>

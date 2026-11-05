@@ -106,4 +106,9 @@ public class CreateRepeaterRequest
     ///     Whether to suppress notifications when sending messages
     /// </summary>
     public bool SuppressNotifications { get; set; } = false;
+
+    /// <summary>
+    ///     The role to ping each time the repeater posts
+    /// </summary>
+    public ulong? PingRoleId { get; set; }
 }

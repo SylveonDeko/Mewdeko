@@ -47,6 +47,7 @@ public class AdministrationController(
     UserPunishService userPunishService,
     BanPruneService banPruneService,
     IDashboardAuditContext auditContext,
+    ModCaseService modCases,
     DiscordShardedClient client) : Controller
 {
     /// <summary>
@@ -1285,7 +1286,12 @@ public class AdministrationController(
         {
             try
             {
-                await guild.AddBanAsync(userId, pruneDays, request.Reason);
+                IUser? user = client.GetUser(userId);
+                await modCases.PunishByIdAsync(guild, userId, user, client.CurrentUser, ModCaseAction.Ban,
+                    string.IsNullOrWhiteSpace(request.Reason)
+                        ? "Dashboard mass ban"
+                        : $"Dashboard mass ban: {request.Reason}", null,
+                    () => guild.AddBanAsync(userId, pruneDays, request.Reason));
                 succeeded++;
             }
             catch

@@ -1,4 +1,7 @@
+using System.IO;
+using System.IO.Compression;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using DataModel;
 using LinqToDB;
@@ -101,6 +104,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     private const int MaxChainDepth = 5;
 
+    /// <summary>
+    ///     The most a share code may decompress to.
+    /// </summary>
+    private const int MaxShareSize = 256 * 1024;
+
     private const string PrependExport =
         """
         # WARNING: crossposting information is not saved.
@@ -125,6 +133,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     ///     failed nondeterministically under load.
     /// </summary>
     private static readonly TimeSpan RegexTimeout = TimeSpan.FromMilliseconds(100);
+
+    private static readonly Regex PromptRegex = new("%prompt%", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static readonly ISerializer ExportSerializer = new SerializerBuilder()
         .WithEventEmitter(args => new MultilineScalarFlowStyleEmitter(args))
@@ -409,8 +419,19 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             // Check the trigger's own conditions before anything is charged or sent.
-            if (!await PassesConditionsAsync(ct, guild.Id, msg.Channel.Id, msg.Author).ConfigureAwait(false))
+            var responses = await PassesConditionsAsync(ct, guild.Id, msg.Channel.Id, msg.Author)
+                .ConfigureAwait(false);
+            if (responses is null)
                 return true;
+
+            // Ask the member the trigger's question, and give up quietly when they do not answer.
+            string? promptAnswer = null;
+            if (!string.IsNullOrWhiteSpace(ct.PromptQuestion) && !fromBot)
+            {
+                promptAnswer = await AskPromptAsync(ct, msg).ConfigureAwait(false);
+                if (promptAnswer is null)
+                    return true;
+            }
 
             // Apply economy requirements and rewards before anything is sent.
             if (!await TryApplyEconomyAsync(ct, guild.Id, msg.Author, msg.Channel).ConfigureAwait(false))
@@ -423,9 +444,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             // Send the chat trigger response
             IUserMessage? sentMsg = null;
-            foreach (var response in await SelectResponsesAsync(ct).ConfigureAwait(false))
+            foreach (var response in responses)
             {
-                sentMsg = await ct.Send(msg, client, false, dbFactory, placeholders, regexMatch, response)
+                sentMsg = await ct.Send(msg, client, false, dbFactory, placeholders, regexMatch,
+                        ApplyPrompt(response, promptAnswer, guild.Id))
                     .ConfigureAwait(false);
             }
 
@@ -542,6 +564,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         var oldTrigger = ct.Trigger;
         var oldCommandType = ct.ApplicationCommandType;
+        var oldCommandName = ct.ApplicationCommandName;
+        var oldCommandDescription = ct.ApplicationCommandDescription;
 
         ct.IsRegex = incoming.IsRegex;
         ct.OwnerOnly = incoming.OwnerOnly;
@@ -578,6 +602,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         ct.NextTriggerId = incoming.NextTriggerId;
         ct.EventType = incoming.EventType;
         ct.EventChannelId = incoming.EventChannelId;
+        ct.EventRoleId = incoming.EventRoleId;
         ct.TimeConditions = incoming.TimeConditions;
         ct.ExpiresAt = incoming.ExpiresAt;
         ct.MaxUses = incoming.MaxUses;
@@ -591,6 +616,15 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         ct.XpReward = incoming.XpReward;
         ct.RequiredXpLevel = incoming.RequiredXpLevel;
         ct.RequirementFailMessage = incoming.RequirementFailMessage;
+        ct.StaffOnly = incoming.StaffOnly;
+        ct.NsfwOnly = incoming.NsfwOnly;
+        ct.AllowedChannelIds = incoming.AllowedChannelIds;
+        ct.DeniedChannelIds = incoming.DeniedChannelIds;
+        ct.DeniedRoleIds = incoming.DeniedRoleIds;
+        ct.Anonymous = incoming.Anonymous;
+        ct.ReplyChannelId = incoming.ReplyChannelId;
+        ct.PromptQuestion = incoming.PromptQuestion;
+        ct.PromptTimeoutSeconds = incoming.PromptTimeoutSeconds;
 
         await db.UpdateAsync(ct).ConfigureAwait(false);
 
@@ -604,8 +638,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
 
-        if (oldCommandType != (int)CtApplicationCommandType.None &&
-            ct.ApplicationCommandType == (int)CtApplicationCommandType.None &&
+        var commandChanged = oldCommandType != ct.ApplicationCommandType
+                             || oldCommandName != ct.ApplicationCommandName
+                             || oldCommandDescription != ct.ApplicationCommandDescription;
+
+        if (commandChanged &&
+            (oldCommandType != (int)CtApplicationCommandType.None ||
+             ct.ApplicationCommandType != (int)CtApplicationCommandType.None) &&
             client.GetGuild(guildId) is { } guild)
         {
             await RegisterTriggersToGuildAsync(guild).ConfigureAwait(false);
@@ -731,10 +770,24 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var channel = inter.Channel as IGuildChannel;
 
                     // Check the trigger's own conditions before anything is charged or sent.
-                    if (!await PassesConditionsAsync(ct, channel.GuildId, channel.Id, inter.User)
-                            .ConfigureAwait(false))
-                    {
+                    var responses = await PassesConditionsAsync(ct, channel.GuildId, channel.Id, inter.User)
+                        .ConfigureAwait(false);
+                    if (responses is null)
                         return;
+
+                    // Ask the member the trigger's question in a modal, and give up quietly when they do not answer.
+                    string? promptAnswer = null;
+                    SocketInteraction? responder = null;
+                    if (!string.IsNullOrWhiteSpace(ct.PromptQuestion) && !followup && inter is not SocketModal)
+                    {
+                        var modal = await AskModalPromptAsync(ct, inter).ConfigureAwait(false);
+                        if (modal is null)
+                            return;
+
+                        promptAnswer = modal.Data.Components.FirstOrDefault()?.Value ?? "";
+                        responder = modal;
+                        followup = true;
+                        await modal.DeferAsync(ct.EphemeralResponse).ConfigureAwait(false);
                     }
 
                     // Apply economy requirements and rewards before anything is sent.
@@ -754,7 +807,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
                     var sentMsg = await ct.SendInteraction(inter, client, false, fakeMsg,
                         ct.EphemeralResponse, dbFactory, followup, placeholders,
-                        (await SelectResponsesAsync(ct).ConfigureAwait(false)).FirstOrDefault()).ConfigureAwait(false);
+                        responses.Select(x => ApplyPrompt(x, promptAnswer, channel.GuildId)).FirstOrDefault(),
+                        responder).ConfigureAwait(false);
 
                     // Add reactions to the sent message, if any. An interaction has no separate trigger message,
                     // so both cases target the response.
@@ -871,6 +925,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             if (triggers.Count == 0)
                 return false;
+
+            triggers.ForEach(x => x.CreatorId = user.Id);
 
             // Refuse the import if it would hand out any role the importing user cannot manage themselves
             List<ulong> roles = [];
@@ -1842,8 +1898,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="key">The trigger key.</param>
     /// <param name="message">The trigger message.</param>
     /// <param name="regex">A boolean indicating whether the trigger uses regex.</param>
+    /// <param name="creatorId">The member who created the trigger, or 0 when it was not made by a member.</param>
     /// <returns>The added chat trigger.</returns>
-    public async Task<CTModel?> AddAsync(ulong? guildId, string key, string? message, bool regex)
+    public async Task<CTModel?> AddAsync(ulong? guildId, string key, string? message, bool regex, ulong creatorId = 0)
     {
         key = key.ToLowerInvariant();
         var cr = new CTModel
@@ -1852,6 +1909,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             Trigger = key,
             Response = message,
             IsRegex = regex,
+            CreatorId = creatorId,
             ValidTriggerTypes = (int)ChatTriggerType.Message
         };
 
@@ -1961,6 +2019,234 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await UpdateInternalAsync(guildId.Value, ct).ConfigureAwait(false); // Update the trigger internally
 
         return ct; // Return the edited chat trigger
+    }
+
+    /// <summary>
+    ///     Gets whether members without staff permissions may create and edit their own chat triggers.
+    /// </summary>
+    /// <param name="guildId">The guild to check.</param>
+    /// <returns>True when members may manage their own triggers.</returns>
+    public async Task<bool> GetMemberCreateAsync(ulong guildId)
+    {
+        return (await guildSettings.GetGuildConfig(guildId).ConfigureAwait(false))?.ChatTriggerMemberCreate ?? false;
+    }
+
+    /// <summary>
+    ///     Sets whether members without staff permissions may create and edit their own chat triggers.
+    /// </summary>
+    /// <param name="guildId">The guild to change.</param>
+    /// <param name="enabled">Whether members may manage their own triggers.</param>
+    public async Task SetMemberCreateAsync(ulong guildId, bool enabled)
+    {
+        var config = await guildSettings.GetGuildConfig(guildId).ConfigureAwait(false);
+        config.ChatTriggerMemberCreate = enabled;
+        await guildSettings.UpdateGuildConfig(guildId, config).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Creates a plain chat trigger owned by a member.
+    /// </summary>
+    /// <param name="user">The member creating the trigger.</param>
+    /// <param name="key">The trigger text.</param>
+    /// <param name="message">The response.</param>
+    /// <returns>The outcome, and the new trigger when it succeeded.</returns>
+    public async Task<(CtMemberResult Result, CTModel? Trigger)> AddMemberTriggerAsync(IGuildUser user, string key,
+        string message)
+    {
+        if (!IsStaff(user) && !await GetMemberCreateAsync(user.GuildId).ConfigureAwait(false))
+            return (CtMemberResult.Disabled, null);
+
+        if (!IsStaff(user) && HasMassMention(message))
+            return (CtMemberResult.UnsafeResponse, null);
+
+        var ct = await AddAsync(user.GuildId, key, message, false, user.Id).ConfigureAwait(false);
+        return (CtMemberResult.Success, ct);
+    }
+
+    /// <summary>
+    ///     Changes the response of a trigger the member owns, or of any trigger for staff.
+    /// </summary>
+    /// <param name="user">The member editing the trigger.</param>
+    /// <param name="id">The trigger's id.</param>
+    /// <param name="message">The new response.</param>
+    /// <returns>The outcome, and the edited trigger when it succeeded.</returns>
+    public async Task<(CtMemberResult Result, CTModel? Trigger)> EditMemberTriggerAsync(IGuildUser user, int id,
+        string message)
+    {
+        var (result, ct) = await GetManageableAsync(user, id).ConfigureAwait(false);
+        if (result != CtMemberResult.Success)
+            return (result, null);
+
+        if (!IsStaff(user) && HasMassMention(message))
+            return (CtMemberResult.UnsafeResponse, null);
+
+        return (CtMemberResult.Success, await EditAsync(user.GuildId, ct!.Id, message, null).ConfigureAwait(false));
+    }
+
+    /// <summary>
+    ///     Deletes a trigger the member owns, or any trigger for staff.
+    /// </summary>
+    /// <param name="user">The member deleting the trigger.</param>
+    /// <param name="id">The trigger's id.</param>
+    /// <returns>The outcome, and the deleted trigger when it succeeded.</returns>
+    public async Task<(CtMemberResult Result, CTModel? Trigger)> DeleteMemberTriggerAsync(IGuildUser user, int id)
+    {
+        var (result, ct) = await GetManageableAsync(user, id).ConfigureAwait(false);
+        return result != CtMemberResult.Success
+            ? (result, null)
+            : (CtMemberResult.Success, await DeleteAsync(user.GuildId, ct!.Id).ConfigureAwait(false));
+    }
+
+    /// <summary>
+    ///     Makes a member the owner of a trigger whose creator has left the server.
+    /// </summary>
+    /// <param name="user">The member claiming the trigger.</param>
+    /// <param name="id">The trigger's id.</param>
+    /// <returns>The outcome, and the claimed trigger when it succeeded.</returns>
+    public async Task<(CtMemberResult Result, CTModel? Trigger)> ClaimTriggerAsync(IGuildUser user, int id)
+    {
+        var ct = await GetChatTriggers(user.GuildId, id).ConfigureAwait(false);
+        if (ct is null)
+            return (CtMemberResult.NotFound, null);
+
+        if (!IsStaff(user) && !await GetMemberCreateAsync(user.GuildId).ConfigureAwait(false))
+            return (CtMemberResult.Disabled, null);
+
+        if (ct.CreatorId == user.Id)
+            return (CtMemberResult.Success, ct);
+
+        if (ct.CreatorId == 0 && !IsStaff(user))
+            return (CtMemberResult.NoCreator, null);
+
+        if (ct.CreatorId != 0 && await user.Guild.GetUserAsync(ct.CreatorId).ConfigureAwait(false) is not null)
+            return (CtMemberResult.CreatorPresent, null);
+
+        return (CtMemberResult.Success,
+            await ModifyAsync(user.GuildId, id, x => x.CreatorId = user.Id).ConfigureAwait(false));
+    }
+
+    /// <summary>
+    ///     Gets the triggers a member created in a guild.
+    /// </summary>
+    /// <param name="guildId">The guild to look in.</param>
+    /// <param name="userId">The member's id.</param>
+    /// <returns>The member's triggers.</returns>
+    public async Task<CTModel[]> GetOwnedTriggersAsync(ulong guildId, ulong userId)
+    {
+        return (await GetChatTriggersFor(guildId).ConfigureAwait(false)).Where(x => x.CreatorId == userId)
+            .OrderBy(x => x.Id).ToArray();
+    }
+
+    /// <summary>
+    ///     Checks whether a member may read and change a trigger: staff always, and the creator when members are allowed
+    ///     to manage their own triggers.
+    /// </summary>
+    /// <param name="user">The member.</param>
+    /// <param name="ct">The trigger.</param>
+    /// <returns>True when the member may manage the trigger.</returns>
+    public async Task<bool> CanManageAsync(IGuildUser user, CTModel ct)
+    {
+        return IsStaff(user) ||
+               ct.CreatorId == user.Id && ct.CreatorId != 0 &&
+               await GetMemberCreateAsync(user.GuildId).ConfigureAwait(false);
+    }
+
+    private async Task<(CtMemberResult Result, CTModel? Trigger)> GetManageableAsync(IGuildUser user, int id)
+    {
+        var ct = await GetChatTriggers(user.GuildId, id).ConfigureAwait(false);
+        if (ct is null)
+            return (CtMemberResult.NotFound, null);
+
+        if (IsStaff(user))
+            return (CtMemberResult.Success, ct);
+
+        if (!await GetMemberCreateAsync(user.GuildId).ConfigureAwait(false))
+            return (CtMemberResult.Disabled, null);
+
+        return ct.CreatorId == user.Id && ct.CreatorId != 0
+            ? (CtMemberResult.Success, ct)
+            : (CtMemberResult.NotOwner, null);
+    }
+
+    private static bool IsStaff(IGuildUser user)
+    {
+        return user.GuildPermissions.Administrator;
+    }
+
+    private static bool HasMassMention(string message)
+    {
+        return message.Contains("@everyone", StringComparison.OrdinalIgnoreCase)
+               || message.Contains("@here", StringComparison.OrdinalIgnoreCase)
+               || message.Contains("<@&", StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    ///     Turns a trigger into a code another server can import with a single command.
+    /// </summary>
+    /// <param name="ct">The trigger to share.</param>
+    /// <returns>The share code.</returns>
+    /// <remarks>
+    ///     The code is the same yaml the set export uses, for this one trigger, compressed and written as base64.
+    ///     Roles, channels and chains are left out because their ids mean nothing in another server.
+    /// </remarks>
+    public string CreateShareCode(CTModel ct)
+    {
+        var exported = ExportedTriggers.FromModel(ct);
+        exported.ARole = [];
+        exported.RRole = [];
+        exported.Chans = [];
+        exported.DeniedChans = [];
+        exported.DeniedRoles = [];
+        exported.ReplyChan = 0;
+        exported.Next = null;
+
+        var yaml = ExportSerializer
+            .Serialize(new Dictionary<string, List<ExportedTriggers>>
+            {
+                [ct.Trigger ?? ""] = [exported]
+            })
+            .UnescapeUnicodeCodePoints();
+
+        using var output = new MemoryStream();
+        using (var gzip = new GZipStream(output, CompressionLevel.SmallestSize, true))
+            gzip.Write(Encoding.UTF8.GetBytes(yaml));
+
+        return Convert.ToBase64String(output.ToArray());
+    }
+
+    /// <summary>
+    ///     Imports a trigger from a share code.
+    /// </summary>
+    /// <param name="user">The member importing the trigger.</param>
+    /// <param name="code">The share code.</param>
+    /// <returns>True when the trigger was imported.</returns>
+    public async Task<bool> ImportShareCodeAsync(IGuildUser user, string code)
+    {
+        string yaml;
+        try
+        {
+            await using var input = new MemoryStream(Convert.FromBase64String(code.Trim()));
+            await using var gzip = new GZipStream(input, CompressionMode.Decompress);
+            await using var output = new MemoryStream();
+
+            var buffer = new byte[4096];
+            int read;
+            while ((read = await gzip.ReadAsync(buffer).ConfigureAwait(false)) > 0)
+            {
+                if (output.Length + read > MaxShareSize)
+                    return false;
+
+                output.Write(buffer, 0, read);
+            }
+
+            yaml = Encoding.UTF8.GetString(output.ToArray());
+        }
+        catch (Exception e) when (e is FormatException or InvalidDataException)
+        {
+            return false;
+        }
+
+        return await ImportCrsAsync(user, yaml).ConfigureAwait(false);
     }
 
 
@@ -2213,6 +2499,20 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 TimestampTag.FromDateTime(ct.ExpiresAt.Value).ToString()));
         }
 
+        switch (GetAccessBlock(ct, guild.Id, channel.Id, user))
+        {
+            case CtAccessBlock.Staff:
+                return (true, strings.CtTestBlockedStaff(guild.Id));
+            case CtAccessBlock.Nsfw:
+                return (true, strings.CtTestBlockedNsfw(guild.Id));
+            case CtAccessBlock.Channel:
+                return (true, strings.CtTestBlockedChannel(guild.Id));
+            case CtAccessBlock.DeniedChannel:
+                return (true, strings.CtTestBlockedDeniedChannel(guild.Id));
+            case CtAccessBlock.DeniedRole:
+                return (true, strings.CtTestBlockedDeniedRole(guild.Id));
+        }
+
         if (IsOnCooldown(ct, guild.Id, channel.Id, user.Id))
             return (true, strings.CtTestBlockedTriggerCooldown(guild.Id, ct.CooldownSeconds));
 
@@ -2246,6 +2546,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         {
             return (true, strings.CtTestBlockedMembership(guild.Id, FormatMinutes(ct.MinServerMembershipMinutes)));
         }
+
+        var testResponses = ct.GetResponses();
+        var (testAllowed, gateMessage) = FilterGated(testResponses, channel, user);
+        if (testResponses.Count > 0 && testAllowed.Count == 0)
+            return (true, strings.CtTestBlockedGate(guild.Id, gateMessage ?? ""));
 
         if (ct.RequiredXpLevel > 0)
         {
@@ -2437,7 +2742,22 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <returns>The available placeholder tokens.</returns>
     public IReadOnlyCollection<string> GetContextualPlaceholders()
     {
-        return placeholders.GetAvailablePlaceholders();
+        return placeholders.GetAvailablePlaceholders().Concat(RolePlaceholders).ToList();
+    }
+
+    private static readonly string[] RolePlaceholders =
+        ["%role%", "%role.color%", "%role.id%", "%role.mention%", "%role.name%"];
+
+    private static bool ChangesOwnEventRole(ChatTrigger ct, CtEventType eventType, IRole? role)
+    {
+        if (role is null)
+            return false;
+        return eventType switch
+        {
+            CtEventType.RoleAdded => ct.GetGrantedRoles().Contains(role.Id),
+            CtEventType.RoleRemoved => ct.GetRemovedRoles().Contains(role.Id),
+            _ => false
+        };
     }
 
     /// <summary>
@@ -2450,6 +2770,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     ///     The channel to respond in when a trigger does not name one of its own, or null to skip triggers without an
     ///     explicit channel.
     /// </param>
+    /// <param name="role">The role that was added or removed, for the role events.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     /// <remarks>
     ///     This is the entry point other modules call to let chat triggers format their notifications. Each trigger is
@@ -2457,7 +2778,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     ///     its own rules by being driven from an event.
     /// </remarks>
     public async Task FireEventTriggersAsync(ulong guildId, CtEventType eventType, IUser user,
-        IMessageChannel? fallbackChannel = null)
+        IMessageChannel? fallbackChannel = null, IRole? role = null)
     {
         if (!ready || eventType == CtEventType.None)
             return;
@@ -2469,6 +2790,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         var triggers = (await GetChatTriggersFor(guildId).ConfigureAwait(false))
             .Where(x => !x.IsDisabled
                         && x.EventType == (int)eventType
+                        && (x.EventRoleId == 0 || x.EventRoleId == role?.Id)
+                        && !ChangesOwnEventRole(x, eventType, role)
                         && ((ChatTriggerType)x.ValidTriggerTypes).HasFlag(ChatTriggerType.Event))
             .ToArray();
 
@@ -2483,7 +2806,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 if (channel is null)
                     continue;
 
-                if (!await PassesConditionsAsync(ct, guildId, channel.Id, user).ConfigureAwait(false))
+                var responses = await PassesConditionsAsync(ct, guildId, channel.Id, user).ConfigureAwait(false);
+                if (responses is null)
                     continue;
 
                 if (!await TryApplyEconomyAsync(ct, guildId, user, channel).ConfigureAwait(false))
@@ -2497,9 +2821,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     Author = user, Content = ct.Trigger ?? "", Channel = channel
                 };
 
-                foreach (var response in await SelectResponsesAsync(ct).ConfigureAwait(false))
+                foreach (var response in responses)
                 {
-                    await ct.Send(fakeMsg, client, false, dbFactory, placeholders, null, response)
+                    await ct.Send(fakeMsg, client, false, dbFactory, placeholders, null,
+                            ApplyPrompt(ApplyRolePlaceholders(response, role), null, guildId))
                         .ConfigureAwait(false);
                 }
 
@@ -2511,6 +2836,25 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 logger.LogWarning(ex, "Error running event chat trigger {TriggerId} in {GuildId}", ct.Id, guildId);
             }
         }
+    }
+
+    /// <summary>
+    ///     Replaces the role placeholders of the role events.
+    /// </summary>
+    /// <param name="response">The response to replace placeholders in.</param>
+    /// <param name="role">The role that was added or removed, or null for events that have none.</param>
+    /// <returns>The response with the role placeholders replaced.</returns>
+    private static string ApplyRolePlaceholders(string response, IRole? role)
+    {
+        if (role is null || !response.Contains("%role", StringComparison.OrdinalIgnoreCase))
+            return response;
+
+        return response
+            .Replace("%role.mention%", role.Mention, StringComparison.OrdinalIgnoreCase)
+            .Replace("%role.name%", role.Name, StringComparison.OrdinalIgnoreCase)
+            .Replace("%role.id%", role.Id.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%role.color%", role.Color.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%role%", role.Mention, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -2550,15 +2894,30 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     }
 
     /// <summary>
-    ///     Fires event triggers when a member starts or stops boosting the server.
+    ///     Fires event triggers when a member starts or stops boosting the server, or gains or loses a role.
     /// </summary>
     /// <param name="before">The member's previous state, which may not be cached.</param>
     /// <param name="after">The member's new state.</param>
     private async Task OnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> before, SocketGuildUser after)
     {
-        // Without the previous state there is no way to tell a new boost from an existing one, so nothing fires
+        // Without the previous state there is no way to tell a new boost or role from an existing one, so nothing fires
         if (!before.HasValue)
             return;
+
+        var beforeRoles = before.Value.Roles.Select(x => x.Id).ToHashSet();
+        var afterRoles = after.Roles.Select(x => x.Id).ToHashSet();
+
+        foreach (var role in after.Roles.Where(x => !beforeRoles.Contains(x.Id)))
+        {
+            await FireEventTriggersAsync(after.Guild.Id, CtEventType.RoleAdded, after, null, role)
+                .ConfigureAwait(false);
+        }
+
+        foreach (var role in before.Value.Roles.Where(x => !afterRoles.Contains(x.Id)))
+        {
+            await FireEventTriggersAsync(after.Guild.Id, CtEventType.RoleRemoved, after, null, role)
+                .ConfigureAwait(false);
+        }
 
         var wasBoosting = before.Value.PremiumSince.HasValue;
         var isBoosting = after.PremiumSince.HasValue;
@@ -2600,9 +2959,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     ///     how long it stays live, how often it may fire, and how established the invoking account has to be. Time
     ///     conditions reuse the sticky message condition format, so both features read the same way.
     /// </remarks>
-    private async Task<bool> PassesConditionsAsync(CTModel ct, ulong guildId, ulong channelId, IUser user)
+    private async Task<bool> PassesChecksAsync(CTModel ct, ulong guildId, ulong channelId, IUser user)
     {
         if (ct.ExpiresAt.HasValue && ct.ExpiresAt.Value <= DateTime.UtcNow)
+            return false;
+
+        if (GetAccessBlock(ct, guildId, channelId, user) != CtAccessBlock.None)
             return false;
 
         if (IsOnCooldown(ct, guildId, channelId, user.Id))
@@ -2643,9 +3005,223 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
         }
 
+        return true;
+    }
+
+    /// <summary>
+    ///     Checks every condition a trigger has, picks the responses that will be sent and checks their gates.
+    /// </summary>
+    /// <param name="ct">The trigger being fired.</param>
+    /// <param name="guildId">The guild the trigger fired in.</param>
+    /// <param name="channelId">The channel the trigger fired in.</param>
+    /// <param name="user">The user that fired the trigger.</param>
+    /// <returns>The responses to send, or null when the trigger must not fire.</returns>
+    /// <remarks>
+    ///     This runs before anything is charged or granted, so a member a <c>{require}</c> or <c>{blacklist}</c> block
+    ///     stops never pays or receives roles. Responses a gate stops are dropped, and the member is told why when
+    ///     none is left. The trigger's cooldown only starts once it is certain to fire.
+    /// </remarks>
+    private async Task<IReadOnlyList<string>?> PassesConditionsAsync(CTModel ct, ulong guildId, ulong channelId,
+        IUser user)
+    {
+        if (!await PassesChecksAsync(ct, guildId, channelId, user).ConfigureAwait(false))
+            return null;
+
+        var channel = client.GetGuild(guildId)?.GetChannel(channelId) as IMessageChannel;
+        var selected = await SelectResponsesAsync(ct).ConfigureAwait(false);
+        var (allowed, message) = FilterGated(selected, channel, user);
+
+        if (selected.Count > 0 && allowed.Count == 0)
+        {
+            if (channel is not null && !string.IsNullOrWhiteSpace(message))
+            {
+                try
+                {
+                    await channel.SendMessageAsync(message.SanitizeMentions(true)).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // The bot may not be able to speak in the channel
+                }
+            }
+
+            return null;
+        }
+
         StartCooldown(ct, guildId, channelId, user.Id);
 
-        return true;
+        return allowed;
+    }
+
+    /// <summary>
+    ///     Works out which of a trigger's staff, NSFW and channel restrictions, if any, stop a fire.
+    /// </summary>
+    /// <param name="ct">The trigger being fired.</param>
+    /// <param name="guildId">The guild the trigger fired in.</param>
+    /// <param name="channelId">The channel the trigger fired in.</param>
+    /// <param name="user">The user firing the trigger.</param>
+    /// <returns>The restriction that stops the fire, or <see cref="CtAccessBlock.None" />.</returns>
+    private CtAccessBlock GetAccessBlock(CTModel ct, ulong guildId, ulong channelId, IUser user)
+    {
+        if (ct.StaffOnly && user is not IGuildUser { GuildPermissions.ManageMessages: true })
+            return CtAccessBlock.Staff;
+
+        var deniedRoles = ct.GetDeniedRoles();
+        if (deniedRoles.Count > 0 && user is IGuildUser member && member.RoleIds.Any(deniedRoles.Contains))
+            return CtAccessBlock.DeniedRole;
+
+        var allowed = ct.GetAllowedChannels();
+        var denied = ct.GetDeniedChannels();
+        if (!ct.NsfwOnly && allowed.Count == 0 && denied.Count == 0)
+            return CtAccessBlock.None;
+
+        var channel = client.GetGuild(guildId)?.GetChannel(channelId);
+        var parentId = (channel as SocketThreadChannel)?.ParentChannel?.Id ?? channelId;
+
+        if (denied.Contains(channelId) || denied.Contains(parentId))
+            return CtAccessBlock.DeniedChannel;
+
+        if (ct.NsfwOnly)
+        {
+            var nsfw = (channel as SocketThreadChannel)?.ParentChannel as ITextChannel ?? channel as ITextChannel;
+            if (nsfw is not { IsNsfw: true })
+                return CtAccessBlock.Nsfw;
+        }
+
+        return allowed.Count > 0 && !allowed.Contains(channelId) && !allowed.Contains(parentId)
+            ? CtAccessBlock.Channel
+            : CtAccessBlock.None;
+    }
+
+    /// <summary>
+    ///     Splits responses into those a member may receive and the message of the first gate that stopped one.
+    /// </summary>
+    /// <param name="responses">The responses to check.</param>
+    /// <param name="channel">The channel the trigger fired in.</param>
+    /// <param name="user">The user firing the trigger.</param>
+    /// <returns>The responses no gate stops, and the message of the first gate that stopped one.</returns>
+    private static (List<string> Allowed, string? Message) FilterGated(IEnumerable<string> responses,
+        IMessageChannel? channel, IUser user)
+    {
+        List<string> allowed = [];
+        string? message = null;
+
+        foreach (var response in responses)
+        {
+            var evaluator = new TriggerBlockEvaluator(gate: TriggerGateFactory.Create(response, channel, user));
+            var result = evaluator.Evaluate(response);
+
+            if (evaluator.Stopped)
+                message ??= result;
+            else
+                allowed.Add(response);
+        }
+
+        return (allowed, message);
+    }
+
+    /// <summary>
+    ///     Asks the member who fired a trigger its question and waits for their next message in the channel.
+    /// </summary>
+    /// <param name="ct">The trigger being fired.</param>
+    /// <param name="msg">The message that fired the trigger.</param>
+    /// <returns>The member's answer, or null when they did not answer in time.</returns>
+    private async Task<string?> AskPromptAsync(CTModel ct, IUserMessage msg)
+    {
+        var answer = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var moduleName = $"ChatTriggersPrompt.{Guid.NewGuid():N}";
+
+        Func<SocketMessage, Task> handler = reply =>
+        {
+            if (reply.Author.Id == msg.Author.Id && reply.Channel.Id == msg.Channel.Id)
+                answer.TrySetResult(reply.Content);
+
+            return Task.CompletedTask;
+        };
+
+        eventHandler.Subscribe("MessageReceived", moduleName, handler);
+        try
+        {
+            await msg.Channel.SendMessageAsync($"{msg.Author.Mention} {ct.PromptQuestion.SanitizeMentions(true)}",
+                allowedMentions: new AllowedMentions(AllowedMentionTypes.Users)).ConfigureAwait(false);
+
+            var seconds = Math.Clamp(ct.PromptTimeoutSeconds <= 0 ? 30 : ct.PromptTimeoutSeconds, 5, 120);
+            var winner = await Task.WhenAny(answer.Task, Task.Delay(TimeSpan.FromSeconds(seconds)))
+                .ConfigureAwait(false);
+
+            return winner == answer.Task ? await answer.Task.ConfigureAwait(false) : null;
+        }
+        finally
+        {
+            eventHandler.Unsubscribe("MessageReceived", moduleName, handler);
+        }
+    }
+
+    /// <summary>
+    ///     Asks the member who ran an interaction trigger its question in a modal and waits for it to be submitted.
+    /// </summary>
+    /// <param name="ct">The trigger being fired.</param>
+    /// <param name="inter">The interaction that fired the trigger, which has not been answered yet.</param>
+    /// <returns>The submitted modal, or null when the member did not answer in time.</returns>
+    private async Task<SocketModal?> AskModalPromptAsync(CTModel ct, SocketInteraction inter)
+    {
+        var submitted = new TaskCompletionSource<SocketModal>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var moduleName = $"ChatTriggersPrompt.{Guid.NewGuid():N}";
+        var customId = $"ct_prompt:{Guid.NewGuid():N}";
+        var guildId = (inter.Channel as IGuildChannel)?.GuildId;
+
+        Func<SocketModal, Task> handler = modal =>
+        {
+            if (modal.Data.CustomId == customId && modal.User.Id == inter.User.Id)
+                submitted.TrySetResult(modal);
+
+            return Task.CompletedTask;
+        };
+
+        var question = ct.PromptQuestion!.Trim();
+        var modalBuilder = new ModalBuilder()
+            .WithCustomId(customId)
+            .WithTitle(strings.CtPromptModalTitle(guildId))
+            .AddTextInput(question.TrimTo(45, true), "answer", TextInputStyle.Paragraph,
+                question.Length > 45 ? question.TrimTo(100, true) : null, 1, 500);
+
+        eventHandler.Subscribe("ModalSubmitted", moduleName, handler);
+        try
+        {
+            await inter.RespondWithModalAsync(modalBuilder.Build()).ConfigureAwait(false);
+
+            var seconds = Math.Clamp(ct.PromptTimeoutSeconds <= 0 ? 30 : ct.PromptTimeoutSeconds, 5, 120);
+            var winner = await Task.WhenAny(submitted.Task, Task.Delay(TimeSpan.FromSeconds(seconds)))
+                .ConfigureAwait(false);
+
+            return winner == submitted.Task ? await submitted.Task.ConfigureAwait(false) : null;
+        }
+        finally
+        {
+            eventHandler.Unsubscribe("ModalSubmitted", moduleName, handler);
+        }
+    }
+
+    /// <summary>
+    ///     Replaces <c>%prompt%</c> in a response with the member's answer.
+    /// </summary>
+    /// <param name="response">The response text.</param>
+    /// <param name="answer">The member's answer, or null when the trigger asked nothing.</param>
+    /// <param name="guildId">The guild the trigger fired in.</param>
+    /// <returns>The response with the answer in place, safe from mentions, blocks and placeholders.</returns>
+    private static string ApplyPrompt(string response, string? answer, ulong guildId)
+    {
+        if (!response.Contains("%prompt%", StringComparison.OrdinalIgnoreCase))
+            return response;
+
+        var safe = (answer ?? "").Trim().TrimTo(500, true).SanitizeMentions(true)
+            .Replace("{", "{​", StringComparison.Ordinal)
+            .Replace("%", "%​", StringComparison.Ordinal);
+
+        if (SmartEmbed.TryParse(response, guildId, out _, out _, out _))
+            safe = JsonSerializer.Serialize(safe)[1..^1];
+
+        return PromptRegex.Replace(response, _ => safe);
     }
 
     /// <summary>
@@ -3308,7 +3884,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <returns>An embed builder containing information about the chat trigger.</returns>
     public EmbedBuilder GetEmbed(CTModel ct, ulong? gId = null, string? title = null)
     {
-        var eb = new EmbedBuilder().WithOkColor()
+        var eb = new EmbedBuilder().WithOkColor(gId)
             .WithTitle(title)
             .WithDescription(strings.ChatTriggerId(gId, ct.Id));
 
@@ -3375,10 +3951,50 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 .AddField(strings.CtEventChannel(gId), ct.EventChannelId == 0
                     ? strings.CtEventChannelDefault(gId)
                     : $"<#{ct.EventChannelId}>");
+
+            if (ct.EventType is (int)CtEventType.RoleAdded or (int)CtEventType.RoleRemoved)
+            {
+                eb.AddField(strings.CtEventRole(gId), ct.EventRoleId == 0
+                    ? strings.CtEventRoleAny(gId)
+                    : $"<@&{ct.EventRoleId}>");
+            }
         }
 
         if (ct.ReplyToTrigger)
             eb.AddField(strings.CtReplyToTrigger(gId), "\u200b");
+
+        if (ct.StaffOnly)
+            eb.AddField(strings.CtStaffOnly(gId), "\u200b");
+
+        if (ct.NsfwOnly)
+            eb.AddField(strings.CtNsfwOnly(gId), "\u200b");
+
+        var allowedChannels = ct.GetAllowedChannels();
+        if (allowedChannels.Count > 0)
+            eb.AddField(strings.CtAllowedChannels(gId), string.Join(" ", allowedChannels.Select(x => $"<#{x}>")));
+
+        var deniedChannels = ct.GetDeniedChannels();
+        if (deniedChannels.Count > 0)
+            eb.AddField(strings.CtDeniedChannels(gId), string.Join(" ", deniedChannels.Select(x => $"<#{x}>")));
+
+        var deniedRoles = ct.GetDeniedRoles();
+        if (deniedRoles.Count > 0)
+            eb.AddField(strings.CtDeniedRoles(gId), string.Join(" ", deniedRoles.Select(x => $"<@&{x}>")));
+
+        if (ct.Anonymous)
+            eb.AddField(strings.CtAnonymous(gId), "​");
+
+        if (ct.ReplyChannelId != 0)
+            eb.AddField(strings.CtReplyChannel(gId), $"<#{ct.ReplyChannelId}>");
+
+        if (!string.IsNullOrWhiteSpace(ct.PromptQuestion))
+        {
+            eb.AddField(strings.CtPrompt(gId), ct.PromptQuestion.TrimTo(1024))
+                .AddField(strings.CtPromptTimeout(gId), $"{(ct.PromptTimeoutSeconds <= 0 ? 30 : ct.PromptTimeoutSeconds)}s");
+        }
+
+        if (ct.CreatorId != 0)
+            eb.AddField(strings.CtCreator(gId), $"<@{ct.CreatorId}>");
 
         if (ct.DeleteResponseAfter > 0)
             eb.AddField(strings.CtDeleteResponseAfter(gId), $"{ct.DeleteResponseAfter}s");
@@ -3878,7 +4494,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     continue;
 
                 // Check the trigger's own conditions before anything is charged or sent.
-                if (!await PassesConditionsAsync(ct, guild.Id, ch.Id, user).ConfigureAwait(false))
+                var responses = await PassesConditionsAsync(ct, guild.Id, ch.Id, user).ConfigureAwait(false);
+                if (responses is null)
                     continue;
 
                 // Apply economy requirements and rewards
@@ -3886,7 +4503,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     continue;
 
                 // Execute the trigger
-                await TryExecuteReactionTrigger(ct, guild, ch, user, msg, reaction).ConfigureAwait(false);
+                await TryExecuteReactionTrigger(ct, responses, guild, ch, user, msg, reaction).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -3923,13 +4540,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     ///     Executes a reaction-based trigger.
     /// </summary>
     /// <param name="ct">The trigger to execute.</param>
+    /// <param name="responses">The responses to send, already checked against the trigger's gates.</param>
     /// <param name="guild">The guild where the reaction occurred.</param>
     /// <param name="channel">The channel where the reaction occurred.</param>
     /// <param name="user">The user who reacted.</param>
     /// <param name="message">The message that was reacted to.</param>
     /// <param name="reaction">The reaction that was added.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task TryExecuteReactionTrigger(CTModel ct, IGuild guild, IMessageChannel channel, IUser user,
+    private async Task TryExecuteReactionTrigger(CTModel ct, IReadOnlyList<string> responses, IGuild guild, IMessageChannel channel, IUser user,
         IUserMessage message, SocketReaction reaction)
     {
         // Update usage count
@@ -3953,9 +4571,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         // Send the response using the same method as regular triggers
         IUserMessage? sentMsg = null;
-        foreach (var response in await SelectResponsesAsync(ct).ConfigureAwait(false))
+        foreach (var response in responses)
         {
-            sentMsg = await ct.Send(fakeMsg, client, false, dbFactory, placeholders, null, response)
+            sentMsg = await ct.Send(fakeMsg, client, false, dbFactory, placeholders, null,
+                    ApplyPrompt(response, null, guild.Id))
                 .ConfigureAwait(false);
         }
 
@@ -4109,6 +4728,19 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="Exact">Triggers whose whole message must equal the trigger, keyed by that text.</param>
     /// <param name="Complex">Triggers that require prefix stripping, regex or positional matching.</param>
     private sealed record TriggerIndex(Dictionary<string, List<CTModel>> Exact, CTModel[] Complex);
+
+    /// <summary>
+    ///     The restriction that stopped a trigger from firing for a member in a channel.
+    /// </summary>
+    private enum CtAccessBlock
+    {
+        None,
+        Staff,
+        Nsfw,
+        Channel,
+        DeniedChannel,
+        DeniedRole
+    }
 
     /// <summary>
     ///     Represents the grouping of trigger children for building application command properties.

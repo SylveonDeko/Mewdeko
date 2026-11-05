@@ -152,7 +152,17 @@ public enum CtEventType
     /// <summary>
     ///     A giveaway was won.
     /// </summary>
-    GiveawayWon
+    GiveawayWon,
+
+    /// <summary>
+    ///     A member gained a role.
+    /// </summary>
+    RoleAdded,
+
+    /// <summary>
+    ///     A member lost a role.
+    /// </summary>
+    RoleRemoved
 }
 
 /// <summary>
@@ -232,4 +242,45 @@ public enum RequirePrefixType
     ///     Requires a custom prefix.
     /// </summary>
     Custom
+}
+
+/// <summary>
+///     The outcome of a member creating, editing, deleting or claiming a chat trigger.
+/// </summary>
+public enum CtMemberResult
+{
+    /// <summary>
+    ///     The change was made.
+    /// </summary>
+    Success,
+
+    /// <summary>
+    ///     Members are not allowed to manage triggers in this server.
+    /// </summary>
+    Disabled,
+
+    /// <summary>
+    ///     No trigger has that id.
+    /// </summary>
+    NotFound,
+
+    /// <summary>
+    ///     The trigger belongs to someone else.
+    /// </summary>
+    NotOwner,
+
+    /// <summary>
+    ///     The response would mention everyone or a role.
+    /// </summary>
+    UnsafeResponse,
+
+    /// <summary>
+    ///     The trigger's creator is still in the server.
+    /// </summary>
+    CreatorPresent,
+
+    /// <summary>
+    ///     The trigger has no recorded creator, so only staff can claim it.
+    /// </summary>
+    NoCreator
 }

@@ -19,4 +19,14 @@ public class LoggingConfigurationResponse
     ///     List of channels ignored from logging
     /// </summary>
     public List<ulong> IgnoredChannels { get; set; } = new();
+
+    /// <summary>
+    ///     Prefixes whose messages are skipped by message edit and delete logs
+    /// </summary>
+    public List<string> IgnorePrefixes { get; set; } = new();
+
+    /// <summary>
+    ///     Whether logs skip actions by bots
+    /// </summary>
+    public bool IgnoreBots { get; set; } = true;
 }

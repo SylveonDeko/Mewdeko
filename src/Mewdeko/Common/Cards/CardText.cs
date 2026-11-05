@@ -1,13 +1,14 @@
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Mewdeko.Modules.Achievements.Common;
 
-namespace Mewdeko.Modules.Achievements.Common;
+namespace Mewdeko.Common.Cards;
 
 /// <summary>
 ///     What a piece of card text is.
 /// </summary>
-public enum AchievementTextPieceKind
+public enum CardTextPieceKind
 {
     /// <summary>
     ///     Letters with no space in them.
@@ -42,8 +43,8 @@ public enum AchievementTextPieceKind
 /// <param name="Text">The letters, or what an emoji is drawn as when its image doesn't load.</param>
 /// <param name="Glyph">The glyph of glyph pieces.</param>
 /// <param name="Url">The image of emoji pieces.</param>
-public sealed record AchievementTextPiece(
-    AchievementTextPieceKind Kind,
+public sealed record CardTextPiece(
+    CardTextPieceKind Kind,
     string Text,
     AchievementGlyph? Glyph = null,
     string? Url = null);
@@ -51,7 +52,7 @@ public sealed record AchievementTextPiece(
 /// <summary>
 ///     Splits card text into words, spaces, line breaks, glyphs, and emoji.
 /// </summary>
-public static partial class AchievementCardText
+public static partial class CardText
 {
     /// <summary>
     ///     Where Unicode emoji images come from: Twemoji, the set Discord draws.
@@ -61,9 +62,9 @@ public static partial class AchievementCardText
     /// <summary>
     ///     A space between words.
     /// </summary>
-    public static readonly AchievementTextPiece Space = new(AchievementTextPieceKind.Space, " ");
+    public static readonly CardTextPiece Space = new(CardTextPieceKind.Space, " ");
 
-    private static readonly AchievementTextPiece Break = new(AchievementTextPieceKind.Break, "\n");
+    private static readonly CardTextPiece Break = new(CardTextPieceKind.Break, "\n");
 
     private static readonly (int From, int To)[] EmojiPresentation =
     [
@@ -84,9 +85,9 @@ public static partial class AchievementCardText
     /// </summary>
     /// <param name="text">The text, with placeholders already filled in.</param>
     /// <returns>The pieces in order.</returns>
-    public static List<AchievementTextPiece> Parse(string text)
+    public static List<CardTextPiece> Parse(string text)
     {
-        var pieces = new List<AchievementTextPiece>();
+        var pieces = new List<CardTextPiece>();
         var at = 0;
         foreach (Match match in Inline().Matches(text))
         {
@@ -95,11 +96,11 @@ public static partial class AchievementCardText
             if (match.Groups[3].Success)
             {
                 if (AchievementIcons.FindGlyph(match.Groups[3].Value) is { } glyph)
-                    pieces.Add(new AchievementTextPiece(AchievementTextPieceKind.Glyph, "", glyph));
+                    pieces.Add(new CardTextPiece(CardTextPieceKind.Glyph, "", glyph));
                 continue;
             }
 
-            pieces.Add(new AchievementTextPiece(AchievementTextPieceKind.Emoji, $":{match.Groups[1].Value}:", null,
+            pieces.Add(new CardTextPiece(CardTextPieceKind.Emoji, $":{match.Groups[1].Value}:", null,
                 $"https://cdn.discordapp.com/emojis/{match.Groups[2].Value}.png?size=96"));
         }
 
@@ -126,7 +127,7 @@ public static partial class AchievementCardText
         return string.Join('-', runes.Where(r => joined || r != 0xFE0F).Select(r => r.ToString("x")));
     }
 
-    private static void AddPlain(List<AchievementTextPiece> pieces, string text)
+    private static void AddPlain(List<CardTextPiece> pieces, string text)
     {
         var word = new StringBuilder();
         var elements = StringInfo.GetTextElementEnumerator(text);
@@ -149,7 +150,7 @@ public static partial class AchievementCardText
                     if (TwemojiName(element) is { } name)
                     {
                         Flush();
-                        pieces.Add(new AchievementTextPiece(AchievementTextPieceKind.Emoji, element, null,
+                        pieces.Add(new CardTextPiece(CardTextPieceKind.Emoji, element, null,
                             $"{TwemojiBase}{name}.png"));
                     }
                     else
@@ -168,7 +169,7 @@ public static partial class AchievementCardText
         {
             if (word.Length == 0)
                 return;
-            pieces.Add(new AchievementTextPiece(AchievementTextPieceKind.Text, word.ToString()));
+            pieces.Add(new CardTextPiece(CardTextPieceKind.Text, word.ToString()));
             word.Clear();
         }
     }

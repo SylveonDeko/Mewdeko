@@ -268,6 +268,93 @@ public class SlashPoll : MewdekoSlashModuleBase<PollService>
     }
 
     /// <summary>
+    /// Ends a poll automatically once it has this many votes.
+    /// </summary>
+    /// <param name="pollId">The ID of the poll.</param>
+    /// <param name="votes">The number of votes, or 0 for no limit.</param>
+    [SlashCommand("max-votes", "End a poll automatically after a number of votes")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task MaxVotes([Summary("poll-id", "The ID of the poll")] int pollId,
+        [Summary("votes", "The number of votes, 0 removes the limit")] [MinValue(0)]
+        int votes)
+    {
+        if (!await OwnsActivePollAsync(pollId) || votes < 0 ||
+            !await Service.UpdatePollSettingsAsync(pollId, x => x.MaxVotes = votes == 0 ? null : votes))
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.PollSettingsFailed(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await ctx.Interaction.SendConfirmAsync(votes == 0
+            ? Strings.PollMaxVotesCleared(ctx.Guild.Id)
+            : Strings.PollMaxVotesSet(ctx.Guild.Id, votes));
+    }
+
+    /// <summary>
+    /// Stops a role from voting on a poll, or lets it vote again if it was blocked.
+    /// </summary>
+    /// <param name="pollId">The ID of the poll.</param>
+    /// <param name="role">The role to block or unblock.</param>
+    [SlashCommand("block-role", "Stop a role from voting on a poll")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task BlockRole([Summary("poll-id", "The ID of the poll")] int pollId,
+        [Summary("role", "The role to block or unblock")] IRole role)
+    {
+        var blocked = false;
+
+        if (!await OwnsActivePollAsync(pollId) || !await Service.UpdatePollSettingsAsync(pollId, x =>
+            {
+                x.BlockedRoles ??= [];
+                blocked = !x.BlockedRoles.Remove(role.Id);
+
+                if (blocked)
+                    x.BlockedRoles.Add(role.Id);
+            }))
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.PollSettingsFailed(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await ctx.Interaction.SendConfirmAsync(blocked
+            ? Strings.PollRoleBlocked(ctx.Guild.Id, role.Mention)
+            : Strings.PollRoleUnblocked(ctx.Guild.Id, role.Mention));
+    }
+
+    /// <summary>
+    /// Sets the message posted when a poll ends.
+    /// </summary>
+    /// <param name="pollId">The ID of the poll.</param>
+    /// <param name="message">The message with poll placeholders. Leave empty to clear it.</param>
+    [SlashCommand("results-message", "Set the message posted when a poll ends")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task ResultsMessage([Summary("poll-id", "The ID of the poll")] int pollId,
+        [Summary("message", "Uses %poll.winner%, %poll.votes%, %poll.results% and more, empty clears")]
+        string? message = null)
+    {
+        var text = string.IsNullOrWhiteSpace(message) ? null : message;
+
+        if (!await OwnsActivePollAsync(pollId) ||
+            !await Service.UpdatePollSettingsAsync(pollId, x => x.ResultsMessage = text))
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.PollSettingsFailed(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await ctx.Interaction.SendConfirmAsync(text is null
+            ? Strings.PollResultsMessageCleared(ctx.Guild.Id)
+            : Strings.PollResultsMessageSet(ctx.Guild.Id));
+    }
+
+    private async Task<bool> OwnsActivePollAsync(int pollId)
+    {
+        var poll = await Service.GetPollAsync(pollId);
+        return poll is { IsActive: true } && poll.GuildId == ctx.Guild.Id;
+    }
+
+    /// <summary>
     /// Closes an active poll.
     /// </summary>
     /// <param name="pollId">The ID of the poll to close.</param>

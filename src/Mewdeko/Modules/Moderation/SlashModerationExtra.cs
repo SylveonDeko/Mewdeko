@@ -149,11 +149,54 @@ public partial class SlashPunishCommands
         }
 
         /// <summary>
+        ///     Mutes a user and removes their roles until they are unmuted, optionally for a specified amount of time.
+        /// </summary>
+        /// <param name="user">The user to mute</param>
+        /// <param name="time">The amount of time to mute the user for, between 1 minute and 90 days</param>
+        /// <param name="reason">The reason for the mute</param>
+        [SlashCommand("hard-mute", "Mutes a user and removes their roles until they are unmuted")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        public async Task HardMute([Summary("user", "The user to mute")] IGuildUser user,
+            [Summary("time", "How long to mute for, for example 1h30m")]
+            TimeSpan? time = null,
+            [Summary("reason", "The reason for the mute")]
+            string reason = "")
+        {
+            if (time is not null && (time.Value < TimeSpan.FromMinutes(1) || time.Value > TimeSpan.FromDays(90)))
+                return;
+            try
+            {
+                if (!await CheckRoleHierarchy(user))
+                    return;
+
+                if (time is null)
+                {
+                    await Service.MuteUser(user, ctx.User, reason: reason, hardMute: true).ConfigureAwait(false);
+                    await ReplyConfirmAsync(Strings.UserHardMuted(ctx.Guild.Id, Format.Bold(user.ToString())))
+                        .ConfigureAwait(false);
+                    return;
+                }
+
+                await Service.TimedMute(user, ctx.User, time.Value, reason: reason, hardMute: true)
+                    .ConfigureAwait(false);
+                await ReplyConfirmAsync(Strings.UserHardMutedTime(ctx.Guild.Id, Format.Bold(user.ToString()),
+                    time.Value.Humanize())).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Error in hard mute command");
+                await ReplyErrorAsync(Strings.MuteError(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         ///     Unmutes a user.
         /// </summary>
         /// <param name="user">The user to unmute</param>
         /// <param name="reason">The reason for the unmute</param>
-        [SlashCommand("unmute", "Unmutes a user from text and voice")]
+        [SlashCommand("unmute","Unmutes a user from text and voice")]
         [RequireContext(ContextType.Guild)]
         [CheckPermissions]
         [SlashUserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
@@ -552,24 +595,36 @@ public partial class SlashPunishCommands
             }
 
             await DeferAsync();
-            try
+            reason = await Service.Cases.ResolveReasonAsync(ctx.Guild.Id, reason).ConfigureAwait(false);
+
+            async Task SendWarnDm(int? caseNumber)
             {
-                await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
-                        .WithDescription(Strings.MiniWarnedInGuild(ctx.Guild.Id, ctx.Guild))
-                        .AddField(efb => efb.WithName(Strings.MiniWarnModerator(ctx.Guild.Id))
-                            .WithValue(ctx.User.ToString()))
-                        .AddField(efb => efb.WithName(Strings.MiniWarnReason(ctx.Guild.Id))
-                            .WithValue(reason ?? "-")))
-                    .ConfigureAwait(false);
-            }
-            catch
-            {
+                try
+                {
+                    var custom = await Service.Cases
+                        .SendPunishDmAsync(ctx.Guild, user, ctx.User, ModCaseAction.Warn, reason, null, caseNumber)
+                        .ConfigureAwait(false);
+                    if (custom is not null)
+                        return;
+
+                    await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
+                            .WithDescription(Strings.MiniWarnedInGuild(ctx.Guild.Id, ctx.Guild))
+                            .AddField(efb => efb.WithName(Strings.MiniWarnModerator(ctx.Guild.Id))
+                                .WithValue(ctx.User.ToString()))
+                            .AddField(efb => efb.WithName(Strings.MiniWarnReason(ctx.Guild.Id))
+                                .WithValue(reason ?? "-")))
+                        .ConfigureAwait(false);
+                }
+                catch
+                {
+                }
             }
 
             WarningPunishment2? punishment;
             try
             {
-                punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason).ConfigureAwait(false);
+                punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason, SendWarnDm)
+                    .ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -1169,7 +1224,8 @@ public partial class SlashPunishCommands
             foreach (var u in users)
                 try
                 {
-                    await u.KickAsync(null, options);
+                    await Service.Cases.PunishAsync(ctx.Guild, u, ctx.User, ModCaseAction.Kick, "Masskick", null,
+                        () => u.KickAsync(null, options)).ConfigureAwait(false);
                     succ.Add(u.Id);
                 }
                 catch
@@ -1215,10 +1271,15 @@ public partial class SlashPunishCommands
                 .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.MassBan, ctx.Channel).ConfigureAwait(false);
             await Task.WhenAll(valueTuples
                     .Where(x => x.id.HasValue)
-                    .Select(x => ctx.Guild.AddBanAsync(x.id.Value, massPruneDays, "", new RequestOptions
+                    .Select(async x =>
                     {
-                        RetryMode = RetryMode.AlwaysRetry, AuditLogReason = x.Reason
-                    })))
+                        var target = await ctx.Client.GetUserAsync(x.id.Value).ConfigureAwait(false);
+                        await Service.Cases.PunishAsync(ctx.Guild, target, ctx.User, ModCaseAction.Ban, x.Reason, null,
+                            () => ctx.Guild.AddBanAsync(x.id.Value, massPruneDays, "", new RequestOptions
+                            {
+                                RetryMode = RetryMode.AlwaysRetry, AuditLogReason = x.Reason
+                            })).ConfigureAwait(false);
+                    }))
                 .ConfigureAwait(false);
 
             await banningMessage.ModifyAsync(x => x.Embed = new EmbedBuilder()
@@ -1502,8 +1563,6 @@ public partial class SlashPunishCommands
     [Group("purge", "Purge messages")]
     public class ModerationPurge : MewdekoSlashSubmodule<PurgeService>
     {
-        private static readonly TimeSpan TwoWeeks = TimeSpan.FromDays(14);
-
         /// <summary>
         ///     Purges messages from the current channel with the given amount and filters. When a user or user id is given,
         ///     only that user's messages from the last two weeks are purged.
@@ -1516,6 +1575,11 @@ public partial class SlashPunishCommands
         /// <param name="onlyBots">Only purge messages from bots</param>
         /// <param name="hasEmbed">Only purge messages that have an embed</param>
         /// <param name="noEmbed">Only purge messages that do not have an embed</param>
+        /// <param name="links">Only purge messages that have a link</param>
+        /// <param name="mentions">Only purge messages that mention a user or role</param>
+        /// <param name="files">Only purge messages that have an attachment</param>
+        /// <param name="images">Only purge messages that have an image</param>
+        /// <param name="emoji">Only purge messages that contain an emoji</param>
         /// <param name="contains">Only purge messages containing this text</param>
         /// <param name="before">Only purge messages sent before this date</param>
         /// <param name="after">Only purge messages sent after this date</param>
@@ -1541,6 +1605,16 @@ public partial class SlashPunishCommands
             bool hasEmbed = false,
             [Summary("no-embed", "Only purge messages without an embed")]
             bool noEmbed = false,
+            [Summary("links", "Only purge messages that have a link")]
+            bool links = false,
+            [Summary("mentions", "Only purge messages that mention a user or role")]
+            bool mentions = false,
+            [Summary("files", "Only purge messages that have an attachment")]
+            bool files = false,
+            [Summary("images", "Only purge messages that have an image")]
+            bool images = false,
+            [Summary("emoji", "Only purge messages that contain an emoji")]
+            bool emoji = false,
             [Summary("contains", "Only purge messages containing this text")]
             string? contains = null,
             [Summary("before", "Only purge messages sent before this date")]
@@ -1552,58 +1626,56 @@ public partial class SlashPunishCommands
             var channel = (ITextChannel)ctx.Channel;
             var targetId = userId ?? user?.Id;
 
-            if (targetId is not null)
+            var filters = new PurgeService.PurgeFilters
             {
-                var id = targetId.Value;
-                if (safe)
-                {
-                    await Service.PurgeWhere(channel, (ulong)count,
-                        m => m.Author.Id == id && DateTime.UtcNow - m.CreatedAt < TwoWeeks && !m.IsPinned);
-                }
-                else
-                {
-                    await Service.PurgeWhere(channel, (ulong)count,
-                        m => m.Author.Id == id && DateTime.UtcNow - m.CreatedAt < TwoWeeks);
-                }
+                UserId = targetId,
+                Safe = safe,
+                NoBots = noBots,
+                OnlyBots = onlyBots,
+                HasEmbed = hasEmbed,
+                NoEmbed = noEmbed,
+                Links = links,
+                Mentions = mentions,
+                Files = files,
+                Images = images,
+                Emoji = emoji,
+                Contains = contains,
+                Before = DateTimeOffset.TryParse(before, out var beforeDate) ? beforeDate : null,
+                After = DateTimeOffset.TryParse(after, out var afterDate) ? afterDate : null
+            };
 
-                await EphemeralReplyConfirmAsync(Strings.PurgeCompleted(ctx.Guild.Id)).ConfigureAwait(false);
-                return;
-            }
-
-            var options = new List<Func<IMessage, bool>>();
-
-            if (safe)
-                options.Add(x => !x.IsPinned);
-            if (noBots)
-                options.Add(x => !x.Author.IsBot);
-            if (onlyBots)
-                options.Add(x => x.Author.IsBot);
-            if (hasEmbed)
-                options.Add(x => x.Embeds.Count > 0);
-            if (noEmbed)
-                options.Add(x => x.Embeds.Count == 0);
-            if (!string.IsNullOrEmpty(contains))
-                options.Add(x => x.Content.Contains(contains, StringComparison.InvariantCultureIgnoreCase));
-            if (!string.IsNullOrEmpty(before) && DateTimeOffset.TryParse(before, out var beforeDate))
-                options.Add(x => x.Timestamp < beforeDate);
-            if (!string.IsNullOrEmpty(after) && DateTimeOffset.TryParse(after, out var afterDate))
-                options.Add(x => x.Timestamp > afterDate);
-
-            if (options.Count == 0)
-            {
-                await Service.PurgeWhere(channel, (ulong)count, x => x.Channel.Id == ctx.Channel.Id);
-                await EphemeralReplyConfirmAsync(Strings.PurgeCompleted(ctx.Guild.Id)).ConfigureAwait(false);
-                return;
-            }
-
-            await Service.PurgeWhere(channel, (ulong)count, CombinedPredicate).ConfigureAwait(false);
+            await Service.PurgeWhere(channel, (ulong)count, PurgeService.BuildPredicate(filters))
+                .ConfigureAwait(false);
             await EphemeralReplyConfirmAsync(Strings.PurgeCompleted(ctx.Guild.Id)).ConfigureAwait(false);
-            return;
+        }
 
-            bool CombinedPredicate(IMessage m)
+        /// <summary>
+        ///     Removes reactions from the last messages in the current channel, optionally only one emoji.
+        /// </summary>
+        /// <param name="count">How many recent messages to look through</param>
+        /// <param name="emoji">Only remove this emoji</param>
+        [SlashCommand("reactions", "Removes reactions from recent messages in this channel")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        public async Task PurgeReactions(
+            [Summary("count", "How many recent messages to clear, 1 to 1000")] [MinValue(1)] [MaxValue(1000)]
+            int count = 100,
+            [Summary("emoji", "Only remove this emoji")]
+            string? emoji = null)
+        {
+            IEmote? emote = null;
+            if (emoji is not null && !PurgeService.TryParseEmote(emoji, out emote))
             {
-                return options.All(p => p(m));
+                await EphemeralReplyErrorAsync(Strings.PurgeReactionsInvalidEmoji(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
             }
+
+            await DeferAsync(true);
+            var cleared = await Service.ClearReactions((ITextChannel)ctx.Channel, count, emote).ConfigureAwait(false);
+            await EphemeralReplyConfirmAsync(Strings.PurgeReactionsCompleted(ctx.Guild.Id, cleared))
+                .ConfigureAwait(false);
         }
 
         /// <summary>

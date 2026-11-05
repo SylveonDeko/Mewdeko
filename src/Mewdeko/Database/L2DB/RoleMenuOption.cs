@@ -32,6 +32,12 @@ public class RoleMenuOption
     [Column("Position")]
     public int Position { get; set; }
 
+    [Column("TempRoleSeconds")]
+    public int TempRoleSeconds { get; set; }
+
+    [Column("MaxHolders")]
+    public int MaxHolders { get; set; }
+
     [Column("DateAdded")]
     public DateTime DateAdded { get; set; }
 }

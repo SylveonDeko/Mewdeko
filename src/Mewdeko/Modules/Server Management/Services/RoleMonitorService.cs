@@ -23,6 +23,7 @@ public class RoleMonitorService : INService, IReadyExecutor
 
     // In-memory caches for quick access
     private readonly ConcurrentDictionary<ulong, GuildSettings> guildSettingsCache = new();
+    private readonly ModCaseService modCases;
     private readonly MuteService muteService;
     private readonly GeneratedBotStrings strings;
     private readonly UserPunishService userPunishService;
@@ -39,11 +40,13 @@ public class RoleMonitorService : INService, IReadyExecutor
     /// <param name="muteService">The mute service for handling user mutes.</param>
     /// <param name="strings">The localized strings service.</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
+    /// <param name="modCases">The service recording moderation cases</param>
     public RoleMonitorService(DiscordShardedClient client, EventHandler handler, IDataConnectionFactory dbFactory,
         IDataCache dataCache, UserPunishService userPunishService, BotConfigService botConfigService,
-        MuteService muteService, GeneratedBotStrings strings, BanPruneService banPrune)
+        MuteService muteService, GeneratedBotStrings strings, BanPruneService banPrune, ModCaseService modCases)
     {
         this.banPrune = banPrune;
+        this.modCases = modCases;
         this.client = client;
         this.dbFactory = dbFactory;
         this.dataCache = dataCache;
@@ -391,11 +394,15 @@ public class RoleMonitorService : INService, IReadyExecutor
                 break;
             case PunishmentAction.Kick:
                 await user.KickAsync($"Violation: {actionDescription}");
+                await modCases.RecordAsync(guild.Id, user.Id, client.CurrentUser.Id, ModCaseAction.Kick,
+                    $"Role monitor: {actionDescription}");
                 break;
             case PunishmentAction.Ban:
                 await guild.AddBanAsync(user.Id,
                     await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.RoleMonitor),
                     $"Violation: {actionDescription}");
+                await modCases.RecordAsync(guild.Id, user.Id, client.CurrentUser.Id, ModCaseAction.Ban,
+                    $"Role monitor: {actionDescription}");
                 break;
             case PunishmentAction.Mute:
                 await muteService.MuteUser(user, client.CurrentUser, reason: actionDescription);
@@ -405,18 +412,24 @@ public class RoleMonitorService : INService, IReadyExecutor
                     await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.SoftBan),
                     $"Violation: {actionDescription}");
                 await guild.RemoveBanAsync(user);
+                await modCases.RecordAsync(guild.Id, user.Id, client.CurrentUser.Id, ModCaseAction.Softban,
+                    $"Role monitor: {actionDescription}");
                 break;
             case PunishmentAction.RemoveRoles:
                 await user.RemoveRolesAsync(user.RoleIds, new RequestOptions
                 {
                     AuditLogReason = $"Violation: {actionDescription}"
                 });
+                await modCases.RecordAsync(guild.Id, user.Id, client.CurrentUser.Id, ModCaseAction.RemoveRoles,
+                    $"Role monitor: {actionDescription}");
                 break;
             case PunishmentAction.Timeout:
                 await user.SetTimeOutAsync(TimeSpan.FromDays(28), new RequestOptions
                 {
                     AuditLogReason = $"Violation: {actionDescription}"
                 });
+                await modCases.RecordAsync(guild.Id, user.Id, client.CurrentUser.Id, ModCaseAction.Timeout,
+                    $"Role monitor: {actionDescription}", TimeSpan.FromDays(28));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(punishmentAction), punishmentAction, null);

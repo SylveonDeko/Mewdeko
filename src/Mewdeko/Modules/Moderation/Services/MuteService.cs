@@ -72,6 +72,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
 
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<MuteService> logger;
+    private readonly ModCaseService modCases;
     private readonly GeneratedBotStrings strings;
 
 
@@ -89,12 +90,14 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// <param name="eventHandler">Handler for async events (Hear that dnet? ASYNC, not GATEWAY THREAD)</param>
     /// <param name="strings">The localization service</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
+    /// <param name="modCases">The service recording moderation cases</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public MuteService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         GuildSettingsService guildSettings,
-        EventHandler eventHandler, GeneratedBotStrings strings, BanPruneService banPrune,
+        EventHandler eventHandler, GeneratedBotStrings strings, BanPruneService banPrune, ModCaseService modCases,
         ILogger<MuteService> logger)
     {
+        this.modCases = modCases;
         this.client = client;
         this.banPrune = banPrune;
         this.dbFactory = dbFactory;
@@ -103,7 +106,6 @@ public class MuteService : INService, IReadyExecutor, IDisposable
         this.logger = logger;
         this.eventHandler = eventHandler;
         eventHandler.Subscribe("UserJoined", "MuteService", Client_UserJoined);
-        UserMuted += OnUserMuted;
         UserUnmuted += OnUserUnmuted;
     }
 
@@ -342,6 +344,8 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                     // Unban the user
                     await guild.RemoveBanAsync(userId);
                     logger.LogDebug("Successfully unbanned user {UserId} from guild {GuildId}", userId, guildId);
+                    await modCases.RecordAsync(guildId, userId, client.CurrentUser.Id, ModCaseAction.Unban,
+                        "Timed ban expired").ConfigureAwait(false);
                 }
                 catch (HttpException httpEx) when (httpEx.DiscordCode == DiscordErrorCode.UnknownBan)
                 {
@@ -491,17 +495,43 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     }
 
 
-    private async Task OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
+    private Task<ModCase?> RecordMuteCaseAsync(IGuildUser usr, IUser mod, ModCaseAction action, string reason,
+        TimeSpan? duration)
     {
+        return modCases.RecordAsync(usr.GuildId, usr.Id, mod.Id, action, reason, duration);
+    }
+
+    private async Task RecordMuteAndNotifyAsync(IGuildUser usr, IUser mod, MuteType type, ModCaseAction action,
+        string reason, TimeSpan? duration)
+    {
+        var entry = await RecordMuteCaseAsync(usr, mod, action, reason, duration).ConfigureAwait(false);
+        await NotifyMutedAsync(usr, mod, type, reason, duration, entry?.CaseNumber).ConfigureAwait(false);
+    }
+
+    private async Task NotifyMutedAsync(IGuildUser user, IUser mod, MuteType type, string reason, TimeSpan? duration,
+        int? caseNumber)
+    {
+        if (await modCases.SendPunishDmAsync(user.Guild, user, mod, ModCaseAction.Mute, reason, duration, caseNumber)
+                .ConfigureAwait(false) is not null)
+            return;
+
         if (string.IsNullOrWhiteSpace(reason))
             return;
 
-        await user.SendMessageAsync(embed: new EmbedBuilder()
-            .WithDescription(strings.UserMutedDm(user.Guild.Id, user.Guild))
-            .AddField("Mute Type", type.ToString())
-            .AddField("Moderator", mod.ToString())
-            .AddField("Reason", reason)
-            .Build());
+        try
+        {
+            reason = await modCases.ResolveReasonAsync(user.Guild.Id, reason).ConfigureAwait(false) ?? reason;
+            await user.SendMessageAsync(embed: new EmbedBuilder()
+                .WithDescription(strings.UserMutedDm(user.Guild.Id, user.Guild))
+                .AddField("Mute Type", type.ToString())
+                .AddField("Moderator", mod.ToString())
+                .AddField("Reason", reason)
+                .Build());
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex, "Could not DM {UserId} about a mute", user.Id);
+        }
     }
 
     private async Task OnUserUnmuted(IGuildUser user, IUser mod, MuteType type, string reason)
@@ -555,9 +585,13 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// <param name="mod">The mod who muted the user</param>
     /// <param name="type">The type of mute</param>
     /// <param name="reason">The mute reason</param>
+    /// <param name="duration">How long the mute lasts, for the case record</param>
+    /// <param name="hardMute">Whether to remove the user's roles regardless of the remove on mute setting</param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task MuteUser(IGuildUser? usr, IUser mod, MuteType type = MuteType.All, string reason = "")
+    public async Task MuteUser(IGuildUser? usr, IUser mod, MuteType type = MuteType.All, string reason = "",
+        TimeSpan? duration = null, bool hardMute = false)
     {
+        reason = await modCases.ResolveReasonAsync(usr.GuildId, reason).ConfigureAwait(false) ?? "";
         switch (type)
         {
             case MuteType.All:
@@ -588,7 +622,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                     await dbContext.MutedUserIds.Where(x => x.Id == existingMute.Id).DeleteAsync();
 
                 // Create new entry based on settings
-                var removeOnMute = await GetRemoveOnMute(usr.Guild.Id);
+                var removeOnMute = hardMute ? 1 : await GetRemoveOnMute(usr.Guild.Id);
                 var mutedUser = new MutedUserId
                 {
                     GuildId = usr.Guild.Id, UserId = usr.Id, Roles = removeOnMute == 1 ? uroles : null
@@ -617,6 +651,9 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                 StopTimer(usr.GuildId, usr.Id, TimerType.Mute);
 
                 await UserMuted(usr, mod, MuteType.All, reason);
+
+                await RecordMuteAndNotifyAsync(usr, mod, MuteType.All,
+                    hardMute ? ModCaseAction.HardMute : ModCaseAction.Mute, reason, duration).ConfigureAwait(false);
                 break;
             }
             case MuteType.Voice:
@@ -624,6 +661,8 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                 {
                     await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
                     await UserMuted(usr, mod, MuteType.Voice, reason);
+                    await RecordMuteAndNotifyAsync(usr, mod, MuteType.Voice, ModCaseAction.Mute, reason, duration)
+                        .ConfigureAwait(false);
                 }
                 catch
                 {
@@ -634,6 +673,8 @@ public class MuteService : INService, IReadyExecutor, IDisposable
             case MuteType.Chat:
                 await usr.AddRoleAsync(await GetMuteRole(usr.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                 await UserMuted(usr, mod, MuteType.Chat, reason);
+                await RecordMuteAndNotifyAsync(usr, mod, MuteType.Chat, ModCaseAction.Mute, reason, duration)
+                    .ConfigureAwait(false);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -683,6 +724,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
         string reason = "")
     {
         var usr = client.GetGuild(guildId)?.GetUser(usrId);
+        reason = await modCases.ResolveReasonAsync(guildId, reason).ConfigureAwait(false) ?? "";
         switch (type)
         {
             case MuteType.All:
@@ -695,7 +737,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                 var mutedUser = await dbContext.MutedUserIds
                     .FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == usrId);
 
-                if (usr != null && await GetRemoveOnMute(usr.Guild.Id) == 1 && mutedUser?.Roles != null)
+                if (usr != null && mutedUser?.Roles != null)
                 {
                     try
                     {
@@ -759,6 +801,8 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                     }
 
                     await UserUnmuted(usr, mod, MuteType.All, reason);
+
+                    await RecordMuteCaseAsync(usr, mod, ModCaseAction.Unmute, reason, null).ConfigureAwait(false);
                 }
 
                 break;
@@ -770,6 +814,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                 {
                     await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
                     await UserUnmuted(usr, mod, MuteType.Voice, reason);
+                    await RecordMuteCaseAsync(usr, mod, ModCaseAction.Unmute, reason, null).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -782,6 +827,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
             case MuteType.Chat:
                 await usr.RemoveRoleAsync(await GetMuteRole(usr.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                 await UserUnmuted(usr, mod, MuteType.Chat, reason);
+                await RecordMuteCaseAsync(usr, mod, ModCaseAction.Unmute, reason, null).ConfigureAwait(false);
                 break;
         }
     }
@@ -851,10 +897,11 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// <param name="after">The time to mute the user for</param>
     /// <param name="muteType">The type of mute</param>
     /// <param name="reason">The reason for the mute</param>
+    /// <param name="hardMute">Whether to remove the user's roles until the mute ends</param>
     public async Task TimedMute(IGuildUser? user, IUser mod, TimeSpan after, MuteType muteType = MuteType.All,
-        string reason = "")
+        string reason = "", bool hardMute = false)
     {
-        await MuteUser(user, mod, muteType, reason).ConfigureAwait(false);
+        await MuteUser(user, mod, muteType, reason, after, hardMute).ConfigureAwait(false);
 
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
@@ -877,16 +924,21 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// <param name="after">The time to ban the user for</param>
     /// <param name="reason">The reason for the ban</param>
     /// <param name="todelete">The time to delete the ban message</param>
-    public async Task TimedBan(IGuild guild, IUser? user, TimeSpan after, string reason, TimeSpan todelete = default)
+    /// <param name="mod">The moderator who banned the user, or null for the bot</param>
+    /// <param name="dm">Sends the DM given the case number and returns whether it failed, instead of the custom ban DM</param>
+    /// <returns>Whether the DM failed</returns>
+    public async Task<bool> TimedBan(IGuild guild, IUser? user, TimeSpan after, string reason,
+        TimeSpan todelete = default, IUser? mod = null, Func<int?, Task<bool>>? dm = null)
     {
         var pruneDays = todelete == default
             ? await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.TempBan).ConfigureAwait(false)
             : todelete.Days;
 
-        await guild.AddBanAsync(user.Id, pruneDays, options: new RequestOptions
-        {
-            AuditLogReason = reason
-        }).ConfigureAwait(false);
+        var (_, dmFailed) = await modCases.PunishAsync(guild, user, mod ?? client.CurrentUser, ModCaseAction.Ban,
+            reason, after, () => guild.AddBanAsync(user.Id, pruneDays, options: new RequestOptions
+            {
+                AuditLogReason = reason
+            }), dm).ConfigureAwait(false);
 
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
@@ -898,6 +950,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
 
         await dbContext.InsertAsync(unbanTimer);
         StartUn_Timer(guild.Id, user.Id, after, TimerType.Ban);
+        return dmFailed;
     }
 
     /// <summary>

@@ -20,6 +20,11 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
     public CurrencyCooldownService CooldownService { get; set; }
 
     /// <summary>
+    ///     The service applying scheduled earning boosts.
+    /// </summary>
+    public EconomyBoostService BoostService { get; set; }
+
+    /// <summary>
     ///     Validates a wager, enforces the guild's limits, and takes the stake atomically. Reports the
     ///     reason to the user itself when a wager is refused, so callers only branch on the boolean.
     /// </summary>
@@ -88,7 +93,7 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
         var config = await ConfigService.GetConfigAsync(ctx.Guild.Id);
 
         var profit = (long)Math.Round(stake * (multiplier - 1) * config.PayoutMultiplier);
-        var total = stake + profit;
+        var total = await BoostService.ApplyToWinningsAsync(ctx.Guild.Id, gameKey, stake, stake + profit);
 
         if (total <= 0)
             return 0;
@@ -119,12 +124,18 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
     /// </summary>
     /// <param name="amount">The total amount to return to the player.</param>
     /// <param name="gameKey">Stable game identifier recorded on the ledger entry.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    protected Task PayoutAsync(long amount, string gameKey)
+    /// <param name="stake">The amount that was wagered, so only the winnings above it are boosted.</param>
+    /// <returns>The amount credited.</returns>
+    protected async Task<long> PayoutAsync(long amount, string gameKey, long stake)
     {
-        return amount <= 0
-            ? Task.CompletedTask
-            : Service.CreditAsync(ctx.User.Id, amount, Strings.BetWonTransaction(ctx.Guild.Id, gameKey),
-                CurrencyCategory.GamePayout, ctx.Guild.Id, gameKey);
+        if (amount <= 0)
+            return 0;
+
+        amount = await BoostService.ApplyToWinningsAsync(ctx.Guild.Id, gameKey, stake, amount);
+
+        await Service.CreditAsync(ctx.User.Id, amount, Strings.BetWonTransaction(ctx.Guild.Id, gameKey),
+            CurrencyCategory.GamePayout, ctx.Guild.Id, gameKey);
+
+        return amount;
     }
 }

@@ -2181,6 +2181,19 @@ purge_ulong_=_=_3:
       name: parameter
       optional: true
       type: string
+purgereactions:
+  args:
+    - '[count] [emoji]'
+  desc: 'Removes reactions from the last messages in the current channel, optionally only one emoji.'
+  params:
+    - desc: 'How many recent messages to look through'
+      name: count
+      optional: true
+      type: int
+    - desc: 'Only remove this emoji'
+      name: emoji
+      optional: true
+      type: string
 purgeuser:
   args:
     - '@user number'
@@ -3064,6 +3077,11 @@ warnclear_IGuildUser_=_2:
       name: 0
       optional: false
       type: '='
+warnclearall:
+  args:
+    - ''
+  desc: 'Clears every active warning in the server after a confirmation.'
+  params: [ ]
 warnexpire:
   args:
     - number options
@@ -3417,3 +3435,198 @@ warnpunishlist:
     - ''
   desc: 'Lists the warn punishments for the guild.'
   params: [ ]
+case:
+  args:
+    - '<case number>'
+  desc: 'Shows one moderation case.'
+  params:
+    - desc: 'The case number'
+      name: caseNumber
+      optional: false
+      type: int
+cases:
+  args:
+    - '@user'
+  desc: 'Lists the moderation cases of a member.'
+  params:
+    - desc: 'The member'
+      name: user
+      optional: false
+      type: IUser
+casereason:
+  args:
+    - '<case number> <reason>'
+  desc: 'Changes the reason of a case.'
+  params:
+    - desc: 'The case number'
+      name: caseNumber
+      optional: false
+      type: int
+    - desc: 'The new reason'
+      name: reason
+      optional: false
+      type: string
+casedelete:
+  args:
+    - '<case number>'
+  desc: 'Deletes a case.'
+  params:
+    - desc: 'The case number'
+      name: caseNumber
+      optional: false
+      type: int
+caseexport:
+  args:
+    - ''
+  desc: 'Exports every case in the server as a CSV file.'
+  params:
+    - { }
+modstats:
+  args:
+    - ''
+  desc: 'Shows how many cases each moderator has.'
+  params:
+    - { }
+modcaselog:
+  args:
+    - '[#channel]'
+  desc: 'Sets the channel new cases are posted to, or turns it off when no channel is given.'
+  params:
+    - desc: 'The channel, or nothing to turn it off'
+      name: channel
+      optional: true
+      type: channel
+note:
+  args:
+    - '@user <note>'
+  desc: 'Adds a private staff note to a member.'
+  params:
+    - desc: 'The member'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The note'
+      name: note
+      optional: false
+      type: string
+notes:
+  args:
+    - '@user'
+  desc: 'Lists the staff notes on a member.'
+  params:
+    - desc: 'The member'
+      name: user
+      optional: false
+      type: IUser
+noteremove:
+  args:
+    - '<note id>'
+  desc: 'Removes one staff note.'
+  params:
+    - desc: 'The note ID'
+      name: noteId
+      optional: false
+      type: int
+noteclear:
+  args:
+    - '@user'
+  desc: 'Removes every staff note on a member.'
+  params:
+    - desc: 'The member'
+      name: user
+      optional: false
+      type: IUser
+report:
+  args:
+    - '@user <reason> [message link]'
+  desc: 'Reports a member to the staff.'
+  params:
+    - desc: 'The member to report'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Why they are reported, optionally with a message link'
+      name: reason
+      optional: false
+      type: string
+reportlog:
+  args:
+    - '[#channel]'
+  desc: 'Sets the channel member reports are posted to, or turns reports off when no channel is given.'
+  params:
+    - desc: 'The channel, or nothing to turn reports off'
+      name: channel
+      optional: true
+      type: channel
+reasonalias:
+  args:
+    - '<name> <reason>'
+  desc: 'Saves a short name for a punishment reason. Using the name as the reason in a punishment command fills in the full reason.'
+  params:
+    - desc: 'The short name'
+      name: name
+      optional: false
+      type: string
+    - desc: 'The full reason'
+      name: reason
+      optional: false
+      type: string
+reasonaliaslist:
+  args:
+    - ''
+  desc: 'Lists the reason aliases.'
+  params: [ ]
+reasonaliasremove:
+  args:
+    - '<name>'
+  desc: 'Removes a reason alias.'
+  params:
+    - desc: 'The short name'
+      name: name
+      optional: false
+      type: string
+punishdm:
+  args:
+    - '<warn|mute|timeout|kick|ban|softban> <message>'
+  desc: 'Sets the DM a member gets for a punishment. Plain text or embed code, use - to send no DM. Placeholders: %server%, %user%, %reason%, %mod%, %duration%, %case%. Bans use the ban message.'
+  params:
+    - desc: 'The punishment'
+      name: action
+      optional: false
+      type: string
+    - desc: 'The message'
+      name: template
+      optional: false
+      type: string
+punishdmlist:
+  args:
+    - ''
+  desc: 'Shows the DM set for each punishment.'
+  params: [ ]
+punishdmreset:
+  args:
+    - '<warn|mute|timeout|kick|ban|softban>'
+  desc: 'Puts a punishment DM back to the default.'
+  params:
+    - desc: 'The punishment'
+      name: action
+      optional: false
+      type: string
+hardmute:
+  args:
+    - '@user [reason]'
+    - '<time> @user [reason]'
+  desc: 'Mutes a user and removes their roles. They come back on unmute or when the timed mute ends.'
+  params:
+    - desc: 'The amount of time to mute the user for'
+      name: time
+      optional: true
+      type: duration
+    - desc: 'The user to mute'
+      name: user
+      optional: false
+      type: user
+    - desc: 'The reason for the mute'
+      name: reason
+      optional: true
+      type: string

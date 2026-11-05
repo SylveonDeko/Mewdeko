@@ -264,7 +264,7 @@ public partial class BridgeService
             envelope.PairId));
 
         await channel.SendConfirmAsync(strings.BridgeLinked(channel.Guild.Id, link.ChannelName, link.GuildName,
-            "Fluxer"));
+            BridgeSettings.PlatformLabel(BridgeProtocol.Fluxer)));
     }
 
     private async Task HandleUnlinkedAsync(DataModel.ChannelBridge bridge)

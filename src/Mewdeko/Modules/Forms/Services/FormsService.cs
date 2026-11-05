@@ -6,6 +6,7 @@ using LinqToDB.Async;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Forms.Common;
+using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using Embed = Discord.Embed;
@@ -23,6 +24,7 @@ public partial class FormsService : INService
     private readonly GuildSettingsService guildSettings;
     private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<FormsService> logger;
+    private readonly ModCaseService modCases;
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -35,6 +37,7 @@ public partial class FormsService : INService
     /// <param name="strings">The localization strings provider.</param>
     /// <param name="collector">The analytics collector.</param>
     /// <param name="httpFactory">Creates the clients that post to form notification webhooks.</param>
+    /// <param name="modCases">The service recording moderation cases.</param>
     public FormsService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -42,8 +45,10 @@ public partial class FormsService : INService
         ILogger<FormsService> logger,
         GeneratedBotStrings strings,
         IAnalyticsCollector collector,
-        IHttpClientFactory httpFactory)
+        IHttpClientFactory httpFactory,
+        ModCaseService modCases)
     {
+        this.modCases = modCases;
         this.client = client;
         this.dbFactory = dbFactory;
         this.guildSettings = guildSettings;
@@ -1726,6 +1731,8 @@ public partial class FormsService : INService
             {
                 AuditLogReason = auditReason
             });
+            await modCases.RecordAsync(form.GuildId, userId, reviewerId, ModCaseAction.Unban,
+                $"Ban appeal approved (Form #{form.Id})").ConfigureAwait(false);
 
             return true;
         }

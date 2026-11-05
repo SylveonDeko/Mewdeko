@@ -1,3 +1,4 @@
+using DataModel;
 using Mewdeko.Controllers.Common.Protection;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -14,8 +15,138 @@ namespace Mewdeko.Controllers;
 public class ProtectionController(
     ProtectionService protectionService,
     ImageHashingService imageHashing,
+    AutomodService automod,
+    AutomodExtrasService extras,
     IDashboardAuditContext auditContext) : Controller
 {
+    /// <summary>
+    ///     Gets the automod settings shared by every rule, protection and filter
+    /// </summary>
+    [HttpGet("automod-settings")]
+    public IActionResult GetAutomodSettings(ulong guildId)
+    {
+        return Ok(BuildAutomodSettings(guildId));
+    }
+
+    /// <summary>
+    ///     Updates the automod settings shared by every rule, protection and filter. Fields left out stay as they are
+    /// </summary>
+    [HttpPut("automod-settings")]
+    public async Task<IActionResult> UpdateAutomodSettings(ulong guildId, [FromBody] AutomodSettingsRequest request)
+    {
+        auditContext.RecordBefore(BuildAutomodSettings(guildId));
+        await extras.UpdateAsync(guildId, x =>
+        {
+            if (request.LogChannelId is { } log) x.LogChannelId = log == 0 ? null : log;
+            if (request.ReviewChannelId is { } review) x.ReviewChannelId = review == 0 ? null : review;
+            if (request.ExemptRoleIds is not null) x.ExemptRoleIds = JoinRoleTimeoutService.JoinIds(request.ExemptRoleIds);
+            if (request.ExemptChannelIds is not null)
+                x.ExemptChannelIds = JoinRoleTimeoutService.JoinIds(request.ExemptChannelIds);
+        });
+
+        var after = BuildAutomodSettings(guildId);
+        auditContext.RecordAfter(after);
+        return Ok(after);
+    }
+
+    /// <summary>
+    ///     Gets the settings of every automod rule
+    /// </summary>
+    [HttpGet("automod-rules")]
+    public IActionResult GetAutomodRules(ulong guildId)
+    {
+        return Ok(Enum.GetValues<AutomodRule>().Select(x => BuildAutomodRule(guildId, x)));
+    }
+
+    /// <summary>
+    ///     Turns an automod rule on or off and changes it. Fields left out stay as they are
+    /// </summary>
+    [HttpPut("automod-rules/{rule}")]
+    public async Task<IActionResult> ConfigureAutomodRule(ulong guildId, AutomodRule rule,
+        [FromBody] AutomodRuleRequest request)
+    {
+        if (request.ActionMinutes is < 1 or > 40320 || request.MinLength is < 1 or > 2000 ||
+            request.CapsPercent is < 1 or > 100 || request.MaxAttachments is < 1 or > 100 ||
+            request.WindowSeconds is < 1 or > 600 || request.MaxEmojis is < 1 or > 200 ||
+            request.MaxSpoilers is < 1 or > 100 || request.ZalgoThreshold is < 1 or > 30)
+            return BadRequest("Invalid value");
+
+        auditContext.RecordBefore(BuildAutomodRule(guildId, rule));
+
+        void Change(AutomodRuleSetting x)
+        {
+            x.ActionMinutes = request.ActionMinutes ?? x.ActionMinutes;
+            if (request.ActionMessage is not null)
+                x.ActionMessage = string.IsNullOrWhiteSpace(request.ActionMessage) ? null : request.ActionMessage.Trim();
+            x.MinLength = request.MinLength ?? x.MinLength;
+            x.CapsPercent = request.CapsPercent ?? x.CapsPercent;
+            x.MaxAttachments = request.MaxAttachments ?? x.MaxAttachments;
+            x.WindowSeconds = request.WindowSeconds ?? x.WindowSeconds;
+            x.MaxEmojis = request.MaxEmojis ?? x.MaxEmojis;
+            x.MaxSpoilers = request.MaxSpoilers ?? x.MaxSpoilers;
+            x.ZalgoThreshold = request.ZalgoThreshold ?? x.ZalgoThreshold;
+            x.AllowThreads = request.AllowThreads ?? x.AllowThreads;
+            if (request.ExemptRoleIds is not null) x.ExemptRoleIds = JoinRoleTimeoutService.JoinIds(request.ExemptRoleIds);
+            if (request.ExemptChannelIds is not null)
+                x.ExemptChannelIds = JoinRoleTimeoutService.JoinIds(request.ExemptChannelIds);
+            if (request.MediaChannelIds is not null)
+                x.MediaChannelIds = JoinRoleTimeoutService.JoinIds(request.MediaChannelIds);
+        }
+
+        if (request.Enabled)
+        {
+            var (ok, message) = await automod.EnableRuleAsync(guildId, rule, request.Actions, Change);
+            if (!ok)
+                return BadRequest(message);
+        }
+        else
+        {
+            await automod.UpdateAsync(guildId, rule, Change);
+            await automod.DisableAsync(guildId, rule);
+        }
+
+        var after = BuildAutomodRule(guildId, rule);
+        auditContext.RecordAfter(after);
+        return Ok(after);
+    }
+
+    private object BuildAutomodSettings(ulong guildId)
+    {
+        var settings = extras.Get(guildId);
+        return new
+        {
+            logChannelId = settings.LogChannelId,
+            reviewChannelId = settings.ReviewChannelId,
+            exemptRoleIds = JoinRoleTimeoutService.ParseIds(settings.ExemptRoleIds),
+            exemptChannelIds = JoinRoleTimeoutService.ParseIds(settings.ExemptChannelIds)
+        };
+    }
+
+    private object BuildAutomodRule(ulong guildId, AutomodRule rule)
+    {
+        var s = automod.Get(guildId, rule);
+        return new
+        {
+            rule = rule.ToString(),
+            enabled = s?.Enabled ?? false,
+            actions = AutomodService.DescribeActions(s?.Actions ?? AutomodAction.None),
+            actionMinutes = s?.ActionMinutes ?? 10,
+            actionMessage = s?.ActionMessage,
+            minLength = s?.MinLength ?? 20,
+            capsPercent = s?.CapsPercent ?? 70,
+            maxAttachments = s?.MaxAttachments ?? 5,
+            windowSeconds = s?.WindowSeconds ?? 10,
+            maxEmojis = s?.MaxEmojis ?? 10,
+            maxSpoilers = s?.MaxSpoilers ?? 3,
+            zalgoThreshold = s?.ZalgoThreshold ?? 4,
+            allowThreads = s?.AllowThreads ?? false,
+            mediaChannelIds = JoinRoleTimeoutService.ParseIds(s?.MediaChannelIds),
+            extensions = AutomodService.GetExtensions(s),
+            exemptRoleIds = JoinRoleTimeoutService.ParseIds(s?.ExemptRoleIds),
+            exemptChannelIds = JoinRoleTimeoutService.ParseIds(s?.ExemptChannelIds)
+        };
+    }
+
     /// <summary>
     ///     Gets comprehensive protection status for all protection types
     /// </summary>

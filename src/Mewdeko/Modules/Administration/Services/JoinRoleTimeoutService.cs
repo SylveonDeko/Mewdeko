@@ -5,6 +5,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using LinqToDB.Data;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -57,6 +58,7 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<JoinRoleTimeoutService> logger;
+    private readonly ModCaseService modCases;
     private readonly ConcurrentDictionary<ulong, JoinRoleTimeoutSetting> settings = new();
     private readonly GeneratedBotStrings strings;
 
@@ -68,9 +70,12 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="strings">The generated bot strings.</param>
     /// <param name="logger">The logger instance.</param>
+    /// <param name="modCases">The service recording moderation cases.</param>
     public JoinRoleTimeoutService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, GeneratedBotStrings strings, ILogger<JoinRoleTimeoutService> logger)
+        EventHandler eventHandler, GeneratedBotStrings strings, ILogger<JoinRoleTimeoutService> logger,
+        ModCaseService modCases)
     {
+        this.modCases = modCases;
         this.client = client;
         this.dbFactory = dbFactory;
         this.strings = strings;
@@ -468,25 +473,41 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
         if (failure is null)
         {
             var text = setting.ActionMessage is { Length: > 0 } custom ? custom : DefaultActionText(guild, setting);
-            var dmFirst = setting.Action is JoinRoleTimeoutAction.Kick or JoinRoleTimeoutAction.Ban;
-            if (dmFirst)
-                await TrySendAsync(guild, member, text);
-
             var reason = strings.JrtReason(guild.Id, FormatMinutes(setting.TimeoutMinutes));
             var options = new RequestOptions
             {
                 AuditLogReason = reason
             };
+            var dmSent = false;
+
+            async Task<bool> SendDmAsync(ModCaseAction? action, TimeSpan? duration, int? caseNumber)
+            {
+                dmSent = true;
+                if (setting.ActionMessage is not { Length: > 0 } && action is { } recorded)
+                {
+                    var custom = await modCases.SendPunishDmAsync(guild, member, client.CurrentUser, recorded, reason,
+                        duration, caseNumber).ConfigureAwait(false);
+                    if (custom is not null)
+                        return custom == false;
+                }
+
+                await TrySendAsync(guild, member, text);
+                return false;
+            }
 
             try
             {
                 switch (setting.Action)
                 {
                     case JoinRoleTimeoutAction.Kick:
-                        await member.KickAsync(reason, options);
+                        await modCases.PunishAsync(guild, member, client.CurrentUser, ModCaseAction.Kick, reason, null,
+                            () => member.KickAsync(reason, options),
+                            n => SendDmAsync(ModCaseAction.Kick, null, n)).ConfigureAwait(false);
                         break;
                     case JoinRoleTimeoutAction.Ban:
-                        await guild.AddBanAsync(member.Id, 0, reason, options);
+                        await modCases.PunishAsync(guild, member, client.CurrentUser, ModCaseAction.Ban, reason, null,
+                            () => guild.AddBanAsync(member.Id, 0, reason, options),
+                            n => SendDmAsync(ModCaseAction.Ban, null, n)).ConfigureAwait(false);
                         break;
                     case JoinRoleTimeoutAction.AddRole:
                         await member.AddRoleAsync(setting.ActionRoleId!.Value, options);
@@ -501,14 +522,18 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
                             .ToList();
                         if (removable.Count > 0)
                             await member.RemoveRolesAsync(removable, options);
+                        await modCases.RecordAsync(guild.Id, member.Id, client.CurrentUser.Id,
+                            ModCaseAction.RemoveRoles, reason).ConfigureAwait(false);
                         break;
                     }
                     case JoinRoleTimeoutAction.Timeout:
-                        await member.SetTimeOutAsync(TimeSpan.FromDays(28), options);
+                        await modCases.PunishAsync(guild, member, client.CurrentUser, ModCaseAction.Timeout, reason,
+                            TimeSpan.FromDays(28), () => member.SetTimeOutAsync(TimeSpan.FromDays(28), options),
+                            n => SendDmAsync(ModCaseAction.Timeout, TimeSpan.FromDays(28), n)).ConfigureAwait(false);
                         break;
                 }
 
-                if (!dmFirst)
+                if (!dmSent)
                     await TrySendAsync(guild, member, text);
 
                 await LogAsync(guild, setting, DoneText(guild, setting.Action, member));
@@ -608,7 +633,7 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
         try
         {
             await channel.SendMessageAsync(embed: new EmbedBuilder()
-                .WithOkColor()
+                .WithOkColor(guild.Id)
                 .WithTitle(strings.JrtLogTitle(guild.Id))
                 .WithDescription(description)
                 .WithCurrentTimestamp()

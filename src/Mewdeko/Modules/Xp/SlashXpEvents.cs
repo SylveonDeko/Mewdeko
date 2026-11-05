@@ -497,6 +497,93 @@ public partial class SlashXp
         }
 
         /// <summary>
+        ///     Sets how often level-ups are announced.
+        /// </summary>
+        /// <param name="interval">Announce every Nth level, 1 to announce every level.</param>
+        [SlashCommand("interval", "Only announce every Nth level, 1 announces every level")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        public async Task LevelUpInterval(
+            [Summary("interval", "Announce every Nth level")] [MinValue(1)]
+            int interval)
+        {
+            await Service.SetLevelUpFiltersAsync(ctx.Guild.Id, interval: interval);
+
+            if (interval > 1)
+                await ReplyConfirmAsync(Strings.LevelUpIntervalSet(ctx.Guild.Id, interval)).ConfigureAwait(false);
+            else
+                await ReplyConfirmAsync(Strings.LevelUpIntervalCleared(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Sets the lowest level that gets announced.
+        /// </summary>
+        /// <param name="level">The minimum level, 0 to announce from any level.</param>
+        [SlashCommand("min-level", "Only announce level-ups from this level up, 0 announces all")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        public async Task LevelUpMinLevel(
+            [Summary("level", "The lowest level to announce")] [MinValue(0)]
+            int level)
+        {
+            await Service.SetLevelUpFiltersAsync(ctx.Guild.Id, minLevel: level);
+
+            if (level > 0)
+                await ReplyConfirmAsync(Strings.LevelUpMinLevelSet(ctx.Guild.Id, level)).ConfigureAwait(false);
+            else
+                await ReplyConfirmAsync(Strings.LevelUpMinLevelCleared(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Sets whether only level-ups that grant a role reward are announced.
+        /// </summary>
+        /// <param name="enabled">Whether to announce only reward levels.</param>
+        [SlashCommand("rewards-only", "Only announce levels that grant a role reward")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        public async Task LevelUpRewardsOnly(
+            [Summary("enabled", "Whether to announce only reward levels")]
+            bool enabled)
+        {
+            await Service.SetLevelUpFiltersAsync(ctx.Guild.Id, rewardsOnly: enabled);
+
+            if (enabled)
+                await ReplyConfirmAsync(Strings.LevelUpRewardsOnlyEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+            else
+                await ReplyConfirmAsync(Strings.LevelUpRewardsOnlyDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Shows the last 25 level-ups in the server.
+        /// </summary>
+        [SlashCommand("log", "Shows the last 25 level-ups in the server")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        public async Task LevelUpLog()
+        {
+            var entries = await Service.GetLevelUpLogAsync(ctx.Guild.Id);
+            if (entries.Count == 0)
+            {
+                await ReplyErrorAsync(Strings.LevelUpLogEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var lines = entries.Select(x => Strings.LevelUpLogEntry(ctx.Guild.Id, x.UserId, x.OldLevel, x.NewLevel,
+                new DateTimeOffset(DateTime.SpecifyKind(x.DateAdded, DateTimeKind.Utc)).ToUnixTimeSeconds()));
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle(Strings.LevelUpLogTitle(ctx.Guild.Id))
+                .WithDescription(string.Join("\n", lines));
+
+            await ctx.Interaction.RespondAsync(embed: embed.Build()).ConfigureAwait(false);
+        }
+
+        /// <summary>
         ///     Lists all custom level-up messages for this server.
         /// </summary>
         [SlashCommand("messages", "Lists all custom level-up messages for this server")]

@@ -1,0 +1,78 @@
+automodlist:
+  args:
+    - ''
+  desc: 'Lists the AutoMod rules Discord runs in this server, with their IDs, type and actions.'
+  params: []
+automodcreate:
+  args:
+    - 'keyword "No links" http://, https://'
+    - 'preset Language profanity, slurs'
+    - 'mention "Mass pings" 5'
+    - 'spam Spam'
+  desc: 'Creates a Discord AutoMod rule that blocks matching messages. The type is keyword (comma separated keywords), preset (profanity, sexual, slurs), mention (the most mentions allowed) or spam. Use automodedit afterwards to change its actions.'
+  params:
+    - desc: 'keyword, preset, mention or spam.'
+      name: type
+      type: string
+    - desc: 'The rule name, in quotes if it has spaces.'
+      name: name
+      type: string
+    - desc: 'The keywords, presets or mention limit, depending on the type.'
+      name: value
+      optional: true
+      type: string
+automodedit:
+  args:
+    - 'Language keywords bad, words'
+    - 'Language regex f+u+c+k ; sh[i1]t'
+    - 'Language allow class, glass'
+    - 'Language block This word is not allowed here'
+    - 'Language alert #mod-log'
+    - 'Language timeout 10m'
+    - 'Language exemptroles Staff'
+    - 'Language exemptchannels #memes'
+    - 'Language disable'
+  desc: 'Changes an AutoMod rule. Options: name, enable, disable, keywords, regex (separated by semicolons), allow, presets, mentionlimit, raidprotection (on or off), block (message shown to the member, or off), alert (a channel or off), timeout (a time or off), exemptroles and exemptchannels (or none). Lists are comma separated.'
+  params:
+    - desc: 'The rule ID or name.'
+      name: rule
+      type: string
+    - desc: 'The option to change.'
+      name: option
+      type: string
+    - desc: 'The value for the option.'
+      name: value
+      optional: true
+      type: string
+automoddelete:
+  args:
+    - Language
+  desc: 'Deletes an AutoMod rule and its follow-ups.'
+  params:
+    - desc: 'The rule ID or name.'
+      name: rule
+      type: string
+automodfollowup:
+  args:
+    - Language
+    - 'Language warn'
+    - 'Language warn Used a blocked word'
+    - 'Language punish timeout 10m'
+    - 'Language punish mute 1h'
+    - 'Language escalate kick 3 1h'
+    - 'Language escalate ban 5 1d'
+    - 'Language logchannel #mod-log'
+    - 'Language clear'
+  desc: 'Shows or sets what Mewdeko does when an AutoMod rule fires. Options: show, warn (on, off or a reason, so warn punishments apply), punish (timeout or mute with a time, or off), escalate (kick or ban, the number of hits and the window, or off), logchannel (a channel or off) and clear.'
+  params:
+    - desc: 'The rule ID or name.'
+      name: rule
+      type: string
+    - desc: 'show, warn, punish, escalate, logchannel or clear.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'The value for the option.'
+      name: value
+      optional: true
+      type: string

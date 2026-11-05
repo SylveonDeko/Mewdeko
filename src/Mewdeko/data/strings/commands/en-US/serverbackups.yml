@@ -1,0 +1,80 @@
+backupcreate:
+  args:
+    - ''
+    - '50 #general #rules'
+  desc: 'Makes a backup of this server: settings, roles, channels and emojis. Add a number to also save that many recent messages from each channel you list, or from this channel if you list none. You can keep 5 backups and make one every 30 minutes.'
+  params:
+    - desc: 'How many recent messages to save, then the channels to save them from.'
+      name: options
+      optional: true
+      type: string
+backuplist:
+  args:
+    - ''
+  desc: 'Lists your backups.'
+  params: [ ]
+backupinfo:
+  args:
+    - '1'
+  desc: 'Shows what one of your backups holds.'
+  params:
+    - desc: 'The backup ID.'
+      name: id
+      optional: false
+      type: int
+backupdelete:
+  args:
+    - '1'
+  desc: 'Deletes one of your backups.'
+  params:
+    - desc: 'The backup ID.'
+      name: id
+      optional: false
+      type: int
+backuprestore:
+  args:
+    - '1'
+    - '1 add'
+  desc: 'Restores one of your backups into this server. You must be the owner or an administrator here and in the server it came from. Replace deletes every role, channel and emoji first, add only creates what is missing.'
+  params:
+    - desc: 'The backup ID.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'replace or add.'
+      name: mode
+      optional: true
+      type: string
+templatesave:
+  args:
+    - 'My Layout'
+  desc: 'Saves this server''s roles, categories and channels as a template, without messages or emojis. Saving under an existing name replaces that template. You must be the owner or an administrator.'
+  params:
+    - desc: 'The template name.'
+      name: name
+      optional: false
+      type: string
+templatelist:
+  args:
+    - ''
+  desc: 'Lists the starter templates (community, gaming and support) and your saved templates.'
+  params: []
+templatedelete:
+  args:
+    - 'My Layout'
+  desc: 'Deletes one of your saved templates. Starter templates cannot be deleted.'
+  params:
+    - desc: 'The template name.'
+      name: name
+      optional: false
+      type: string
+templateapply:
+  args:
+    - 'community'
+    - 'My Layout'
+  desc: 'Applies a starter template or one of your saved templates to this server by adding the roles and channels it is missing. Nothing is deleted. You must be the owner or an administrator.'
+  params:
+    - desc: 'The starter template or one of your saved templates.'
+      name: name
+      optional: false
+      type: string

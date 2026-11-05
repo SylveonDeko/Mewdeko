@@ -70,7 +70,7 @@ public class ConfessionService(
                     return;
                 }
 
-                var eb = new EmbedBuilder().WithOkColor()
+                var eb = new EmbedBuilder().WithOkColor(guild.Id)
                     .WithAuthor(strings.AnonymousConfession(guild.Id, current.ConfessNumber + 1), guild.IconUrl)
                     .WithDescription(confession)
                     .WithFooter(
@@ -158,7 +158,7 @@ public class ConfessionService(
                     return;
                 }
 
-                var eb = new EmbedBuilder().WithOkColor()
+                var eb = new EmbedBuilder().WithOkColor(guild.Id)
                     .WithAuthor(strings.AnonymousConfession(guild.Id, 1), guild.IconUrl)
                     .WithDescription(confession)
                     .WithFooter(

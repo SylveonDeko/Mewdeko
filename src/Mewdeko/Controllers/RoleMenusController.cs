@@ -58,6 +58,8 @@ public class RoleMenusController : Controller
             return NotFound("Guild not found.");
 
         var menus = await service.GetMenusAsync(guildId);
+        if (menus.Any(m => m.Options.Any(o => o.MaxHolders > 0)))
+            await RoleMenuService.EnsureMembersAsync(guild);
         return Ok(menus.Select(m => ToResponse(guild, m)).ToList());
     }
 
@@ -75,7 +77,11 @@ public class RoleMenusController : Controller
             return NotFound("Guild not found.");
 
         var menu = await service.GetGuildMenuAsync(guildId, menuId);
-        return menu is null ? NotFound("Role menu not found.") : Ok(ToResponse(guild, menu));
+        if (menu is null)
+            return NotFound("Role menu not found.");
+        if (menu.Options.Any(o => o.MaxHolders > 0))
+            await RoleMenuService.EnsureMembersAsync(guild);
+        return Ok(ToResponse(guild, menu));
     }
 
     /// <summary>
@@ -389,11 +395,14 @@ public class RoleMenusController : Controller
             {
                 MaxMenus = RoleMenuService.MaxMenusPerGuild,
                 MaxOptions = RoleMenuService.MaxOptions,
+                MaxReactionOptions = RoleMenuService.MaxReactionOptions,
                 ButtonsPerRow = RoleMenuService.ButtonsPerRow,
                 NameLength = RoleMenuService.NameLength,
                 LabelLength = RoleMenuService.LabelLength,
                 DescriptionLength = RoleMenuService.DescriptionLength,
-                PlaceholderLength = RoleMenuService.PlaceholderLength
+                PlaceholderLength = RoleMenuService.PlaceholderLength,
+                MaxTempSeconds = RoleMenuService.MaxTempSeconds,
+                MaxBlockedRoles = RoleMenuService.MaxBlockedRoles
             }
         });
     }
@@ -481,6 +490,262 @@ public class RoleMenusController : Controller
     }
 
     /// <summary>
+    ///     Lists the premade role menus.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The templates with their roles.</returns>
+    [HttpGet("templates")]
+    public IActionResult GetTemplates(ulong guildId)
+    {
+        return Ok(RoleMenuTemplates.All.Select(t => new
+        {
+            Kind = (int)t.Kind,
+            Key = t.Kind.ToString(),
+            t.Name,
+            Style = (int)t.Style,
+            Mode = (int)t.Mode,
+            t.Mentionable,
+            Roles = t.Entries.Select(e => new
+            {
+                e.Label, e.Emoji, e.Color
+            })
+        }));
+    }
+
+    /// <summary>
+    ///     Creates a premade role menu's roles and posts its menu, with any edits made to it first.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="kind">The template kind.</param>
+    /// <param name="request">The channel and edits.</param>
+    /// <returns>The created menu.</returns>
+    [HttpPost("templates/{kind:int}")]
+    public async Task<IActionResult> PostTemplate(ulong guildId, int kind, [FromBody] RoleMenuTemplateRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found.");
+
+        if (!Enum.IsDefined((RoleMenuTemplateKind)kind))
+            return Failure(RoleMenuResult.Fail(RoleMenuError.TemplateNotFound));
+
+        var actor = await ResolveActorAsync(guild);
+        if (actor is null)
+            return StatusCode(403, "You are not a member of this server.");
+
+        try
+        {
+            var style = request.Style is { } requested && Enum.IsDefined((RoleMenuStyle)requested)
+                ? (RoleMenuStyle)requested
+                : (RoleMenuStyle?)null;
+            var session = service.StartTemplate(guildId, actor.Id, (RoleMenuTemplateKind)kind, request.ChannelId,
+                style);
+
+            if (!string.IsNullOrWhiteSpace(request.Name))
+                session.Name = request.Name.Trim();
+            session.Message = string.IsNullOrWhiteSpace(request.Message) ? null : request.Message;
+            if (request.Roles is { Count: > 0 })
+            {
+                session.Entries = request.Roles
+                    .Select(r => new RoleMenuTemplateEntry(r.Label.Trim(), r.Emoji?.Trim() ?? "", r.Color))
+                    .ToList();
+                if (session.Entries.Any(e => e.Label.Length is 0 or > RoleMenuService.LabelLength) ||
+                    session.Entries.Any(e => e.Color is < 0 or > 0xFFFFFF))
+                    return BadRequest("Role names have to be 1 to 80 characters and colours 0 to 16777215.");
+            }
+
+            if (session.Name.Length > RoleMenuService.NameLength)
+                return Failure(RoleMenuResult.Fail(RoleMenuError.NameInvalid));
+
+            auditContext.RecordBefore(null);
+            var result = await service.PostTemplateAsync(guild, actor, session);
+            service.DropTemplateSession(guildId, actor.Id);
+            if (!result.Success || result.Menu is null)
+                return Failure(result);
+
+            var response = ToResponse(guild, result.Menu);
+            auditContext.RecordAfter(response);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to post a role menu template in guild {GuildId}", guildId);
+            return StatusCode(500, "Failed to save the role menu.");
+        }
+    }
+
+    /// <summary>
+    ///     Lists a guild's role menu groups.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The groups ordered by name.</returns>
+    [HttpGet("groups")]
+    public async Task<IActionResult> GetGroups(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found.");
+
+        var menus = await service.GetMenusAsync(guildId);
+        return Ok(service.GetGroups(guildId).Select(g => ToGroupResponse(g, menus)).ToList());
+    }
+
+    /// <summary>
+    ///     Creates a role menu group, or changes the limit of the group with that name.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="request">The name and limit.</param>
+    /// <returns>The group.</returns>
+    [HttpPost("groups")]
+    public async Task<IActionResult> CreateGroup(ulong guildId, [FromBody] RoleMenuGroupRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found.");
+
+        try
+        {
+            auditContext.RecordBefore(null);
+            var group = await service.EnsureGroupAsync(guildId, request.Name ?? "");
+            if (group is null)
+                return BadRequest("Group names have to be 1 to 100 characters.");
+
+            group = await service.SetGroupMaxAsync(guildId, group.Id, request.MaxRoles);
+            if (group is null)
+                return BadRequest("The limit can't be negative.");
+
+            var response = ToGroupResponse(group, await service.GetMenusAsync(guildId));
+            auditContext.RecordAfter(response);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to save a role menu group in guild {GuildId}", guildId);
+            return StatusCode(500, "Failed to save the group.");
+        }
+    }
+
+    /// <summary>
+    ///     Changes how many roles a member can hold across a group's menus.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="groupId">The group ID.</param>
+    /// <param name="request">The new limit.</param>
+    /// <returns>The group.</returns>
+    [HttpPut("groups/{groupId:int}")]
+    public async Task<IActionResult> UpdateGroup(ulong guildId, int groupId, [FromBody] RoleMenuGroupRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found.");
+
+        try
+        {
+            var before = service.GetGroups(guildId).FirstOrDefault(g => g.Id == groupId);
+            if (before is null)
+                return NotFound("Group not found.");
+
+            var menus = await service.GetMenusAsync(guildId);
+            auditContext.RecordBefore(ToGroupResponse(before, menus));
+
+            var group = await service.SetGroupMaxAsync(guildId, groupId, request.MaxRoles);
+            if (group is null)
+                return BadRequest("The limit can't be negative.");
+
+            var response = ToGroupResponse(group, menus);
+            auditContext.RecordAfter(response);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to update role menu group {GroupId} in guild {GuildId}", groupId, guildId);
+            return StatusCode(500, "Failed to save the group.");
+        }
+    }
+
+    /// <summary>
+    ///     Deletes a role menu group and unlinks its menus.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="groupId">The group ID.</param>
+    /// <returns>No content on success.</returns>
+    [HttpDelete("groups/{groupId:int}")]
+    public async Task<IActionResult> DeleteGroup(ulong guildId, int groupId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found.");
+
+        try
+        {
+            var before = service.GetGroups(guildId).FirstOrDefault(g => g.Id == groupId);
+            if (before is null)
+                return NotFound("Group not found.");
+
+            auditContext.RecordBefore(ToGroupResponse(before, await service.GetMenusAsync(guildId)));
+            await service.DeleteGroupAsync(guildId, groupId);
+            auditContext.RecordAfter(null);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to delete role menu group {GroupId} in guild {GuildId}", groupId, guildId);
+            return StatusCode(500, "Failed to delete the group.");
+        }
+    }
+
+    /// <summary>
+    ///     Creates a channel for role menus where members can read and react but not send messages.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="request">The channel name and category.</param>
+    /// <returns>The new channel.</returns>
+    [HttpPost("channel")]
+    public async Task<IActionResult> CreateChannel(ulong guildId, [FromBody] RoleMenuChannelRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found.");
+
+        if (string.IsNullOrWhiteSpace(request.Name) || request.Name.Trim().Length > 100)
+            return BadRequest("Channel names have to be 1 to 100 characters.");
+
+        auditContext.RecordBefore(null);
+        var category = request.CategoryId is > 0 ? guild.GetCategoryChannel(request.CategoryId.Value) : null;
+        var channel = await service.CreateMenuChannelAsync(guild, request.Name.Trim(), category);
+        if (channel is null)
+            return StatusCode(502, "Discord refused to create the channel. Check that the bot can manage channels.");
+
+        var response = new RoleMenuChannelLookup
+        {
+            Id = channel.Id,
+            Name = channel.Name,
+            CategoryName = category?.Name,
+            Position = channel.Position,
+            CanPost = true
+        };
+        auditContext.RecordAfter(response);
+        return Ok(response);
+    }
+
+    /// <summary>
+    ///     Maps a stored group to its API response.
+    /// </summary>
+    /// <param name="group">The group.</param>
+    /// <param name="menus">The guild's menus.</param>
+    /// <returns>The response.</returns>
+    private static RoleMenuGroupResponse ToGroupResponse(RoleMenuGroup group, IEnumerable<RoleMenu> menus)
+    {
+        return new RoleMenuGroupResponse
+        {
+            Id = group.Id,
+            Name = group.Name,
+            MaxRoles = group.MaxRoles,
+            MenuIds = menus.Where(m => m.GroupId == group.Id).Select(m => m.Id).OrderBy(id => id).ToList()
+        };
+    }
+
+    /// <summary>
     ///     Resolves the dashboard user making the request as a guild member.
     /// </summary>
     /// <param name="guild">The guild.</param>
@@ -509,6 +774,12 @@ public class RoleMenusController : Controller
             MinRoles = request.MinRoles,
             MaxRoles = request.MaxRoles,
             RequiredRoleId = request.RequiredRoleId is null or 0 ? null : request.RequiredRoleId,
+            BlockedRoleIds = request.BlockedRoleIds ?? [],
+            TempRoleSeconds = request.TempRoleSeconds,
+            ExpiresAt = request.ExpiresAt,
+            GroupId = request.GroupId is null or 0 ? null : request.GroupId,
+            AccentColor = request.AccentColor,
+            ButtonColor = request.ButtonColor,
             ReplyMode = (RoleMenuReplyMode)request.ReplyMode,
             Enabled = request.Enabled,
             Options = (request.Options ?? []).Select(o => new RoleMenuOptionDraft
@@ -518,7 +789,9 @@ public class RoleMenusController : Controller
                 Label = o.Label,
                 Emoji = o.Emoji,
                 Description = o.Description,
-                ButtonStyle = o.ButtonStyle
+                ButtonStyle = o.ButtonStyle,
+                TempRoleSeconds = o.TempRoleSeconds,
+                MaxHolders = o.MaxHolders
             }).ToList()
         };
     }
@@ -547,6 +820,12 @@ public class RoleMenusController : Controller
             MinRoles = menu.MinRoles,
             MaxRoles = menu.MaxRoles,
             RequiredRoleId = menu.RequiredRoleId,
+            BlockedRoleIds = RoleMenuService.ParseRoleIds(menu.BlockedRoleIds),
+            TempRoleSeconds = menu.TempRoleSeconds,
+            ExpiresAt = menu.ExpiresAt,
+            GroupId = menu.GroupId,
+            AccentColor = menu.AccentColor,
+            ButtonColor = menu.ButtonColor,
             ReplyMode = menu.ReplyMode,
             Enabled = menu.Enabled,
             Status = StatusKey(RoleMenuService.GetStatus(guild, menu)),
@@ -570,6 +849,9 @@ public class RoleMenusController : Controller
                         Emoji = o.Emoji,
                         Description = o.Description,
                         ButtonStyle = o.ButtonStyle,
+                        TempRoleSeconds = o.TempRoleSeconds,
+                        MaxHolders = o.MaxHolders,
+                        Holders = role?.Members.Count() ?? 0,
                         Position = o.Position,
                         Problem = RoleMenuService.RoleProblemText(problem, botCanManageRoles)
                     };
@@ -621,10 +903,20 @@ public class RoleMenusController : Controller
                 $"Pick a text or announcement channel the bot can post in. {detail}".TrimEnd()),
             RoleMenuError.TextTooLong => BadRequest($"The {detail} is too long."),
             RoleMenuError.InvalidRequiredRole => BadRequest("The required role was not found."),
+            RoleMenuError.InvalidDuration => BadRequest(
+                "Durations have to be between 1 second and 1 year, and the menu expiry has to be in the future."),
             RoleMenuError.InvalidOrder => BadRequest("The order has to list every option exactly once."),
             RoleMenuError.PostFailed => StatusCode(502, $"Discord rejected the message: {detail}"),
             RoleMenuError.ImportSourceNotFound => NotFound("That older setup was not found."),
             RoleMenuError.ImportNoRoles => BadRequest("None of the roles in that setup exist anymore."),
+            RoleMenuError.InvalidGroup => BadRequest("That group was not found."),
+            RoleMenuError.InvalidColor => BadRequest(
+                "The colour has to be between 0 and 16777215, and the button colour 0 to 4."),
+            RoleMenuError.InvalidReactions => BadRequest(
+                $"Reaction menus need a different emoji on every option and can have at most {RoleMenuService.MaxReactionOptions} options."),
+            RoleMenuError.TemplateNotFound => NotFound("That template was not found."),
+            RoleMenuError.RolesNotCreated => StatusCode(502,
+                "Discord refused to create the roles. Check the bot's Manage Roles permission and the server's role limit."),
             _ => StatusCode(500, "Failed to save the role menu.")
         };
     }

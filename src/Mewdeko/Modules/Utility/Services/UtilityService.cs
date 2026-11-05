@@ -266,7 +266,7 @@ public partial class UtilityService : INService
                     if (msg2 is null) return;
                     var en2 = new EmbedBuilder
                     {
-                        Color = Mewdeko.OkColor,
+                        Color = GuildEmbedColorService.OkFor(t.Guild.Id),
                         Author = new EmbedAuthorBuilder
                         {
                             Name = msg2.Author.Username, IconUrl = msg2.Author.GetAvatarUrl(size: 2048)

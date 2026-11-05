@@ -606,6 +606,34 @@ public partial class SlashMusic(
     }
 
     /// <summary>
+    ///     Plays the previous track in the queue.
+    /// </summary>
+    [SlashCommand("previous", "Plays the previous track")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task Previous()
+    {
+        var user = ctx.User as IGuildUser;
+        if (user.VoiceChannel is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var (player, result) = await GetPlayerAsync(false);
+        if (result is not null)
+        {
+            await ReplyErrorAsync(result).ConfigureAwait(false);
+            return;
+        }
+
+        if (await MusicPrevious.PlayPreviousAsync(cache, ctx.Guild.Id, player))
+            await ReplyConfirmAsync(Strings.MusicPlayingPrevious(ctx.Guild.Id)).ConfigureAwait(false);
+        else
+            await ReplyErrorAsync(Strings.MusicNoPreviousTrack(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Displays the current music queue.
     /// </summary>
     [SlashCommand("queue", "Displays the current music queue")]
@@ -1973,18 +2001,10 @@ public partial class SlashMusic(
                     break;
 
                 case "prev":
-                    var queue = await cache.GetMusicQueue(ctx.Guild.Id);
-                    var currentTrack = await cache.GetCurrentTrack(ctx.Guild.Id);
-                    if (currentTrack is { Index: > 1 })
+                    if (await MusicPrevious.PlayPreviousAsync(cache, ctx.Guild.Id, player))
                     {
-                        var prevTrack = queue.FirstOrDefault(x => x.Index == currentTrack.Index - 1);
-                        if (prevTrack != null)
-                        {
-                            await player.PlayAsync(prevTrack.Track);
-                            await cache.SetCurrentTrack(ctx.Guild.Id, prevTrack);
-                            await ctx.Interaction.SendEphemeralFollowupConfirmAsync(
-                                Strings.MusicPlayingPrevious(ctx.Guild.Id));
-                        }
+                        await ctx.Interaction.SendEphemeralFollowupConfirmAsync(
+                            Strings.MusicPlayingPrevious(ctx.Guild.Id));
                     }
                     else
                     {

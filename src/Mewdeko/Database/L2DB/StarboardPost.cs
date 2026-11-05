@@ -22,5 +22,6 @@ namespace DataModel
 		[Column("StarboardConfigId"                                                                                  )] public int       StarboardConfigId { get; set; } // integer
 		[Column("DateAdded"                                                                                          )] public DateTime? DateAdded         { get; set; } // timestamp (6) without time zone
 		[Column("ReactionCount"    , CanBeNull = true                                                                )] public int?      ReactionCount     { get; set; } // integer
+		[Column("LastPostedAt"     , CanBeNull = true                                                                )] public DateTime? LastPostedAt      { get; set; } // timestamp without time zone
 	}
 }

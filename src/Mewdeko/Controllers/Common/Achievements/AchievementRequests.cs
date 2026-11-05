@@ -29,6 +29,11 @@ public class AchievementSettingsRequest
     public bool? DmByDefault { get; set; }
 
     /// <summary>
+    ///     Whether members get one DM when they reach 75% of an achievement.
+    /// </summary>
+    public bool? AlmostThereDm { get; set; }
+
+    /// <summary>
     ///     Whether unlock messages mention members.
     /// </summary>
     public bool? MentionUsers { get; set; }
@@ -121,6 +126,16 @@ public class AchievementOverrideRequest
     public ulong? RoleRewardId { get; set; }
 
     /// <summary>
+    ///     Role taken away on unlock, or null for none.
+    /// </summary>
+    public ulong? RoleRemoveId { get; set; }
+
+    /// <summary>
+    ///     Unlock message source for this achievement, "" or null to use the server's.
+    /// </summary>
+    public string? UnlockMessage { get; set; }
+
+    /// <summary>
     ///     Reward currency.
     /// </summary>
     public long CurrencyReward { get; set; }
@@ -203,9 +218,24 @@ public class CustomAchievementRequest
     public ulong? ChannelId { get; set; }
 
     /// <summary>
+    ///     The role a role achievement waits for.
+    /// </summary>
+    public ulong? TargetRoleId { get; set; }
+
+    /// <summary>
     ///     Reward role, or null.
     /// </summary>
     public ulong? RoleRewardId { get; set; }
+
+    /// <summary>
+    ///     Role taken away on unlock, or null.
+    /// </summary>
+    public ulong? RoleRemoveId { get; set; }
+
+    /// <summary>
+    ///     Unlock message source for this achievement, "" or null to use the server's.
+    /// </summary>
+    public string? UnlockMessage { get; set; }
 
     /// <summary>
     ///     Reward currency.
@@ -411,7 +441,7 @@ public class AchievementCardDesignRequest
     /// <summary>
     ///     The design.
     /// </summary>
-    public global::Mewdeko.Modules.Achievements.Common.AchievementCardTemplate? Template { get; set; }
+    public global::Mewdeko.Common.Cards.CardTemplate? Template { get; set; }
 
     /// <summary>
     ///     When creating, also make it the server default, as when the built in default is edited.
@@ -459,7 +489,7 @@ public class AchievementCardPreviewRequest
     /// <summary>
     ///     The design as edited, or null to draw <see cref="DesignId" />.
     /// </summary>
-    public global::Mewdeko.Modules.Achievements.Common.AchievementCardTemplate? Template { get; set; }
+    public global::Mewdeko.Common.Cards.CardTemplate? Template { get; set; }
 
     /// <summary>
     ///     A saved design to draw when <see cref="Template" /> is null, or null for the design the achievement uses.

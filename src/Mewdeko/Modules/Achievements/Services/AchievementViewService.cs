@@ -103,7 +103,7 @@ public sealed class AchievementViewService : INService
         }
 
         var embed = new EmbedBuilder()
-            .WithColor(TierColor(summary))
+            .WithColor(TierColor(summary, guild.Id))
             .WithAuthor(target.DisplayName, target.GetDisplayAvatarUrl())
             .WithTitle(strings.AchievementOverviewTitle(guild.Id))
             .WithDescription(description.ToString());
@@ -285,7 +285,7 @@ public sealed class AchievementViewService : INService
         var description = headline + "\n\n" + string.Join("\n\n", progress.Select(p => ProgressLine(guildId, p, true)));
 
         return new EmbedBuilder()
-            .WithColor(tier.Grade is { } grade ? new Color(AchievementCatalog.GetGrade(grade).Color) : Mewdeko.OkColor)
+            .WithColor(tier.Grade is { } grade ? new Color(AchievementCatalog.GetGrade(grade).Color) : GuildEmbedColorService.OkFor(guildId))
             .WithAuthor(target.GlobalName ?? target.Username, target.GetAvatarUrl() ?? target.GetDefaultAvatarUrl())
             .WithTitle(strings.AchievementGlobalTitle(guildId))
             .WithDescription(description);
@@ -355,7 +355,8 @@ public sealed class AchievementViewService : INService
     public async Task<EmbedBuilder> StatsAsync(SocketGuild guild, SocketGuildUser target)
     {
         var metrics = AchievementCatalog.Metrics
-            .Where(m => m.AllowCustom && m.Metric is not (AchievementMetric.Unlocked or AchievementMetric.Points))
+            .Where(m => m.AllowCustom && m.Metric is not (AchievementMetric.Unlocked or AchievementMetric.Points
+                or AchievementMetric.RoleReceived))
             .Select(m => m.Metric)
             .ToHashSet();
         var values = (await service.ComputeMetricsAsync(guild, [target.Id], metrics)).GetValueOrDefault(target.Id) ?? [];
@@ -640,12 +641,15 @@ public sealed class AchievementViewService : INService
             AchievementError.RewardInvalid => strings.AchievementErrorReward(guildId),
             AchievementError.AlreadyInState => strings.AchievementErrorState(guildId),
             AchievementError.BadgeInvalid => strings.AchievementErrorBadge(guildId),
+            AchievementError.TargetRoleMissing => strings.AchievementErrorTargetRole(guildId),
             _ => strings.AchievementErrorUnknown(guildId)
         };
     }
 
-    private static Color TierColor(AchievementMemberSummary summary)
+    private static Color TierColor(AchievementMemberSummary summary, ulong guildId)
     {
-        return summary.Tier.Grade is { } grade ? new Color(AchievementCatalog.GetGrade(grade).Color) : Mewdeko.OkColor;
+        return summary.Tier.Grade is { } grade
+            ? new Color(AchievementCatalog.GetGrade(grade).Color)
+            : GuildEmbedColorService.OkFor(guildId);
     }
 }

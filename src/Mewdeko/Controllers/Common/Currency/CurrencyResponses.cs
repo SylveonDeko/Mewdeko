@@ -191,6 +191,15 @@ public class ShopItemResponse
     /// <summary>Whether the item can be used up.</summary>
     public bool Consumable { get; set; }
 
+    /// <summary>Message shown after buying, if any.</summary>
+    public string? BuyMessage { get; set; }
+
+    /// <summary>Message shown when the item is used, if any.</summary>
+    public string? UseMessage { get; set; }
+
+    /// <summary>Whether the item is used automatically when bought.</summary>
+    public bool UseOnBuy { get; set; }
+
     /// <summary>Whether the item is visible and purchasable.</summary>
     public bool Enabled { get; set; }
 

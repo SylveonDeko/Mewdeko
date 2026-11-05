@@ -56,5 +56,18 @@
   "permission_blacklist_error": "Failed to blacklist permission {0}: {1}",
   "permission_blacklisted": "Permission {0} has been added to the blacklist.",
   "permission_unblacklist_error": "Failed to unblacklist permission {0}: {1}",
-  "permission_unblacklisted": "Permission {0} has been removed from the blacklist."
+  "permission_unblacklisted": "Permission {0} has been removed from the blacklist.",
+  "filter_normalize_on": "Filtered words now also match spacing, symbols, repeated letters and look-alike characters.",
+  "filter_normalize_off": "Filtered words are matched as typed.",
+  "invite_filter_no_roles_on": "The invite filter now only acts on members with no roles.",
+  "invite_filter_no_roles_off": "The invite filter now acts on every member.",
+  "link_filter_no_roles_on": "The link filter now only acts on members with no roles.",
+  "link_filter_no_roles_off": "The link filter now acts on every member.",
+  "link_limit_set": "{0}: at most {1} links per member every {2} seconds.",
+  "link_limit_removed": "{0} no longer has a link limit.",
+  "link_domain_allowed_added": "{0} is now an allowed link domain.",
+  "link_domain_allowed_removed": "{0} is no longer an allowed link domain.",
+  "link_domain_blocked_added": "{0} is now a blocked link domain.",
+  "link_domain_blocked_removed": "{0} is no longer a blocked link domain.",
+  "link_domains_list": "Allowed: {0}\nBlocked: {1}"
 }

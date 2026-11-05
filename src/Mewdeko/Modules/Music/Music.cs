@@ -1042,6 +1042,34 @@ public partial class Music(
     }
 
     /// <summary>
+    ///     Plays the previous track in the queue.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task Previous()
+    {
+        var user = ctx.User as IGuildUser;
+        if (user.VoiceChannel is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var (player, result) = await GetPlayerAsync(false);
+        if (result is not null)
+        {
+            await ReplyErrorAsync(result).ConfigureAwait(false);
+            return;
+        }
+
+        if (await MusicPrevious.PlayPreviousAsync(cache, ctx.Guild.Id, player))
+            await ReplyConfirmAsync(Strings.MusicPlayingPrevious(ctx.Guild.Id)).ConfigureAwait(false);
+        else
+            await ReplyErrorAsync(Strings.MusicNoPreviousTrack(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     The music queue.
     /// </summary>
     [Cmd]

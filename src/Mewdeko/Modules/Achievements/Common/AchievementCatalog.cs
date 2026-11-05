@@ -77,6 +77,11 @@ public static class AchievementCatalog
     public const string PrestigeCategory = "prestige";
 
     /// <summary>
+    ///     Category for threads, giveaways, shop purchases, and birthdays. Completionist does not wait for it.
+    /// </summary>
+    public const string ActivityCategory = "activity";
+
+    /// <summary>
     ///     Category for achievements earned across every server.
     /// </summary>
     public const string GlobalCategory = "global";
@@ -142,6 +147,7 @@ public static class AchievementCatalog
         new("loyalty", "Loyalty", "fa:calendar", "Time since joining the server", true, true),
         new("boosts", "Boosts", "fa:bolt", "Boosting the server and keeping it up", true, true),
         new("community", "Community", "fa:heart", "Levels and reputation", true, true),
+        new(ActivityCategory, "Activity", "fa:gift", "Threads, giveaways, the shop, and birthdays", true, true),
         new(PrestigeCategory, "Prestige", "fa:crown", "Finishing whole categories", true, true),
         new(GlobalCategory, "Global", "fa:globe", "Earned across every server", true, false),
         new(CustomCategory, "Server", "fa:wand-magic-sparkles", "Achievements this server made", true, false)
@@ -198,6 +204,18 @@ public static class AchievementCatalog
             "Achievements unlocked in the server", AchievementDirty.None, true, "achievements"),
         new(AchievementMetric.Points, "Points", "point", "points",
             "Achievement points earned in the server", AchievementDirty.None, true, "achievements"),
+        new(AchievementMetric.ThreadsCreated, "Threads created", "thread", "threads",
+            "Threads they started", AchievementDirty.Activity, true, "achievements"),
+        new(AchievementMetric.ThreadsJoined, "Threads joined", "thread", "threads",
+            "Threads they took part in", AchievementDirty.Activity, true, "achievements"),
+        new(AchievementMetric.GiveawaysEntered, "Giveaways entered", "giveaway", "giveaways",
+            "Giveaways they entered", AchievementDirty.Activity, true, "achievements"),
+        new(AchievementMetric.ShopPurchases, "Shop purchases", "purchase", "purchases",
+            "Items they bought from the shop", AchievementDirty.Activity, true, "currency"),
+        new(AchievementMetric.BirthdaySet, "Birthday set", "birthday", "birthdays",
+            "Set their birthday", AchievementDirty.Birthday, true, "discord"),
+        new(AchievementMetric.RoleReceived, "Role received", "role", "roles",
+            "Received a specific role", AchievementDirty.Membership, true, "discord"),
         new(AchievementMetric.GlobalPoints, "Global points", "point", "points",
             "Achievement points earned across every server", AchievementDirty.None, false, "achievements"),
         new(AchievementMetric.GlobalServers, "Servers", "server", "servers",
@@ -548,6 +566,37 @@ public static class AchievementCatalog
             (100, AchievementGrade.Gold, "Pillar"),
             (500, AchievementGrade.Amethyst, "Legend of Goodwill")
         ], n => $"Earn {n:N0} reputation");
+
+        AddLadder(list, ActivityCategory, "threads_created", AchievementMetric.ThreadsCreated,
+        [
+            (1, AchievementGrade.Bronze, "Thread Starter"),
+            (10, AchievementGrade.Silver, "Topic Weaver"),
+            (50, AchievementGrade.Gold, "Thread Architect")
+        ], n => $"Start {n:N0} {(n == 1 ? "thread" : "threads")}");
+
+        AddLadder(list, ActivityCategory, "threads_joined", AchievementMetric.ThreadsJoined,
+        [
+            (5, AchievementGrade.Bronze, "Joining In"),
+            (25, AchievementGrade.Silver, "Thread Regular"),
+            (100, AchievementGrade.Gold, "Everywhere at Once")
+        ], n => $"Take part in {n:N0} threads");
+
+        AddLadder(list, ActivityCategory, "giveaways_entered", AchievementMetric.GiveawaysEntered,
+        [
+            (1, AchievementGrade.Bronze, "Feeling Lucky"),
+            (10, AchievementGrade.Silver, "Regular Entrant"),
+            (50, AchievementGrade.Gold, "Lottery Veteran")
+        ], n => $"Enter {n:N0} {(n == 1 ? "giveaway" : "giveaways")}");
+
+        AddLadder(list, ActivityCategory, "shop_purchases", AchievementMetric.ShopPurchases,
+        [
+            (1, AchievementGrade.Bronze, "First Purchase"),
+            (10, AchievementGrade.Silver, "Shopper"),
+            (50, AchievementGrade.Gold, "Big Spender")
+        ], n => $"Buy {n:N0} {(n == 1 ? "item" : "items")} from the shop");
+
+        list.Add(Metric(ActivityCategory, "birthday_set", "Another Year", "Set your birthday",
+            AchievementGrade.Bronze, AchievementMetric.BirthdaySet, 1));
 
         list.Add(Completion("messages", "Message Master"));
         list.Add(Completion("voice", "Voice Master"));

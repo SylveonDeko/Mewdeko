@@ -149,6 +149,10 @@ public sealed class EventHandler : IDisposable
             case "ShardReady":
             case "Log":
             case "XpLevelChanged":
+            case "InviteCountChanged":
+            case "GiveawayEntered":
+            case "ShopItemPurchased":
+            case "BirthdaySet":
                 switch (handler)
                 {
                     case AsyncEventHandler<T> singleHandler:
@@ -883,6 +887,9 @@ public sealed class EventHandler : IDisposable
         client.ShardLatencyUpdated += ClientOnShardLatencyUpdated;
         client.Log += ClientOnLog;
         client.GuildScheduledEventCreated += ClientOnEventCreated;
+        client.GuildScheduledEventStarted += ClientOnEventStarted;
+        client.GuildScheduledEventCancelled += ClientOnEventCancelled;
+        client.GuildScheduledEventCompleted += ClientOnEventCompleted;
         client.RoleUpdated += ClientOnRoleUpdated;
         client.GuildUpdated += ClientOnGuildUpdated;
         client.RoleCreated += ClientOnRoleCreated;
@@ -897,6 +904,9 @@ public sealed class EventHandler : IDisposable
         client.LeftGuild += ClientOnLeftGuild;
         client.InviteCreated += ClientOnInviteCreated;
         client.InviteDeleted += ClientOnInviteDeleted;
+        client.GuildStickerCreated += ClientOnGuildStickerCreated;
+        client.GuildStickerUpdated += ClientOnGuildStickerUpdated;
+        client.GuildStickerDeleted += ClientOnGuildStickerDeleted;
         client.ModalSubmitted += ClientOnModalSubmitted;
     }
 
@@ -981,6 +991,7 @@ public sealed class EventHandler : IDisposable
     {
         var createModuleMetrics = GetOrCreateModuleMetrics(subscription.ModuleName);
         var sw = Stopwatch.StartNew();
+        GuildEmbedColorService.Enter(GuildOf(args)?.Id);
 
         try
         {
@@ -1155,7 +1166,22 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnEventCreated(SocketGuildEvent arg)
     {
-        return ProcessDirectEvent("EventCreated", arg);
+        return ProcessDirectEvent("GuildScheduledEventCreated", arg);
+    }
+
+    private Task ClientOnEventStarted(SocketGuildEvent arg)
+    {
+        return ProcessDirectEvent("GuildScheduledEventStarted", arg);
+    }
+
+    private Task ClientOnEventCancelled(SocketGuildEvent arg)
+    {
+        return ProcessDirectEvent("GuildScheduledEventCancelled", arg);
+    }
+
+    private Task ClientOnEventCompleted(SocketGuildEvent arg)
+    {
+        return ProcessDirectEvent("GuildScheduledEventCompleted", arg);
     }
 
     private Task ClientOnRoleUpdated(SocketRole arg1, SocketRole arg2)
@@ -1253,6 +1279,21 @@ public sealed class EventHandler : IDisposable
         return ProcessDirectEvent("InviteDeleted", (arg1, arg2));
     }
 
+    private Task ClientOnGuildStickerCreated(SocketCustomSticker arg)
+    {
+        return ProcessDirectEvent("GuildStickerCreated", arg);
+    }
+
+    private Task ClientOnGuildStickerUpdated(SocketCustomSticker arg1, SocketCustomSticker arg2)
+    {
+        return ProcessDirectEvent("GuildStickerUpdated", (arg1, arg2));
+    }
+
+    private Task ClientOnGuildStickerDeleted(SocketCustomSticker arg)
+    {
+        return ProcessDirectEvent("GuildStickerDeleted", arg);
+    }
+
     private Task ClientOnModalSubmitted(SocketModal arg)
     {
         return ProcessDirectEvent("ModalSubmitted", arg);
@@ -1279,8 +1320,10 @@ public sealed class EventHandler : IDisposable
 
         logger.LogDebug("Found {SubscriptionCount} string-based subscriptions for event {EventType}", handlers.Count,
             eventType);
+        var eventGuildId = GuildOf(args)?.Id;
         _ = Task.Run(async () =>
         {
+            GuildEmbedColorService.Enter(eventGuildId);
             foreach (var (moduleName, handler) in handlers)
             {
                 var started = Stopwatch.GetTimestamp();
@@ -1338,6 +1381,7 @@ public sealed class EventHandler : IDisposable
             SocketRole role => role.Guild,
             SocketInteraction { Channel: SocketGuildChannel channel } => channel.Guild,
             SocketInvite invite => invite.Guild,
+            SocketCustomSticker sticker => sticker.Guild,
             SocketGuildEvent guildEvent => guildEvent.Guild,
             ValueTuple<SocketAuditLogEntry, SocketGuild> tuple => tuple.Item2,
             ValueTuple<Cacheable<SocketGuildUser, ulong>, SocketGuildUser> tuple => tuple.Item2.Guild,
@@ -1604,6 +1648,9 @@ public sealed class EventHandler : IDisposable
         client.ShardLatencyUpdated -= ClientOnShardLatencyUpdated;
         client.Log -= ClientOnLog;
         client.GuildScheduledEventCreated -= ClientOnEventCreated;
+        client.GuildScheduledEventStarted -= ClientOnEventStarted;
+        client.GuildScheduledEventCancelled -= ClientOnEventCancelled;
+        client.GuildScheduledEventCompleted -= ClientOnEventCompleted;
         client.RoleUpdated -= ClientOnRoleUpdated;
         client.GuildUpdated -= ClientOnGuildUpdated;
         client.RoleCreated -= ClientOnRoleCreated;
@@ -1618,6 +1665,9 @@ public sealed class EventHandler : IDisposable
         client.LeftGuild -= ClientOnLeftGuild;
         client.InviteCreated -= ClientOnInviteCreated;
         client.InviteDeleted -= ClientOnInviteDeleted;
+        client.GuildStickerCreated -= ClientOnGuildStickerCreated;
+        client.GuildStickerUpdated -= ClientOnGuildStickerUpdated;
+        client.GuildStickerDeleted -= ClientOnGuildStickerDeleted;
         client.ModalSubmitted -= ClientOnModalSubmitted;
     }
 

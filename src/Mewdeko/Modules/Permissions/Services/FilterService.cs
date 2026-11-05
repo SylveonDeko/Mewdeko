@@ -10,6 +10,7 @@ using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Common;
 using Mewdeko.Modules.Moderation.Services;
+using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Permissions.Services;
@@ -27,11 +28,15 @@ public class FilterService : IEarlyBehavior, INService
     private readonly BotConfig config;
     private readonly CultureInfo? cultureInfo = new("en-US");
     private readonly IDataConnectionFactory dbFactory;
+    private readonly AutomodExtrasService extras;
     private readonly GuildSettingsService gss;
     private readonly ILogger<FilterService> logger;
+    private readonly ModCaseService modCases;
 
     // Cache for compiled regex patterns to avoid repeated compilation
     private readonly ConcurrentDictionary<string, Regex> regexCache = new();
+    private readonly ConcurrentDictionary<string, string> squashedWords = new();
+    private readonly ConcurrentDictionary<ulong, Task<GuildFilterData>> filterData = new();
     private readonly UserPunishService userPunServ;
 
     /// <summary>
@@ -52,11 +57,15 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="config">The bot configuration settings.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
+    /// <param name="modCases">The service recording moderation cases</param>
+    /// <param name="extras">The automod extras service</param>
     public FilterService(DiscordShardedClient client, IDataConnectionFactory dbFactory, IPubSub pubSub,
         UserPunishService upun2, GeneratedBotStrings strng, AdministrationService ass,
         GuildSettingsService gss, EventHandler eventHandler, BotConfig config, BanPruneService banPrune,
-        ILogger<FilterService> logger)
+        ILogger<FilterService> logger, ModCaseService modCases, AutomodExtrasService extras)
     {
+        this.extras = extras;
+        this.modCases = modCases;
         this.banPrune = banPrune;
         this.dbFactory = dbFactory;
         this.client = client;
@@ -118,10 +127,11 @@ public class FilterService : IEarlyBehavior, INService
     public async Task<bool> RunBehavior(DiscordShardedClient socketClient, IGuild guild, IUserMessage msg)
     {
         return msg.Author is IGuildUser gu && !gu.RoleIds.Contains(await ass.GetStaffRole(guild.Id)) &&
-               !gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg).ConfigureAwait(false)
-                                                      || await FilterWords(guild, msg).ConfigureAwait(false)
-                                                      || await FilterLinks(guild, msg).ConfigureAwait(false)
-                                                      || await FilterBannedWords(guild, msg).ConfigureAwait(false));
+               !gu.GuildPermissions.Administrator && !extras.IsExempt(gu, msg.Channel) &&
+               (await FilterInvites(guild, msg).ConfigureAwait(false)
+                || await FilterWords(guild, msg).ConfigureAwait(false)
+                || await FilterLinks(guild, msg).ConfigureAwait(false)
+                || await FilterBannedWords(guild, msg).ConfigureAwait(false));
     }
 
 
@@ -140,7 +150,54 @@ public class FilterService : IEarlyBehavior, INService
         };
 
         await db.InsertAsync(item);
+        InvalidateCache(id2);
     }
+
+    /// <summary>
+    ///     Drops a guild's cached filter lists so the next message reloads them. Called after every write to the
+    ///     filtered words, auto ban words and filter channel lists.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    public void InvalidateCache(ulong guildId)
+    {
+        filterData.TryRemove(guildId, out _);
+    }
+
+    private async Task<GuildFilterData> GetData(ulong guildId)
+    {
+        var task = filterData.GetOrAdd(guildId, LoadData);
+        try
+        {
+            return await task.ConfigureAwait(false);
+        }
+        catch
+        {
+            filterData.TryRemove(new KeyValuePair<ulong, Task<GuildFilterData>>(guildId, task));
+            throw;
+        }
+    }
+
+    private async Task<GuildFilterData> LoadData(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var words = await db.FilteredWords.Where(x => x.GuildId == guildId).Select(x => x.Word).ToListAsync()
+            .ConfigureAwait(false);
+        var banned = await db.AutoBanWords.Where(x => x.GuildId == guildId).Select(x => x.Word).ToListAsync()
+            .ConfigureAwait(false);
+        var wordChannels = await db.FilterWordsChannelIds.Where(x => x.GuildId == guildId).Select(x => x.ChannelId)
+            .ToListAsync().ConfigureAwait(false);
+        var inviteChannels = await db.FilterInvitesChannelIds.Where(x => x.GuildId == guildId)
+            .Select(x => x.ChannelId).ToListAsync().ConfigureAwait(false);
+        var linkChannels = await db.FilterLinksChannelIds.Where(x => x.GuildId == guildId).Select(x => x.ChannelId)
+            .ToListAsync().ConfigureAwait(false);
+
+        return new GuildFilterData(words.ToHashSet(), banned.ToHashSet(), wordChannels.ToHashSet(),
+            inviteChannels.ToHashSet(), linkChannels.ToHashSet());
+    }
+
+    private sealed record GuildFilterData(HashSet<string> Words, HashSet<string> Banned, HashSet<ulong> WordChannels,
+        HashSet<ulong> InviteChannels, HashSet<ulong> LinkChannels);
 
     /// <summary>
     ///     Removes a word from the blacklist for a specified guild.
@@ -154,6 +211,7 @@ public class FilterService : IEarlyBehavior, INService
         await db.AutoBanWords
             .Where(bi => bi.Word == id && bi.GuildId == id2)
             .DeleteAsync();
+        InvalidateCache(id2);
     }
 
     /// <summary>
@@ -164,10 +222,7 @@ public class FilterService : IEarlyBehavior, INService
     /// <returns>A set of filtered words for the channel, or null if no filters are set.</returns>
     public async Task<bool> FilterChannel(ulong channelId, ulong guildId)
     {
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        return await db.FilterWordsChannelIds
-            .AnyAsync(x => x.GuildId == guildId && x.ChannelId == channelId);
+        return (await GetData(guildId).ConfigureAwait(false)).WordChannels.Contains(channelId);
     }
 
     /// <summary>
@@ -257,6 +312,9 @@ public class FilterService : IEarlyBehavior, INService
             guildConfig.FilterWords = false;
             await db.UpdateAsync(guildConfig);
         }
+
+        gss.ClearCacheForGuild(guildId);
+        InvalidateCache(guildId);
     }
 
     /// <summary>
@@ -266,15 +324,7 @@ public class FilterService : IEarlyBehavior, INService
     /// <returns>A set of filtered words for the server, or null if no filters are set.</returns>
     public async Task<HashSet<string>?> FilteredWordsForServer(ulong guildId)
     {
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        // Get filtered words for this guild
-        var words = await db.FilteredWords
-            .Where(x => x.GuildId == guildId)
-            .Select(x => x.Word)
-            .ToListAsync();
-
-        return words.Count > 0 ? words.ToHashSet() : [];
+        return [..(await GetData(guildId).ConfigureAwait(false)).Words];
     }
 
 
@@ -328,9 +378,10 @@ public class FilterService : IEarlyBehavior, INService
             return false;
 
         var lowerContent = usrMsg.Content.ToLower();
+        var normalized = Normalize(guildId, usrMsg.Content);
         foreach (var word in filteredWords)
         {
-            if (await IsWordMatched(word, lowerContent, guildId))
+            if (await IsWordMatchedAnyForm(word, lowerContent, normalized, guildId))
             {
                 return await HandleFilteredWord(usrMsg, guild, word);
             }
@@ -338,6 +389,46 @@ public class FilterService : IEarlyBehavior, INService
 
         return false;
     }
+
+    private static bool HasNoRoles(IUser author, ulong guildId)
+    {
+        return author is not IGuildUser member || member.RoleIds.All(x => x == guildId);
+    }
+
+    private Task LogAsync(IGuild guild, IUserMessage msg, string rule, string actions)
+    {
+        return extras.LogAsync(guild.Id, msg.Author.Id, rule, msg.Content, actions, msg.Channel.Id);
+    }
+
+    private NormalizedText? Normalize(ulong guildId, string content)
+    {
+        return extras.Get(guildId).NormalizeWords
+            ? new NormalizedText(WordNormalizer.Clean(content), WordNormalizer.Clean(content, true),
+                WordNormalizer.Squash(content), WordNormalizer.Squash(content, true))
+            : null;
+    }
+
+    private async Task<bool> IsWordMatchedAnyForm(string word, string lowerContent, NormalizedText? normalized,
+        ulong guildId)
+    {
+        if (await IsWordMatched(word, lowerContent, guildId))
+            return true;
+
+        if (normalized is null)
+            return false;
+
+        if (WordNormalizer.IsPlain(word))
+        {
+            var squashed = squashedWords.GetOrAdd(word, static w => WordNormalizer.Squash(w));
+            return squashed.Length >= 3 &&
+                   (normalized.Squashed.Contains(squashed) || normalized.SquashedL.Contains(squashed));
+        }
+
+        return await IsWordMatched(word, normalized.Clean, guildId) ||
+               await IsWordMatched(word, normalized.CleanL, guildId);
+    }
+
+    private sealed record NormalizedText(string Clean, string CleanL, string Squashed, string SquashedL);
 
     /// <summary>
     ///     Checks whether text contains a word from the guild's filtered words, without acting on it.
@@ -352,9 +443,10 @@ public class FilterService : IEarlyBehavior, INService
             return false;
 
         var lowerContent = content.ToLower();
+        var normalized = Normalize(guildId, content);
         foreach (var word in filteredWords)
         {
-            if (await IsWordMatched(word, lowerContent, guildId))
+            if (await IsWordMatchedAnyForm(word, lowerContent, normalized, guildId))
                 return true;
         }
 
@@ -363,35 +455,17 @@ public class FilterService : IEarlyBehavior, INService
 
     private async Task<bool> ShouldFilterChannel(ulong channelId, ulong guildId)
     {
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        return await db.FilterWordsChannelIds
-            .AnyAsync(x => x.GuildId == guildId && x.ChannelId == channelId);
+        return (await GetData(guildId).ConfigureAwait(false)).WordChannels.Contains(channelId);
     }
 
     private async Task<HashSet<string>> GetFilteredWordsForServer(ulong guildId)
     {
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        var words = await db.FilteredWords
-            .Where(x => x.GuildId == guildId)
-            .Select(x => x.Word)
-            .ToListAsync();
-
-        return words.ToHashSet();
+        return (await GetData(guildId).ConfigureAwait(false)).Words;
     }
 
     private async Task<HashSet<string>> GetBannedWordsForServer(ulong guildId)
     {
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        var words = await db.AutoBanWords
-            .Where(x => x.GuildId == guildId)
-            .Select(x => x.Word)
-            .ToListAsync()
-            .ConfigureAwait(false);
-
-        return words.ToHashSet();
+        return (await GetData(guildId).ConfigureAwait(false)).Banned;
     }
 
     private async Task<(bool banned, string matchedText)> IsWordBanned(string word, string content, ulong guildId)
@@ -420,6 +494,7 @@ public class FilterService : IEarlyBehavior, INService
         await db.AutoBanWords
             .Where(bi => bi.Word == word && bi.GuildId == guildId)
             .DeleteAsync();
+        InvalidateCache(guildId);
     }
 
     private async Task<bool> HandleBannedWord(IUserMessage msg, IGuild guild, string word, string matchedText)
@@ -430,31 +505,42 @@ public class FilterService : IEarlyBehavior, INService
             var defaultMessage = Strings.BanDm(guild.Id, Format.Bold(guild.Name),
                 Strings.AutobanWordDetected(guild.Id, word));
 
-            try
+            async Task<bool> SendBanDmAsync(int? caseNumber)
             {
-                var embed = await userPunServ.GetBanUserDmEmbed(client, guild as SocketGuild,
-                    await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false),
-                    msg.Author as IGuildUser,
-                    defaultMessage,
-                    $"Banned for saying autoban word {matchedText}",
-                    null).ConfigureAwait(false);
+                try
+                {
+                    var embed = await userPunServ.GetBanUserDmEmbed(client, guild as SocketGuild,
+                        await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false),
+                        msg.Author as IGuildUser,
+                        defaultMessage,
+                        $"Banned for saying autoban word {matchedText}",
+                        null, caseNumber).ConfigureAwait(false);
 
-                await (await msg.Author.CreateDMChannelAsync().ConfigureAwait(false))
-                    .SendMessageAsync(embed.Item2, embeds: embed.Item1, components: embed.Item3.Build())
-                    .ConfigureAwait(false);
-            }
-            catch
-            {
-                // DM failed, continue with ban anyway
+                    if (embed.Item1 is null && embed.Item2 is null)
+                        return false;
+
+                    await (await msg.Author.CreateDMChannelAsync().ConfigureAwait(false))
+                        .SendMessageAsync(embed.Item2, embeds: embed.Item1, components: embed.Item3?.Build())
+                        .ConfigureAwait(false);
+                    return false;
+                }
+                catch
+                {
+                    return true;
+                }
             }
 
             var pruneDays = await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.Filter, msg.Channel)
                 .ConfigureAwait(false);
 
-            await guild.AddBanAsync(msg.Author, pruneDays, options: new RequestOptions
-            {
-                AuditLogReason = Strings.AutobanReason(guild.Id, matchedText)
-            }).ConfigureAwait(false);
+            await modCases.PunishAsync(guild, msg.Author, client.CurrentUser, ModCaseAction.Ban,
+                $"Autoban word filter: {matchedText}", null,
+                () => guild.AddBanAsync(msg.Author, pruneDays, options: new RequestOptions
+                {
+                    AuditLogReason = Strings.AutobanReason(guild.Id, matchedText)
+                }), SendBanDmAsync).ConfigureAwait(false);
+            await LogAsync(guild, msg, Strings.AutomodRuleAutobanWord(guild.Id), "delete, ban")
+                .ConfigureAwait(false);
 
             return true;
         }
@@ -497,6 +583,7 @@ public class FilterService : IEarlyBehavior, INService
             .Where(fw => fw.GuildId == guildId &&
                          fw.Word.Trim().Equals(word, StringComparison.InvariantCultureIgnoreCase))
             .DeleteAsync();
+        InvalidateCache(guildId);
     }
 
     private async Task<bool> HandleFilteredWord(IUserMessage usrMsg, IGuild guild, string word)
@@ -504,8 +591,15 @@ public class FilterService : IEarlyBehavior, INService
         try
         {
             await usrMsg.DeleteAsync();
-            if (await GetFw(guild.Id) == 0) return true;
+            var rule = Strings.AutomodRuleWordFilter(guild.Id);
+            if (await GetFw(guild.Id) == 0)
+            {
+                await LogAsync(guild, usrMsg, rule, "delete").ConfigureAwait(false);
+                return true;
+            }
+
             await userPunServ.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Filtered Word");
+            await LogAsync(guild, usrMsg, rule, "delete, warn").ConfigureAwait(false);
             var user = await usrMsg.Author.CreateDMChannelAsync();
             await user.SendErrorAsync(Strings.FilteredWordWarning(guild.Id, Format.Code(word)), config);
             return true;
@@ -528,23 +622,19 @@ public class FilterService : IEarlyBehavior, INService
         if (guild is null || usrMsg?.Author is null)
             return false;
 
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        // Get guild configuration
-        var guildConfig = await db.GuildConfigs
-            .FirstOrDefaultAsync(gc => gc.GuildId == guild.Id);
+        var guildConfig = await gss.GetGuildConfig(guild.Id).ConfigureAwait(false);
 
         if (guildConfig is not { FilterInvites: true })
             return false;
 
+        if (extras.Get(guild.Id).InviteNoRolesOnly && !HasNoRoles(usrMsg.Author, guild.Id))
+            return false;
+
         // Check if there are any channel IDs to filter or if the current channel is in the list
-        var channelFilters = await db.FilterInvitesChannelIds
-            .Where(x => x.GuildId == guild.Id)
-            .ToListAsync();
+        var channelFilters = (await GetData(guild.Id).ConfigureAwait(false)).InviteChannels;
 
         var shouldFilter = guildConfig.FilterInvites &&
-                           (channelFilters.Count == 0 ||
-                            channelFilters.Any(x => x.ChannelId == usrMsg.Channel.Id)) &&
+                           (channelFilters.Count == 0 || channelFilters.Contains(usrMsg.Channel.Id)) &&
                            usrMsg.Content.IsDiscordInvite();
 
         if (!shouldFilter)
@@ -553,9 +643,16 @@ public class FilterService : IEarlyBehavior, INService
         try
         {
             await usrMsg.DeleteAsync();
+            var rule = Strings.AutomodRuleInviteFilter(guild.Id);
 
-            if (await GetInvWarn(guild.Id) == 0) return true;
+            if (await GetInvWarn(guild.Id) == 0)
+            {
+                await LogAsync(guild, usrMsg, rule, "delete").ConfigureAwait(false);
+                return true;
+            }
+
             await userPunServ.Warn(guild, usrMsg.Author.Id, client.CurrentUser, Strings.InviteWarnReason(guild.Id));
+            await LogAsync(guild, usrMsg, rule, "delete, warn").ConfigureAwait(false);
 
             var userDmChannel = await usrMsg.Author.CreateDMChannelAsync();
             await userDmChannel.SendErrorAsync(Strings.InviteWarning(guild.Id), config);
@@ -585,22 +682,29 @@ public class FilterService : IEarlyBehavior, INService
         if (guild is null || usrMsg is null)
             return false;
 
-        await using var db = await dbFactory.CreateConnectionAsync();
+        var shared = extras.Get(guild.Id);
+        if (shared.LinkNoRolesOnly && !HasNoRoles(usrMsg.Author, guild.Id))
+            return false;
 
-        // Get guild configuration
-        var guildConfig = await db.GuildConfigs
-            .FirstOrDefaultAsync(gc => gc.GuildId == guild.Id);
+        var links = Extensions.Extensions.UrlRegex.Matches(usrMsg.Content);
+        if (links.Count == 0)
+            return false;
+
+        var guildConfig = await gss.GetGuildConfig(guild.Id).ConfigureAwait(false);
 
         if (guildConfig == null)
             return false;
 
         // Check if channel is configured for link filtering
-        var hasChannelFilter = await db.FilterLinksChannelIds
-            .AnyAsync(x => x.GuildId == guild.Id && x.ChannelId == usrMsg.Channel.Id);
+        var hasChannelFilter = (await GetData(guild.Id).ConfigureAwait(false)).LinkChannels
+            .Contains(usrMsg.Channel.Id);
 
-        // Check if links should be filtered based on configuration
-        var shouldFilter = (hasChannelFilter || guildConfig.FilterLinks) &&
-                           usrMsg.Content.TryGetUrlPath(out _);
+        var domains = links.Select(x => x.Groups["domain"].Value.ToLowerInvariant()).ToList();
+        var (allowed, blocked) = extras.GetDomains(guild.Id);
+        var onlyAllowed = allowed.Count > 0 && domains.All(x => AutomodExtrasService.DomainListed(x, allowed));
+        var shouldFilter = domains.Any(x => AutomodExtrasService.DomainListed(x, blocked)) ||
+                           ((hasChannelFilter || guildConfig.FilterLinks) && !onlyAllowed) ||
+                           extras.LinkLimitExceeded(guild.Id, usrMsg.Channel.Id, usrMsg.Author.Id, links.Count);
 
         if (!shouldFilter)
             return false;
@@ -608,6 +712,7 @@ public class FilterService : IEarlyBehavior, INService
         try
         {
             await usrMsg.DeleteAsync();
+            await LogAsync(guild, usrMsg, Strings.AutomodRuleLinkFilter(guild.Id), "delete").ConfigureAwait(false);
             return true;
         }
         catch (HttpException ex)

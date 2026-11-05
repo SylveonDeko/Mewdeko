@@ -4,6 +4,7 @@ using DataModel;
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Controllers.Common.Giveaways;
+using Mewdeko.Modules.Giveaways.Common;
 using Mewdeko.Modules.Giveaways.Services;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
@@ -161,8 +162,11 @@ public class GiveawaysController : Controller
         try
         {
             var gway = await service.GetGiveawayById(giveawayId);
-            if (gway is null)
+            if (gway is null || gway.ServerId != guildId)
                 return NotFound("That giveaway doesnt exist.");
+
+            if (gway.Ended == GiveawayStatus.Draft)
+                return BadRequest("That giveaway is a draft and has not been started.");
 
             auditContext.RecordBefore(gway);
             await service.GiveawayTimerAction(gway);
@@ -173,6 +177,51 @@ public class GiveawaysController : Controller
             logger.LogError(ex, "Failed to end giveaway {GiveawayId} for guild {GuildId}", giveawayId, guildId);
             return BadRequest(ex.Message);
         }
+    }
+
+    /// <summary>
+    ///     Starts a saved giveaway draft.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild the draft belongs to.</param>
+    /// <param name="giveawayId">The ID of the draft to start.</param>
+    /// <returns>
+    ///     An <see cref="OkObjectResult" /> containing the running giveaway, <see cref="NotFoundObjectResult" /> if the
+    ///     draft doesn't exist, or <see cref="BadRequestObjectResult" /> if starting fails.
+    /// </returns>
+    [HttpPost("{guildId:ulong}/{giveawayId:int}/start")]
+    public async Task<IActionResult> StartDraft(ulong guildId, int giveawayId)
+    {
+        try
+        {
+            var draft = await service.GetGiveawayById(giveawayId);
+            if (draft is null || draft.ServerId != guildId || draft.Ended != GiveawayStatus.Draft)
+                return NotFound("That draft doesnt exist.");
+
+            auditContext.RecordBefore(draft);
+            var started = await service.StartDraftAsync(draft, draft.UserId);
+            auditContext.RecordAfter(started);
+            return Ok(started);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to start giveaway draft {GiveawayId} for guild {GuildId}", giveawayId,
+                guildId);
+            return BadRequest(ex.Message);
+        }
+    }
+
+    /// <summary>
+    ///     Deletes a saved giveaway draft.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild the draft belongs to.</param>
+    /// <param name="giveawayId">The ID of the draft to delete.</param>
+    /// <returns>No content on success, or <see cref="NotFoundObjectResult" /> if the draft doesn't exist.</returns>
+    [HttpDelete("{guildId:ulong}/{giveawayId:int}")]
+    public async Task<IActionResult> DeleteDraft(ulong guildId, int giveawayId)
+    {
+        return await service.DeleteDraftAsync(guildId, giveawayId)
+            ? NoContent()
+            : NotFound("That draft doesnt exist.");
     }
 
     /// <summary>

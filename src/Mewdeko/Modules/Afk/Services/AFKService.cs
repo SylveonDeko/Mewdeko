@@ -702,7 +702,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
                             .WithFooter(
                                 strings.AfkFor(user.Guild.Id,
                                     (DateTime.UtcNow - (mentionedAfk.DateAdded ?? DateTime.UtcNow)).Humanize()))
-                            .WithOkColor()
+                            .WithOkColor(user.Guild.Id)
                             .Build();
 
                         var components = config.Data.ShowInviteButton

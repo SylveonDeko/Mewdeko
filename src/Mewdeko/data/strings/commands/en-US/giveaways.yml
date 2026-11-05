@@ -165,6 +165,84 @@ glist:
     - ''
   desc: 'Lists all active giveaways.'
   params: [ ]
+gdraft:
+  args:
+    - chan time number text
+  desc: 'Saves a giveaway without starting it.'
+  params:
+    - desc: 'The channel the giveaway will run in'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'How long the giveaway runs once started'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'The amount of winners'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'The item to be given away'
+      name: what
+      optional: false
+      type: string
+gdrafts:
+  args:
+    - ''
+  desc: 'Lists saved giveaway drafts.'
+  params: [ ]
+gdraftstart:
+  args:
+    - draftId
+  desc: 'Starts a saved giveaway draft.'
+  params:
+    - desc: 'The ID of the draft'
+      name: draftId
+      optional: false
+      type: int
+gdraftdelete:
+  args:
+    - draftId
+  desc: 'Deletes a saved giveaway draft.'
+  params:
+    - desc: 'The ID of the draft'
+      name: draftId
+      optional: false
+      type: int
+gentries:
+  args:
+    - target role number
+  desc: 'Gives a role extra entries in a giveaway. Use 0 to remove them.'
+  params:
+    - desc: 'The message ID of a running giveaway or the ID of a draft'
+      name: target
+      optional: false
+      type: ulong
+    - desc: 'The role that gets extra entries'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'How many extra entries members with the role get'
+      name: extra
+      optional: false
+      type: int
+gprize:
+  args:
+    - target type number
+  desc: 'Sets an XP or coin prize paid to every winner automatically. Use none to remove it.'
+  params:
+    - desc: 'The message ID of a running giveaway or the ID of a draft'
+      name: target
+      optional: false
+      type: ulong
+    - desc: 'None, xp or coins'
+      name: type
+      optional: false
+      type: GiveawayPrizeType
+    - desc: 'How much each winner gets'
+      name: amount
+      optional: true
+      type: long
 greroll:
   args:
     - messageid

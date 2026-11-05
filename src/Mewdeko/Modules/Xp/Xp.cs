@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text;
 using Discord.Commands;
 using Discord.Net;
@@ -7,6 +8,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Currency.Services;
+using Mewdeko.Modules.Import.Services;
 using Mewdeko.Modules.Xp.Extensions;
 using Mewdeko.Modules.Xp.Models;
 using Mewdeko.Modules.Xp.Services;
@@ -22,7 +24,9 @@ public class Xp(
     XpRoleSyncService roleSyncService,
     ILogger<Xp> logger,
     DiscordShardedClient client,
-    XpRewardManager xpRewardManager)
+    XpRewardManager xpRewardManager,
+    XpBackgroundService backgroundService,
+    XpExportService exportService)
     : MewdekoModuleBase<XpService>
 {
     /// <summary>
@@ -278,6 +282,97 @@ public class Xp(
     {
         await Service.SetUserNotificationPreferenceAsync(ctx.Guild.Id, ctx.User.Id, type);
         await ReplyConfirmAsync(Strings.XpNotificationSet(ctx.Guild.Id, type)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets your own rank card background from an image URL or an attached image.
+    /// </summary>
+    /// <param name="source">An image URL, preset:id, or reset to remove your background.</param>
+    /// <example>.xpbackground https://example.com/card.png</example>
+    /// <example>.xpbackground preset:sunset</example>
+    /// <example>.xpbackground reset</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task XpBackground([Remainder] string? source = null)
+    {
+        if (source?.Trim().Equals("reset", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            await (await backgroundService.ClearUserBackgroundAsync(ctx.User.Id)
+                ? ReplyConfirmAsync(Strings.XpBackgroundCleared(ctx.Guild.Id))
+                : ReplyErrorAsync(Strings.XpBackgroundNone(ctx.Guild.Id)));
+            return;
+        }
+
+        var url = ctx.Message.Attachments.FirstOrDefault()?.Url ?? source?.Trim();
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            await ReplyErrorAsync(Strings.XpBackgroundMissing(ctx.Guild.Id));
+            return;
+        }
+
+        var result = await backgroundService.SetUserBackgroundAsync(ctx.User.Id, url);
+        await ReplyBackgroundResultAsync(result, Strings.XpBackgroundSet(ctx.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Sets the rank card background for the whole server from an image URL or an attached image.
+    /// </summary>
+    /// <param name="source">An image URL, preset:id, or reset to remove it.</param>
+    /// <example>.xpserverbackground https://example.com/card.png</example>
+    /// <example>.xpserverbackground preset:sunset</example>
+    /// <example>.xpserverbackground reset</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task XpServerBackground([Remainder] string? source = null)
+    {
+        if (source?.Trim().Equals("reset", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            await (await backgroundService.ClearGuildBackgroundAsync(ctx.Guild.Id)
+                ? ReplyConfirmAsync(Strings.XpServerBackgroundCleared(ctx.Guild.Id))
+                : ReplyErrorAsync(Strings.XpServerBackgroundNone(ctx.Guild.Id)));
+            return;
+        }
+
+        var url = ctx.Message.Attachments.FirstOrDefault()?.Url ?? source?.Trim();
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            await ReplyErrorAsync(Strings.XpBackgroundMissing(ctx.Guild.Id));
+            return;
+        }
+
+        var result = await backgroundService.SetGuildBackgroundAsync(ctx.Guild.Id, url);
+        await ReplyBackgroundResultAsync(result, Strings.XpServerBackgroundSet(ctx.Guild.Id));
+    }
+
+    private Task ReplyBackgroundResultAsync(XpBackgroundResult result, string saved)
+    {
+        return result switch
+        {
+            XpBackgroundResult.Saved => ReplyConfirmAsync(saved),
+            XpBackgroundResult.TooLarge => ReplyErrorAsync(Strings.XpBackgroundTooLarge(ctx.Guild.Id)),
+            XpBackgroundResult.NotAnImage => ReplyErrorAsync(Strings.XpBackgroundNotImage(ctx.Guild.Id)),
+            XpBackgroundResult.UnknownPreset => ReplyErrorAsync(Strings.XpBackgroundUnknownPreset(ctx.Guild.Id)),
+            _ => ReplyErrorAsync(Strings.XpBackgroundDownloadFailed(ctx.Guild.Id))
+        };
+    }
+
+    /// <summary>
+    ///     Exports every member's XP to a file that /import xp can restore.
+    /// </summary>
+    /// <example>.exportxp</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task ExportXp()
+    {
+        var json = await exportService.ExportAsync(ctx.Guild.Id);
+        await using var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+        await ctx.Channel.SendFileAsync(stream, $"xp-{ctx.Guild.Id}.json", Strings.XpExportDone(ctx.Guild.Id))
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1540,6 +1635,87 @@ public class Xp(
         {
             await ReplyConfirmAsync(Strings.LevelUpChannelCleared(ctx.Guild.Id)).ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    ///     Sets how often level-ups are announced.
+    /// </summary>
+    /// <param name="interval">Announce every Nth level, 1 to announce every level.</param>
+    /// <example>.levelupinterval 5</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task LevelUpInterval(int interval)
+    {
+        await Service.SetLevelUpFiltersAsync(ctx.Guild.Id, interval: interval);
+
+        if (interval > 1)
+            await ReplyConfirmAsync(Strings.LevelUpIntervalSet(ctx.Guild.Id, interval)).ConfigureAwait(false);
+        else
+            await ReplyConfirmAsync(Strings.LevelUpIntervalCleared(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets the lowest level that gets announced.
+    /// </summary>
+    /// <param name="level">The minimum level, 0 to announce from any level.</param>
+    /// <example>.levelupminlevel 10</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task LevelUpMinLevel(int level)
+    {
+        await Service.SetLevelUpFiltersAsync(ctx.Guild.Id, minLevel: level);
+
+        if (level > 0)
+            await ReplyConfirmAsync(Strings.LevelUpMinLevelSet(ctx.Guild.Id, level)).ConfigureAwait(false);
+        else
+            await ReplyConfirmAsync(Strings.LevelUpMinLevelCleared(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets whether only level-ups that grant a role reward are announced.
+    /// </summary>
+    /// <param name="enabled">Whether to announce only reward levels.</param>
+    /// <example>.leveluprewardsonly true</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task LevelUpRewardsOnly(bool enabled)
+    {
+        await Service.SetLevelUpFiltersAsync(ctx.Guild.Id, rewardsOnly: enabled);
+
+        if (enabled)
+            await ReplyConfirmAsync(Strings.LevelUpRewardsOnlyEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+        else
+            await ReplyConfirmAsync(Strings.LevelUpRewardsOnlyDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Shows the last 25 level-ups in the server.
+    /// </summary>
+    /// <example>.leveluplog</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task LevelUpLog()
+    {
+        var entries = await Service.GetLevelUpLogAsync(ctx.Guild.Id);
+        if (entries.Count == 0)
+        {
+            await ReplyErrorAsync(Strings.LevelUpLogEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var lines = entries.Select(x => Strings.LevelUpLogEntry(ctx.Guild.Id, x.UserId, x.OldLevel, x.NewLevel,
+            new DateTimeOffset(DateTime.SpecifyKind(x.DateAdded, DateTimeKind.Utc)).ToUnixTimeSeconds()));
+
+        var embed = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.LevelUpLogTitle(ctx.Guild.Id))
+            .WithDescription(string.Join("\n", lines));
+
+        await ctx.Channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -68,6 +68,9 @@ public class BirthdayController : Controller
                 BirthdayReminderDays = config.BirthdayReminderDays,
                 DefaultTimezone = config.DefaultTimezone ?? "UTC",
                 EnabledFeatures = config.EnabledFeatures,
+                AnnouncementHour = config.AnnouncementHour,
+                AgeMessage = config.AgeMessage,
+                BirthYearRule = config.BirthYearRule,
                 DateAdded = config.DateAdded,
                 DateModified = config.DateModified
             };
@@ -128,6 +131,12 @@ public class BirthdayController : Controller
                     return BadRequest("Invalid timezone provided.");
             }
 
+            if (request.AnnouncementHour is < 0 or > 23)
+                return BadRequest("Announcement hour must be from 0 to 23.");
+
+            if (request.BirthYearRule.HasValue && !Enum.IsDefined((BirthYearRule)request.BirthYearRule.Value))
+                return BadRequest("Birth year rule must be 0, 1 or 2.");
+
             auditContext.RecordBefore(await birthdayService.GetBirthdayConfigAsync(guildId));
 
             await birthdayService.UpdateBirthdayConfigAsync(guildId, config =>
@@ -144,6 +153,12 @@ public class BirthdayController : Controller
                     config.BirthdayReminderDays = request.BirthdayReminderDays.Value;
                 if (!string.IsNullOrEmpty(request.DefaultTimezone))
                     config.DefaultTimezone = request.DefaultTimezone;
+                if (request.AnnouncementHour.HasValue)
+                    config.AnnouncementHour = request.AnnouncementHour.Value;
+                if (request.AgeMessage != null)
+                    config.AgeMessage = request.AgeMessage.Length == 0 ? null : request.AgeMessage;
+                if (request.BirthYearRule.HasValue)
+                    config.BirthYearRule = request.BirthYearRule.Value;
             });
 
             auditContext.RecordAfter(await birthdayService.GetBirthdayConfigAsync(guildId));
@@ -181,6 +196,9 @@ public class BirthdayController : Controller
                 config.BirthdayReminderDays = 0;
                 config.DefaultTimezone = "UTC";
                 config.EnabledFeatures = 0;
+                config.AnnouncementHour = 0;
+                config.AgeMessage = null;
+                config.BirthYearRule = (int)BirthYearRule.Optional;
             });
 
             return Ok();
@@ -388,6 +406,59 @@ public class BirthdayController : Controller
         {
             logger.LogError(ex, "Failed to get birthday info for user {UserId} in guild {GuildId}", userId, guildId);
             return StatusCode(500, "Failed to retrieve user birthday information.");
+        }
+    }
+
+    /// <summary>
+    ///     Sets a member's birthday.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The member's user ID.</param>
+    /// <param name="request">The birthday to set.</param>
+    /// <returns>Success status or error details.</returns>
+    [HttpPut("users/{userId}")]
+    public async Task<IActionResult> SetUserBirthday(ulong guildId, ulong userId,
+        [FromBody] SetBirthdayRequest request)
+    {
+        try
+        {
+            var guildUser = client.GetGuild(guildId)?.GetUser(userId);
+            if (guildUser is null)
+                return NotFound("User not found in guild.");
+
+            await birthdayService.SetUserBirthdayAsync(guildUser, request.Birthday);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to set birthday for user {UserId} in guild {GuildId}", userId, guildId);
+            return StatusCode(500, "Failed to set the birthday.");
+        }
+    }
+
+    /// <summary>
+    ///     Removes a member's birthday.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The member's user ID.</param>
+    /// <returns>Success status or error details.</returns>
+    [HttpDelete("users/{userId}")]
+    public async Task<IActionResult> RemoveUserBirthday(ulong guildId, ulong userId)
+    {
+        try
+        {
+            var guildUser = client.GetGuild(guildId)?.GetUser(userId);
+            if (guildUser is null)
+                return NotFound("User not found in guild.");
+
+            return await birthdayService.ClearUserBirthdayAsync(guildUser, false)
+                ? Ok()
+                : NotFound("User has no birthday set.");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to remove birthday for user {UserId} in guild {GuildId}", userId, guildId);
+            return StatusCode(500, "Failed to remove the birthday.");
         }
     }
 

@@ -369,7 +369,7 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
             case LiveBoardKind.InviteLeaderboard:
             {
                 var rows = await invites.GetInviteLeaderboardAsync(guild, range, limit: board.Entries);
-                var eb = new EmbedBuilder().WithOkColor()
+                var eb = new EmbedBuilder().WithOkColor(guild.Id)
                     .WithTitle($"{strings.InviteLeaderboardTitle(guild.Id)} ({range.DisplayName()})")
                     .WithDescription(rows.Count == 0
                         ? strings.NoInviteData(guild.Id)
@@ -386,7 +386,7 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
                 var rows = await stats.GetTopUsersAsync(guild.Id, statKind, days, board.Entries);
                 var title = strings.StatsTopTitle(guild.Id, ServerStatsEmbeds.KindName(strings, guild.Id, statKind),
                     ServerStatsEmbeds.WindowName(days));
-                var eb = new EmbedBuilder().WithOkColor()
+                var eb = new EmbedBuilder().WithOkColor(guild.Id)
                     .WithTitle(title)
                     .WithDescription(rows.Count == 0
                         ? strings.StatsNoData(guild.Id)
@@ -415,7 +415,7 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
             case LiveBoardKind.InviteStats:
             {
                 var analytics = await invites.GetAnalyticsAsync(guild, range);
-                var eb = new EmbedBuilder().WithOkColor()
+                var eb = new EmbedBuilder().WithOkColor(guild.Id)
                     .WithTitle(strings.InviteStatsTitle(guild.Id, range.DisplayName()))
                     .AddField(strings.InviteStatsJoins(guild.Id), analytics.Joins.ToString("N0"), true)
                     .AddField(strings.InviteStatsLeaves(guild.Id), analytics.Leaves.ToString("N0"), true)

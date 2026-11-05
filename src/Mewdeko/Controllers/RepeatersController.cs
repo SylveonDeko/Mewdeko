@@ -67,6 +67,7 @@ public class RepeatersController : Controller
                 StartTimeOfDay = runner.Repeater.StartTimeOfDay,
                 NoRedundant = runner.Repeater.NoRedundant,
                 IsEnabled = runner.Repeater.IsEnabled,
+                DisabledReason = runner.Repeater.DisabledReason,
                 TriggerMode = (StickyTriggerMode)runner.Repeater.TriggerMode,
                 ActivityThreshold = runner.Repeater.ActivityThreshold,
                 ActivityTimeWindow = runner.Repeater.ActivityTimeWindow ?? "00:05:00",
@@ -80,6 +81,7 @@ public class RepeatersController : Controller
                 ThreadAutoSticky = runner.Repeater.ThreadAutoSticky,
                 ThreadOnlyMode = runner.Repeater.ThreadOnlyMode,
                 SuppressNotifications = runner.Repeater.SuppressNotifications,
+                PingRoleId = runner.Repeater.PingRoleId,
                 ForumTagConditions = runner.Repeater.ForumTagConditions,
                 ThreadStickyMessages = runner.Repeater.ThreadStickyMessages,
                 DisplayCount = runner.Repeater.DisplayCount,
@@ -123,6 +125,7 @@ public class RepeatersController : Controller
                 StartTimeOfDay = repeater.Repeater.StartTimeOfDay,
                 NoRedundant = repeater.Repeater.NoRedundant,
                 IsEnabled = repeater.Repeater.IsEnabled,
+                DisabledReason = repeater.Repeater.DisabledReason,
                 TriggerMode = (StickyTriggerMode)repeater.Repeater.TriggerMode,
                 ActivityThreshold = repeater.Repeater.ActivityThreshold,
                 ActivityTimeWindow = repeater.Repeater.ActivityTimeWindow ?? "00:05:00",
@@ -136,6 +139,7 @@ public class RepeatersController : Controller
                 ThreadAutoSticky = repeater.Repeater.ThreadAutoSticky,
                 ThreadOnlyMode = repeater.Repeater.ThreadOnlyMode,
                 SuppressNotifications = repeater.Repeater.SuppressNotifications,
+                PingRoleId = repeater.Repeater.PingRoleId,
                 ForumTagConditions = repeater.Repeater.ForumTagConditions,
                 ThreadStickyMessages = repeater.Repeater.ThreadStickyMessages,
                 DisplayCount = repeater.Repeater.DisplayCount,
@@ -280,6 +284,7 @@ public class RepeatersController : Controller
                 StartTimeOfDay = runner.Repeater.StartTimeOfDay,
                 NoRedundant = runner.Repeater.NoRedundant,
                 IsEnabled = runner.Repeater.IsEnabled,
+                DisabledReason = runner.Repeater.DisabledReason,
                 TriggerMode = (StickyTriggerMode)runner.Repeater.TriggerMode,
                 ActivityThreshold = runner.Repeater.ActivityThreshold,
                 ActivityTimeWindow = runner.Repeater.ActivityTimeWindow ?? "00:05:00",
@@ -293,6 +298,7 @@ public class RepeatersController : Controller
                 ThreadAutoSticky = runner.Repeater.ThreadAutoSticky,
                 ThreadOnlyMode = runner.Repeater.ThreadOnlyMode,
                 SuppressNotifications = runner.Repeater.SuppressNotifications,
+                PingRoleId = runner.Repeater.PingRoleId,
                 ForumTagConditions = runner.Repeater.ForumTagConditions,
                 ThreadStickyMessages = runner.Repeater.ThreadStickyMessages,
                 DisplayCount = runner.Repeater.DisplayCount,
@@ -524,6 +530,12 @@ public class RepeatersController : Controller
             {
                 if (request.SuppressNotifications.Value != repeater.Repeater.SuppressNotifications)
                     updates.Add(() => repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId));
+            }
+
+            if (request.PingRoleId.HasValue)
+            {
+                var pingRoleId = request.PingRoleId.Value == 0 ? (ulong?)null : request.PingRoleId.Value;
+                updates.Add(() => repeaterService.SetRepeaterPingRoleAsync(guildId, repeaterId, pingRoleId));
             }
 
             var allSucceeded = true;
@@ -792,6 +804,11 @@ public class RepeatersController : Controller
         if (request.SuppressNotifications)
         {
             await repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId);
+        }
+
+        if (request.PingRoleId is > 0)
+        {
+            await repeaterService.SetRepeaterPingRoleAsync(guildId, repeaterId, request.PingRoleId);
         }
 
         if (!string.IsNullOrWhiteSpace(request.ForumTagConditions))

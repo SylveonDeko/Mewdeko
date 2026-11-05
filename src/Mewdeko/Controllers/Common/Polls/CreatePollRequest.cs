@@ -48,6 +48,21 @@ public class CreatePollRequest
     public List<ulong>? AllowedRoles { get; set; }
 
     /// <summary>
+    /// Gets or sets the list of role IDs that cannot vote on this poll.
+    /// </summary>
+    public List<ulong>? BlockedRoles { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of votes after which the poll ends automatically.
+    /// </summary>
+    public int? MaxVotes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the message posted when the poll ends, with poll placeholders.
+    /// </summary>
+    public string? ResultsMessage { get; set; }
+
+    /// <summary>
     /// Gets or sets the embed color as a hex string.
     /// </summary>
     public string? Color { get; set; }

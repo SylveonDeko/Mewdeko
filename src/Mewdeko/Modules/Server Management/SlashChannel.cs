@@ -15,7 +15,7 @@ namespace Mewdeko.Modules.Server_Management;
 /// <param name="config">The bot configuration settings.</param>
 /// <param name="httpFactory">The http client factory used to download webhook avatars.</param>
 [Group("channel", "Lock, unlock, nuke, slowmode and permission tools for channels")]
-public class SlashChannel(BotConfigService config, IHttpClientFactory httpFactory)
+public partial class SlashChannel(BotConfigService config, IHttpClientFactory httpFactory)
     : MewdekoSlashModuleBase<ChannelCommandService>
 {
     private static ulong GetRawPermissionValue(IEnumerable<ChannelPermission> permissions)
@@ -149,7 +149,7 @@ public class SlashChannel(BotConfigService config, IHttpClientFactory httpFactor
             await Service.StoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
         }
 
-        var check = await Service.LockdownGuild(ctx.Guild, lockdownType, action).ConfigureAwait(false);
+        var check = await Service.LockdownGuild(ctx.Guild, lockdownType, action, ctx.User).ConfigureAwait(false);
         if (check.Item1)
         {
             embed.WithDescription(Strings.LockdownAlreadyEnabled(ctx.Guild.Id, check.Item2))
@@ -206,7 +206,7 @@ public class SlashChannel(BotConfigService config, IHttpClientFactory httpFactor
             case ServerManagement.LockdownType.Joins:
                 if (Service.IsGuildInLockdown(ctx.Guild, ServerManagement.LockdownType.Joins))
                 {
-                    await Service.LiftLockdown(ctx.Guild).ConfigureAwait(false);
+                    await Service.LiftLockdown(ctx.Guild, ctx.User).ConfigureAwait(false);
                     embed.WithDescription(Strings.LockdownJoinsDisabled(ctx.Guild.Id, ctx.Guild.Name))
                         .WithColor(Mewdeko.OkColor);
                     await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
@@ -221,7 +221,7 @@ public class SlashChannel(BotConfigService config, IHttpClientFactory httpFactor
                 break;
 
             case ServerManagement.LockdownType.Readonly:
-                await Service.LiftLockdown(ctx.Guild).ConfigureAwait(false);
+                await Service.LiftLockdown(ctx.Guild, ctx.User).ConfigureAwait(false);
                 await Service.RestoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
                 embed.WithDescription(Strings.LockdownReadonlyDisabled(ctx.Guild.Id, ctx.Guild.Name))
                     .WithColor(Mewdeko.OkColor);
@@ -229,12 +229,12 @@ public class SlashChannel(BotConfigService config, IHttpClientFactory httpFactor
                 break;
 
             case ServerManagement.LockdownType.Full:
-                await Service.LiftLockdown(ctx.Guild).ConfigureAwait(false);
+                await Service.LiftLockdown(ctx.Guild, ctx.User).ConfigureAwait(false);
                 await Service.RestoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
                 embed.WithDescription(Strings.LockdownFullDisabled(ctx.Guild.Id, ctx.Guild.Name))
                     .WithColor(Mewdeko.OkColor);
                 await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
-                await Service.LiftLockdown(ctx.Guild).ConfigureAwait(false);
+                await Service.LiftLockdown(ctx.Guild, ctx.User).ConfigureAwait(false);
                 break;
         }
     }
@@ -328,6 +328,39 @@ public class SlashChannel(BotConfigService config, IHttpClientFactory httpFactor
         var newperms = everyonerole.Permissions.Modify(sendMessages: true);
         await everyonerole.ModifyAsync(x => x.Permissions = newperms).ConfigureAwait(false);
         await ConfirmAsync(Strings.UnlockdownSuccess(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Adds a channel or category to the lockdown exemptions, or removes it.
+    /// </summary>
+    /// <param name="channel">The channel or category to toggle.</param>
+    [SlashCommand("lockdown-exempt", "Adds or removes a channel or category lockdown never touches")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LockdownExempt([Summary("channel", "The channel or category to toggle")] IGuildChannel channel)
+    {
+        var added = await Service.ToggleExemptionAsync(ctx.Guild.Id, channel.Id).ConfigureAwait(false);
+        var mention = $"<#{channel.Id}>";
+        await ConfirmAsync(added
+            ? Strings.LockdownExemptAdded(ctx.Guild.Id, mention)
+            : Strings.LockdownExemptRemoved(ctx.Guild.Id, mention)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists the channels and categories lockdown never touches.
+    /// </summary>
+    [SlashCommand("lockdown-exempt-list", "Lists the channels and categories lockdown never touches")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LockdownExemptList()
+    {
+        var ids = Service.GetExemptions(ctx.Guild.Id);
+        await ConfirmAsync(ids.Count == 0
+            ? Strings.LockdownExemptNone(ctx.Guild.Id)
+            : Strings.LockdownExemptList(ctx.Guild.Id, string.Join(' ', ids.Select(x => $"<#{x}>"))))
+            .ConfigureAwait(false);
     }
 
     /// <summary>

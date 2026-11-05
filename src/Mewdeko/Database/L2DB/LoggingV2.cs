@@ -50,6 +50,26 @@ namespace DataModel
 		[Column("InviteDeletedId"                                                                                        )] public ulong?  InviteDeletedId       { get; set; } // numeric(20,0)
 		[Column("MessagesBulkDeletedId"                                                                                  )] public ulong?  MessagesBulkDeletedId { get; set; } // numeric(20,0)
 		[Column("ReactionEventsId"                                                                                       )] public ulong?  ReactionEventsId      { get; set; } // numeric(20,0)
-		[Column("DateAdded"                                                                                              )] public DateTime? DateAdded             { get; set; } // timestamp (6) without time zone
+		[Column("EmojiCreatedId"                                                                                         )] public ulong?  EmojiCreatedId        { get; set; } // numeric(20,0)
+		[Column("EmojiUpdatedId"                                                                                         )] public ulong?  EmojiUpdatedId        { get; set; } // numeric(20,0)
+		[Column("EmojiDeletedId"                                                                                         )] public ulong?  EmojiDeletedId        { get; set; } // numeric(20,0)
+		[Column("StickerCreatedId"                                                                                       )] public ulong?  StickerCreatedId      { get; set; } // numeric(20,0)
+		[Column("StickerUpdatedId"                                                                                       )] public ulong?  StickerUpdatedId      { get; set; } // numeric(20,0)
+		[Column("StickerDeletedId"                                                                                       )] public ulong?  StickerDeletedId      { get; set; } // numeric(20,0)
+		[Column("UserTimedOutId"                                                                                         )] public ulong?  UserTimedOutId        { get; set; } // numeric(20,0)
+		[Column("UserTimeoutRemovedId"                                                                                   )] public ulong?  UserTimeoutRemovedId  { get; set; } // numeric(20,0)
+		[Column("InviteLinkPostedId"                                                                                     )] public ulong?  InviteLinkPostedId    { get; set; } // numeric(20,0)
+		[Column("MessageIgnorePrefixes"                                                                                  )] public string? MessageIgnorePrefixes { get; set; } // text
+		[Column("ChannelPermissionsUpdatedId"                                                                            )] public ulong?  ChannelPermissionsUpdatedId { get; set; } // numeric(20,0)
+		[Column("ServerBoostedId"                                                                                        )] public ulong?  ServerBoostedId       { get; set; } // numeric(20,0)
+		[Column("IntegrationChangedId"                                                                                   )] public ulong?  IntegrationChangedId  { get; set; } // numeric(20,0)
+		[Column("WebhookChangedId"                                                                                       )] public ulong?  WebhookChangedId      { get; set; } // numeric(20,0)
+		[Column("StageChangedId"                                                                                         )] public ulong?  StageChangedId        { get; set; } // numeric(20,0)
+		[Column("ScheduledEventChangedId"                                                                                )] public ulong?  ScheduledEventChangedId { get; set; } // numeric(20,0)
+		[Column("AutoModRuleChangedId"                                                                                   )] public ulong?  AutoModRuleChangedId  { get; set; } // numeric(20,0)
+		[Column("SoundboardChangedId"                                                                                    )] public ulong?  SoundboardChangedId   { get; set; } // numeric(20,0)
+		[Column("ThreadMemberChangedId"                                                                                  )] public ulong?  ThreadMemberChangedId { get; set; } // numeric(20,0)
+		[Column("IgnoreBots"                                                                                             )] public bool    IgnoreBots            { get; set; } = true; // boolean
+		[Column("DateAdded"                                                                                           )] public DateTime? DateAdded             { get; set; } // timestamp (6) without time zone
 	}
 }

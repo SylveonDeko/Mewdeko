@@ -17,9 +17,14 @@ public class UserPunishService2 : INService, IDisposable
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<UserPunishService2> logger;
+    private readonly ModCaseService cases;
     private readonly MuteService mute;
     private Timer? warnExpirationTimer;
 
+    /// <summary>
+    ///     Gets the service recording moderation cases.
+    /// </summary>
+    public ModCaseService Cases => cases;
 
     /// <summary>
     ///     Initializes a new instance of <see cref="UserPunishService2" />.
@@ -28,10 +33,13 @@ public class UserPunishService2 : INService, IDisposable
     /// <param name="dbFactory">The database service</param>
     /// <param name="guildSettings">The guild settings service</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
+    /// <param name="cases">The service recording moderation cases</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public UserPunishService2(MuteService mute, IDataConnectionFactory dbFactory,
-        GuildSettingsService guildSettings, BanPruneService banPrune, ILogger<UserPunishService2> logger)
+        GuildSettingsService guildSettings, BanPruneService banPrune, ModCaseService cases,
+        ILogger<UserPunishService2> logger)
     {
+        this.cases = cases;
         this.mute = mute;
         this.banPrune = banPrune;
         this.dbFactory = dbFactory;
@@ -79,11 +87,14 @@ public class UserPunishService2 : INService, IDisposable
     /// <param name="userId">The user ID</param>
     /// <param name="mod">The moderator</param>
     /// <param name="reason">The reason</param>
+    /// <param name="dm">Sends the DM given the case number in place of the custom one, for callers with a default DM</param>
     /// <returns></returns>
-    public async Task<WarningPunishment2?>? Warn(IGuild guild, ulong userId, IUser mod, string reason)
+    public async Task<WarningPunishment2?>? Warn(IGuild guild, ulong userId, IUser mod, string reason,
+        Func<int?, Task>? dm = null)
     {
         var modName = mod.ToString();
 
+        reason = await cases.ResolveReasonAsync(guild.Id, reason);
         if (string.IsNullOrWhiteSpace(reason))
             reason = "-";
 
@@ -109,12 +120,18 @@ public class UserPunishService2 : INService, IDisposable
             .CountAsync(w => w.GuildId == guildId && w.UserId == userId && !w.Forgiven);
 
         await dbContext.InsertAsync(warn2);
+        var entry = await cases.RecordAsync(guildId, userId, mod.Id, ModCaseAction.Warn, reason);
+        var user = await guild.GetUserAsync(userId).ConfigureAwait(false);
+        if (dm is not null)
+            await dm(entry?.CaseNumber).ConfigureAwait(false);
+        else if (user is not null)
+            await cases.SendPunishDmAsync(guild, user, mod, ModCaseAction.Warn, reason, null, entry?.CaseNumber)
+                .ConfigureAwait(false);
 
         var p = ps.Find(x => x.Count == warnings);
 
         if (p == null) return null;
         {
-            var user = await guild.GetUserAsync(userId).ConfigureAwait(false);
             if (user == null)
                 return null;
             switch ((PunishmentAction)p.Punishment)
@@ -140,41 +157,53 @@ public class UserPunishService2 : INService, IDisposable
                             .ConfigureAwait(false);
                     break;
                 case PunishmentAction.Kick:
-                    await user.KickAsync("Warned too many times.").ConfigureAwait(false);
+                    await cases.PunishAsync(guild, user, mod, ModCaseAction.Kick, "Warned too many times.", null,
+                        () => user.KickAsync("Warned too many times.")).ConfigureAwait(false);
                     break;
                 case PunishmentAction.Ban:
                     if (p.Time == 0)
-                        await guild.AddBanAsync(user,
-                            await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.WarnPunishment)
-                                .ConfigureAwait(false),
-                            options: new RequestOptions
+                    {
+                        var warnPruneDays = await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.WarnPunishment)
+                            .ConfigureAwait(false);
+                        await cases.PunishAsync(guild, user, mod, ModCaseAction.Ban, "Warned too many times.", null,
+                            () => guild.AddBanAsync(user, warnPruneDays, options: new RequestOptions
+                            {
+                                AuditLogReason = "Warned too many times"
+                            })).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await mute.TimedBan(guild, user, TimeSpan.FromMinutes(p.Time), "Warned too many times.",
+                                mod: mod)
+                            .ConfigureAwait(false);
+                    }
+
+                    break;
+                case PunishmentAction.Softban:
+                    var softPruneDays = await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.SoftBan)
+                        .ConfigureAwait(false);
+                    await cases.PunishAsync(guild, user, mod, ModCaseAction.Softban, "Warned too many times.", null,
+                        async () =>
+                        {
+                            await guild.AddBanAsync(user, softPruneDays, options: new RequestOptions
                             {
                                 AuditLogReason = "Warned too many times"
                             }).ConfigureAwait(false);
-                    else
-                        await mute.TimedBan(guild, user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
-                            .ConfigureAwait(false);
-                    break;
-                case PunishmentAction.Softban:
-                    await guild.AddBanAsync(user,
-                        await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.SoftBan).ConfigureAwait(false),
-                        options: new RequestOptions
-                        {
-                            AuditLogReason = "Warned too many times"
+                            try
+                            {
+                                await guild.RemoveBanAsync(user).ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                                await guild.RemoveBanAsync(user).ConfigureAwait(false);
+                            }
                         }).ConfigureAwait(false);
-                    try
-                    {
-                        await guild.RemoveBanAsync(user).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        await guild.RemoveBanAsync(user).ConfigureAwait(false);
-                    }
-
                     break;
                 case PunishmentAction.RemoveRoles:
                     await user.RemoveRolesAsync(user.GetRoles().Where(x => x.Id != guild.EveryoneRole.Id))
                         .ConfigureAwait(false);
+                    await cases.RecordAsync(guildId, userId, mod.Id, ModCaseAction.RemoveRoles,
+                        "Warned too many times.").ConfigureAwait(false);
                     break;
                 case PunishmentAction.AddRole:
                     var role = guild.GetRole(p.RoleId.Value);

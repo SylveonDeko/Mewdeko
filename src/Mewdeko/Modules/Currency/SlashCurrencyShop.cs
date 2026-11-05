@@ -152,7 +152,17 @@ public partial class SlashCurrency
             }
         }
 
-        await ConfirmAsync(Strings.ShopPurchased(ctx.Guild.Id, item.Name, item.Price, emote));
+        await ConfirmAsync(string.IsNullOrWhiteSpace(item.BuyMessage)
+            ? Strings.ShopPurchased(ctx.Guild.Id, item.Name, item.Price, emote)
+            : ShopService.FormatMessage(item.BuyMessage, ctx.User, item));
+
+        if (!item.UseOnBuy || !item.Consumable || item.ItemType == (int)ShopItemType.Static)
+            return;
+
+        if ((await ShopService.ConsumeAsync(ctx.Guild.Id, ctx.User.Id, item.Name)).Outcome == PurchaseOutcome.Success)
+            await ConfirmAsync(string.IsNullOrWhiteSpace(item.UseMessage)
+                ? Strings.UseSuccess(ctx.Guild.Id, item.Name)
+                : ShopService.FormatMessage(item.UseMessage, ctx.User, item));
     }
 
     /// <summary>
@@ -230,7 +240,9 @@ public partial class SlashCurrency
             }
         }
 
-        await ConfirmAsync(Strings.UseSuccess(ctx.Guild.Id, item.Name));
+        await ConfirmAsync(string.IsNullOrWhiteSpace(item.UseMessage)
+            ? Strings.UseSuccess(ctx.Guild.Id, item.Name)
+            : ShopService.FormatMessage(item.UseMessage, ctx.User, item));
     }
 
     /// <summary>
@@ -447,6 +459,227 @@ public partial class SlashCurrency
             }
 
             await ConfirmAsync(Strings.ShopDescSet(ctx.Guild.Id, item.Name));
+        }
+
+        /// <summary>
+        ///     Adds an item to the shop that can be owned but never used.
+        /// </summary>
+        /// <param name="price">What the item costs.</param>
+        /// <param name="name">The display name of the shop entry.</param>
+        [SlashCommand("add-static", "Adds an item that can be owned but never used")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task ShopAddStatic([Summary("price", "What the item costs")] long price,
+            [Summary("name", "The display name of the shop entry")]
+            string name)
+        {
+            if (price < 0)
+            {
+                await ErrorAsync(Strings.ShopInvalidPrice(ctx.Guild.Id));
+                return;
+            }
+
+            var item = await shopService.AddItemAsync(new ShopItem
+            {
+                GuildId = ctx.Guild.Id,
+                Name = name,
+                Price = price,
+                ItemType = (int)ShopItemType.Static,
+                Stock = -1,
+                Enabled = true
+            });
+
+            if (item is null)
+            {
+                await ErrorAsync(Strings.ShopDuplicateName(ctx.Guild.Id, name));
+                return;
+            }
+
+            await ConfirmAsync(Strings.ShopItemAdded(ctx.Guild.Id, name, price,
+                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+        }
+
+        /// <summary>
+        ///     Sets the message shown to a member after buying an item.
+        /// </summary>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="message">The message with %user%, %item% and %price% placeholders. Leave empty to clear it.</param>
+        [SlashCommand("buy-message", "Sets the message shown after buying an item")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task ShopBuyMessage([Summary("name", "The name of the item")] string name,
+            [Summary("message", "Uses %user%, %item% and %price%, leave empty to clear")]
+            string? message = null)
+        {
+            var text = string.IsNullOrWhiteSpace(message) ? null : message.Trim();
+            var item = await shopService.UpdateItemAsync(ctx.Guild.Id, name.Trim(), x => x.BuyMessage = text);
+
+            if (item is null)
+            {
+                await ErrorAsync(Strings.ShopNoSuchItem(ctx.Guild.Id, name));
+                return;
+            }
+
+            await ConfirmAsync(text is null
+                ? Strings.ShopBuyMessageCleared(ctx.Guild.Id, item.Name)
+                : Strings.ShopBuyMessageSet(ctx.Guild.Id, item.Name));
+        }
+
+        /// <summary>
+        ///     Sets the message shown to a member when they use an item.
+        /// </summary>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="message">The message with %user%, %item% and %price% placeholders. Leave empty to clear it.</param>
+        [SlashCommand("use-message", "Sets the message shown when an item is used")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task ShopUseMessage([Summary("name", "The name of the item")] string name,
+            [Summary("message", "Uses %user%, %item% and %price%, leave empty to clear")]
+            string? message = null)
+        {
+            var text = string.IsNullOrWhiteSpace(message) ? null : message.Trim();
+            var item = await shopService.UpdateItemAsync(ctx.Guild.Id, name.Trim(), x => x.UseMessage = text);
+
+            if (item is null)
+            {
+                await ErrorAsync(Strings.ShopNoSuchItem(ctx.Guild.Id, name));
+                return;
+            }
+
+            await ConfirmAsync(text is null
+                ? Strings.ShopUseMessageCleared(ctx.Guild.Id, item.Name)
+                : Strings.ShopUseMessageSet(ctx.Guild.Id, item.Name));
+        }
+
+        /// <summary>
+        ///     Turns on or off using an item automatically the moment it is bought.
+        /// </summary>
+        /// <param name="name">The name of the item to toggle.</param>
+        [SlashCommand("use-on-buy", "Turns on or off using an item as soon as it is bought")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task ShopUseOnBuy([Summary("name", "The name of the item")] string name)
+        {
+            var existing = await shopService.GetItemAsync(ctx.Guild.Id, name.Trim());
+
+            if (existing is null)
+            {
+                await ErrorAsync(Strings.ShopNoSuchItem(ctx.Guild.Id, name));
+                return;
+            }
+
+            if (!existing.Consumable || existing.ItemType == (int)ShopItemType.Static)
+            {
+                await ErrorAsync(Strings.UseNotConsumable(ctx.Guild.Id, existing.Name));
+                return;
+            }
+
+            var item = await shopService.UpdateItemAsync(ctx.Guild.Id, name.Trim(), x => x.UseOnBuy = !x.UseOnBuy);
+
+            await ConfirmAsync(item!.UseOnBuy
+                ? Strings.ShopUseOnBuyOn(ctx.Guild.Id, item.Name)
+                : Strings.ShopUseOnBuyOff(ctx.Guild.Id, item.Name));
+        }
+
+        /// <summary>
+        ///     Gives a member copies of a shop item for free. Limited stock is used up.
+        /// </summary>
+        /// <param name="user">The member to give the item to.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="amount">How many copies to give.</param>
+        [SlashCommand("give", "Gives a member copies of a shop item for free")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task ShopGive([Summary("user", "The member to give the item to")] IUser user,
+            [Summary("name", "The name of the item")]
+            string name,
+            [Summary("amount", "How many copies to give")] [MinValue(1)]
+            int amount = 1)
+        {
+            var item = await shopService.GetItemAsync(ctx.Guild.Id, name.Trim());
+
+            if (item is null)
+            {
+                await ErrorAsync(Strings.ShopNoSuchItem(ctx.Guild.Id, name));
+                return;
+            }
+
+            if (amount <= 0 || !await shopService.GrantItemAsync(ctx.Guild.Id, user.Id, item, amount, true))
+            {
+                await ErrorAsync(Strings.ShopGiveFailed(ctx.Guild.Id, item.Name));
+                return;
+            }
+
+            await ConfirmAsync(Strings.ShopItemGiven(ctx.Guild.Id, amount, item.Name, user.Mention));
+        }
+
+        /// <summary>
+        ///     Takes copies of an item out of a member's inventory.
+        /// </summary>
+        /// <param name="user">The member to take the item from.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="amount">How many copies to take.</param>
+        [SlashCommand("take", "Takes copies of an item out of a member's inventory")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task ShopTake([Summary("user", "The member to take the item from")] IUser user,
+            [Summary("name", "The name of the item")]
+            string name,
+            [Summary("amount", "How many copies to take")] [MinValue(1)]
+            int amount = 1)
+        {
+            var item = await shopService.GetItemAsync(ctx.Guild.Id, name.Trim());
+
+            if (item is null)
+            {
+                await ErrorAsync(Strings.ShopNoSuchItem(ctx.Guild.Id, name));
+                return;
+            }
+
+            var taken = await shopService.TakeItemAsync(ctx.Guild.Id, user.Id, item, amount);
+
+            if (taken == 0)
+            {
+                await ErrorAsync(Strings.ShopTakeNone(ctx.Guild.Id, user.Mention, item.Name));
+                return;
+            }
+
+            await ConfirmAsync(Strings.ShopItemTaken(ctx.Guild.Id, taken, item.Name, user.Mention));
+        }
+
+        /// <summary>
+        ///     Creates copies of an item out of thin air for a member. An item that is not in the shop is created hidden.
+        /// </summary>
+        /// <param name="user">The member to give the item to.</param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="amount">How many copies to create.</param>
+        [SlashCommand("spawn", "Creates copies of an item for a member")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task ShopSpawn([Summary("user", "The member to give the item to")] IUser user,
+            [Summary("name", "The name of the item")]
+            string name,
+            [Summary("amount", "How many copies to create")] [MinValue(1)]
+            int amount = 1)
+        {
+            var item = amount > 0
+                ? await shopService.SpawnItemAsync(ctx.Guild.Id, user.Id, name.Trim(), amount)
+                : null;
+
+            if (item is null)
+            {
+                await ErrorAsync(Strings.ShopGiveFailed(ctx.Guild.Id, name));
+                return;
+            }
+
+            await ConfirmAsync(Strings.ShopItemGiven(ctx.Guild.Id, amount, item.Name, user.Mention));
         }
     }
 }

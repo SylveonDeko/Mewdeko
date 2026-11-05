@@ -43,6 +43,11 @@ public class RepeaterResponse
     public bool IsEnabled { get; set; }
 
     /// <summary>
+    ///     Why the repeater turned itself off after a failure, or null when it has not failed
+    /// </summary>
+    public string? DisabledReason { get; set; }
+
+    /// <summary>
     ///     The trigger mode for the repeater
     /// </summary>
     public StickyTriggerMode TriggerMode { get; set; }
@@ -106,6 +111,11 @@ public class RepeaterResponse
     ///     Whether notifications from this repeater are suppressed
     /// </summary>
     public bool SuppressNotifications { get; set; }
+
+    /// <summary>
+    ///     The role this repeater pings each time it posts, if any
+    /// </summary>
+    public ulong? PingRoleId { get; set; }
 
     /// <summary>
     ///     JSON string of forum tag conditions

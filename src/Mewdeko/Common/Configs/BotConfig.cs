@@ -53,6 +53,7 @@ public sealed class BotConfig
         BotHellBotCount = 50;
         BotHellBotPercent = 50;
         BotHellAutoLeave = false;
+        CardPresetBaseUrl = "https://cdn.mewdeko.tech/card-backgrounds";
     }
 
     /// <summary>
@@ -288,6 +289,15 @@ public sealed class BotConfig
              Set to 0 to fall back to the guild joins/leaves channel from creds.
              """)]
     public ulong BotHellReportChannel { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the folder URL the shared card background presets are served from.
+    /// </summary>
+    [Comment("""
+             Folder the shared card background presets are served from.
+             It holds catalog.json and one folder of images per category.
+             """)]
+    public string CardPresetBaseUrl { get; set; }
 
     /// <summary>
     ///     Gets or sets whether the bot will support youtube links. (Or hides that it supports them lol)

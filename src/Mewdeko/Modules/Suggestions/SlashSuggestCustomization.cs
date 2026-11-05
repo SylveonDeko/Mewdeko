@@ -332,6 +332,30 @@ public partial class SlashSuggestions
 
 
         /// <summary>
+        ///     Sets how many votes one side has to lead by to recolour a suggestion embed.
+        /// </summary>
+        /// <param name="threshold">The vote lead needed, or 0 to turn it off.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("votecolor", "Recolour suggestions when one side leads by this many votes")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task SuggestVoteColor([Summary("threshold", "Vote lead needed, 0 turns it off")] int threshold)
+        {
+            if (threshold is < 0 or > 1000)
+            {
+                await ctx.Interaction.SendErrorAsync(Strings.SuggestVoteColorInvalid(ctx.Guild.Id), Config)
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            await Service.SetVoteColorThreshold(ctx.Guild.Id, threshold).ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync(threshold == 0
+                ? Strings.SuggestVoteColorOff(ctx.Guild.Id)
+                : Strings.SuggestVoteColorSet(ctx.Guild.Id, threshold)).ConfigureAwait(false);
+        }
+
+        /// <summary>
         ///     Sets whether threads auto-archive on deny.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -393,6 +417,22 @@ public partial class SlashSuggestions
             var current = await Service.GetArchiveOnImplement(ctx.Guild);
             await Service.SetArchiveOnImplement(ctx.Guild, !current).ConfigureAwait(false);
             await ctx.Interaction.SendConfirmAsync(Strings.ArchiveOnImplementSet(ctx.Guild.Id, !current))
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Sets whether suggestions hide who made them.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [SlashCommand("anonymous", "Set whether suggestions hide who made them")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task SuggestAnonymous()
+        {
+            var current = await Service.GetAnonymousSuggestions(ctx.Guild);
+            await Service.SetAnonymousSuggestions(ctx.Guild, !current).ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync(Strings.AnonymousSuggestionsSet(ctx.Guild.Id, !current))
                 .ConfigureAwait(false);
         }
 

@@ -245,6 +245,152 @@ public partial class Tickets(ILogger<Tickets> logger) : MewdekoModuleBase<Ticket
     }
 
     /// <summary>
+    ///     Sets the category tickets move to when a staff member claims them.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task TicketClaimedCategory(int buttonId, ICategoryChannel? category = null)
+    {
+        var button = await Service.GetButtonAsync(buttonId);
+        if (button == null || button.Panel.GuildId != ctx.Guild.Id)
+        {
+            await ctx.Channel.SendErrorAsync(Strings.TicketPanelNotFound(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await Service.UpdateButtonSettingsAsync(ctx.Guild, buttonId, new Dictionary<string, object>
+        {
+            {
+                "claimedCategoryId", category?.Id
+            }
+        });
+
+        if (category == null)
+            await ctx.Channel.SendConfirmAsync(Strings.TicketClaimedCategoryRemoved(ctx.Guild.Id, buttonId));
+        else
+            await ctx.Channel.SendConfirmAsync(Strings.TicketClaimedCategorySet(ctx.Guild.Id, buttonId, category.Name));
+    }
+
+    /// <summary>
+    ///     Sets whether a button's tickets DM the transcript to the ticket creator when they close.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task TicketDmTranscript(int buttonId, bool enable)
+    {
+        var button = await Service.GetButtonAsync(buttonId);
+        if (button == null || button.Panel.GuildId != ctx.Guild.Id)
+        {
+            await ctx.Channel.SendErrorAsync(Strings.TicketPanelNotFound(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await Service.UpdateButtonSettingsAsync(ctx.Guild, buttonId, new Dictionary<string, object>
+        {
+            {
+                "dmTranscript", enable
+            }
+        });
+
+        await ctx.Channel.SendConfirmAsync(Strings.TicketDmTranscriptSet(ctx.Guild.Id, buttonId,
+            enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+    }
+
+    /// <summary>
+    ///     Sets whether every button on a panel DMs the transcript to the ticket creator when a ticket closes.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task TicketPanelDmTranscript(ulong panelId, bool enable)
+    {
+        if (!await Service.SetPanelDmTranscriptAsync(ctx.Guild.Id, panelId, enable))
+        {
+            await ctx.Channel.SendErrorAsync(Strings.PanelNotFound(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await ctx.Channel.SendConfirmAsync(Strings.TicketPanelDmTranscriptSet(ctx.Guild.Id,
+            enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+    }
+
+    /// <summary>
+    ///     Sets the category tickets move to when a staff member claims them, for a select menu option.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task TicketOptionClaimedCategory(int optionId, ICategoryChannel? category = null)
+    {
+        var option = await Service.GetSelectOptionAsync(optionId);
+        if (option == null || option.SelectMenu.Panel.GuildId != ctx.Guild.Id)
+        {
+            await ctx.Channel.SendErrorAsync(Strings.SelectMenuOptionNotFound(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await Service.UpdateSelectOptionSettingsAsync(ctx.Guild, optionId, new Dictionary<string, object>
+        {
+            {
+                "claimedCategoryId", category?.Id
+            }
+        });
+
+        if (category == null)
+            await ctx.Channel.SendConfirmAsync(Strings.TicketOptionClaimedCategoryRemoved(ctx.Guild.Id, optionId));
+        else
+            await ctx.Channel.SendConfirmAsync(
+                Strings.TicketOptionClaimedCategorySet(ctx.Guild.Id, optionId, category.Name));
+    }
+
+    /// <summary>
+    ///     Sets whether a select menu option's tickets DM the transcript to the ticket creator when they close.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task TicketOptionDmTranscript(int optionId, bool enable)
+    {
+        var option = await Service.GetSelectOptionAsync(optionId);
+        if (option == null || option.SelectMenu.Panel.GuildId != ctx.Guild.Id)
+        {
+            await ctx.Channel.SendErrorAsync(Strings.SelectMenuOptionNotFound(ctx.Guild.Id), Config);
+            return;
+        }
+
+        await Service.UpdateSelectOptionSettingsAsync(ctx.Guild, optionId, new Dictionary<string, object>
+        {
+            {
+                "dmTranscript", enable
+            }
+        });
+
+        await ctx.Channel.SendConfirmAsync(Strings.TicketOptionDmTranscriptSet(ctx.Guild.Id, optionId,
+            enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+    }
+
+    /// <summary>
+    ///     Sets whether every closed ticket in the server DMs its transcript to the ticket creator.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task TicketServerDmTranscript(bool enable)
+    {
+        await Service.SetDmTranscriptOnCloseAsync(ctx.Guild.Id, enable);
+        await ctx.Channel.SendConfirmAsync(Strings.TicketServerDmTranscriptSet(ctx.Guild.Id,
+            enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+    }
+
+    /// <summary>
     ///     Sets the text or forum channel a button's tickets open in, as private threads or forum posts. Without a
     ///     channel, the button goes back to creating a channel for each ticket.
     /// </summary>

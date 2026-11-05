@@ -158,6 +158,9 @@ public class PollController : Controller
                 IsAnonymous = request.IsAnonymous,
                 AllowVoteChanges = request.AllowVoteChanges,
                 AllowedRoles = request.AllowedRoles,
+                BlockedRoles = request.BlockedRoles,
+                MaxVotes = request.MaxVotes > 0 ? request.MaxVotes : null,
+                ResultsMessage = string.IsNullOrWhiteSpace(request.ResultsMessage) ? null : request.ResultsMessage,
                 Color = request.Color,
                 ShowResults = request.ShowResults,
                 ShowProgressBars = request.ShowProgressBars
@@ -888,6 +891,9 @@ public class PollController : Controller
                 IsAnonymous = request.IsAnonymous,
                 AllowVoteChanges = request.AllowVoteChanges,
                 AllowedRoles = request.AllowedRoles,
+                BlockedRoles = request.BlockedRoles,
+                MaxVotes = request.MaxVotes > 0 ? request.MaxVotes : null,
+                ResultsMessage = string.IsNullOrWhiteSpace(request.ResultsMessage) ? null : request.ResultsMessage,
                 Color = request.Color,
                 ShowResults = request.ShowResults,
                 ShowProgressBars = request.ShowProgressBars

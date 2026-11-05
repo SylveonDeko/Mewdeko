@@ -1,3 +1,4 @@
+using Mewdeko.Common.Cards;
 using Mewdeko.Common.Palette;
 using Mewdeko.Controllers.Common.Achievements;
 using Mewdeko.Controllers.Common.AuditLog;
@@ -148,6 +149,8 @@ public class AchievementsController : Controller
                 row.LogChannelId = channelId == 0 ? null : channelId;
             if (request.DmByDefault is { } dm)
                 row.DmByDefault = dm;
+            if (request.AlmostThereDm is { } almost)
+                row.AlmostThereDm = almost;
             if (request.MentionUsers is { } mention)
                 row.MentionUsers = mention;
             if (request.UnlockMessage is not null)
@@ -282,6 +285,8 @@ public class AchievementsController : Controller
             Points = request.Points,
             Hidden = request.Hidden,
             RoleRewardId = request.RoleRewardId,
+            RoleRemoveId = request.RoleRemoveId,
+            UnlockMessage = request.UnlockMessage,
             CurrencyReward = request.CurrencyReward,
             XpReward = request.XpReward
         });
@@ -668,6 +673,32 @@ public class AchievementsController : Controller
     }
 
     /// <summary>
+    ///     Clears one achievement for every member of the server.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="key">The achievement key.</param>
+    /// <returns>How many unlocks were cleared.</returns>
+    [HttpPost("reset/{key}")]
+    public async Task<IActionResult> ResetAchievement(ulong guildId, string key)
+    {
+        if (client.GetGuild(guildId) is null)
+            return NotFound("Guild not found.");
+
+        auditContext.RecordBefore(new
+        {
+            key
+        });
+        var cleared = await service.ResetAchievementAsync(guildId, key);
+        if (cleared is null)
+            return NotFound("That achievement doesn't exist.");
+
+        return Ok(new
+        {
+            cleared
+        });
+    }
+
+    /// <summary>
     ///     Checks every member again soon, quietly.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
@@ -880,7 +911,7 @@ public class AchievementsController : Controller
 
         auditContext.RecordBefore(null);
         var result = await service.CreateCardDesignAsync(guildId, request.Name ?? "",
-            request.Template ?? AchievementCardTemplate.Default());
+            request.Template ?? AchievementCards.Default());
         if (!result.Success)
             return Failure(result.Error);
         if (request.MakeDefault)
@@ -995,12 +1026,12 @@ public class AchievementsController : Controller
         if (definition is null)
             return Failure(AchievementError.NotFound);
 
-        AchievementCardTemplate template;
+        CardTemplate template;
         if (request.Template is not null)
             template = await service.OwnedCardAsync(guildId, request.Template);
         else if (request.DesignId is { } designId)
             template = (await service.GetCardDesignsAsync(guildId)).FirstOrDefault(d => d.Id == designId)?.Template ??
-                       AchievementCardTemplate.Default();
+                       AchievementCards.Default();
         else
             template = await service.GetCardForAsync(guildId, definition);
         var memberId = await HttpContext.GetDashboardUserIdAsync() ?? 0;
@@ -1016,7 +1047,7 @@ public class AchievementsController : Controller
             Image = "data:image/png;base64," + Convert.ToBase64String(image.ToArray()),
             Width = result.CardWidth,
             Height = result.CardHeight,
-            Margin = AchievementUnlockRenderer.Margin,
+            Margin = CardRenderer.Margin,
             Layout = result.Layout.Select(b => new AchievementCardBoxResponse
             {
                 Id = b.Id,
@@ -1078,7 +1109,7 @@ public class AchievementsController : Controller
                 DateUpdated = d.DateUpdated
             }).ToList(),
             DefaultId = designs.Any(d => d.Id == settings.Row.DefaultCardId) ? settings.Row.DefaultCardId : null,
-            BuiltIn = AchievementCardTemplate.Default(),
+            BuiltIn = AchievementCards.Default(),
             Assignments = settings.CardAssignments,
             Images = catalog.CardUploads.Order().Select(id => new AchievementIconUploadResponse
             {
@@ -1086,7 +1117,7 @@ public class AchievementsController : Controller
                 Icon = AchievementIcons.UploadPrefix + id,
                 Url = catalog.UploadUrls.GetValueOrDefault(id) ?? AchievementService.IconUploadPath(guild.Id, id)
             }).ToList(),
-            Placeholders = AchievementCardRules.Placeholders.ToList(),
+            Placeholders = AchievementCards.Placeholders.ToList(),
             DefaultLabel = service.CardLabel(guild.Id, false),
             DefaultLockedLabel = service.CardLabel(guild.Id, true),
             Palette = new Dictionary<string, string>
@@ -1163,7 +1194,10 @@ public class AchievementsController : Controller
             Threshold = request.Threshold,
             Keyword = request.Keyword,
             ChannelId = request.ChannelId,
+            TargetRoleId = request.TargetRoleId,
             RoleRewardId = request.RoleRewardId,
+            RoleRemoveId = request.RoleRemoveId,
+            UnlockMessage = request.UnlockMessage,
             CurrencyReward = request.CurrencyReward,
             XpReward = request.XpReward
         };

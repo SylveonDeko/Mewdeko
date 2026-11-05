@@ -810,7 +810,7 @@ public class TwitchService : INService, IReadyExecutor
             .WithDescription(url)
             .AddField("Status", "🟢 Online", true)
             .AddField("Viewers", stream.ViewerCount.ToString("N0"), true)
-            .WithColor(Mewdeko.OkColor);
+            .WithColor(GuildEmbedColorService.OkFor(stream.GuildId));
 
         if (!string.IsNullOrWhiteSpace(stream.Title))
             embed.WithAuthor(stream.Title);
@@ -929,7 +929,7 @@ public class TwitchService : INService, IReadyExecutor
         var counts = await GetRecapCountsAsync(stream.GuildId, stats);
 
         var embed = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(stream.GuildId)
             .WithTitle(strings.TwitchStreamRecapTitle(stream.GuildId, stream.BroadcasterUserName))
             .WithDescription($"https://twitch.tv/{stream.BroadcasterUserLogin}")
             .AddField("Duration", $"{(int)duration.TotalHours}h {duration.Minutes}m", true)

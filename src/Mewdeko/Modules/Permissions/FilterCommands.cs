@@ -5,6 +5,7 @@ using Fergun.Interactive.Pagination;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions;
@@ -15,7 +16,8 @@ public partial class Permissions
     ///     Provides commands for managing word filters and automatic bans within guilds.
     /// </summary>
     [Group]
-    public class FilterCommands(IDataConnectionFactory dbFactory, InteractiveService serv, GuildSettingsService gss)
+    public class FilterCommands(IDataConnectionFactory dbFactory, InteractiveService serv, GuildSettingsService gss,
+            AutomodExtrasService extras)
         : MewdekoSubmodule<FilterService>
     {
         /// <summary>
@@ -262,6 +264,7 @@ public partial class Permissions
                     GuildId = guildId, ChannelId = channelId
                 });
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.InviteFilterChannelOn(guildId)).ConfigureAwait(false);
             }
             else
@@ -271,6 +274,7 @@ public partial class Permissions
                     .Where(fc => fc.GuildId == guildId && fc.ChannelId == channelId)
                     .DeleteAsync();
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.InviteFilterChannelOff(guildId)).ConfigureAwait(false);
             }
         }
@@ -341,6 +345,7 @@ public partial class Permissions
                     GuildId = guildId, ChannelId = channelId
                 });
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.LinkFilterChannelOn(guildId)).ConfigureAwait(false);
             }
             else
@@ -350,6 +355,7 @@ public partial class Permissions
                     .Where(fc => fc.GuildId == guildId && fc.ChannelId == channelId)
                     .DeleteAsync();
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.LinkFilterChannelOff(guildId)).ConfigureAwait(false);
             }
         }
@@ -420,6 +426,7 @@ public partial class Permissions
                     GuildId = guildId, ChannelId = channelId
                 });
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.WordFilterChannelOn(guildId)).ConfigureAwait(false);
             }
             else
@@ -429,6 +436,7 @@ public partial class Permissions
                     .Where(fc => fc.GuildId == guildId && fc.ChannelId == channelId)
                     .DeleteAsync();
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.WordFilterChannelOff(guildId)).ConfigureAwait(false);
             }
         }
@@ -474,6 +482,7 @@ public partial class Permissions
                     GuildId = guildId, Word = word
                 });
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.FilterWordAdd(guildId, Format.Code(word))).ConfigureAwait(false);
             }
             else
@@ -484,6 +493,7 @@ public partial class Permissions
                                  fw.Word.Trim().ToLowerInvariant() == word)
                     .DeleteAsync();
 
+                Service.InvalidateCache(guildId);
                 await ReplyConfirmAsync(Strings.FilterWordRemove(guildId, Format.Code(word))).ConfigureAwait(false);
             }
         }
@@ -536,6 +546,152 @@ public partial class Permissions
                         string.Join("\n", words.Skip(page * 10).Take(10)))
                     .WithOkColor();
             }
+        }
+
+        /// <summary>
+        ///     Toggles whether filtered words are also matched after undoing spacing, symbols, repeated letters and
+        ///     look-alike characters.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public async Task FilterNormalize()
+        {
+            var on = !extras.Get(ctx.Guild.Id).NormalizeWords;
+            await extras.UpdateAsync(ctx.Guild.Id, x => x.NormalizeWords = on).ConfigureAwait(false);
+            await ReplyConfirmAsync(on
+                ? Strings.FilterNormalizeOn(ctx.Guild.Id)
+                : Strings.FilterNormalizeOff(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Toggles whether the invite filter only acts on members with no roles.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public async Task FilterInvNoRoles()
+        {
+            var on = !extras.Get(ctx.Guild.Id).InviteNoRolesOnly;
+            await extras.UpdateAsync(ctx.Guild.Id, x => x.InviteNoRolesOnly = on).ConfigureAwait(false);
+            await ReplyConfirmAsync(on
+                ? Strings.InviteFilterNoRolesOn(ctx.Guild.Id)
+                : Strings.InviteFilterNoRolesOff(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Toggles whether the link filter only acts on members with no roles.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public async Task FilterLinNoRoles()
+        {
+            var on = !extras.Get(ctx.Guild.Id).LinkNoRolesOnly;
+            await extras.UpdateAsync(ctx.Guild.Id, x => x.LinkNoRolesOnly = on).ConfigureAwait(false);
+            await ReplyConfirmAsync(on
+                ? Strings.LinkFilterNoRolesOn(ctx.Guild.Id)
+                : Strings.LinkFilterNoRolesOff(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Removes the link limit from a channel.
+        /// </summary>
+        /// <param name="channel">The channel.</param>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public async Task LinkLimit([Remainder] ITextChannel channel)
+        {
+            await extras.SetLinkLimitAsync(ctx.Guild.Id, channel.Id, 0, 0).ConfigureAwait(false);
+            await ReplyConfirmAsync(Strings.LinkLimitRemoved(ctx.Guild.Id, channel.Mention)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Limits how many links one member may post in a channel within a number of seconds.
+        /// </summary>
+        /// <param name="channel">The channel.</param>
+        /// <param name="max">The most links allowed.</param>
+        /// <param name="seconds">The window in seconds.</param>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public async Task LinkLimit(ITextChannel channel, int max, int seconds)
+        {
+            if (max is < 1 or > 100 || seconds is < 1 or > 3600)
+            {
+                await ReplyErrorAsync(Strings.InvalidInput(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await extras.SetLinkLimitAsync(ctx.Guild.Id, channel.Id, max, seconds).ConfigureAwait(false);
+            await ReplyConfirmAsync(Strings.LinkLimitSet(ctx.Guild.Id, channel.Mention, max, seconds))
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Adds a domain to the link filter's allowed list, or removes it.
+        /// </summary>
+        /// <param name="domain">The domain.</param>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public Task FilterLinkAllow([Remainder] string domain)
+        {
+            return ToggleDomainAsync(domain, true);
+        }
+
+        /// <summary>
+        ///     Adds a domain to the link filter's blocked list, or removes it.
+        /// </summary>
+        /// <param name="domain">The domain.</param>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public Task FilterLinkBlock([Remainder] string domain)
+        {
+            return ToggleDomainAsync(domain, false);
+        }
+
+        /// <summary>
+        ///     Shows the link filter's allowed and blocked domains.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
+        public async Task FilterLinkDomains()
+        {
+            var (allowed, blocked) = extras.GetDomains(ctx.Guild.Id);
+            await ReplyConfirmAsync(Strings.LinkDomainsList(ctx.Guild.Id,
+                allowed.Count == 0 ? "-" : string.Join(", ", allowed),
+                blocked.Count == 0 ? "-" : string.Join(", ", blocked))).ConfigureAwait(false);
+        }
+
+        private async Task ToggleDomainAsync(string input, bool allowed)
+        {
+            var domain = AutomodExtrasService.NormalizeDomain(input);
+            if (domain is null)
+            {
+                await ReplyErrorAsync(Strings.InvalidInput(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var added = await extras.ToggleDomainAsync(ctx.Guild.Id, domain, allowed).ConfigureAwait(false);
+            await ReplyConfirmAsync((allowed, added) switch
+            {
+                (true, true) => Strings.LinkDomainAllowedAdded(ctx.Guild.Id, domain),
+                (true, false) => Strings.LinkDomainAllowedRemoved(ctx.Guild.Id, domain),
+                (false, true) => Strings.LinkDomainBlockedAdded(ctx.Guild.Id, domain),
+                _ => Strings.LinkDomainBlockedRemoved(ctx.Guild.Id, domain)
+            }).ConfigureAwait(false);
         }
     }
 }

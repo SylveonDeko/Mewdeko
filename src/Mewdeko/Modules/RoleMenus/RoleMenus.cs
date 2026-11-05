@@ -1,6 +1,7 @@
 using DataModel;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.RoleMenus.Common;
 using Mewdeko.Modules.RoleMenus.Services;
 
@@ -95,6 +96,25 @@ public class RoleMenus : MewdekoModuleBase<RoleMenuService>
 
         await ConfirmAsync(Strings.RolemenuCreated(ctx.Guild.Id, result.Menu.Name, result.Menu.Id,
             RoleMenuService.GetJumpUrl(result.Menu) ?? channel.Mention));
+    }
+
+    /// <summary>
+    ///     Previews a premade role menu that creates its roles when posted.
+    /// </summary>
+    /// <param name="template">The premade menu.</param>
+    /// <param name="channel">The channel to post in.</param>
+    /// <param name="style">Dropdown, buttons, or reactions. Defaults to the template's own.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuUseTemplate(RoleMenuTemplateKind template, ITextChannel channel,
+        RoleMenuStyle? style = null)
+    {
+        var session = Service.StartTemplate(ctx.Guild.Id, ctx.User.Id, template, channel.Id, style);
+        await ctx.Channel.SendMessageAsync(embed: Service.BuildTemplateEmbed(ctx.Guild.Id, session).Build(),
+            components: Service.BuildTemplateComponents(ctx.Guild.Id, ctx.User.Id));
     }
 
     /// <summary>
@@ -304,7 +324,7 @@ public class RoleMenus : MewdekoModuleBase<RoleMenuService>
 
         var draft = RoleMenuDraft.From(menu);
         draft.Mode = mode;
-        if (mode == RoleMenuMode.Multi && menu.Mode == (int)RoleMenuMode.Exclusive)
+        if (mode != RoleMenuMode.Exclusive && menu.Mode == (int)RoleMenuMode.Exclusive)
             draft.MaxRoles = 0;
 
         if (await SaveAsync(menu, draft) is not { } updated)
@@ -374,6 +394,398 @@ public class RoleMenus : MewdekoModuleBase<RoleMenuService>
             await ConfirmAsync(Strings.RolemenuRequiredCleared(ctx.Guild.Id, updated.Name));
         else
             await ConfirmAsync(Strings.RolemenuRequiredSet(ctx.Guild.Id, role.Mention, updated.Name));
+    }
+
+    /// <summary>
+    ///     Sets or clears how long roles from a menu last before they are taken back.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="duration">How long roles last. Omit to keep them.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuTemp(int menuId, StoopidTime? duration = null)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var seconds = (int)Math.Min(duration?.Time.TotalSeconds ?? 0, RoleMenuService.MaxTempSeconds + 1);
+        var draft = RoleMenuDraft.From(menu);
+        draft.TempRoleSeconds = seconds;
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+            return;
+
+        await ConfirmAsync(seconds == 0
+            ? Strings.RolemenuTempCleared(ctx.Guild.Id, updated.Name)
+            : Strings.RolemenuTempSet(ctx.Guild.Id, updated.Name, Service.DurationText(ctx.Guild.Id, seconds)));
+    }
+
+    /// <summary>
+    ///     Sets or clears how long one role on a menu lasts, overriding the menu's setting.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="role">The role on the menu.</param>
+    /// <param name="duration">How long the role lasts. Omit to follow the menu.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuRoleTemp(int menuId, IRole role, StoopidTime? duration = null)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var draft = RoleMenuDraft.From(menu);
+        var option = draft.Options.FirstOrDefault(o => o.RoleId == role.Id);
+        if (option is null)
+        {
+            await ErrorAsync(Strings.RolemenuOptionMissing(ctx.Guild.Id, role.Mention));
+            return;
+        }
+
+        var seconds = (int)Math.Min(duration?.Time.TotalSeconds ?? 0, RoleMenuService.MaxTempSeconds + 1);
+        option.TempRoleSeconds = seconds;
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+            return;
+
+        await ConfirmAsync(seconds == 0
+            ? Strings.RolemenuOptionTempCleared(ctx.Guild.Id, role.Mention, updated.Name)
+            : Strings.RolemenuOptionTempSet(ctx.Guild.Id, role.Mention, updated.Name,
+                Service.DurationText(ctx.Guild.Id, seconds)));
+    }
+
+    /// <summary>
+    ///     Sets or clears how many members can hold one role on a menu.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="role">The role on the menu.</param>
+    /// <param name="cap">The most members who can hold it, 0 for no limit.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuCap(int menuId, IRole role, int cap = 0)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var draft = RoleMenuDraft.From(menu);
+        var option = draft.Options.FirstOrDefault(o => o.RoleId == role.Id);
+        if (option is null)
+        {
+            await ErrorAsync(Strings.RolemenuOptionMissing(ctx.Guild.Id, role.Mention));
+            return;
+        }
+
+        option.MaxHolders = Math.Max(cap, 0);
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+            return;
+
+        await ConfirmAsync(cap <= 0
+            ? Strings.RolemenuCapCleared(ctx.Guild.Id, role.Mention, updated.Name)
+            : Strings.RolemenuCapSet(ctx.Guild.Id, role.Mention, updated.Name, cap));
+    }
+
+    /// <summary>
+    ///     Sets or clears the roles that stop a member from using a menu.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="roles">The blocked roles. Omit to clear.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuBlock(int menuId, params IRole[] roles)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var draft = RoleMenuDraft.From(menu);
+        draft.BlockedRoleIds = roles.Select(r => r.Id).Distinct().ToList();
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+            return;
+
+        await ConfirmAsync(roles.Length == 0
+            ? Strings.RolemenuBlockedCleared(ctx.Guild.Id, updated.Name)
+            : Strings.RolemenuBlockedSet(ctx.Guild.Id, updated.Name, string.Join(", ", roles.Select(r => r.Mention))));
+    }
+
+    /// <summary>
+    ///     Sets or clears when a menu deletes its message and turns itself off.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="duration">How long from now. Omit to never expire.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuExpire(int menuId, StoopidTime? duration = null)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var draft = RoleMenuDraft.From(menu);
+        draft.ExpiresAt = duration is null ? null : DateTime.UtcNow.Add(duration.Time);
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+            return;
+
+        await ConfirmAsync(updated.ExpiresAt is not { } expiresAt
+            ? Strings.RolemenuExpireCleared(ctx.Guild.Id, updated.Name)
+            : Strings.RolemenuExpireSet(ctx.Guild.Id, updated.Name,
+                TimestampTag.FromDateTime(DateTime.SpecifyKind(expiresAt, DateTimeKind.Utc),
+                    TimestampTagStyles.Relative).ToString()));
+    }
+
+    /// <summary>
+    ///     Links a menu into a group, or takes it out of its group.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="name">The group name. Omit to unlink.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuGroup(int menuId, [Remainder] string? name = null)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var draft = RoleMenuDraft.From(menu);
+        DataModel.RoleMenuGroup? group = null;
+        if (name is not null)
+        {
+            group = await Service.EnsureGroupAsync(ctx.Guild.Id, name);
+            if (group is null)
+            {
+                await ErrorAsync(Strings.RolemenuGroupInvalid(ctx.Guild.Id));
+                return;
+            }
+        }
+
+        draft.GroupId = group?.Id;
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+        {
+            if (group is not null)
+                await Service.PruneUnusedGroupAsync(group.Id);
+            return;
+        }
+
+        await ConfirmAsync(group is null
+            ? Strings.RolemenuGroupCleared(ctx.Guild.Id, updated.Name)
+            : Strings.RolemenuGroupSet(ctx.Guild.Id, updated.Name, group.Name));
+    }
+
+    /// <summary>
+    ///     Sets how many roles a member can hold across a group's menus.
+    /// </summary>
+    /// <param name="max">The most roles, 1 for one at a time, 0 for no limit.</param>
+    /// <param name="name">The group name.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuGroupMax(int max, [Remainder] string name)
+    {
+        var group = Service.GetGroups(ctx.Guild.Id)
+            .FirstOrDefault(x => string.Equals(x.Name, name.Trim(), StringComparison.OrdinalIgnoreCase));
+        if (group is null)
+        {
+            await ErrorAsync(Strings.RolemenuGroupNotFound(ctx.Guild.Id, name.Trim()));
+            return;
+        }
+
+        if (await Service.SetGroupMaxAsync(ctx.Guild.Id, group.Id, max) is null)
+        {
+            await ErrorAsync(Strings.RolemenuLimitsInvalid(ctx.Guild.Id));
+            return;
+        }
+
+        await ConfirmAsync(max == 0
+            ? Strings.RolemenuGroupMaxCleared(ctx.Guild.Id, group.Name)
+            : Strings.RolemenuGroupMaxSet(ctx.Guild.Id, group.Name, max));
+    }
+
+    /// <summary>
+    ///     Deletes a group and unlinks its menus.
+    /// </summary>
+    /// <param name="name">The group name.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuGroupDelete([Remainder] string name)
+    {
+        var group = Service.GetGroups(ctx.Guild.Id)
+            .FirstOrDefault(x => string.Equals(x.Name, name.Trim(), StringComparison.OrdinalIgnoreCase));
+        if (group is null || !await Service.DeleteGroupAsync(ctx.Guild.Id, group.Id))
+        {
+            await ErrorAsync(Strings.RolemenuGroupNotFound(ctx.Guild.Id, name.Trim()));
+            return;
+        }
+
+        await ConfirmAsync(Strings.RolemenuGroupDeleted(ctx.Guild.Id, group.Name));
+    }
+
+    /// <summary>
+    ///     Lists this server's role menu groups.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuGroups()
+    {
+        var list = Service.GetGroups(ctx.Guild.Id);
+        if (list.Count == 0)
+        {
+            await ConfirmAsync(Strings.RolemenuGroupListEmpty(ctx.Guild.Id, await Service.GetPrefixAsync(ctx.Guild)));
+            return;
+        }
+
+        await ctx.Channel.SendMessageAsync(embed: Service.BuildGroupListEmbed((SocketGuild)ctx.Guild, list).Build());
+    }
+
+    /// <summary>
+    ///     Sets or clears the colour of a menu's default embed.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="color">A name or hex code. Omit to go back to the default.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuColor(int menuId, [Remainder] string? color = null)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var draft = RoleMenuDraft.From(menu);
+        if (color is null)
+        {
+            draft.AccentColor = null;
+        }
+        else if (RoleMenuService.TryParseAccent(color, out var rgb))
+        {
+            draft.AccentColor = rgb;
+        }
+        else
+        {
+            await ErrorAsync(Strings.RolemenuColorInvalid(ctx.Guild.Id));
+            return;
+        }
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+            return;
+
+        await ConfirmAsync(updated.AccentColor is { } accent
+            ? Strings.RolemenuColorSet(ctx.Guild.Id, updated.Name, RoleMenuService.ColorText(accent))
+            : Strings.RolemenuColorCleared(ctx.Guild.Id, updated.Name));
+    }
+
+    /// <summary>
+    ///     Sets or clears the colour buttons use when an option has none of its own.
+    /// </summary>
+    /// <param name="menuId">The menu ID.</param>
+    /// <param name="color">Blurple, grey, green or red. Omit to go back to grey.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task RoleMenuButtonStyle(int menuId, RoleMenuButtonColor? color = null)
+    {
+        var menu = await FindMenuAsync(menuId);
+        if (menu is null)
+            return;
+
+        var draft = RoleMenuDraft.From(menu);
+        draft.ButtonColor = color is { } value && value != RoleMenuButtonColor.Grey ? (int)value : 0;
+
+        if (await SaveAsync(menu, draft) is not { } updated)
+            return;
+
+        await ConfirmAsync(updated.ButtonColor == 0
+            ? Strings.RolemenuButtonColorCleared(ctx.Guild.Id, updated.Name)
+            : Strings.RolemenuButtonColorSet(ctx.Guild.Id, updated.Name,
+                RoleMenuService.ButtonColorText((RoleMenuButtonColor)updated.ButtonColor)));
+    }
+
+    /// <summary>
+    ///     Creates a channel for role menus where members can read and react but not send messages, and can post a menu
+    ///     in it.
+    /// </summary>
+    /// <param name="name">The channel name.</param>
+    /// <param name="style">Dropdown or buttons, used when roles are given.</param>
+    /// <param name="roles">Roles to offer in a menu posted there. Omit to only create the channel.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageRoles | GuildPermission.ManageChannels)]
+    [BotPerm(GuildPermission.ManageRoles | GuildPermission.ManageChannels)]
+    public async Task RoleMenuChannel(string name, RoleMenuStyle style = RoleMenuStyle.Dropdown,
+        params IRole[] roles)
+    {
+        var channel = await Service.CreateMenuChannelAsync((SocketGuild)ctx.Guild, name,
+            (ctx.Channel as INestedChannel)?.CategoryId is { } categoryId
+                ? await ctx.Guild.GetCategoryChannelAsync(categoryId)
+                : null);
+        if (channel is null)
+        {
+            await ErrorAsync(Strings.RolemenuChannelFailed(ctx.Guild.Id));
+            return;
+        }
+
+        if (roles.Length == 0)
+        {
+            await ConfirmAsync(Strings.RolemenuChannelCreated(ctx.Guild.Id, channel.Mention));
+            return;
+        }
+
+        var result = await Service.CreateAsync(ctx.Guild.Id, (IGuildUser)ctx.User, new RoleMenuDraft
+        {
+            ChannelId = channel.Id,
+            Style = style,
+            Mode = RoleMenuMode.Multi,
+            ReplyMode = RoleMenuReplyMode.Private,
+            Options = roles
+                .DistinctBy(r => r.Id)
+                .Select(r => new RoleMenuOptionDraft
+                {
+                    RoleId = r.Id
+                })
+                .ToList()
+        });
+        if (!result.Success || result.Menu is null)
+        {
+            await ErrorAsync(Service.DescribeError(ctx.Guild.Id, result, null, channel.Id));
+            return;
+        }
+
+        await ConfirmAsync(Strings.RolemenuChannelCreatedMenu(ctx.Guild.Id, channel.Mention, result.Menu.Name,
+            result.Menu.Id, RoleMenuService.GetJumpUrl(result.Menu) ?? channel.Mention));
     }
 
     /// <summary>

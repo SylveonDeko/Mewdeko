@@ -3286,10 +3286,43 @@ logignore:
       name: channel
       optional: true
       type: ITextChannel
+logexport:
+  args:
+    - ''
+  desc: 'Exports the log configuration as a code and a JSON file.'
+  params: [ ]
 logignorelist:
   args:
     - ''
   desc: 'Lists all channels that are currently ignored for logging.'
+  params: [ ]
+logimport:
+  args:
+    - '[code]'
+  desc: 'Imports a log configuration from an export code or an attached JSON file.'
+  params:
+    - desc: 'The export code. Leave empty to use an attached file.'
+      name: code
+      optional: true
+      type: string
+logprefix:
+  args:
+    - '[prefixes]'
+  desc: 'Skips message edit and delete logs for messages starting with the given prefixes.'
+  params:
+    - desc: 'The prefixes to skip. Leave empty to show them, or use none to clear them.'
+      name: prefixes
+      optional: true
+      type: string
+logignorebots:
+  args:
+    - ''
+  desc: 'Toggles whether logs skip actions by bots. Bots are skipped by default.'
+  params: [ ]
+logsetup:
+  args:
+    - ''
+  desc: 'Creates a private Logs category with channels for each kind of log and routes every log type to them.'
   params: [ ]
 lsar:
   args:
@@ -3390,6 +3423,27 @@ prefix:
   params:
     - desc: The prefix to set.
       name: prefix
+      optional: true
+      type: string
+slashdiagnose:
+  args:
+    - ''
+  desc: 'Shows which slash commands Discord has for this server compared to what the bot expects, and what is missing for slash usage in this channel.'
+  params: [ ]
+slashresync:
+  args:
+    - ''
+  desc: 'Registers this server''s slash commands with Discord again.'
+  params: [ ]
+servercolor:
+  args:
+    - ''
+    - '#ff66aa'
+    - reset
+  desc: 'Shows, sets or clears the colour of this server''s ok and info embeds.'
+  params:
+    - desc: A hex code, a colour name, or reset to use the default again.
+      name: color
       optional: true
       type: string
 prefixcommand:
@@ -5124,4 +5178,204 @@ antiimagehashpreset:
     crypto casino and giveaway images currently being spammed across Discord.
     They are blocked alongside your own list. On by default when
     Anti-Image-Hash is enabled.
+  params: [ ]
+automod:
+  args:
+    - ''
+  desc: 'Shows every automod rule and the extra options set on the existing protections.'
+  params: [ ]
+automodcaps:
+  args:
+    - ''
+    - '20 70 delete warn'
+    - '30 60 delete message'
+  desc: >-
+    Turns on the caps filter. Messages at least this long (links, mentions and
+    emoji do not count) whose letters are at least this percent uppercase
+    trigger the listed actions. Actions are any of delete, warn, timeout, mute,
+    kick, ban, message, dm and review. Review sends the message to the review
+    channel and holds warn, timeout, mute, kick and ban until staff approve.
+    Run with no arguments to turn it off.
+  params: [ ]
+automodattachments:
+  args:
+    - ''
+    - '5 10 delete timeout'
+  desc: >-
+    Turns on attachment spam protection. A member who posts more than this many
+    attachments within this many seconds triggers the listed actions. Run with
+    no arguments to turn it off.
+  params: [ ]
+automodmedia:
+  args:
+    - ''
+    - 'delete dm'
+  desc: >-
+    Turns on media-only channels, where messages with no attachment, image,
+    sticker or link trigger the listed actions. Pick the channels with
+    automodmediachannel. Run with no arguments to turn it off.
+  params: [ ]
+automodmediachannel:
+  args:
+    - '#showcase'
+  desc: 'Adds a channel to the media-only list, or removes it if it is already there.'
+  params: [ ]
+automodmediathreads:
+  args:
+    - ''
+  desc: 'Toggles whether messages in threads of media-only channels are allowed.'
+  params: [ ]
+automodimageonly:
+  args:
+    - ''
+    - 'delete dm'
+  desc: >-
+    Turns on image-only channels, where messages with no image attachment, image
+    embed or image link trigger the listed actions. Pick the channels with
+    automodimagechannel. Run with no arguments to turn it off.
+  params: [ ]
+automodimagechannel:
+  args:
+    - '#art'
+  desc: 'Adds a channel to the image-only list, or removes it if it is already there.'
+  params: [ ]
+automodvideoonly:
+  args:
+    - ''
+    - 'delete dm'
+  desc: >-
+    Turns on video-only channels, where messages with no video attachment, video
+    embed or video link trigger the listed actions. Pick the channels with
+    automodvideochannel. Run with no arguments to turn it off.
+  params: [ ]
+automodvideochannel:
+  args:
+    - '#clips'
+  desc: 'Adds a channel to the video-only list, or removes it if it is already there.'
+  params: [ ]
+automodcommandsonly:
+  args:
+    - ''
+    - 'delete message'
+  desc: >-
+    Turns on commands-only channels, where messages that do not start with the
+    server prefix trigger the listed actions. Add message to post a short notice.
+    Pick the channels with automodcommandschannel. Run with no arguments to turn
+    it off.
+  params: [ ]
+automodcommandschannel:
+  args:
+    - '#bot-commands'
+  desc: 'Adds a channel to the commands-only list, or removes it if it is already there.'
+  params: [ ]
+automodemoji:
+  args:
+    - ''
+    - '10 delete warn'
+  desc: >-
+    Turns on emoji spam protection. A message with more than this many emojis,
+    custom and unicode, triggers the listed actions. Run with no arguments to
+    turn it off.
+  params: [ ]
+automodspoilers:
+  args:
+    - ''
+    - '3 delete warn'
+  desc: >-
+    Turns on spoiler spam protection. A message with more than this many spoiler
+    tags or spoiler attachments triggers the listed actions. Run with no
+    arguments to turn it off.
+  params: [ ]
+automodzalgo:
+  args:
+    - ''
+    - '4 delete warn'
+  desc: >-
+    Turns on the zalgo text filter. A message with a character carrying more than
+    this many combining marks triggers the listed actions. Lower numbers are
+    stricter. Run with no arguments to turn it off.
+  params: [ ]
+automodfiles:
+  args:
+    - ''
+    - 'delete warn'
+  desc: >-
+    Turns on unsafe file blocking. Attachments with a blocked extension trigger
+    the listed actions. Run with no arguments to turn it off.
+  params: [ ]
+automodfiletype:
+  args:
+    - ''
+    - 'iso'
+    - 'reset'
+  desc: >-
+    Shows the blocked file types. Give an extension to add it or remove it, or
+    reset to go back to the default list (exe, scr, bat, cmd, msi, js, vbs,
+    ps1, jar, apk, com, dll, lnk, hta, reg and a few more).
+  params: [ ]
+automodduration:
+  args:
+    - 'caps 10m'
+    - 'attachments 1h'
+  desc: >-
+    Sets how long a rule's timeouts and mutes last. Rules are caps, attachments,
+    media, files, emoji, spoilers, zalgo, commands, imageonly and videoonly.
+  params: [ ]
+automodmessage:
+  args:
+    - 'caps'
+    - 'files %user%, no executables here.'
+  desc: >-
+    Sets the message a rule sends in the channel when it has the message action.
+    %user% is replaced with the member. Leave the text out to go back to the
+    default.
+  params: [ ]
+automodexempt:
+  args:
+    - 'caps @Moderators'
+    - 'media #memes'
+  desc: 'Toggles a role or channel as exempt from an automod rule.'
+  params: [ ]
+protectionoptions:
+  args:
+    - 'spam true true'
+    - 'massmention true false'
+  desc: >-
+    Makes Anti-Spam, Anti-Mass-Mention, Anti-Pattern or Anti-Mass-Post also
+    delete the offending message and DM the member, on top of their punishment.
+    Anti-Pattern checks members when they join, so it only has the DM.
+  params: [ ]
+protectionexempt:
+  args:
+    - 'massmention @Moderators'
+    - 'massmention #bot-spam'
+    - 'pattern @Verified'
+  desc: >-
+    Toggles a role or channel as exempt from Anti-Mass-Mention, or a role as
+    exempt from Anti-Pattern.
+  params: [ ]
+automodlog:
+  args:
+    - '#automod-log'
+    - ''
+  desc: >-
+    Sets the channel every automod action is posted in, with the member, rule,
+    message and actions taken. Leave the channel out to turn the log off.
+  params: [ ]
+automodreview:
+  args:
+    - '#staff-review'
+    - ''
+  desc: >-
+    Sets the staff channel that messages are sent to when a rule has the review
+    action. Staff get approve and dismiss buttons. Leave the channel out to turn
+    review off.
+  params: [ ]
+automodserverexempt:
+  args:
+    - '@Moderators'
+    - '#staff'
+  desc: >-
+    Toggles a role or channel as exempt from every automod rule, protection and
+    filter at once.
   params: [ ]

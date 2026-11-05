@@ -18,6 +18,7 @@ namespace Mewdeko.Modules.UserProfile.Services;
 public partial class UserProfileService : INService
 {
     private readonly IDataConnectionFactory dbFactory;
+    private readonly EventHandler eventHandler;
     private readonly Regex fcRegex = MyRegex();
     private readonly HttpClient http;
     private readonly GeneratedBotStrings Strings;
@@ -31,8 +32,11 @@ public partial class UserProfileService : INService
     /// <param name="dbFactory">The database service for accessing user data.</param>
     /// <param name="http">The HTTP client used for making external API calls.</param>
     /// <param name="strings">The localized strings service.</param>
-    public UserProfileService(IDataConnectionFactory dbFactory, HttpClient http, GeneratedBotStrings strings)
+    /// <param name="eventHandler">Publishes birthday changes to other services.</param>
+    public UserProfileService(IDataConnectionFactory dbFactory, HttpClient http, GeneratedBotStrings strings,
+        EventHandler eventHandler)
     {
+        this.eventHandler = eventHandler;
         this.dbFactory = dbFactory;
         this.http = http;
         Strings = strings;
@@ -208,6 +212,8 @@ public partial class UserProfileService : INService
         var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.Birthday = time;
         await dbContext.UpdateAsync(dbUser);
+        if (user is not null)
+            _ = eventHandler.PublishEventAsync("BirthdaySet", new MemberActivityEventArgs(0, user.Id));
     }
 
     /// <summary>

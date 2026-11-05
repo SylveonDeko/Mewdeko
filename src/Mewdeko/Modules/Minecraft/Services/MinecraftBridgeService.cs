@@ -260,7 +260,7 @@ public class MinecraftBridgeService : INService
                                 ["%mc.avatar%"] = $"https://minotar.net/avatar/{joinMsg.Player}/32"
                             },
                             () => new EmbedBuilder()
-                                .WithOkColor()
+                                .WithOkColor(guild.Id)
                                 .WithAuthor(Sanitize(joinMsg.Player), $"https://minotar.net/avatar/{joinMsg.Player}/32")
                                 .WithDescription($"**{Sanitize(joinMsg.Player)}** joined the server")
                                 .Build());
@@ -337,7 +337,7 @@ public class MinecraftBridgeService : INService
                                 ["%mc.avatar%"] = $"https://minotar.net/avatar/{advMsg.Player}/32"
                             },
                             () => new EmbedBuilder()
-                                .WithOkColor()
+                                .WithOkColor(guild.Id)
                                 .WithDescription(
                                     $":trophy: **{Sanitize(advMsg.Player)}** earned **{Sanitize(advMsg.Advancement)}**")
                                 .Build());

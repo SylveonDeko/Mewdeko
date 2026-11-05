@@ -33,5 +33,9 @@ namespace DataModel
 		[Column("UseButton"                                                                                        )] public bool      UseButton       { get; set; } // boolean
 		[Column("UseCaptcha"                                                                                       )] public bool      UseCaptcha      { get; set; } // boolean
 		[Column("MessageCountReq"                                                                                  )] public ulong   MessageCountReq { get; set; } // numeric(20,0)
+		[Column("ExtraEntryRoles"                                                                                  )] public string?   ExtraEntryRoles { get; set; } // text, space separated roleId:extraEntries pairs
+		[Column("PrizeType"                                                                                        )] public int       PrizeType       { get; set; } // integer, 0 none, 1 xp, 2 coins
+		[Column("PrizeAmount"                                                                                      )] public long      PrizeAmount     { get; set; } // bigint
+		[Column("DraftDurationSeconds"                                                                             )] public int       DraftDurationSeconds { get; set; } // integer, how long a draft runs once started
 	}
 }

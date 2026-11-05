@@ -40,6 +40,7 @@ namespace DataModel
 		[Column("ArchiveOnAccept"                                                                                                     )] public bool      ArchiveOnAccept                    { get; set; } // boolean
 		[Column("ArchiveOnConsider"                                                                                                   )] public bool      ArchiveOnConsider                  { get; set; } // boolean
 		[Column("ArchiveOnImplement"                                                                                                  )] public bool      ArchiveOnImplement                 { get; set; } // boolean
+		[Column("AnonymousSuggestions"                                                                                                )] public bool      AnonymousSuggestions               { get; set; } // boolean
 		[Column("SuggestButtonMessage"                                                                                                )] public string?   SuggestButtonMessage               { get; set; } // text
 		[Column("SuggestButtonName"                                                                                                   )] public string?   SuggestButtonName                  { get; set; } // text
 		[Column("SuggestButtonEmote"                                                                                                  )] public string?   SuggestButtonEmote                 { get; set; } // text
@@ -152,5 +153,6 @@ namespace DataModel
 		[Column("WizardCompletedByUserId"                                                                                             )] public ulong     WizardCompletedByUserId            { get; set; } // numeric(20,0)
 		[Column("WizardSkipped"                                                                                                       )] public bool      WizardSkipped                      { get; set; } // boolean
 		[Column("HasBasicSetup"                                                                                                       )] public bool      HasBasicSetup                      { get; set; } // boolean
+		[Column("ChatTriggerMemberCreate"                                                                                             )] public bool      ChatTriggerMemberCreate            { get; set; } // boolean
 	}
 }

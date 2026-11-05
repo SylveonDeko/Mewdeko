@@ -208,6 +208,74 @@ setstarthreshold:
       name: threshold
       optional: false
       type: int
+starboardselfstar:
+  args:
+    - number true|false
+  desc: 'Sets whether a member''s own star on their message counts.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Whether self stars count.'
+      name: enabled
+      optional: false
+      type: bool
+starboardnsfw:
+  args:
+    - number true|false
+  desc: 'Sets whether messages from NSFW channels can be starred onto a starboard in a non-NSFW channel.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Whether NSFW messages can be starred.'
+      name: enabled
+      optional: false
+      type: bool
+starboardlock:
+  args:
+    - number
+    - number duration
+  desc: 'Stops a starboard from accepting new stars until unlocked, or for the given time.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'How long to lock for, such as 2h. Locks until unlocked when empty.'
+      name: duration
+      optional: true
+      type: StoopidTime
+starboardunlock:
+  args:
+    - number
+  desc: 'Lets a locked starboard accept stars again.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+starboardjump:
+  args:
+    - messageId
+  desc: 'Shows a starred message by the ID of the original or the starboard post.'
+  params:
+    - desc: 'The ID of the starred message or its starboard post.'
+      name: messageId
+      optional: false
+      type: ulong
+starboardrandom:
+  args:
+    - ''
+    - number
+  desc: 'Shows a random starred message, optionally from one starboard.'
+  params:
+    - desc: 'The ID of the starboard configuration to pick from.'
+      name: starboardId
+      optional: true
+      type: int
 starboardallowbots:
   args:
     - number true|false
@@ -262,6 +330,199 @@ starboardallowbots_int_bool_2:
       name: enabled
       optional: false
       type: bool
+starboarddesign:
+  args:
+    - number json
+  desc: 'Sets the post design of a starboard from embed json with starboard placeholders.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The embed json of the design.'
+      name: design
+      optional: false
+      type: string
+starboarddesignreset:
+  args:
+    - number
+  desc: 'Puts a starboard back on the default post layout.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+starboarddesigntest:
+  args:
+    - number
+    - number messageId
+  desc: 'Sends a preview of a starboard post for a message here.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The ID of the message to preview with. Uses the latest member message when empty.'
+      name: messageId
+      optional: true
+      type: ulong
+starboardplaceholders:
+  args:
+    - ''
+  desc: 'Lists the placeholders a starboard post design can use.'
+  params: []
+starboardautoreact:
+  args:
+    - number none|first|all
+  desc: 'Sets which of a starboard''s emotes the bot reacts with on its posts.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'None, first or all.'
+      name: mode
+      optional: false
+      type: StarboardAutoReact
+starboardmultireact:
+  args:
+    - number true|false
+  desc: 'Sets whether every reaction a member adds counts when a starboard has several emotes.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Whether every reaction counts instead of one per member.'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowrole:
+  args:
+    - number role
+  desc: 'Toggles a role that is allowed to star. When any role is listed, only those roles count.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The role to toggle.'
+      name: role
+      optional: false
+      type: IRole
+starboarddenyrole:
+  args:
+    - number role
+  desc: 'Toggles a role whose stars never count.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The role to toggle.'
+      name: role
+      optional: false
+      type: IRole
+starboardminage:
+  args:
+    - number 10m
+    - number
+  desc: 'Sets how old a message must be before it can be starred.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The minimum age, such as 10m. Removes the limit when empty.'
+      name: time
+      optional: true
+      type: StoopidTime
+starboardmaxage:
+  args:
+    - number 2d
+    - number
+  desc: 'Sets how old a message can be and still be starred.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The maximum age, such as 2d. Removes the limit when empty.'
+      name: time
+      optional: true
+      type: StoopidTime
+starboardrepostcooldown:
+  args:
+    - number 1h
+    - number
+  desc: 'Sets the least time between reposts of the same starboard post.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The cooldown, such as 1h. Removes the cooldown when empty.'
+      name: time
+      optional: true
+      type: StoopidTime
+starboardremoveinvalid:
+  args:
+    - number true|false
+  desc: 'Sets whether the bot removes stars that cannot count, such as a member''s own star when self stars are off.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Whether rejected stars are removed.'
+      name: enabled
+      optional: false
+      type: bool
+starboardenabled:
+  args:
+    - number true|false
+  desc: 'Turns a starboard on or off without deleting it.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Whether the starboard is on.'
+      name: enabled
+      optional: false
+      type: bool
+starboardsetup:
+  args:
+    - emote
+    - emote number
+    - emote number name
+  desc: 'Creates a starboard channel only the bot can post in, and a starboard that posts to it.'
+  params:
+    - desc: 'The emote to use for starring messages.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'The number of stars required to post a message.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'The name of the channel to create.'
+      name: name
+      optional: true
+      type: string
+starboardautostar:
+  args:
+    - number channel
+  desc: 'Toggles a channel whose messages are posted to a starboard without needing stars.'
+  params:
+    - desc: 'The ID of the starboard configuration.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'The channel to toggle.'
+      name: channel
+      optional: false
+      type: ITextChannel
 starboardchtoggle:
   args:
     - number channel

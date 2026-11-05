@@ -30,6 +30,36 @@ public static class ChatTriggersExtensions
     }
 
     /// <summary>
+    ///     Gets the channel IDs a ChatTrigger is limited to.
+    /// </summary>
+    /// <param name="trigger">The ChatTrigger instance.</param>
+    /// <returns>The allowed channel IDs, or an empty list when the trigger works in every channel.</returns>
+    public static List<ulong> GetAllowedChannels(this ChatTrigger trigger)
+    {
+        return ParseUlongs(trigger.AllowedChannelIds) ?? [];
+    }
+
+    /// <summary>
+    ///     Gets the channel IDs a ChatTrigger never fires in.
+    /// </summary>
+    /// <param name="trigger">The ChatTrigger instance.</param>
+    /// <returns>The denied channel IDs, or an empty list when no channel is denied.</returns>
+    public static List<ulong> GetDeniedChannels(this ChatTrigger trigger)
+    {
+        return ParseUlongs(trigger.DeniedChannelIds) ?? [];
+    }
+
+    /// <summary>
+    ///     Gets the role IDs whose members cannot fire a ChatTrigger.
+    /// </summary>
+    /// <param name="trigger">The ChatTrigger instance.</param>
+    /// <returns>The denied role IDs, or an empty list when no role is denied.</returns>
+    public static List<ulong> GetDeniedRoles(this ChatTrigger trigger)
+    {
+        return ParseUlongs(trigger.DeniedRoleIds) ?? [];
+    }
+
+    /// <summary>
     ///     Parses a string of ulong values separated by "@@@" into a list of ulong values.
     /// </summary>
     /// <param name="inpt">The input string to parse.</param>

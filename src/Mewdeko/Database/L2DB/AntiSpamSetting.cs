@@ -24,6 +24,8 @@ namespace DataModel
 		[Column("RoleId"                                                                                            )] public ulong?  RoleId           { get; set; } // numeric(20,0)
 		[Column("DateAdded"                                                                                         )] public DateTime? DateAdded        { get; set; } // timestamp (6) without time zone
 		[Column("GuildId"                                                                                           )] public ulong?  GuildId          { get; set; } // numeric(20,0)
+		[Column("DeleteMessage"                                                                                     )] public bool      DeleteMessage    { get; set; } // boolean
+		[Column("NotifyUser"                                                                                        )] public bool      NotifyUser       { get; set; } // boolean
 
 		#region Associations
 		/// <summary>

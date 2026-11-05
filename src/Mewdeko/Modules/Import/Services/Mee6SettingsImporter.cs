@@ -10,6 +10,7 @@ using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Import.Common;
+using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Modules.RoleMenus.Common;
 using Mewdeko.Modules.RoleMenus.Services;
 using Mewdeko.Modules.Searches.Services;
@@ -37,6 +38,7 @@ public class Mee6SettingsImporter(
     ProtectionService protection,
     StreamNotificationService streams,
     ShopService shop,
+    FilterService filterService,
     ILogger<Mee6SettingsImporter> logger) : INService
 {
     /// <summary>
@@ -291,7 +293,10 @@ public class Mee6SettingsImporter(
             await roleMenus.DeleteAsync(guildId, id);
 
         if (undo.FilteredWordIds.Count > 0)
+        {
             await db.FilteredWords.Where(x => x.GuildId == guildId && undo.FilteredWordIds.Contains(x.Id)).DeleteAsync();
+            filterService.InvalidateCache(guildId);
+        }
 
         if (undo.AntiSpam is { } spam)
         {
@@ -702,6 +707,8 @@ public class Mee6SettingsImporter(
             undo.FilteredWordIds.Add(id);
             written++;
         }
+
+        filterService.InvalidateCache(guild.Id);
 
         if (plan.SpamThreshold > 0)
         {

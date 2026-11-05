@@ -602,6 +602,127 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the auto reaction rules table.
+    /// </summary>
+    public ITable<AutoReaction> AutoReactions
+    {
+        get
+        {
+            return this.GetTable<AutoReaction>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the auto reaction settings table.
+    /// </summary>
+    public ITable<AutoReactionSetting> AutoReactionSettings
+    {
+        get
+        {
+            return this.GetTable<AutoReactionSetting>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the server templates table.
+    /// </summary>
+    public ITable<ServerTemplate> ServerTemplates
+    {
+        get
+        {
+            return this.GetTable<ServerTemplate>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the moderation cases table.
+    /// </summary>
+    public ITable<ModCase> ModCases
+    {
+        get
+        {
+            return this.GetTable<ModCase>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the case and report channel settings table.
+    /// </summary>
+    public ITable<ModCaseSetting> ModCaseSettings
+    {
+        get
+        {
+            return this.GetTable<ModCaseSetting>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the report cooldowns table.
+    /// </summary>
+    public ITable<ModReportCooldown> ModReportCooldowns
+    {
+        get
+        {
+            return this.GetTable<ModReportCooldown>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the staff notes table.
+    /// </summary>
+    public ITable<ModNote> ModNotes
+    {
+        get
+        {
+            return this.GetTable<ModNote>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the punishment reason aliases table.
+    /// </summary>
+    public ITable<ModReasonAlias> ModReasonAliases
+    {
+        get
+        {
+            return this.GetTable<ModReasonAlias>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the custom punishment DM templates table.
+    /// </summary>
+    public ITable<PunishDmTemplate> PunishDmTemplates
+    {
+        get
+        {
+            return this.GetTable<PunishDmTemplate>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of each guild's peak online member count.
+    /// </summary>
+    public ITable<GuildPeakOnline> GuildPeakOnline
+    {
+        get
+        {
+            return this.GetTable<GuildPeakOnline>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of per-guild embed colours.
+    /// </summary>
+    public ITable<GuildEmbedColor> GuildEmbedColors
+    {
+        get
+        {
+            return this.GetTable<GuildEmbedColor>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the join role timeout settings table.
     /// </summary>
     public ITable<JoinRoleTimeoutSetting> JoinRoleTimeoutSettings
@@ -613,6 +734,28 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the automations table.
+    /// </summary>
+    public ITable<Automation> Automations
+    {
+        get
+        {
+            return this.GetTable<Automation>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of automation runs.
+    /// </summary>
+    public ITable<AutomationRun> AutomationRuns
+    {
+        get
+        {
+            return this.GetTable<AutomationRun>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the table of members counting down toward a join role timeout.
     /// </summary>
     public ITable<JoinRoleTimeoutPending> JoinRoleTimeoutPending
@@ -620,6 +763,105 @@ public class MewdekoDb : DataConnection
         get
         {
             return this.GetTable<JoinRoleTimeoutPending>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the sticky templates table.
+    /// </summary>
+    public ITable<StickyTemplate> StickyTemplates
+    {
+        get
+        {
+            return this.GetTable<StickyTemplate>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the command reply redirects table.
+    /// </summary>
+    public ITable<CommandReplyRedirect> CommandReplyRedirects
+    {
+        get
+        {
+            return this.GetTable<CommandReplyRedirect>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of member timeouts being watched for their end.
+    /// </summary>
+    public ITable<TrackedTimeout> TrackedTimeouts
+    {
+        get
+        {
+            return this.GetTable<TrackedTimeout>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the AutoMod follow-ups table.
+    /// </summary>
+    public ITable<AutoModFollowUp> AutoModFollowUps
+    {
+        get
+        {
+            return this.GetTable<AutoModFollowUp>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of channels that are locked or hidden.
+    /// </summary>
+    public ITable<ChannelTimedAction> ChannelTimedActions
+    {
+        get
+        {
+            return this.GetTable<ChannelTimedAction>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of AutoMod rule triggers per member.
+    /// </summary>
+    public ITable<AutoModHit> AutoModHits
+    {
+        get
+        {
+            return this.GetTable<AutoModHit>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the table of voice channels linked to text channels.
+    /// </summary>
+    public ITable<VoiceTextLink> VoiceTextLinks
+    {
+        get
+        {
+            return this.GetTable<VoiceTextLink>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the server backups table.
+    /// </summary>
+    public ITable<ServerBackup> ServerBackups
+    {
+        get
+        {
+            return this.GetTable<ServerBackup>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the auto-purge settings table.
+    /// </summary>
+    public ITable<AutoPurgeSetting> AutoPurgeSettings
+    {
+        get
+        {
+            return this.GetTable<AutoPurgeSetting>();
         }
     }
 
@@ -747,6 +989,21 @@ public class MewdekoDb : DataConnection
     ///     Gets the anti-spam settings table.
     /// </summary>
     public ITable<AntiSpamSetting> AntiSpamSettings => this.GetTable<AntiSpamSetting>();
+
+    /// <summary>
+    ///     Gets the automod rule settings table.
+    /// </summary>
+    public ITable<AutomodRuleSetting> AutomodRuleSettings => this.GetTable<AutomodRuleSetting>();
+
+    /// <summary>
+    ///     Gets the automod extra settings table.
+    /// </summary>
+    public ITable<AutomodExtraSetting> AutomodExtraSettings => this.GetTable<AutomodExtraSetting>();
+
+    /// <summary>
+    ///     Gets the automod link limits table.
+    /// </summary>
+    public ITable<AutomodLinkLimit> AutomodLinkLimits => this.GetTable<AutomodLinkLimit>();
 
     /// <summary>
     ///     Gets the auth codes table.
@@ -906,6 +1163,11 @@ public class MewdekoDb : DataConnection
     public ITable<FollowedStream> FollowedStreams => this.GetTable<FollowedStream>();
 
     /// <summary>
+    ///     Gets the table of live stream messages being edited in place.
+    /// </summary>
+    public ITable<TrackedStreamMessage> TrackedStreamMessages => this.GetTable<TrackedStreamMessage>();
+
+    /// <summary>
     ///     Gets the giveaway users table.
     /// </summary>
     public ITable<GiveawayUser> GiveawayUsers => this.GetTable<GiveawayUser>();
@@ -959,6 +1221,11 @@ public class MewdekoDb : DataConnection
     ///     Gets the user shop inventory table.
     /// </summary>
     public ITable<UserInventoryItem> UserInventoryItems => this.GetTable<UserInventoryItem>();
+
+    /// <summary>
+    ///     Gets the scheduled economy boosts table.
+    /// </summary>
+    public ITable<EconomyBoost> EconomyBoosts => this.GetTable<EconomyBoost>();
 
     /// <summary>
     ///     Gets the highlight settings table.
@@ -1148,6 +1415,11 @@ public class MewdekoDb : DataConnection
     ///     Gets the lockdown channel permissions table.
     /// </summary>
     public ITable<LockdownChannelPermission> LockdownChannelPermissions => this.GetTable<LockdownChannelPermission>();
+
+    /// <summary>
+    ///     Gets the lockdown exemptions table.
+    /// </summary>
+    public ITable<LockdownExemption> LockdownExemptions => this.GetTable<LockdownExemption>();
 
     /// <summary>
     ///     Gets the join lockdown settings table.
@@ -1553,6 +1825,11 @@ public class MewdekoDb : DataConnection
             return this.GetTable<XpLevelUpMessage>();
         }
     }
+
+    /// <summary>
+    ///     Gets the XP level-up log table.
+    /// </summary>
+    public ITable<XpLevelUpLog> XpLevelUpLogs => this.GetTable<XpLevelUpLog>();
 
     /// <summary>
     ///     Gets the XP role trackings table.
@@ -2347,6 +2624,21 @@ public class MewdekoDb : DataConnection
     public ITable<RoleMenuOption> RoleMenuOptions => this.GetTable<RoleMenuOption>();
 
     /// <summary>
+    ///     Gets the role menu temporary grants table: roles given by a menu that are taken back when they expire.
+    /// </summary>
+    public ITable<RoleMenuTempGrant> RoleMenuTempGrants => this.GetTable<RoleMenuTempGrant>();
+
+    /// <summary>
+    ///     Gets the role menu groups table: menus linked so members share one role or a maximum across them.
+    /// </summary>
+    public ITable<RoleMenuGroup> RoleMenuGroups => this.GetTable<RoleMenuGroup>();
+
+    /// <summary>
+    ///     Gets the role menu reverse states table: who has made the first pick on a reverse menu and so lost the role.
+    /// </summary>
+    public ITable<RoleMenuReverseState> RoleMenuReverseStates => this.GetTable<RoleMenuReverseState>();
+
+    /// <summary>
     ///     Gets the achievement settings table: one row of achievement settings per server.
     /// </summary>
     public ITable<AchievementSetting> AchievementSettings => this.GetTable<AchievementSetting>();
@@ -2395,4 +2687,65 @@ public class MewdekoDb : DataConnection
     ///     Gets the achievement user settings table: each user's achievement privacy and notification choices.
     /// </summary>
     public ITable<AchievementUserSetting> AchievementUserSettings => this.GetTable<AchievementUserSetting>();
+
+    /// <summary>
+    ///     Gets the achievement almost there table: members already told they are close to an achievement.
+    /// </summary>
+    public ITable<AchievementAlmostThere> AchievementAlmostThere => this.GetTable<AchievementAlmostThere>();
+
+    /// <summary>
+    ///     Gets the invite role settings table: one row per server saying how invite milestone roles are handed out.
+    /// </summary>
+    public ITable<InviteRoleSetting> InviteRoleSettings => this.GetTable<InviteRoleSetting>();
+
+    /// <summary>
+    ///     Gets the invite roles table: roles members earn at a number of net invites.
+    /// </summary>
+    public ITable<InviteRole> InviteRoles => this.GetTable<InviteRole>();
+
+    /// <summary>
+    ///     Gets the user rank card backgrounds table.
+    /// </summary>
+    public ITable<UserXpBackground> UserXpBackgrounds => this.GetTable<UserXpBackground>();
+
+    /// <summary>
+    ///     Gets the suggestion vote colours table.
+    /// </summary>
+    public ITable<SuggestionVoteColor> SuggestionVoteColors => this.GetTable<SuggestionVoteColor>();
+
+    /// <summary>
+    ///     Gets the daily dice rolls table.
+    /// </summary>
+    public ITable<DailyDiceRoll> DailyDiceRolls => this.GetTable<DailyDiceRoll>();
+
+    /// <summary>
+    ///     Gets the free game alert channels table.
+    /// </summary>
+    public ITable<FreeGameAlert> FreeGameAlerts => this.GetTable<FreeGameAlert>();
+
+    /// <summary>
+    ///     Gets the table of free games that were already announced.
+    /// </summary>
+    public ITable<FreeGameAnnounced> FreeGameAnnounced => this.GetTable<FreeGameAnnounced>();
+
+    /// <summary>
+    ///     Gets the verification gate settings table.
+    /// </summary>
+    public ITable<VerificationSetting> VerificationSettings => this.GetTable<VerificationSetting>();
+
+    /// <summary>
+    ///     Gets the table of channel overwrites as they were before the verification gate changed them.
+    /// </summary>
+    public ITable<VerificationPermissionBackup> VerificationPermissionBackups =>
+        this.GetTable<VerificationPermissionBackup>();
+
+    /// <summary>
+    ///     Gets the welcome card settings table.
+    /// </summary>
+    public ITable<WelcomeCardSetting> WelcomeCardSettings => this.GetTable<WelcomeCardSetting>();
+
+    /// <summary>
+    ///     Gets the table of images guilds uploaded for welcome card designs.
+    /// </summary>
+    public ITable<WelcomeCardImage> WelcomeCardImages => this.GetTable<WelcomeCardImage>();
 }

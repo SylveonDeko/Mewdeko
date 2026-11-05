@@ -34,4 +34,19 @@ public class BirthdayConfigRequest
     ///     Default timezone for the guild.
     /// </summary>
     public string? DefaultTimezone { get; set; }
+
+    /// <summary>
+    ///     The hour of the day, 0 to 23 in the server timezone, birthdays are announced.
+    /// </summary>
+    public int? AnnouncementHour { get; set; }
+
+    /// <summary>
+    ///     The message announced for members who shared their birth year. An empty string clears it.
+    /// </summary>
+    public string? AgeMessage { get; set; }
+
+    /// <summary>
+    ///     Whether birth years are not allowed (0), optional (1) or required (2).
+    /// </summary>
+    public int? BirthYearRule { get; set; }
 }

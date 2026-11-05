@@ -77,6 +77,43 @@ public sealed class TriggerPlaceholderService : INService
     }
 
     /// <summary>
+    ///     Runs the commands queued by <c>{cmd:}</c> blocks as the member that fired the trigger.
+    /// </summary>
+    /// <param name="guild">The guild the trigger fired in.</param>
+    /// <param name="channel">The channel the trigger fired in.</param>
+    /// <param name="user">The member the commands run as.</param>
+    /// <param name="commands">The commands to run, without the prefix.</param>
+    /// <remarks>
+    ///     Each command goes through the normal command pipeline, so it can only do what the member could do by typing
+    ///     it. Commands run one at a time, spaced to clear the per-user command cooldown.
+    /// </remarks>
+    public async Task RunCommandsAsync(IGuild? guild, IMessageChannel? channel, IUser user,
+        IReadOnlyList<string> commands)
+    {
+        if (guild is null || channel is null || commands.Count == 0)
+            return;
+
+        var handler = services.GetService<CommandHandler>();
+        if (handler is null)
+            return;
+
+        for (var i = 0; i < commands.Count; i++)
+        {
+            try
+            {
+                if (i > 0)
+                    await Task.Delay(850).ConfigureAwait(false);
+
+                await handler.ExecuteAsMember(guild, channel, user, commands[i]).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Chat trigger command block {Command} failed", commands[i]);
+            }
+        }
+    }
+
+    /// <summary>
     ///     Replaces the pattern-based placeholders present in the input.
     /// </summary>
     /// <param name="input">The text to replace placeholders in.</param>

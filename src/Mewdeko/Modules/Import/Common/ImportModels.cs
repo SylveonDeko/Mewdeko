@@ -144,7 +144,13 @@ public sealed record ImportedMember(
     long? Messages,
     long? Cash,
     long? Bank,
-    string? Name);
+    string? Name)
+{
+    /// <summary>
+    ///     Gets the bonus XP in the source, for files written by this bot's own export.
+    /// </summary>
+    public long? BonusXp { get; init; }
+}
 
 /// <summary>
 ///     A level role reward read from the source.

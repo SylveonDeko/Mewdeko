@@ -99,11 +99,16 @@ public sealed partial class AchievementService
             ? (await ComputeMetricsAsync(guild, [userId], metrics)).GetValueOrDefault(userId)
             : null;
 
+        var member = guild.GetUser(userId);
         return shown.Select(d => new AchievementProgress
         {
             Definition = d,
             UnlockedAt = unlocks.TryGetValue(d.Key, out var at) ? at : null,
-            Current = d.IsMetric && values is not null && values.TryGetValue(d.Metric, out var value) ? value : null
+            Current = d is { IsMetric: true, Metric: AchievementMetric.RoleReceived }
+                ? member is null
+                    ? null
+                    : (long?)(d.TargetRoleId is { } roleId && member.Roles.Any(r => r.Id == roleId) ? 1 : 0)
+                : d.IsMetric && values is not null && values.TryGetValue(d.Metric, out var value) ? value : null
         }).ToList();
     }
 

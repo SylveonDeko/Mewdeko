@@ -1037,6 +1037,10 @@ ctcounterset:
   desc: 'Sets a chat-trigger counter value.'
 ctcounterdelete:
   desc: 'Deletes a chat-trigger counter.'
+cteventrole:
+  desc: 'Sets the role a RoleAdded or RoleRemoved chat trigger reacts to. Omit the role to react to every role.'
+ctblocks:
+  desc: 'Lists the logic blocks chat trigger responses support, such as if, set, math and cmd.'
 ctplaceholders:
   desc: 'Lists placeholders available to chat triggers.'
 cttime:
@@ -1067,3 +1071,39 @@ ctreqlevel:
   desc: 'Sets the required XP level for a chat trigger.'
 ctreqmsg:
   desc: 'Sets the requirement-failure message for a chat trigger.'
+ctstaff:
+  desc: 'Toggles whether only members with Manage Messages can fire a chat trigger.'
+ctnsfw:
+  desc: 'Toggles whether a chat trigger only fires in NSFW channels.'
+ctchannels:
+  desc: 'Limits a chat trigger to the listed channels. Give no channels to remove the limit.'
+ctdenychannels:
+  desc: 'Stops a chat trigger from firing in the listed channels. Give no channels to remove the list.'
+ctdenyroles:
+  desc: 'Stops members with the listed roles from firing a chat trigger. Give no roles to remove the list.'
+ctanonymous:
+  desc: 'Toggles whether a chat trigger''s response hides who fired it. It stops replying to the member and the member placeholders show the bot instead.'
+ctreplychannel:
+  desc: 'Makes a chat trigger always respond in one channel. Omit the channel to respond where it fired.'
+ctprompt:
+  desc: 'Makes a chat trigger ask a question and wait for the reply before responding. The reply is %prompt% in the response. Message triggers wait for the next message, slash and button triggers open a modal. Event and reaction triggers have nobody to ask, so they never prompt. Omit the question to remove it.'
+ctprompttime:
+  desc: 'Sets how many seconds a member has to answer a chat trigger prompt, from 5 to 120.'
+ctmembers:
+  desc: 'Toggles whether members without staff permissions can create and edit their own chat triggers.'
+ctmemberadd:
+  desc: 'Adds a chat trigger you own. Needs members to be allowed to create triggers.'
+ctmemberedit:
+  desc: 'Changes the response of a chat trigger you own.'
+ctmemberdelete:
+  desc: 'Deletes a chat trigger you own.'
+ctmine:
+  desc: 'Lists the chat triggers you created.'
+ctclaim:
+  desc: 'Takes over a chat trigger whose creator has left the server.'
+ctraw:
+  desc: 'Shows the source text of a chat trigger response in a code block.'
+ctshare:
+  desc: 'Creates a share code for a chat trigger that another server can import.'
+ctshareimport:
+  desc: 'Imports a chat trigger from a share code, given in the command or as a file.'

@@ -397,7 +397,12 @@ public enum AchievementError
     /// <summary>
     ///     The badge is not owned or the slot is out of range.
     /// </summary>
-    BadgeInvalid
+    BadgeInvalid,
+
+    /// <summary>
+    ///     A role achievement has no role to wait for.
+    /// </summary>
+    TargetRoleMissing
 }
 
 /// <summary>
@@ -505,9 +510,24 @@ public sealed class CustomAchievementDraft
     public ulong? ChannelId { get; set; }
 
     /// <summary>
+    ///     The role a role achievement waits for.
+    /// </summary>
+    public ulong? TargetRoleId { get; set; }
+
+    /// <summary>
     ///     Role handed out on unlock.
     /// </summary>
     public ulong? RoleRewardId { get; set; }
+
+    /// <summary>
+    ///     Role taken away on unlock.
+    /// </summary>
+    public ulong? RoleRemoveId { get; set; }
+
+    /// <summary>
+    ///     Unlock message source for this achievement, or null to use the server's.
+    /// </summary>
+    public string? UnlockMessage { get; set; }
 
     /// <summary>
     ///     Currency handed out on unlock.
@@ -559,6 +579,16 @@ public sealed class AchievementOverrideDraft
     ///     Role handed out on unlock.
     /// </summary>
     public ulong? RoleRewardId { get; set; }
+
+    /// <summary>
+    ///     Role taken away on unlock.
+    /// </summary>
+    public ulong? RoleRemoveId { get; set; }
+
+    /// <summary>
+    ///     Unlock message source for this achievement, or null to use the server's.
+    /// </summary>
+    public string? UnlockMessage { get; set; }
 
     /// <summary>
     ///     Currency handed out on unlock.

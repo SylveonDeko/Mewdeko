@@ -38,6 +38,12 @@ public class AchievementOverride
     [Column("RoleRewardId")]
     public ulong? RoleRewardId { get; set; }
 
+    [Column("RoleRemoveId")]
+    public ulong? RoleRemoveId { get; set; }
+
+    [Column("UnlockMessage")]
+    public string? UnlockMessage { get; set; }
+
     [Column("CurrencyReward")]
     public long CurrencyReward { get; set; }
 

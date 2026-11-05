@@ -16,11 +16,87 @@ public class CustomVoiceSlash(
     ILogger<CustomVoiceSlash> logger) : MewdekoSlashModuleBase<CustomVoiceService>
 {
     /// <summary>
-    ///     Button handler for basic voice channel operations (rename, limit, bitrate, lock/unlock)
+    ///     Handles the rename button.
     /// </summary>
-    [ComponentInteraction("voice:*:*", true)]
+    [ComponentInteraction("voice:rename:*", true)]
     [SlashUserPerm(GuildPermission.UseApplicationCommands)]
-    public async Task HandleVoiceButtonInteraction(string action, string channelId)
+    public Task HandleRenameButton(string channelId) => HandleVoiceButtonInteraction("rename", channelId);
+
+    /// <summary>
+    ///     Handles the user limit button.
+    /// </summary>
+    [ComponentInteraction("voice:limit:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleLimitButton(string channelId) => HandleVoiceButtonInteraction("limit", channelId);
+
+    /// <summary>
+    ///     Handles the bitrate button.
+    /// </summary>
+    [ComponentInteraction("voice:bitrate:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleBitrateButton(string channelId) => HandleVoiceButtonInteraction("bitrate", channelId);
+
+    /// <summary>
+    ///     Handles the lock button.
+    /// </summary>
+    [ComponentInteraction("voice:lock:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleLockButton(string channelId) => HandleVoiceButtonInteraction("lock", channelId);
+
+    /// <summary>
+    ///     Handles the unlock button.
+    /// </summary>
+    [ComponentInteraction("voice:unlock:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleUnlockButton(string channelId) => HandleVoiceButtonInteraction("unlock", channelId);
+
+    /// <summary>
+    ///     Handles the hide button.
+    /// </summary>
+    [ComponentInteraction("voice:hide:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleHideButton(string channelId) => HandleVoiceButtonInteraction("hide", channelId);
+
+    /// <summary>
+    ///     Handles the reveal button.
+    /// </summary>
+    [ComponentInteraction("voice:reveal:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleRevealButton(string channelId) => HandleVoiceButtonInteraction("reveal", channelId);
+
+    /// <summary>
+    ///     Handles the transfer button.
+    /// </summary>
+    [ComponentInteraction("voice:transfer:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleTransferButton(string channelId) => HandleVoiceButtonInteraction("transfer", channelId);
+
+    /// <summary>
+    ///     Handles the delete button, which asks for confirmation.
+    /// </summary>
+    [ComponentInteraction("voice:delete:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleDeleteButton(string channelId) => HandleVoiceButtonInteraction("delete", channelId);
+
+    /// <summary>
+    ///     Handles the manage users button.
+    /// </summary>
+    [ComponentInteraction("voice:manage:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleManageButton(string channelId) => HandleVoiceButtonInteraction("manage", channelId);
+
+    /// <summary>
+    ///     Handles the keep alive toggle, whose custom ID carries the new value.
+    /// </summary>
+    [ComponentInteraction("voice:keepalive:*:*", true)]
+    [SlashUserPerm(GuildPermission.UseApplicationCommands)]
+    public Task HandleKeepAliveButton(string channelId, string value) =>
+        HandleVoiceButtonInteraction("keepalive", channelId);
+
+    /// <summary>
+    ///     Shared handler for the voice channel control buttons.
+    /// </summary>
+    private async Task HandleVoiceButtonInteraction(string action, string channelId)
     {
         // Validate channel ID
         if (!ulong.TryParse(channelId, out var parsedChannelId))
@@ -51,9 +127,10 @@ public class CustomVoiceSlash(
 
         if (!isOwner)
         {
-            var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var config = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
             var hasAdminRole = config.CustomVoiceAdminRoleId.HasValue &&
-                               user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
+                               user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value) ||
+                               action is "hide" or "reveal" && CustomVoiceService.IsModerator(config, user);
 
             if (!hasAdminRole)
             {
@@ -63,7 +140,7 @@ public class CustomVoiceSlash(
         }
 
         // Get server config to check permissions
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
 
         // Handle the specific action
         switch (action)
@@ -243,6 +320,47 @@ public class CustomVoiceSlash(
                 );
                 break;
 
+            case "delete":
+                await DeferAsync(true);
+                await ctx.Interaction.FollowupAsync(Strings.CustomVoiceDeletePrompt(ctx.Guild.Id),
+                    components: new ComponentBuilder()
+                        .WithButton("Confirm Delete", $"voice:deleteconfirm:{channelId}", ButtonStyle.Danger)
+                        .WithButton("Cancel", $"voice:deletecancel:{channelId}", ButtonStyle.Secondary)
+                        .Build(),
+                    ephemeral: true);
+                break;
+
+            case "manage":
+                await DeferAsync(true);
+                await ctx.Interaction.FollowupAsync(Strings.CustomVoiceManageHint(ctx.Guild.Id), ephemeral: true);
+                break;
+
+            case "hide":
+            case "reveal":
+                await DeferAsync(true);
+                var hide = action == "hide";
+                if (customChannel.IsHidden == hide)
+                {
+                    await ctx.Interaction.SendEphemeralFollowupConfirmAsync(hide
+                        ? Strings.CustomVoiceAlreadyHidden(ctx.Guild.Id)
+                        : Strings.CustomVoiceAlreadyRevealed(ctx.Guild.Id));
+                    return;
+                }
+
+                if (await Service.SetHiddenAsync(ctx.Guild.Id, parsedChannelId, hide))
+                {
+                    await ctx.Interaction.SendEphemeralFollowupConfirmAsync(hide
+                        ? Strings.CustomVoiceHidden(ctx.Guild.Id)
+                        : Strings.CustomVoiceRevealed(ctx.Guild.Id));
+                    await UpdateVoiceControlsMessage(customChannel);
+                }
+                else
+                {
+                    await SendEphemeralFollowupErrorAsync(Strings.CustomVoiceHideError(ctx.Guild.Id));
+                }
+
+                break;
+
             default:
                 // Handle the keepalive action which includes a parameter
                 if (action.StartsWith("keepalive"))
@@ -266,8 +384,11 @@ public class CustomVoiceSlash(
 
                         // Update the keep-alive status
                         await using var dbContext = await dbFactory.CreateConnectionAsync();
+                        await dbContext.CustomVoiceChannels
+                            .Where(c => c.ChannelId == customChannel.ChannelId)
+                            .Set(c => c.KeepAlive, keepAlive)
+                            .UpdateAsync();
                         customChannel.KeepAlive = keepAlive;
-                        await dbContext.InsertAsync(customChannel);
 
 
                         var actionText = keepAlive
@@ -320,7 +441,7 @@ public class CustomVoiceSlash(
 
         if (!isOwner)
         {
-            var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var config = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
             var hasAdminRole = config.CustomVoiceAdminRoleId.HasValue &&
                                user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
 
@@ -332,7 +453,7 @@ public class CustomVoiceSlash(
         }
 
         // Validate and update the channel name
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
         if (!guildConfig.AllowNameCustomization)
         {
             await SendEphemeralFollowupErrorAsync(Strings.CustomVoiceNameCustomizationDisabled(ctx.Guild.Id));
@@ -386,7 +507,7 @@ public class CustomVoiceSlash(
 
         if (!isOwner)
         {
-            var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var config = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
             var hasAdminRole = config.CustomVoiceAdminRoleId.HasValue &&
                                user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
 
@@ -398,7 +519,7 @@ public class CustomVoiceSlash(
         }
 
         // Validate and update the user limit
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
         if (!guildConfig.AllowUserLimitCustomization)
         {
             await SendEphemeralFollowupErrorAsync(Strings.CustomVoiceLimitCustomizationDisabled(ctx.Guild.Id));
@@ -460,7 +581,7 @@ public class CustomVoiceSlash(
 
         if (!isOwner)
         {
-            var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var config = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
             var hasAdminRole = config.CustomVoiceAdminRoleId.HasValue &&
                                user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
 
@@ -472,7 +593,7 @@ public class CustomVoiceSlash(
         }
 
         // Validate and update the bitrate
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
         if (!guildConfig.AllowBitrateCustomization)
         {
             await SendEphemeralFollowupErrorAsync(Strings.CustomVoiceBitrateCustomizationDisabled(ctx.Guild.Id));
@@ -539,7 +660,7 @@ public class CustomVoiceSlash(
 
         if (!isOwner)
         {
-            var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var config = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
             var hasAdminRole = config.CustomVoiceAdminRoleId.HasValue &&
                                user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
 
@@ -620,7 +741,7 @@ public class CustomVoiceSlash(
 
         if (!isOwner)
         {
-            var config = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var config = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
             var hasAdminRole = config.CustomVoiceAdminRoleId.HasValue &&
                                user.RoleIds.Contains(config.CustomVoiceAdminRoleId.Value);
 
@@ -632,7 +753,7 @@ public class CustomVoiceSlash(
         }
 
         // Check if user management is allowed
-        var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+        var guildConfig = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
         if (!guildConfig.AllowUserManagement)
         {
             await SendEphemeralFollowupErrorAsync(Strings.CustomVoiceUserManagementDisabled(ctx.Guild.Id));
@@ -754,7 +875,7 @@ public class CustomVoiceSlash(
                     // Update the allowed users list
                     await using var dbContext = await dbFactory.CreateConnectionAsync();
                     customChannel.AllowedUsersJson = JsonSerializer.Serialize(allowedUsers);
-                    await dbContext.InsertAsync(customChannel);
+                    await dbContext.UpdateAsync(customChannel);
                     // Update permissions if the channel is locked
                     if (customChannel.IsLocked)
                     {
@@ -799,7 +920,7 @@ public class CustomVoiceSlash(
                     // Update the denied users list
                     await using var dbContext = await dbFactory.CreateConnectionAsync();
                     customChannel.DeniedUsersJson = JsonSerializer.Serialize(deniedUsers);
-                    await dbContext.InsertAsync(customChannel);
+                    await dbContext.UpdateAsync(customChannel);
 
 
                     // Update permissions
@@ -857,7 +978,7 @@ public class CustomVoiceSlash(
                 return;
 
             // Get server config
-            var guildConfig = await Service.GetOrCreateConfigAsync(ctx.Guild.Id);
+            var guildConfig = await Service.GetConfigForChannelAsync(ctx.Guild.Id, customChannel.ChannelId);
 
             // Rebuild the embed
             var embed = new EmbedBuilder()
@@ -923,6 +1044,15 @@ public class CustomVoiceSlash(
                     : Strings.CustomVoiceControlsLockButton(ctx.Guild.Id),
                 style: updatedCustomChannel.IsLocked ? ButtonStyle.Success : ButtonStyle.Danger,
                 disabled: !guildConfig.AllowLocking,
+                row: 1
+            );
+
+            components.WithButton(
+                customId: $"voice:{(updatedCustomChannel.IsHidden ? "reveal" : "hide")}:{channel.Id}",
+                label: updatedCustomChannel.IsHidden
+                    ? Strings.CustomVoiceControlsRevealButton(ctx.Guild.Id)
+                    : Strings.CustomVoiceControlsHideButton(ctx.Guild.Id),
+                style: updatedCustomChannel.IsHidden ? ButtonStyle.Success : ButtonStyle.Secondary,
                 row: 1
             );
 

@@ -267,4 +267,51 @@ public class DataImportTests
             Assert.That(plan.Birthdays, Is.Null);
         });
     }
+
+    [TestCase(XpCurveType.Standard)]
+    [TestCase(XpCurveType.Mee6)]
+    [TestCase(XpCurveType.Legacy)]
+    public void OwnXpExportRoundTrips(XpCurveType curve)
+    {
+        var rows = new[]
+        {
+            new DataModel.GuildUserXp
+            {
+                GuildId = 5, UserId = 111111111111111111, TotalXp = 123456, BonusXp = 700
+            },
+            new DataModel.GuildUserXp
+            {
+                GuildId = 5, UserId = 222222222222222222, TotalXp = 40, BonusXp = 0
+            }
+        };
+
+        var data = ImportFileReader.Read(ImportSource.File, XpExport.Serialize(5, curve, rows));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(data.Kind, Is.EqualTo(ImportKind.Xp));
+            Assert.That(data.NativeCurve, Is.EqualTo(curve));
+            Assert.That(data.Members, Has.Count.EqualTo(2));
+            foreach (var row in rows)
+            {
+                var member = data.Members.Single(x => x.UserId == row.UserId);
+                Assert.That(member.Xp, Is.EqualTo(row.TotalXp));
+                Assert.That(member.BonusXp, Is.EqualTo(row.BonusXp));
+                Assert.That(member.Level, Is.EqualTo(XpCalculator.CalculateLevel(row.TotalXp, curve)));
+                Assert.That(DataImportService.ConvertXp(member, data, curve, true), Is.EqualTo(row.TotalXp));
+            }
+        });
+    }
+
+    [Test]
+    public void ReadsBonusXpColumnFromCsv()
+    {
+        var data = ImportFileReader.Read(ImportSource.File, "userid,xp,level,bonusxp\n111111111111111111,500,3,25\n");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(data.Members.Single().Xp, Is.EqualTo(500));
+            Assert.That(data.Members.Single().BonusXp, Is.EqualTo(25));
+        });
+    }
 }

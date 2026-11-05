@@ -29,5 +29,19 @@ namespace DataModel
 		[Column("RemoveOnBelowThreshold"                                                                                   )] public bool      RemoveOnBelowThreshold { get; set; } // boolean
 		[Column("RepostThreshold"                                                                                          )] public int       RepostThreshold        { get; set; } // integer
 		[Column("DateAdded"                                                                                                )] public DateTime? DateAdded              { get; set; } // timestamp (6) without time zone
+		[Column("AllowSelfStar"                                                                                            )] public bool      AllowSelfStar          { get; set; } = true; // boolean
+		[Column("AllowNsfw"                                                                                                )] public bool      AllowNsfw              { get; set; } = true; // boolean
+		[Column("LockedUntil"           , CanBeNull    = true                                                              )] public DateTime? LockedUntil            { get; set; } // timestamp without time zone
+		[Column("AutoStarChannels"      , CanBeNull    = false                                                             )] public string    AutoStarChannels       { get; set; } = ""; // text - channels whose messages are posted without stars
+		[Column("Enabled"                                                                                                  )] public bool      Enabled                { get; set; } = true; // boolean
+		[Column("PostDesign"            , CanBeNull    = true                                                              )] public string?   PostDesign             { get; set; } // text - embed json, null for the default layout
+		[Column("AutoReact"                                                                                                )] public int       AutoReact              { get; set; } // integer - 0 none, 1 first emote, 2 all emotes
+		[Column("CountMultipleReactions"                                                                                   )] public bool      CountMultipleReactions { get; set; } // boolean
+		[Column("AllowedRoles"          , CanBeNull    = false                                                             )] public string    AllowedRoles           { get; set; } = ""; // text - role ids, empty allows everyone
+		[Column("DeniedRoles"           , CanBeNull    = false                                                             )] public string    DeniedRoles            { get; set; } = ""; // text - role ids whose stars never count
+		[Column("MinMessageAgeMinutes"                                                                                     )] public int       MinMessageAgeMinutes   { get; set; } // integer - 0 for none
+		[Column("MaxMessageAgeMinutes"                                                                                     )] public int       MaxMessageAgeMinutes   { get; set; } // integer - 0 for none
+		[Column("RepostCooldownMinutes"                                                                                    )] public int       RepostCooldownMinutes  { get; set; } // integer - 0 for none
+		[Column("RemoveInvalidStars"                                                                                       )] public bool      RemoveInvalidStars     { get; set; } // boolean
 	}
 }

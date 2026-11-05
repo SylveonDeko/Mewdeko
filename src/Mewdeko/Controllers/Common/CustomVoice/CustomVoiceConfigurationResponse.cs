@@ -96,7 +96,57 @@ public class CustomVoiceConfigurationResponse
     public bool AutoPermission { get; set; }
 
     /// <summary>
+    ///     Whether each temporary voice channel gets its own temporary text channel
+    /// </summary>
+    public bool CreateTextChannel { get; set; }
+
+    /// <summary>
     ///     Role ID for custom voice administrators (can manage all custom channels)
     /// </summary>
     public ulong? CustomVoiceAdminRoleId { get; set; }
+
+    /// <summary>
+    ///     Name shown for this hub
+    /// </summary>
+    public string? HubName { get; set; }
+
+    /// <summary>
+    ///     Minutes the owner keeps control after leaving before the channel can be claimed, 0 for no lock
+    /// </summary>
+    public int OwnerLockMinutes { get; set; }
+
+    /// <summary>
+    ///     Whether owners get Manage Channel in their channel
+    /// </summary>
+    public bool OwnerManageChannel { get; set; }
+
+    /// <summary>
+    ///     Whether owners get Manage Roles in their channel
+    /// </summary>
+    public bool OwnerManageRoles { get; set; }
+
+    /// <summary>
+    ///     Whether owners get Move Members in their channel
+    /// </summary>
+    public bool OwnerMoveMembers { get; set; }
+
+    /// <summary>
+    ///     Whether owners get Priority Speaker in their channel
+    /// </summary>
+    public bool OwnerPrioritySpeaker { get; set; }
+
+    /// <summary>
+    ///     Where new channels copy their permissions from: 0 nowhere, 1 the hub, 2 the category
+    /// </summary>
+    public int SyncPermissions { get; set; }
+
+    /// <summary>
+    ///     Role IDs that can moderate every temporary channel from this hub
+    /// </summary>
+    public List<ulong> ModeratorRoleIds { get; set; } = [];
+
+    /// <summary>
+    ///     Whether empty leftover channels are deleted automatically
+    /// </summary>
+    public bool CleanupLeftovers { get; set; }
 }

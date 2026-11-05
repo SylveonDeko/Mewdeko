@@ -1,0 +1,49 @@
+welcomecard:
+  args:
+    - greet
+    - 'greet show'
+    - 'greet enable'
+    - 'greet color #23272A'
+    - 'greet background https://example.com/image.png'
+    - 'greet background preset:nature-dusk'
+    - 'greet overlay 40'
+    - 'greet title Welcome, %user.name%'
+    - 'greet subtitle You are member #%server.members%'
+    - 'greet font noto-bold'
+    - 'greet textcolor #FFFFFF'
+    - 'greet avatar circle'
+    - 'greet reset banner'
+  desc: 'Sets up the image card attached to greet, bye, DM greet and boost messages. Options: show, enable, disable, color, textcolor, background (a link, an attachment, preset:id or none), overlay (0 to 100), title and subtitle (placeholders like %user.name%, %server.name% and %server.members% work), font (noto-bold, noto or unisans), avatar (circle, rounded or square) and reset (a starter layout: classic, centered, banner or minimal). The dashboard designer changes everything else.'
+  params:
+    - desc: 'greet, bye, dmgreet or boost.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'show, enable, disable, color, background, overlay, title, subtitle, font, textcolor, avatar or reset.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'The value for the option.'
+      name: value
+      optional: true
+      type: string
+welcomecardpreview:
+  args:
+    - greet
+    - bye
+  desc: 'Sends a preview of the welcome card using your own account.'
+  params:
+    - desc: 'greet, bye, dmgreet or boost.'
+      name: target
+      optional: true
+      type: string
+backgroundpresets:
+  args:
+    - ''
+    - nature
+  desc: 'Lists the shared background presets. Without a category it lists the categories, with one it lists the presets in it. Use a preset as preset:id in the welcomecard and xpbackground commands.'
+  params:
+    - desc: 'A category id, or nothing to list the categories.'
+      name: category
+      optional: true
+      type: string

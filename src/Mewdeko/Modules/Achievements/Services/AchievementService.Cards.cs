@@ -1,6 +1,7 @@
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Common.Cards;
 using Mewdeko.Modules.Achievements.Common;
 
 namespace Mewdeko.Modules.Achievements.Services;
@@ -43,7 +44,7 @@ public sealed partial class AchievementService
     /// <param name="guildId">The guild ID.</param>
     /// <param name="definition">The achievement.</param>
     /// <returns>The design.</returns>
-    public async Task<AchievementCardTemplate> GetCardForAsync(ulong guildId, AchievementDefinition definition)
+    public async Task<CardTemplate> GetCardForAsync(ulong guildId, AchievementDefinition definition)
     {
         var settings = GetSettings(guildId);
         var designs = await GetCardDesignsAsync(guildId);
@@ -60,7 +61,7 @@ public sealed partial class AchievementService
                 return design.Template;
         }
 
-        return AchievementCardTemplate.Default();
+        return AchievementCards.Default();
     }
 
     /// <summary>
@@ -71,7 +72,7 @@ public sealed partial class AchievementService
     /// <param name="template">The design.</param>
     /// <returns>The design as saved.</returns>
     public async Task<AchievementResult<AchievementCardDesignInfo>> CreateCardDesignAsync(ulong guildId, string name,
-        AchievementCardTemplate template)
+        CardTemplate template)
     {
         name = name.Trim();
         if (name.Length is 0 or > CardNameLength)
@@ -104,7 +105,7 @@ public sealed partial class AchievementService
     /// <param name="template">The new design, or null to keep it.</param>
     /// <returns>The design as saved.</returns>
     public async Task<AchievementResult<AchievementCardDesignInfo>> UpdateCardDesignAsync(ulong guildId, int id,
-        string? name, AchievementCardTemplate? template)
+        string? name, CardTemplate? template)
     {
         name = name?.Trim();
         if (name is not null && name.Length is 0 or > CardNameLength)
@@ -204,10 +205,10 @@ public sealed partial class AchievementService
     /// <param name="guildId">The guild ID.</param>
     /// <param name="template">The design.</param>
     /// <returns>The corrected design.</returns>
-    public async Task<AchievementCardTemplate> OwnedCardAsync(ulong guildId, AchievementCardTemplate template)
+    public async Task<CardTemplate> OwnedCardAsync(ulong guildId, CardTemplate template)
     {
-        var card = AchievementCardRules.Sanitize(template);
-        var linked = AchievementCardRules.Uploads(card).Distinct().ToList();
+        var card = AchievementCards.Sanitize(template);
+        var linked = CardRules.Uploads(card).Distinct().ToList();
         if (linked.Count == 0)
             return card;
 
@@ -238,14 +239,14 @@ public sealed partial class AchievementService
     {
         foreach (var design in await GetCardDesignsAsync(guildId))
         {
-            if (AchievementCardRules.Uploads(design.Template).Contains(uploadId))
+            if (CardRules.Uploads(design.Template).Contains(uploadId))
                 await UpdateCardDesignAsync(guildId, design.Id, null, design.Template.Clone());
         }
     }
 
     private static AchievementCardDesignInfo Info(AchievementCardDesign row)
     {
-        return new AchievementCardDesignInfo(row.Id, row.Name, AchievementCardTemplate.Parse(row.Template),
+        return new AchievementCardDesignInfo(row.Id, row.Name, AchievementCards.Parse(row.Template),
             row.DateUpdated);
     }
 }

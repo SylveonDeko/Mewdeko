@@ -358,13 +358,38 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
             .WithOkColor()
             .AddField("Suggestion",
                 $"{suggest.Suggestion1.Truncate(256)} \n[Jump To Suggestion](https://discord.com/channels/{ctx.Guild.Id}/{await Service.GetSuggestionChannel(ctx.Guild.Id)}/{suggest.MessageId})")
-            .AddField("Suggested By", $"<@{suggest.UserId}> `{suggest.UserId}`")
             .AddField("Current State", (SuggestionsService.SuggestState)suggest.CurrentState)
             .AddField("Last Changed By",
                 suggest.StateChangeUser == 0 ? "Nobody" : $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
             .AddField("State Change Count", suggest.StateChangeCount)
             .AddField("Emote Count", string.Join("\n", emoteCount));
+        if (!await Service.GetAnonymousSuggestions(ctx.Guild))
+            eb.AddField("Suggested By", $"<@{suggest.UserId}> `{suggest.UserId}`");
         await ctx.Interaction.FollowupAsync(embed: eb.Build(), components: components.Build())
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Privately tells staff who made a suggestion.
+    /// </summary>
+    /// <param name="number">The number of the suggestion to look up.</param>
+    [SlashCommand("who", "Shows who made a suggestion, only to you")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task SuggestWho(
+        [Summary("number", "The number of the suggestion")] [Autocomplete(typeof(SuggestionAutocompleter))]
+        ulong number)
+    {
+        var suggest = (await Service.Suggestions(ctx.Guild.Id, number))?.FirstOrDefault();
+        if (suggest is null)
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.SuggestionNotFound(ctx.Guild.Id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Interaction.SendEphemeralConfirmAsync(Strings.SuggestionAuthor(ctx.Guild.Id, number, suggest.UserId))
             .ConfigureAwait(false);
     }
 }

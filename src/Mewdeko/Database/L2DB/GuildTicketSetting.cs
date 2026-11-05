@@ -25,6 +25,7 @@ namespace DataModel
 		[Column("TranscriptChannelId"                                                                                     )] public ulong?   TranscriptChannelId   { get; set; } // numeric(20,0)
 		[Column("EnableStaffPings"                                                                                        )] public bool       EnableStaffPings      { get; set; } // boolean
 		[Column("EnableDmNotifications"                                                                                   )] public bool       EnableDmNotifications { get; set; } // boolean
+		[Column("DmTranscriptOnClose"                                                                                     )] public bool       DmTranscriptOnClose   { get; set; } // boolean
 
         // Internal storage as long[] for database compatibility
         [Column("BlacklistedUsers")]

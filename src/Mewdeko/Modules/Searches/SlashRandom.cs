@@ -65,45 +65,49 @@ public class SlashRandom(
     /// <summary>
     ///     Displays a random cat image.
     /// </summary>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     [SlashCommand("cat", "Get a random cat image")]
     [RequireContext(ContextType.Guild)]
     [CheckPermissions]
-    public Task RandomCat()
+    public Task RandomCat([Summary("bomb", "How many images at once, up to 5")] int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Cats);
+        return InternalRandomImage(SearchesService.ImageTag.Cats, bomb);
     }
 
     /// <summary>
     ///     Displays a random dog image.
     /// </summary>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     [SlashCommand("dog", "Get a random dog image")]
     [RequireContext(ContextType.Guild)]
     [CheckPermissions]
-    public Task RandomDog()
+    public Task RandomDog([Summary("bomb", "How many images at once, up to 5")] int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Dogs);
+        return InternalRandomImage(SearchesService.ImageTag.Dogs, bomb);
     }
 
     /// <summary>
     ///     Displays a random food image.
     /// </summary>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     [SlashCommand("food", "Get a random food image")]
     [RequireContext(ContextType.Guild)]
     [CheckPermissions]
-    public Task RandomFood()
+    public Task RandomFood([Summary("bomb", "How many images at once, up to 5")] int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Food);
+        return InternalRandomImage(SearchesService.ImageTag.Food, bomb);
     }
 
     /// <summary>
     ///     Displays a random bird image.
     /// </summary>
+    /// <param name="bomb">How many images to send at once, up to 5.</param>
     [SlashCommand("bird", "Get a random bird image")]
     [RequireContext(ContextType.Guild)]
     [CheckPermissions]
-    public Task RandomBird()
+    public Task RandomBird([Summary("bomb", "How many images at once, up to 5")] int bomb = 1)
     {
-        return InternalRandomImage(SearchesService.ImageTag.Birds);
+        return InternalRandomImage(SearchesService.ImageTag.Birds, bomb);
     }
 
     /// <summary>
@@ -349,13 +353,30 @@ public class SlashRandom(
         }
     }
 
-    private async Task InternalRandomImage(SearchesService.ImageTag tag)
+    private async Task InternalRandomImage(SearchesService.ImageTag tag, int bomb = 1)
     {
         await DeferAsync().ConfigureAwait(false);
         try
         {
-            var image = await Service.GetRandomImageAsync(tag).ConfigureAwait(false);
+            bomb = Math.Clamp(bomb, 1, 5);
             var button = new ComponentBuilder().WithButton("Another!", $"randomimage:{tag}.{ctx.User.Id}");
+
+            if (bomb > 1)
+            {
+                var images = await Service.GetRandomImagesAsync(tag, bomb).ConfigureAwait(false);
+                var embeds = images.Select(item => new EmbedBuilder()
+                    .WithOkColor()
+                    .WithAuthor(Strings.RedditAuthor(ctx.Guild.Id, item.Data.Author.Name))
+                    .WithDescription($"Title: {item.Data.Title}\n[Source]({item.Data.PostUrl})")
+                    .WithImageUrl(item.Data.ImageUrl)
+                    .Build()).ToArray();
+
+                await ctx.Interaction.FollowupAsync(embeds: embeds, components: button.Build())
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            var image = await Service.GetRandomImageAsync(tag).ConfigureAwait(false);
 
             var em = new EmbedBuilder()
                 .WithOkColor()

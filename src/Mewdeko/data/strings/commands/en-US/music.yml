@@ -361,6 +361,11 @@ playlists:
     - ''
   desc: 'Lists all saved playlists for the guild.'
   params: [ ]
+previous:
+  args:
+    - ''
+  desc: 'Plays the previous track in the queue.'
+  params: [ ]
 queue:
   args:
     - ''

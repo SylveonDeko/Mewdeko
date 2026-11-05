@@ -321,6 +321,12 @@ public class BotCredentials : IBotCredentials
     public string KickClientSecret { get; set; }
 
     /// <summary>
+    ///     Gets or sets the RSS bridge url used to read a TikTok account's latest videos, with {username} as the
+    ///     placeholder. For an RSSHub instance this is https://host/tiktok/user/@{username}, including the @.
+    /// </summary>
+    public string TikTokRssBridgeUrl { get; set; }
+
+    /// <summary>
     ///     Gets or sets the token used for votes.
     /// </summary>
     public string VotesToken { get; set; }
@@ -590,6 +596,7 @@ public class BotCredentials : IBotCredentials
             TrovoClientId = data[nameof(TrovoClientId)];
             KickClientId = data[nameof(KickClientId)];
             KickClientSecret = data[nameof(KickClientSecret)];
+            TikTokRssBridgeUrl = data[nameof(TikTokRssBridgeUrl)] ?? "";
             IsMasterInstance = Convert.ToBoolean(data[nameof(IsMasterInstance)]);
             SpotifyClientId = data[nameof(SpotifyClientId)];
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
@@ -779,6 +786,7 @@ public class BotCredentials : IBotCredentials
         public string TrovoClientId { get; } = "";
         public string KickClientId { get; } = "";
         public string KickClientSecret { get; } = "";
+        public string TikTokRssBridgeUrl { get; } = "";
         public string TwitchClientId { get; } = "";
         public int TotalShards { get; } = 1;
         public string TwitchClientSecret { get; } = "";

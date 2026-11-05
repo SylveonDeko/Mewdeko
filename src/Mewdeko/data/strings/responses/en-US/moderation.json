@@ -24,6 +24,8 @@
   "mute_role_set": "New mute role set.",
   "purge_completed": "Messages have been purged.",
   "purge_invalid_amount": "Invalid amount specified. max is 1000, minimum is 1.",
+  "purge_reactions_completed": "Removed reactions from {0} messages.",
+  "purge_reactions_invalid_emoji": "That is not a valid emoji.",
   "purge_user_fail": "No messages were processed due to permission issues. Please make sure Mewdeko can see all channels.",
   "purge_user_none": "There were no messages to delete from {0}",
   "purge_user_partial": "Deleted {0} messages from {1} in {2} channels.\n{3} channels were unable to be processed due to permission issues.",
@@ -45,6 +47,8 @@
   "user_mini_warned": "{0} has been mini warned",
   "user_mini_warned_and_punished": "{0} has been mini warned and will be {1}",
   "user_muted": "{0} has been **muted** from text and voice chat.",
+  "user_hard_muted": "{0} has been **muted** and their roles removed.",
+  "user_hard_muted_time": "{0} has been **muted** and their roles removed for {1}.",
   "user_muted_dm": "You've been muted in {0} server",
   "user_muted_time": "{0} has been **muted** from text and voice chat for {1}.",
   "user_sanitized_success": "User {0} has been sanitized. Their new nickname is: `{1}`",
@@ -69,5 +73,8 @@
   "warn_punish_rem": "Having {0} warnings will no longer trigger a punishment.",
   "warn_punish_removed": "Users will no longer be punished for {0} warnings.",
   "warn_punish_set": "I will apply {0} punishment to users with {1} warnings.",
-  "warn_punish_set_timed": "I will apply {0} punishment for {2} to users with {1} warnings."
+  "warn_punish_set_timed": "I will apply {0} punishment for {2} to users with {1} warnings.",
+  "warn_clear_all_none": "There are no active warnings in this server.",
+  "warn_clear_all_confirm": "Clear all {0} active warnings in this server?",
+  "warn_clear_all_done": "Cleared {0} warnings."
 }

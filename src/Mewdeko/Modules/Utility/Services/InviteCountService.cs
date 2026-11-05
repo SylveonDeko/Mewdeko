@@ -6,6 +6,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
+using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Extensions;
 using Mewdeko.Services.Analytics;
@@ -41,7 +42,9 @@ public class InviteCountService : INService, IReadyExecutor
         joinWaiters = new();
 
     private readonly ILogger<InviteCountService> logger;
+    private readonly ModCaseService modCases;
     private readonly ConcurrentDictionary<ulong, ConcurrentDictionary<string, int>> pendingUses = new();
+    private readonly EventHandler eventHandler;
     private readonly GeneratedBotStrings strings;
     private readonly ConcurrentDictionary<ulong, int> vanityUses = new();
 
@@ -54,9 +57,13 @@ public class InviteCountService : INService, IReadyExecutor
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
     /// <param name="strings">Localized strings for log channel embeds.</param>
+    /// <param name="modCases">The service recording moderation cases.</param>
     public InviteCountService(EventHandler handler, IDataConnectionFactory dbFactory, DiscordShardedClient client,
-        ILogger<InviteCountService> logger, IAnalyticsCollector collector, GeneratedBotStrings strings)
+        ILogger<InviteCountService> logger, IAnalyticsCollector collector, GeneratedBotStrings strings,
+        ModCaseService modCases)
     {
+        this.modCases = modCases;
+        eventHandler = handler;
         this.dbFactory = dbFactory;
         this.client = client;
         this.logger = logger;
@@ -1050,7 +1057,7 @@ public class InviteCountService : INService, IReadyExecutor
 
     #region Counts
 
-    private static async Task<InviteCount> ApplyDeltaAsync(MewdekoDb db, ulong guildId, ulong userId,
+    private async Task<InviteCount> ApplyDeltaAsync(MewdekoDb db, ulong guildId, ulong userId,
         Action<InviteCount> mutate)
     {
         var row = await db.InviteCounts.FirstOrDefaultAsync(x => x.UserId == userId && x.GuildId == guildId);
@@ -1063,12 +1070,18 @@ public class InviteCountService : INService, IReadyExecutor
             mutate(row);
             row.Recalculate();
             row.Id = await db.InsertWithInt32IdentityAsync(row);
-            return row;
+        }
+        else
+        {
+            var before = row.Count;
+            mutate(row);
+            row.Recalculate();
+            await db.UpdateAsync(row);
+            if (row.Count == before)
+                return row;
         }
 
-        mutate(row);
-        row.Recalculate();
-        await db.UpdateAsync(row);
+        _ = eventHandler.PublishEventAsync("InviteCountChanged", new InviteCountChangedEventArgs(guildId, userId, row.Count));
         return row;
     }
 
@@ -1160,6 +1173,8 @@ public class InviteCountService : INService, IReadyExecutor
         await db.InvitedBies.Where(x => x.GuildId == guildId && x.InviterId == userId)
             .Set(x => x.InviterId, 0UL)
             .UpdateAsync();
+        if (removed > 0)
+            _ = eventHandler.PublishEventAsync("InviteCountChanged", new InviteCountChangedEventArgs(guildId, userId, 0));
         return removed > 0;
     }
 
@@ -1175,8 +1190,11 @@ public class InviteCountService : INService, IReadyExecutor
 
         if (scope == InviteResetScope.Server)
         {
+            var resetIds = await db.InviteCounts.Where(x => x.GuildId == guild.Id).Select(x => x.UserId).ToListAsync();
             var count = await db.InviteCounts.Where(x => x.GuildId == guild.Id).DeleteAsync();
             await db.InvitedBies.Where(x => x.GuildId == guild.Id).DeleteAsync();
+            foreach (var resetId in resetIds)
+                _ = eventHandler.PublishEventAsync("InviteCountChanged", new InviteCountChangedEventArgs(guild.Id, resetId, 0));
             return count;
         }
 
@@ -1626,9 +1644,10 @@ public class InviteCountService : INService, IReadyExecutor
     /// <param name="reason">The audit log reason.</param>
     /// <param name="pruneDays">Days of messages to delete.</param>
     /// <param name="includeInviter">Whether to ban the inviter as well.</param>
+    /// <param name="moderatorId">The moderator the cases are recorded under, or null for the bot.</param>
     /// <returns>How many bans succeeded and failed.</returns>
     public async Task<(int Banned, int Failed)> MassBanAsync(IGuild guild, ulong? inviterId, string? code,
-        string reason, int pruneDays = 0, bool includeInviter = false)
+        string reason, int pruneDays = 0, bool includeInviter = false, ulong? moderatorId = null)
     {
         var records = await GetInvitedRecordsAsync(guild.Id, inviterId, code);
         var targets = records.Select(x => x.UserId).ToHashSet();
@@ -1637,11 +1656,14 @@ public class InviteCountService : INService, IReadyExecutor
 
         var banned = 0;
         var failed = 0;
+        IUser moderator = moderatorId is { } mid ? client.GetUser(mid) ?? client.CurrentUser : client.CurrentUser;
         foreach (var target in targets)
         {
             try
             {
-                await guild.AddBanAsync(target, pruneDays, reason);
+                IUser? user = client.GetUser(target);
+                await modCases.PunishByIdAsync(guild, target, user, moderator, ModCaseAction.Ban,
+                    $"Invite mass ban: {reason}", null, () => guild.AddBanAsync(target, pruneDays, reason));
                 banned++;
             }
             catch (Exception ex)

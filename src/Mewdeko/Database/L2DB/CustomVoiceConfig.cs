@@ -36,6 +36,16 @@ namespace DataModel
 		[Column("PersistUserPreferences"                                                                                        )] public bool      PersistUserPreferences      { get; set; } // boolean
 		[Column("AutoPermission"                                                                                                )] public bool      AutoPermission              { get; set; } // boolean
 		[Column("CustomVoiceAdminRoleId"                                                                                        )] public ulong?  CustomVoiceAdminRoleId      { get; set; } // numeric(20,0)
-		[Column("DateAdded"                                                                                                     )] public DateTime? DateAdded                   { get; set; } // timestamp (6) without time zone
+		[Column("CreateTextChannel"                                                                                             )] public bool      CreateTextChannel           { get; set; } // boolean
+		[Column("DateAdded"                                                                                                     )] public DateTime? DateAdded                  { get; set; } // timestamp (6) without time zone
+		[Column("HubName"                                                                                                       )] public string?   HubName                    { get; set; } // text
+		[Column("OwnerLockMinutes"                                                                                              )] public int       OwnerLockMinutes           { get; set; } // integer
+		[Column("OwnerManageChannel"                                                                                            )] public bool      OwnerManageChannel         { get; set; } = true; // boolean
+		[Column("OwnerManageRoles"                                                                                              )] public bool      OwnerManageRoles           { get; set; } // boolean
+		[Column("OwnerMoveMembers"                                                                                              )] public bool      OwnerMoveMembers           { get; set; } = true; // boolean
+		[Column("OwnerPrioritySpeaker"                                                                                          )] public bool      OwnerPrioritySpeaker       { get; set; } // boolean
+		[Column("SyncPermissions"                                                                                               )] public int       SyncPermissions            { get; set; } // integer
+		[Column("ModeratorRoleIds"                                                                                              )] public string    ModeratorRoleIds           { get; set; } = ""; // text
+		[Column("CleanupLeftovers"                                                                                              )] public bool      CleanupLeftovers           { get; set; } = true; // boolean
 	}
 }

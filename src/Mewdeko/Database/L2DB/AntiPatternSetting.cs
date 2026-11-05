@@ -32,6 +32,8 @@ namespace DataModel
 		[Column("CheckNewAccounts"                                                                                )] public bool      CheckNewAccounts    { get; set; } // boolean
 		[Column("NewAccountDays"                                                                                  )] public int       NewAccountDays      { get; set; } // integer
 		[Column("MinimumScore"                                                                                    )] public int       MinimumScore        { get; set; } // integer
+		[Column("NotifyUser"                                                                                      )] public bool      NotifyUser          { get; set; } // boolean
+		[Column("ExemptRoleIds"                                                                                   )] public string    ExemptRoleIds       { get; set; } = ""; // text
 
 		#region Associations
 		/// <summary>

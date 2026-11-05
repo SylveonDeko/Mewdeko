@@ -548,6 +548,191 @@ public partial class TicketsSlash
         }
 
         /// <summary>
+        ///     Sets the category tickets from a button move to when a staff member claims them.
+        /// </summary>
+        /// <param name="buttonId">The ID of the button to modify.</param>
+        /// <param name="category">The claimed category channel, or omit it to remove it.</param>
+        [SlashCommand("claimed-category", "Sets the category claimed tickets from a button move to")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task TicketClaimedCategory(
+            [Summary("button-id", "ID of the button")]
+            int buttonId,
+            [Summary("category", "Claimed category, omit to clear")]
+            ICategoryChannel? category = null)
+        {
+            var button = await Service.GetButtonAsync(buttonId);
+            if (button == null || button.Panel.GuildId != ctx.Guild.Id)
+            {
+                await ReplyErrorAsync(Strings.TicketPanelNotFound(ctx.Guild.Id));
+                return;
+            }
+
+            await DeferAsync();
+            await Service.UpdateButtonSettingsAsync(ctx.Guild, buttonId, new Dictionary<string, object>
+            {
+                {
+                    "claimedCategoryId", category?.Id
+                }
+            });
+
+            if (category == null)
+                await ConfirmAsync(Strings.TicketClaimedCategoryRemoved(ctx.Guild.Id, buttonId));
+            else
+                await ConfirmAsync(Strings.TicketClaimedCategorySet(ctx.Guild.Id, buttonId, category.Name));
+        }
+
+        /// <summary>
+        ///     Sets whether a button's tickets DM the transcript to the ticket creator when they close.
+        /// </summary>
+        /// <param name="buttonId">The ID of the button to modify.</param>
+        /// <param name="enable">Whether to DM the transcript.</param>
+        [SlashCommand("dm-transcript", "Sets whether a button's closed tickets DM the transcript to their creator")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task TicketDmTranscript(
+            [Summary("button-id", "ID of the button")]
+            int buttonId,
+            [Summary("enable", "Whether the transcript is sent")]
+            bool enable)
+        {
+            var button = await Service.GetButtonAsync(buttonId);
+            if (button == null || button.Panel.GuildId != ctx.Guild.Id)
+            {
+                await ReplyErrorAsync(Strings.TicketPanelNotFound(ctx.Guild.Id));
+                return;
+            }
+
+            await DeferAsync();
+            await Service.UpdateButtonSettingsAsync(ctx.Guild, buttonId, new Dictionary<string, object>
+            {
+                {
+                    "dmTranscript", enable
+                }
+            });
+
+            await ConfirmAsync(Strings.TicketDmTranscriptSet(ctx.Guild.Id, buttonId,
+                enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+        }
+
+        /// <summary>
+        ///     Sets whether every button on a panel DMs the transcript to the ticket creator when a ticket closes.
+        /// </summary>
+        /// <param name="panelId">The message ID of the panel to modify.</param>
+        /// <param name="enable">Whether to DM the transcript.</param>
+        [SlashCommand("panel-dm-transcript", "Sets whether a panel's closed tickets DM the transcript to their creator")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task TicketPanelDmTranscript(
+            [Summary("panel-id", "Message ID of the panel")]
+            ulong panelId,
+            [Summary("enable", "Whether the transcript is sent")]
+            bool enable)
+        {
+            if (!await Service.SetPanelDmTranscriptAsync(ctx.Guild.Id, panelId, enable))
+            {
+                await ReplyErrorAsync(Strings.PanelNotFound(ctx.Guild.Id));
+                return;
+            }
+
+            await DeferAsync();
+
+            await ConfirmAsync(Strings.TicketPanelDmTranscriptSet(ctx.Guild.Id,
+                enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+        }
+
+        /// <summary>
+        ///     Sets the category tickets from a select menu option move to when a staff member claims them.
+        /// </summary>
+        /// <param name="optionId">The ID of the option to modify.</param>
+        /// <param name="category">The claimed category channel, or omit it to remove it.</param>
+        [SlashCommand("option-claimed-category", "Sets the category claimed tickets from an option move to")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task TicketOptionClaimedCategory(
+            [Summary("option-id", "ID of the option")]
+            int optionId,
+            [Summary("category", "Claimed category, omit to clear")]
+            ICategoryChannel? category = null)
+        {
+            var option = await Service.GetSelectOptionAsync(optionId);
+            if (option == null || option.SelectMenu.Panel.GuildId != ctx.Guild.Id)
+            {
+                await ReplyErrorAsync(Strings.SelectMenuOptionNotFound(ctx.Guild.Id));
+                return;
+            }
+
+            await DeferAsync();
+            await Service.UpdateSelectOptionSettingsAsync(ctx.Guild, optionId, new Dictionary<string, object>
+            {
+                {
+                    "claimedCategoryId", category?.Id
+                }
+            });
+
+            if (category == null)
+                await ConfirmAsync(Strings.TicketOptionClaimedCategoryRemoved(ctx.Guild.Id, optionId));
+            else
+                await ConfirmAsync(Strings.TicketOptionClaimedCategorySet(ctx.Guild.Id, optionId, category.Name));
+        }
+
+        /// <summary>
+        ///     Sets whether a select menu option's tickets DM the transcript to the ticket creator when they close.
+        /// </summary>
+        /// <param name="optionId">The ID of the option to modify.</param>
+        /// <param name="enable">Whether to DM the transcript.</param>
+        [SlashCommand("option-dm-transcript", "Sets whether an option's closed tickets DM the transcript to their creator")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task TicketOptionDmTranscript(
+            [Summary("option-id", "ID of the option")]
+            int optionId,
+            [Summary("enable", "Whether the transcript is sent")]
+            bool enable)
+        {
+            var option = await Service.GetSelectOptionAsync(optionId);
+            if (option == null || option.SelectMenu.Panel.GuildId != ctx.Guild.Id)
+            {
+                await ReplyErrorAsync(Strings.SelectMenuOptionNotFound(ctx.Guild.Id));
+                return;
+            }
+
+            await DeferAsync();
+            await Service.UpdateSelectOptionSettingsAsync(ctx.Guild, optionId, new Dictionary<string, object>
+            {
+                {
+                    "dmTranscript", enable
+                }
+            });
+
+            await ConfirmAsync(Strings.TicketOptionDmTranscriptSet(ctx.Guild.Id, optionId,
+                enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+        }
+
+        /// <summary>
+        ///     Sets whether every closed ticket in the server DMs its transcript to the ticket creator.
+        /// </summary>
+        /// <param name="enable">Whether to DM the transcript.</param>
+        [SlashCommand("server-dm-transcript", "Sets whether every closed ticket DMs the transcript to its creator")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task TicketServerDmTranscript(
+            [Summary("enable", "Whether the transcript is sent")]
+            bool enable)
+        {
+            await DeferAsync();
+            await Service.SetDmTranscriptOnCloseAsync(ctx.Guild.Id, enable);
+            await ConfirmAsync(Strings.TicketServerDmTranscriptSet(ctx.Guild.Id,
+                enable ? Strings.Enabled(ctx.Guild.Id) : Strings.Disabled(ctx.Guild.Id)));
+        }
+
+        /// <summary>
         ///     Sets auto-archive behavior for a button.
         /// </summary>
         /// <param name="buttonId">The ID of the button to modify.</param>

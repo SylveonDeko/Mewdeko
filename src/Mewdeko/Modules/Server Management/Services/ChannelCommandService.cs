@@ -1,9 +1,11 @@
 ﻿using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using LinqToDB.Data;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Common;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Common;
 using Mewdeko.Modules.Moderation.Services;
 using StackExchange.Redis;
@@ -22,6 +24,10 @@ public class ChannelCommandService : INService, IReadyExecutor
     private readonly DiscordShardedClient client;
     private readonly IDataCache dataCache;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly LogCommandService logService;
+    private readonly ModCaseService modCases;
+
+    private readonly ConcurrentDictionary<ulong, HashSet<ulong>> lockdownExemptions = new();
 
     private readonly ConcurrentDictionary<ulong, (ServerManagement.LockdownType, PunishmentAction?)> lockdownGuilds =
         new();
@@ -34,10 +40,14 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// <param name="dbFactory">The databse connection provider</param>
     /// <param name="client">The discord client</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
+    /// <param name="modCases">The service recording moderation cases</param>
+    /// <param name="logService">The service writing the server logs</param>
     public ChannelCommandService(IDataCache dataCache, EventHandler handler, IDataConnectionFactory dbFactory,
-        DiscordShardedClient client, BanPruneService banPrune)
+        DiscordShardedClient client, BanPruneService banPrune, ModCaseService modCases, LogCommandService logService)
     {
+        this.logService = logService;
         this.banPrune = banPrune;
+        this.modCases = modCases;
         this.dataCache = dataCache;
         this.dbFactory = dbFactory;
         this.client = client;
@@ -56,6 +66,10 @@ public class ChannelCommandService : INService, IReadyExecutor
         var redisJoinBlockedGuilds = await redisDb.SetMembersAsync(JoinBlockedGuildsKey).ConfigureAwait(false);
 
         await using var context = await dbFactory.CreateConnectionAsync();
+
+        foreach (var group in (await context.LockdownExemptions.ToListAsync().ConfigureAwait(false))
+                 .GroupBy(x => x.GuildId))
+            lockdownExemptions[group.Key] = group.Select(x => x.ChannelId).ToHashSet();
 
         var dbJoinLockdownSettings = await context.LockdownJoinSettings.ToListAsync().ConfigureAwait(false);
         var dbJoinLockdowns = dbJoinLockdownSettings.ToDictionary(x => x.GuildId,
@@ -117,8 +131,9 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// <param name="guild">The guild to lockdown.</param>
     /// <param name="lockdownType">The type of lockdown (Joins, Readonly, Full).</param>
     /// <param name="action">Optional: Action to apply to users who try to join (Kick/Ban).</param>
+    /// <param name="moderator">Optional: Who started the lockdown, for the log.</param>
     public async Task<(bool, ServerManagement.LockdownType)> LockdownGuild(IGuild guild,
-        ServerManagement.LockdownType lockdownType, PunishmentAction? action = null)
+        ServerManagement.LockdownType lockdownType, PunishmentAction? action = null, IUser? moderator = null)
     {
         if (lockdownGuilds.TryGetValue(guild.Id, out var lockdownGuild))
             return (true, lockdownGuild.Item1);
@@ -127,6 +142,7 @@ public class ChannelCommandService : INService, IReadyExecutor
             action = NormalizeJoinLockdownAction(action);
 
         lockdownGuilds[guild.Id] = (lockdownType, action);
+        _ = logService.LogLockdownAsync(guild, true, lockdownType.ToString(), moderator);
 
         if (lockdownType is not (ServerManagement.LockdownType.Joins or ServerManagement.LockdownType.Full))
             return (false, lockdownType);
@@ -144,10 +160,14 @@ public class ChannelCommandService : INService, IReadyExecutor
     ///     Lifts the lockdown for the guild.
     /// </summary>
     /// <param name="guild">The guild to lift the lockdown for.</param>
-    public async Task LiftLockdown(IGuild guild)
+    /// <param name="moderator">Optional: Who lifted the lockdown, for the log.</param>
+    public async Task LiftLockdown(IGuild guild, IUser? moderator = null)
     {
-        if (!lockdownGuilds.TryRemove(guild.Id, out var lockdownInfo) ||
-            lockdownInfo.Item1 != ServerManagement.LockdownType.Joins &&
+        if (!lockdownGuilds.TryRemove(guild.Id, out var lockdownInfo))
+            return;
+
+        _ = logService.LogLockdownAsync(guild, false, lockdownInfo.Item1.ToString(), moderator);
+        if (lockdownInfo.Item1 != ServerManagement.LockdownType.Joins &&
             lockdownInfo.Item1 != ServerManagement.LockdownType.Full) return;
 
         var redisDb = dataCache.Redis.GetDatabase();
@@ -255,12 +275,15 @@ public class ChannelCommandService : INService, IReadyExecutor
             switch (action)
             {
                 case PunishmentAction.Kick:
-                    await user.KickAsync("Server is in lockdown").ConfigureAwait(false);
+                    await modCases.PunishAsync(user.Guild, user, client.CurrentUser, ModCaseAction.Kick,
+                        "Join lockdown", null, () => user.KickAsync("Server is in lockdown")).ConfigureAwait(false);
                     break;
                 case PunishmentAction.Ban:
                     var pruneDays = await banPrune
                         .GetPruneDaysAsync(user.Guild.Id, BanPruneAction.Lockdown).ConfigureAwait(false);
-                    await user.Guild.AddBanAsync(user, pruneDays, "Server is in lockdown").ConfigureAwait(false);
+                    await modCases.PunishAsync(user.Guild, user, client.CurrentUser, ModCaseAction.Ban,
+                        "Join lockdown", null,
+                        () => user.Guild.AddBanAsync(user, pruneDays, "Server is in lockdown")).ConfigureAwait(false);
                     break;
             }
         }
@@ -309,6 +332,65 @@ public class ChannelCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
+    ///     Gets the channels and categories a guild's lockdown never touches.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    public IReadOnlyCollection<ulong> GetExemptions(ulong guildId)
+    {
+        return lockdownExemptions.TryGetValue(guildId, out var ids) ? ids.ToList() : [];
+    }
+
+    /// <summary>
+    ///     Adds a channel or category to the lockdown exemptions, or removes it when it is already there.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="channelId">The channel or category ID.</param>
+    /// <returns>True when it was added, false when it was removed.</returns>
+    public async Task<bool> ToggleExemptionAsync(ulong guildId, ulong channelId)
+    {
+        var ids = GetExemptions(guildId).ToHashSet();
+        var added = ids.Add(channelId);
+        if (!added)
+            ids.Remove(channelId);
+
+        await SetExemptionsAsync(guildId, ids).ConfigureAwait(false);
+        return added;
+    }
+
+    /// <summary>
+    ///     Replaces the lockdown exemptions of a guild.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="channelIds">The channel and category IDs.</param>
+    public async Task SetExemptionsAsync(ulong guildId, IEnumerable<ulong> channelIds)
+    {
+        var ids = channelIds.ToHashSet();
+        await using var context = await dbFactory.CreateConnectionAsync();
+        await context.LockdownExemptions.Where(x => x.GuildId == guildId).DeleteAsync().ConfigureAwait(false);
+        if (ids.Count > 0)
+        {
+            await context.BulkCopyAsync(ids.Select(x => new LockdownExemption
+            {
+                GuildId = guildId, ChannelId = x
+            })).ConfigureAwait(false);
+        }
+
+        lockdownExemptions[guildId] = ids;
+    }
+
+    private bool IsLockable(IGuildChannel channel)
+    {
+        if (!IsRelevantChannel(channel))
+            return false;
+
+        if (!lockdownExemptions.TryGetValue(channel.GuildId, out var exempt))
+            return true;
+
+        return !exempt.Contains(channel.Id) && !(channel is INestedChannel { CategoryId: { } category } &&
+                                                 exempt.Contains(category));
+    }
+
+    /// <summary>
     ///     Stores the original permission overrides for all roles and users in each relevant channel of the guild.
     /// </summary>
     /// <param name="guild">The guild whose channel permissions are being stored.</param>
@@ -323,7 +405,7 @@ public class ChannelCommandService : INService, IReadyExecutor
             .ToListAsync();
 
         var newPermissions = (from channel in channels
-            where IsRelevantChannel(channel)
+            where IsLockable(channel)
             let permissionOverwrites = channel.PermissionOverwrites
             from overwrite in permissionOverwrites
             let existingEntry =
@@ -351,13 +433,13 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// </summary>
     /// <param name="guild">The guild whose permissions are being removed.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    private static async Task RemovePermissions(IGuild guild)
+    private async Task RemovePermissions(IGuild guild)
     {
         var channels = await guild.GetChannelsAsync();
 
         foreach (var channel in channels)
         {
-            if (!IsRelevantChannel(channel)) continue;
+            if (!IsLockable(channel)) continue;
 
             var permissionOverrides = channel.PermissionOverwrites.Where(x => x.TargetId == guild.EveryoneRole.Id);
 
@@ -386,7 +468,7 @@ public class ChannelCommandService : INService, IReadyExecutor
 
         await using var context = await dbFactory.CreateConnectionAsync();
 
-        var relevantChannels = channels.Where(IsRelevantChannel).ToList();
+        var relevantChannels = channels.Where(IsLockable).ToList();
         var channelPermissions = new List<(IGuildChannel Channel, OverwritePermissions Permissions)>();
 
         foreach (var channel in relevantChannels)

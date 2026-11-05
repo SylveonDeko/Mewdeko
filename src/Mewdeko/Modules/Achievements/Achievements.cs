@@ -667,6 +667,93 @@ public class Achievements(AchievementViewService views, InteractiveService inter
     }
 
     /// <summary>
+    ///     Clears every achievement for every member after asking to confirm.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task AchResetAll()
+    {
+        if (!await PromptUserConfirmAsync(Strings.AchievementResetAllConfirm(ctx.Guild.Id), ctx.User.Id))
+            return;
+
+        var cleared = await Service.ResetGuildAsync(ctx.Guild.Id);
+        await ConfirmAsync(Strings.AchievementResetAllDone(ctx.Guild.Id, cleared));
+    }
+
+    /// <summary>
+    ///     Clears one achievement for every member after asking to confirm.
+    /// </summary>
+    /// <param name="achievement">The key or name.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task AchResetOne([Remainder] string achievement)
+    {
+        var def = await FindAsync(achievement);
+        if (def is null)
+            return;
+
+        if (!await PromptUserConfirmAsync(Strings.AchievementResetOneConfirm(ctx.Guild.Id, def.Name), ctx.User.Id))
+            return;
+
+        var cleared = await Service.ResetAchievementAsync(ctx.Guild.Id, def.Key);
+        if (cleared is null)
+        {
+            await ErrorAsync(views.DescribeError(ctx.Guild.Id, AchievementError.NotFound));
+            return;
+        }
+
+        await ConfirmAsync(Strings.AchievementResetOneDone(ctx.Guild.Id, cleared.Value, def.Name));
+    }
+
+    /// <summary>
+    ///     Sets or clears the DM members get when they are 75% of the way to an achievement.
+    /// </summary>
+    /// <param name="enabled">On or off.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task AchAlmostThere(bool enabled)
+    {
+        await Service.UpdateSettingsAsync(ctx.Guild.Id, row => row.AlmostThereDm = enabled);
+        await ConfirmAsync(enabled
+            ? Strings.AchievementAlmostOn(ctx.Guild.Id)
+            : Strings.AchievementAlmostOff(ctx.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Sets the unlock message of one achievement, or clears it to use the server's.
+    /// </summary>
+    /// <param name="achievement">The key or name, in quotes when it has spaces.</param>
+    /// <param name="message">Text or embed JSON with placeholders, or nothing to clear.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task AchUnlockMessage(string achievement, [Remainder] string? message = null)
+    {
+        var def = await FindAsync(achievement);
+        if (def is null)
+            return;
+
+        var result = await Service.SetUnlockMessageAsync((SocketGuild)ctx.Guild, def.Key,
+            string.IsNullOrWhiteSpace(message) ? null : message);
+        if (!result.Success)
+        {
+            await ErrorAsync(views.DescribeError(ctx.Guild.Id, result.Error));
+            return;
+        }
+
+        await ConfirmAsync(string.IsNullOrWhiteSpace(message)
+            ? Strings.AchievementUnlockMessageCleared(ctx.Guild.Id, def.Name)
+            : Strings.AchievementUnlockMessageSet(ctx.Guild.Id, def.Name));
+    }
+
+    /// <summary>
     ///     Makes an achievement unlocked by reaching a number.
     /// </summary>
     /// <param name="metric">What to count.</param>
@@ -751,6 +838,29 @@ public class Achievements(AchievementViewService views, InteractiveService inter
     }
 
     /// <summary>
+    ///     Makes an achievement unlocked by receiving a role.
+    /// </summary>
+    /// <param name="role">The role members have to receive.</param>
+    /// <param name="grade">Bronze to Champion.</param>
+    /// <param name="name">The name.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public Task AchCreateRole(IRole role, AchievementGrade grade, [Remainder] string name)
+    {
+        return CreateAsync(new CustomAchievementDraft
+        {
+            Name = name,
+            Grade = grade,
+            Trigger = AchievementTrigger.Metric,
+            Metric = AchievementMetric.RoleReceived,
+            Threshold = 1,
+            TargetRoleId = role.Id
+        });
+    }
+
+    /// <summary>
     ///     Deletes an achievement the server made.
     /// </summary>
     /// <param name="achievement">The key or name.</param>
@@ -830,7 +940,33 @@ public class Achievements(AchievementViewService views, InteractiveService inter
     [UserPerm(GuildPermission.ManageGuild)]
     public Task AchRewardClear([Remainder] string achievement)
     {
-        return SetRewardAsync(achievement, 0, 0, 0);
+        return SetRewardAsync(achievement, 0, 0, 0, 0);
+    }
+
+    /// <summary>
+    ///     Takes a role away from members who unlock an achievement.
+    /// </summary>
+    /// <param name="role">The role.</param>
+    /// <param name="achievement">The key or name.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    [BotPerm(GuildPermission.ManageRoles)]
+    public async Task AchRewardTakeRole(IRole role, [Remainder] string achievement)
+    {
+        var def = await FindAsync(achievement);
+        if (def is null)
+            return;
+
+        var result = await Service.SetRewardsAsync((SocketGuild)ctx.Guild, def.Key, null, null, null, role.Id);
+        if (!result.Success)
+        {
+            await ErrorAsync(views.DescribeError(ctx.Guild.Id, result.Error));
+            return;
+        }
+
+        await ConfirmAsync(Strings.AchievementRewardTakeSet(ctx.Guild.Id, result.Value!.Name, role.Mention));
     }
 
     /// <summary>
@@ -926,13 +1062,13 @@ public class Achievements(AchievementViewService views, InteractiveService inter
         await ConfirmAsync(Strings.AchievementCreated(ctx.Guild.Id, def.Name, def.Key, def.Description));
     }
 
-    private async Task SetRewardAsync(string input, ulong? roleId, long? currency, int? xp)
+    private async Task SetRewardAsync(string input, ulong? roleId, long? currency, int? xp, ulong? takeRoleId = null)
     {
         var def = await FindAsync(input);
         if (def is null)
             return;
 
-        var result = await Service.SetRewardsAsync((SocketGuild)ctx.Guild, def.Key, roleId, currency, xp);
+        var result = await Service.SetRewardsAsync((SocketGuild)ctx.Guild, def.Key, roleId, currency, xp, takeRoleId);
         if (!result.Success)
         {
             await ErrorAsync(views.DescribeError(ctx.Guild.Id, result.Error));

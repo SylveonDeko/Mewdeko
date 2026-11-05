@@ -5,6 +5,7 @@ using LinqToDB.Data;
 using Mewdeko.Controllers.Common.AuditLog;
 using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Controllers.Common.Wizard;
+using Mewdeko.Modules.Permissions.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceUserAction = Mewdeko.Services.UserAction;
@@ -23,6 +24,7 @@ public class WizardController : Controller
     private readonly IDashboardAuditContext auditContext;
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly FilterService filterService;
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<WizardController> logger;
     private readonly WizardDecisionService wizardService;
@@ -36,8 +38,10 @@ public class WizardController : Controller
         DiscordShardedClient client,
         ILogger<WizardController> logger,
         GuildSettingsService guildSettings,
-        IDashboardAuditContext auditContext)
+        IDashboardAuditContext auditContext,
+        FilterService filterService)
     {
+        this.filterService = filterService;
         this.wizardService = wizardService;
         this.dbFactory = dbFactory;
         this.client = client;
@@ -527,6 +531,7 @@ public class WizardController : Controller
                     FilterWords = request.FilterWords,
                     WarnlogChannelId = request.LogChannelId ?? 0
                 });
+            guildSettings.ClearCacheForGuild(request.GuildId);
 
             // Add custom filtered words if specified
             if (request.CustomFilteredWords.Any())
@@ -537,6 +542,7 @@ public class WizardController : Controller
                 });
 
                 await db.BulkCopyAsync(filteredWords);
+                filterService.InvalidateCache(request.GuildId);
             }
 
             return Ok(new FeatureConfigResult

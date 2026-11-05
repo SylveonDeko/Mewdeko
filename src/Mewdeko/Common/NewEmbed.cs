@@ -350,8 +350,9 @@ public class NewEmbed
     ///     Converts a collection of <see cref="Embed" /> objects to a collection of Discord.NET <see cref="Embed" /> objects.
     /// </summary>
     /// <param name="embeds">The collection of <see cref="Embed" /> objects to convert.</param>
+    /// <param name="useTimestamps">Whether to show the timestamp of each embed.</param>
     /// <returns>An array of <see cref="Discord.Embed" /> objects, without embeds that would show nothing.</returns>
-    public static Discord.Embed[] ToEmbedArray(IEnumerable<Embed> embeds)
+    public static Discord.Embed[] ToEmbedArray(IEnumerable<Embed> embeds, bool useTimestamps = false)
     {
         var toReturn = new List<Discord.Embed>();
         foreach (var i in embeds)
@@ -366,6 +367,10 @@ public class NewEmbed
                 embed.WithUrl(i.Url);
             if (i.Color is not null)
                 embed.WithColor(i.Color.Value);
+            if (useTimestamps && i.Timestamp.HasValue)
+                embed.WithTimestamp(new DateTimeOffset(i.Timestamp.Value.Kind == DateTimeKind.Unspecified
+                    ? DateTime.SpecifyKind(i.Timestamp.Value, DateTimeKind.Utc)
+                    : i.Timestamp.Value));
             if (i.Footer != null && !string.IsNullOrWhiteSpace(i.Footer.Text))
             {
                 embed.WithFooter(efb =>

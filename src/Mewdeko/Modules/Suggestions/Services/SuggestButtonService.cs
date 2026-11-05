@@ -104,6 +104,11 @@ public class SuggestButtonService(ILogger<SuggestButtonService> logger) : Mewdek
             }
 
             await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build()).ConfigureAwait(false);
+
+            var fresh = await Service.GetSuggestByMessage(componentInteraction.Message.Id);
+            if (fresh is { CurrentState: 0 })
+                await Service.ApplyVoteColor(componentInteraction.Message, ctx.Guild.Id, fresh.EmoteCount1,
+                    fresh.EmoteCount2).ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -134,9 +139,13 @@ public class SuggestButtonService(ILogger<SuggestButtonService> logger) : Mewdek
             var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion",
                     message: componentInteraction.Message)
                 .ConfigureAwait(false);
-            var user = await ctx.Guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
-            if (user is not null)
-                await threadChannel.AddUserAsync(user).ConfigureAwait(false);
+            if (!await Service.GetAnonymousSuggestions(ctx.Guild))
+            {
+                var user = await ctx.Guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
+                if (user is not null)
+                    await threadChannel.AddUserAsync(user).ConfigureAwait(false);
+            }
+
             await threadChannel.AddUserAsync(ctx.User as IGuildUser).ConfigureAwait(false);
             await Service.AddThreadChannel(componentInteraction.Message.Id, threadChannel.Id).ConfigureAwait(false);
             await ctx.Interaction.SendEphemeralConfirmAsync($"{threadChannel.Mention} has been created!")
@@ -172,9 +181,13 @@ public class SuggestButtonService(ILogger<SuggestButtonService> logger) : Mewdek
             var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion",
                     ThreadType.PrivateThread, message: componentInteraction.Message)
                 .ConfigureAwait(false);
-            var user = await ctx.Guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
-            if (user is not null)
-                await threadChannel.AddUserAsync(user).ConfigureAwait(false);
+            if (!await Service.GetAnonymousSuggestions(ctx.Guild))
+            {
+                var user = await ctx.Guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
+                if (user is not null)
+                    await threadChannel.AddUserAsync(user).ConfigureAwait(false);
+            }
+
             await threadChannel.AddUserAsync(ctx.User as IGuildUser).ConfigureAwait(false);
             await Service.AddThreadChannel(componentInteraction.Message.Id, threadChannel.Id).ConfigureAwait(false);
             await ctx.Interaction.SendEphemeralConfirmAsync($"{threadChannel.Mention} has been created!")

@@ -234,6 +234,60 @@ public class ExportedTriggers
     public string? Cat { get; set; }
 
     /// <summary>
+    ///     Gets or sets a value indicating whether only staff can fire the trigger.
+    /// </summary>
+    public bool Staff { get; set; }
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the trigger only fires in NSFW channels.
+    /// </summary>
+    public bool Nsfw { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the channels the trigger is limited to.
+    /// </summary>
+    /// <remarks>
+    ///     Channel ids are assigned per server, so a share code leaves this empty.
+    /// </remarks>
+    public List<ulong> Chans { get; set; } = [];
+
+    /// <summary>
+    ///     Gets or sets the channels the trigger never fires in.
+    /// </summary>
+    /// <remarks>
+    ///     Channel ids are assigned per server, so a share code leaves this empty.
+    /// </remarks>
+    public List<ulong> DeniedChans { get; set; } = [];
+
+    /// <summary>
+    ///     Gets or sets the roles whose members cannot fire the trigger.
+    /// </summary>
+    /// <remarks>
+    ///     Role ids are assigned per server, so a share code leaves this empty.
+    /// </remarks>
+    public List<ulong> DeniedRoles { get; set; } = [];
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the response hides who fired the trigger.
+    /// </summary>
+    public bool Anon { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the channel the response is always sent to, or 0 to respond where the trigger fired.
+    /// </summary>
+    public ulong ReplyChan { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the question asked before the trigger responds.
+    /// </summary>
+    public string? Prompt { get; set; }
+
+    /// <summary>
+    ///     Gets or sets how many seconds the member has to answer the prompt.
+    /// </summary>
+    public int PromptSecs { get; set; }
+
+    /// <summary>
     ///     Converts a <see cref="DataModel.ChatTrigger" /> object to an <see cref="ExportedTriggers" /> object.
     /// </summary>
     /// <param name="ct">The <see cref="DataModel.ChatTrigger" /> object.</param>
@@ -289,7 +343,16 @@ public class ExportedTriggers
             Counter = ct.CounterName,
             CounterMin = ct.CounterMin,
             CounterMax = ct.CounterMax,
-            Cat = ct.Category
+            Cat = ct.Category,
+            Staff = ct.StaffOnly,
+            Nsfw = ct.NsfwOnly,
+            Chans = ct.GetAllowedChannels(),
+            DeniedChans = ct.GetDeniedChannels(),
+            DeniedRoles = ct.GetDeniedRoles(),
+            Anon = ct.Anonymous,
+            ReplyChan = ct.ReplyChannelId,
+            Prompt = ct.PromptQuestion,
+            PromptSecs = ct.PromptTimeoutSeconds
         };
     }
 
@@ -353,6 +416,15 @@ public class ExportedTriggers
             CounterMin = CounterMin,
             CounterMax = CounterMax,
             Category = Cat,
+            StaffOnly = Staff,
+            NsfwOnly = Nsfw,
+            AllowedChannelIds = Chans.Count > 0 ? string.Join("@@@", Chans) : null,
+            DeniedChannelIds = DeniedChans.Count > 0 ? string.Join("@@@", DeniedChans) : null,
+            DeniedRoleIds = DeniedRoles.Count > 0 ? string.Join("@@@", DeniedRoles) : null,
+            Anonymous = Anon,
+            ReplyChannelId = ReplyChan,
+            PromptQuestion = Prompt,
+            PromptTimeoutSeconds = PromptSecs > 0 ? PromptSecs : 30,
             DateAdded = DateTime.UtcNow
         };
     }

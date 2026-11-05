@@ -324,6 +324,66 @@ public partial class Moderation
         }
 
         /// <summary>
+        ///     Mutes a user and removes their roles until they are unmuted.
+        /// </summary>
+        /// <param name="target">The user to mute</param>
+        /// <param name="reason">The reason for the mute</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        [Priority(0)]
+        public async Task HardMute(IGuildUser? target, [Remainder] string reason = "")
+        {
+            try
+            {
+                if (!await CheckRoleHierarchy(target))
+                    return;
+
+                await Service.MuteUser(target, ctx.User, reason: reason, hardMute: true).ConfigureAwait(false);
+                await ReplyConfirmAsync(Strings.UserHardMuted(ctx.Guild.Id, Format.Bold(target.ToString())))
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Error in hardmute command");
+                await ReplyErrorAsync(Strings.MuteError(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///     Mutes a user for a specified amount of time and removes their roles until the mute ends.
+        /// </summary>
+        /// <param name="time">The amount of time to mute the user for</param>
+        /// <param name="user">The user to mute</param>
+        /// <param name="reason">The reason for the mute</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        [Priority(1)]
+        public async Task HardMute(StoopidTime time, IGuildUser? user, [Remainder] string reason = "")
+        {
+            if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(90))
+                return;
+            try
+            {
+                if (!await CheckRoleHierarchy(user))
+                    return;
+
+                await Service.TimedMute(user, ctx.User, time.Time, reason: reason, hardMute: true)
+                    .ConfigureAwait(false);
+                await ReplyConfirmAsync(Strings.UserHardMutedTime(ctx.Guild.Id, Format.Bold(user.ToString()),
+                    time.Time.Humanize())).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Error in hardmute command");
+                await ReplyErrorAsync(Strings.MuteError(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         ///     Unmutes a user.
         /// </summary>
         /// <param name="user">The user to unmute</param>

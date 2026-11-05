@@ -41,7 +41,7 @@ public class RoleMenuResponse
     public string? Message { get; set; }
 
     /// <summary>
-    ///     0 dropdown, 1 buttons.
+    ///     0 dropdown, 1 buttons, 2 reactions.
     /// </summary>
     public int Style { get; set; }
 
@@ -51,7 +51,7 @@ public class RoleMenuResponse
     public string? Placeholder { get; set; }
 
     /// <summary>
-    ///     0 pick any, 1 pick one.
+    ///     0 pick any, 1 pick one, 2 add only, 3 remove only, 4 reverse.
     /// </summary>
     public int Mode { get; set; }
 
@@ -69,6 +69,36 @@ public class RoleMenuResponse
     ///     Role needed to use the menu, or null for anyone.
     /// </summary>
     public ulong? RequiredRoleId { get; set; }
+
+    /// <summary>
+    ///     Roles that stop a member from using the menu.
+    /// </summary>
+    public List<ulong> BlockedRoleIds { get; set; } = [];
+
+    /// <summary>
+    ///     Seconds a role from this menu lasts before it is taken back. 0 means it stays.
+    /// </summary>
+    public int TempRoleSeconds { get; set; }
+
+    /// <summary>
+    ///     When the menu deletes its message and turns itself off, in UTC, or null for never.
+    /// </summary>
+    public DateTime? ExpiresAt { get; set; }
+
+    /// <summary>
+    ///     Group the menu is linked into, or null for none.
+    /// </summary>
+    public int? GroupId { get; set; }
+
+    /// <summary>
+    ///     RGB colour of the default message, or null for the bot's usual colour.
+    /// </summary>
+    public int? AccentColor { get; set; }
+
+    /// <summary>
+    ///     Button colour for options left on grey: 1 blurple, 3 green, 4 red, 0 keeps grey.
+    /// </summary>
+    public int ButtonColor { get; set; }
 
     /// <summary>
     ///     0 private confirmation, 1 no confirmation.
@@ -150,6 +180,21 @@ public class RoleMenuOptionResponse
     ///     Button color: 1 blurple, 2 grey, 3 green, 4 red.
     /// </summary>
     public int ButtonStyle { get; set; }
+
+    /// <summary>
+    ///     Seconds this role lasts before it is taken back. 0 uses the menu's setting.
+    /// </summary>
+    public int TempRoleSeconds { get; set; }
+
+    /// <summary>
+    ///     Most members who can hold this role through the menu. 0 means no limit.
+    /// </summary>
+    public int MaxHolders { get; set; }
+
+    /// <summary>
+    ///     How many members hold this role right now.
+    /// </summary>
+    public int Holders { get; set; }
 
     /// <summary>
     ///     0-based position.
@@ -317,6 +362,11 @@ public class RoleMenuLimitsLookup
     public int MaxOptions { get; set; }
 
     /// <summary>
+    ///     Most options on a reaction menu.
+    /// </summary>
+    public int MaxReactionOptions { get; set; }
+
+    /// <summary>
     ///     Buttons per row.
     /// </summary>
     public int ButtonsPerRow { get; set; }
@@ -340,6 +390,16 @@ public class RoleMenuLimitsLookup
     ///     Longest dropdown placeholder.
     /// </summary>
     public int PlaceholderLength { get; set; }
+
+    /// <summary>
+    ///     Longest temporary role duration, in seconds.
+    /// </summary>
+    public int MaxTempSeconds { get; set; }
+
+    /// <summary>
+    ///     Most roles a menu can block.
+    /// </summary>
+    public int MaxBlockedRoles { get; set; }
 }
 
 /// <summary>
@@ -407,4 +467,30 @@ public class RoleMenuImportPair
     ///     Whether the role still exists.
     /// </summary>
     public bool RoleExists { get; set; }
+}
+
+/// <summary>
+///     A group of linked role menus.
+/// </summary>
+public class RoleMenuGroupResponse
+{
+    /// <summary>
+    ///     Group ID.
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
+    ///     Group name.
+    /// </summary>
+    public string Name { get; set; } = null!;
+
+    /// <summary>
+    ///     Most roles a member can hold across the group's menus. 0 means no limit.
+    /// </summary>
+    public int MaxRoles { get; set; }
+
+    /// <summary>
+    ///     IDs of the menus in the group.
+    /// </summary>
+    public List<int> MenuIds { get; set; } = [];
 }

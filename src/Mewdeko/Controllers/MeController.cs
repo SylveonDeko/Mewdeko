@@ -37,6 +37,7 @@ public class MeController(
     DiscordShardedClient client,
     IDataConnectionFactory dbFactory,
     WizardDecisionService wizardService,
+    EventHandler eventHandler,
     IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
@@ -442,6 +443,8 @@ public class MeController(
 
         auditContext.RecordAfter(dbUser);
         await db.UpdateAsync(dbUser);
+        if (request.Birthday.HasValue)
+            _ = eventHandler.PublishEventAsync("BirthdaySet", new MemberActivityEventArgs(0, userId));
 
         return Ok();
     }

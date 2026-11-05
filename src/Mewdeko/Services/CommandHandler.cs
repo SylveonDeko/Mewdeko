@@ -10,6 +10,7 @@ using Discord.Rest;
 using Fergun.Interactive;
 using LinqToDB;
 using Mewdeko.Common.Collections;
+using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Chat_Triggers.Services;
@@ -622,6 +623,7 @@ public class CommandHandler : INService
             //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
             var ctx = new ShardedInteractionContext(client, interaction);
+            GuildEmbedColorService.Enter(interaction.GuildId);
             ackTracker.Begin(interaction.Id, interaction.CreatedAt);
             if (await IsBlockedByLateBlockers(ctx, interaction).ConfigureAwait(false))
             {
@@ -674,6 +676,42 @@ public class CommandHandler : INService
             {
                 //exclude
             }
+        }
+    }
+
+    private static readonly AsyncLocal<bool> RunningAsMember = new();
+
+    /// <summary>
+    ///     Runs a command as a member through the normal command pipeline, so the member's own permissions and every
+    ///     permission check apply.
+    /// </summary>
+    /// <param name="guild">The guild the command runs in.</param>
+    /// <param name="channel">The channel the command runs in.</param>
+    /// <param name="user">The member the command runs as.</param>
+    /// <param name="commandText">The command and its arguments, without the prefix.</param>
+    /// <returns>False if the command was refused before it reached the pipeline, otherwise true.</returns>
+    /// <remarks>
+    ///     A command started this way cannot start another, so a chat trigger cannot loop through itself.
+    /// </remarks>
+    public async Task<bool> ExecuteAsMember(IGuild guild, IMessageChannel channel, IUser user, string commandText)
+    {
+        if (RunningAsMember.Value || string.IsNullOrWhiteSpace(commandText))
+            return false;
+
+        var prefix = await gss.GetPrefix(guild).ConfigureAwait(false);
+        if (prefix == null)
+            return false;
+
+        RunningAsMember.Value = true;
+        try
+        {
+            var msg = MewdekoUserMessage.CreateWithMentions(prefix + commandText.Trim(), user, channel);
+            await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
+            return true;
+        }
+        finally
+        {
+            RunningAsMember.Value = false;
         }
     }
 
@@ -862,6 +900,7 @@ public class CommandHandler : INService
         CommandContext context, string input, int argPos,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
+        GuildEmbedColorService.Enter(context.Guild?.Id);
         var searchResult = commandService.Search(context, input[argPos..]);
         if (!searchResult.IsSuccess)
             return (false, searchResult.ErrorReason, null, searchResult.Error?.ToString());
@@ -918,8 +957,23 @@ public class CommandHandler : INService
                 return (false, "lateblocker", null, "Blocked");
         }
 
-        var result = await chosenOverload.match.ExecuteAsync(context, chosenOverload.parseResult, Services)
+        var (execContext, deleteInvoker) = await Services.GetRequiredService<CommandReplyRedirectService>()
+            .ApplyAsync(context, cmd).ConfigureAwait(false);
+
+        var result = await chosenOverload.match.ExecuteAsync(execContext, chosenOverload.parseResult, Services)
             .ConfigureAwait(false);
+
+        if (deleteInvoker)
+        {
+            try
+            {
+                await context.Message.DeleteAsync().ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                // The bot may lack Manage Messages here
+            }
+        }
 
         if (result is not ExecuteResult executeResult)
             return (result.IsSuccess, result.ErrorReason, cmd, result.Error?.ToString());

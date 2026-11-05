@@ -130,7 +130,7 @@ public partial class Currency(
                 bonus = Math.Min(bonus, config.DailyStreakMaxBonus);
         }
 
-        var total = rewardAmount + bonus;
+        var total = await BoostService.ApplyAsync(ctx.Guild.Id, CurrencyCooldownService.Daily, rewardAmount + bonus);
         var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
 
         await Service.CreditAsync(ctx.User.Id, total, Strings.DailyRewardTransaction(ctx.Guild.Id),
@@ -251,7 +251,7 @@ public partial class Currency(
         var payout = Math.Max(0, betAmount + delta);
 
         if (payout > 0)
-            await PayoutAsync(payout, "spinwheel");
+            payout = await PayoutAsync(payout, "spinwheel", betAmount);
 
         var net = payout - betAmount;
         var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
@@ -1717,7 +1717,7 @@ public partial class Currency(
         var payout = Math.Max(0, betAmount + delta);
 
         if (payout > 0)
-            await PayoutAsync(payout, "wheelfortune");
+            payout = await PayoutAsync(payout, "wheelfortune", betAmount);
 
         var balanceChange = payout - betAmount;
 

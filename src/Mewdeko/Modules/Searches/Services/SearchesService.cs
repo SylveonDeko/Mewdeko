@@ -800,6 +800,35 @@ public class SearchesService : INService, IUnloadableService
 
 
     /// <summary>
+    ///     Gets several different random images from a category at once.
+    /// </summary>
+    /// <param name="tag">The category of image to fetch.</param>
+    /// <param name="count">How many images to fetch.</param>
+    /// <returns>The images that could be fetched, without repeats.</returns>
+    /// <exception cref="ApiException">Thrown when every request fails.</exception>
+    public async Task<List<RedditPost>> GetRandomImagesAsync(ImageTag tag, int count)
+    {
+        ApiException? failure = null;
+        var posts = await Task.WhenAll(Enumerable.Range(0, count).Select(async _ =>
+        {
+            try
+            {
+                return await GetRandomImageAsync(tag).ConfigureAwait(false);
+            }
+            catch (ApiException ex)
+            {
+                failure = ex;
+                return null;
+            }
+        })).ConfigureAwait(false);
+
+        var images = posts.Where(x => x is not null).DistinctBy(x => x!.Data.ImageUrl).Select(x => x!).ToList();
+        if (images.Count == 0 && failure is not null)
+            throw failure;
+        return images;
+    }
+
+    /// <summary>
     ///     Gets a random image from a specified category using the Martine API.
     /// </summary>
     /// <param name="tag">The category of image to fetch.</param>

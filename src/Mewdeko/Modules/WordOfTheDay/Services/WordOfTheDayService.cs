@@ -789,7 +789,7 @@ public class WordOfTheDayService : INService, IDisposable
             heading += $"  *{entry.PartOfSpeech}*";
 
         var builder = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithTitle(title)
             .WithDescription(heading)
             .AddField(strings.WotdFieldDefinition(guild.Id), Clamp(entry.Definition, 1000));

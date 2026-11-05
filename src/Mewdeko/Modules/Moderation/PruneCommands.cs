@@ -13,8 +13,6 @@ public partial class Moderation
     [Group]
     public class PurgeCommands(DiscordShardedClient client) : MewdekoSubmodule<PurgeService>
     {
-        private static readonly TimeSpan TwoWeeks = TimeSpan.FromDays(14);
-
         /// <summary>
         ///     Purges messages from the current channel.
         /// </summary>
@@ -55,6 +53,11 @@ public partial class Moderation
         /// -he, --hasembed: Purge messages that have an embed
         /// -ne, --noembed: Purge messages that do not have an embed
         /// -c, --contains: Purge messages that contain a specific string
+        /// -l, --links: Purge messages that have a link
+        /// -m, --mentions: Purge messages that mention a user or role
+        /// -f, --files: Purge messages that have an attachment
+        /// -i, --images: Purge messages that have an image attachment or embed
+        /// -e, --emoji: Purge messages that contain an emoji
         /// </code>
         /// </summary>
         /// <param name="count">The amount of messages to purge</param>
@@ -79,69 +82,8 @@ public partial class Moderation
                 return;
             }
 
-            var options = new List<Func<IMessage, bool>>();
-
-            var parts = parameters.Split([
-                ' ', ','
-            ], StringSplitOptions.RemoveEmptyEntries);
-            string input = null;
-
-            for (var i = 0; i < parts.Length; i++)
-            {
-                switch (parts[i])
-                {
-                    case "-s":
-                    case "--safe":
-                        options.Add(x => !x.IsPinned);
-                        break;
-                    case "-nb":
-                    case "--nobots":
-                        options.Add(x => !x.Author.IsBot);
-                        break;
-                    case "-ob":
-                    case "--onlybots":
-                        options.Add(x => x.Author.IsBot);
-                        break;
-                    case "-he":
-                    case "--hasembed":
-                        options.Add(x => x.Embeds.Count > 0);
-                        break;
-                    case "-ne":
-                    case "--noembed":
-                        options.Add(x => x.Embeds.Count == 0);
-                        break;
-                    case "-c":
-                    case "--contains":
-                        if (i + 1 < parts.Length) input = parts[++i];
-                        if (!string.IsNullOrEmpty(input))
-                            options.Add(x => x.Content.Contains(input, StringComparison.InvariantCultureIgnoreCase));
-                        break;
-                    case "-b":
-                    case "--before":
-                    case "-a":
-                    case "--after":
-                        if (i + 1 < parts.Length)
-                        {
-                            if (DateTimeOffset.TryParse(parts[++i], out var date))
-                            {
-                                if (parts[i - 1].Contains("before"))
-                                    options.Add(x => x.Timestamp < date);
-                                else
-                                    options.Add(x => x.Timestamp > date);
-                            }
-                        }
-
-                        break;
-                }
-            }
-
-            await Service.PurgeWhere((ITextChannel)ctx.Channel, count, CombinedPredicate).ConfigureAwait(false);
-            return;
-
-            bool CombinedPredicate(IMessage m)
-            {
-                return options.All(p => p(m));
-            }
+            var predicate = PurgeService.BuildPredicate(PurgeService.ParseFilters(parameters));
+            await Service.PurgeWhere((ITextChannel)ctx.Channel, count, predicate).ConfigureAwait(false);
         }
 
         //Purge @user [x]
@@ -191,14 +133,32 @@ public partial class Moderation
                     break;
             }
 
-            if (parameter is "-s" or "--safe")
+            var predicate = PurgeService.BuildPredicate(PurgeService.ParseFilters(parameter, userId));
+            return Service.PurgeWhere((ITextChannel)ctx.Channel, count, predicate);
+        }
+
+        /// <summary>
+        ///     Removes reactions from the last messages in the current channel, optionally only one emoji.
+        /// </summary>
+        /// <param name="count">How many recent messages to look through</param>
+        /// <param name="emoji">Only remove this emoji</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(ChannelPermission.ManageMessages)]
+        [BotPerm(ChannelPermission.ManageMessages)]
+        public async Task PurgeReactions(int count = 100, string? emoji = null)
+        {
+            count = Math.Clamp(count, 1, 1000);
+            IEmote? emote = null;
+            if (emoji is not null && !PurgeService.TryParseEmote(emoji, out emote))
             {
-                return Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks && !m.IsPinned);
+                await ReplyErrorAsync(Strings.PurgeReactionsInvalidEmoji(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
             }
 
-            return Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks);
+            var cleared = await Service.ClearReactions((ITextChannel)ctx.Channel, count, emote).ConfigureAwait(false);
+            await ReplyConfirmAsync(Strings.PurgeReactionsCompleted(ctx.Guild.Id, cleared)).ConfigureAwait(false);
         }
 
         /// <summary>

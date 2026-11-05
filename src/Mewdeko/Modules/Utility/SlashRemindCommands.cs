@@ -1,6 +1,7 @@
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using Humanizer;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Utility.Services;
 
@@ -50,8 +51,16 @@ public class SlashRemindCommands(InteractiveService interactivity) : MewdekoSlas
         [Summary("reminder", "(optional) what should the reminder message be")]
         string? reminder = "",
         [Summary("channel", "The channel to send the reminder to when the target is Channel.")]
-        ITextChannel? channel = null)
+        ITextChannel? channel = null,
+        [Summary("repeat", "Repeat the reminder at this interval, at least one hour.")]
+        TimeSpan? repeat = null)
     {
+        if (repeat.HasValue && (repeat.Value < RemindService.MinRepeat || repeat.Value > TimeSpan.FromDays(60)))
+        {
+            await ReplyErrorAsync(Strings.RemindRepeatRange(ctx.Guild?.Id ?? 0)).ConfigureAwait(false);
+            return;
+        }
+
         if (target == RemindTarget.Here && ctx.Guild is null)
             target = RemindTarget.Me;
 
@@ -97,31 +106,124 @@ public class SlashRemindCommands(InteractiveService interactivity) : MewdekoSlas
 
         if (string.IsNullOrEmpty(reminder))
         {
-            await RespondWithModalAsync<ReminderModal>($"remind:{targetId},{(isPrivate ? 1 : 0)},{time};")
+            await RespondWithModalAsync<ReminderModal>(
+                    $"remind:{targetId},{(isPrivate ? 1 : 0)},{time},{repeat ?? TimeSpan.Zero};")
                 .ConfigureAwait(false);
             return;
         }
 
         await DeferAsync(isPrivate);
 
-        var (success, message) = await Service.CreateReminderAsync(
+        var (success, message, id) = await Service.CreateReminderAsync(
             targetId,
             isPrivate,
             time,
             reminder,
             ctx.User.Id,
             ctx.Guild?.Id,
-            shouldSanitize
+            shouldSanitize,
+            repeat
         );
 
-        if (success)
+        await RespondCreatedAsync(success, message, id, isPrivate).ConfigureAwait(false);
+    }
+
+    private async Task RespondCreatedAsync(bool success, string message, int id, bool isPrivate)
+    {
+        if (!success)
+        {
+            await ReplyErrorAsync(message).ConfigureAwait(false);
+            return;
+        }
+
+        if (isPrivate)
         {
             await ReplyConfirmAsync(message).ConfigureAwait(false);
+            return;
         }
-        else
+
+        await ctx.Interaction.FollowupAsync(
+            embed: new EmbedBuilder().WithOkColor().WithDescription($"{Format.Bold(ctx.User.ToString())} {message}")
+                .Build(),
+            components: Service.SubscribeButton(id, ctx.Guild?.Id ?? 0).Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Subscribes the user who pressed the button to a reminder.
+    /// </summary>
+    /// <param name="sId">The id of the reminder.</param>
+    /// <returns>A task that represents the asynchronous operation of subscribing.</returns>
+    [ComponentInteraction("remindsub:*", true)]
+    public async Task SubscribeButton(string sId)
+    {
+        var result = await Service.SubscribeAsync(ctx.User.Id, int.Parse(sId));
+        var guildId = ctx.Guild?.Id ?? 0;
+        var text = result switch
         {
-            await ReplyErrorAsync(Strings.RemindTooLong(ctx.Guild.Id)).ConfigureAwait(false);
+            RemindService.SubscribeResult.Subscribed => Strings.RemindSubscribed(guildId),
+            RemindService.SubscribeResult.AlreadySubscribed => Strings.RemindAlreadySubscribed(guildId),
+            RemindService.SubscribeResult.Owner => Strings.RemindOwnReminder(guildId),
+            _ => Strings.ReminderNotExist(guildId)
+        };
+
+        await EphemeralReplyConfirmAsync(text).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Subscribes the user to a reminder by id.
+    /// </summary>
+    /// <param name="id">The reminder id shown in the reminder list.</param>
+    /// <returns>A task that represents the asynchronous operation of subscribing.</returns>
+    [SlashCommand("subscribe", "Get pinged along with someone's reminder")]
+    public Task Subscribe([Summary("id", "The reminder id (from /remind list)")] int id)
+    {
+        return SubscribeButton(id.ToString());
+    }
+
+    /// <summary>
+    ///     Removes the user's subscription from a reminder.
+    /// </summary>
+    /// <param name="id">The reminder id shown in the reminder list.</param>
+    /// <returns>A task that represents the asynchronous operation of unsubscribing.</returns>
+    [SlashCommand("unsubscribe", "Stop getting pinged for someone's reminder")]
+    public async Task Unsubscribe([Summary("id", "The reminder id (from /remind list)")] int id)
+    {
+        var removed = await Service.UnsubscribeAsync(ctx.User.Id, id);
+        var guildId = ctx.Guild?.Id ?? 0;
+        await EphemeralReplyConfirmAsync(removed
+            ? Strings.RemindUnsubscribed(guildId)
+            : Strings.RemindNotSubscribed(guildId)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Makes one of the user's reminders repeat, or stops it repeating.
+    /// </summary>
+    /// <param name="index">The number of the reminder in the reminder list.</param>
+    /// <param name="interval">How often to repeat, at least one hour. Leave empty to stop repeating.</param>
+    /// <returns>A task that represents the asynchronous operation of changing the repeat.</returns>
+    [SlashCommand("repeat", "Make a reminder repeat, or stop it repeating")]
+    public async Task Repeat(
+        [Summary("index", "The reminders index (from /remind list)")]
+        int index,
+        [Summary("interval", "How often to repeat, at least one hour. Leave empty to stop.")]
+        TimeSpan? interval = null)
+    {
+        var guildId = ctx.Guild?.Id ?? 0;
+        if (interval.HasValue && (interval.Value < RemindService.MinRepeat || interval.Value > TimeSpan.FromDays(60)))
+        {
+            await ReplyErrorAsync(Strings.RemindRepeatRange(guildId)).ConfigureAwait(false);
+            return;
         }
+
+        if (!await Service.SetRepeatAsync(ctx.User.Id, index - 1, interval))
+        {
+            await ReplyErrorAsync(Strings.ReminderNotExist(guildId)).ConfigureAwait(false);
+            return;
+        }
+
+        await ReplyConfirmAsync(interval.HasValue
+            ? Strings.RemindRepeatSet(guildId, index, interval.Value.Humanize())
+            : Strings.RemindRepeatCleared(guildId, index)).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -132,35 +234,30 @@ public class SlashRemindCommands(InteractiveService interactivity) : MewdekoSlas
     /// <param name="sTime">The time when the reminder should trigger.</param>
     /// <param name="modal">The modal containing the reminder text.</param>
     /// <returns>A task that represents the asynchronous operation of processing the reminder modal submission.</returns>
-    [ModalInteraction("remind:*,*,*;", true)]
-    public async Task ReminderModal(string sId, string sPri, string sTime, ReminderModal modal)
+    [ModalInteraction("remind:*,*,*,*;", true)]
+    public async Task ReminderModal(string sId, string sPri, string sTime, string sRepeat, ReminderModal modal)
     {
         var id = ulong.Parse(sId);
         var pri = int.Parse(sPri) == 1;
         var time = TimeSpan.Parse(sTime);
+        var repeat = TimeSpan.Parse(sRepeat);
         await DeferAsync(pri);
 
         var shouldSanitize = ctx.Guild != null &&
                              !((IGuildUser)ctx.User).GetPermissions((IGuildChannel)ctx.Channel).MentionEveryone;
 
-        var (success, message) = await Service.CreateReminderAsync(
+        var (success, message, reminderId) = await Service.CreateReminderAsync(
             id,
             pri,
             time,
             modal.Reminder,
             ctx.User.Id,
             ctx.Guild?.Id,
-            shouldSanitize
+            shouldSanitize,
+            repeat == TimeSpan.Zero ? null : repeat
         );
 
-        if (success)
-        {
-            await ReplyConfirmAsync(message).ConfigureAwait(false);
-        }
-        else
-        {
-            await ReplyErrorAsync(Strings.RemindTooLong(ctx.Guild.Id)).ConfigureAwait(false);
-        }
+        await RespondCreatedAsync(success, message, reminderId, pri).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,8 +312,10 @@ public class SlashRemindCommands(InteractiveService interactivity) : MewdekoSlas
                 pageBuilder.AddField(
                     $"#{++i} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
                     $"""
+                     `Id:` {rem.Id}
                      `Target:` {(rem.IsPrivate ? "DM" : "Channel")}
                      `TargetId:` {rem.ChannelId}
+                     `Repeats:` {(rem.RepeatMinutes > 0 ? TimeSpan.FromMinutes(rem.RepeatMinutes).Humanize() : "No")}
                      `Message:` {rem.Message?.TrimTo(50)}
                      """);
             }

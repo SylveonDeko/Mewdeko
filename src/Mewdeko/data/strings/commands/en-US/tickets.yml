@@ -1584,6 +1584,86 @@ ticketarchivecategory:
       name: category
       optional: true
       type: category
+ticketclaimedcategory:
+  args:
+    - '<buttonId> [category]'
+    - 5 Claimed
+  desc: 'Sets the category tickets move to when a staff member claims them. Leave out the category to stop moving them.'
+  params:
+    - desc: 'The button ID.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'The claimed category, or none to stop.'
+      name: category
+      optional: true
+      type: category
+ticketoptionclaimedcategory:
+  args:
+    - '<optionId> [category]'
+    - 5 Claimed
+  desc: 'Sets the category tickets from a select menu option move to when a staff member claims them. Leave out the category to stop moving them.'
+  params:
+    - desc: 'The select menu option ID.'
+      name: optionId
+      optional: false
+      type: int
+    - desc: 'The claimed category, or none to stop.'
+      name: category
+      optional: true
+      type: category
+ticketoptiondmtranscript:
+  args:
+    - '<optionId> <enable>'
+    - 5 true
+  desc: 'Sets whether closed tickets from a select menu option DM the transcript to their creator. Creators with closed DMs are skipped.'
+  params:
+    - desc: 'The select menu option ID.'
+      name: optionId
+      optional: false
+      type: int
+    - desc: 'Whether to send the transcript.'
+      name: enable
+      optional: false
+      type: bool
+ticketdmtranscript:
+  args:
+    - '<buttonId> <enable>'
+    - 5 true
+  desc: 'Sets whether closed tickets from a button DM the transcript to their creator. Creators with closed DMs are skipped.'
+  params:
+    - desc: 'The button ID.'
+      name: buttonId
+      optional: false
+      type: int
+    - desc: 'Whether to send the transcript.'
+      name: enable
+      optional: false
+      type: bool
+ticketpaneldmtranscript:
+  args:
+    - '<panelId> <enable>'
+    - 1234567890 true
+  desc: 'Sets whether closed tickets from every button on a panel DM the transcript to their creator.'
+  params:
+    - desc: 'The message ID of the panel.'
+      name: panelId
+      optional: false
+      type: ulong
+    - desc: 'Whether to send the transcript.'
+      name: enable
+      optional: false
+      type: bool
+ticketserverdmtranscript:
+  args:
+    - '<enable>'
+    - 'true'
+  desc: 'Sets whether every closed ticket in the server DMs the transcript to its creator.'
+  params:
+    - desc: 'Whether to send the transcript.'
+      name: enable
+      optional: false
+      type: bool
 ticketautoarchive:
   args:
     - number boolean

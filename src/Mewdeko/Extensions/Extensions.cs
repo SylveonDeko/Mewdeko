@@ -503,7 +503,18 @@ public static partial class Extensions
     /// <returns>Embed builder with the color set to OK color.</returns>
     public static EmbedBuilder WithOkColor(this EmbedBuilder eb)
     {
-        return eb.WithColor(Mewdeko.OkColor);
+        return eb.WithColor(GuildEmbedColorService.Ok);
+    }
+
+    /// <summary>
+    ///     Sets the color of an embed to the OK color of a specific guild.
+    /// </summary>
+    /// <param name="eb">Embed builder to set the color for.</param>
+    /// <param name="guildId">The guild whose own color to use, or null for the default.</param>
+    /// <returns>Embed builder with the color set to the guild's OK color.</returns>
+    public static EmbedBuilder WithOkColor(this EmbedBuilder eb, ulong? guildId)
+    {
+        return eb.WithColor(GuildEmbedColorService.OkFor(guildId));
     }
 
 
@@ -524,7 +535,7 @@ public static partial class Extensions
     /// <returns>Page builder with the color set to the OK color.</returns>
     public static PageBuilder WithOkColor(this PageBuilder eb)
     {
-        return eb.WithColor(Mewdeko.OkColor);
+        return eb.WithColor(GuildEmbedColorService.Ok);
     }
 
     /// <summary>

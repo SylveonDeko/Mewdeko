@@ -468,7 +468,9 @@ public class TicketController : Controller
                 request.RequiredResponseTime,
                 request.MaxActiveTickets,
                 request.AllowedPriorities,
-                request.DefaultPriority);
+                request.DefaultPriority,
+                request.ClaimedCategoryId is > 0 ? request.ClaimedCategoryId : null,
+                request.DmTranscript ?? false);
 
             if (button == null)
                 return BadRequest("This panel has no room for another component. Discord allows 25 per message.");
@@ -532,6 +534,8 @@ public class TicketController : Controller
                 CategoryName = category?.Name,
                 button.ArchiveCategoryId,
                 ArchiveCategoryName = archiveCategory?.Name,
+                button.ClaimedCategoryId,
+                button.DmTranscript,
                 button.ThreadChannelId,
                 button.SupportRoles,
                 button.ViewerRoles,
@@ -589,6 +593,9 @@ public class TicketController : Controller
                 settings["categoryId"] = request.CategoryId.Value == 0 ? null : request.CategoryId.Value;
             if (request.ArchiveCategoryId.HasValue)
                 settings["archiveCategoryId"] = request.ArchiveCategoryId.Value == 0 ? null : request.ArchiveCategoryId.Value;
+            if (request.ClaimedCategoryId.HasValue)
+                settings["claimedCategoryId"] = request.ClaimedCategoryId.Value == 0 ? null : request.ClaimedCategoryId.Value;
+            if (request.DmTranscript.HasValue) settings["dmTranscript"] = request.DmTranscript.Value;
             if (request.ThreadChannelId.HasValue)
                 settings["threadChannelId"] = request.ThreadChannelId.Value == 0 ? null : request.ThreadChannelId.Value;
             if (request.ChannelFormat != null) settings["channelNameFormat"] = request.ChannelFormat;
@@ -826,7 +833,9 @@ public class TicketController : Controller
                 request.RequiredResponseTime,
                 request.MaxActiveTickets,
                 request.AllowedPriorities,
-                request.DefaultPriority);
+                request.DefaultPriority,
+                claimedCategoryId: request.ClaimedCategoryId is > 0 ? request.ClaimedCategoryId : null,
+                dmTranscript: request.DmTranscript ?? false);
 
             if (request.ThreadChannelId is > 0 && client.GetGuild(guildId) is { } guild)
             {
@@ -915,6 +924,8 @@ public class TicketController : Controller
                 CategoryName = category?.Name,
                 option.ArchiveCategoryId,
                 ArchiveCategoryName = archiveCategory?.Name,
+                option.ClaimedCategoryId,
+                option.DmTranscript,
                 option.ThreadChannelId,
                 option.SupportRoles,
                 option.ViewerRoles,
@@ -970,6 +981,9 @@ public class TicketController : Controller
                 settings["categoryId"] = request.CategoryId.Value == 0 ? null : request.CategoryId.Value;
             if (request.ArchiveCategoryId.HasValue)
                 settings["archiveCategoryId"] = request.ArchiveCategoryId.Value == 0 ? null : request.ArchiveCategoryId.Value;
+            if (request.ClaimedCategoryId.HasValue)
+                settings["claimedCategoryId"] = request.ClaimedCategoryId.Value == 0 ? null : request.ClaimedCategoryId.Value;
+            if (request.DmTranscript.HasValue) settings["dmTranscript"] = request.DmTranscript.Value;
             if (request.ThreadChannelId.HasValue)
                 settings["threadChannelId"] = request.ThreadChannelId.Value == 0 ? null : request.ThreadChannelId.Value;
             if (request.ChannelFormat != null) settings["channelNameFormat"] = request.ChannelFormat;
@@ -2408,7 +2422,8 @@ public class TicketController : Controller
                 transcriptChannelId = settings?.TranscriptChannelId,
                 logChannelId = settings?.LogChannelId,
                 defaultMaxTickets = settings?.DefaultMaxTickets,
-                blacklistedUsers = settings?.BlacklistedUsers
+                blacklistedUsers = settings?.BlacklistedUsers,
+                dmTranscriptOnClose = settings?.DmTranscriptOnClose ?? false
             });
         }
         catch (Exception ex)
@@ -2435,6 +2450,27 @@ public class TicketController : Controller
         catch (Exception ex)
         {
             logger.LogError(ex, "Error setting transcript channel for guild {GuildId}", guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Sets whether every closed ticket DMs its transcript to the ticket creator
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="request">Request containing the enabled flag</param>
+    /// <returns>Success response</returns>
+    [HttpPut("settings/dm-transcript")]
+    public async Task<IActionResult> SetDmTranscriptOnClose(ulong guildId, [FromBody] SetDmTranscriptRequest request)
+    {
+        try
+        {
+            await ticketService.SetDmTranscriptOnCloseAsync(guildId, request.Enabled);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error setting the transcript DM option for guild {GuildId}", guildId);
             return StatusCode(500, "Internal server error");
         }
     }

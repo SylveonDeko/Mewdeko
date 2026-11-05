@@ -2,6 +2,7 @@
 using System.Threading;
 using DataModel;
 using Discord.Net;
+using Humanizer;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Modules.Administration.Services;
@@ -15,6 +16,37 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public partial class RemindService : INService
 {
+    /// <summary>
+    ///     The shortest interval a reminder can repeat at.
+    /// </summary>
+    public static readonly TimeSpan MinRepeat = TimeSpan.FromHours(1);
+
+    /// <summary>
+    ///     The possible outcomes of subscribing to a reminder.
+    /// </summary>
+    public enum SubscribeResult
+    {
+        /// <summary>
+        ///     The user is now subscribed.
+        /// </summary>
+        Subscribed,
+
+        /// <summary>
+        ///     The reminder does not exist.
+        /// </summary>
+        NotFound,
+
+        /// <summary>
+        ///     The user already subscribed.
+        /// </summary>
+        AlreadySubscribed,
+
+        /// <summary>
+        ///     The user owns the reminder.
+        /// </summary>
+        Owner
+    }
+
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<RemindService> logger;
@@ -97,6 +129,21 @@ public partial class RemindService : INService
     {
         try
         {
+            await using (var db = await dbFactory.CreateConnectionAsync())
+            {
+                var current = await db.Reminders.FirstOrDefaultAsync(r => r.Id == reminder.Id);
+                if (current == null)
+                {
+                    if (reminderTimers.TryRemove(reminder.Id, out var stale))
+                        await stale.DisposeAsync();
+                    return;
+                }
+
+                reminder = current;
+            }
+
+            var subscribers = ParseSubscribers(reminder.Subscribers);
+
             IMessageChannel ch;
             if (reminder.IsPrivate)
             {
@@ -111,18 +158,65 @@ public partial class RemindService : INService
             if (ch == null)
                 return;
 
-            await ch.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle(strings.ReminderTitle(reminder.ServerId))
-                    .AddField("Created At",
-                        reminder.DateAdded.HasValue ? reminder.DateAdded.Value.ToLongDateString() : "?")
-                    .AddField("By",
-                        (await ch.GetUserAsync(reminder.UserId).ConfigureAwait(false))?.ToString() ??
-                        reminder.UserId.ToString()),
-                reminder.Message).ConfigureAwait(false);
+            var embed = new EmbedBuilder()
+                .WithOkColor(reminder.ServerId)
+                .WithTitle(strings.ReminderTitle(reminder.ServerId))
+                .AddField("Created At",
+                    reminder.DateAdded.HasValue ? reminder.DateAdded.Value.ToLongDateString() : "?")
+                .AddField("By",
+                    (await ch.GetUserAsync(reminder.UserId).ConfigureAwait(false))?.ToString() ??
+                    reminder.UserId.ToString());
 
-            // Remove the executed reminder from the database and timer
-            await RemoveReminder(reminder);
+            var content = reminder.Message;
+            if (!reminder.IsPrivate && subscribers.Count > 0)
+                content = $"{string.Join(" ", subscribers.Select(MentionUtils.MentionUser))}\n{content}";
+
+            await ch.EmbedAsync(embed, content).ConfigureAwait(false);
+
+            if (reminder.IsPrivate)
+            {
+                foreach (var subscriber in subscribers)
+                {
+                    try
+                    {
+                        var subscriberUser = client.GetUser(subscriber);
+                        if (subscriberUser == null)
+                            continue;
+
+                        var dm = await subscriberUser.CreateDMChannelAsync().ConfigureAwait(false);
+                        await dm.EmbedAsync(embed, reminder.Message).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning(ex, "Could not DM reminder {ReminderId} to subscriber {UserId}",
+                            reminder.Id, subscriber);
+                    }
+                }
+            }
+
+            if (reminder.RepeatMinutes < MinRepeat.TotalMinutes)
+            {
+                await RemoveReminder(reminder);
+                return;
+            }
+
+            var step = TimeSpan.FromMinutes(reminder.RepeatMinutes);
+            var next = reminder.When;
+            do
+            {
+                next += step;
+            } while (next <= DateTime.UtcNow);
+
+            reminder.When = next;
+            await using (var db = await dbFactory.CreateConnectionAsync())
+            {
+                await db.Reminders
+                    .Where(r => r.Id == reminder.Id)
+                    .Set(r => r.When, next)
+                    .UpdateAsync();
+            }
+
+            await ScheduleReminder(reminder);
         }
         catch (HttpException ex) when (ex.DiscordCode == DiscordErrorCode.CannotSendMessageToUser)
         {
@@ -185,18 +279,23 @@ public partial class RemindService : INService
     /// <param name="userId">The ID of the user who created the reminder.</param>
     /// <param name="serverId">The ID of the server where the reminder was created, or null for private reminders.</param>
     /// <param name="sanitizeMentions">Whether to sanitize mentions in the message.</param>
-    /// <returns>A tuple containing success status and response message.</returns>
-    public async Task<(bool success, string message)> CreateReminderAsync(
+    /// <param name="repeat">How often the reminder repeats, or null to fire once.</param>
+    /// <returns>A tuple containing success status, response message and the reminder id.</returns>
+    public async Task<(bool success, string message, int id)> CreateReminderAsync(
         ulong targetId,
         bool isPrivate,
         TimeSpan ts,
         string message,
         ulong userId,
         ulong? serverId,
-        bool sanitizeMentions)
+        bool sanitizeMentions,
+        TimeSpan? repeat = null)
     {
         if (ts > TimeSpan.FromDays(60))
-            return (false, string.Empty);
+            return (false, strings.RemindTooLong(serverId ?? 0), 0);
+
+        if (repeat.HasValue && (repeat.Value < MinRepeat || repeat.Value > TimeSpan.FromDays(60)))
+            return (false, strings.RemindRepeatRange(serverId ?? 0), 0);
 
         var time = DateTime.UtcNow + ts;
 
@@ -212,7 +311,9 @@ public partial class RemindService : INService
             When = time,
             Message = message,
             UserId = userId,
-            ServerId = serverId ?? 0
+            ServerId = serverId ?? 0,
+            DateAdded = DateTime.UtcNow,
+            RepeatMinutes = repeat.HasValue ? (int)repeat.Value.TotalMinutes : 0
         };
 
         await using var db = await dbFactory.CreateConnectionAsync();
@@ -232,7 +333,106 @@ public partial class RemindService : INService
             Format.Bold(message),
             $"<t:{unixTime}:R>")}";
 
-        return (true, response);
+        if (rem.RepeatMinutes > 0)
+            response += $"\n{strings.RemindRepeats(serverId ?? 0, TimeSpan.FromMinutes(rem.RepeatMinutes).Humanize())}";
+
+        return (true, response, rem.Id);
+    }
+
+    /// <summary>
+    ///     Builds the button that lets other members subscribe to a reminder.
+    /// </summary>
+    /// <param name="reminderId">The id of the reminder.</param>
+    /// <param name="guildId">The guild the reminder was created in.</param>
+    /// <returns>A component builder holding the subscribe button.</returns>
+    public ComponentBuilder SubscribeButton(int reminderId, ulong guildId)
+    {
+        return new ComponentBuilder().WithButton(strings.RemindSubscribeButton(guildId), $"remindsub:{reminderId}");
+    }
+
+    /// <summary>
+    ///     Sets or clears how often a user's reminder repeats.
+    /// </summary>
+    /// <param name="userId">The owner of the reminder.</param>
+    /// <param name="index">The zero based position of the reminder in the user's reminder list.</param>
+    /// <param name="repeat">The repeat interval, or null to stop repeating.</param>
+    /// <returns>True if the reminder was found and updated.</returns>
+    public async Task<bool> SetRepeatAsync(ulong userId, int index, TimeSpan? repeat)
+    {
+        var rems = await GetUserRemindersAsync(userId);
+        if (index < 0 || index >= rems.Count)
+            return false;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.Reminders
+            .Where(r => r.Id == rems[index].Id)
+            .Set(r => r.RepeatMinutes, repeat.HasValue ? (int)repeat.Value.TotalMinutes : 0)
+            .UpdateAsync();
+
+        return true;
+    }
+
+    /// <summary>
+    ///     Subscribes a user to a reminder so they get pinged along with the owner.
+    /// </summary>
+    /// <param name="userId">The user subscribing.</param>
+    /// <param name="reminderId">The id of the reminder.</param>
+    /// <returns>The outcome of the subscription.</returns>
+    public async Task<SubscribeResult> SubscribeAsync(ulong userId, int reminderId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var rem = await db.Reminders.FirstOrDefaultAsync(r => r.Id == reminderId);
+        if (rem == null)
+            return SubscribeResult.NotFound;
+
+        if (rem.UserId == userId)
+            return SubscribeResult.Owner;
+
+        var subscribers = ParseSubscribers(rem.Subscribers);
+        if (subscribers.Contains(userId))
+            return SubscribeResult.AlreadySubscribed;
+
+        subscribers.Add(userId);
+        await db.Reminders
+            .Where(r => r.Id == reminderId)
+            .Set(r => r.Subscribers, string.Join(",", subscribers))
+            .UpdateAsync();
+
+        return SubscribeResult.Subscribed;
+    }
+
+    /// <summary>
+    ///     Removes a user's subscription from a reminder.
+    /// </summary>
+    /// <param name="userId">The user unsubscribing.</param>
+    /// <param name="reminderId">The id of the reminder.</param>
+    /// <returns>True if the user was subscribed and is now removed.</returns>
+    public async Task<bool> UnsubscribeAsync(ulong userId, int reminderId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var rem = await db.Reminders.FirstOrDefaultAsync(r => r.Id == reminderId);
+        if (rem == null)
+            return false;
+
+        var subscribers = ParseSubscribers(rem.Subscribers);
+        if (!subscribers.Remove(userId))
+            return false;
+
+        await db.Reminders
+            .Where(r => r.Id == reminderId)
+            .Set(r => r.Subscribers, string.Join(",", subscribers))
+            .UpdateAsync();
+
+        return true;
+    }
+
+    private static List<ulong> ParseSubscribers(string? subscribers)
+    {
+        return (subscribers ?? "")
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => ulong.TryParse(x, out var id) ? id : 0)
+            .Where(x => x != 0)
+            .ToList();
     }
 
     /// <summary>
@@ -263,11 +463,10 @@ public partial class RemindService : INService
 
         var rems = await GetUserRemindersAsync(userId);
 
-        var pageIndex = index % 10;
-        if (rems.Count <= pageIndex)
+        if (rems.Count <= index)
             return false;
 
-        var rem = rems[pageIndex];
+        var rem = rems[index];
 
         await using var db = await dbFactory.CreateConnectionAsync();
 
@@ -294,6 +493,24 @@ public partial class RemindService : INService
     ///     The method uses a regular expression to parse the input and extract reminder details like time and message.
     /// </remarks>
     public bool TryParseRemindMessage(string input, out RemindObject obj)
+    {
+        TimeSpan? repeat = null;
+        var every = EveryRegex().Match(input);
+        if (every.Success
+            && TryParseTimeAndMessage(every.Groups["head"].Value + " x", out var headObj) && headObj.What == "x"
+            && TryParseTimeAndMessage(every.Groups["iv"].Value + " x", out var intervalObj) && intervalObj.What == "x")
+        {
+            repeat = intervalObj.Time;
+            input = $"{every.Groups["head"].Value} {every.Groups["tail"].Value}";
+        }
+
+        var parsed = TryParseTimeAndMessage(input, out obj);
+        if (parsed)
+            obj.Repeat = repeat;
+        return parsed;
+    }
+
+    private bool TryParseTimeAndMessage(string input, out RemindObject obj)
     {
         var m = MyRegex().Match(input);
 
@@ -355,6 +572,11 @@ public partial class RemindService : INService
         RegexOptions.Multiline | RegexOptions.Compiled)]
     private static partial Regex MyRegex();
 
+    [GeneratedRegex(
+        @"^(?<head>(?:(?!\bto\b)[^\r\n])+?)\s+every\s+(?<iv>\d+\s?(?:months?|mos?|weeks?|w|days?|d|hours?|h|minutes?|mins?|m|seconds?|secs?|s)(?:(?:,?\s?(?:and\s)?)\d+\s?(?:months?|mos?|weeks?|w|days?|d|hours?|h|minutes?|mins?|m|seconds?|secs?|s))*)\s+(?<tail>(?:\r\n|[\r\n]|.)+)",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled)]
+    private static partial Regex EveryRegex();
+
     /// <summary>
     ///     Represents the details of a reminder, including what the reminder is for and the time until the reminder should
     ///     occur.
@@ -380,5 +602,10 @@ public partial class RemindService : INService
         ///     time plus the TimeSpan.
         /// </remarks>
         public TimeSpan Time { get; set; }
+
+        /// <summary>
+        ///     Gets or sets how often the reminder repeats, or null to fire once.
+        /// </summary>
+        public TimeSpan? Repeat { get; set; }
     }
 }

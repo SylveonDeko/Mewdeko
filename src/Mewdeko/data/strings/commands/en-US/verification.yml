@@ -1,0 +1,27 @@
+verification:
+  args:
+    - show
+    - setup
+    - 'setup #verify'
+    - enable
+    - disable
+    - 'channel #verify'
+    - 'unverifiedrole Unverified'
+    - 'verifiedrole Member'
+    - 'attempts 3'
+    - 'timeout 10m'
+    - 'kickonfail on'
+    - 'logchannel #logs'
+    - panel
+    - permissions
+    - verifyexisting
+  desc: 'Makes new members pass an image captcha before they get access. Options: show, setup (creates or uses a verification channel and posts the button), enable, disable (puts back the channel permissions it changed), channel, unverifiedrole and verifiedrole (a role or none), attempts (1 to 10), timeout (1 to 60 minutes), kickonfail (on or off), logchannel, panel (posts the button again), permissions (previews and applies the channel permission changes) and verifyexisting (verifies current members without a captcha).'
+  params:
+    - desc: 'show, setup, enable, disable, channel, unverifiedrole, verifiedrole, attempts, timeout, kickonfail, logchannel, panel, permissions or verifyexisting.'
+      name: option
+      optional: true
+      type: string
+    - desc: 'The value for the option, such as a channel, a role, a number, a time or on or off.'
+      name: value
+      optional: true
+      type: string

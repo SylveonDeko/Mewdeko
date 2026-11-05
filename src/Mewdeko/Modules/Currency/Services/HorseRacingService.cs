@@ -8,6 +8,7 @@ namespace Mewdeko.Modules.Currency.Services;
 public class HorseRacingService : INService
 {
     private static readonly string[] Animals = ["🐎", "🐪", "🦏", "🦛", "🐘", "🦒", "🦘", "🐅", "🐆", "🦓"];
+    private readonly EconomyBoostService boostService;
     private readonly ICurrencyService cs;
     private readonly ConcurrentDictionary<ulong, RaceData> races = new();
 
@@ -15,9 +16,11 @@ public class HorseRacingService : INService
     ///     Initializes a new instance of the <see cref="HorseRacingService" /> class.
     /// </summary>
     /// <param name="cs">The currency service.</param>
-    public HorseRacingService(ICurrencyService cs)
+    /// <param name="boostService">The service applying scheduled earning boosts.</param>
+    public HorseRacingService(ICurrencyService cs, EconomyBoostService boostService)
     {
         this.cs = cs;
+        this.boostService = boostService;
     }
 
     /// <summary>
@@ -152,6 +155,12 @@ public class HorseRacingService : INService
 
             if (racer.UserId < ulong.MaxValue - 4 && winnings > 0)
             {
+                winnings = (int)Math.Min(int.MaxValue,
+                    await boostService.ApplyToWinningsAsync(guildId, "horserace", racer.BetAmount, winnings));
+
+                if (i < winners.Count)
+                    winners[i] = winners[i] with { Winnings = winnings };
+
                 await cs.CreditAsync(racer.UserId, winnings, "Horse Race", CurrencyCategory.GamePayout, guildId,
                     "horserace");
             }

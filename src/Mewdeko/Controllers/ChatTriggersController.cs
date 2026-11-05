@@ -1,5 +1,7 @@
 using DataModel;
 using Mewdeko.Controllers.Common.ChatTriggers;
+using Mewdeko.Modules.Chat_Triggers;
+using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +67,11 @@ public class ChatTriggersController(
     [HttpPost]
     public async Task<IActionResult> AddTriggerToGuild(ulong guildId, [FromBody] ChatTrigger toAdd)
     {
+        toAdd.GuildId = guildId;
         var added = await service.AddTrigger(guildId, toAdd);
+        if (added.ApplicationCommandType != (int)CtApplicationCommandType.None && client.GetGuild(guildId) is { } guild)
+            await service.RegisterTriggersToGuildAsync(guild);
+
         auditContext.RecordAfter(added);
         return Ok(added);
     }
@@ -159,6 +165,24 @@ public class ChatTriggersController(
     }
 
     /// <summary>
+    ///     Describes the logic blocks available in trigger responses.
+    /// </summary>
+    /// <param name="guildId">The guild being configured. Blocks are the same everywhere.</param>
+    /// <returns>The block syntax help text and the limits that apply to it.</returns>
+    [HttpGet("blocks")]
+    public IActionResult GetBlocks(ulong guildId)
+    {
+        return Ok(new
+        {
+            help = ChatTriggers.BlocksHelp,
+            maxDepth = TriggerBlockEvaluator.MaxDepth,
+            maxOutputLength = TriggerBlockEvaluator.MaxOutputLength,
+            maxCommands = TriggerBlockEvaluator.MaxCommands,
+            maxGateItems = TriggerBlockEvaluator.MaxGateItems
+        });
+    }
+
+    /// <summary>
     ///     Reports whether a trigger would fire for a sample message, and what blocks it if not.
     /// </summary>
     /// <param name="guildId">The guild to test in.</param>
@@ -197,6 +221,110 @@ public class ChatTriggersController(
         {
             matched, blocker, wouldFire = matched && blocker is null
         });
+    }
+
+    /// <summary>
+    ///     Gets whether members without staff permissions may create and edit their own triggers.
+    /// </summary>
+    /// <param name="guildId">The guild to read the setting for.</param>
+    /// <returns>True when members may manage their own triggers.</returns>
+    [HttpGet("member-create")]
+    public async Task<IActionResult> GetMemberCreate(ulong guildId)
+    {
+        return Ok(await service.GetMemberCreateAsync(guildId));
+    }
+
+    /// <summary>
+    ///     Sets whether members without staff permissions may create and edit their own triggers.
+    /// </summary>
+    /// <param name="guildId">The guild to change the setting for.</param>
+    /// <param name="request">Whether members may manage their own triggers.</param>
+    /// <returns>An empty OK response.</returns>
+    [HttpPut("member-create")]
+    public async Task<IActionResult> SetMemberCreate(ulong guildId, [FromBody] MemberCreateRequest request)
+    {
+        await service.SetMemberCreateAsync(guildId, request.Enabled);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets the code another server can use to import a trigger.
+    /// </summary>
+    /// <param name="guildId">The guild the trigger belongs to.</param>
+    /// <param name="id">The trigger to share.</param>
+    /// <returns>The share code, or 404 when the trigger does not exist in the guild.</returns>
+    [HttpGet("{id:int}/share")]
+    public async Task<IActionResult> GetShareCode(ulong guildId, int id)
+    {
+        var trigger = await service.GetChatTriggers(guildId, id);
+        return trigger is null
+            ? NotFound()
+            : Ok(new
+            {
+                code = service.CreateShareCode(trigger)
+            });
+    }
+
+    /// <summary>
+    ///     Imports a trigger from a share code.
+    /// </summary>
+    /// <param name="guildId">The guild to import into.</param>
+    /// <param name="request">The share code and the member to import as.</param>
+    /// <returns>An empty OK response, or 400 when the code is invalid.</returns>
+    [HttpPost("share/import")]
+    public async Task<IActionResult> ImportShareCode(ulong guildId, [FromBody] ShareImportRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Code) || client.GetGuild(guildId)?.GetUser(request.UserId) is not { } user)
+            return BadRequest();
+
+        return await service.ImportShareCodeAsync(user, request.Code) ? Ok() : BadRequest();
+    }
+
+    /// <summary>
+    ///     Exports every trigger in a guild as a file that can be imported again.
+    /// </summary>
+    /// <param name="guildId">The guild to export triggers from.</param>
+    /// <returns>The exported file contents.</returns>
+    [HttpGet("export")]
+    public async Task<IActionResult> ExportTriggers(ulong guildId)
+    {
+        return Ok(new
+        {
+            text = await service.ExportCrs(guildId)
+        });
+    }
+
+    /// <summary>
+    ///     Imports triggers from an exported file.
+    /// </summary>
+    /// <param name="guildId">The guild to import into.</param>
+    /// <param name="request">The file contents and the member to import as.</param>
+    /// <returns>An empty OK response, or 400 when the file is invalid or hands out roles the member cannot manage.</returns>
+    [HttpPost("import")]
+    public async Task<IActionResult> ImportTriggers(ulong guildId, [FromBody] TriggerImportRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Text) || client.GetGuild(guildId)?.GetUser(request.UserId) is not { } user)
+            return BadRequest();
+
+        return await service.ImportCrsAsync(user, request.Text) ? Ok() : BadRequest();
+    }
+
+    /// <summary>
+    ///     Gets the source text of every response of a trigger.
+    /// </summary>
+    /// <param name="guildId">The guild the trigger belongs to.</param>
+    /// <param name="id">The trigger to read.</param>
+    /// <returns>The responses exactly as stored, or 404 when the trigger does not exist in the guild.</returns>
+    [HttpGet("{id:int}/raw")]
+    public async Task<IActionResult> GetRawResponses(ulong guildId, int id)
+    {
+        var trigger = await service.GetChatTriggers(guildId, id);
+        return trigger is null
+            ? NotFound()
+            : Ok(new
+            {
+                responses = trigger.GetResponses()
+            });
     }
 
     /// <summary>

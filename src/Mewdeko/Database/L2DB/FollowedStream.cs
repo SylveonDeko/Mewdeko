@@ -23,6 +23,10 @@ namespace DataModel
 		[Column("Type"                                                                                       )] public int       Type      { get; set; } // integer
 		[Column("OnlineMessage"                                                                              )] public string?   OnlineMessage  { get; set; } // text
 		[Column("OfflineMessage"                                                                             )] public string?   OfflineMessage { get; set; } // text
-		[Column("DateAdded"                                                                                  )] public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
+		[Column("VideoMessage"                                                                               )] public string?   VideoMessage { get; set; } // text
+		[Column("UpdateLiveMessage"                                                                          )] public bool      UpdateLiveMessage { get; set; } // boolean
+		[Column("DeleteOnEnd"                                                                                )] public bool      DeleteOnEnd { get; set; } // boolean
+		[Column("SourceUrl"                                                                                  )] public string?   SourceUrl { get; set; } // text
+		[Column("DateAdded"                                                                              )] public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
 	}
 }

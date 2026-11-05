@@ -82,6 +82,24 @@ public class ShopItem
     public bool Consumable { get; set; }
 
     /// <summary>
+    ///     Message shown to the buyer after purchasing, if any.
+    /// </summary>
+    [Column("BuyMessage")]
+    public string? BuyMessage { get; set; }
+
+    /// <summary>
+    ///     Message shown when the item is used, if any.
+    /// </summary>
+    [Column("UseMessage")]
+    public string? UseMessage { get; set; }
+
+    /// <summary>
+    ///     Whether the item is used automatically the moment it is bought.
+    /// </summary>
+    [Column("UseOnBuy")]
+    public bool UseOnBuy { get; set; }
+
+    /// <summary>
     ///     Whether the item currently appears in the shop and can be bought.
     /// </summary>
     [Column("Enabled")]

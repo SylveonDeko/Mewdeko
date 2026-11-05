@@ -106,7 +106,7 @@ public class TicketService : INService
             {
                 Embed = new Embed
                 {
-                    Title = title, Description = description, Color = Mewdeko.OkColor
+                    Title = title, Description = description, Color = GuildEmbedColorService.OkFor(channel.Guild.Id)
                 }
             };
             finalJson = JsonSerializer.Serialize(embed);
@@ -254,6 +254,8 @@ public class TicketService : INService
     /// <param name="maxActiveTickets">Maximum active tickets per user.</param>
     /// <param name="allowedPriorities">List of allowed priority IDs.</param>
     /// <param name="defaultPriority">Optional default priority.</param>
+    /// <param name="claimedCategoryId">Optional category tickets move to when claimed.</param>
+    /// <param name="dmTranscript">Whether closing a ticket DMs the transcript to its creator.</param>
     public async Task<PanelButton> AddButtonAsync(
         TicketPanel panel,
         string label,
@@ -270,7 +272,9 @@ public class TicketService : INService
         TimeSpan? requiredResponseTime = null,
         int maxActiveTickets = 1,
         List<string> allowedPriorities = null,
-        string defaultPriority = null)
+        string defaultPriority = null,
+        ulong? claimedCategoryId = null,
+        bool dmTranscript = false)
     {
         try
         {
@@ -308,6 +312,8 @@ public class TicketService : INService
                 MaxActiveTickets = maxActiveTickets,
                 AllowedPriorities = allowedPriorities?.ToArray() ?? [],
                 DefaultPriority = defaultPriority,
+                ClaimedCategoryId = claimedCategoryId,
+                DmTranscript = dmTranscript,
                 SaveTranscript = false
             };
 
@@ -754,7 +760,7 @@ public class TicketService : INService
                                   $"• Ticket ID: {ticket.Id}\n" +
                                   $"• Created: <t:{ticket.CreatedAt}:F>\n\n" +
                                   "Please describe your issue and wait for a staff member to assist you.",
-                    color = "ok", // Uses Mewdeko.OkColor
+                    color = $"#{GuildEmbedColorService.OkFor(ticket.GuildId).RawValue & 0xFFFFFF:X6}",
                     footer = new
                     {
                         text = "Ticket Support"
@@ -2309,6 +2315,60 @@ public class TicketService : INService
         }
     }
 
+    /// <summary>
+    ///     Sets whether closing a ticket DMs the transcript to its creator for every button and select option on a panel.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="panelMessageId">The message ID of the panel.</param>
+    /// <param name="enabled">Whether to DM transcripts.</param>
+    /// <returns>True if the panel exists in the guild.</returns>
+    public async Task<bool> SetPanelDmTranscriptAsync(ulong guildId, ulong panelMessageId, bool enabled)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+        var panel = await ctx.TicketPanels.FirstOrDefaultAsync(x => x.MessageId == panelMessageId &&
+                                                                    x.GuildId == guildId);
+        if (panel == null)
+            return false;
+
+        await ctx.PanelButtons.Where(b => b.PanelId == panel.Id).Set(b => b.DmTranscript, enabled).UpdateAsync();
+        var menuIds = ctx.PanelSelectMenus.Where(m => m.PanelId == panel.Id).Select(m => m.Id);
+        await ctx.SelectMenuOptions.Where(o => menuIds.Contains(o.SelectMenuId))
+            .Set(o => o.DmTranscript, enabled)
+            .UpdateAsync();
+        return true;
+    }
+
+    /// <summary>
+    ///     Sets whether every ticket's creator gets the transcript in their DMs when it closes.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="enabled">Whether to DM transcripts.</param>
+    public async Task SetDmTranscriptOnCloseAsync(ulong guildId, bool enabled)
+    {
+        try
+        {
+            await using var ctx = await dbFactory.CreateConnectionAsync();
+            var settings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+            if (settings == null)
+            {
+                await ctx.InsertAsync(new GuildTicketSetting
+                {
+                    GuildId = guildId, DmTranscriptOnClose = enabled
+                });
+            }
+            else
+            {
+                settings.DmTranscriptOnClose = enabled;
+                await ctx.UpdateAsync(settings);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to set the transcript DM option for guild {GuildId}", guildId);
+        }
+    }
+
 
     /// <summary>
     ///     Links tickets to an existing case.
@@ -2884,6 +2944,8 @@ public class TicketService : INService
     /// <param name="allowedPriorities">List of allowed priority IDs</param>
     /// <param name="defaultPriority">Optional default priority</param>
     /// <param name="updateComponents">Whether to update the panel components after adding the option</param>
+    /// <param name="claimedCategoryId">Optional category tickets move to when claimed</param>
+    /// <param name="dmTranscript">Whether closing a ticket DMs the transcript to its creator</param>
     /// <returns>The created select menu option</returns>
     public async Task<SelectMenuOption> AddSelectOptionAsync(
         PanelSelectMenu menu,
@@ -2902,7 +2964,8 @@ public class TicketService : INService
         TimeSpan? requiredResponseTime = null,
         int maxActiveTickets = 1,
         List<string> allowedPriorities = null,
-        string defaultPriority = null, bool updateComponents = true)
+        string defaultPriority = null, bool updateComponents = true, ulong? claimedCategoryId = null,
+        bool dmTranscript = false)
     {
         try
         {
@@ -2937,6 +3000,8 @@ public class TicketService : INService
                 MaxActiveTickets = maxActiveTickets,
                 AllowedPriorities = allowedPriorities?.ToArray() ?? [],
                 DefaultPriority = defaultPriority,
+                ClaimedCategoryId = claimedCategoryId,
+                DmTranscript = dmTranscript,
                 SaveTranscript = true,
                 RemoveCreatorOnArchive = true,
                 RemoveCreatorOnClose = true,
@@ -3098,8 +3163,13 @@ public class TicketService : INService
 
                 await channel.SendMessageAsync(embed: embed);
 
+                var closeSettings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(s => s.GuildId == guild.Id);
+                var transcriptGenerated = ticket.Button?.SaveTranscript == true ||
+                                          ticket.SelectOption?.SaveTranscript == true ||
+                                          WantsTranscriptDm(ticket, closeSettings);
+
                 // Generate transcript if enabled
-                if (ticket.Button?.SaveTranscript == true || ticket.SelectOption?.SaveTranscript == true)
+                if (transcriptGenerated)
                 {
                     await GenerateAndSaveTranscriptAsync(guild, channel, ticket);
                 }
@@ -3112,8 +3182,6 @@ public class TicketService : INService
                 if (shouldAutoArchive)
                 {
                     // Auto-archive the ticket (skip transcript since we already generated it above)
-                    var transcriptGenerated = ticket.Button?.SaveTranscript == true ||
-                                              ticket.SelectOption?.SaveTranscript == true;
                     await ArchiveTicketAsync(ticket, transcriptGenerated);
 
                     var archiveEmbed = new EmbedBuilder()
@@ -3424,6 +3492,77 @@ public class TicketService : INService
     }
 
     /// <summary>
+    ///     Checks whether the ticket's creator should get the transcript in their DMs when it closes.
+    /// </summary>
+    /// <param name="ticket">The ticket with its button and select option loaded.</param>
+    /// <param name="settings">The guild ticket settings, if any.</param>
+    /// <returns>True if the panel component or the server asks for a transcript DM.</returns>
+    private static bool WantsTranscriptDm(Ticket ticket, GuildTicketSetting? settings)
+    {
+        return ticket.Button?.DmTranscript == true || ticket.SelectOption?.DmTranscript == true ||
+               settings?.DmTranscriptOnClose == true;
+    }
+
+    /// <summary>
+    ///     Sends the transcript link to the ticket creator, skipping them if their DMs are closed.
+    /// </summary>
+    /// <param name="guild">The guild the ticket belongs to.</param>
+    /// <param name="ticket">The closed ticket with its transcript link set.</param>
+    private async Task SendTranscriptDmAsync(IGuild guild, Ticket ticket)
+    {
+        if (string.IsNullOrEmpty(ticket.TranscriptUrl))
+            return;
+
+        try
+        {
+            var creator = await guild.GetUserAsync(ticket.CreatorId);
+            if (creator == null)
+                return;
+
+            var dmEmbed = new EmbedBuilder()
+                .WithTitle(strings.TicketTranscriptDmTitle(guild.Id, ticket.Id, guild.Name))
+                .WithDescription($"[{strings.TicketTranscriptDmLink(guild.Id)}]({ticket.TranscriptUrl})")
+                .WithColor(Mewdeko.OkColor)
+                .WithCurrentTimestamp()
+                .Build();
+
+            await creator.SendMessageAsync(embed: dmEmbed);
+        }
+        catch (HttpException ex) when (ex.DiscordCode == DiscordErrorCode.CannotSendMessageToUser)
+        {
+            logger.LogDebug("Ticket creator {UserId} has DMs closed, skipped the transcript DM", ticket.CreatorId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to DM the transcript of ticket {TicketId}", ticket.Id);
+        }
+    }
+
+    /// <summary>
+    ///     Moves a ticket channel to a category, leaving threads and missing categories alone.
+    /// </summary>
+    /// <param name="guild">The guild the ticket belongs to.</param>
+    /// <param name="channel">The ticket channel.</param>
+    /// <param name="categoryId">The category to move to.</param>
+    private async Task MoveTicketToCategoryAsync(IGuild guild, ITextChannel channel, ulong? categoryId)
+    {
+        if (categoryId is not { } id || channel is IThreadChannel || channel.CategoryId == id)
+            return;
+
+        try
+        {
+            var category = await guild.GetCategoryChannelAsync(id);
+            if (category != null)
+                await channel.ModifyAsync(c => c.CategoryId = category.Id);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to move ticket channel {ChannelId} to category {CategoryId}", channel.Id,
+                id);
+        }
+    }
+
+    /// <summary>
     ///     Generates and saves transcript for a closed ticket using existing settings
     /// </summary>
     /// <param name="guild">The guild containing the ticket</param>
@@ -3436,10 +3575,11 @@ public class TicketService : INService
             await using var ctx = await dbFactory.CreateConnectionAsync();
             var settings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(s => s.GuildId == guild.Id);
 
-            if (settings?.TranscriptChannelId == null) return;
-
-            var transcriptChannel = await guild.GetTextChannelAsync(settings.TranscriptChannelId.Value);
-            if (transcriptChannel == null) return;
+            var transcriptChannel = settings?.TranscriptChannelId is { } transcriptChannelId
+                ? await guild.GetTextChannelAsync(transcriptChannelId)
+                : null;
+            var dmCreator = WantsTranscriptDm(ticket, settings);
+            if (transcriptChannel == null && !dmCreator) return;
 
             // Fetch messages from the ticket channel
             var messages = await channel.GetMessagesAsync(5000).FlattenAsync();
@@ -3518,11 +3658,15 @@ public class TicketService : INService
                 .AddField("Category", (await guild.GetCategoryChannelAsync(channel.CategoryId ?? 0))?.Name ?? "None",
                     true)
                 .AddField("Messages", chatLogMessages.Count.ToString(), true)
-                .WithColor(Mewdeko.OkColor)
+                .WithColor(GuildEmbedColorService.OkFor(guild.Id))
                 .WithCurrentTimestamp()
                 .Build();
 
-            await transcriptChannel.SendMessageAsync(embed: transcriptEmbed);
+            if (transcriptChannel != null)
+                await transcriptChannel.SendMessageAsync(embed: transcriptEmbed);
+
+            if (dmCreator)
+                await SendTranscriptDmAsync(guild, ticket);
 
             logger.LogInformation("Saved transcript for ticket {TicketId} as ChatLog {ChatLogId}", ticket.Id,
                 chatLogId);
@@ -3576,6 +3720,9 @@ public class TicketService : INService
 
                 await channel.SendMessageAsync(embed: embed);
 
+                await MoveTicketToCategoryAsync(guild, channel,
+                    ticket.Button?.ClaimedCategoryId ?? ticket.SelectOption?.ClaimedCategoryId);
+
                 // Send DM notification to ticket creator if enabled (using existing EnableDmNotifications)
                 var settings = await ctx.GuildTicketSettings
                     .FirstOrDefaultAsync(s => s.GuildId == guild.Id);
@@ -3624,6 +3771,8 @@ public class TicketService : INService
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
         var ticket = await ctx.Tickets
+            .LoadWithAsTable(t => t.Button)
+            .LoadWithAsTable(t => t.SelectOption)
             .FirstOrDefaultAsync(t => t.ChannelId == channelId && t.GuildId == guild.Id);
 
         if (ticket is not { ClosedAt: null } || !ticket.ClaimedBy.HasValue)
@@ -3651,6 +3800,10 @@ public class TicketService : INService
                     .Build();
 
                 await channel.SendMessageAsync(embed: embed);
+
+                if ((ticket.Button?.ClaimedCategoryId ?? ticket.SelectOption?.ClaimedCategoryId) != null)
+                    await MoveTicketToCategoryAsync(guild, channel,
+                        ticket.Button?.CategoryId ?? ticket.SelectOption?.CategoryId);
 
                 // Notify previous claimer if enabled (using existing EnableDmNotifications)
                 var settings = await ctx.GuildTicketSettings
@@ -5468,6 +5621,12 @@ public class TicketService : INService
                     case "archivecategoryid":
                         button.ArchiveCategoryId = (ulong?)setting.Value;
                         break;
+                    case "claimedcategoryid":
+                        button.ClaimedCategoryId = (ulong?)setting.Value;
+                        break;
+                    case "dmtranscript":
+                        button.DmTranscript = (bool)setting.Value;
+                        break;
                     case "threadchannelid":
                         button.ThreadChannelId = (ulong?)setting.Value;
                         break;
@@ -5602,6 +5761,12 @@ public class TicketService : INService
                         break;
                     case "archivecategoryid":
                         option.ArchiveCategoryId = (ulong?)setting.Value;
+                        break;
+                    case "claimedcategoryid":
+                        option.ClaimedCategoryId = (ulong?)setting.Value;
+                        break;
+                    case "dmtranscript":
+                        option.DmTranscript = (bool)setting.Value;
                         break;
                     case "threadchannelid":
                         option.ThreadChannelId = (ulong?)setting.Value;

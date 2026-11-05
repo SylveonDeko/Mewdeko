@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using DataModel;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -20,6 +21,7 @@ namespace Mewdeko.Modules.Administration;
 /// <param name="interactivity">The interactivity service by Fergun.Interactive</param>
 /// <param name="logger">The logger instance for structured logging.</param>
 /// <param name="banPrune">The service resolving how many days of messages a ban purges.</param>
+/// <param name="modCases">The service recording moderation cases.</param>
 /// <param name="timezoneService">The guild timezone service.</param>
 /// <param name="localization">The localization service.</param>
 /// <param name="stringsProvider">The strings provider used to list available locales.</param>
@@ -28,6 +30,7 @@ public partial class SlashAdministration(
     InteractiveService interactivity,
     ILogger<SlashAdministration> logger,
     BanPruneService banPrune,
+    ModCaseService modCases,
     GuildTimezoneService timezoneService,
     ILocalization localization,
     IBotStringsProvider stringsProvider)
@@ -87,8 +90,10 @@ public partial class SlashAdministration(
             {
                 try
                 {
-                    await ctx.Guild.AddBanAsync(i, hashPruneDays,
-                        $"{ctx.User.Id} banning by hash {avatarHash}");
+                    await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban,
+                        $"Banning by hash {avatarHash}", null,
+                        () => ctx.Guild.AddBanAsync(i, hashPruneDays,
+                            $"{ctx.User.Id} banning by hash {avatarHash}")).ConfigureAwait(false);
                     bannedUsers++;
                 }
                 catch
@@ -142,10 +147,9 @@ public partial class SlashAdministration(
         {
             try
             {
-                await ctx.Guild
-                    .AddBanAsync(i, rolePruneDays,
-                        reason ?? Strings.BanInRoleDefaultReason(ctx.Guild.Id, ctx.User, ctx.User.Id))
-                    .ConfigureAwait(false);
+                var banReason = reason ?? Strings.BanInRoleDefaultReason(ctx.Guild.Id, ctx.User, ctx.User.Id);
+                await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban, banReason, null,
+                    () => ctx.Guild.AddBanAsync(i, rolePruneDays, banReason)).ConfigureAwait(false);
             }
             catch
             {
@@ -234,10 +238,12 @@ public partial class SlashAdministration(
                     {
                         try
                         {
-                            await ctx.Guild.AddBanAsync(i, deleteDays, options: new RequestOptions
-                            {
-                                AuditLogReason = Strings.MassBanRequestedBy(ctx.Guild.Id, ctx.User)
-                            });
+                            var banReason = Strings.MassBanRequestedBy(ctx.Guild.Id, ctx.User);
+                            await modCases.PunishAsync(ctx.Guild, i, ctx.User, ModCaseAction.Ban, banReason, null,
+                                () => ctx.Guild.AddBanAsync(i, deleteDays, options: new RequestOptions
+                                {
+                                    AuditLogReason = banReason
+                                })).ConfigureAwait(false);
                         }
                         catch
                         {

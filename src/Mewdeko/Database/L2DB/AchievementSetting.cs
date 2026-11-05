@@ -68,6 +68,9 @@ public class AchievementSetting
     [Column("RequireSendPermission")]
     public bool RequireSendPermission { get; set; } = true;
 
+    [Column("AlmostThereDm")]
+    public bool AlmostThereDm { get; set; }
+
     [Column("BackfilledAt")]
     public DateTime? BackfilledAt { get; set; }
 

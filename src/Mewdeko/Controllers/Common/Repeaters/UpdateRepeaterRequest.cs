@@ -133,4 +133,9 @@ public class UpdateRepeaterRequest
     ///     Whether to suppress notifications (null to keep existing)
     /// </summary>
     public bool? SuppressNotifications { get; set; }
+
+    /// <summary>
+    ///     The role to ping each time the repeater posts (null to keep existing, 0 to clear)
+    /// </summary>
+    public ulong? PingRoleId { get; set; }
 }

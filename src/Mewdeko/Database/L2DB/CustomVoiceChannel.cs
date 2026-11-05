@@ -26,6 +26,10 @@ namespace DataModel
 		[Column("KeepAlive"                                                                                         )] public bool      KeepAlive        { get; set; } // boolean
 		[Column("AllowedUsersJson"                                                                                  )] public string?   AllowedUsersJson { get; set; } // text
 		[Column("DeniedUsersJson"                                                                                   )] public string?   DeniedUsersJson  { get; set; } // text
-		[Column("DateAdded"                                                                                         )] public DateTime? DateAdded        { get; set; } // timestamp (6) without time zone
+		[Column("TextChannelId"                                                                                     )] public ulong?  TextChannelId    { get; set; } // numeric(20,0)
+		[Column("DateAdded"                                                                                         )] public DateTime? DateAdded       { get; set; } // timestamp (6) without time zone
+		[Column("HubVoiceChannelId"                                                                                 )] public ulong?  HubVoiceChannelId { get; set; } // numeric(20,0)
+		[Column("IsHidden"                                                                                          )] public bool      IsHidden         { get; set; } // boolean
+		[Column("OwnerLeftAt"                                                                                       )] public DateTime? OwnerLeftAt      { get; set; } // timestamp (6) without time zone
 	}
 }

@@ -363,5 +363,10 @@ public enum StatChannelType
     /// <summary>
     ///     Members currently in a tracked game or app.
     /// </summary>
-    PlayingNow = 71
+    PlayingNow = 71,
+
+    /// <summary>
+    ///     The highest number of members seen online at once.
+    /// </summary>
+    PeakOnline = 72
 }

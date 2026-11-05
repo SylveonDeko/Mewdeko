@@ -3,16 +3,63 @@ using System.Threading;
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.CustomVoice.Services;
 
 /// <summary>
+///     Where a new temporary channel copies its permission overwrites from.
+/// </summary>
+public enum CustomVoiceSyncMode
+{
+    /// <summary>
+    ///     Nothing is copied.
+    /// </summary>
+    None = 0,
+
+    /// <summary>
+    ///     The overwrites of the hub channel the member joined.
+    /// </summary>
+    Hub = 1,
+
+    /// <summary>
+    ///     The overwrites of the category the channel is created in.
+    /// </summary>
+    Category = 2
+}
+
+/// <summary>
+///     What happened when a hub setting was changed.
+/// </summary>
+public enum CustomVoiceSettingResult
+{
+    /// <summary>
+    ///     The setting is not one of the extra hub settings.
+    /// </summary>
+    Unknown,
+
+    /// <summary>
+    ///     The setting was changed.
+    /// </summary>
+    Applied,
+
+    /// <summary>
+    ///     The value was refused.
+    /// </summary>
+    Invalid
+}
+
+/// <summary>
 ///     Service for managing custom voice channels.
 /// </summary>
-public class CustomVoiceService : INService, IUnloadableService
+public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
 {
+    private static readonly OverwritePermissions TextMember = new OverwritePermissions().Modify(
+        viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, readMessageHistory: PermValue.Allow);
+
+    private readonly ConcurrentDictionary<ulong, ulong> textChannels = new();
     private readonly ConcurrentDictionary<ulong, HashSet<ulong>> activeChannels = new();
     private readonly DiscordShardedClient client;
     private readonly IAnalyticsCollector collector;
@@ -81,6 +128,192 @@ public class CustomVoiceService : INService, IUnloadableService
     }
 
     /// <summary>
+    ///     Rebuilds the access of temporary text channels and deletes the ones whose voice channel is gone.
+    /// </summary>
+    public async Task OnReadyAsync()
+    {
+        try
+        {
+            List<CustomVoiceChannel> rows;
+            await using (var db = await dbFactory.CreateConnectionAsync())
+                rows = await db.CustomVoiceChannels.Where(x => x.TextChannelId != null).ToListAsync();
+
+            foreach (var row in rows)
+            {
+                try
+                {
+                    await ReconcileTextChannelAsync(row);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "Could not reconcile the text channel of voice channel {ChannelId}",
+                        row.ChannelId);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error reconciling temporary text channels on startup");
+        }
+    }
+
+    /// <summary>
+    ///     Gets the hub a temporary voice channel was created from.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="channelId">The voice channel ID.</param>
+    /// <returns>The hub voice channel ID, or null if the channel is not a temporary one.</returns>
+    public async Task<ulong?> GetHubIdAsync(ulong guildId, ulong channelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var row = await db.CustomVoiceChannels.FirstOrDefaultAsync(x => x.ChannelId == channelId);
+        if (row == null)
+            return null;
+
+        if (row.HubVoiceChannelId is { } hubId and not 0)
+            return hubId;
+
+        var config = await db.CustomVoiceConfigs.Where(x => x.GuildId == guildId && x.HubVoiceChannelId != 0)
+            .OrderBy(x => x.Id).FirstOrDefaultAsync();
+        return config?.HubVoiceChannelId;
+    }
+
+    /// <summary>
+    ///     Gets the temporary voice channels created from a hub.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="hubId">The hub voice channel ID.</param>
+    /// <returns>The IDs of the temporary voice channels.</returns>
+    public async Task<List<ulong>> GetTemporaryChannelIdsAsync(ulong guildId, ulong hubId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        if (!await db.CustomVoiceConfigs.AnyAsync(x => x.GuildId == guildId && x.HubVoiceChannelId == hubId))
+            return [];
+
+        return await db.CustomVoiceChannels
+            .Where(x => x.GuildId == guildId && (x.HubVoiceChannelId == hubId || x.HubVoiceChannelId == null))
+            .Select(x => x.ChannelId)
+            .ToListAsync();
+    }
+
+    private async Task ReconcileTextChannelAsync(CustomVoiceChannel row)
+    {
+        var guild = client.GetGuild(row.GuildId);
+        if (guild is null || row.TextChannelId is not { } textId)
+            return;
+
+        var voice = guild.GetVoiceChannel(row.ChannelId);
+        var text = guild.GetTextChannel(textId);
+        if (voice is null || text is null)
+        {
+            if (text is not null)
+                await text.DeleteAsync();
+
+            await ClearTextChannelAsync(row.ChannelId);
+            return;
+        }
+
+        textChannels[row.ChannelId] = textId;
+        var inside = voice.ConnectedUsers.Where(x => !x.IsBot).ToList();
+        var insideIds = inside.Select(x => x.Id).ToHashSet();
+
+        foreach (var overwrite in text.PermissionOverwrites.ToList())
+        {
+            if (overwrite.TargetType == PermissionTarget.User && !insideIds.Contains(overwrite.TargetId)
+                                                              && IsTextMember(overwrite.Permissions)
+                                                              && guild.GetUser(overwrite.TargetId) is { } gone)
+                await text.RemovePermissionOverwriteAsync(gone);
+        }
+
+        foreach (var user in inside.Where(user => text.GetPermissionOverwrite(user) is null))
+            await text.AddPermissionOverwriteAsync(user, TextMember);
+    }
+
+    private static bool IsTextMember(OverwritePermissions perms) =>
+        perms.AllowValue == TextMember.AllowValue && perms.DenyValue == 0;
+
+    private async Task ClearTextChannelAsync(ulong voiceChannelId)
+    {
+        textChannels.TryRemove(voiceChannelId, out _);
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.CustomVoiceChannels.Where(x => x.ChannelId == voiceChannelId)
+            .Set(x => x.TextChannelId, (ulong?)null).UpdateAsync();
+    }
+
+    private async Task DeleteTextChannelAsync(ulong guildId, ulong voiceChannelId)
+    {
+        if (!textChannels.TryRemove(voiceChannelId, out var textId))
+            return;
+
+        try
+        {
+            if (client.GetGuild(guildId)?.GetTextChannel(textId) is { } text)
+                await text.DeleteAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Could not delete the text channel of voice channel {ChannelId}", voiceChannelId);
+        }
+    }
+
+    private async Task<ulong?> CreateTextChannelAsync(IGuild guild, CustomVoiceConfig config, string name,
+        ICategoryChannel category)
+    {
+        try
+        {
+            var overwrites = new List<Overwrite>
+            {
+                new(guild.EveryoneRole.Id, PermissionTarget.Role,
+                    new OverwritePermissions(viewChannel: PermValue.Deny)),
+                new(client.CurrentUser.Id, PermissionTarget.User,
+                    new OverwritePermissions(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow,
+                        manageChannel: PermValue.Allow, manageMessages: PermValue.Allow))
+            };
+
+            if (config.CustomVoiceAdminRoleId is { } roleId && guild.GetRole(roleId) is not null)
+            {
+                overwrites.Add(new Overwrite(roleId, PermissionTarget.Role,
+                    new OverwritePermissions(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow,
+                        readMessageHistory: PermValue.Allow, manageMessages: PermValue.Allow)));
+            }
+
+            var text = await guild.CreateTextChannelAsync(name, props =>
+            {
+                if (category != null)
+                    props.CategoryId = category.Id;
+
+                props.PermissionOverwrites = overwrites;
+            });
+            return text.Id;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error creating the text channel for a custom voice channel in guild {GuildId}",
+                guild.Id);
+            return null;
+        }
+    }
+
+    private async Task UpdateTextAccessAsync(SocketGuildUser user, SocketVoiceState oldState,
+        SocketVoiceState newState)
+    {
+        if (user.IsBot || oldState.VoiceChannel?.Id == newState.VoiceChannel?.Id)
+            return;
+
+        var guild = user.Guild;
+        if (oldState.VoiceChannel is { } before && textChannels.TryGetValue(before.Id, out var oldText)
+                                                 && guild.GetTextChannel(oldText) is { } oldChannel
+                                                 && oldChannel.GetPermissionOverwrite(user) is { } current
+                                                 && IsTextMember(current))
+            await oldChannel.RemovePermissionOverwriteAsync(user);
+
+        if (newState.VoiceChannel is { } after && textChannels.TryGetValue(after.Id, out var newText)
+                                               && guild.GetTextChannel(newText) is { } newChannel
+                                               && newChannel.GetPermissionOverwrite(user) is null)
+            await newChannel.AddPermissionOverwriteAsync(user, TextMember);
+    }
+
+    /// <summary>
     ///     Loads all active custom voice channels on startup.
     /// </summary>
     private async Task LoadActiveChannelsOnStartup()
@@ -101,6 +334,9 @@ public class CustomVoiceService : INService, IUnloadableService
                 {
                     // Channel no longer exists, remove from database
                     await dbContext.DeleteAsync(channel);
+                    if (channel.TextChannelId is { } orphanText && guild.GetTextChannel(orphanText) is { } orphan)
+                        await orphan.DeleteAsync();
+
                     continue;
                 }
 
@@ -118,7 +354,7 @@ public class CustomVoiceService : INService, IUnloadableService
                     voiceChannel.Users.Count(u => u.VoiceChannel?.Id == channel.ChannelId && !u.IsBot);
                 if (connectedUsersCount == 0 && !channel.KeepAlive)
                 {
-                    var config = await GetOrCreateConfigAsync(channel.GuildId);
+                    var config = await GetConfigForChannelAsync(channel.GuildId, channel.ChannelId);
                     if (config.DeleteWhenEmpty)
                     {
                         emptyChannels.TryAdd(channel.ChannelId, DateTime.UtcNow);
@@ -154,7 +390,8 @@ public class CustomVoiceService : INService, IUnloadableService
             throw new ArgumentException("Guild ID cannot be 0", nameof(guildId));
 
         await using var dbContext = await dbFactory.CreateConnectionAsync();
-        var config = await dbContext.CustomVoiceConfigs.FirstOrDefaultAsync(c => c.GuildId == guildId);
+        var config = PickPrimaryConfig(await dbContext.CustomVoiceConfigs.Where(c => c.GuildId == guildId)
+            .ToListAsync());
 
         if (config == null)
         {
@@ -242,6 +479,163 @@ public class CustomVoiceService : INService, IUnloadableService
     }
 
     /// <summary>
+    ///     Picks the first hub's configuration, falling back to an unconfigured one.
+    /// </summary>
+    /// <param name="configs">A guild's configurations.</param>
+    /// <returns>The primary configuration, or null when there are none.</returns>
+    private static CustomVoiceConfig? PickPrimaryConfig(IEnumerable<CustomVoiceConfig> configs)
+    {
+        return configs.OrderBy(c => c.HubVoiceChannelId == 0).ThenBy(c => c.Id).FirstOrDefault();
+    }
+
+    /// <summary>
+    ///     Gets the settings of every join-to-create hub in a guild.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The hubs in the order they were added.</returns>
+    public async Task<List<CustomVoiceConfig>> GetHubConfigsAsync(ulong guildId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        return await dbContext.CustomVoiceConfigs
+            .Where(c => c.GuildId == guildId && c.HubVoiceChannelId != 0)
+            .OrderBy(c => c.Id)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    ///     Gets the settings of one hub.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="hubChannelId">The hub voice channel ID.</param>
+    /// <returns>The hub's settings, or null when that channel is not a hub.</returns>
+    public async Task<CustomVoiceConfig?> GetHubConfigAsync(ulong guildId, ulong hubChannelId)
+    {
+        if (hubChannelId == 0)
+            return null;
+
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        return await dbContext.CustomVoiceConfigs
+            .FirstOrDefaultAsync(c => c.GuildId == guildId && c.HubVoiceChannelId == hubChannelId);
+    }
+
+    /// <summary>
+    ///     Gets the settings of the hub a temporary channel was created from.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="channelId">The temporary voice channel ID.</param>
+    /// <returns>The hub's settings, or the first hub's when the channel does not remember its hub.</returns>
+    public async Task<CustomVoiceConfig> GetConfigForChannelAsync(ulong guildId, ulong channelId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        var hubId = await dbContext.CustomVoiceChannels.Where(c => c.ChannelId == channelId)
+            .Select(c => c.HubVoiceChannelId).FirstOrDefaultAsync();
+
+        if (hubId is { } id and not 0 && await GetHubConfigAsync(guildId, id) is { } hub)
+            return hub;
+
+        return await GetOrCreateConfigAsync(guildId);
+    }
+
+    /// <summary>
+    ///     Gets the settings of the hub behind the temporary channel a member is currently in. Members who are not
+    ///     in a temporary channel get the first hub's settings.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The member's user ID.</param>
+    /// <returns>The settings every command check for that member should use.</returns>
+    public async Task<CustomVoiceConfig> GetConfigForMemberAsync(ulong guildId, ulong userId)
+    {
+        var channelId = client.GetGuild(guildId)?.GetUser(userId)?.VoiceChannel?.Id ?? 0;
+        return await GetConfigForChannelAsync(guildId, channelId);
+    }
+
+    /// <summary>
+    ///     Gets the first hub's settings, which is what server-wide configuration commands edit when no hub is given.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The first hub's settings.</returns>
+    public Task<CustomVoiceConfig> GetPrimaryConfigAsync(ulong guildId)
+    {
+        return GetOrCreateConfigAsync(guildId);
+    }
+
+    /// <summary>
+    ///     Adds another join-to-create hub with its own settings, or updates the category of an existing hub.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="hubChannelId">The hub voice channel ID.</param>
+    /// <param name="categoryId">The category for created channels.</param>
+    /// <returns>The hub's settings.</returns>
+    public async Task<CustomVoiceConfig> AddHubAsync(ulong guildId, ulong hubChannelId, ulong? categoryId = null)
+    {
+        var guild = client.GetGuild(guildId) ??
+                    throw new ArgumentException($"Guild with ID {guildId} not found", nameof(guildId));
+        if (hubChannelId == 0 || guild.GetVoiceChannel(hubChannelId) == null)
+            throw new ArgumentException($"Voice channel with ID {hubChannelId} not found", nameof(hubChannelId));
+        if (categoryId.HasValue && guild.GetCategoryChannel(categoryId.Value) == null)
+            throw new ArgumentException($"Category with ID {categoryId} not found", nameof(categoryId));
+
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        var configs = await dbContext.CustomVoiceConfigs.Where(c => c.GuildId == guildId).ToListAsync();
+        var existing = configs.FirstOrDefault(c => c.HubVoiceChannelId == hubChannelId);
+        if (existing != null)
+        {
+            if (categoryId.HasValue)
+            {
+                existing.ChannelCategoryId = categoryId;
+                await dbContext.UpdateAsync(existing);
+            }
+
+            return existing;
+        }
+
+        var hubCount = configs.Count(c => c.HubVoiceChannelId != 0);
+        var unconfigured = configs.OrderBy(c => c.Id).FirstOrDefault(c => c.HubVoiceChannelId == 0);
+        var config = unconfigured ?? new CustomVoiceConfig
+        {
+            GuildId = guildId,
+            DefaultNameFormat = "{0}'s Channel",
+            DefaultBitrate = 64,
+            DeleteWhenEmpty = true,
+            EmptyChannelTimeout = 1,
+            AllowNameCustomization = true,
+            AllowUserLimitCustomization = true,
+            AllowBitrateCustomization = true,
+            AllowLocking = true,
+            AllowUserManagement = true,
+            MaxUserLimit = 99,
+            MaxBitrate = 96,
+            PersistUserPreferences = true,
+            AutoPermission = true
+        };
+
+        config.HubVoiceChannelId = hubChannelId;
+        config.ChannelCategoryId = categoryId;
+        config.HubName = $"Hub {hubCount + 1}";
+
+        if (unconfigured != null)
+            await dbContext.UpdateAsync(config);
+        else
+            config.Id = await dbContext.InsertWithInt32IdentityAsync(config);
+
+        return config;
+    }
+
+    /// <summary>
+    ///     Removes a hub and its settings. Channels it already created are left alone.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="hubChannelId">The hub voice channel ID.</param>
+    /// <returns>True when the hub existed.</returns>
+    public async Task<bool> RemoveHubAsync(ulong guildId, ulong hubChannelId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        return await dbContext.CustomVoiceConfigs
+            .Where(c => c.GuildId == guildId && c.HubVoiceChannelId == hubChannelId && hubChannelId != 0)
+            .DeleteAsync() > 0;
+    }
+
+    /// <summary>
     ///     Updates the custom voice configuration for a guild.
     /// </summary>
     /// <param name="config">The updated configuration.</param>
@@ -291,13 +685,16 @@ public class CustomVoiceService : INService, IUnloadableService
         }
 
         await using var dbContext = await dbFactory.CreateConnectionAsync();
-        var config = await dbContext.CustomVoiceConfigs.FirstOrDefaultAsync(c => c.GuildId == guildId);
+        var guildConfigs = await dbContext.CustomVoiceConfigs.Where(c => c.GuildId == guildId).ToListAsync();
+        var config = guildConfigs.FirstOrDefault(c => c.HubVoiceChannelId == hubChannelId) ??
+                     PickPrimaryConfig(guildConfigs);
 
         if (config == null)
         {
             config = new CustomVoiceConfig
             {
                 GuildId = guildId,
+                HubName = "Hub 1",
                 HubVoiceChannelId = hubChannelId,
                 ChannelCategoryId = categoryId,
                 DefaultNameFormat = "{0}'s Channel",
@@ -322,6 +719,7 @@ public class CustomVoiceService : INService, IUnloadableService
         else
         {
             config.HubVoiceChannelId = hubChannelId;
+            config.HubName ??= "Hub 1";
             if (categoryId.HasValue)
                 config.ChannelCategoryId = categoryId;
 
@@ -443,7 +841,8 @@ public class CustomVoiceService : INService, IUnloadableService
     /// <param name="guild">The guild.</param>
     /// <param name="user">The user.</param>
     /// <returns>The created voice channel if successful, null otherwise.</returns>
-    public async Task<IVoiceChannel> CreateVoiceChannelAsync(IGuild guild, IGuildUser user)
+    public async Task<IVoiceChannel> CreateVoiceChannelAsync(IGuild guild, IGuildUser user,
+        ulong? hubChannelId = null)
     {
         if (guild == null)
             throw new ArgumentNullException(nameof(guild));
@@ -451,15 +850,19 @@ public class CustomVoiceService : INService, IUnloadableService
         if (user == null)
             throw new ArgumentNullException(nameof(user));
 
-        var config = await GetOrCreateConfigAsync(guild.Id);
+        var config = hubChannelId is { } requestedHub
+            ? await GetHubConfigAsync(guild.Id, requestedHub) ?? await GetOrCreateConfigAsync(guild.Id)
+            : await GetOrCreateConfigAsync(guild.Id);
 
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
-        // Check if the user already has a channel and multiple channels are not allowed
+        // Check if the user already has a channel from this hub and multiple channels are not allowed
         if (!config.AllowMultipleChannels)
         {
             var existingChannel = await dbContext.CustomVoiceChannels
-                .FirstOrDefaultAsync(c => c.GuildId == guild.Id && c.OwnerId == user.Id);
+                .FirstOrDefaultAsync(c => c.GuildId == guild.Id && c.OwnerId == user.Id &&
+                                          (c.HubVoiceChannelId == config.HubVoiceChannelId ||
+                                           c.HubVoiceChannelId == null));
 
             if (existingChannel != null)
             {
@@ -524,30 +927,24 @@ public class CustomVoiceService : INService, IUnloadableService
         }
 
         // Create the channel
-        IVoiceChannel voiceChannel;
-        if (category != null)
+        var inherited = await GetInheritedOverwritesAsync(guild, config, category);
+        IVoiceChannel voiceChannel = await guild.CreateVoiceChannelAsync(channelName, props =>
         {
-            voiceChannel = await guild.CreateVoiceChannelAsync(channelName, props =>
-            {
+            if (category != null)
                 props.CategoryId = category.Id;
-                props.UserLimit = userLimit > 0 ? userLimit : null;
-                props.Bitrate = bitrate * 1000;
-            });
-        }
-        else
-        {
-            voiceChannel = await guild.CreateVoiceChannelAsync(channelName, props =>
-            {
-                props.UserLimit = userLimit > 0 ? userLimit : null;
-                props.Bitrate = bitrate * 1000;
-            });
-        }
+
+            props.UserLimit = userLimit > 0 ? userLimit : null;
+            props.Bitrate = bitrate * 1000;
+            if (inherited != null)
+                props.PermissionOverwrites = inherited;
+        });
 
         // Create the channel entry in the database
         var customChannel = new CustomVoiceChannel
         {
             GuildId = guild.Id,
             ChannelId = voiceChannel.Id,
+            HubVoiceChannelId = config.HubVoiceChannelId == 0 ? null : config.HubVoiceChannelId,
             OwnerId = user.Id,
             CreatedAt = DateTime.UtcNow,
             LastActive = DateTime.UtcNow,
@@ -584,6 +981,13 @@ public class CustomVoiceService : INService, IUnloadableService
             }
         }
 
+        if (config.CreateTextChannel)
+        {
+            customChannel.TextChannelId = await CreateTextChannelAsync(guild, config, channelName, category);
+            if (customChannel.TextChannelId is { } createdText)
+                textChannels[voiceChannel.Id] = createdText;
+        }
+
         await dbContext.InsertAsync(customChannel);
 
         // Keep track of the channel immediately after database insert
@@ -601,15 +1005,7 @@ public class CustomVoiceService : INService, IUnloadableService
             try
             {
                 // Give the creator management permissions
-                await voiceChannel.AddPermissionOverwriteAsync(user, new OverwritePermissions(
-                    connect: PermValue.Allow,
-                    speak: PermValue.Allow,
-                    useVoiceActivation: PermValue.Allow,
-                    manageChannel: PermValue.Allow,
-                    moveMembers: PermValue.Allow,
-                    muteMembers: PermValue.Allow,
-                    deafenMembers: PermValue.Allow
-                ));
+                await voiceChannel.AddPermissionOverwriteAsync(user, BuildOwnerPermissions(config));
 
                 // If the channel should be locked, deny everyone else connect permission
                 if (customChannel.IsLocked)
@@ -678,6 +1074,22 @@ public class CustomVoiceService : INService, IUnloadableService
                             deafenMembers: PermValue.Allow
                         ));
                     }
+                }
+
+                foreach (var moderatorRoleId in ParseRoleIds(config.ModeratorRoleIds))
+                {
+                    if (guild.GetRole(moderatorRoleId) is not { } moderatorRole)
+                        continue;
+
+                    await voiceChannel.AddPermissionOverwriteAsync(moderatorRole, new OverwritePermissions(
+                        viewChannel: PermValue.Allow,
+                        connect: PermValue.Allow,
+                        speak: PermValue.Allow,
+                        useVoiceActivation: PermValue.Allow,
+                        moveMembers: PermValue.Allow,
+                        muteMembers: PermValue.Allow,
+                        deafenMembers: PermValue.Allow
+                    ));
                 }
             }
             catch (Exception ex)
@@ -751,7 +1163,7 @@ public class CustomVoiceService : INService, IUnloadableService
 
                 // Send a welcome message with control buttons to the text channel
                 var embed = new EmbedBuilder()
-                    .WithOkColor()
+                    .WithOkColor(voiceChannel.Guild.Id)
                     .WithTitle(strings.CustomVoiceDefaultControlsTitle(voiceChannel.Guild.Id))
                     .WithDescription(strings.CustomVoiceDescription(voiceChannel.Guild.Id) ??
                                      strings.CustomVoiceDefaultDescription(voiceChannel.Guild.Id))
@@ -812,9 +1224,14 @@ public class CustomVoiceService : INService, IUnloadableService
                 .FirstOrDefaultAsync(c => c.ChannelId == channelId);
 
             if (cvc != null)
+            {
                 await dbContext.DeleteAsync(cvc);
+                if (cvc.TextChannelId is { } storedText)
+                    textChannels.TryAdd(channelId, storedText);
+            }
 
             await channel.DeleteAsync();
+            await DeleteTextChannelAsync(guildId, channelId);
 
             // Remove from tracking collections
             if (activeChannels.TryGetValue(guildId, out var channels))
@@ -867,7 +1284,7 @@ public class CustomVoiceService : INService, IUnloadableService
                 return false;
 
             // Get the config for permission checks
-            var config = await GetOrCreateConfigAsync(guildId);
+            var config = await GetConfigForChannelAsync(guildId, channelId);
 
             // Get the channel from database
             await using var dbContext = await dbFactory.CreateConnectionAsync();
@@ -926,9 +1343,9 @@ public class CustomVoiceService : INService, IUnloadableService
                     // Lock both voice and text channel
 
                     // Voice channel
-                    await channel.AddPermissionOverwriteAsync(guild.EveryoneRole, new OverwritePermissions(
-                        connect: PermValue.Deny
-                    ));
+                    await channel.AddPermissionOverwriteAsync(guild.EveryoneRole,
+                        (channel.GetPermissionOverwrite(guild.EveryoneRole) ?? new OverwritePermissions())
+                        .Modify(connect: PermValue.Deny));
 
                     // Text channel
                     try
@@ -1008,9 +1425,8 @@ public class CustomVoiceService : INService, IUnloadableService
                         var permissions = everyoneOverwrite.Permissions;
                         if (permissions.Connect == PermValue.Deny)
                         {
-                            await channel.AddPermissionOverwriteAsync(guild.EveryoneRole, new OverwritePermissions(
-                                connect: PermValue.Inherit
-                            ));
+                            await channel.AddPermissionOverwriteAsync(guild.EveryoneRole,
+                                permissions.Modify(connect: PermValue.Inherit));
                         }
                     }
 
@@ -1082,7 +1498,7 @@ public class CustomVoiceService : INService, IUnloadableService
             return false;
 
         // Get the config for permission checks
-        var config = await GetOrCreateConfigAsync(guildId);
+        var config = await GetConfigForChannelAsync(guildId, channelId);
         if (!config.AllowUserManagement)
             return false;
 
@@ -1197,7 +1613,7 @@ public class CustomVoiceService : INService, IUnloadableService
             return false;
 
         // Get the config for permission checks
-        var config = await GetOrCreateConfigAsync(guildId);
+        var config = await GetConfigForChannelAsync(guildId, channelId);
         if (!config.AllowUserManagement)
             return false;
 
@@ -1337,6 +1753,7 @@ public class CustomVoiceService : INService, IUnloadableService
         // Update ownership
         var oldOwnerId = customChannel.OwnerId;
         customChannel.OwnerId = newOwnerId;
+        customChannel.OwnerLeftAt = null;
 
         // Update permissions
         try
@@ -1375,15 +1792,8 @@ public class CustomVoiceService : INService, IUnloadableService
 
             // Add admin permissions to new owner
             // Voice channel
-            await channel.AddPermissionOverwriteAsync(newOwner, new OverwritePermissions(
-                connect: PermValue.Allow,
-                speak: PermValue.Allow,
-                useVoiceActivation: PermValue.Allow,
-                manageChannel: PermValue.Allow,
-                moveMembers: PermValue.Allow,
-                muteMembers: PermValue.Allow,
-                deafenMembers: PermValue.Allow
-            ));
+            await channel.AddPermissionOverwriteAsync(newOwner,
+                BuildOwnerPermissions(await GetConfigForChannelAsync(guildId, channelId)));
 
             // Text channel
             try
@@ -1417,6 +1827,309 @@ public class CustomVoiceService : INService, IUnloadableService
         await dbContext.UpdateAsync(customChannel);
 
         return true;
+    }
+
+    /// <summary>
+    ///     Builds the permissions a channel owner gets in their channel, following the hub's owner toggles.
+    /// </summary>
+    /// <param name="config">The hub's settings.</param>
+    /// <returns>The owner's permission overwrite.</returns>
+    public static OverwritePermissions BuildOwnerPermissions(CustomVoiceConfig config)
+    {
+        return new OverwritePermissions(
+            connect: PermValue.Allow,
+            speak: PermValue.Allow,
+            useVoiceActivation: PermValue.Allow,
+            manageChannel: config.OwnerManageChannel ? PermValue.Allow : PermValue.Inherit,
+            manageRoles: config.OwnerManageRoles ? PermValue.Allow : PermValue.Inherit,
+            moveMembers: config.OwnerMoveMembers ? PermValue.Allow : PermValue.Inherit,
+            prioritySpeaker: config.OwnerPrioritySpeaker ? PermValue.Allow : PermValue.Inherit,
+            muteMembers: PermValue.Allow,
+            deafenMembers: PermValue.Allow
+        );
+    }
+
+    /// <summary>
+    ///     Parses stored comma separated role IDs.
+    /// </summary>
+    /// <param name="stored">The stored text.</param>
+    /// <returns>The role IDs.</returns>
+    public static List<ulong> ParseRoleIds(string? stored)
+    {
+        return (stored ?? "")
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(x => ulong.TryParse(x, out var id) ? id : 0)
+            .Where(x => x != 0)
+            .ToList();
+    }
+
+    /// <summary>
+    ///     Checks whether a member can moderate every temporary channel through the admin role or a moderator role.
+    /// </summary>
+    /// <param name="config">The hub's settings.</param>
+    /// <param name="user">The member.</param>
+    /// <returns>True when the member holds the admin role or any moderator role.</returns>
+    public static bool IsModerator(CustomVoiceConfig config, IGuildUser user)
+    {
+        if (config.CustomVoiceAdminRoleId is { } adminRoleId && user.RoleIds.Contains(adminRoleId))
+            return true;
+
+        return ParseRoleIds(config.ModeratorRoleIds).Any(user.RoleIds.Contains);
+    }
+
+    /// <summary>
+    ///     Gets the permission overwrites a new channel starts with when the hub syncs them from the hub or category.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="config">The hub's settings.</param>
+    /// <param name="category">The category the channel is created in.</param>
+    /// <returns>The overwrites to copy, or null when nothing is synced.</returns>
+    private static async Task<List<Overwrite>?> GetInheritedOverwritesAsync(IGuild guild, CustomVoiceConfig config,
+        ICategoryChannel? category)
+    {
+        IGuildChannel? source = (CustomVoiceSyncMode)config.SyncPermissions switch
+        {
+            CustomVoiceSyncMode.Hub => await guild.GetVoiceChannelAsync(config.HubVoiceChannelId),
+            CustomVoiceSyncMode.Category => category,
+            _ => null
+        };
+
+        return source?.PermissionOverwrites.ToList();
+    }
+
+    /// <summary>
+    ///     Gets how long a member has to wait before they can claim a channel whose owner left.
+    /// </summary>
+    /// <param name="config">The hub's settings.</param>
+    /// <param name="channel">The temporary channel.</param>
+    /// <returns>The time left, or zero when the channel can be claimed now.</returns>
+    public static TimeSpan GetClaimWait(CustomVoiceConfig config, CustomVoiceChannel channel)
+    {
+        if (config.OwnerLockMinutes <= 0 || channel.OwnerLeftAt is not { } leftAt)
+            return TimeSpan.Zero;
+
+        var remaining = leftAt.AddMinutes(config.OwnerLockMinutes) - DateTime.UtcNow;
+        return remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
+    }
+
+    /// <summary>
+    ///     Hides a temporary channel from everyone who can't already see it, or shows it again.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="channelId">The channel ID.</param>
+    /// <param name="hidden">True to hide the channel, false to reveal it.</param>
+    /// <returns>True when the channel was updated.</returns>
+    public async Task<bool> SetHiddenAsync(ulong guildId, ulong channelId, bool hidden)
+    {
+        try
+        {
+            if (client.GetGuild(guildId) is not IGuild guild ||
+                await guild.GetVoiceChannelAsync(channelId) is not { } channel)
+                return false;
+
+            await using var dbContext = await dbFactory.CreateConnectionAsync();
+            var customChannel = await dbContext.CustomVoiceChannels.FirstOrDefaultAsync(c => c.ChannelId == channelId);
+            if (customChannel == null)
+                return false;
+
+            var everyone = channel.GetPermissionOverwrite(guild.EveryoneRole) ?? new OverwritePermissions();
+            await channel.AddPermissionOverwriteAsync(guild.EveryoneRole,
+                everyone.Modify(viewChannel: hidden ? PermValue.Deny : PermValue.Inherit));
+
+            if (hidden)
+            {
+                foreach (var member in (await channel.GetUsersAsync().FlattenAsync()).Where(x => !x.IsBot))
+                {
+                    var current = channel.GetPermissionOverwrite(member) ?? new OverwritePermissions();
+                    await channel.AddPermissionOverwriteAsync(member, current.Modify(viewChannel: PermValue.Allow));
+                }
+            }
+
+            customChannel.IsHidden = hidden;
+            await dbContext.UpdateAsync(customChannel);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error changing whether custom voice channel {ChannelId} is hidden", channelId);
+            return false;
+        }
+    }
+
+    /// <summary>
+    ///     Disconnects a member from a temporary channel without banning them from it.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="channelId">The channel ID.</param>
+    /// <param name="userId">The member to disconnect.</param>
+    /// <returns>True when the member was in the channel and was disconnected.</returns>
+    public async Task<bool> KickUserAsync(ulong guildId, ulong channelId, ulong userId)
+    {
+        try
+        {
+            if (client.GetGuild(guildId) is not IGuild guild)
+                return false;
+
+            await using var dbContext = await dbFactory.CreateConnectionAsync();
+            var customChannel = await dbContext.CustomVoiceChannels.FirstOrDefaultAsync(c => c.ChannelId == channelId);
+            if (customChannel == null || customChannel.OwnerId == userId)
+                return false;
+
+            var user = await guild.GetUserAsync(userId);
+            if (user?.VoiceChannel?.Id != channelId)
+                return false;
+
+            await user.ModifyAsync(props => props.Channel = null);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error disconnecting {UserId} from custom voice channel {ChannelId}", userId,
+                channelId);
+            return false;
+        }
+    }
+
+    /// <summary>
+    ///     Reads one of the hub settings that don't have their own named command.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="config">The hub's settings.</param>
+    /// <param name="setting">The setting name.</param>
+    /// <returns>The current value, or null when the setting is not one of these.</returns>
+    public string? GetExtraSetting(IGuild guild, CustomVoiceConfig config, string setting)
+    {
+        return setting.ToLowerInvariant() switch
+        {
+            "hubname" => config.HubName ?? "",
+            "modroles" => string.Join(' ', ParseRoleIds(config.ModeratorRoleIds).Select(MentionUtils.MentionRole)),
+            "ownerlock" => config.OwnerLockMinutes.ToString(),
+            "ownermanagechannel" => config.OwnerManageChannel.ToString(),
+            "ownermanageroles" => config.OwnerManageRoles.ToString(),
+            "ownermovemembers" => config.OwnerMoveMembers.ToString(),
+            "ownerpriority" => config.OwnerPrioritySpeaker.ToString(),
+            "syncperms" => ((CustomVoiceSyncMode)config.SyncPermissions).ToString().ToLowerInvariant(),
+            "cleanup" => config.CleanupLeftovers.ToString(),
+            _ => null
+        };
+    }
+
+    /// <summary>
+    ///     Changes one of the hub settings that don't have their own named command.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="config">The hub's settings, changed in place.</param>
+    /// <param name="setting">The setting name.</param>
+    /// <param name="value">The new value.</param>
+    /// <returns>Whether the setting was applied, was refused, or is not one of these.</returns>
+    public CustomVoiceSettingResult ApplyExtraSetting(IGuild guild, CustomVoiceConfig config, string setting,
+        string value)
+    {
+        switch (setting.ToLowerInvariant())
+        {
+            case "hubname":
+                config.HubName = value.Trim().Length == 0 ? null : value.Trim().TrimTo(100);
+                return CustomVoiceSettingResult.Applied;
+
+            case "modroles":
+                if (value.Equals("none", StringComparison.OrdinalIgnoreCase))
+                {
+                    config.ModeratorRoleIds = "";
+                    return CustomVoiceSettingResult.Applied;
+                }
+
+                var roleIds = new List<ulong>();
+                foreach (var token in value.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var role = MentionUtils.TryParseRole(token, out var mentioned) ? guild.GetRole(mentioned)
+                        : ulong.TryParse(token, out var raw) ? guild.GetRole(raw)
+                        : guild.Roles.FirstOrDefault(r => r.Name.Equals(token, StringComparison.OrdinalIgnoreCase));
+                    if (role == null || role.Id == guild.Id)
+                        return CustomVoiceSettingResult.Invalid;
+
+                    roleIds.Add(role.Id);
+                }
+
+                if (roleIds.Count == 0)
+                    return CustomVoiceSettingResult.Invalid;
+
+                config.ModeratorRoleIds = string.Join(',', roleIds.Distinct());
+                return CustomVoiceSettingResult.Applied;
+
+            case "ownerlock":
+                if (!int.TryParse(value, out var minutes) || minutes is < 0 or > 10080)
+                    return CustomVoiceSettingResult.Invalid;
+
+                config.OwnerLockMinutes = minutes;
+                return CustomVoiceSettingResult.Applied;
+
+            case "ownermanagechannel":
+                return TrySetFlag(value, flag => config.OwnerManageChannel = flag);
+            case "ownermanageroles":
+                return TrySetFlag(value, flag => config.OwnerManageRoles = flag);
+            case "ownermovemembers":
+                return TrySetFlag(value, flag => config.OwnerMoveMembers = flag);
+            case "ownerpriority":
+                return TrySetFlag(value, flag => config.OwnerPrioritySpeaker = flag);
+            case "cleanup":
+                return TrySetFlag(value, flag => config.CleanupLeftovers = flag);
+
+            case "syncperms":
+                if (!Enum.TryParse<CustomVoiceSyncMode>(value, true, out var mode) || !Enum.IsDefined(mode))
+                    return CustomVoiceSettingResult.Invalid;
+
+                config.SyncPermissions = (int)mode;
+                return CustomVoiceSettingResult.Applied;
+
+            default:
+                return CustomVoiceSettingResult.Unknown;
+        }
+    }
+
+    /// <summary>
+    ///     Adds the hub settings that don't have their own named command to a settings embed.
+    /// </summary>
+    /// <param name="embed">The embed to add fields to.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="config">The hub's settings.</param>
+    public void AddExtraConfigFields(EmbedBuilder embed, ulong guildId, CustomVoiceConfig config)
+    {
+        string YesNo(bool value) => value
+            ? strings.CustomVoiceConfigYes(guildId)
+            : strings.CustomVoiceConfigNo(guildId);
+
+        var moderators = ParseRoleIds(config.ModeratorRoleIds);
+        var ownerPermissions = string.Join(", ", new[]
+        {
+            (config.OwnerManageChannel, strings.CustomVoicePermManageChannel(guildId)),
+            (config.OwnerManageRoles, strings.CustomVoicePermManageRoles(guildId)),
+            (config.OwnerMoveMembers, strings.CustomVoicePermMoveMembers(guildId)),
+            (config.OwnerPrioritySpeaker, strings.CustomVoicePermPrioritySpeaker(guildId))
+        }.Where(x => x.Item1).Select(x => x.Item2));
+
+        embed
+            .AddField(strings.CustomVoiceConfigModeratorRoles(guildId),
+                moderators.Count == 0
+                    ? strings.CustomVoiceConfigNone(guildId)
+                    : string.Join(' ', moderators.Select(MentionUtils.MentionRole)), true)
+            .AddField(strings.CustomVoiceConfigOwnerLock(guildId),
+                config.OwnerLockMinutes == 0
+                    ? strings.CustomVoiceConfigNone(guildId)
+                    : strings.CustomVoiceConfigMinutes(guildId, config.OwnerLockMinutes), true)
+            .AddField(strings.CustomVoiceConfigOwnerPermissions(guildId),
+                ownerPermissions.Length == 0 ? strings.CustomVoiceConfigNone(guildId) : ownerPermissions, true)
+            .AddField(strings.CustomVoiceConfigSyncPermissions(guildId),
+                ((CustomVoiceSyncMode)config.SyncPermissions).ToString().ToLowerInvariant(), true)
+            .AddField(strings.CustomVoiceConfigCleanup(guildId), YesNo(config.CleanupLeftovers), true);
+    }
+
+    private static CustomVoiceSettingResult TrySetFlag(string value, Action<bool> set)
+    {
+        if (!bool.TryParse(value, out var flag))
+            return CustomVoiceSettingResult.Invalid;
+
+        set(flag);
+        return CustomVoiceSettingResult.Applied;
     }
 
     /// <summary>
@@ -1498,6 +2211,16 @@ public class CustomVoiceService : INService, IUnloadableService
         );
 
         components.WithButton(
+            customId: $"voice:{(customChannel.IsHidden ? "reveal" : "hide")}:{channelId}",
+            label: customChannel.IsHidden
+                ? strings.CustomVoiceControlsRevealButton(customChannel.GuildId)
+                : strings.CustomVoiceControlsHideButton(customChannel.GuildId),
+            style: customChannel.IsHidden ? ButtonStyle.Success : ButtonStyle.Secondary,
+            emote: new Emoji(customChannel.IsHidden ? "👁️" : "🙈"),
+            row: 1
+        );
+
+        components.WithButton(
             customId: $"voice:keepalive:{channelId}:{!customChannel.KeepAlive}",
             label: customChannel.KeepAlive ? "Disable Keep Alive" : "Enable Keep Alive",
             style: customChannel.KeepAlive ? ButtonStyle.Danger : ButtonStyle.Success,
@@ -1550,14 +2273,21 @@ public class CustomVoiceService : INService, IUnloadableService
 
         try
         {
-            // Get guild configuration
-            var config = await GetOrCreateConfigAsync(guild.Id);
+            await UpdateTextAccessAsync(guildUser, oldState, newState);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Could not update the text access of {UserId}", user.Id);
+        }
 
-            // Check if the user joined the hub channel
-            if (newState.VoiceChannel?.Id == config.HubVoiceChannelId)
+        try
+        {
+            // Check if the user joined a hub channel
+            if (newState.VoiceChannel is { } joinedChannel &&
+                await GetHubConfigAsync(guild.Id, joinedChannel.Id) is { } hubConfig)
             {
                 // Create a custom voice channel for the user
-                await CreateVoiceChannelAsync(guild, guildUser);
+                await CreateVoiceChannelAsync(guild, guildUser, hubConfig.HubVoiceChannelId);
                 return;
             }
 
@@ -1573,6 +2303,9 @@ public class CustomVoiceService : INService, IUnloadableService
                 if (customChannel != null)
                 {
                     customChannel.LastActive = DateTime.UtcNow;
+                    if (customChannel.OwnerId == user.Id)
+                        customChannel.OwnerLeftAt = null;
+
                     await dbContext.UpdateAsync(customChannel);
                 }
 
@@ -1589,6 +2322,15 @@ public class CustomVoiceService : INService, IUnloadableService
             if (oldState.VoiceChannel != null &&
                 oldChannels != null && oldChannels.Contains(oldState.VoiceChannel.Id))
             {
+                if (oldState.VoiceChannel.Id != newState.VoiceChannel?.Id)
+                {
+                    await using var ownerDb = await dbFactory.CreateConnectionAsync();
+                    await ownerDb.CustomVoiceChannels
+                        .Where(c => c.ChannelId == oldState.VoiceChannel.Id && c.OwnerId == user.Id)
+                        .Set(c => c.OwnerLeftAt, DateTime.UtcNow)
+                        .UpdateAsync();
+                }
+
                 var vc = guild.GetVoiceChannel(oldState.VoiceChannel.Id);
 
                 // Add null check and use consistent property
@@ -1612,6 +2354,13 @@ public class CustomVoiceService : INService, IUnloadableService
                                 await dbContext.CustomVoiceChannels.FirstOrDefaultAsync(c =>
                                     c.ChannelId == oldState.VoiceChannel.Id);
 
+                            if (customChannel != null)
+                            {
+                                customChannel.LastActive = DateTime.UtcNow;
+                                await dbContext.UpdateAsync(customChannel);
+                            }
+
+                            var config = await GetConfigForChannelAsync(guild.Id, oldState.VoiceChannel.Id);
                             if (customChannel is { KeepAlive: false } && config.DeleteWhenEmpty)
                             {
                                 // Mark the channel as empty
@@ -1662,6 +2411,24 @@ public class CustomVoiceService : INService, IUnloadableService
     /// </summary>
     private async Task OnChannelDestroyed(SocketChannel channel)
     {
+        if (channel is SocketTextChannel textChannel)
+        {
+            var owner = textChannels.FirstOrDefault(x => x.Value == textChannel.Id);
+            if (owner.Value == textChannel.Id)
+            {
+                try
+                {
+                    await ClearTextChannelAsync(owner.Key);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error clearing the deleted text channel {ChannelId}", channel.Id);
+                }
+            }
+
+            return;
+        }
+
         if (channel is not SocketVoiceChannel voiceChannel)
             return;
 
@@ -1680,6 +2447,10 @@ public class CustomVoiceService : INService, IUnloadableService
             {
                 // Delete the channel from the database
                 await dbContext.DeleteAsync(customChannel);
+                if (customChannel.TextChannelId is { } storedText)
+                    textChannels.TryAdd(voiceChannel.Id, storedText);
+
+                await DeleteTextChannelAsync(guild.Id, voiceChannel.Id);
 
                 // Remove from tracking collections
                 if (activeChannels.TryGetValue(guild.Id, out var channels))
@@ -1812,7 +2583,7 @@ public class CustomVoiceService : INService, IUnloadableService
                                 continue;
                             }
 
-                            var config = await GetOrCreateConfigAsync(customChannel.GuildId);
+                            var config = await GetConfigForChannelAsync(customChannel.GuildId, channelId);
 
                             // Check if the timeout has passed
                             if ((DateTime.UtcNow - emptyTime).TotalMinutes >= config.EmptyChannelTimeout &&
@@ -1828,6 +2599,8 @@ public class CustomVoiceService : INService, IUnloadableService
                             logger.LogError(ex, "Error cleaning up empty channel {ChannelId}", channelId);
                         }
                     }
+
+                    await SweepLeftoverChannelsAsync();
                 }
                 finally
                 {
@@ -1837,6 +2610,44 @@ public class CustomVoiceService : INService, IUnloadableService
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error in empty channel cleanup task");
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Deletes temporary channels that were left empty without a timer running for them, such as ones that
+    ///     emptied while the bot was offline, once they have been idle for the hub's empty timeout.
+    /// </summary>
+    private async Task SweepLeftoverChannelsAsync()
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        var rows = await dbContext.CustomVoiceChannels.ToListAsync();
+        var configs = (await dbContext.CustomVoiceConfigs.ToListAsync()).GroupBy(c => c.GuildId)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        foreach (var row in rows)
+        {
+            try
+            {
+                if (row.KeepAlive || client.GetGuild(row.GuildId) is not { } guild ||
+                    !configs.TryGetValue(row.GuildId, out var guildConfigs))
+                    continue;
+
+                var config = guildConfigs.FirstOrDefault(c => c.HubVoiceChannelId == row.HubVoiceChannelId) ??
+                             PickPrimaryConfig(guildConfigs);
+                if (config is not { CleanupLeftovers: true, DeleteWhenEmpty: true } ||
+                    guild.GetVoiceChannel(row.ChannelId) is not { } voice ||
+                    voice.ConnectedUsers.Any(u => !u.IsBot))
+                    continue;
+
+                if ((DateTime.UtcNow - row.LastActive).TotalMinutes < Math.Max(config.EmptyChannelTimeout, 1))
+                    continue;
+
+                await DeleteVoiceChannelAsync(row.GuildId, row.ChannelId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error cleaning up leftover channel {ChannelId}", row.ChannelId);
             }
         }
     }

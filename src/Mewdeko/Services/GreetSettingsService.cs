@@ -1,5 +1,7 @@
-﻿using DataModel;
+﻿using System.IO;
+using DataModel;
 using LinqToDB.Async;
+using Mewdeko.Modules.MultiGreets.Services;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Analytics;
 
@@ -23,6 +25,7 @@ public class GreetSettingsService : INService
     private readonly GuildSettingsService gss;
     private readonly InviteCountService inviteCountService;
     private readonly ILogger<GreetSettingsService> logger;
+    private readonly WelcomeCardService welcomeCards;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="GreetSettingsService" /> class, setting up event handlers for user
@@ -39,10 +42,12 @@ public class GreetSettingsService : INService
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
     /// <param name="inviteCountService">Supplies inviter placeholders for greet and leave messages.</param>
+    /// <param name="welcomeCards">The service drawing welcome cards.</param>
     public GreetSettingsService(DiscordShardedClient client, GuildSettingsService gss, IDataConnectionFactory dbFactory,
         EventHandler eventHandler, ILogger<GreetSettingsService> logger, IAnalyticsCollector collector,
-        InviteCountService inviteCountService)
+        InviteCountService inviteCountService, WelcomeCardService welcomeCards)
     {
+        this.welcomeCards = welcomeCards;
         this.collector = collector;
         this.dbFactory = dbFactory;
         this.logger = logger;
@@ -98,12 +103,16 @@ public class GreetSettingsService : INService
         var rep = new ReplacementBuilder()
             .WithDefault(user, chan, user.Guild, client)
             .Build();
+        var card = await welcomeCards.TryRenderAsync(user.Guild.Id, WelcomeCardTarget.Boost, user);
         if (SmartEmbed.TryParse(rep.Replace(conf.BoostMessage), user.Guild?.Id, out var embed, out var plainText,
                 out var components))
         {
             try
             {
-                var toDelete = await chan.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                var toDelete = await (card is null
+                        ? chan.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                        : chan.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, plainText,
+                            embeds: embed, components: components?.Build()))
                     .ConfigureAwait(false);
                 if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
             }
@@ -117,7 +126,10 @@ public class GreetSettingsService : INService
             var msg = rep.Replace(conf.BoostMessage);
             try
             {
-                var toDelete = await chan.SendMessageAsync(msg).ConfigureAwait(false);
+                var toDelete = await (card is null
+                        ? chan.SendMessageAsync(msg)
+                        : chan.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, msg))
+                    .ConfigureAwait(false);
 
                 if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
             }
@@ -293,6 +305,9 @@ public class GreetSettingsService : INService
             await inviteCountService.ApplyLeavePlaceholdersAsync(channel.Guild, userList[0], builder);
         var rep = builder.Build();
         var lh = await GetLeaveHook(channel.GuildId);
+        var card = userList.Count == 1
+            ? await welcomeCards.TryRenderAsync(channel.GuildId, WelcomeCardTarget.Bye, userList[0])
+            : null;
 
         if (SmartEmbed.TryParse(rep.Replace(conf.ChannelByeMessageText), channel.GuildId, out var embed,
                 out var plainText, out var components))
@@ -301,16 +316,20 @@ public class GreetSettingsService : INService
             {
                 if (string.IsNullOrEmpty(lh) || lh == 0.ToString())
                 {
-                    var toDelete = await channel
-                        .SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                    var toDelete = await (card is null
+                            ? channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                            : channel.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, plainText,
+                                embeds: embed, components: components?.Build()))
                         .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                 }
                 else
                 {
                     var webhook = new DiscordWebhookClient(await GetLeaveHook(channel.GuildId));
-                    var toDelete = await webhook
-                        .SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                    var toDelete = await (card is null
+                            ? webhook.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                            : webhook.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, plainText,
+                                embeds: embed, components: components?.Build()))
                         .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0)
                     {
@@ -330,19 +349,27 @@ public class GreetSettingsService : INService
         else
         {
             var msg = rep.Replace(conf.ChannelByeMessageText);
-            if (string.IsNullOrWhiteSpace(msg))
+            if (string.IsNullOrWhiteSpace(msg) && card is null)
                 return;
             try
             {
                 if (string.IsNullOrEmpty(lh) || lh == 0.ToString())
                 {
-                    var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                    var toDelete = await (card is null
+                            ? channel.SendMessageAsync(msg.SanitizeMentions())
+                            : channel.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName,
+                                msg.SanitizeMentions()))
+                        .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                 }
                 else
                 {
                     var webhook = new DiscordWebhookClient(await GetLeaveHook(channel.GuildId));
-                    var toDel = await webhook.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                    var toDel = await (card is null
+                            ? webhook.SendMessageAsync(msg.SanitizeMentions())
+                            : webhook.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName,
+                                msg.SanitizeMentions()))
+                        .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0)
                     {
                         var msg2 = await channel.GetMessageAsync(toDel).ConfigureAwait(false) as IUserMessage;
@@ -388,13 +415,17 @@ public class GreetSettingsService : INService
             .WithDefault(user, channel, (SocketGuild)user.Guild, client);
         await inviteCountService.ApplyGreetPlaceholdersAsync(user, builder);
         var rep = builder.Build();
+        var card = await welcomeCards.TryRenderAsync(user.GuildId, WelcomeCardTarget.DmGreet, user);
 
         if (SmartEmbed.TryParse(rep.Replace(conf.DmGreetMessageText), user.GuildId, out var embed, out var plainText,
                 out var components))
         {
             try
             {
-                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                await (card is null
+                        ? channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                        : channel.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, plainText,
+                            embeds: embed, components: components?.Build()))
                     .ConfigureAwait(false);
             }
             catch
@@ -406,10 +437,14 @@ public class GreetSettingsService : INService
         else
         {
             var msg = rep.Replace(conf.DmGreetMessageText);
-            if (string.IsNullOrWhiteSpace(msg)) return true;
+            if (string.IsNullOrWhiteSpace(msg) && card is null) return true;
             try
             {
-                await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+                if (card is null)
+                    await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+                else
+                    await channel.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, msg)
+                        .ConfigureAwait(false);
             }
             catch
             {

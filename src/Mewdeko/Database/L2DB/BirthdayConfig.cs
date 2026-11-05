@@ -26,7 +26,10 @@ namespace DataModel
 		[Column("DefaultTimezone"                                                                                     )] public string?   DefaultTimezone     { get; set; } // text
 		[Column("EnabledFeatures"                                                                                     )] public int       EnabledFeatures     { get; set; } // integer
 		[Column("LastAnnouncementDate"                                                                                )] public DateTime? LastAnnouncementDate { get; set; } // date
-		[Column("DateAdded"                                                                                           )] public DateTime? DateAdded           { get; set; } // timestamp (6) without time zone
+		[Column("AnnouncementHour"                                                                                    )] public int       AnnouncementHour    { get; set; } // integer, hour of day in the server timezone
+		[Column("AgeMessage"                                                                                          )] public string?   AgeMessage          { get; set; } // text
+		[Column("BirthYearRule"                                                                                       )] public int       BirthYearRule       { get; set; } = 1; // integer, 0 not allowed, 1 optional, 2 required
+		[Column("DateAdded"                                                                                         )] public DateTime? DateAdded           { get; set; } // timestamp (6) without time zone
 		[Column("DateModified"                                                                                        )] public DateTime? DateModified       { get; set; } // timestamp (6) without time zone
 	}
 }

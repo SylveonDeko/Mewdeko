@@ -16,7 +16,9 @@ public class VoiceConfigSettingAutocompleter : AutocompleteHandler
     [
         "nameformat", "userlimit", "bitrate", "deleteempty", "emptytimeout", "multiplechannels",
         "namechange", "limitchange", "bitratechange", "locking", "usermanagement",
-        "maxuserlimit", "maxbitrate", "persistpreferences", "autopermission", "adminrole"
+        "maxuserlimit", "maxbitrate", "persistpreferences", "autopermission", "adminrole",
+        "hubname", "modroles", "ownerlock", "ownermanagechannel", "ownermanageroles", "ownermovemembers",
+        "ownerpriority", "syncperms", "cleanup"
     ];
 
     /// <summary>

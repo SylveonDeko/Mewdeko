@@ -47,7 +47,7 @@ public partial class FormsService
         var embed = new EmbedBuilder()
             .WithTitle(form.Name)
             .WithDescription($"Response #{response.Id} was {outcome.ToLowerInvariant()}.")
-            .WithColor(approved ? Mewdeko.OkColor : Mewdeko.ErrorColor)
+            .WithColor(approved ? GuildEmbedColorService.OkFor(form.GuildId) : Mewdeko.ErrorColor)
             .WithFooter(strings.FormSubmissionFooter(form.GuildId, response.Id, form.Id))
             .WithTimestamp(DateTimeOffset.UtcNow);
 

@@ -30,6 +30,7 @@ public class EconomyService : INService
     /// </summary>
     public const int CrimeFailFlavorCount = 5;
 
+    private readonly EconomyBoostService boostService;
     private readonly CurrencyConfigService configService;
     private readonly CurrencyCooldownService cooldownService;
     private readonly ICurrencyService currencyService;
@@ -40,12 +41,14 @@ public class EconomyService : INService
     /// <param name="currencyService">The currency service.</param>
     /// <param name="configService">The per-guild economy configuration service.</param>
     /// <param name="cooldownService">The cooldown service.</param>
+    /// <param name="boostService">The service applying scheduled earning boosts.</param>
     public EconomyService(ICurrencyService currencyService, CurrencyConfigService configService,
-        CurrencyCooldownService cooldownService)
+        CurrencyCooldownService cooldownService, EconomyBoostService boostService)
     {
         this.currencyService = currencyService;
         this.configService = configService;
         this.cooldownService = cooldownService;
+        this.boostService = boostService;
     }
 
     /// <summary>
@@ -67,7 +70,8 @@ public class EconomyService : INService
         if (!claim.Success)
             return new EarnResult(EarnOutcome.OnCooldown, 0, claim.Remaining, 0);
 
-        var amount = CurrencyRng.NextAmount(config.WorkMinReward, config.WorkMaxReward);
+        var amount = await boostService.ApplyAsync(guildId, CurrencyCooldownService.Work,
+            CurrencyRng.NextAmount(config.WorkMinReward, config.WorkMaxReward));
         var flavor = CurrencyRng.Next(WorkFlavorCount);
 
         await currencyService.CreditAsync(userId, amount, "Work", CurrencyCategory.Work, guildId, "work");
@@ -97,7 +101,8 @@ public class EconomyService : INService
 
         if (CurrencyRng.Chance(config.CrimeSuccessChance))
         {
-            var amount = CurrencyRng.NextAmount(config.CrimeMinReward, config.CrimeMaxReward);
+            var amount = await boostService.ApplyAsync(guildId, CurrencyCooldownService.Crime,
+                CurrencyRng.NextAmount(config.CrimeMinReward, config.CrimeMaxReward));
             await currencyService.CreditAsync(userId, amount, "Crime", CurrencyCategory.Crime, guildId, "crime");
 
             return new EarnResult(EarnOutcome.Success, amount, TimeSpan.Zero,
@@ -153,10 +158,20 @@ public class EconomyService : INService
             var maximum = Math.Max(1, targetWallet * config.RobMaxStealPercent / 100);
             var stolen = CurrencyRng.NextAmount(1, maximum);
 
-            return await currencyService.TryTransferAsync(targetId, robberId, stolen, stolen, "Robbery",
-                CurrencyCategory.Rob, guildId, "rob")
-                ? new RobResult(RobOutcome.Success, stolen, TimeSpan.Zero)
-                : new RobResult(RobOutcome.TargetTooPoor, 0, TimeSpan.Zero);
+            if (!await currencyService.TryTransferAsync(targetId, robberId, stolen, stolen, "Robbery",
+                    CurrencyCategory.Rob, guildId, "rob"))
+                return new RobResult(RobOutcome.TargetTooPoor, 0, TimeSpan.Zero);
+
+            var received = await boostService.ApplyAsync(guildId, CurrencyCooldownService.Rob, stolen);
+
+            if (received > stolen)
+                await currencyService.CreditAsync(robberId, received - stolen, "Robbery boost", CurrencyCategory.Rob,
+                    guildId, "rob");
+            else if (received < stolen)
+                await currencyService.TryDebitAsync(robberId, stolen - received, "Robbery boost",
+                    CurrencyCategory.Rob, guildId, "rob");
+
+            return new RobResult(RobOutcome.Success, received, TimeSpan.Zero);
         }
 
         var fine = Math.Max(1, robberWallet * config.RobFinePercent / 100);

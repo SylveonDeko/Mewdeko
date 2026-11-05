@@ -1,4 +1,6 @@
-﻿using DataModel;
+﻿using System.IO;
+using System.Text;
+using DataModel;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
@@ -220,43 +222,7 @@ public partial class Administration
 
         private static ulong? GetLogProperty(LoggingV2 l, LogType type)
         {
-            return type switch
-            {
-                LogType.Other => l.LogOtherId,
-                LogType.MessageUpdated => l.MessageUpdatedId,
-                LogType.UserUpdated => l.UserUpdatedId,
-                LogType.MessageDeleted => l.MessageDeletedId,
-                LogType.UserJoined => l.UserJoinedId,
-                LogType.UserLeft => l.UserLeftId,
-                LogType.UserBanned => l.UserBannedId,
-                LogType.UserUnbanned => l.UserUnbannedId,
-                LogType.ChannelCreated => l.ChannelCreatedId,
-                LogType.ChannelDestroyed => l.ChannelDestroyedId,
-                LogType.ChannelUpdated => l.ChannelUpdatedId,
-                LogType.VoicePresence => l.LogVoicePresenceId,
-                LogType.VoicePresenceTts => l.LogVoicePresenceTtsId,
-                LogType.UserMuted => l.UserMutedId,
-                LogType.EventCreated => l.EventCreatedId,
-                LogType.ThreadCreated => l.ThreadCreatedId,
-                LogType.ThreadDeleted => l.ThreadDeletedId,
-                LogType.ThreadUpdated => l.ThreadUpdatedId,
-                LogType.NicknameUpdated => l.NicknameUpdatedId,
-                LogType.RoleCreated => l.RoleCreatedId,
-                LogType.RoleDeleted => l.RoleDeletedId,
-                LogType.RoleUpdated => l.RoleUpdatedId,
-                LogType.ServerUpdated => l.ServerUpdatedId,
-                LogType.UserRoleAdded => l.UserRoleAddedId,
-                LogType.UserRoleRemoved => l.UserRoleRemovedId,
-                LogType.UsernameUpdated => l.UsernameUpdatedId,
-                LogType.AvatarUpdated => l.AvatarUpdatedId,
-                LogType.InviteCreated => l.InviteCreatedId,
-                LogType.InviteDeleted => l.InviteDeletedId,
-                LogType.MessagesBulkDeleted => l.MessagesBulkDeletedId,
-                LogType.ReactionEvents => l.ReactionEventsId,
-
-
-                _ => null
-            };
+            return LogCommandService.GetLogChannelId(l, type);
         }
 
 
@@ -440,6 +406,150 @@ public partial class Administration
                         .ConfigureAwait(false);
                     break;
             }
+        }
+
+        /// <summary>
+        ///     Creates a private Logs category with channels for each kind of log and routes every log type to them.
+        /// </summary>
+        /// <remarks>
+        ///     This command is restricted to users with Administrator permissions and needs the bot to have Manage Channels.
+        /// </remarks>
+        /// <example>.logsetup</example>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageChannels)]
+        public async Task LogSetup()
+        {
+            var channels = await Service.SetupLogChannels(ctx.Guild);
+            if (channels is null)
+            {
+                await ErrorAsync(Strings.LogSetupFailed(ctx.Guild.Id));
+                return;
+            }
+
+            await ConfirmAsync(Strings.LogSetupDone(ctx.Guild.Id, "**Logs**",
+                string.Join("\n", channels.Values.Select(c => c.Mention))));
+        }
+
+        /// <summary>
+        ///     Exports the log configuration as a code and a JSON file.
+        /// </summary>
+        /// <remarks>
+        ///     This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        /// <example>.logexport</example>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task LogExport()
+        {
+            var export = await Service.ExportConfig(ctx.Guild);
+            if (export is null)
+            {
+                await ErrorAsync(Strings.LogExportEmpty(ctx.Guild.Id));
+                return;
+            }
+
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(export.Value.Json));
+            await ctx.Channel.SendFileAsync(stream, "log-config.json",
+                export.Value.Code.Length <= 1800 ? Strings.LogExportCode(ctx.Guild.Id, export.Value.Code) : null);
+        }
+
+        /// <summary>
+        ///     Imports a log configuration from an export code or an attached JSON file.
+        /// </summary>
+        /// <remarks>
+        ///     Channels are matched by id, then by name. This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        /// <param name="code">The export code. Leave empty to use an attached file.</param>
+        /// <example>.logimport H4sIAAAA...</example>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task LogImport([Remainder] string? code = null)
+        {
+            var attachment = ctx.Message.Attachments.FirstOrDefault();
+            if (attachment is not null)
+                code = await Service.DownloadText(attachment.Url);
+
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                await ErrorAsync(attachment is null
+                    ? Strings.LogImportMissing(ctx.Guild.Id)
+                    : Strings.LogImportInvalid(ctx.Guild.Id));
+                return;
+            }
+
+            var result = await Service.ImportConfig(ctx.Guild, code);
+            if (!result.Valid)
+            {
+                await ErrorAsync(Strings.LogImportInvalid(ctx.Guild.Id));
+                return;
+            }
+
+            var message = Strings.LogImportApplied(ctx.Guild.Id, result.Applied);
+            if (result.Unmapped.Count > 0)
+                message += "\n" + Strings.LogImportUnmapped(ctx.Guild.Id, string.Join("\n", result.Unmapped));
+
+            await ConfirmAsync(message);
+        }
+
+        /// <summary>
+        ///     Sets prefixes whose messages are skipped by message edit and delete logs, for example a music bot's prefix.
+        /// </summary>
+        /// <remarks>
+        ///     With no prefixes it shows the current ones. Use "none" to clear them. This command is restricted to users with
+        ///     Administrator permissions.
+        /// </remarks>
+        /// <param name="prefixes">The prefixes to skip.</param>
+        /// <example>.logprefix ! ?</example>
+        /// <example>.logprefix none</example>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task LogPrefix(params string[] prefixes)
+        {
+            if (prefixes.Length == 0)
+            {
+                var current = Service.GetMessageIgnorePrefixes(ctx.Guild.Id);
+                await ConfirmAsync(current.Count == 0
+                    ? Strings.LogPrefixesNone(ctx.Guild.Id)
+                    : Strings.LogPrefixesSet(ctx.Guild.Id, string.Join(" ", current.Select(p => $"`{p}`"))));
+                return;
+            }
+
+            if (prefixes.Length == 1 && prefixes[0].Equals("none", StringComparison.OrdinalIgnoreCase))
+            {
+                await Service.SetMessageIgnorePrefixes(ctx.Guild.Id, []);
+                await ConfirmAsync(Strings.LogPrefixesCleared(ctx.Guild.Id));
+                return;
+            }
+
+            await Service.SetMessageIgnorePrefixes(ctx.Guild.Id, prefixes);
+            await ConfirmAsync(Strings.LogPrefixesSet(ctx.Guild.Id, string.Join(" ", prefixes.Select(p => $"`{p}`"))));
+        }
+
+        /// <summary>
+        ///     Toggles whether logs skip actions by bots.
+        /// </summary>
+        /// <remarks>
+        ///     This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        /// <example>.logignorebots</example>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task LogIgnoreBots()
+        {
+            var ignore = !Service.GetIgnoreBots(ctx.Guild.Id);
+            await Service.SetIgnoreBots(ctx.Guild.Id, ignore);
+            await ConfirmAsync(ignore ? Strings.LogIgnoreBotsOn(ctx.Guild.Id) : Strings.LogIgnoreBotsOff(ctx.Guild.Id));
         }
 
         /// <summary>

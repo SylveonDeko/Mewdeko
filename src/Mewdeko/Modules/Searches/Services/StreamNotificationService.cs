@@ -6,6 +6,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.Common;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Searches.Common.StreamNotifications;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Modules.Searches.Services.Common;
@@ -28,6 +29,9 @@ public class StreamNotificationService : IReadyExecutor, INService
     private readonly ConcurrentDictionary<StreamDataKey, ConcurrentDictionary<ulong, HashSet<FollowedStream>>>
         shardTrackedStreams = new();
 
+    private static readonly TimeSpan LiveEditInterval = TimeSpan.FromSeconds(60);
+
+    private readonly ConcurrentDictionary<int, LiveMessageState> liveMessages = new();
     private readonly NotifChecker streamTracker;
     private readonly GeneratedBotStrings strings;
 
@@ -69,6 +73,9 @@ public class StreamNotificationService : IReadyExecutor, INService
 #endif
         streamTracker.OnStreamsOffline += HandleStreamsOffline;
         streamTracker.OnStreamsOnline += HandleStreamsOnline;
+        streamTracker.OnStreamsUpdated += HandleStreamsUpdated;
+        streamTracker.OnVideosPosted += HandleVideosPosted;
+        streamTracker.OnStreamsFirstChecked += HandleStreamsFirstChecked;
 
         // Load all followed streams from database BEFORE starting the tracker
         _ = Task.Run(async () =>
@@ -134,6 +141,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             foreach (var fs in followedStreams)
             {
                 var key = fs.CreateKey();
+                streamTracker.RegisterSource((FType)fs.Type, key.Name, fs.SourceUrl);
                 await streamTracker.CacheAddData(key, null, false);
 #if DEBUG
                 logger.LogTrace(
@@ -141,6 +149,8 @@ public class StreamNotificationService : IReadyExecutor, INService
                     key.Type, key.Name, fs.GuildId);
 #endif
             }
+
+            await LoadTrackedMessagesAsync(db, followedStreams);
 
             // Create counter dictionary for tracking using efficient string comparison
             var counterGroups = followedStreams.GroupBy(x => new
@@ -260,10 +270,203 @@ public class StreamNotificationService : IReadyExecutor, INService
                             return;
                         }
 
+                        if (fs.UpdateLiveMessage && liveMessages.ContainsKey(fs.Id))
+                        {
+                            await EditLiveMessageAsync(fs, stream, customMessage, true);
+                            return;
+                        }
+
                         await SendStreamNotificationAsync(textChannel, stream, fs, customMessage);
                     }).WhenAll().ConfigureAwait(false);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    ///     Handles streams that are still live by refreshing their live messages.
+    /// </summary>
+    /// <param name="liveStreams">The list of streams that were live on this check and the previous one.</param>
+    private async Task HandleStreamsUpdated(List<StreamData> liveStreams)
+    {
+        foreach (var stream in liveStreams)
+        {
+            if (!shardTrackedStreams.TryGetValue(stream.CreateKey(), out var fss))
+                continue;
+
+            var tracked = fss.SelectMany(x => x.Value)
+                .Where(x => x.UpdateLiveMessage && liveMessages.ContainsKey(x.Id))
+                .ToList();
+
+            foreach (var guildGroup in tracked.GroupBy(fs => fs.GuildId))
+            {
+                var customMessage = await GetCustomStreamMessageAsync(guildGroup.Key);
+                foreach (var fs in guildGroup)
+                    await EditLiveMessageAsync(fs, stream, customMessage, false);
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Handles streams checked for the first time, resuming or ending live messages that survived a restart.
+    /// </summary>
+    /// <param name="streams">The list of streams checked for the first time.</param>
+    private async Task HandleStreamsFirstChecked(List<StreamData> streams)
+    {
+        foreach (var stream in streams)
+        {
+            if (!shardTrackedStreams.TryGetValue(stream.CreateKey(), out var fss))
+                continue;
+
+            var tracked = fss.SelectMany(x => x.Value)
+                .Where(x => TracksMessage(x) && liveMessages.ContainsKey(x.Id))
+                .ToList();
+
+            foreach (var guildGroup in tracked.GroupBy(fs => fs.GuildId))
+            {
+                var customMessage = stream.IsLive ? await GetCustomStreamMessageAsync(guildGroup.Key) : null;
+                foreach (var fs in guildGroup)
+                {
+                    if (!stream.IsLive)
+                        await EndLiveMessageAsync(fs, stream);
+                    else if (fs.UpdateLiveMessage)
+                        await EditLiveMessageAsync(fs, stream, customMessage, true);
+                }
+            }
+        }
+    }
+
+    private async Task LoadTrackedMessagesAsync(MewdekoDb db, List<FollowedStream> followedStreams)
+    {
+        try
+        {
+            var rows = await db.TrackedStreamMessages.ToListAsync();
+            var stale = new List<int>();
+            foreach (var row in rows)
+            {
+                var fs = followedStreams.FirstOrDefault(x => x.Id == row.FollowedStreamId);
+                if (fs is null || !TracksMessage(fs))
+                {
+                    stale.Add(row.Id);
+                    continue;
+                }
+
+                liveMessages[fs.Id] = new LiveMessageState
+                {
+                    ChannelId = row.ChannelId,
+                    MessageId = row.MessageId,
+                    StartedAt = DateTime.SpecifyKind(row.StartedAt, DateTimeKind.Utc),
+                    LastEdit = DateTime.SpecifyKind(row.LastEdit, DateTimeKind.Utc)
+                };
+            }
+
+            if (stale.Count > 0)
+                await db.TrackedStreamMessages.Where(x => stale.Contains(x.Id)).DeleteAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error loading tracked live stream messages");
+        }
+    }
+
+    private async Task SaveTrackedMessageAsync(FollowedStream fs, LiveMessageState state)
+    {
+        try
+        {
+            await using var db = await dbFactory.CreateConnectionAsync();
+            await db.TrackedStreamMessages.Where(x => x.FollowedStreamId == fs.Id).DeleteAsync();
+            await db.InsertAsync(new TrackedStreamMessage
+            {
+                FollowedStreamId = fs.Id,
+                GuildId = fs.GuildId,
+                ChannelId = state.ChannelId,
+                MessageId = state.MessageId,
+                StreamKey = $"{fs.Type}:{fs.Username?.ToLowerInvariant()}",
+                StartedAt = state.StartedAt,
+                LastEdit = state.LastEdit
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error saving tracked live message for followed stream {StreamId}", fs.Id);
+        }
+    }
+
+    private async Task TouchTrackedMessageAsync(int followedStreamId, DateTime lastEdit)
+    {
+        try
+        {
+            await using var db = await dbFactory.CreateConnectionAsync();
+            await db.TrackedStreamMessages.Where(x => x.FollowedStreamId == followedStreamId)
+                .Set(x => x.LastEdit, lastEdit)
+                .UpdateAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error updating tracked live message for followed stream {StreamId}",
+                followedStreamId);
+        }
+    }
+
+    private async Task ForgetLiveMessageAsync(int followedStreamId)
+    {
+        liveMessages.TryRemove(followedStreamId, out _);
+        await DeleteTrackedMessageAsync(followedStreamId);
+    }
+
+    private async Task DeleteTrackedMessageAsync(int followedStreamId)
+    {
+        try
+        {
+            await using var db = await dbFactory.CreateConnectionAsync();
+            await db.TrackedStreamMessages.Where(x => x.FollowedStreamId == followedStreamId).DeleteAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error deleting tracked live message for followed stream {StreamId}",
+                followedStreamId);
+        }
+    }
+
+    /// <summary>
+    ///     Handles accounts posting new videos and sends notifications.
+    /// </summary>
+    /// <param name="videoStreams">The list of streams whose latest video changed.</param>
+    private async Task HandleVideosPosted(List<StreamData> videoStreams)
+    {
+        foreach (var stream in videoStreams)
+        {
+            if (!shardTrackedStreams.TryGetValue(stream.CreateKey(), out var fss))
+                continue;
+
+            await fss.SelectMany(x => x.Value).Select(async fs =>
+            {
+                var textChannel = client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
+                if (textChannel is null)
+                    return;
+
+                try
+                {
+                    var posts = stream.NewItems is { Count: > 0 } items
+                        ? items.Select(x => x.ApplyTo(stream)).ToList()
+                        : [stream];
+
+                    foreach (var post in posts)
+                    {
+                        var payload = BuildVideoPayload(post, fs);
+                        await textChannel.SendMessageAsync(payload.Text, embeds: payload.Embeds,
+                            components: payload.Components);
+                    }
+
+                    if (stream.SkippedItems > 0)
+                        await textChannel.SendMessageAsync(strings.StreamItemsSkipped(fs.GuildId, stream.SkippedItems));
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error sending video notification for {Platform}/{Username} in guild {GuildId}",
+                        stream.StreamType, stream.UniqueName, fs.GuildId);
+                }
+            }).WhenAll().ConfigureAwait(false);
         }
     }
 
@@ -279,9 +482,18 @@ public class StreamNotificationService : IReadyExecutor, INService
 
             if (shardTrackedStreams.TryGetValue(key, out var fss))
             {
+                var allStreams = fss.SelectMany(x => x.Value).ToList();
+
+                var ended = new HashSet<int>();
+                foreach (var fs in allStreams.Where(x => TracksMessage(x) && liveMessages.ContainsKey(x.Id)))
+                {
+                    if (await EndLiveMessageAsync(fs, stream))
+                        ended.Add(fs.Id);
+                }
+
                 // Only send offline notifications to guilds that have them enabled
-                var eligibleStreams = fss.SelectMany(x => x.Value)
-                    .Where(x => OfflineNotificationServers.Contains(x.GuildId)).ToList();
+                var eligibleStreams = allStreams
+                    .Where(x => OfflineNotificationServers.Contains(x.GuildId) && !ended.Contains(x.Id)).ToList();
 
                 // Group by guild to get custom message once per guild
                 var guildGroups = eligibleStreams.GroupBy(fs => fs.GuildId);
@@ -479,6 +691,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             trackCounter[key] = [fs.GuildId];
         }
 
+        streamTracker.RegisterSource((FType)fs.Type, key.Name, fs.SourceUrl);
         _ = streamTracker.CacheAddData(key, null, false);
     }
 
@@ -489,6 +702,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     private async Task UntrackStream(FollowedStream fs)
     {
         var key = fs.CreateKey();
+        await ForgetLiveMessageAsync(fs.Id);
 
         if (!trackCounter.TryGetValue(key, out var set))
         {
@@ -552,12 +766,82 @@ public class StreamNotificationService : IReadyExecutor, INService
     }
 
     /// <summary>
+    ///     Reads the platform name given to the social follow commands.
+    /// </summary>
+    /// <param name="name">The name typed, such as youtube, bluesky, reddit or podcast.</param>
+    /// <param name="type">The platform it names.</param>
+    /// <returns>Whether the name is a known platform.</returns>
+    public static bool TryParseSocialType(string name, out FType type)
+    {
+        switch (name.Trim().ToLowerInvariant())
+        {
+            case "youtube" or "yt":
+                type = FType.YoutubeUploads;
+                return true;
+            case "bluesky" or "bsky":
+                type = FType.Bluesky;
+                return true;
+            case "reddit":
+                type = FType.Reddit;
+                return true;
+            case "podcast":
+                type = FType.Podcast;
+                return true;
+            default:
+                type = default;
+                return false;
+        }
+    }
+
+    /// <summary>
+    ///     Follows a YouTube channel's uploads, a Bluesky account, a subreddit or a podcast for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="channelId">The ID of the channel to post in.</param>
+    /// <param name="type">The platform to follow on.</param>
+    /// <param name="input">The URL, handle or name of the source.</param>
+    /// <param name="includeReposts">Whether reposts count as new posts, where the platform has them.</param>
+    /// <returns>The source's data, or <see langword="null" /> when it was not found or is already followed here.</returns>
+    public async Task<StreamData?> FollowSocial(ulong guildId, ulong channelId, FType type, string input,
+        bool includeReposts)
+    {
+        var data = await streamTracker.ResolveAsync(type, input, includeReposts).ConfigureAwait(false);
+        if (data is null)
+            return null;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var name = data.UniqueName.ToLowerInvariant();
+        if (await db.FollowedStreams.AnyAsync(x =>
+                x.GuildId == guildId && x.Type == (int)type && x.Username == name))
+            return null;
+
+        var fs = new FollowedStream
+        {
+            Type = (int)type, Username = data.UniqueName, ChannelId = channelId, GuildId = guildId,
+            SourceUrl = data.SourceUrl, DateAdded = DateTime.UtcNow
+        };
+
+        await db.InsertAsync(fs);
+
+        var streams = GetLocalGuildStreams(data.CreateKey(), guildId);
+        lock (hashSetLock)
+        {
+            streams.Add(fs);
+        }
+
+        TrackStream(fs);
+        return data;
+    }
+
+    /// <summary>
     ///     Gets the embed for a stream status.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="status">The stream status data.</param>
+    /// <param name="duration">How long the stream ran, shown when the stream has ended.</param>
     /// <returns>An embed builder with the stream status information.</returns>
-    public EmbedBuilder GetEmbed(ulong guildId, StreamData status)
+    public EmbedBuilder GetEmbed(ulong guildId, StreamData status, TimeSpan? duration = null)
     {
         var embed = new EmbedBuilder()
             .WithTitle(status.Name)
@@ -569,13 +853,16 @@ public class StreamNotificationService : IReadyExecutor, INService
             .AddField(efb => efb.WithName(strings.Viewers(guildId))
                 .WithValue(status.IsLive ? status.Viewers.ToString() : "-")
                 .WithIsInline(true))
-            .WithColor(status.IsLive ? Mewdeko.OkColor : Mewdeko.ErrorColor);
+            .WithColor(status.IsLive ? GuildEmbedColorService.OkFor(guildId) : Mewdeko.ErrorColor);
 
         if (!string.IsNullOrWhiteSpace(status.Title))
             embed.WithAuthor(status.Title);
 
         if (!string.IsNullOrWhiteSpace(status.Game))
             embed.AddField(strings.Streaming(guildId), status.Game, true);
+
+        if (duration is not null)
+            embed.AddField(strings.StreamDuration(guildId), FormatDuration(duration.Value), true);
 
         if (!string.IsNullOrWhiteSpace(status.AvatarUrl))
             embed.WithThumbnailUrl(status.AvatarUrl);
@@ -604,7 +891,8 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// <param name="followedStream">The followed stream configuration.</param>
     /// <param name="guildId">The guild ID for localization.</param>
     /// <returns>A replacement builder with stream placeholders.</returns>
-    private ReplacementBuilder CreateStreamReplacer(StreamData stream, FollowedStream followedStream, ulong guildId)
+    private ReplacementBuilder CreateStreamReplacer(StreamData stream, FollowedStream followedStream, ulong guildId,
+        TimeSpan? duration = null)
     {
         var guild = client.GetGuild(guildId);
 
@@ -628,7 +916,32 @@ public class StreamNotificationService : IReadyExecutor, INService
             .WithOverride("%stream.avatar%", () => stream.AvatarUrl ?? "")
             .WithOverride("%stream.preview%", () => stream.Preview ?? "")
             .WithOverride("%stream.status%", () => stream.IsLive ? "🟢 Online" : "🔴 Offline")
-            .WithOverride("%stream.channelid%", () => stream.ChannelId ?? "");
+            .WithOverride("%stream.channelid%", () => stream.ChannelId ?? "")
+            .WithOverride("%stream.duration%", () => duration is null ? "-" : FormatDuration(duration.Value))
+            .WithOverride("%stream.video.title%", () => stream.LatestVideoTitle ?? "")
+            .WithOverride("%stream.video.url%", () => stream.LatestVideoUrl ?? streamUrl)
+            .WithOverride("%stream.video.thumbnail%", () => stream.LatestVideoThumbnail ?? "")
+            .WithOverride("%stream.video.description%", () => stream.LatestVideoDescription ?? "")
+            .WithOverride("%stream.video.published%", () => FormatPublished(stream.LatestVideoPublished))
+            .WithOverride("%episode.title%", () => stream.LatestVideoTitle ?? "")
+            .WithOverride("%episode.url%", () => stream.LatestVideoUrl ?? streamUrl)
+            .WithOverride("%episode.description%", () => stream.LatestVideoDescription ?? "")
+            .WithOverride("%episode.audio%", () => stream.LatestVideoMedia ?? "")
+            .WithOverride("%episode.published%", () => FormatPublished(stream.LatestVideoPublished))
+            .WithOverride("%episode.image%", () => stream.LatestVideoThumbnail ?? stream.AvatarUrl ?? "")
+            .WithOverride("%podcast.name%", () => stream.Name ?? "");
+    }
+
+    private static string FormatPublished(DateTimeOffset? published)
+    {
+        return published is null ? "" : TimestampTag.FromDateTimeOffset(published.Value).ToString();
+    }
+
+    private static string FormatDuration(TimeSpan duration)
+    {
+        return duration.TotalHours >= 1
+            ? $"{(int)duration.TotalHours}h {duration.Minutes}m"
+            : $"{Math.Max(1, duration.Minutes)}m";
     }
 
     /// <summary>
@@ -644,58 +957,226 @@ public class StreamNotificationService : IReadyExecutor, INService
     {
         try
         {
-            var replacer = CreateStreamReplacer(stream, followedStream, followedStream.GuildId).Build();
+            var payload = BuildPayload(stream, followedStream, guildTemplate);
+            var message = await textChannel.SendMessageAsync(payload.Text, embeds: payload.Embeds,
+                components: payload.Components, options: new RequestOptions
+                {
+                    RetryMode = RetryMode.AlwaysRetry
+                });
 
-            // Priority 1: Per-streamer custom message (check both online/offline variants)
-            var streamerMessage = GetStreamerCustomMessage(followedStream, stream.IsLive);
-            if (!string.IsNullOrWhiteSpace(streamerMessage))
+            if (TracksMessage(followedStream) && stream.IsLive)
             {
-                var processedMessage = replacer.Replace(streamerMessage);
+                var state = new LiveMessageState
+                {
+                    ChannelId = textChannel.Id,
+                    MessageId = message.Id,
+                    StartedAt = DateTime.UtcNow,
+                    LastEdit = DateTime.UtcNow,
+                    Signature = LiveSignature(stream),
+                    LastStream = stream
+                };
 
-                if (SmartEmbed.TryParse(processedMessage ?? string.Empty, followedStream.GuildId, out var embed,
-                        out var plainText,
-                        out var components))
-                {
-                    // Valid JSON - use SmartEmbed
-                    await textChannel.SendMessageAsync(plainText, embeds: embed, components: components?.Build());
-                    return;
-                }
-                else
-                {
-                    // Not valid JSON - treat as text above default embed
-                    await textChannel.EmbedAsync(GetEmbed(followedStream.GuildId, stream), processedMessage);
-                    return;
-                }
+                liveMessages[followedStream.Id] = state;
+                await SaveTrackedMessageAsync(followedStream, state);
             }
-
-            // Priority 2: Guild-wide template
-            if (!string.IsNullOrWhiteSpace(guildTemplate))
-            {
-                var processedTemplate = replacer.Replace(guildTemplate);
-
-                if (SmartEmbed.TryParse(processedTemplate ?? string.Empty, followedStream.GuildId, out var embed,
-                        out var plainText,
-                        out var components))
-                {
-                    await textChannel.SendMessageAsync(plainText, embeds: embed, components: components?.Build());
-                    return;
-                }
-                else
-                {
-                    // Fall back to simple message
-                    await textChannel.SendMessageAsync(processedTemplate);
-                    return;
-                }
-            }
-
-            // Priority 3: Default embed (existing system)
-            await textChannel.EmbedAsync(GetEmbed(followedStream.GuildId, stream));
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error sending stream notification for {Platform}/{Username} in guild {GuildId}",
                 stream.StreamType, stream.UniqueName, followedStream.GuildId);
         }
+    }
+
+    private static string LiveSignature(StreamData stream)
+    {
+        return $"{stream.Title}|{stream.Game}|{stream.Viewers}";
+    }
+
+    private MessagePayload BuildPayload(StreamData stream, FollowedStream followedStream, string? guildTemplate,
+        TimeSpan? duration = null)
+    {
+        var guildId = followedStream.GuildId;
+        var replacer = CreateStreamReplacer(stream, followedStream, guildId, duration).Build();
+
+        // Priority 1: Per-streamer custom message (check both online/offline variants)
+        var streamerMessage = GetStreamerCustomMessage(followedStream, stream.IsLive);
+        if (!string.IsNullOrWhiteSpace(streamerMessage))
+        {
+            var processedMessage = replacer.Replace(streamerMessage);
+
+            if (SmartEmbed.TryParse(processedMessage ?? string.Empty, guildId, out var embed, out var plainText,
+                    out var components))
+                return new MessagePayload(plainText, embed, components?.Build());
+
+            // Not valid JSON - treat as text above default embed
+            return new MessagePayload(processedMessage, [GetEmbed(guildId, stream, stream.IsLive ? null : duration).Build()],
+                null);
+        }
+
+        // Priority 2: Guild-wide template
+        if (!string.IsNullOrWhiteSpace(guildTemplate))
+        {
+            var processedTemplate = replacer.Replace(guildTemplate);
+
+            if (SmartEmbed.TryParse(processedTemplate ?? string.Empty, guildId, out var embed, out var plainText,
+                    out var components))
+                return new MessagePayload(plainText, embed, components?.Build());
+
+            return new MessagePayload(processedTemplate, null, null);
+        }
+
+        // Priority 3: Default embed
+        return new MessagePayload(null, [GetEmbed(guildId, stream, stream.IsLive ? null : duration).Build()], null);
+    }
+
+    private MessagePayload BuildVideoPayload(StreamData stream, FollowedStream followedStream)
+    {
+        var guildId = followedStream.GuildId;
+        var replacer = CreateStreamReplacer(stream, followedStream, guildId).Build();
+
+        if (!string.IsNullOrWhiteSpace(followedStream.VideoMessage))
+        {
+            var processed = replacer.Replace(followedStream.VideoMessage);
+
+            if (SmartEmbed.TryParse(processed ?? string.Empty, guildId, out var embed, out var plainText,
+                    out var components))
+                return new MessagePayload(plainText, embed, components?.Build());
+
+            return new MessagePayload(processed, [BuildVideoEmbed(stream, guildId).Build()], null);
+        }
+
+        return new MessagePayload(null, [BuildVideoEmbed(stream, guildId).Build()], null);
+    }
+
+    private static EmbedBuilder BuildVideoEmbed(StreamData stream, ulong guildId)
+    {
+        var embed = new EmbedBuilder()
+            .WithAuthor(stream.Name ?? stream.UniqueName, stream.AvatarUrl, stream.StreamUrl)
+            .WithTitle((stream.LatestVideoTitle ?? stream.LatestVideoUrl ?? "").TrimTo(250))
+            .WithColor(GuildEmbedColorService.OkFor(guildId));
+
+        if (!string.IsNullOrWhiteSpace(stream.LatestVideoUrl))
+            embed.WithUrl(stream.LatestVideoUrl);
+
+        if (!string.IsNullOrWhiteSpace(stream.LatestVideoDescription))
+            embed.WithDescription(stream.LatestVideoDescription.TrimTo(500));
+
+        if (stream.LatestVideoPublished is { } published)
+            embed.WithTimestamp(published);
+
+        if (!string.IsNullOrWhiteSpace(stream.LatestVideoThumbnail))
+            embed.WithImageUrl(stream.LatestVideoThumbnail);
+
+        return embed;
+    }
+
+    private async Task EditLiveMessageAsync(FollowedStream fs, StreamData stream, string? guildTemplate, bool force)
+    {
+        if (!liveMessages.TryGetValue(fs.Id, out var state))
+            return;
+
+        state.LastStream = stream;
+        var now = DateTime.UtcNow;
+        var signature = LiveSignature(stream);
+        if (!force && (now - state.LastEdit < LiveEditInterval || signature == state.Signature))
+            return;
+
+        var channel = client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
+        if (channel is null)
+        {
+            await ForgetLiveMessageAsync(fs.Id);
+            return;
+        }
+
+        try
+        {
+            await ModifyAsync(channel, state.MessageId, BuildPayload(stream, fs, guildTemplate, now - state.StartedAt));
+            state.LastEdit = now;
+            state.Signature = signature;
+            await TouchTrackedMessageAsync(fs.Id, now);
+        }
+        catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound)
+        {
+            await ForgetLiveMessageAsync(fs.Id);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Could not update live message for {Platform}/{Username} in guild {GuildId}",
+                stream.StreamType, stream.UniqueName, fs.GuildId);
+        }
+    }
+
+    private static bool TracksMessage(FollowedStream fs)
+    {
+        return fs.UpdateLiveMessage || fs.DeleteOnEnd;
+    }
+
+    private async Task<bool> EndLiveMessageAsync(FollowedStream fs, StreamData stream)
+    {
+        if (!liveMessages.TryRemove(fs.Id, out var state))
+            return false;
+
+        await DeleteTrackedMessageAsync(fs.Id);
+
+        var channel = client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
+        if (channel is null)
+            return false;
+
+        if (fs.DeleteOnEnd)
+        {
+            try
+            {
+                await channel.DeleteMessageAsync(state.MessageId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogDebug(ex, "Could not delete stream message for {Platform}/{Username} in guild {GuildId}",
+                    stream.StreamType, stream.UniqueName, fs.GuildId);
+            }
+
+            return true;
+        }
+
+        try
+        {
+            var last = state.LastStream ?? stream;
+            var ended = last with
+            {
+                IsLive = false, Viewers = 0, Preview = "", StreamUrl = stream.StreamUrl ?? last.StreamUrl
+            };
+
+            await ModifyAsync(channel, state.MessageId,
+                BuildPayload(ended, fs, null, DateTime.UtcNow - state.StartedAt));
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Could not end live message for {Platform}/{Username} in guild {GuildId}",
+                stream.StreamType, stream.UniqueName, fs.GuildId);
+            return false;
+        }
+    }
+
+    private static Task ModifyAsync(ITextChannel channel, ulong messageId, MessagePayload payload)
+    {
+        return channel.ModifyMessageAsync(messageId, props =>
+        {
+            props.Content = payload.Text ?? string.Empty;
+            props.Embeds = payload.Embeds ?? [];
+            props.Components = payload.Components ?? new ComponentBuilder().Build();
+        });
+    }
+
+    private sealed record MessagePayload(string? Text, Discord.Embed[]? Embeds, MessageComponent? Components);
+
+    private sealed class LiveMessageState
+    {
+        public ulong ChannelId { get; init; }
+        public ulong MessageId { get; init; }
+        public DateTime StartedAt { get; init; }
+        public DateTime LastEdit { get; set; }
+        public string Signature { get; set; } = "";
+        public StreamData? LastStream { get; set; }
     }
 
     /// <summary>
@@ -802,18 +1283,107 @@ public class StreamNotificationService : IReadyExecutor, INService
         // Update database
         await db.UpdateAsync(fs);
 
-        // Update local cache
-        var streams = GetLocalGuildStreams(fs.CreateKey(), guildId);
-
-        // Message doesn't participate in equality checking
-        // Removing and adding = update
-        lock (hashSetLock)
-        {
-            streams.Remove(fs);
-            streams.Add(fs);
-        }
+        ReplaceLocal(fs);
 
         return (true, fs);
+    }
+
+    private void ReplaceLocal(FollowedStream fs)
+    {
+        var streams = GetLocalGuildStreams(fs.CreateKey(), fs.GuildId);
+        lock (hashSetLock)
+        {
+            streams.RemoveWhere(x => x.Id == fs.Id);
+            streams.Add(fs);
+        }
+    }
+
+    /// <summary>
+    ///     Sets the new video message for a specific stream.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="index">The stream index.</param>
+    /// <param name="message">The video message. Empty resets it.</param>
+    /// <returns>Whether the operation succeeded and the stream data.</returns>
+    public async Task<(bool, FollowedStream)> SetStreamVideoMessage(ulong guildId, int index, string message)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var fss = await db.FollowedStreams
+            .Where(x => x.GuildId == guildId)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
+
+        if (fss.Count <= index)
+            return (false, null)!;
+
+        var fs = fss[index];
+        fs.VideoMessage = string.IsNullOrWhiteSpace(message) ? null : message;
+
+        await db.UpdateAsync(fs);
+        ReplaceLocal(fs);
+
+        return (true, fs);
+    }
+
+    /// <summary>
+    ///     Toggles whether a stream's live message is edited in place while the stream runs.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="index">The stream index.</param>
+    /// <returns>Whether the stream exists, the stream, and whether the option is now on.</returns>
+    public async Task<(bool, FollowedStream, bool)> ToggleLiveMessage(ulong guildId, int index)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var fss = await db.FollowedStreams
+            .Where(x => x.GuildId == guildId)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
+
+        if (fss.Count <= index)
+            return (false, null, false)!;
+
+        var fs = fss[index];
+        fs.UpdateLiveMessage = !fs.UpdateLiveMessage;
+
+        await db.UpdateAsync(fs);
+        ReplaceLocal(fs);
+
+        if (!TracksMessage(fs))
+            await ForgetLiveMessageAsync(fs.Id);
+
+        return (true, fs, fs.UpdateLiveMessage);
+    }
+
+    /// <summary>
+    ///     Toggles whether a stream's notification message is deleted when the stream ends.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="index">The stream index.</param>
+    /// <returns>Whether the stream exists, the stream, and whether the option is now on.</returns>
+    public async Task<(bool, FollowedStream, bool)> ToggleDeleteOnEnd(ulong guildId, int index)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var fss = await db.FollowedStreams
+            .Where(x => x.GuildId == guildId)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
+
+        if (fss.Count <= index)
+            return (false, null, false)!;
+
+        var fs = fss[index];
+        fs.DeleteOnEnd = !fs.DeleteOnEnd;
+
+        await db.UpdateAsync(fs);
+        ReplaceLocal(fs);
+
+        if (!TracksMessage(fs))
+            await ForgetLiveMessageAsync(fs.Id);
+
+        return (true, fs, fs.DeleteOnEnd);
     }
 
     /// <summary>
@@ -845,13 +1415,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
         await db.UpdateAsync(fs);
 
-        // Update local cache
-        var streams = GetLocalGuildStreams(fs.CreateKey(), guildId);
-        lock (hashSetLock)
-        {
-            streams.Remove(fs);
-            streams.Add(fs);
-        }
+        ReplaceLocal(fs);
 
         return (true, fs);
     }
@@ -891,7 +1455,23 @@ public class StreamNotificationService : IReadyExecutor, INService
                 ("%stream.avatar%", "URL to streamer's avatar"),
                 ("%stream.preview%", "URL to stream preview/thumbnail"),
                 ("%stream.status%", "🟢 Online or 🔴 Offline"),
-                ("%stream.channelid%", "Platform-specific channel ID")
+                ("%stream.channelid%", "Platform-specific channel ID"),
+                ("%stream.duration%", "How long the stream ran (- until it ends)"),
+                ("%stream.video.title%", "Title of the latest video, post or episode"),
+                ("%stream.video.url%", "URL of the latest video, post or episode"),
+                ("%stream.video.thumbnail%", "Thumbnail of the latest video, post or episode"),
+                ("%stream.video.description%", "Text or show notes of the latest video, post or episode"),
+                ("%stream.video.published%", "When the latest video, post or episode was published")
+            ],
+            ["Podcast Episodes"] =
+            [
+                ("%episode.title%", "Title of the new episode"),
+                ("%episode.url%", "Link to the new episode"),
+                ("%episode.description%", "Show notes of the new episode"),
+                ("%episode.audio%", "Link to the episode's audio file"),
+                ("%episode.published%", "When the episode was published"),
+                ("%episode.image%", "Artwork of the new episode"),
+                ("%podcast.name%", "Name of the podcast")
             ]
         };
     }

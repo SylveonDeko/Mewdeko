@@ -2,6 +2,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.Filter;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,84 @@ public class FilterController(
     FilterService filterService,
     IDataConnectionFactory dbFactory,
     IDashboardAuditContext auditContext,
-    GuildSettingsService guildSettingsService) : Controller
+    GuildSettingsService guildSettingsService,
+    AutomodExtrasService extras) : Controller
 {
+    /// <summary>
+    ///     Gets the filter extras: word normalising, no-role-only modes, link domain lists and link limits
+    /// </summary>
+    [HttpGet("extras")]
+    public IActionResult GetFilterExtras(ulong guildId)
+    {
+        return Ok(BuildExtras(guildId));
+    }
+
+    /// <summary>
+    ///     Updates the filter extras. Fields left out stay as they are
+    /// </summary>
+    [HttpPut("extras")]
+    public async Task<IActionResult> UpdateFilterExtras(ulong guildId, [FromBody] FilterExtrasRequest request)
+    {
+        auditContext.RecordBefore(BuildExtras(guildId));
+
+        List<string>? Clean(List<string>? domains)
+        {
+            return domains?.Select(AutomodExtrasService.NormalizeDomain).OfType<string>().Distinct().ToList();
+        }
+
+        var allowed = Clean(request.AllowedDomains);
+        var blocked = Clean(request.BlockedDomains);
+        await extras.UpdateAsync(guildId, x =>
+        {
+            x.NormalizeWords = request.NormalizeWords ?? x.NormalizeWords;
+            x.InviteNoRolesOnly = request.InviteNoRolesOnly ?? x.InviteNoRolesOnly;
+            x.LinkNoRolesOnly = request.LinkNoRolesOnly ?? x.LinkNoRolesOnly;
+            if (allowed is not null) x.LinkAllowedDomains = string.Join(' ', allowed);
+            if (blocked is not null) x.LinkBlockedDomains = string.Join(' ', blocked);
+        });
+
+        var after = BuildExtras(guildId);
+        auditContext.RecordAfter(after);
+        return Ok(after);
+    }
+
+    /// <summary>
+    ///     Sets or removes a channel's link limit
+    /// </summary>
+    [HttpPut("channels/{channelId}/link-limit")]
+    public async Task<IActionResult> SetLinkLimit(ulong guildId, ulong channelId, [FromBody] LinkLimitRequest request)
+    {
+        if (request.MaxLinks is < 0 or > 100 || request.WindowSeconds is < 1 or > 3600)
+            return BadRequest("Invalid limit");
+
+        auditContext.RecordBefore(extras.GetLinkLimit(guildId, channelId));
+        await extras.SetLinkLimitAsync(guildId, channelId, request.MaxLinks, request.WindowSeconds);
+        auditContext.RecordAfter(extras.GetLinkLimit(guildId, channelId));
+        return Ok(new
+        {
+            success = true
+        });
+    }
+
+    private object BuildExtras(ulong guildId)
+    {
+        var settings = extras.Get(guildId);
+        var (allowed, blocked) = extras.GetDomains(guildId);
+        return new
+        {
+            normalizeWords = settings.NormalizeWords,
+            inviteNoRolesOnly = settings.InviteNoRolesOnly,
+            linkNoRolesOnly = settings.LinkNoRolesOnly,
+            allowedDomains = allowed,
+            blockedDomains = blocked,
+            linkLimits = extras.GetLinkLimits(guildId)
+                .Select(x => new
+                {
+                    channelId = x.ChannelId, maxLinks = x.MaxLinks, windowSeconds = x.WindowSeconds
+                })
+        };
+    }
+
     /// <summary>
     ///     Gets all filter settings for a guild
     /// </summary>
@@ -127,6 +204,7 @@ public class FilterController(
         if (existing != null)
         {
             await db.DeleteAsync(existing);
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 added = false, word
@@ -138,6 +216,7 @@ public class FilterController(
             {
                 GuildId = guildId, Word = word
             });
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 added = true, word
@@ -258,6 +337,7 @@ public class FilterController(
         if (existing != null)
         {
             await db.DeleteAsync(existing);
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 enabled = false, channelId
@@ -269,6 +349,7 @@ public class FilterController(
             {
                 GuildId = guildId, ChannelId = channelId
             });
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 enabled = true, channelId
@@ -290,6 +371,7 @@ public class FilterController(
         if (existing != null)
         {
             await db.DeleteAsync(existing);
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 enabled = false, channelId
@@ -301,6 +383,7 @@ public class FilterController(
             {
                 GuildId = guildId, ChannelId = channelId
             });
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 enabled = true, channelId
@@ -322,6 +405,7 @@ public class FilterController(
         if (existing != null)
         {
             await db.DeleteAsync(existing);
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 enabled = false, channelId
@@ -333,6 +417,7 @@ public class FilterController(
             {
                 GuildId = guildId, ChannelId = channelId
             });
+            filterService.InvalidateCache(guildId);
             return Ok(new
             {
                 enabled = true, channelId

@@ -98,25 +98,37 @@ public partial class Moderation
                 return;
             }
 
-            try
+            reason = await Service.Cases.ResolveReasonAsync(ctx.Guild.Id, reason).ConfigureAwait(false);
+
+            async Task SendWarnDm(int? caseNumber)
             {
-                await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
-                        .WithDescription(Strings.MiniWarnedInGuild(ctx.Guild.Id, ctx.Guild))
-                        .AddField(efb => efb.WithName(Strings.MiniWarnModerator(ctx.Guild.Id))
-                            .WithValue(ctx.User.ToString()))
-                        .AddField(efb => efb.WithName(Strings.MiniWarnReason(ctx.Guild.Id))
-                            .WithValue(reason ?? "-")))
-                    .ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
+                try
+                {
+                    var custom = await Service.Cases
+                        .SendPunishDmAsync(ctx.Guild, user, ctx.User, ModCaseAction.Warn, reason, null, caseNumber)
+                        .ConfigureAwait(false);
+                    if (custom is not null)
+                        return;
+
+                    await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
+                            .WithDescription(Strings.MiniWarnedInGuild(ctx.Guild.Id, ctx.Guild))
+                            .AddField(efb => efb.WithName(Strings.MiniWarnModerator(ctx.Guild.Id))
+                                .WithValue(ctx.User.ToString()))
+                            .AddField(efb => efb.WithName(Strings.MiniWarnReason(ctx.Guild.Id))
+                                .WithValue(reason ?? "-")))
+                        .ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
             }
 
             WarningPunishment2 punishment;
             try
             {
-                punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason).ConfigureAwait(false);
+                punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason, SendWarnDm)
+                    .ConfigureAwait(false);
             }
             catch (Exception ex)
             {

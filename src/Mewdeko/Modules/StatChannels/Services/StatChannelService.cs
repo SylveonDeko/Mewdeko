@@ -47,6 +47,7 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<StatChannelService> logger;
 
+    private readonly ConcurrentDictionary<ulong, (int Peak, DateTime PeakAt)> peakOnline = new();
     private readonly ConcurrentDictionary<ulong, List<DateTime>> renameHistory = new();
     private readonly ServerStatsService serverStats;
     private readonly GuildTimezoneService timezones;
@@ -892,9 +893,51 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
             case StatChannelType.PlayingNow:
                 return ResolvedStat.Num(serverStats.CountActiveNow(guild.Id));
 
+            case StatChannelType.PeakOnline:
+            {
+                var online = guild.Users.Count(u => u.Status != UserStatus.Offline);
+                var (peak, peakAt) = await RecordPeakOnlineAsync(guild.Id, online);
+                return ResolvedStat.Num(peak)
+                    .With("%online%", online.ToString("N0"))
+                    .With("%peak.date%", peakAt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+            }
+
             default:
                 return ResolvedStat.Num(0);
         }
+    }
+
+    private async Task<(int Peak, DateTime PeakAt)> RecordPeakOnlineAsync(ulong guildId, int online)
+    {
+        if (!peakOnline.TryGetValue(guildId, out var known))
+        {
+            await using var load = await dbFactory.CreateConnectionAsync();
+            var row = await load.GuildPeakOnline.FirstOrDefaultAsync(x => x.GuildId == guildId);
+            known = row is null ? (0, DateTime.UtcNow) : (row.PeakCount, row.PeakAt);
+            peakOnline[guildId] = known;
+        }
+
+        if (online <= known.Peak)
+            return known;
+
+        known = (online, DateTime.UtcNow);
+        peakOnline[guildId] = known;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var updated = await db.GuildPeakOnline.Where(x => x.GuildId == guildId)
+            .Set(x => x.PeakCount, known.Peak)
+            .Set(x => x.PeakAt, known.PeakAt)
+            .UpdateAsync();
+
+        if (updated == 0)
+        {
+            await db.InsertAsync(new GuildPeakOnline
+            {
+                GuildId = guildId, PeakCount = known.Peak, PeakAt = known.PeakAt
+            });
+        }
+
+        return known;
     }
 
     private static int CountJoinedSince(SocketGuild guild, TimeSpan window)

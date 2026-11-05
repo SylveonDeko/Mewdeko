@@ -311,7 +311,7 @@ public partial class FormsService
                 ? new EmbedBuilder().WithTitle(form.Name)
                 : existing.ToEmbedBuilder();
 
-            embed.WithColor(approved ? Mewdeko.OkColor : Mewdeko.ErrorColor);
+            embed.WithColor(approved ? GuildEmbedColorService.OkFor(form.GuildId) : Mewdeko.ErrorColor);
 
             embed.AddField(outcome, $"by <@{reviewerId}> <t:{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}:R>");
 

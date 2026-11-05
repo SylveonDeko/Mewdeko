@@ -192,6 +192,33 @@ public class SuggestionsController(
     }
 
     /// <summary>
+    ///     Gets how many votes one side has to lead by to recolour a suggestion embed
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>The threshold, 0 when off</returns>
+    [HttpGet("voteColor")]
+    public async Task<IActionResult> GetVoteColor(ulong guildId)
+    {
+        return Ok(await service.GetVoteColorThreshold(guildId));
+    }
+
+    /// <summary>
+    ///     Sets how many votes one side has to lead by to recolour a suggestion embed
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="threshold">The vote lead needed, 0 to turn it off</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpPost("voteColor")]
+    public async Task<IActionResult> SetVoteColor(ulong guildId, [FromBody] int threshold)
+    {
+        if (threshold is < 0 or > 1000)
+            return BadRequest("Threshold must be between 0 and 1000");
+
+        await service.SetVoteColorThreshold(guildId, threshold);
+        return Ok();
+    }
+
+    /// <summary>
     ///     Gets the maximum length for suggestions in a guild
     /// </summary>
     /// <param name="guildId">The ID of the guild</param>
@@ -592,6 +619,32 @@ public class SuggestionsController(
     {
         var guild = client.GetGuild(guildId);
         await service.SetArchiveOnDeny(guild, archiveOnDeny);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets whether suggestions hide their author for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>True if suggestions are anonymous</returns>
+    [HttpGet("anonymous")]
+    public async Task<IActionResult> GetAnonymousSuggestions(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        return Ok(await service.GetAnonymousSuggestions(guild));
+    }
+
+    /// <summary>
+    ///     Sets whether suggestions hide their author for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="anonymous">The new anonymous suggestions setting</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpPost("anonymous")]
+    public async Task<IActionResult> SetAnonymousSuggestions(ulong guildId, [FromBody] bool anonymous)
+    {
+        var guild = client.GetGuild(guildId);
+        await service.SetAnonymousSuggestions(guild, anonymous);
         return Ok();
     }
 

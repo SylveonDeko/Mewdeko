@@ -42,6 +42,12 @@ public class PanelButton
     [Column("ArchiveCategoryId")]
     public ulong? ArchiveCategoryId { get; set; }
 
+    [Column("ClaimedCategoryId")]
+    public ulong? ClaimedCategoryId { get; set; }
+
+    [Column("DmTranscript")]
+    public bool DmTranscript { get; set; }
+
     [Column("ThreadChannelId")]
     public ulong? ThreadChannelId { get; set; }
 

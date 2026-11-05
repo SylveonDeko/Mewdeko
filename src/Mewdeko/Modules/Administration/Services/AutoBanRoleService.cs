@@ -12,7 +12,9 @@ namespace Mewdeko.Modules.Administration.Services;
 public class AutoBanRoleService : INService
 {
     private readonly BanPruneService banPrune;
+    private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly ModCaseService modCases;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AutoBanRoleService" /> class.
@@ -20,11 +22,15 @@ public class AutoBanRoleService : INService
     /// <param name="eventHandler">The event handler</param>
     /// <param name="dbFactory">The database connection factory</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
+    /// <param name="modCases">The service recording moderation cases</param>
+    /// <param name="client">The Discord client</param>
     public AutoBanRoleService(EventHandler eventHandler, IDataConnectionFactory dbFactory,
-        BanPruneService banPrune)
+        BanPruneService banPrune, ModCaseService modCases, DiscordShardedClient client)
     {
         this.dbFactory = dbFactory;
         this.banPrune = banPrune;
+        this.modCases = modCases;
+        this.client = client;
         var eventHandler1 = eventHandler;
         eventHandler1.Subscribe("GuildMemberUpdated", "AutoBanRoleService", OnGuildMemberUpdated);
     }
@@ -68,7 +74,11 @@ public class AutoBanRoleService : INService
         {
             var pruneDays = await banPrune.GetPruneDaysAsync(after.Guild.Id, BanPruneAction.AutoBanRole)
                 .ConfigureAwait(false);
-            await after.Guild.AddBanAsync(after, pruneDays, reason).ConfigureAwait(false);
+            await modCases.PunishAsync(after.Guild, after, client.CurrentUser, ModCaseAction.Ban,
+                string.IsNullOrWhiteSpace(matchingAutoBanRole.Reason)
+                    ? reason
+                    : $"Auto-ban role: {reason}", null,
+                () => after.Guild.AddBanAsync(after, pruneDays, reason)).ConfigureAwait(false);
         }
         catch
         {

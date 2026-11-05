@@ -1,0 +1,1669 @@
+addcompetitionreward:
+  args:
+    - number number text text
+  desc: 'Adds a reward for a competition placement.'
+  params:
+    - &ref_12
+      desc: 'The ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+    - &ref_13
+      desc: 'The position to reward (1 for first place, etc.).'
+      name: position
+      optional: false
+      type: int
+    - &ref_14
+      desc: 'The type of reward: Role, XP, or Currency.'
+      name: type
+      optional: false
+      type: string
+    - &ref_15
+      desc: 'For Role rewards, the role to award; for XP or Currency rewards, the amount as a string.'
+      name: reward
+      optional: false
+      type: string
+addcompetitionreward_int_int_string_string:
+  args:
+    - number number text text
+  desc: 'Adds a reward for a competition placement.'
+  params:
+    -
+      desc: 'The ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+    -
+      desc: 'The position to reward (1 for first place, etc.).'
+      name: position
+      optional: false
+      type: int
+    -
+      desc: 'The type of reward: Role, XP, or Currency.'
+      name: type
+      optional: false
+      type: string
+    -
+      desc: 'For Role rewards, the role to award; for XP or Currency rewards, the amount as a string.'
+      name: reward
+      optional: false
+      type: string
+addcompetitionreward_int_int_string_string_1:
+  args:
+    - number number text text
+  desc: 'Adds a reward for a competition placement.'
+  params:
+    -
+      desc: 'The ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+    -
+      desc: 'The position to reward (1 for first place, etc.).'
+      name: position
+      optional: false
+      type: int
+    -
+      desc: 'The type of reward: Role, XP, or Currency.'
+      name: type
+      optional: false
+      type: string
+    -
+      desc: 'For Role rewards, the role to award; for XP or Currency rewards, the amount as a string.'
+      name: reward
+      optional: false
+      type: string
+addcompetitionreward_int_int_string_string_2:
+  args:
+    - number number text text
+  desc: 'Adds a reward for a competition placement.'
+  params:
+    -
+      desc: 'The ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+    -
+      desc: 'The position to reward (1 for first place, etc.).'
+      name: position
+      optional: false
+      type: int
+    -
+      desc: 'The type of reward: Role, XP, or Currency.'
+      name: type
+      optional: false
+      type: string
+    -
+      desc: 'For Role rewards, the role to award; for XP or Currency rewards, the amount as a string.'
+      name: reward
+      optional: false
+      type: string
+addlevelupmessage:
+  args:
+    - message
+  desc: 'Adds a custom level-up message template with placeholder support.'
+  params:
+    - desc: >-
+        The message template with placeholders like %xp.user.mention%,
+        %xp.level.new%, etc.
+      name: message
+      optional: false
+      type: string
+addxp:
+  args:
+    - '@user number'
+  desc: 'Adds XP to a user.'
+  params:
+    - &ref_45
+      desc: 'The user to add XP to.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_46
+      desc: 'The amount of XP to add.'
+      name: amount
+      optional: false
+      type: int
+addxp_IGuildUser_int:
+  args:
+    - '@user number'
+  desc: 'Adds XP to a user.'
+  params:
+    - &ref_47
+      desc: 'The user to add XP to.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_48
+      desc: 'The amount of XP to add.'
+      name: amount
+      optional: false
+      type: int
+addxp_IGuildUser_int_1:
+  args:
+    - '@user number'
+  desc: 'Adds XP to a user.'
+  params:
+    -
+      desc: 'The user to add XP to.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'The amount of XP to add.'
+      name: amount
+      optional: false
+      type: int
+addxp_IGuildUser_int_2:
+  args:
+    - '@user number'
+  desc: 'Adds XP to a user.'
+  params:
+    -
+      desc: 'The user to add XP to.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'The amount of XP to add.'
+      name: amount
+      optional: false
+      type: int
+cancelboost:
+  args:
+    - number
+  desc: 'Cancels an XP boost event.'
+  params:
+    - &ref_119
+      desc: 'ID of the event to cancel.'
+      name: eventId
+      optional: false
+      type: int
+cancelboost_int:
+  args:
+    - number
+  desc: 'Cancels an XP boost event.'
+  params:
+    -
+      desc: 'ID of the event to cancel.'
+      name: eventId
+      optional: false
+      type: int
+cancelboost_int_1:
+  args:
+    - number
+  desc: 'Cancels an XP boost event.'
+  params:
+    -
+      desc: 'ID of the event to cancel.'
+      name: eventId
+      optional: false
+      type: int
+cancelboost_int_2:
+  args:
+    - number
+  desc: 'Cancels an XP boost event.'
+  params:
+    -
+      desc: 'ID of the event to cancel.'
+      name: eventId
+      optional: false
+      type: int
+competitionleaderboard:
+  args:
+    - number
+  desc: 'Shows the leaderboard for an active competition.'
+  params:
+    - &ref_138
+      desc: 'ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+competitionleaderboard_int:
+  args:
+    - number
+  desc: 'Shows the leaderboard for an active competition.'
+  params:
+    -
+      desc: 'ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+competitionleaderboard_int_1:
+  args:
+    - number
+  desc: 'Shows the leaderboard for an active competition.'
+  params:
+    -
+      desc: 'ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+competitionleaderboard_int_2:
+  args:
+    - number
+  desc: 'Shows the leaderboard for an active competition.'
+  params:
+    -
+      desc: 'ID of the competition.'
+      name: competitionId
+      optional: false
+      type: int
+currencyreward:
+  args:
+    - number number
+  desc: 'Sets a currency reward for a specific level.'
+  params:
+    - &ref_173
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    - &ref_172
+      desc: 'The amount of currency to award.'
+      name: amount
+      optional: false
+      type: long
+currencyreward_int_long:
+  args:
+    - number number
+  desc: 'Sets a currency reward for a specific level.'
+  params:
+    - &ref_174
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    -
+      desc: 'The amount of currency to award.'
+      name: amount
+      optional: false
+      type: long
+currencyreward_int_long_1:
+  args:
+    - number number
+  desc: 'Sets a currency reward for a specific level.'
+  params:
+    -
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    -
+      desc: 'The amount of currency to award.'
+      name: amount
+      optional: false
+      type: long
+currencyreward_int_long_2:
+  args:
+    - number number
+  desc: 'Sets a currency reward for a specific level.'
+  params:
+    -
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    -
+      desc: 'The amount of currency to award.'
+      name: amount
+      optional: false
+      type: long
+currencyrewards:
+  args:
+    - ''
+  desc: 'Lists all currency rewards.'
+  params: [ ]
+endcompetition:
+  args:
+    - number
+  desc: 'Ends a competition early and distributes rewards.'
+  params:
+    - &ref_212
+      desc: 'ID of the competition to end.'
+      name: competitionId
+      optional: false
+      type: int
+endcompetition_int:
+  args:
+    - number
+  desc: 'Ends a competition early and distributes rewards.'
+  params:
+    -
+      desc: 'ID of the competition to end.'
+      name: competitionId
+      optional: false
+      type: int
+endcompetition_int_1:
+  args:
+    - number
+  desc: 'Ends a competition early and distributes rewards.'
+  params:
+    -
+      desc: 'ID of the competition to end.'
+      name: competitionId
+      optional: false
+      type: int
+endcompetition_int_2:
+  args:
+    - number
+  desc: 'Ends a competition early and distributes rewards.'
+  params:
+    -
+      desc: 'ID of the competition to end.'
+      name: competitionId
+      optional: false
+      type: int
+leaderboard:
+  args:
+    - ''
+  desc: 'Shows the XP leaderboard for the server.'
+  params: [ ]
+leaderboard_=:
+  args:
+    - 1
+  desc: 'Shows the XP leaderboard for the server.'
+  params:
+    -
+      desc: 'Shows the XP leaderboard for the server.'
+      name: 1
+      optional: false
+      type: '='
+leaderboard_=_1:
+  args:
+    - 1
+  desc: 'Shows the XP leaderboard for the server.'
+  params:
+    -
+      desc: 'Shows the XP leaderboard for the server.'
+      name: 1
+      optional: false
+      type: '='
+leaderboard_=_2:
+  args:
+    - 1
+  desc: 'Shows the XP leaderboard for the server.'
+  params:
+    -
+      desc: 'Shows the XP leaderboard for the server.'
+      name: 1
+      optional: false
+      type: '='
+leaderboard_=_3:
+  args:
+    - 1
+  desc: 'Shows the XP leaderboard for the server.'
+  params:
+    -
+      desc: 'Shows the XP leaderboard for the server.'
+      name: 1
+      optional: false
+      type: '='
+leaderboard_noparams:
+  args:
+    - ''
+  desc: 'Shows the XP leaderboard for the server.'
+  params: [ ]
+leaderboard_noparams_1:
+  args:
+    - ''
+  desc: 'Shows the XP leaderboard for the server.'
+  params: [ ]
+leaderboard_noparams_2:
+  args:
+    - ''
+  desc: 'Shows the XP leaderboard for the server.'
+  params: [ ]
+levelupinterval:
+  args:
+    - '5'
+  desc: 'Only announces level-ups every given number of levels. Use 1 to announce every level.'
+  params:
+    - desc: 'Announce every this many levels.'
+      name: interval
+      optional: false
+      type: int
+levelupminlevel:
+  args:
+    - '10'
+  desc: 'Only announces level-ups from this level up. Use 0 to announce from the start.'
+  params:
+    - desc: 'The lowest level that gets announced.'
+      name: level
+      optional: false
+      type: int
+leveluprewardsonly:
+  args:
+    - 'true'
+  desc: 'Only announces level-ups that give a role reward.'
+  params:
+    - desc: 'Whether only reward levels are announced.'
+      name: enabled
+      optional: false
+      type: bool
+leveluplog:
+  args:
+    - ''
+  desc: 'Shows the last 25 level-ups in the server.'
+  params:
+    - {}
+levelnotif:
+  args:
+    - type
+  desc: 'Sets how users are notified when they level up.'
+  params:
+    - &ref_273
+      desc: 'The notification type: None, Channel, or DM.'
+      name: type
+      optional: false
+      type: XpNotificationType
+levelnotif_XpNotificationType:
+  args:
+    - type
+  desc: 'Sets how users are notified when they level up.'
+  params:
+    -
+      desc: 'The notification type: None, Channel, or DM.'
+      name: type
+      optional: false
+      type: XpNotificationType
+levelnotif_XpNotificationType_1:
+  args:
+    - type
+  desc: 'Sets how users are notified when they level up.'
+  params:
+    -
+      desc: 'The notification type: None, Channel, or DM.'
+      name: type
+      optional: false
+      type: XpNotificationType
+levelnotif_XpNotificationType_2:
+  args:
+    - type
+  desc: 'Sets how users are notified when they level up.'
+  params:
+    -
+      desc: 'The notification type: None, Channel, or DM.'
+      name: type
+      optional: false
+      type: XpNotificationType
+levelupchannel:
+  args:
+    - '#channel'
+  desc: 'Sets the channel where level-up notifications will be sent.'
+  params:
+    - desc: >-
+        The channel to send level-up notifications to. Leave empty to use the
+        current channel.
+      name: channel
+      optional: true
+      type: ITextChannel
+levelupmessages:
+  args:
+    - ''
+  desc: 'Lists all custom level-up messages for this server.'
+  params: [ ]
+leveluppings:
+  args:
+    - enabled
+  desc: 'Toggles level-up ping notifications for yourself.'
+  params:
+    - desc: Whether to enable (true) or disable (false) level-up pings.
+      name: enabled
+      optional: false
+      type: bool
+levelupplaceholders:
+  args:
+    - ''
+  desc: 'Shows available level-up placeholders that can be used in custom messages.'
+  params: [ ]
+rank:
+  args:
+    - '[@user]'
+  desc: 'Shows a user''s XP card with their rank, level, and progress.'
+  params:
+    -
+      desc: 'The user to show the XP card for. If not specified, shows the caller''s card.'
+      name: user
+      optional: true
+      type: user
+removecurrencyreward:
+  args:
+    - number
+  desc: 'Removes a currency reward for a specific level.'
+  params:
+    -
+      desc: 'The level to remove the reward from.'
+      name: level
+      optional: false
+      type: int
+removelevelupmessage:
+  args:
+    - messageId
+  desc: 'Removes a custom level-up message by ID.'
+  params:
+    - desc: The ID of the message to remove (shown in levelupmessages command).
+      name: messageId
+      optional: false
+      type: int
+removerolereward:
+  args:
+    - number
+  desc: 'Removes a role reward for a specific level.'
+  params:
+    -
+      desc: 'The level to remove the reward from.'
+      name: level
+      optional: false
+      type: int
+resetxp:
+  args:
+    - '@user false'
+    - '@user'
+  desc: 'Resets a user''s XP to zero.'
+  params:
+    - &ref_440
+      desc: 'The user to reset XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'Resets a user''s XP to zero.'
+      name: false
+      optional: false
+      type: '='
+resetxp_IGuildUser_=:
+  args:
+    - '@user false'
+    - '@user'
+  desc: 'Resets a user''s XP to zero.'
+  params:
+    -
+      desc: 'The user to reset XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'Resets a user''s XP to zero.'
+      name: false
+      optional: false
+      type: '='
+resetxp_IGuildUser_=_1:
+  args:
+    - '@user false'
+    - '@user'
+  desc: 'Resets a user''s XP to zero.'
+  params:
+    -
+      desc: 'The user to reset XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'Resets a user''s XP to zero.'
+      name: false
+      optional: false
+      type: '='
+resetxp_IGuildUser_=_2:
+  args:
+    - '@user false'
+    - '@user'
+  desc: 'Resets a user''s XP to zero.'
+  params:
+    -
+      desc: 'The user to reset XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'Resets a user''s XP to zero.'
+      name: false
+      optional: false
+      type: '='
+resetxp_noparams:
+  args:
+    - ''
+  desc: 'Resets a user''s XP to zero.'
+  params: [ ]
+resetxp_noparams_1:
+  args:
+    - ''
+  desc: 'Resets a user''s XP to zero.'
+  params: [ ]
+resetxp_noparams_2:
+  args:
+    - ''
+  desc: 'Resets a user''s XP to zero.'
+  params: [ ]
+resetxp_noparams_3:
+  args:
+    - ''
+  desc: 'Resets a user''s XP to zero.'
+  params: [ ]
+rolereward:
+  args:
+    - number @role
+  desc: 'Sets a role reward for a specific level.'
+  params:
+    -
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    - &ref_462
+      desc: 'The role to award.'
+      name: role
+      optional: false
+      type: IRole
+rolereward_int_IRole:
+  args:
+    - number @role
+  desc: 'Sets a role reward for a specific level.'
+  params:
+    -
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    -
+      desc: 'The role to award.'
+      name: role
+      optional: false
+      type: IRole
+rolereward_int_IRole_1:
+  args:
+    - number @role
+  desc: 'Sets a role reward for a specific level.'
+  params:
+    -
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    -
+      desc: 'The role to award.'
+      name: role
+      optional: false
+      type: IRole
+rolereward_int_IRole_2:
+  args:
+    - number @role
+  desc: 'Sets a role reward for a specific level.'
+  params:
+    -
+      desc: 'The level that triggers the reward.'
+      name: level
+      optional: false
+      type: int
+    -
+      desc: 'The role to award.'
+      name: role
+      optional: false
+      type: IRole
+rolerewards:
+  args:
+    - ''
+  desc: 'Lists all role rewards.'
+  params: [ ]
+setchannelxp:
+  args:
+    - channel number
+  desc: 'Sets an XP multiplier for a channel.'
+  params:
+    - &ref_494
+      desc: 'The channel to set the multiplier for.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_495
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setchannelxp_ITextChannel_double:
+  args:
+    - channel number
+  desc: 'Sets an XP multiplier for a channel.'
+  params:
+    -
+      desc: 'The channel to set the multiplier for.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    -
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setchannelxp_ITextChannel_double_1:
+  args:
+    - channel number
+  desc: 'Sets an XP multiplier for a channel.'
+  params:
+    -
+      desc: 'The channel to set the multiplier for.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    -
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setchannelxp_ITextChannel_double_2:
+  args:
+    - channel number
+  desc: 'Sets an XP multiplier for a channel.'
+  params:
+    -
+      desc: 'The channel to set the multiplier for.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    -
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setmessagexp:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per message.'
+  params:
+    - &ref_504
+      desc: 'The amount of XP to award per message.'
+      name: amount
+      optional: false
+      type: int
+setmessagexp_int:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per message.'
+  params:
+    -
+      desc: 'The amount of XP to award per message.'
+      name: amount
+      optional: false
+      type: int
+setmessagexp_int_1:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per message.'
+  params:
+    -
+      desc: 'The amount of XP to award per message.'
+      name: amount
+      optional: false
+      type: int
+setmessagexp_int_2:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per message.'
+  params:
+    -
+      desc: 'The amount of XP to award per message.'
+      name: amount
+      optional: false
+      type: int
+setrolexp:
+  args:
+    - '@role number'
+  desc: 'Sets an XP multiplier for a role.'
+  params:
+    - &ref_523
+      desc: 'The role to set the multiplier for.'
+      name: role
+      optional: false
+      type: IRole
+    -
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setrolexp_IRole_double:
+  args:
+    - '@role number'
+  desc: 'Sets an XP multiplier for a role.'
+  params:
+    -
+      desc: 'The role to set the multiplier for.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_524
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setrolexp_IRole_double_1:
+  args:
+    - '@role number'
+  desc: 'Sets an XP multiplier for a role.'
+  params:
+    -
+      desc: 'The role to set the multiplier for.'
+      name: role
+      optional: false
+      type: IRole
+    -
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setrolexp_IRole_double_2:
+  args:
+    - '@role number'
+  desc: 'Sets an XP multiplier for a role.'
+  params:
+    -
+      desc: 'The role to set the multiplier for.'
+      name: role
+      optional: false
+      type: IRole
+    -
+      desc: 'The multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setvoicetimeout:
+  args:
+    - number
+  desc: 'Sets the voice XP timeout (how long a user must be in voice to gain XP).'
+  params:
+    - &ref_533
+      desc: 'The timeout in minutes.'
+      name: minutes
+      optional: false
+      type: int
+setvoicetimeout_int:
+  args:
+    - number
+  desc: 'Sets the voice XP timeout (how long a user must be in voice to gain XP).'
+  params:
+    -
+      desc: 'The timeout in minutes.'
+      name: minutes
+      optional: false
+      type: int
+setvoicetimeout_int_1:
+  args:
+    - number
+  desc: 'Sets the voice XP timeout (how long a user must be in voice to gain XP).'
+  params:
+    -
+      desc: 'The timeout in minutes.'
+      name: minutes
+      optional: false
+      type: int
+setvoicetimeout_int_2:
+  args:
+    - number
+  desc: 'Sets the voice XP timeout (how long a user must be in voice to gain XP).'
+  params:
+    -
+      desc: 'The timeout in minutes.'
+      name: minutes
+      optional: false
+      type: int
+setvoicexp:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per minute in voice channels.'
+  params:
+    - &ref_534
+      desc: 'The amount of XP to award per minute in voice.'
+      name: amount
+      optional: false
+      type: int
+setvoicexp_int:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per minute in voice channels.'
+  params:
+    -
+      desc: 'The amount of XP to award per minute in voice.'
+      name: amount
+      optional: false
+      type: int
+setvoicexp_int_1:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per minute in voice channels.'
+  params:
+    -
+      desc: 'The amount of XP to award per minute in voice.'
+      name: amount
+      optional: false
+      type: int
+setvoicexp_int_2:
+  args:
+    - number
+  desc: 'Sets the amount of XP gained per minute in voice channels.'
+  params:
+    -
+      desc: 'The amount of XP to award per minute in voice.'
+      name: amount
+      optional: false
+      type: int
+setxp:
+  args:
+    - '@user number'
+  desc: 'Sets a user''s XP to a specific amount.'
+  params:
+    -
+      desc: 'The user to set XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_535
+      desc: 'The amount of XP to set.'
+      name: amount
+      optional: false
+      type: long
+setxp_IGuildUser_long:
+  args:
+    - '@user number'
+  desc: 'Sets a user''s XP to a specific amount.'
+  params:
+    -
+      desc: 'The user to set XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'The amount of XP to set.'
+      name: amount
+      optional: false
+      type: long
+setxp_IGuildUser_long_1:
+  args:
+    - '@user number'
+  desc: 'Sets a user''s XP to a specific amount.'
+  params:
+    -
+      desc: 'The user to set XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'The amount of XP to set.'
+      name: amount
+      optional: false
+      type: long
+setxp_IGuildUser_long_2:
+  args:
+    - '@user number'
+  desc: 'Sets a user''s XP to a specific amount.'
+  params:
+    -
+      desc: 'The user to set XP for.'
+      name: user
+      optional: false
+      type: IGuildUser
+    -
+      desc: 'The amount of XP to set.'
+      name: amount
+      optional: false
+      type: long
+setxpcooldown:
+  args:
+    - number
+  desc: 'Sets the cooldown between message XP gains.'
+  params:
+    - &ref_536
+      desc: 'The cooldown in seconds.'
+      name: seconds
+      optional: false
+      type: int
+setxpcooldown_int:
+  args:
+    - number
+  desc: 'Sets the cooldown between message XP gains.'
+  params:
+    -
+      desc: 'The cooldown in seconds.'
+      name: seconds
+      optional: false
+      type: int
+setxpcooldown_int_1:
+  args:
+    - number
+  desc: 'Sets the cooldown between message XP gains.'
+  params:
+    -
+      desc: 'The cooldown in seconds.'
+      name: seconds
+      optional: false
+      type: int
+setxpcooldown_int_2:
+  args:
+    - number
+  desc: 'Sets the cooldown between message XP gains.'
+  params:
+    -
+      desc: 'The cooldown in seconds.'
+      name: seconds
+      optional: false
+      type: int
+setxpcurve:
+  args:
+    - type
+  desc: 'Sets the XP curve type used for level calculations.'
+  params:
+    - &ref_537
+      desc: 'The XP curve type: Standard, Linear, Accelerated, Decelerated, Custom, or Legacy.'
+      name: type
+      optional: false
+      type: XpCurveType
+setxpcurve_XpCurveType:
+  args:
+    - type
+  desc: 'Sets the XP curve type used for level calculations.'
+  params:
+    -
+      desc: 'The XP curve type: Standard, Linear, Accelerated, Decelerated, Custom, or Legacy.'
+      name: type
+      optional: false
+      type: XpCurveType
+setxpcurve_XpCurveType_1:
+  args:
+    - type
+  desc: 'Sets the XP curve type used for level calculations.'
+  params:
+    -
+      desc: 'The XP curve type: Standard, Linear, Accelerated, Decelerated, Custom, or Legacy.'
+      name: type
+      optional: false
+      type: XpCurveType
+setxpcurve_XpCurveType_2:
+  args:
+    - type
+  desc: 'Sets the XP curve type used for level calculations.'
+  params:
+    -
+      desc: 'The XP curve type: Standard, Linear, Accelerated, Decelerated, Custom, or Legacy.'
+      name: type
+      optional: false
+      type: XpCurveType
+setxpexclusive:
+  args:
+    - true|false
+  desc: >-
+    Sets whether role rewards are exclusive (only highest level role) or additive
+    (all earned roles).
+  params:
+    - desc: Whether role rewards should be exclusive.
+      name: exclusive
+      optional: false
+      type: bool
+setxpmultiplier:
+  args:
+    - number
+  desc: 'Sets the server-wide XP multiplier.'
+  params:
+    - &ref_538
+      desc: 'The XP multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setxpmultiplier_double:
+  args:
+    - number
+  desc: 'Sets the server-wide XP multiplier.'
+  params:
+    -
+      desc: 'The XP multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setxpmultiplier_double_1:
+  args:
+    - number
+  desc: 'Sets the server-wide XP multiplier.'
+  params:
+    -
+      desc: 'The XP multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+setxpmultiplier_double_2:
+  args:
+    - number
+  desc: 'Sets the server-wide XP multiplier.'
+  params:
+    -
+      desc: 'The XP multiplier value.'
+      name: multiplier
+      optional: false
+      type: double
+syncallxproles:
+  args:
+    - ''
+  desc: 'Synchronizes XP roles for all users in the guild.'
+  params: [ ]
+syncmyxproles:
+  args:
+    - ''
+  desc: 'Synchronizes XP roles for the current user.'
+  params: [ ]
+syncuserxproles:
+  args:
+    - '@user'
+  desc: 'Synchronizes XP roles for a specific user.'
+  params:
+    - desc: The user to synchronize XP roles for.
+      name: user
+      optional: false
+      type: IGuildUser
+testlevelupmessage:
+  args:
+    - message
+  desc: 'Tests a level-up message template by sending it to the current channel.'
+  params:
+    - desc: >-
+        The message template to test, or leave empty to test a random custom
+        message.
+      name: message
+      optional: true
+      type: string
+textrank:
+  args:
+    - '[@user]'
+  desc: >-
+    Shows a user's XP information in a text format that's accessible for screen
+    readers.
+  params:
+    -
+      desc: 'The user to show XP information for. If not specified, shows the caller''s stats.'
+      name: user
+      optional: true
+      type: user
+togglelevelupmessage:
+  args:
+    - messageId enabled
+  desc: 'Enables or disables a custom level-up message.'
+  params:
+    - desc: The ID of the message to toggle.
+      name: messageId
+      optional: false
+      type: int
+    - desc: Whether to enable (true) or disable (false) the message.
+      name: enabled
+      optional: false
+      type: bool
+xpboost:
+  args:
+    - time number text
+  desc: 'Creates a temporary XP boost event.'
+  params:
+    - &ref_664
+      desc: 'How long the boost should last.'
+      name: time
+      optional: false
+      type: StoopidTime
+    -
+      desc: 'The XP multiplier for the boost.'
+      name: multiplier
+      optional: false
+      type: double
+    - &ref_665
+      desc: 'The name of the boost event.'
+      name: name
+      optional: false
+      type: string
+xpboost_StoopidTime_double_string:
+  args:
+    - time number text
+  desc: 'Creates a temporary XP boost event.'
+  params:
+    -
+      desc: 'How long the boost should last.'
+      name: time
+      optional: false
+      type: StoopidTime
+    -
+      desc: 'The XP multiplier for the boost.'
+      name: multiplier
+      optional: false
+      type: double
+    -
+      desc: 'The name of the boost event.'
+      name: name
+      optional: false
+      type: string
+xpboost_StoopidTime_double_string_1:
+  args:
+    - time number text
+  desc: 'Creates a temporary XP boost event.'
+  params:
+    -
+      desc: 'How long the boost should last.'
+      name: time
+      optional: false
+      type: StoopidTime
+    -
+      desc: 'The XP multiplier for the boost.'
+      name: multiplier
+      optional: false
+      type: double
+    -
+      desc: 'The name of the boost event.'
+      name: name
+      optional: false
+      type: string
+xpboost_StoopidTime_double_string_2:
+  args:
+    - time number text
+  desc: 'Creates a temporary XP boost event.'
+  params:
+    -
+      desc: 'How long the boost should last.'
+      name: time
+      optional: false
+      type: StoopidTime
+    -
+      desc: 'The XP multiplier for the boost.'
+      name: multiplier
+      optional: false
+      type: double
+    -
+      desc: 'The name of the boost event.'
+      name: name
+      optional: false
+      type: string
+exportxp:
+  args:
+    - ''
+  desc: 'Exports every member''s XP to a file that can be restored with /import xp, replacing or adding to current XP.'
+  params: [ ]
+xpbackground:
+  args:
+    - '[image url]'
+    - preset:nature-dusk
+    - reset
+  desc: 'Sets your own rank card background from an image URL, an attached image or a preset (preset:id), or removes it.'
+  params:
+    - desc: 'An image URL, preset:id, or reset to remove your background.'
+      name: source
+      optional: true
+      type: string
+xpserverbackground:
+  args:
+    - '[image url]'
+    - preset:nature-dusk
+    - reset
+  desc: 'Sets the rank card background for the whole server from an image URL, an attached image or a preset (preset:id), or removes it.'
+  params:
+    - desc: 'An image URL, preset:id, or reset to remove it.'
+      name: source
+      optional: true
+      type: string
+xpboosts:
+  args:
+    - ''
+  desc: 'Lists active XP boost events.'
+  params: [ ]
+xpcompetition:
+  args:
+    - '<time> <type> [targetLevel] [name]'
+    - time type
+  desc: 'Creates a new XP competition.'
+  params:
+    -
+      desc: 'How long the competition should last.'
+      name: time
+      optional: false
+      type: duration
+    -
+      desc: 'The competition type: MostGained, ReachLevel, or HighestTotal.'
+      name: type
+      optional: false
+      type: xpcompetitiontype
+    -
+      desc: 'For ReachLevel competitions, the target level.'
+      name: targetLevel
+      optional: true
+      type: int
+    -
+      desc: 'The name of the competition.'
+      name: name
+      optional: true
+      type: string
+xpcompetition_StoopidTime_XpCompetitionType_=_=:
+  args:
+    - '<time> <type> [targetLevel] [name]'
+    - time type
+  desc: 'Creates a new XP competition.'
+  params:
+    -
+      desc: 'How long the competition should last.'
+      name: time
+      optional: false
+      type: duration
+    -
+      desc: 'The competition type: MostGained, ReachLevel, or HighestTotal.'
+      name: type
+      optional: false
+      type: xpcompetitiontype
+    -
+      desc: 'For ReachLevel competitions, the target level.'
+      name: targetLevel
+      optional: true
+      type: int
+    -
+      desc: 'The name of the competition.'
+      name: name
+      optional: true
+      type: string
+xpcompetition_StoopidTime_XpCompetitionType_=_=_1:
+  args:
+    - '<time> <type> [targetLevel] [name]'
+    - time type
+  desc: 'Creates a new XP competition.'
+  params:
+    -
+      desc: 'How long the competition should last.'
+      name: time
+      optional: false
+      type: duration
+    -
+      desc: 'The competition type: MostGained, ReachLevel, or HighestTotal.'
+      name: type
+      optional: false
+      type: xpcompetitiontype
+    -
+      desc: 'For ReachLevel competitions, the target level.'
+      name: targetLevel
+      optional: true
+      type: int
+    -
+      desc: 'The name of the competition.'
+      name: name
+      optional: true
+      type: string
+xpcompetition_StoopidTime_XpCompetitionType_=_=_2:
+  args:
+    - '<time> <type> [targetLevel] [name]'
+    - time type
+  desc: 'Creates a new XP competition.'
+  params:
+    -
+      desc: 'How long the competition should last.'
+      name: time
+      optional: false
+      type: duration
+    -
+      desc: 'The competition type: MostGained, ReachLevel, or HighestTotal.'
+      name: type
+      optional: false
+      type: xpcompetitiontype
+    -
+      desc: 'For ReachLevel competitions, the target level.'
+      name: targetLevel
+      optional: true
+      type: int
+    -
+      desc: 'The name of the competition.'
+      name: name
+      optional: true
+      type: string
+xpcompetitions:
+  args:
+    - ''
+  desc: 'Lists active XP competitions.'
+  params: [ ]
+xpexclude:
+  args:
+    - '@user'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    - &ref_668
+      desc: 'Excludes a channel from gaining XP.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpexclude_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'Excludes a channel from gaining XP.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpexclude_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'Excludes a channel from gaining XP.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpexclude_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'Excludes a channel from gaining XP.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpexclude_IRole:
+  args:
+    - '@role'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    - &ref_669
+      desc: 'Excludes a channel from gaining XP.'
+      name: role
+      optional: false
+      type: IRole
+xpexclude_IRole_1:
+  args:
+    - '@role'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'Excludes a channel from gaining XP.'
+      name: role
+      optional: false
+      type: IRole
+xpexclude_IRole_2:
+  args:
+    - '@role'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'Excludes a channel from gaining XP.'
+      name: role
+      optional: false
+      type: IRole
+xpexclude_IRole_3:
+  args:
+    - '@role'
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'Excludes a channel from gaining XP.'
+      name: role
+      optional: false
+      type: IRole
+xpexclude_ITextChannel:
+  args:
+    - channel
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    - &ref_670
+      desc: 'The channel to exclude.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpexclude_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'The channel to exclude.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpexclude_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'The channel to exclude.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpexclude_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Excludes a channel from gaining XP.'
+  params:
+    -
+      desc: 'The channel to exclude.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpexcludelist:
+  args:
+    - '[type]'
+  desc: 'Lists excluded users, roles, or channels.'
+  params:
+    -
+      desc: 'The type of exclusions to list: users, roles, or channels.'
+      name: type
+      optional: true
+      type: string
+xpinclude:
+  args:
+    - '@user'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    - &ref_671
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpinclude_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpinclude_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpinclude_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: user
+      optional: false
+      type: IGuildUser
+xpinclude_IRole:
+  args:
+    - '@role'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    - &ref_672
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: role
+      optional: false
+      type: IRole
+xpinclude_IRole_1:
+  args:
+    - '@role'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: role
+      optional: false
+      type: IRole
+xpinclude_IRole_2:
+  args:
+    - '@role'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: role
+      optional: false
+      type: IRole
+xpinclude_IRole_3:
+  args:
+    - '@role'
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'Includes a previously excluded channel for XP gain.'
+      name: role
+      optional: false
+      type: IRole
+xpinclude_ITextChannel:
+  args:
+    - channel
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    - &ref_673
+      desc: 'The channel to include.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpinclude_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'The channel to include.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpinclude_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'The channel to include.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpinclude_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Includes a previously excluded channel for XP gain.'
+  params:
+    -
+      desc: 'The channel to include.'
+      name: channel
+      optional: false
+      type: ITextChannel
+xpsettings:
+  args:
+    - ''
+  desc: 'Shows the server''s XP settings.'
+  params: [ ]

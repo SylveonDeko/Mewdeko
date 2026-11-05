@@ -110,5 +110,15 @@
   "ticket_thread_channel_threads": "Tickets from button {0} now open as private threads in {1}.",
   "ticket_thread_channel_forum": "Tickets from button {0} now open as posts in {1}. Anyone who can see that forum can see them.",
   "ticket_thread_channel_removed": "Tickets from button {0} now open in their own channels again.",
-  "ticket_thread_channel_invalid": "Pick a text or forum channel in this server."
+  "ticket_thread_channel_invalid": "Pick a text or forum channel in this server.",
+  "ticket_claimed_category_removed": "Claimed category removed for button #{0}",
+  "ticket_claimed_category_set": "Claimed tickets from button #{0} now move to {1}",
+  "ticket_option_claimed_category_removed": "Claimed category removed for option #{0}",
+  "ticket_option_claimed_category_set": "Claimed tickets from option #{0} now move to {1}",
+  "ticket_option_dm_transcript_set": "Transcript DMs for option #{0} are {1}",
+  "ticket_dm_transcript_set": "Transcript DMs for button #{0} are {1}",
+  "ticket_panel_dm_transcript_set": "Transcript DMs for every button on the panel are {0}",
+  "ticket_server_dm_transcript_set": "Transcript DMs for every ticket are {0}",
+  "ticket_transcript_dm_title": "Ticket #{0} in {1} was closed",
+  "ticket_transcript_dm_link": "View the transcript"
 }

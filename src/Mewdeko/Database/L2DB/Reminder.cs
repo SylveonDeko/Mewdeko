@@ -24,5 +24,7 @@ namespace DataModel
 		[Column("Message"                                                                                    )] public string?   Message   { get; set; } // text
 		[Column("IsPrivate"                                                                                  )] public bool      IsPrivate { get; set; } // boolean
 		[Column("DateAdded"                                                                                  )] public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
+		[Column("RepeatMinutes"                                                                              )] public int       RepeatMinutes { get; set; } // integer
+		[Column("Subscribers"                                                                                )] public string    Subscribers { get; set; } = ""; // text
 	}
 }

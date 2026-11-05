@@ -26,6 +26,11 @@ public partial class Currency
     public CurrencyCooldownService CooldownService { get; set; }
 
     /// <summary>
+    ///     The service applying scheduled earning boosts.
+    /// </summary>
+    public EconomyBoostService BoostService { get; set; }
+
+    /// <summary>
     ///     Works a shift for a random payout, on a cooldown the server sets.
     /// </summary>
     /// <example>.work</example>

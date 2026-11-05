@@ -110,5 +110,10 @@ public enum CurrencyCategory
     /// <summary>
     ///     Currency handed out for unlocking an achievement.
     /// </summary>
-    Achievement
+    Achievement,
+
+    /// <summary>
+    ///     Currency paid to a giveaway winner as the prize.
+    /// </summary>
+    GiveawayPrize
 }

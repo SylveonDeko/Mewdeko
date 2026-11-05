@@ -30,6 +30,24 @@ rolemenucreate:
       name: roles
       optional: false
       type: IRole[]
+rolemenuusetemplate:
+  args:
+    - 'colors #roles'
+    - 'pronouns #roles buttons'
+  desc: 'Previews a premade menu with its roles. The templates are colors, pronouns, pings, regions, ages and verification. Edit the name, message and roles (one per line as an emoji, a name and an optional #RRGGBB colour), then post to create the roles and the menu together.'
+  params:
+    - desc: colors, pronouns, pings, regions, ages or verification.
+      name: template
+      optional: false
+      type: RoleMenuTemplateKind
+    - desc: The channel to post the menu in.
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: dropdown, buttons or reactions. Defaults to the template's own.
+      name: style
+      optional: true
+      type: RoleMenuStyle
 rolemenuadd:
   args:
     - '3 @Blue 🔵 Blue'
@@ -92,13 +110,13 @@ rolemenumessage:
 rolemenustyle:
   args:
     - '3 buttons'
-  desc: 'Switches a menu between a dropdown and buttons.'
+  desc: 'Switches a menu between a dropdown, buttons, and emoji reactions. Reaction menus need an emoji on every role and hold up to 20 roles.'
   params:
     - desc: The menu ID.
       name: menuId
       optional: false
       type: int
-    - desc: dropdown or buttons.
+    - desc: dropdown, buttons or reactions.
       name: style
       optional: false
       type: RoleMenuStyle
@@ -106,13 +124,16 @@ rolemenumode:
   args:
     - '3 exclusive'
     - '3 multi'
-  desc: 'Sets whether members pick one role (picking another swaps it) or any number of roles from the menu.'
+    - '3 verify'
+    - '3 removeonly'
+    - '3 reverse'
+  desc: 'Sets how picking works: one role at a time (picking another swaps it), any number of roles, add only (picking again keeps the role), remove only, or reverse (the first pick takes the role away and the second pick gives it back).'
   params:
     - desc: The menu ID.
       name: menuId
       optional: false
       type: int
-    - desc: exclusive for pick one, multi for pick any.
+    - desc: exclusive, multi, verify, removeonly or reverse.
       name: mode
       optional: false
       type: RoleMenuMode
@@ -208,3 +229,171 @@ rolemenuimport:
       name: style
       optional: true
       type: RoleMenuStyle
+rolemenutemp:
+  args:
+    - '3 12h'
+    - '3'
+  desc: 'Takes back roles picked from a menu after a set time. Leave the time out to let members keep them.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: How long roles last, such as 12h or 7d. Omit to clear.
+      name: duration
+      optional: true
+      type: StoopidTime
+rolemenuroletemp:
+  args:
+    - '3 @Event 2h'
+    - '3 @Event'
+  desc: 'Takes back one role on a menu after a set time, instead of the menu''s setting. Leave the time out to follow the menu.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The role on the menu.
+      name: role
+      optional: false
+      type: IRole
+    - desc: How long the role lasts. Omit to follow the menu.
+      name: duration
+      optional: true
+      type: StoopidTime
+rolemenucap:
+  args:
+    - '3 @Event 50'
+    - '3 @Event 0'
+  desc: 'Limits how many members can hold a role through a menu. Picking it when full says it is full. A limit of 0 means no limit.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The role on the menu.
+      name: role
+      optional: false
+      type: IRole
+    - desc: The most members who can hold it, 0 for no limit.
+      name: cap
+      optional: true
+      type: int
+rolemenublock:
+  args:
+    - '3 @Muted @Banned'
+    - '3'
+  desc: 'Stops members with any of the roles from using a menu. Leave the roles out to clear the list.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The blocked roles. Omit to clear.
+      name: roles
+      optional: true
+      type: IRole[]
+rolemenugroup:
+  args:
+    - '3 Colours'
+    - '3'
+  desc: 'Links a menu into a group. Menus in a group share one limit, so picking a role in one can take the role from the others. A new group lets members hold one role at a time. Leave the name out to unlink the menu.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The group name. Omit to unlink.
+      name: name
+      optional: true
+      type: string
+rolemenugroupmax:
+  args:
+    - '1 Colours'
+    - '2 Colours'
+    - '0 Colours'
+  desc: 'Sets how many roles a member can hold across all menus in a group. 1 swaps the role when they pick another, 0 means no limit.'
+  params:
+    - desc: The most roles, 0 for no limit.
+      name: max
+      optional: false
+      type: int
+    - desc: The group name.
+      name: name
+      optional: false
+      type: string
+rolemenugroupdelete:
+  args:
+    - 'Colours'
+  desc: 'Deletes a role menu group and unlinks its menus. The menus and members'' roles stay as they are.'
+  params:
+    - desc: The group name.
+      name: name
+      optional: false
+      type: string
+rolemenugroups:
+  args:
+    - ''
+  desc: 'Lists the role menu groups with their limits and menus.'
+  params: []
+rolemenucolor:
+  args:
+    - '3 #5865F2'
+    - '3 red'
+    - '3'
+  desc: 'Sets the colour of a menu''s default message. Leave the colour out to go back to the default.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: A colour name or hex code. Omit to clear.
+      name: color
+      optional: true
+      type: string
+rolemenubuttonstyle:
+  args:
+    - '3 green'
+    - '3'
+  desc: 'Sets the button colour used for options that have no colour of their own. Leave it out to go back to grey.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: blurple, grey, green or red. Omit for grey.
+      name: color
+      optional: true
+      type: RoleMenuButtonColor
+rolemenuchannel:
+  args:
+    - 'roles'
+    - 'roles buttons @Red @Blue'
+  desc: 'Creates a channel for role menus where members can read, react and click but not send messages, and the bot can post. Give roles to post a menu in it right away.'
+  params:
+    - desc: The channel name.
+      name: name
+      optional: false
+      type: string
+    - desc: dropdown or buttons. Defaults to dropdown.
+      name: style
+      optional: true
+      type: RoleMenuStyle
+    - desc: The roles to offer in a menu posted there. Omit to only create the channel.
+      name: roles
+      optional: true
+      type: IRole[]
+rolemenuexpire:
+  args:
+    - '3 7d'
+    - '3'
+  desc: 'Makes a menu delete its message and turn itself off after a set time. Leave the time out to clear it.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: How long from now, such as 12h or 7d. Omit to never expire.
+      name: duration
+      optional: true
+      type: StoopidTime

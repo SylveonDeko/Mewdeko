@@ -17,7 +17,34 @@ public enum RoleMenuStyle
     ///     One button per option, in rows of five.
     /// </summary>
     [ChoiceDisplay("Buttons")]
-    Buttons = 1
+    Buttons = 1,
+
+    /// <summary>
+    ///     One reaction per option on the posted message. Reacting gives the role and removing the reaction takes it.
+    /// </summary>
+    [ChoiceDisplay("Reactions")]
+    Reactions = 2
+}
+
+/// <summary>
+///     How a member's action reached a menu.
+/// </summary>
+public enum RoleMenuTrigger
+{
+    /// <summary>
+    ///     A button click or dropdown pick, which toggles.
+    /// </summary>
+    Pick,
+
+    /// <summary>
+    ///     A reaction was added.
+    /// </summary>
+    ReactionAdded,
+
+    /// <summary>
+    ///     A reaction was removed.
+    /// </summary>
+    ReactionRemoved
 }
 
 /// <summary>
@@ -35,7 +62,25 @@ public enum RoleMenuMode
     ///     Members hold one role at a time. Picking another swaps it.
     /// </summary>
     [ChoiceDisplay("Pick one")]
-    Exclusive = 1
+    Exclusive = 1,
+
+    /// <summary>
+    ///     Picking only adds roles. Picking a role again does not remove it.
+    /// </summary>
+    [ChoiceDisplay("Verify (add only)")]
+    Verify = 2,
+
+    /// <summary>
+    ///     Picking only removes roles. Roles can't be added from the menu.
+    /// </summary>
+    [ChoiceDisplay("Remove only")]
+    RemoveOnly = 3,
+
+    /// <summary>
+    ///     The first pick takes the role away and the second pick gives it back.
+    /// </summary>
+    [ChoiceDisplay("Reverse")]
+    Reverse = 4
 }
 
 /// <summary>
@@ -224,6 +269,11 @@ public enum RoleMenuError
     InvalidRequiredRole,
 
     /// <summary>
+    ///     A duration or expiry time is out of range or already past.
+    /// </summary>
+    InvalidDuration,
+
+    /// <summary>
     ///     A reorder did not list every option exactly once.
     /// </summary>
     InvalidOrder,
@@ -241,5 +291,30 @@ public enum RoleMenuError
     /// <summary>
     ///     None of the roles in the older setup exist anymore.
     /// </summary>
-    ImportNoRoles
+    ImportNoRoles,
+
+    /// <summary>
+    ///     The group does not exist in this server or its name or limit is invalid.
+    /// </summary>
+    InvalidGroup,
+
+    /// <summary>
+    ///     The accent or button colour is out of range.
+    /// </summary>
+    InvalidColor,
+
+    /// <summary>
+    ///     A reaction menu has a role without an emoji, or more roles than a message can hold reactions for.
+    /// </summary>
+    InvalidReactions,
+
+    /// <summary>
+    ///     The template draft expired or was never started.
+    /// </summary>
+    TemplateNotFound,
+
+    /// <summary>
+    ///     Discord refused to create the template's roles.
+    /// </summary>
+    RolesNotCreated
 }

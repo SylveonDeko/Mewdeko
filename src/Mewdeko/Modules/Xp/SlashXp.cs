@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text;
 using Discord.Interactions;
 using Discord.Net;
@@ -5,6 +6,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Modules.Currency.Services;
+using Mewdeko.Modules.Import.Services;
 using Mewdeko.Modules.Xp.Models;
 using Mewdeko.Modules.Xp.Services;
 
@@ -18,9 +20,74 @@ public partial class SlashXp(
     InteractiveService interactivity,
     ICurrencyService currencyService,
     XpRoleSyncService roleSyncService,
+    XpBackgroundService backgroundService,
+    XpExportService exportService,
     ILogger<SlashXp> logger)
     : MewdekoSlashModuleBase<XpService>
 {
+    /// <summary>
+    ///     Exports every member's XP to a file that /import xp can restore.
+    /// </summary>
+    [SlashCommand("export", "Exports every member's XP to a file")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task ExportXp()
+    {
+        await DeferAsync(true);
+        var json = await exportService.ExportAsync(ctx.Guild.Id);
+        await using var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+        await ctx.Interaction.FollowupWithFileAsync(stream, $"xp-{ctx.Guild.Id}.json",
+            Strings.XpExportDone(ctx.Guild.Id), ephemeral: true);
+    }
+
+    /// <summary>
+    ///     Sets or removes your own rank card background.
+    /// </summary>
+    /// <param name="url">An image URL or preset:id.</param>
+    /// <param name="image">An uploaded image.</param>
+    /// <param name="reset">Removes your background.</param>
+    [SlashCommand("background", "Sets your own rank card background")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task Background([Summary("url", "An image URL or preset:id")] string? url = null,
+        [Summary("image", "An uploaded image")]
+        IAttachment? image = null,
+        [Summary("reset", "Remove your background")]
+        bool reset = false)
+    {
+        if (reset)
+        {
+            await (await backgroundService.ClearUserBackgroundAsync(ctx.User.Id)
+                ? ReplyConfirmAsync(Strings.XpBackgroundCleared(ctx.Guild.Id))
+                : ReplyErrorAsync(Strings.XpBackgroundNone(ctx.Guild.Id)));
+            return;
+        }
+
+        var source = image?.Url ?? url?.Trim();
+        if (string.IsNullOrWhiteSpace(source))
+        {
+            await ReplyErrorAsync(Strings.XpBackgroundMissing(ctx.Guild.Id));
+            return;
+        }
+
+        await DeferAsync();
+        var result = await backgroundService.SetUserBackgroundAsync(ctx.User.Id, source);
+        await ReplyBackgroundResultAsync(result, Strings.XpBackgroundSet(ctx.Guild.Id));
+    }
+
+    private Task ReplyBackgroundResultAsync(XpBackgroundResult result, string saved)
+    {
+        return result switch
+        {
+            XpBackgroundResult.Saved => ReplyConfirmAsync(saved),
+            XpBackgroundResult.TooLarge => ReplyErrorAsync(Strings.XpBackgroundTooLarge(ctx.Guild.Id)),
+            XpBackgroundResult.NotAnImage => ReplyErrorAsync(Strings.XpBackgroundNotImage(ctx.Guild.Id)),
+            XpBackgroundResult.UnknownPreset => ReplyErrorAsync(Strings.XpBackgroundUnknownPreset(ctx.Guild.Id)),
+            _ => ReplyErrorAsync(Strings.XpBackgroundDownloadFailed(ctx.Guild.Id))
+        };
+    }
+
     /// <summary>
     ///     Shows a user's XP card with their rank, level, and progress.
     /// </summary>
@@ -745,8 +812,52 @@ public partial class SlashXp(
     ///     Server XP configuration commands.
     /// </summary>
     [Group("config", "Configure XP rates, multipliers, and curve")]
-    public class XpConfig(ILogger<XpConfig> logger) : MewdekoSlashSubmodule<XpService>
+    public class XpConfig(ILogger<XpConfig> logger, XpBackgroundService backgroundService)
+        : MewdekoSlashSubmodule<XpService>
     {
+        /// <summary>
+        ///     Sets or removes the rank card background for the whole server.
+        /// </summary>
+        /// <param name="url">An image URL or preset:id.</param>
+        /// <param name="image">An uploaded image.</param>
+        /// <param name="reset">Removes the server background.</param>
+        [SlashCommand("background", "Sets the rank card background for the whole server")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        public async Task SetServerBackground([Summary("url", "An image URL or preset:id")] string? url = null,
+            [Summary("image", "An uploaded image")]
+            IAttachment? image = null,
+            [Summary("reset", "Remove the server background")]
+            bool reset = false)
+        {
+            if (reset)
+            {
+                await (await backgroundService.ClearGuildBackgroundAsync(ctx.Guild.Id)
+                    ? ReplyConfirmAsync(Strings.XpServerBackgroundCleared(ctx.Guild.Id))
+                    : ReplyErrorAsync(Strings.XpServerBackgroundNone(ctx.Guild.Id)));
+                return;
+            }
+
+            var source = image?.Url ?? url?.Trim();
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                await ReplyErrorAsync(Strings.XpBackgroundMissing(ctx.Guild.Id));
+                return;
+            }
+
+            await DeferAsync();
+            var result = await backgroundService.SetGuildBackgroundAsync(ctx.Guild.Id, source);
+            await (result switch
+            {
+                XpBackgroundResult.Saved => ReplyConfirmAsync(Strings.XpServerBackgroundSet(ctx.Guild.Id)),
+                XpBackgroundResult.TooLarge => ReplyErrorAsync(Strings.XpBackgroundTooLarge(ctx.Guild.Id)),
+                XpBackgroundResult.NotAnImage => ReplyErrorAsync(Strings.XpBackgroundNotImage(ctx.Guild.Id)),
+                XpBackgroundResult.UnknownPreset => ReplyErrorAsync(Strings.XpBackgroundUnknownPreset(ctx.Guild.Id)),
+                _ => ReplyErrorAsync(Strings.XpBackgroundDownloadFailed(ctx.Guild.Id))
+            });
+        }
+
         /// <summary>
         ///     Sets the amount of XP gained per message.
         /// </summary>

@@ -1,9 +1,11 @@
 ﻿using System.Text.RegularExpressions;
+using DataModel;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Modules.Giveaways.Common;
 using Mewdeko.Modules.Giveaways.Services;
 using SkiaSharp;
 
@@ -595,13 +597,105 @@ public partial class Giveaways(
             }
         }
 
+        // Extra Entries
+        string extraEntryRoles = null;
+        await msg.ModifyAsync(x => x.Embed = promptEmbed
+            .WithDescription(Strings.GiveawayStartExtraEntriesPrompt(ctx.Guild.Id))
+            .Build()).ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+            response.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            await msg.ModifyAsync(x => x.Embed = promptEmbed
+                .WithDescription(Strings.GiveawayStartExtraEntriesRolesPrompt(ctx.Guild.Id))
+                .Build()).ConfigureAwait(false);
+            response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+
+            var entries = new Dictionary<ulong, int>();
+
+            foreach (Match match in ExtraEntryRegex().Matches(response))
+            {
+                if (ulong.TryParse(match.Groups[1].Value, out var roleId) && ctx.Guild.GetRole(roleId) is not null &&
+                    int.TryParse(match.Groups[2].Value, out var extra) && extra > 0)
+                    entries[roleId] = extra;
+            }
+
+            if (entries.Count == 0)
+            {
+                await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
+                return;
+            }
+
+            extraEntryRoles = GiveawayExtraEntries.Format(entries);
+        }
+
+        // Automatic Prize
+        var prizeType = GiveawayPrizeType.None;
+        long prizeAmount = 0;
+        await msg.ModifyAsync(x => x.Embed = promptEmbed
+            .WithDescription(Strings.GiveawayStartRewardPrompt(ctx.Guild.Id))
+            .Build()).ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+            response.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            await msg.ModifyAsync(x => x.Embed = promptEmbed
+                .WithDescription(Strings.GiveawayStartRewardValuePrompt(ctx.Guild.Id))
+                .Build()).ConfigureAwait(false);
+            response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+
+            var parts = response.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+            if (parts.Length != 2 || !Enum.TryParse(parts[0], true, out prizeType) ||
+                prizeType == GiveawayPrizeType.None || !long.TryParse(parts[1], out prizeAmount) || prizeAmount <= 0)
+            {
+                await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
+                return;
+            }
+        }
+
+        // Draft
+        await msg.ModifyAsync(x => x.Embed = promptEmbed
+            .WithDescription(Strings.GiveawayStartDraftPrompt(ctx.Guild.Id))
+            .Build()).ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        var saveAsDraft = response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+                          response.Equals("y", StringComparison.OrdinalIgnoreCase);
+
         await msg.DeleteAsync().ConfigureAwait(false);
+
+        if (saveAsDraft)
+        {
+            var draft = await Service.CreateDraftAsync(ctx.Guild.Id, new Giveaway
+            {
+                ChannelId = channel.Id,
+                UserId = host.Id,
+                Item = prize,
+                Winners = winners,
+                DraftDurationSeconds = (int)time.TotalSeconds,
+                UseButton = useButton,
+                UseCaptcha = useCaptcha,
+                RestrictTo = requiredRoles,
+                MessageCountReq = messageCount,
+                ExtraEntryRoles = extraEntryRoles,
+                PrizeType = (int)prizeType,
+                PrizeAmount = prizeAmount
+            });
+
+            await ctx.Channel.SendConfirmAsync(Strings.GiveawayDraftSaved(ctx.Guild.Id, draft.Id))
+                .ConfigureAwait(false);
+            return;
+        }
 
         // Start the Giveaway
         await Service.GiveawaysInternal(channel, time, prize, winners, host.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild, requiredRoles, null, null, null, banner,
-            pingRole, useButton, useCaptcha, messageCount).ConfigureAwait(false);
+            pingRole, useButton, useCaptcha, messageCount, extraEntryRoles, (int)prizeType, prizeAmount)
+            .ConfigureAwait(false);
     }
+
+    [GeneratedRegex(@"(\d{15,25})>?\s*[: ]\s*(\d+)")]
+    private static partial Regex ExtraEntryRegex();
 
 // Helper Methods
     private IRole? ParseRole(string input)

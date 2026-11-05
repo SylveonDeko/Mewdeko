@@ -71,3 +71,57 @@ birthdaytoday:
     - ''
   desc: 'Shows today''s birthdays.'
   params: [ ]
+birthdayhour:
+  args:
+    - hour
+  desc: 'Sets the hour of the day birthdays are announced, in the server''s timezone.'
+  params:
+    - desc: 'The hour from 0 to 23.'
+      name: hour
+      optional: false
+      type: int
+birthdayagemessage:
+  args:
+    - message
+  desc: 'Sets the message announced for members who shared their birth year. Leave it out to clear it.'
+  params:
+    - desc: 'The message. %birthday.age% is the member''s age.'
+      name: message
+      optional: true
+      type: string
+birthdayyearrule:
+  args:
+    - rule
+  desc: 'Sets whether members may share their birth year: not allowed, optional or required.'
+  params:
+    - desc: 'NotAllowed, Optional or Required.'
+      name: rule
+      optional: false
+      type: BirthYearRule
+birthdayadminset:
+  args:
+    - user date
+  desc: 'Sets a member''s birthday.'
+  params:
+    - desc: 'The member.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The birthday.'
+      name: date
+      optional: false
+      type: DateTime
+birthdayadminremove:
+  args:
+    - user
+  desc: 'Removes a member''s birthday.'
+  params:
+    - desc: 'The member.'
+      name: user
+      optional: false
+      type: IUser
+birthdayforget:
+  args:
+    - ''
+  desc: 'Deletes your birthday and every birthday setting stored for you.'
+  params: [ ]

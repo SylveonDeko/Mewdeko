@@ -337,6 +337,15 @@ maxsuggestionlength_int_2:
       name: length
       optional: false
       type: int
+suggestvotecolor:
+  args:
+    - number
+  desc: 'Turns a suggestion green when upvotes lead by this many votes and red when downvotes do. 0 turns it off.'
+  params:
+    - desc: 'The vote lead needed, or 0 to turn it off.'
+      name: threshold
+      optional: false
+      type: int
 minsuggestionlength:
   args:
     - number
@@ -420,6 +429,11 @@ suggest_string_2:
       name: suggestion
       optional: false
       type: string
+suggestanonymous:
+  args:
+    - ''
+  desc: 'Toggles whether suggestions hide who made them.'
+  params: [ ]
 suggestbuttonchannel:
   args:
     - channel
@@ -836,3 +850,12 @@ suggestthreadstype_SuggestThreadType_2:
       name: type
       optional: false
       type: SuggestThreadType
+suggestwho:
+  args:
+    - num
+  desc: 'Privately tells staff who made a suggestion.'
+  params:
+    - desc: 'The number of the suggestion to look up.'
+      name: num
+      optional: false
+      type: ulong

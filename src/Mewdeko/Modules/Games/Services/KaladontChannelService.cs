@@ -248,8 +248,8 @@ public class KaladontChannelService : INService, IReadyExecutor
             if (client.GetChannel(channelId) is ITextChannel textChannel)
             {
                 var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle($"🔄 {strings.KaladontNewRound(textChannel.GuildId)}")
+                    .WithOkColor(textChannel.GuildId)
+                    .WithTitle($"🔄{strings.KaladontNewRound(textChannel.GuildId)}")
                     .WithDescription(strings.KaladontStartingWord(textChannel.GuildId, newWord))
                     .Build();
 
@@ -369,8 +369,8 @@ public class KaladontChannelService : INService, IReadyExecutor
                     var emote = channelConfig.Mode == 1 ? "♾️" : "✅";
 
                     var embed = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithTitle($"{emote} {strings.KaladontWordAccepted(guildId)}")
+                        .WithOkColor(guildId)
+                        .WithTitle($"{emote}{strings.KaladontWordAccepted(guildId)}")
                         .WithDescription(strings.KaladontWordPlayed(guildId, Format.Bold(msg.Author.ToString()),
                             Format.Bold(normalizedWord.ToUpperInvariant())))
                         .AddField(strings.KaladontLastWord(guildId), Format.Bold(normalizedWord.ToUpperInvariant()),

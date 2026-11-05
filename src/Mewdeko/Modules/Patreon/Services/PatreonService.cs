@@ -7,6 +7,7 @@ using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Patreon.Common;
 using Mewdeko.Modules.Patreon.Extensions;
 using Mewdeko.Services.Analytics;
+using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 using Microsoft.Extensions.Hosting;
 
@@ -23,6 +24,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
     };
 
     private readonly PatreonApiClient apiClient;
+    private readonly BotConfigService botConfig;
     private readonly DiscordShardedClient client;
     private readonly IAnalyticsCollector collector;
     private readonly IBotCredentials creds;
@@ -42,14 +44,17 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
     /// <param name="apiClient">The Patreon API client.</param>
     /// <param name="logger">Serilog logger.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="botConfig">The bot configuration service.</param>
     public PatreonService(
         DiscordShardedClient client,
         IDataConnectionFactory db,
         GuildSettingsService guildSettings,
         GeneratedBotStrings strings,
         IBotCredentials creds,
-        PatreonApiClient apiClient, ILogger<PatreonService> logger, IAnalyticsCollector collector)
+        PatreonApiClient apiClient, ILogger<PatreonService> logger, IAnalyticsCollector collector,
+        BotConfigService botConfig)
     {
+        this.botConfig = botConfig;
         this.collector = collector;
         this.client = client;
         this.db = db;

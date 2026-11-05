@@ -17,6 +17,7 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class LoggingController(
     LogCommandService logService,
+    DiscordShardedClient client,
     IDataConnectionFactory dbFactory,
     IDashboardAuditContext auditContext) : Controller
 {
@@ -74,7 +75,28 @@ public class LoggingController(
             config.LogTypes["MessagesBulkDeleted"] = logSettings.MessagesBulkDeletedId;
             config.LogTypes["InviteCreated"] = logSettings.InviteCreatedId;
             config.LogTypes["InviteDeleted"] = logSettings.InviteDeletedId;
+            config.LogTypes["EmojiCreated"] = logSettings.EmojiCreatedId;
+            config.LogTypes["EmojiUpdated"] = logSettings.EmojiUpdatedId;
+            config.LogTypes["EmojiDeleted"] = logSettings.EmojiDeletedId;
+            config.LogTypes["StickerCreated"] = logSettings.StickerCreatedId;
+            config.LogTypes["StickerUpdated"] = logSettings.StickerUpdatedId;
+            config.LogTypes["StickerDeleted"] = logSettings.StickerDeletedId;
+            config.LogTypes["UserTimedOut"] = logSettings.UserTimedOutId;
+            config.LogTypes["UserTimeoutRemoved"] = logSettings.UserTimeoutRemovedId;
+            config.LogTypes["InviteLinkPosted"] = logSettings.InviteLinkPostedId;
+            config.LogTypes["ChannelPermissionsUpdated"] = logSettings.ChannelPermissionsUpdatedId;
+            config.LogTypes["ServerBoosted"] = logSettings.ServerBoostedId;
+            config.LogTypes["IntegrationChanged"] = logSettings.IntegrationChangedId;
+            config.LogTypes["WebhookChanged"] = logSettings.WebhookChangedId;
+            config.LogTypes["StageChanged"] = logSettings.StageChangedId;
+            config.LogTypes["ScheduledEventChanged"] = logSettings.ScheduledEventChangedId;
+            config.LogTypes["AutoModRuleChanged"] = logSettings.AutoModRuleChangedId;
+            config.LogTypes["SoundboardChanged"] = logSettings.SoundboardChangedId;
+            config.LogTypes["ThreadMemberChanged"] = logSettings.ThreadMemberChangedId;
         }
+
+        config.IgnorePrefixes = logService.GetMessageIgnorePrefixes(guildId);
+        config.IgnoreBots = logService.GetIgnoreBots(guildId);
 
         return Ok(config);
     }
@@ -235,6 +257,139 @@ public class LoggingController(
         return Ok(new
         {
             success = true, message = "All logging disabled"
+        });
+    }
+
+    /// <summary>
+    ///     Creates a private Logs category with channels for each kind of log and routes every log type to them
+    /// </summary>
+    [HttpPost("setup")]
+    public async Task<IActionResult> SetupLogging(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found");
+
+        var channels = await logService.SetupLogChannels(guild);
+        if (channels is null)
+            return BadRequest(new
+            {
+                success = false, error = "Could not create the log channels. The bot needs Manage Channels"
+            });
+
+        return Ok(new
+        {
+            success = true, channels = channels.ToDictionary(c => c.Key, c => c.Value.Id)
+        });
+    }
+
+    /// <summary>
+    ///     Exports the log configuration as JSON and a short code
+    /// </summary>
+    [HttpGet("export")]
+    public async Task<IActionResult> ExportConfiguration(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found");
+
+        var export = await logService.ExportConfig(guild);
+        if (export is null)
+            return Ok(new
+            {
+                empty = true
+            });
+
+        return Ok(new
+        {
+            empty = false, code = export.Value.Code, json = export.Value.Json
+        });
+    }
+
+    /// <summary>
+    ///     Imports a log configuration from an export code or JSON, mapping channels by id and then by name
+    /// </summary>
+    [HttpPost("import")]
+    public async Task<IActionResult> ImportConfiguration(ulong guildId, [FromBody] ImportLogConfigRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return NotFound("Guild not found");
+
+        var result = await logService.ImportConfig(guild, request.Code);
+        if (!result.Valid)
+            return BadRequest(new
+            {
+                success = false, error = "Invalid log configuration"
+            });
+
+        return Ok(new
+        {
+            success = true, applied = result.Applied, unmapped = result.Unmapped
+        });
+    }
+
+    /// <summary>
+    ///     Gets whether logs skip actions by bots
+    /// </summary>
+    [HttpGet("ignore-bots")]
+    public IActionResult GetIgnoreBots(ulong guildId)
+    {
+        return Ok(new
+        {
+            ignoreBots = logService.GetIgnoreBots(guildId)
+        });
+    }
+
+    /// <summary>
+    ///     Sets whether logs skip actions by bots
+    /// </summary>
+    [HttpPut("ignore-bots")]
+    public async Task<IActionResult> SetIgnoreBots(ulong guildId, [FromBody] SetIgnoreBotsRequest request)
+    {
+        auditContext.RecordBefore(new
+        {
+            ignoreBots = logService.GetIgnoreBots(guildId)
+        });
+        await logService.SetIgnoreBots(guildId, request.IgnoreBots);
+        var after = new
+        {
+            ignoreBots = logService.GetIgnoreBots(guildId)
+        };
+        auditContext.RecordAfter(after);
+
+        return Ok(new
+        {
+            success = true, after.ignoreBots
+        });
+    }
+
+    /// <summary>
+    ///     Gets the prefixes skipped by message logs
+    /// </summary>
+    [HttpGet("ignore-prefixes")]
+    public IActionResult GetIgnorePrefixes(ulong guildId)
+    {
+        return Ok(new
+        {
+            prefixes = logService.GetMessageIgnorePrefixes(guildId)
+        });
+    }
+
+    /// <summary>
+    ///     Sets the prefixes skipped by message logs
+    /// </summary>
+    [HttpPut("ignore-prefixes")]
+    public async Task<IActionResult> SetIgnorePrefixes(ulong guildId, [FromBody] SetIgnorePrefixesRequest request)
+    {
+        auditContext.RecordBefore(logService.GetMessageIgnorePrefixes(guildId));
+        await logService.SetMessageIgnorePrefixes(guildId, request.Prefixes ?? []);
+        var prefixes = logService.GetMessageIgnorePrefixes(guildId);
+        auditContext.RecordAfter(prefixes);
+
+        return Ok(new
+        {
+            success = true, prefixes
         });
     }
 

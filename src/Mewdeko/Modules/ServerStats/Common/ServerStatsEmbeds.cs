@@ -59,7 +59,7 @@ public static class ServerStatsEmbeds
         IReadOnlyList<ActivitySummary> rows, IUser? user = null)
     {
         var eb = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithTitle(user == null
                 ? strings.StatsActivitiesTitle(guild.Id, WindowName(lookbackDays))
                 : strings.StatsUserActivitiesTitle(guild.Id, user.Username, WindowName(lookbackDays)));
@@ -113,7 +113,7 @@ public static class ServerStatsEmbeds
         ActivitySummary? topActivity = null)
     {
         var eb = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithAuthor(guild.Name, guild.IconUrl)
             .WithTitle(strings.StatsOverviewTitle(guild.Id, WindowName(o.LookbackDays)))
             .AddField(strings.StatsMessages(guild.Id), o.Messages.ToString("N0"), true)
@@ -160,7 +160,7 @@ public static class ServerStatsEmbeds
         IReadOnlyList<ActivitySummary>? topActivities = null)
     {
         var eb = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithAuthor(user.ToString(), user.RealAvatarUrl().ToString())
             .WithTitle(strings.StatsUserTitle(guild.Id, WindowName(a.LookbackDays)))
             .AddField(strings.StatsMessages(guild.Id),
@@ -202,7 +202,7 @@ public static class ServerStatsEmbeds
         ChannelActivity a)
     {
         var eb = new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guild.Id)
             .WithTitle(strings.StatsChannelTitle(guild.Id, channel.Name, WindowName(a.LookbackDays)))
             .AddField(strings.StatsMessages(guild.Id), a.Messages.ToString("N0"), true)
             .AddField(strings.StatsVoiceTime(guild.Id), ServerStatsService.FormatDuration(a.VoiceSeconds), true)
@@ -237,7 +237,7 @@ public static class ServerStatsEmbeds
             : string.Join(", ", activityFilters.Take(15));
 
         return new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guildId)
             .WithTitle(strings.StatsSettingsTitle(guildId))
             .AddField(strings.StatsSettingLookback(guildId), $"{s.DefaultLookbackDays}d", true)
             .AddField(strings.StatsSettingCooldown(guildId), $"{s.MessageCooldownSeconds}s", true)
@@ -265,7 +265,7 @@ public static class ServerStatsEmbeds
     {
         var window = WindowName(lookbackDays);
         MemoryStream stream;
-        var eb = new EmbedBuilder().WithOkColor().WithImageUrl("attachment://graph.png").WithCurrentTimestamp();
+        var eb = new EmbedBuilder().WithOkColor(guild.Id).WithImageUrl("attachment://graph.png").WithCurrentTimestamp();
 
         switch (kind)
         {

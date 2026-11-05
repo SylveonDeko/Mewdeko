@@ -32,6 +32,25 @@ public class PollSettings
     public List<ulong>? AllowedRoles { get; set; }
 
     /// <summary>
+    /// Gets or sets the list of role IDs that cannot vote on this poll.
+    /// </summary>
+    [JsonPropertyName("blockedRoles")]
+    public List<ulong>? BlockedRoles { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of votes after which the poll ends automatically.
+    /// </summary>
+    [JsonPropertyName("maxVotes")]
+    public int? MaxVotes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the message posted when the poll ends. Supports %poll.question%, %poll.id%, %poll.votes%,
+    /// %poll.voters%, %poll.winner%, %poll.winner.votes%, %poll.results% and %poll.link%.
+    /// </summary>
+    [JsonPropertyName("resultsMessage")]
+    public string? ResultsMessage { get; set; }
+
+    /// <summary>
     /// Gets or sets the embed color as a hex string.
     /// </summary>
     [JsonPropertyName("color")]

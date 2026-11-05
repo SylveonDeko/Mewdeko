@@ -125,6 +125,34 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     }
 
     /// <summary>
+    ///     Turns a repeater off after it failed and stores why, so the failure shows in the repeater list and the
+    ///     dashboard instead of the repeater disappearing.
+    /// </summary>
+    /// <param name="r">The repeater configuration that failed.</param>
+    /// <param name="reason">Why the repeater was turned off.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task DisableRepeaterAsync(GuildRepeater r, string reason)
+    {
+        r.IsEnabled = false;
+        r.DisabledReason = reason;
+
+        if (Repeaters.TryGetValue(r.GuildId, out var guildRepeaters) &&
+            guildRepeaters.TryGetValue(r.Id, out var runner))
+        {
+            runner.Repeater.IsEnabled = false;
+            runner.Repeater.DisabledReason = reason;
+            runner.Stop();
+        }
+
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        await dbContext.GuildRepeaters
+            .Where(x => x.Id == r.Id && x.GuildId == r.GuildId)
+            .Set(x => x.IsEnabled, false)
+            .Set(x => x.DisabledReason, reason)
+            .UpdateAsync();
+    }
+
+    /// <summary>
     ///     Removes a repeater from both the active runners and the database.
     ///     Ensures proper cleanup of resources associated with the repeater.
     /// </summary>
@@ -366,6 +394,8 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     /// <param name="triggerMode">How the sticky would trigger.</param>
     /// <param name="threadAutoSticky">Whether threads automatically get sticky messages in the channel.</param>
     /// <param name="threadOnlyMode">Whether the repeater only runs in threads.</param>
+    /// <param name="activityThreshold">How many messages trigger the activity based modes.</param>
+    /// <param name="activityTimeWindow">The time window for the activity based modes. Defaults to five minutes.</param>
     /// <returns>The created repeater runner.</returns>
     public async Task<RepeatRunner?> CreateRepeaterAsync(
         ulong guildId,
@@ -376,7 +406,9 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
         bool allowMentions = false,
         StickyTriggerMode triggerMode = StickyTriggerMode.TimeInterval,
         bool threadAutoSticky = false,
-        bool threadOnlyMode = false)
+        bool threadOnlyMode = false,
+        int activityThreshold = 5,
+        TimeSpan? activityTimeWindow = null)
     {
         try
         {
@@ -391,6 +423,8 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
                 TriggerMode = (int)triggerMode,
                 ThreadAutoSticky = threadAutoSticky,
                 ThreadOnlyMode = threadOnlyMode,
+                ActivityThreshold = activityThreshold,
+                ActivityTimeWindow = (activityTimeWindow ?? TimeSpan.FromMinutes(5)).ToString(),
                 DateAdded = DateTime.UtcNow
             };
 
@@ -785,12 +819,18 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
         if (item == null) return false;
 
         item.IsEnabled = !item.IsEnabled;
+        if (item.IsEnabled)
+            item.DisabledReason = null;
+
         await dbContext.UpdateAsync(item);
 
         if (Repeaters.TryGetValue(guildId, out var guildRepeaters) &&
             guildRepeaters.TryGetValue(repeaterId, out var runner))
         {
             runner.Repeater.IsEnabled = item.IsEnabled;
+            if (item.IsEnabled)
+                runner.Repeater.DisabledReason = null;
+
             if (item.IsEnabled)
                 runner.Reset(); // Restart if enabled
             else
@@ -950,6 +990,34 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     }
 
     /// <summary>
+    ///     Sets the role a repeater pings each time it posts, or clears it.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="repeaterId">The repeater ID.</param>
+    /// <param name="roleId">The role to ping, or null for none.</param>
+    /// <returns>False when the repeater does not exist.</returns>
+    public async Task<bool> SetRepeaterPingRoleAsync(ulong guildId, int repeaterId, ulong? roleId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var item = await dbContext.GuildRepeaters
+            .FirstOrDefaultAsync(r => r.Id == repeaterId && r.GuildId == guildId);
+
+        if (item == null) return false;
+
+        item.PingRoleId = roleId;
+        await dbContext.UpdateAsync(item);
+
+        if (Repeaters.TryGetValue(guildId, out var guildRepeaters) &&
+            guildRepeaters.TryGetValue(repeaterId, out var runner))
+        {
+            runner.Repeater.PingRoleId = roleId;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     ///     Updates the conversation threshold for a repeater.
     /// </summary>
     public async Task<bool> UpdateRepeaterConversationThresholdAsync(ulong guildId, int repeaterId, int threshold)
@@ -1066,6 +1134,9 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
             var guildId = guildChannel.GuildId;
             if (!Repeaters.TryGetValue(guildId, out var guildRepeaters))
                 return;
+
+            foreach (var counting in guildRepeaters.Values.Where(r => r.Repeater.ChannelId == guildChannel.Id))
+                counting.NoteMessage();
 
             // Check for immediate mode repeaters in parent channels
             var immediateRepeaters = guildRepeaters.Values

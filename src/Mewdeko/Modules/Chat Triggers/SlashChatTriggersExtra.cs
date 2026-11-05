@@ -1,3 +1,6 @@
+using System.IO;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using DataModel;
 using Discord.Interactions;
@@ -53,6 +56,532 @@ public partial class SlashChatTriggers
         await RespondAsync(embed: Service.GetEmbed(cr, ctx.Guild?.Id, Strings.NewReactionTrigger(ctx.Guild.Id)).Build())
             .ConfigureAwait(false);
         await FollowupWithTriggerStatus().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Commands for triggers members create and own themselves.
+    /// </summary>
+    [Group("member", "Triggers members create and own")]
+    public class Member : MewdekoSlashSubmodule<ChatTriggersService>
+    {
+        /// <summary>
+        ///     Toggles whether members without staff permissions can create and edit their own chat triggers.
+        /// </summary>
+        [SlashCommand("toggle", "Toggles whether members can create and edit their own triggers")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        [RequireContext(ContextType.Guild)]
+        public async Task CtMembers()
+        {
+            var enabled = !await Service.GetMemberCreateAsync(ctx.Guild.Id).ConfigureAwait(false);
+            await Service.SetMemberCreateAsync(ctx.Guild.Id, enabled).ConfigureAwait(false);
+
+            await ReplyConfirmAsync(enabled
+                    ? Strings.CtMembersEnabled(ctx.Guild.Id)
+                    : Strings.CtMembersDisabled(ctx.Guild.Id))
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Adds a chat trigger owned by the member who ran the command.
+        /// </summary>
+        /// <param name="key">The trigger text.</param>
+        /// <param name="message">The response.</param>
+        [SlashCommand("add", "Adds a trigger you own")]
+        [CheckPermissions]
+        [RequireContext(ContextType.Guild)]
+        public async Task CtMemberAdd(
+            [Summary("trigger", "The text that fires the trigger")]
+            string key,
+            [Summary("response", "What the trigger says")]
+            string message)
+        {
+            var (result, ct) = await Service.AddMemberTriggerAsync((IGuildUser)ctx.User, key, message)
+                .ConfigureAwait(false);
+
+            if (await ReplyMemberFailureAsync(result).ConfigureAwait(false))
+                return;
+
+            await RespondAsync(embed: Service.GetEmbed(ct!, ctx.Guild.Id, Strings.NewChatTrig(ctx.Guild.Id)).Build())
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Changes the response of a chat trigger the member owns.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="message">The new response.</param>
+        [SlashCommand("edit", "Changes the response of a trigger you own")]
+        [CheckPermissions]
+        [RequireContext(ContextType.Guild)]
+        public async Task CtMemberEdit(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("response", "What the trigger says")]
+            string message)
+        {
+            var (result, ct) = await Service.EditMemberTriggerAsync((IGuildUser)ctx.User, id, message)
+                .ConfigureAwait(false);
+
+            if (await ReplyMemberFailureAsync(result).ConfigureAwait(false))
+                return;
+
+            await RespondAsync(embed: Service.GetEmbed(ct!, ctx.Guild.Id, Strings.EditedChatTrig(ctx.Guild.Id)).Build())
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Deletes a chat trigger the member owns.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        [SlashCommand("delete", "Deletes a trigger you own")]
+        [CheckPermissions]
+        [RequireContext(ContextType.Guild)]
+        public async Task CtMemberDelete(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id)
+        {
+            var (result, ct) = await Service.DeleteMemberTriggerAsync((IGuildUser)ctx.User, id).ConfigureAwait(false);
+
+            if (await ReplyMemberFailureAsync(result).ConfigureAwait(false))
+                return;
+
+            await RespondAsync(embed: Service.GetEmbed(ct!, ctx.Guild.Id, Strings.Deleted(ctx.Guild.Id)).Build())
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Lists the chat triggers the member created.
+        /// </summary>
+        [SlashCommand("mine", "Lists the triggers you created")]
+        [CheckPermissions]
+        [RequireContext(ContextType.Guild)]
+        public async Task CtMine()
+        {
+            var owned = await Service.GetOwnedTriggersAsync(ctx.Guild.Id, ctx.User.Id).ConfigureAwait(false);
+            if (owned.Length == 0)
+            {
+                await ReplyErrorAsync(Strings.NoFound(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var eb = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle(Strings.CtMineTitle(ctx.Guild.Id))
+                .WithDescription(string.Join("\n", owned.Take(40).Select(x => $"`#{x.Id}` {x.Trigger.TrimTo(60)}")));
+
+            await RespondAsync(embed: eb.Build()).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Takes over a chat trigger whose creator has left the server.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        [SlashCommand("claim", "Takes over a trigger whose creator left the server")]
+        [CheckPermissions]
+        [RequireContext(ContextType.Guild)]
+        public async Task CtClaim(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id)
+        {
+            var (result, _) = await Service.ClaimTriggerAsync((IGuildUser)ctx.User, id).ConfigureAwait(false);
+
+            if (await ReplyMemberFailureAsync(result).ConfigureAwait(false))
+                return;
+
+            await ReplyConfirmAsync(Strings.CtClaimed(ctx.Guild.Id, id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Tells the member why a create, edit, delete or claim did not go through.
+        /// </summary>
+        /// <param name="result">The outcome.</param>
+        /// <returns>True when the outcome was a failure and has been reported.</returns>
+        private async Task<bool> ReplyMemberFailureAsync(CtMemberResult result)
+        {
+            var message = result switch
+            {
+                CtMemberResult.Success => null,
+                CtMemberResult.Disabled => Strings.CtMembersOff(ctx.Guild.Id),
+                CtMemberResult.NotFound => Strings.NoFoundId(ctx.Guild.Id),
+                CtMemberResult.NotOwner => Strings.CtNotOwner(ctx.Guild.Id),
+                CtMemberResult.UnsafeResponse => Strings.CtMemberUnsafe(ctx.Guild.Id),
+                CtMemberResult.CreatorPresent => Strings.CtCreatorPresent(ctx.Guild.Id),
+                _ => Strings.CtNoCreator(ctx.Guild.Id)
+            };
+
+            if (message is null)
+                return false;
+
+            await ReplyErrorAsync(message).ConfigureAwait(false);
+            return true;
+        }
+    }
+
+    /// <summary>
+    ///     Shows the source text of a chat trigger's responses in a code block.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    [SlashCommand("raw", "Shows a trigger's response source in a code block")]
+    [CheckPermissions]
+    [RequireContext(ContextType.Guild)]
+    public async Task CtRaw(
+        [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id)
+    {
+        var ct = await Service.GetChatTriggers(ctx.Guild.Id, id).ConfigureAwait(false);
+        if (ct is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (!await Service.CanManageAsync((IGuildUser)ctx.User, ct).ConfigureAwait(false))
+        {
+            await ReplyErrorAsync(Strings.CtNotOwner(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var raw = string.Join("\n-----\n", ct.GetResponses());
+        if (raw.Length == 0)
+        {
+            await ReplyErrorAsync(Strings.CtRawEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (raw.Length <= 1900)
+        {
+            await RespondAsync(Format.Code(raw.Replace("```", "`​``")), ephemeral: true,
+                allowedMentions: AllowedMentions.None).ConfigureAwait(false);
+            return;
+        }
+
+        await using var stream = new MemoryStream(Encoding.UTF8.GetBytes(raw));
+        await RespondWithFileAsync(stream, $"trigger-{id}.txt", ephemeral: true).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Turns a chat trigger into a code another server can import.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    [SlashCommand("share", "Turns a trigger into a code another server can import")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
+    [RequireContext(ContextType.Guild)]
+    public async Task CtShare(
+        [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id)
+    {
+        var ct = await Service.GetChatTriggers(ctx.Guild.Id, id).ConfigureAwait(false);
+        if (ct is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var code = Service.CreateShareCode(ct);
+        if (code.Length <= 1900)
+        {
+            await RespondAsync($"{Strings.CtShareReady(ctx.Guild.Id)}\n{Format.Code(code)}",
+                allowedMentions: AllowedMentions.None).ConfigureAwait(false);
+            return;
+        }
+
+        await using var stream = new MemoryStream(Encoding.UTF8.GetBytes(code));
+        await RespondWithFileAsync(stream, $"trigger-{id}-share.txt", Strings.CtShareReady(ctx.Guild.Id))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Imports a chat trigger from a share code.
+    /// </summary>
+    /// <param name="code">The share code.</param>
+    /// <param name="file">A file holding the share code, for codes too long to paste.</param>
+    [SlashCommand("share-import", "Imports a trigger from a share code")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
+    [RequireContext(ContextType.Guild)]
+    public async Task CtShareImport(
+        [Summary("code", "The share code")] string? code = null,
+        [Summary("file", "A file holding the share code")]
+        IAttachment? file = null)
+    {
+        await DeferAsync().ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(code) && file is not null)
+        {
+            using var client = clientFactory.CreateClient();
+            code = await client.GetStringAsync(file.Url).ConfigureAwait(false);
+        }
+
+        code = code?.Trim().Trim('`');
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            await FollowupAsync(Strings.ExprImportNoInput(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var imported = await Service.ImportShareCodeAsync((IGuildUser)ctx.User, code).ConfigureAwait(false);
+        await FollowupAsync(imported
+                ? Strings.ExprImportSuccess(ctx.Guild.Id)
+                : Strings.ExprImportInvalidData(ctx.Guild.Id))
+            .ConfigureAwait(false);
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
+    }
+}
+
+/// <summary>
+///     Slash commands for chat trigger access, limits, responses, rewards, counters, events and categories.
+/// </summary>
+[Group("trigger-settings", "Access, limits, responses, rewards, counters, events and categories for triggers")]
+public class SlashTriggerSettings : MewdekoSlashSubmodule
+{
+    /// <summary>
+    ///     Commands that limit where and by whom a chat trigger can be fired, and where it responds.
+    /// </summary>
+    [Group("access", "Control who can fire a trigger and where it responds")]
+    public class Access : MewdekoSlashSubmodule<ChatTriggersService>
+    {
+        /// <summary>
+        ///     Toggles whether only members with Manage Messages can fire a chat trigger.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        [SlashCommand("staff", "Toggles whether only staff can fire a trigger")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtStaff(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id)
+        {
+            return ApplyAndShow(id, ct => ct.StaffOnly = !ct.StaffOnly);
+        }
+
+        /// <summary>
+        ///     Toggles whether a chat trigger only fires in NSFW channels.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        [SlashCommand("nsfw", "Toggles whether a trigger only fires in NSFW channels")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtNsfw(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id)
+        {
+            return ApplyAndShow(id, ct => ct.NsfwOnly = !ct.NsfwOnly);
+        }
+
+        /// <summary>
+        ///     Adds a channel to a chat trigger's allowed channels, or removes it when it is already listed.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="channel">The channel to add or remove.</param>
+        [SlashCommand("channel", "Adds or removes a channel the trigger may fire in")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtChannel(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("channel", "The channel to add or remove")]
+            ITextChannel channel)
+        {
+            return ApplyAndShow(id, ct =>
+            {
+                var allowed = ct.GetAllowedChannels();
+                if (!allowed.Remove(channel.Id))
+                    allowed.Add(channel.Id);
+
+                ct.AllowedChannelIds = allowed.Count == 0 ? null : string.Join("@@@", allowed);
+            });
+        }
+
+        /// <summary>
+        ///     Adds a channel to a chat trigger's denied channels, or removes it when it is already listed.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="channel">The channel to add or remove.</param>
+        [SlashCommand("deny-channel", "Adds or removes a channel the trigger never fires in")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtDenyChannel(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("channel", "The channel to add or remove")]
+            ITextChannel channel)
+        {
+            return ApplyAndShow(id, ct =>
+            {
+                var denied = ct.GetDeniedChannels();
+                if (!denied.Remove(channel.Id))
+                    denied.Add(channel.Id);
+
+                ct.DeniedChannelIds = denied.Count == 0 ? null : string.Join("@@@", denied);
+            });
+        }
+
+        /// <summary>
+        ///     Adds a role to a chat trigger's denied roles, or removes it when it is already listed.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="role">The role to add or remove.</param>
+        [SlashCommand("deny-role", "Adds or removes a role whose members cannot fire the trigger")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtDenyRole(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("role", "The role to add or remove")]
+            IRole role)
+        {
+            return ApplyAndShow(id, ct =>
+            {
+                var denied = ct.GetDeniedRoles();
+                if (!denied.Remove(role.Id))
+                    denied.Add(role.Id);
+
+                ct.DeniedRoleIds = denied.Count == 0 ? null : string.Join("@@@", denied);
+            });
+        }
+
+        /// <summary>
+        ///     Clears a chat trigger's denied channels and roles.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        [SlashCommand("clear-denies", "Removes a trigger's denied channels and roles")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtClearDenies(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id)
+        {
+            return ApplyAndShow(id, ct =>
+            {
+                ct.DeniedChannelIds = null;
+                ct.DeniedRoleIds = null;
+            });
+        }
+
+        /// <summary>
+        ///     Toggles whether a chat trigger's response hides who fired it.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        [SlashCommand("anonymous", "Toggles whether the response hides who fired the trigger")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtAnonymous(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id)
+        {
+            return ApplyAndShow(id, ct => ct.Anonymous = !ct.Anonymous);
+        }
+
+        /// <summary>
+        ///     Removes a chat trigger's channel limit.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        [SlashCommand("clear-channels", "Lets a trigger fire in every channel again")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtClearChannels(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id)
+        {
+            return ApplyAndShow(id, ct => ct.AllowedChannelIds = null);
+        }
+
+        /// <summary>
+        ///     Makes a chat trigger always respond in one channel instead of the channel it fired in.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="channel">The channel to respond in, or omit it to respond where the trigger fired.</param>
+        [SlashCommand("reply-channel", "Makes a trigger always respond in one channel")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtReplyChannel(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("channel", "The channel to respond in, omit to respond where it fired")]
+            ITextChannel? channel = null)
+        {
+            return ApplyAndShow(id, ct => ct.ReplyChannelId = channel?.Id ?? 0);
+        }
+
+        private async Task ApplyAndShow(int id, Action<ChatTrigger> apply)
+        {
+            var res = await Service.ModifyAsync(ctx.Guild?.Id, id, apply).ConfigureAwait(false);
+
+            if (res is null)
+            {
+                await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await RespondAsync(
+                    embed: Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)).Build())
+                .ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Commands that make a chat trigger ask a question before it responds.
+    /// </summary>
+    [Group("prompt", "Make a trigger ask a question before it responds")]
+    public class Prompt : MewdekoSlashSubmodule<ChatTriggersService>
+    {
+        /// <summary>
+        ///     Makes a chat trigger ask the member a question and wait for their reply before it responds.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="question">The question to ask, or omit it to remove the prompt.</param>
+        [SlashCommand("set", "Makes a trigger ask a question, the reply is %prompt% in the response")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task CtPrompt(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("question", "The question to ask, omit to remove the prompt")]
+            string? question = null)
+        {
+            return ApplyAndShow(id,
+                ct => ct.PromptQuestion = string.IsNullOrWhiteSpace(question) ? null : question.Trim());
+        }
+
+        /// <summary>
+        ///     Sets how long a member has to answer a chat trigger's prompt.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="seconds">The time to wait, from 5 to 120 seconds.</param>
+        [SlashCommand("timeout", "Sets how long a member has to answer the prompt")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task CtPromptTime(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("seconds", "Seconds to wait, from 5 to 120")] [MinValue(5)] [MaxValue(120)]
+            int seconds)
+        {
+            if (seconds is < 5 or > 120)
+            {
+                await ReplyErrorAsync(Strings.CtPromptTimeInvalid(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await ApplyAndShow(id, ct => ct.PromptTimeoutSeconds = seconds).ConfigureAwait(false);
+        }
+
+        private async Task ApplyAndShow(int id, Action<ChatTrigger> apply)
+        {
+            var res = await Service.ModifyAsync(ctx.Guild?.Id, id, apply).ConfigureAwait(false);
+
+            if (res is null)
+            {
+                await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await RespondAsync(
+                    embed: Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)).Build())
+                .ConfigureAwait(false);
+        }
     }
 
     /// <summary>
@@ -997,6 +1526,34 @@ public partial class SlashChatTriggers
             ITextChannel? channel = null)
         {
             var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.EventChannelId = channel?.Id ?? 0)
+                .ConfigureAwait(false);
+
+            if (res is null)
+            {
+                await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await RespondAsync(
+                    embed: Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)).Build())
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Sets the role a RoleAdded or RoleRemoved chat trigger reacts to.
+        /// </summary>
+        /// <param name="id">The ID of the chat trigger.</param>
+        /// <param name="role">The role to react to, or omit it to react to every role.</param>
+        [SlashCommand("role", "Sets the role a role event trigger reacts to")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task CtEventRole(
+            [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("role", "Role to react to, omit for every role")]
+            IRole? role = null)
+        {
+            var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.EventRoleId = role?.Id ?? 0)
                 .ConfigureAwait(false);
 
             if (res is null)

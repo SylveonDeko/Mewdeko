@@ -634,4 +634,89 @@ public class PollCommands : MewdekoModuleBase<PollService>
     }
 
     #endregion
+
+    /// <summary>
+    /// Ends a poll automatically once it has this many votes. Use 0 to remove the limit.
+    /// </summary>
+    /// <param name="pollId">The ID of the poll.</param>
+    /// <param name="votes">The number of votes, or 0 for no limit.</param>
+    /// <example>.pollmaxvotes 4 50</example>
+    [Cmd, Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageMessages)]
+    public async Task PollMaxVotes(int pollId, int votes)
+    {
+        if (!await OwnsActivePollAsync(pollId) || votes < 0 ||
+            !await Service.UpdatePollSettingsAsync(pollId, x => x.MaxVotes = votes == 0 ? null : votes))
+        {
+            await ErrorAsync(Strings.PollSettingsFailed(ctx.Guild.Id));
+            return;
+        }
+
+        await ConfirmAsync(votes == 0
+            ? Strings.PollMaxVotesCleared(ctx.Guild.Id)
+            : Strings.PollMaxVotesSet(ctx.Guild.Id, votes));
+    }
+
+    /// <summary>
+    /// Stops a role from voting on a poll, or lets it vote again if it was blocked.
+    /// </summary>
+    /// <param name="pollId">The ID of the poll.</param>
+    /// <param name="role">The role to block or unblock.</param>
+    /// <example>.pollblockrole 4 @Muted</example>
+    [Cmd, Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageMessages)]
+    public async Task PollBlockRole(int pollId, IRole role)
+    {
+        var blocked = false;
+
+        if (!await OwnsActivePollAsync(pollId) || !await Service.UpdatePollSettingsAsync(pollId, x =>
+            {
+                x.BlockedRoles ??= [];
+                blocked = !x.BlockedRoles.Remove(role.Id);
+
+                if (blocked)
+                    x.BlockedRoles.Add(role.Id);
+            }))
+        {
+            await ErrorAsync(Strings.PollSettingsFailed(ctx.Guild.Id));
+            return;
+        }
+
+        await ConfirmAsync(blocked
+            ? Strings.PollRoleBlocked(ctx.Guild.Id, role.Mention)
+            : Strings.PollRoleUnblocked(ctx.Guild.Id, role.Mention));
+    }
+
+    /// <summary>
+    /// Sets the message posted when a poll ends. Leave it out to clear it.
+    /// </summary>
+    /// <param name="pollId">The ID of the poll.</param>
+    /// <param name="message">The message. Uses %poll.question%, %poll.votes%, %poll.voters%, %poll.winner%, %poll.winner.votes%, %poll.results%, %poll.id% and %poll.link%.</param>
+    /// <example>.pollresults 4 The winner is %poll.winner% with %poll.winner.votes% votes!</example>
+    [Cmd, Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageMessages)]
+    public async Task PollResultsMessage(int pollId, [Remainder] string? message = null)
+    {
+        var text = string.IsNullOrWhiteSpace(message) ? null : message;
+
+        if (!await OwnsActivePollAsync(pollId) ||
+            !await Service.UpdatePollSettingsAsync(pollId, x => x.ResultsMessage = text))
+        {
+            await ErrorAsync(Strings.PollSettingsFailed(ctx.Guild.Id));
+            return;
+        }
+
+        await ConfirmAsync(text is null
+            ? Strings.PollResultsMessageCleared(ctx.Guild.Id)
+            : Strings.PollResultsMessageSet(ctx.Guild.Id));
+    }
+
+    private async Task<bool> OwnsActivePollAsync(int pollId)
+    {
+        var poll = await Service.GetPollAsync(pollId);
+        return poll is { IsActive: true } && poll.GuildId == ctx.Guild.Id;
+    }
 }

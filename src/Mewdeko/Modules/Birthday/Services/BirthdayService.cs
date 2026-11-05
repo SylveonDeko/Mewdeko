@@ -3,6 +3,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Birthday.Common;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Services.Analytics;
@@ -25,6 +26,7 @@ public class BirthdayService : INService, IDisposable
     private readonly Timer dailyCheckTimer;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
+    private readonly GuildTimezoneService guildTimezone;
     private readonly ILogger<BirthdayService> logger;
     private readonly GeneratedBotStrings strings;
     private bool isDisposed;
@@ -39,6 +41,7 @@ public class BirthdayService : INService, IDisposable
     /// <param name="strings">Service for localized strings.</param>
     /// <param name="logger">Logger instance.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="guildTimezone">Service for reading a server's timezone.</param>
     public BirthdayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -46,8 +49,10 @@ public class BirthdayService : INService, IDisposable
         BotConfig config,
         GeneratedBotStrings strings,
         ILogger<BirthdayService> logger,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector,
+        GuildTimezoneService guildTimezone)
     {
+        this.guildTimezone = guildTimezone;
         this.collector = collector;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -358,6 +363,45 @@ public class BirthdayService : INService, IDisposable
         return result;
     }
 
+    /// <summary>
+    ///     Sets a member's birthday on their behalf.
+    /// </summary>
+    /// <param name="user">The member.</param>
+    /// <param name="date">The birthday to set.</param>
+    public async Task SetUserBirthdayAsync(IUser user, DateTime date)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var discordUser = await db.GetOrCreateUser(user);
+
+        discordUser.Birthday = date;
+        await db.UpdateAsync(discordUser);
+    }
+
+    /// <summary>
+    ///     Removes a member's birthday.
+    /// </summary>
+    /// <param name="user">The member.</param>
+    /// <param name="wipeSettings">Whether to also reset their birthday timezone, display mode and announcement choice.</param>
+    /// <returns>True if the member had a birthday set.</returns>
+    public async Task<bool> ClearUserBirthdayAsync(IUser user, bool wipeSettings)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var discordUser = await db.GetOrCreateUser(user);
+        var hadBirthday = discordUser.Birthday.HasValue;
+
+        discordUser.Birthday = null;
+
+        if (wipeSettings)
+        {
+            discordUser.BirthdayTimezone = null;
+            discordUser.BirthdayDisplayMode = (int)BirthdayDisplayModeEnum.Default;
+            discordUser.BirthdayAnnouncementsEnabled = false;
+        }
+
+        await db.UpdateAsync(discordUser);
+        return hadBirthday;
+    }
+
     #endregion
 
     #region Background Processing
@@ -369,13 +413,11 @@ public class BirthdayService : INService, IDisposable
     {
         try
         {
-            var today = DateTime.UtcNow.Date;
-
             foreach (var guild in client.Guilds)
             {
                 try
                 {
-                    await ProcessGuildBirthdaysAsync(guild, today);
+                    await ProcessGuildBirthdaysAsync(guild, GetServerNow(guild.Id));
                 }
                 catch (Exception ex)
                 {
@@ -390,13 +432,43 @@ public class BirthdayService : INService, IDisposable
     }
 
     /// <summary>
+    ///     Gets the current time in a server's timezone, or UTC when it has none.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The server's local time.</returns>
+    private DateTime GetServerNow(ulong guildId)
+    {
+        var zone = guildTimezone.GetTimeZoneOrDefault(guildId);
+
+        return zone is null ? DateTime.UtcNow : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, zone);
+    }
+
+    /// <summary>
+    ///     Checks whether a member's birthday shows their birth year, which the server's rule can override.
+    /// </summary>
+    /// <param name="user">The member.</param>
+    /// <param name="rule">The server's birth year rule.</param>
+    /// <returns>True if the birth year, and so the age, may be shown.</returns>
+    public static bool SharesBirthYear(DiscordUser user, int rule)
+    {
+        return user.Birthday.HasValue &&
+               rule != (int)BirthYearRule.NotAllowed &&
+               user.BirthdayDisplayMode != (int)BirthdayDisplayModeEnum.MonthAndDate &&
+               user.BirthdayDisplayMode != (int)BirthdayDisplayModeEnum.MonthOnly;
+    }
+
+    /// <summary>
     ///     Processes birthdays for a specific guild.
     /// </summary>
     /// <param name="guild">The guild to process.</param>
-    /// <param name="date">The date to check for birthdays.</param>
-    private async Task ProcessGuildBirthdaysAsync(IGuild guild, DateTime date)
+    /// <param name="serverNow">The current time in the server's timezone.</param>
+    private async Task ProcessGuildBirthdaysAsync(IGuild guild, DateTime serverNow)
     {
+        var date = serverNow.Date;
         var birthdayConfig = await GetBirthdayConfigAsync(guild.Id);
+
+        if (serverNow.Hour < birthdayConfig.AnnouncementHour)
+            return;
 
         // Check if announcements are enabled
         if (!await IsFeatureEnabledAsync(guild.Id, BirthdayFeature.Announcements))
@@ -418,6 +490,9 @@ public class BirthdayService : INService, IDisposable
             return;
 
         var birthdayUsers = await GetBirthdayUsersForDateAsync(guild.Id, date);
+
+        if (birthdayConfig.BirthYearRule == (int)BirthYearRule.Required)
+            birthdayUsers = birthdayUsers.Where(x => SharesBirthYear(x, birthdayConfig.BirthYearRule)).ToList();
 
         if (!birthdayUsers.Any())
         {
@@ -491,15 +566,20 @@ public class BirthdayService : INService, IDisposable
         var guildUser = await guild.GetUserAsync(user.UserId);
         if (guildUser == null) return;
 
-        // Get the custom message or use default
-        var customBirthdayMessage = config.BirthdayMessage ?? "🎉 Happy Birthday %user.mention%! 🎂";
+        var sharesYear = SharesBirthYear(user, config.BirthYearRule);
+
+        // Members who shared a year get the age message when the server has one
+        var customBirthdayMessage = sharesYear && !string.IsNullOrWhiteSpace(config.AgeMessage)
+            ? config.AgeMessage
+            : config.BirthdayMessage ?? "🎉 Happy Birthday %user.mention%! 🎂";
 
         var replacer = new ReplacementBuilder()
             .WithOverride("%birthday.age%", () =>
             {
-                if (!user.Birthday.HasValue) return "Unknown";
-                var age = DateTime.UtcNow.Year - user.Birthday.Value.Year;
-                if (DateTime.UtcNow < user.Birthday.Value.AddYears(age)) age--;
+                if (!sharesYear) return "Unknown";
+                var serverNow = GetServerNow(guild.Id);
+                var age = serverNow.Year - user.Birthday!.Value.Year;
+                if (serverNow.Date < user.Birthday.Value.Date.AddYears(age)) age--;
                 return age.ToString();
             })
             .WithDefault(guildUser, channel, guild as SocketGuild, client)

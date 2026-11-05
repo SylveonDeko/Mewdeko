@@ -2654,8 +2654,319 @@ unlock:
       name: channel
       optional: true
       type: sockettextchannel
+lockdownexempt:
+  args:
+    - '#announcements'
+    - 'Staff'
+  desc: >-
+    Adds a channel or category to the lockdown exemptions, or removes it if it is
+    already there. Lockdown never changes the permissions of exempt channels, or
+    of channels inside an exempt category.
+  params: [ ]
+lockdownexemptlist:
+  args:
+    - ''
+  desc: 'Lists the channels and categories lockdown never touches.'
+  params: [ ]
 unlockdown:
   args:
     - ''
   desc: 'Unlocks the server by allowing @everyone to send messages again.'
   params: [ ]
+chanlock:
+  args:
+    - '#channel'
+    - '#channel 2h'
+    - '#channel 2h @role @role2'
+  desc: 'Locks a channel by denying Send Messages for @everyone or the roles given, optionally for a set time. The old overwrites come back when the time ends or with chanunlock.'
+  params:
+    - desc: 'The channel to lock. If null, locks the current channel.'
+      name: channel
+      optional: true
+      type: SocketGuildChannel
+    - desc: 'How long the lock lasts, like 30m, 2h or 1d. If null, it lasts until chanunlock.'
+      name: time
+      optional: true
+      type: StoopidTime
+    - desc: 'The roles to lock out. If none, @everyone is locked out.'
+      name: roles
+      optional: true
+      type: 'IRole[]'
+chanunlock:
+  args:
+    - '[channel]'
+  desc: 'Undoes chanlock and puts the previous overwrites back.'
+  params:
+    - desc: 'The channel to unlock. If null, unlocks the current channel.'
+      name: channel
+      optional: true
+      type: SocketGuildChannel
+hide:
+  args:
+    - '#channel'
+    - '#channel 2h'
+    - '#channel 2h @role @role2'
+  desc: 'Hides a channel by denying View Channel for @everyone or the roles given, optionally for a set time. The old overwrites come back when the time ends or with unhide.'
+  params:
+    - desc: 'The channel to hide. If null, hides the current channel.'
+      name: channel
+      optional: true
+      type: SocketGuildChannel
+    - desc: 'How long the channel stays hidden, like 30m, 2h or 1d. If null, it lasts until unhide.'
+      name: time
+      optional: true
+      type: StoopidTime
+    - desc: 'The roles to hide it from. If none, it is hidden from @everyone.'
+      name: roles
+      optional: true
+      type: 'IRole[]'
+unhide:
+  args:
+    - '[channel]'
+  desc: 'Undoes hide and puts the previous overwrites back.'
+  params:
+    - desc: 'The channel to unhide. If null, unhides the current channel.'
+      name: channel
+      optional: true
+      type: SocketGuildChannel
+chanlocks:
+  args:
+    - ''
+  desc: 'Lists the channels that are locked or hidden with these commands and when they end.'
+  params: [ ]
+voicetextlink:
+  args:
+    - '#voice #text'
+  desc: 'Links a voice channel to a text channel. Members get access to the text channel while they are in the voice channel and lose it when they leave. A join-to-create hub covers every temporary channel made from it.'
+  params:
+    - desc: 'The voice channel.'
+      name: voice
+      optional: false
+      type: IVoiceChannel
+    - desc: 'The text channel.'
+      name: text
+      optional: false
+      type: ITextChannel
+voicetextunlink:
+  args:
+    - '#voice'
+  desc: 'Removes the text channel link of a voice channel and takes back the access it gave.'
+  params:
+    - desc: 'The voice channel.'
+      name: voice
+      optional: false
+      type: IVoiceChannel
+voicetextlinks:
+  args:
+    - ''
+  desc: 'Lists the voice channels that are linked to text channels.'
+  params: [ ]
+autopurge:
+  args:
+    - '#channel 1d'
+    - '#channel 1d humans'
+    - '#channel 12h links false 30m'
+  desc: 'Deletes messages older than the given age from a channel on a schedule. Filters are All, Humans, Bots, Links and Attachments. Messages older than 14 days are deleted one at a time, so large backlogs clear slowly.'
+  params:
+    - desc: 'The channel to purge.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'How old a message must be to be deleted, like 12h or 1d.'
+      name: maxAge
+      optional: false
+      type: StoopidTime
+    - desc: 'Which messages are deleted. All by default.'
+      name: filter
+      optional: true
+      type: AutoPurgeFilter
+    - desc: 'Whether pinned messages are kept. True by default.'
+      name: keepPinned
+      optional: true
+      type: bool
+    - desc: 'How often the channel is purged. 10 minutes by default.'
+      name: interval
+      optional: true
+      type: StoopidTime
+autopurgeoff:
+  args:
+    - '#channel'
+  desc: 'Turns off auto-purge for a channel.'
+  params:
+    - desc: 'The channel.'
+      name: channel
+      optional: false
+      type: ITextChannel
+autopurgelist:
+  args:
+    - ''
+  desc: 'Lists the channels that have auto-purge.'
+  params: [ ]
+autopurgenow:
+  args:
+    - '#channel'
+  desc: 'Purges a channel now with its saved auto-purge settings.'
+  params:
+    - desc: 'The channel.'
+      name: channel
+      optional: false
+      type: ITextChannel
+permcheck:
+  args:
+    - '#channel @user'
+    - '#channel @role SendMessages'
+  desc: 'Shows which permissions a member or a role has in a channel and which overwrites apply. Give a permission to see the steps that decide it.'
+  params:
+    - desc: 'The channel to check.'
+      name: channel
+      optional: false
+      type: SocketGuildChannel
+    - desc: 'The member or role to check.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'One permission to trace. If null, lists every permission.'
+      name: permission
+      optional: true
+      type: ChannelPermission
+permcheckbot:
+  args:
+    - '[channel] [permission]'
+  desc: 'Shows which permissions the bot has in a channel and which overwrites apply.'
+  params:
+    - desc: 'The channel to check. If null, checks the current channel.'
+      name: channel
+      optional: true
+      type: SocketGuildChannel
+    - desc: 'One permission to trace. If null, lists every permission.'
+      name: permission
+      optional: true
+      type: ChannelPermission
+rolediagnose:
+  args:
+    - '@role'
+    - ''
+  desc: 'Explains why the bot can or cannot assign a role, such as the role being above the bot, managed or missing Manage Roles. With no role, summarizes which roles it can assign.'
+  params:
+    - desc: 'The role to check. If null, gives an overview.'
+      name: role
+      optional: true
+      type: IRole
+channame:
+  args:
+    - '#general new-name'
+  desc: 'Renames a channel or category.'
+  params:
+    - desc: 'The channel to rename.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'The new name.'
+      name: name
+      optional: false
+      type: string
+chantopic:
+  args:
+    - '#general Chat about anything'
+    - '#general'
+  desc: 'Sets the topic of a text or forum channel. Leave the topic out to clear it.'
+  params:
+    - desc: 'The channel.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'The new topic. If null, the topic is cleared.'
+      name: topic
+      optional: true
+      type: string
+channsfw:
+  args:
+    - '#general'
+    - '#general on'
+  desc: 'Turns the age restriction of a text or forum channel on or off. With no value it switches the current setting.'
+  params:
+    - desc: 'The channel.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'on or off. If null, the setting is switched.'
+      name: enabled
+      optional: true
+      type: 'bool?'
+chanbitrate:
+  args:
+    - '#voice 64'
+  desc: 'Sets the bitrate of a voice channel in kbps.'
+  params:
+    - desc: 'The voice channel.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'The bitrate in kbps.'
+      name: kbps
+      optional: false
+      type: int
+chanuserlimit:
+  args:
+    - '#voice 10'
+    - '#voice 0'
+  desc: 'Sets how many members can be in a voice channel. Zero removes the limit.'
+  params:
+    - desc: 'The voice channel.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'The user limit.'
+      name: limit
+      optional: false
+      type: int
+chancategory:
+  args:
+    - '#general Community'
+    - '#general'
+  desc: 'Moves a channel into a category, or out of its category when none is given.'
+  params:
+    - desc: 'The channel.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'The category. If null, the channel leaves its category.'
+      name: category
+      optional: true
+      type: ICategoryChannel
+chanposition:
+  args:
+    - '#general 1'
+  desc: 'Moves a channel to a position in the channel list, counting from 1.'
+  params:
+    - desc: 'The channel.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'The new position.'
+      name: position
+      optional: false
+      type: int
+chansync:
+  args:
+    - '#general'
+  desc: 'Makes the permissions of a channel match its category.'
+  params:
+    - desc: 'The channel.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+chanclone:
+  args:
+    - '#general'
+    - '#general general-2'
+  desc: 'Creates a copy of a channel with the same settings and permissions, right below the original.'
+  params:
+    - desc: 'The channel to copy.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'The name of the copy. If null, the copy keeps the name.'
+      name: name
+      optional: true
+      type: string

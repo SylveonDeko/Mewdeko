@@ -107,7 +107,7 @@ public partial class ServerManagement
                 await Service.StoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
             }
 
-            var check = await Service.LockdownGuild(ctx.Guild, lockdownType, action);
+            var check = await Service.LockdownGuild(ctx.Guild, lockdownType, action, ctx.User);
             if (check.Item1)
             {
                 embed.WithDescription(Strings.LockdownAlreadyEnabled(ctx.Guild.Id, check.Item2))
@@ -169,7 +169,7 @@ public partial class ServerManagement
                 case LockdownType.Joins:
                     if (Service.IsGuildInLockdown(ctx.Guild, LockdownType.Joins))
                     {
-                        await Service.LiftLockdown(ctx.Guild);
+                        await Service.LiftLockdown(ctx.Guild, ctx.User);
                         embed.WithDescription(Strings.LockdownJoinsDisabled(ctx.Guild.Id,
                                 ctx.Guild.Name))
                             .WithColor(Mewdeko.OkColor);
@@ -185,7 +185,7 @@ public partial class ServerManagement
                     break;
 
                 case LockdownType.Readonly:
-                    await Service.LiftLockdown(ctx.Guild);
+                    await Service.LiftLockdown(ctx.Guild, ctx.User);
                     await Service.RestoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
                     embed.WithDescription(Strings.LockdownReadonlyDisabled(ctx.Guild.Id,
                             ctx.Guild.Name))
@@ -194,12 +194,12 @@ public partial class ServerManagement
                     break;
 
                 case LockdownType.Full:
-                    await Service.LiftLockdown(ctx.Guild);
+                    await Service.LiftLockdown(ctx.Guild, ctx.User);
                     await Service.RestoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
                     embed.WithDescription(Strings.LockdownFullDisabled(ctx.Guild.Id, ctx.Guild.Name))
                         .WithColor(Mewdeko.OkColor);
                     await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
-                    await Service.LiftLockdown(ctx.Guild);
+                    await Service.LiftLockdown(ctx.Guild, ctx.User);
                     break;
             }
         }
@@ -298,6 +298,39 @@ public partial class ServerManagement
             var newperms = everyonerole.Permissions.Modify(sendMessages: true);
             await everyonerole.ModifyAsync(x => x.Permissions = newperms).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(Strings.UnlockdownSuccess(ctx.Guild.Id));
+        }
+
+        /// <summary>
+        ///     Adds a channel or category to the lockdown exemptions, or removes it.
+        /// </summary>
+        /// <param name="channel">The channel or category to toggle.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task LockdownExempt([Remainder] IGuildChannel channel)
+        {
+            var added = await Service.ToggleExemptionAsync(ctx.Guild.Id, channel.Id).ConfigureAwait(false);
+            var mention = $"<#{channel.Id}>";
+            await ReplyConfirmAsync(added
+                ? Strings.LockdownExemptAdded(ctx.Guild.Id, mention)
+                : Strings.LockdownExemptRemoved(ctx.Guild.Id, mention)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Lists the channels and categories lockdown never touches.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task LockdownExemptList()
+        {
+            var ids = Service.GetExemptions(ctx.Guild.Id);
+            await ReplyConfirmAsync(ids.Count == 0
+                ? Strings.LockdownExemptNone(ctx.Guild.Id)
+                : Strings.LockdownExemptList(ctx.Guild.Id, string.Join(' ', ids.Select(x => $"<#{x}>"))))
+                .ConfigureAwait(false);
         }
 
         /// <summary>

@@ -90,6 +90,13 @@ public interface IBotCredentials
     public string KickClientSecret { get; }
 
     /// <summary>
+    ///     Gets the RSS bridge url used to read a TikTok account's latest videos, with {username} as the placeholder.
+    ///     For an RSSHub instance this is https://host/tiktok/user/@{username}, including the @. Empty disables TikTok
+    ///     video notifications.
+    /// </summary>
+    public string TikTokRssBridgeUrl { get; }
+
+    /// <summary>
     ///     Gets the token used for voting.
     /// </summary>
     public string VotesToken { get; }

@@ -80,7 +80,7 @@ public partial class SlashCurrency
                 bonus = Math.Min(bonus, config.DailyStreakMaxBonus);
         }
 
-        var total = rewardAmount + bonus;
+        var total = await BoostService.ApplyAsync(ctx.Guild.Id, CurrencyCooldownService.Daily, rewardAmount + bonus);
         var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
 
         await Service.CreditAsync(ctx.User.Id, total, Strings.DailyRewardTransaction(ctx.Guild.Id),

@@ -777,7 +777,7 @@ public class MinecraftService(
         if (status.IsOnline)
         {
             var eb = new EmbedBuilder()
-                .WithOkColor()
+                .WithOkColor(guildId)
                 .WithTitle(strings.McServerStatusTitle(guildId, server.Name, server.Address, server.Port))
                 .AddField(strings.McVersion(guildId), status.Version, true)
                 .AddField(strings.McPlayers(guildId), $"{status.PlayersOnline}/{status.PlayersMax}", true)
@@ -1057,7 +1057,7 @@ public class MinecraftService(
                 : strings.McServerWentOffline(guild.Id, server.Name));
 
         if (isOnline)
-            eb.WithOkColor();
+            eb.WithOkColor(guild.Id);
         else
             eb.WithErrorColor();
 

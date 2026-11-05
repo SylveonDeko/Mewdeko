@@ -85,48 +85,7 @@ public static class SmartEmbed
                 return false;
             }
 
-            if (newEmbed.Embed?.Fields is { Count: > 0 })
-            {
-                foreach (var f in newEmbed.Embed.Fields)
-                {
-                    f.Name = f.Name.TrimTo(256);
-                    f.Value = f.Value.TrimTo(1024);
-                }
-            }
-
-            if (newEmbed.Embeds is not null && newEmbed.Embeds.Any(x => x.Fields is not null))
-            {
-                foreach (var f in newEmbed.Embeds.Select(x => x.Fields).Where(y => y is not null))
-                {
-                    foreach (var ff in f)
-                    {
-                        ff.Name = ff.Name.TrimTo(256);
-                        ff.Value = ff.Value.TrimTo(1024);
-                    }
-                }
-            }
-
-            if (newEmbed is { IsValid: false })
-                return false;
-
-            if (newEmbed.Embed is not null)
-            {
-                embeds = NewEmbed.ToEmbedArray([
-                    newEmbed.Embed
-                ]);
-            }
-            else if (newEmbed.Embeds is not null && newEmbed.Embeds.Any())
-            {
-                embeds = NewEmbed.ToEmbedArray(newEmbed.Embeds);
-            }
-            else
-            {
-                embeds = null;
-            }
-
-            plainText = newEmbed.Content;
-            components = newEmbed.GetComponents(guildId);
-            return true;
+            return TryBuild(newEmbed, guildId, out embeds, out plainText, out components);
         }
         catch (Exception ex)
         {
@@ -136,5 +95,67 @@ public static class SmartEmbed
             components = null;
             return false;
         }
+    }
+
+    /// <summary>
+    ///     Builds Discord embeds, plain text, and components from an already deserialized embed message.
+    /// </summary>
+    /// <param name="newEmbed">The deserialized embed message.</param>
+    /// <param name="guildId">The ID of the guild where the embed is built.</param>
+    /// <param name="embeds">The built embeds, or null when there are none.</param>
+    /// <param name="plainText">The plain text of the message.</param>
+    /// <param name="components">The built components, or null when there are none.</param>
+    /// <param name="useTimestamps">Whether to show the timestamp of each embed.</param>
+    /// <returns><c>true</c> if the message is valid; otherwise, <c>false</c>.</returns>
+    public static bool TryBuild(
+        NewEmbed? newEmbed,
+        ulong? guildId,
+        out Discord.Embed[]? embeds,
+        out string? plainText,
+        out ComponentBuilder? components,
+        bool useTimestamps = false)
+    {
+        embeds = null;
+        plainText = null;
+        components = null;
+
+        if (newEmbed is not { IsValid: true })
+            return false;
+
+        if (newEmbed.Embed?.Fields is { Count: > 0 })
+        {
+            foreach (var f in newEmbed.Embed.Fields)
+            {
+                f.Name = f.Name.TrimTo(256);
+                f.Value = f.Value.TrimTo(1024);
+            }
+        }
+
+        if (newEmbed.Embeds is not null && newEmbed.Embeds.Any(x => x.Fields is not null))
+        {
+            foreach (var f in newEmbed.Embeds.Select(x => x.Fields).Where(y => y is not null))
+            {
+                foreach (var ff in f)
+                {
+                    ff.Name = ff.Name.TrimTo(256);
+                    ff.Value = ff.Value.TrimTo(1024);
+                }
+            }
+        }
+
+        if (newEmbed.Embed is not null)
+        {
+            embeds = NewEmbed.ToEmbedArray([
+                newEmbed.Embed
+            ], useTimestamps);
+        }
+        else if (newEmbed.Embeds is not null && newEmbed.Embeds.Any())
+        {
+            embeds = NewEmbed.ToEmbedArray(newEmbed.Embeds, useTimestamps);
+        }
+
+        plainText = newEmbed.Content;
+        components = newEmbed.GetComponents(guildId);
+        return true;
     }
 }

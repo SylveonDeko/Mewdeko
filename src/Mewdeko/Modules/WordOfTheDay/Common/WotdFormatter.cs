@@ -139,7 +139,7 @@ public static class WotdFormatter
         var title = strings.WotdScheduleTitle(guildId);
 
         return new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guildId)
             .WithTitle(title)
             .AddField(strings.WotdScheduleToday(guildId), todayText)
             .AddField(strings.WotdScheduleWeekdays(guildId), dayText)
@@ -229,7 +229,7 @@ public static class WotdFormatter
         var title = strings.WotdConfigTitle(guildId);
 
         return new EmbedBuilder()
-            .WithOkColor()
+            .WithOkColor(guildId)
             .WithTitle(title)
             .AddField(strings.WotdConfigStatus(guildId), status, true)
             .AddField(strings.WotdConfigChannel(guildId), channel, true)

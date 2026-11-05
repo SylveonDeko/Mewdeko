@@ -290,13 +290,18 @@ public class DataImportService(
                 current.TryGetValue(member.UserId, out var existing);
                 var total = Merge(existing?.TotalXp ?? 0, imported, options.MergeMode);
 
-                snapshot.Add(new SnapshotRow(member.UserId, existing is not null, existing?.TotalXp ?? 0, 0));
+                var bonus = member.BonusXp is { } importedBonus
+                    ? Merge(existing?.BonusXp ?? 0, importedBonus, options.MergeMode)
+                    : existing?.BonusXp ?? 0;
+                // B holds the previous bonus plus one when the import changed it, and 0 when it did not.
+                snapshot.Add(new SnapshotRow(member.UserId, existing is not null, existing?.TotalXp ?? 0,
+                    member.BonusXp is null ? 0 : (existing?.BonusXp ?? 0) + 1));
                 rows.Add(new GuildUserXp
                 {
                     GuildId = guildId,
                     UserId = member.UserId,
                     TotalXp = total,
-                    BonusXp = existing?.BonusXp ?? 0,
+                    BonusXp = bonus,
                     LastActivity = existing?.LastActivity ?? now,
                     NotifyType = existing?.NotifyType ?? (int)XpNotificationType.Channel,
                     LastLevelUp = existing?.LastLevelUp ?? now,
@@ -590,6 +595,8 @@ public class DataImportService(
                 {
                     var row = current[x.U];
                     row.TotalXp = x.A;
+                    if (x.B > 0)
+                        row.BonusXp = x.B - 1;
                     return row;
                 }).ToList();
 

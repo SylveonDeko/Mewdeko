@@ -1,0 +1,188 @@
+stick:
+  args:
+    - 'Read the rules before posting.'
+  desc: 'Sticks a message to the current channel. It returns to the bottom after 5 new messages or 15 seconds, whichever comes first. Accepts several lines or embed json.'
+  params:
+    - desc: 'The message text or embed json.'
+      name: content
+      optional: false
+      type: string
+stickin:
+  args:
+    - '#rules Read the rules before posting.'
+  desc: 'Sticks a message to a channel.'
+  params:
+    - desc: 'The channel to stick the message to.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'The message text or embed json.'
+      name: content
+      optional: false
+      type: string
+stickyedit:
+  args:
+    - '#rules New rules text.'
+  desc: 'Changes the sticky message in a channel.'
+  params:
+    - desc: 'The channel the sticky is in.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'The new message text or embed json.'
+      name: content
+      optional: false
+      type: string
+unstick:
+  args:
+    - ''
+    - '#rules'
+  desc: 'Removes the sticky message from a channel and deletes its last copy.'
+  params:
+    - desc: 'The channel to unstick. Defaults to the current channel.'
+      name: channel
+      optional: true
+      type: ITextChannel
+stickylist:
+  args:
+    - ''
+  desc: 'Lists the sticky messages in the server.'
+  params: []
+stickyclear:
+  args:
+    - ''
+  desc: 'Removes every sticky message in the server.'
+  params: []
+stickyset:
+  args:
+    - '#rules 10 30s'
+  desc: 'Sets after how many new messages or how much time a channel''s sticky returns to the bottom, whichever comes first.'
+  params:
+    - desc: 'The channel the sticky is in.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'How many new messages bring the sticky back, from 1 to 1000.'
+      name: messages
+      optional: false
+      type: int
+    - desc: 'How long after the first new message the sticky comes back, from 5s to 6h.'
+      name: window
+      optional: false
+      type: StoopidTime
+stickytemplatesave:
+  args:
+    - 'rules Read the rules before posting.'
+  desc: 'Saves a sticky template, or replaces the content of one with the same name.'
+  params:
+    - desc: 'The template name.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'The message text or embed json.'
+      name: content
+      optional: false
+      type: string
+stickytemplatelist:
+  args:
+    - ''
+  desc: 'Lists the sticky templates in the server.'
+  params: []
+stickytemplatedelete:
+  args:
+    - 'rules'
+  desc: 'Deletes a sticky template.'
+  params:
+    - desc: 'The template name.'
+      name: name
+      optional: false
+      type: string
+stickytemplateuse:
+  args:
+    - 'rules'
+    - 'rules #rules'
+  desc: 'Sticks a saved template to a channel.'
+  params:
+    - desc: 'The template name.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'The channel to stick it to. Defaults to the current channel.'
+      name: channel
+      optional: true
+      type: ITextChannel
+memberdump:
+  args:
+    - ''
+    - 'role:Staff format:csv'
+    - 'norole:Verified joinedbefore:2025-01-01 type:humans fields:id,name,joined'
+  desc: 'Exports the member list as a text or CSV file. Options are key:value pairs: role, norole, joinedbefore, joinedafter, createdbefore, createdafter (dates are UTC), type (bots or humans), format (txt or csv) and fields (id, name, display, joined, created, roles).'
+  params:
+    - desc: 'The filters and format.'
+      name: options
+      optional: true
+      type: string
+cmdreply:
+  args:
+    - 'help #bot-commands'
+    - 'utility #bot-commands true'
+  desc: 'Sends a command''s or module''s replies to a channel instead of where it was used. Optionally deletes the message that used it.'
+  params:
+    - desc: 'A command, alias or module name.'
+      name: target
+      optional: false
+      type: string
+    - desc: 'The channel replies go to.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Whether to delete the message that used the command.'
+      name: deleteInvoker
+      optional: true
+      type: bool
+cmdreplyremove:
+  args:
+    - 'help'
+  desc: 'Stops sending a command''s or module''s replies to a set channel.'
+  params:
+    - desc: 'A command, alias or module name.'
+      name: target
+      optional: false
+      type: string
+cmdreplylist:
+  args:
+    - ''
+  desc: 'Lists the commands and modules whose replies go to a set channel.'
+  params: []
+configcleanup:
+  args:
+    - ''
+  desc: 'Shows the settings that point at deleted channels or roles without changing anything.'
+  params: []
+configcleanupapply:
+  args:
+    - ''
+  desc: 'Fixes the settings that point at deleted channels or roles.'
+  params: []
+editlink:
+  args:
+    - 'https://discord.com/channels/1/2/3 New text'
+  desc: 'Replaces the text and embeds of a message the bot posted, by message link. Accepts embed json.'
+  params:
+    - desc: 'The link to the bot''s message.'
+      name: messageLink
+      optional: false
+      type: string
+    - desc: 'The new text or embed json.'
+      name: content
+      optional: false
+      type: string
+msgjson:
+  args:
+    - 'https://discord.com/channels/1/2/3'
+  desc: 'Sends the text and embed json of a message the bot posted as a file, ready to edit and apply with editlink.'
+  params:
+    - desc: 'The link to the bot''s message.'
+      name: messageLink
+      optional: false
+      type: string

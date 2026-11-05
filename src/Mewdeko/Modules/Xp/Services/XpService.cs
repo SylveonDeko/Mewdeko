@@ -51,6 +51,11 @@ public partial class XpService : INService, IUnloadableService
     /// </summary>
     public const int MaxVoiceXpPerMinute = 10;
 
+    /// <summary>
+    ///     How many level-ups the log keeps per guild.
+    /// </summary>
+    public const int LevelUpLogSize = 25;
+
     #endregion
 
     #region Fields
@@ -304,6 +309,43 @@ public partial class XpService : INService, IUnloadableService
 
         // Update both database and cache
         await cacheManager.UpdateGuildXpSettingsAsync(settings);
+    }
+
+    /// <summary>
+    ///     Sets which level-ups get announced in a guild.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="interval">Announce every Nth level, 1 for every level.</param>
+    /// <param name="minLevel">Lowest level that gets announced, 0 for no minimum.</param>
+    /// <param name="rewardsOnly">Whether only levels that grant a role reward are announced.</param>
+    public async Task SetLevelUpFiltersAsync(ulong guildId, int? interval = null, int? minLevel = null,
+        bool? rewardsOnly = null)
+    {
+        var settings = await cacheManager.GetGuildXpSettingsAsync(guildId);
+
+        if (interval.HasValue)
+            settings.LevelUpInterval = Math.Max(1, interval.Value);
+        if (minLevel.HasValue)
+            settings.LevelUpMinLevel = Math.Max(0, minLevel.Value);
+        if (rewardsOnly.HasValue)
+            settings.LevelUpRewardsOnly = rewardsOnly.Value;
+
+        await cacheManager.UpdateGuildXpSettingsAsync(settings);
+    }
+
+    /// <summary>
+    ///     Gets the most recent level-ups in a guild, newest first.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>Up to 25 level-up log entries.</returns>
+    public async Task<List<XpLevelUpLog>> GetLevelUpLogAsync(ulong guildId)
+    {
+        await using var db = await DbFactory.CreateConnectionAsync();
+        return await db.XpLevelUpLogs
+            .Where(x => x.GuildId == guildId)
+            .OrderByDescending(x => x.Id)
+            .Take(LevelUpLogSize)
+            .ToListAsync();
     }
 
     /// <summary>

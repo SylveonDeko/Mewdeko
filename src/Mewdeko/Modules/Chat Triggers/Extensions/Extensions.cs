@@ -6,6 +6,7 @@ using AngleSharp.Html.Dom;
 using LinqToDB.Async;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.TriggerPlaceholders;
+using Mewdeko.Modules.Chat_Triggers.Common;
 using Serilog;
 using ChatTrigger = DataModel.ChatTrigger;
 using Embed = Discord.Embed;
@@ -130,7 +131,7 @@ public static class Extensions
     private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
         DiscordShardedClient client, string resolvedTrigger, bool containsAnywhere,
         IDataConnectionFactory? dbFactory = null,
-        int triggerId = 0)
+        int triggerId = 0, bool anonymous = false)
     {
         if (string.IsNullOrWhiteSpace(str)) return str; // Return early if string is empty
 
@@ -187,7 +188,7 @@ public static class Extensions
         }
 
         var rep = new ReplacementBuilder()
-            .WithDefault(ctx.Author, ctx.Channel, guild, client)
+            .WithDefault(anonymous ? client.CurrentUser : ctx.Author, ctx.Channel, guild, client)
             .WithOverride("%target%", () =>
             {
                 var content = ctx.Content ?? "";
@@ -243,7 +244,7 @@ public static class Extensions
         string? response = null)
     {
         return (response ?? cr.Response).ResolveResponseStringAsync(ctx, client,
-            cr.Trigger.ResolveTriggerString(client), containsAnywhere, dbFactory, cr.Id);
+            cr.Trigger.ResolveTriggerString(client), containsAnywhere, dbFactory, cr.Id, cr.Anonymous);
     }
 
 
@@ -275,11 +276,13 @@ public static class Extensions
     {
         var channel = ct.DmResponse
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
-            : ctx.Channel;
+            : await ct.GetReplyChannelAsync(ctx.Channel).ConfigureAwait(false);
 
         var response = await ct.ResolveContextualPlaceholdersAsync(placeholders, client,
-            (ctx.Channel as IGuildChannel)?.Guild, ctx.Channel, ctx.Author,
+            (ctx.Channel as IGuildChannel)?.Guild, ctx.Channel, ct.Anonymous ? client.CurrentUser : ctx.Author,
             ctx.MentionedUserIds.FirstOrDefault(), regexMatch, responseOverride).ConfigureAwait(false);
+
+        var blocks = new TriggerBlockEvaluator(gate: TriggerGateFactory.Create(response, ctx.Channel, ctx.Author));
 
         if (SmartEmbed.TryParse(response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
@@ -307,7 +310,8 @@ public static class Extensions
             var repliedMessage = await GetRepliedMessageAsync(ctx).ConfigureAwait(false);
 
             var rep = new ReplacementBuilder()
-                .WithDefault(ctx.Author, ctx.Channel, (ctx.Channel as ITextChannel)?.Guild as SocketGuild, client)
+                .WithDefault(ct.Anonymous ? client.CurrentUser : ctx.Author, ctx.Channel,
+                    (ctx.Channel as ITextChannel)?.Guild as SocketGuild, client)
                 .WithOverride("%target%", () => canMentionEveryone
                     ? ctx.Content[substringIndex..].Trim()
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
@@ -342,37 +346,95 @@ public static class Extensions
                 .WithOverride("%replied.author%", () => repliedMessage?.Author.Mention ?? "")
                 .Build();
 
-            SmartEmbed.TryParse(rep.Replace(response), ct.GuildId, out crembed, out plainText, out components);
+            var evaluated = blocks.Evaluate(rep.Replace(response));
+            if (blocks.Stopped)
+                return await SendGateStopAsync(ctx.Channel, evaluated).ConfigureAwait(false);
+
+            SmartEmbed.TryParse(evaluated, ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
 
             await ct.SendCrosspostAsync(client, plainText, crembed).ConfigureAwait(false);
 
             if (ct.NoRespond)
+            {
+                await RunBlockCommandsAsync(placeholders, blocks, ctx.Channel, ctx.Author).ConfigureAwait(false);
                 return null;
+            }
 
             var sent = await channel.SendMessageAsync(plainText, embeds: crembed,
                     components: components?.Build(), messageReference: ct.BuildReference(ctx, channel))
                 .ConfigureAwait(false);
 
             ct.QueueResponseDeletion(sent);
+            await RunBlockCommandsAsync(placeholders, blocks, ctx.Channel, ctx.Author).ConfigureAwait(false);
             return sent;
         }
 
-        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere, dbProvider, response)
-                .ConfigureAwait(false))
-            .SanitizeMentions(sanitize);
+        var evaluatedText = blocks.Evaluate(await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere,
+                dbProvider, response)
+            .ConfigureAwait(false));
+        if (blocks.Stopped)
+            return await SendGateStopAsync(ctx.Channel, evaluatedText).ConfigureAwait(false);
+
+        var context = evaluatedText.SanitizeMentions(sanitize);
         await ct.SendCrosspostAsync(client, context).ConfigureAwait(false);
 
         if (ct.NoRespond)
+        {
+            await RunBlockCommandsAsync(placeholders, blocks, ctx.Channel, ctx.Author).ConfigureAwait(false);
             return null;
+        }
 
         var sentMsg = await channel
             .SendMessageAsync(context, messageReference: ct.BuildReference(ctx, channel))
             .ConfigureAwait(false);
 
         ct.QueueResponseDeletion(sentMsg);
+        await RunBlockCommandsAsync(placeholders, blocks, ctx.Channel, ctx.Author).ConfigureAwait(false);
         return sentMsg;
+    }
+
+    /// <summary>
+    ///     Gets the channel a trigger's response goes to when it is not a direct message.
+    /// </summary>
+    /// <param name="ct">The trigger being sent.</param>
+    /// <param name="fired">The channel the trigger fired in.</param>
+    /// <returns>The trigger's reply channel, or the channel it fired in when none is set or it no longer exists.</returns>
+    private static async Task<IMessageChannel> GetReplyChannelAsync(this ChatTrigger ct, IMessageChannel fired)
+    {
+        if (ct.ReplyChannelId == 0 || fired is not IGuildChannel guildChannel)
+            return fired;
+
+        return await guildChannel.Guild.GetTextChannelAsync(ct.ReplyChannelId).ConfigureAwait(false) ?? fired;
+    }
+
+    /// <summary>
+    ///     Tells the member why a <c>{require}</c> or <c>{blacklist}</c> block stopped the trigger.
+    /// </summary>
+    /// <param name="channel">The channel the trigger fired in.</param>
+    /// <param name="message">The message the block carried.</param>
+    /// <returns>The sent message, or null when the block carried no message.</returns>
+    private static async Task<IUserMessage?> SendGateStopAsync(IMessageChannel channel, string? message)
+    {
+        return string.IsNullOrWhiteSpace(message)
+            ? null
+            : await channel.SendMessageAsync(message.SanitizeMentions(true)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Runs the commands a response queued with <c>{cmd:}</c> blocks, as the member that fired the trigger.
+    /// </summary>
+    /// <param name="placeholders">The service that runs the commands, or null to skip them.</param>
+    /// <param name="blocks">The evaluator that holds the queued commands.</param>
+    /// <param name="channel">The channel the trigger fired in.</param>
+    /// <param name="user">The member that fired the trigger.</param>
+    private static Task RunBlockCommandsAsync(TriggerPlaceholderService? placeholders, TriggerBlockEvaluator blocks,
+        IMessageChannel channel, IUser user)
+    {
+        return placeholders is null || blocks.Commands.Count == 0
+            ? Task.CompletedTask
+            : placeholders.RunCommandsAsync((channel as IGuildChannel)?.Guild, channel, user, blocks.Commands);
     }
 
     /// <summary>
@@ -389,7 +451,7 @@ public static class Extensions
     /// </remarks>
     private static MessageReference? BuildReference(this ChatTrigger ct, IUserMessage ctx, IMessageChannel channel)
     {
-        if (!ct.ReplyToTrigger || ct.DmResponse || ctx is MewdekoUserMessage || ctx.Channel?.Id != channel.Id)
+        if (ct.Anonymous || !ct.ReplyToTrigger || ct.DmResponse || ctx is MewdekoUserMessage || ctx.Channel?.Id != channel.Id)
             return null;
 
         return new MessageReference(ctx.Id, channel.Id, failIfNotExists: false);
@@ -445,15 +507,21 @@ public static class Extensions
     ///     Optional: the response to send instead of the trigger's primary response, used when a trigger defines
     ///     several responses.
     /// </param>
+    /// <param name="responder">
+    ///     Optional: the interaction to answer when it is not <paramref name="inter" />, such as the modal a prompt
+    ///     was answered in.
+    /// </param>
     /// <returns>The sent user message or null if no response is required.</returns>
     public static async Task<IUserMessage>? SendInteraction(this ChatTrigger ct,
         SocketInteraction inter,
         DiscordShardedClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false,
         IDataConnectionFactory dbProvider = null, bool followup = false,
-        TriggerPlaceholderService? placeholders = null, string? responseOverride = null)
+        TriggerPlaceholderService? placeholders = null, string? responseOverride = null,
+        SocketInteraction? responder = null)
     {
         await using var dbContext = await dbProvider.CreateConnectionAsync();
 
+        var replyTo = responder ?? inter;
         var interactionTarget = inter switch
         {
             IMessageCommandInteraction mData => mData.Data.Message.Author.Id,
@@ -462,11 +530,12 @@ public static class Extensions
         };
 
         var response = await ct.ResolveContextualPlaceholdersAsync(placeholders, client,
-            (inter.Channel as IGuildChannel)?.Guild, inter.Channel, inter.User, interactionTarget, null,
-            responseOverride).ConfigureAwait(false);
+            (inter.Channel as IGuildChannel)?.Guild, inter.Channel, ct.Anonymous ? client.CurrentUser : inter.User,
+            interactionTarget, null, responseOverride).ConfigureAwait(false);
 
         var rep = new ReplacementBuilder()
-            .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
+            .WithDefault(ct.Anonymous ? client.CurrentUser : inter.User, inter.Channel,
+                (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
             .WithOverride("%target%", () => inter switch
             {
                 IMessageCommandInteraction mData => mData.Data.Message.Content.SanitizeAllMentions(),
@@ -495,29 +564,51 @@ public static class Extensions
                 _ => "%targetuser.avatar%"
             })
             .Build();
+        var blocks = new TriggerBlockEvaluator(gate: TriggerGateFactory.Create(response, inter.Channel, inter.User));
+
         if (SmartEmbed.TryParse(response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
-            SmartEmbed.TryParse(rep.Replace(response), ct.GuildId, out crembed, out plainText, out components);
+            var evaluated = blocks.Evaluate(rep.Replace(response));
+            if (blocks.Stopped)
+                return await SendInteractionStopAsync(replyTo, evaluated, followup).ConfigureAwait(false);
+
+            SmartEmbed.TryParse(evaluated, ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
             await ct.SendCrosspostAsync(client, plainText, crembed, components).ConfigureAwait(false);
 
             if (ct.NoRespond)
+            {
+                await RunBlockCommandsAsync(placeholders, blocks, inter.Channel, inter.User).ConfigureAwait(false);
                 return null;
-            return await SendInteractionResponseAsync(inter, plainText, ephemeral, followup, crembed, components)
-                .ConfigureAwait(false);
+            }
+
+            var sentEmbed = await SendInteractionResponseAsync(replyTo, plainText, ephemeral, followup, crembed,
+                components).ConfigureAwait(false);
+            await RunBlockCommandsAsync(placeholders, blocks, inter.Channel, inter.User).ConfigureAwait(false);
+            return sentEmbed;
         }
 
 
-        var context = rep
+        var evaluatedText = blocks.Evaluate(rep
             .Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere, dbProvider, response)
-                .ConfigureAwait(false))
-            .SanitizeMentions(sanitize);
+                .ConfigureAwait(false)));
+        if (blocks.Stopped)
+            return await SendInteractionStopAsync(replyTo, evaluatedText, followup).ConfigureAwait(false);
+
+        var context = evaluatedText.SanitizeMentions(sanitize);
         await ct.SendCrosspostAsync(client, context).ConfigureAwait(false);
 
         if (ct.NoRespond)
+        {
+            await RunBlockCommandsAsync(placeholders, blocks, inter.Channel, inter.User).ConfigureAwait(false);
             return null;
-        return await SendInteractionResponseAsync(inter, context, ephemeral, followup).ConfigureAwait(false);
+        }
+
+        var sentText = await SendInteractionResponseAsync(replyTo, context, ephemeral, followup)
+            .ConfigureAwait(false);
+        await RunBlockCommandsAsync(placeholders, blocks, inter.Channel, inter.User).ConfigureAwait(false);
+        return sentText;
     }
 
     /// <summary>
@@ -596,6 +687,15 @@ public static class Extensions
         {
             /* ignored */
         }
+    }
+
+    private static async Task<IUserMessage?> SendInteractionStopAsync(SocketInteraction inter, string? message,
+        bool followup)
+    {
+        return string.IsNullOrWhiteSpace(message)
+            ? null
+            : await SendInteractionResponseAsync(inter, message.SanitizeMentions(true), true, followup)
+                .ConfigureAwait(false);
     }
 
     private static async Task<IUserMessage> SendInteractionResponseAsync(SocketInteraction inter, string? plainText,

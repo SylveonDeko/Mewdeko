@@ -676,6 +676,131 @@ public class SlashAchievements(AchievementViewService views, InteractiveService 
         }
 
         /// <summary>
+        ///     Clears every achievement for every member of the server.
+        /// </summary>
+        [SlashCommand("reset-all", "Clears every achievement for every member of this server")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public async Task ResetAll()
+        {
+            if (!await PromptUserConfirmAsync(Strings.AchievementResetAllConfirm(ctx.Guild.Id), ctx.User.Id))
+                return;
+
+            var cleared = await Service.ResetGuildAsync(ctx.Guild.Id);
+            await ConfirmAsync(Strings.AchievementResetAllDone(ctx.Guild.Id, cleared));
+        }
+
+        /// <summary>
+        ///     Clears one achievement for every member of the server.
+        /// </summary>
+        /// <param name="achievement">The achievement.</param>
+        [SlashCommand("reset-achievement", "Clears one achievement for every member of this server")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public async Task ResetAchievement(
+            [Summary("achievement", "The achievement")] [Autocomplete(typeof(AchievementAutocompleter))]
+            string achievement)
+        {
+            var catalog = await Service.GetCatalogAsync(ctx.Guild.Id);
+            if (!catalog.ByKey.TryGetValue(achievement, out var def))
+            {
+                await EphemeralReplyErrorAsync(views.DescribeError(ctx.Guild.Id, AchievementError.NotFound));
+                return;
+            }
+
+            if (!await PromptUserConfirmAsync(Strings.AchievementResetOneConfirm(ctx.Guild.Id, def.Name), ctx.User.Id))
+                return;
+
+            var cleared = await Service.ResetAchievementAsync(ctx.Guild.Id, def.Key);
+            if (cleared is null)
+            {
+                await EphemeralReplyErrorAsync(views.DescribeError(ctx.Guild.Id, AchievementError.NotFound));
+                return;
+            }
+
+            await ConfirmAsync(Strings.AchievementResetOneDone(ctx.Guild.Id, cleared.Value, def.Name));
+        }
+
+        /// <summary>
+        ///     Sets whether members get one DM when they are 75% of the way to an achievement.
+        /// </summary>
+        /// <param name="enabled">True for on, false for off.</param>
+        [SlashCommand("almost-there", "Sends members one DM when they are 75% of the way to an achievement")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public async Task AlmostThere(bool enabled)
+        {
+            await Service.UpdateSettingsAsync(ctx.Guild.Id, row => row.AlmostThereDm = enabled);
+            await ConfirmAsync(enabled
+                ? Strings.AchievementAlmostOn(ctx.Guild.Id)
+                : Strings.AchievementAlmostOff(ctx.Guild.Id));
+        }
+
+        /// <summary>
+        ///     Sets the unlock message of one achievement, or clears it to use the server's.
+        /// </summary>
+        /// <param name="achievement">The achievement.</param>
+        /// <param name="message">Text or embed JSON with placeholders, or nothing to clear.</param>
+        [SlashCommand("unlock-message", "Sets the unlock message of one achievement")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public async Task UnlockMessage(
+            [Summary("achievement", "The achievement")] [Autocomplete(typeof(AchievementAutocompleter))]
+            string achievement,
+            string? message = null)
+        {
+            var result = await Service.SetUnlockMessageAsync((SocketGuild)ctx.Guild, achievement,
+                string.IsNullOrWhiteSpace(message) ? null : message);
+            if (!result.Success)
+            {
+                await EphemeralReplyErrorAsync(views.DescribeError(ctx.Guild.Id, result.Error));
+                return;
+            }
+
+            await ConfirmAsync(string.IsNullOrWhiteSpace(message)
+                ? Strings.AchievementUnlockMessageCleared(ctx.Guild.Id, result.Value!.Name)
+                : Strings.AchievementUnlockMessageSet(ctx.Guild.Id, result.Value!.Name));
+        }
+
+        /// <summary>
+        ///     Makes an achievement unlocked by receiving a role.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="role">The role members have to receive.</param>
+        /// <param name="grade">Bronze to Champion.</param>
+        /// <param name="description">What it takes, or blank to describe the goal.</param>
+        /// <param name="icon">An icon name, a server emoji, or an image link.</param>
+        /// <param name="hidden">Keep it secret until unlocked.</param>
+        [SlashCommand("create-role", "Makes an achievement unlocked by receiving a role")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        [CheckPermissions]
+        public Task CreateRole(string name, IRole role, AchievementGrade grade = AchievementGrade.Bronze,
+            string? description = null,
+            [Summary("icon", "An icon name, a server emoji, or an image link")]
+            [Autocomplete(typeof(AchievementIconAutocompleter))]
+            string? icon = null,
+            bool hidden = false)
+        {
+            return CreateAsync(new CustomAchievementDraft
+            {
+                Name = name,
+                Description = description,
+                Icon = icon,
+                Hidden = hidden,
+                Grade = grade,
+                Trigger = AchievementTrigger.Metric,
+                Metric = AchievementMetric.RoleReceived,
+                Threshold = 1,
+                TargetRoleId = role.Id
+            });
+        }
+
+        /// <summary>
         ///     Makes an achievement unlocked by reaching a number.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -847,6 +972,7 @@ public class SlashAchievements(AchievementViewService views, InteractiveService 
         /// <param name="role">A role to give.</param>
         /// <param name="currency">Currency to give.</param>
         /// <param name="xp">XP to give.</param>
+        /// <param name="takeRole">A role to take away.</param>
         /// <param name="clear">Remove every reward.</param>
         [SlashCommand("reward", "Sets what members get for unlocking an achievement")]
         [RequireContext(ContextType.Guild)]
@@ -858,11 +984,13 @@ public class SlashAchievements(AchievementViewService views, InteractiveService 
             IRole? role = null,
             [MinValue(0)] long? currency = null,
             [MinValue(0)] int? xp = null,
+            IRole? takeRole = null,
             bool clear = false)
         {
             var result = clear
-                ? await Service.SetRewardsAsync((SocketGuild)ctx.Guild, achievement, 0, 0, 0)
-                : await Service.SetRewardsAsync((SocketGuild)ctx.Guild, achievement, role?.Id, currency, xp);
+                ? await Service.SetRewardsAsync((SocketGuild)ctx.Guild, achievement, 0, 0, 0, 0)
+                : await Service.SetRewardsAsync((SocketGuild)ctx.Guild, achievement, role?.Id, currency, xp,
+                    takeRole?.Id);
             if (!result.Success)
             {
                 await EphemeralReplyErrorAsync(views.DescribeError(ctx.Guild.Id, result.Error));
@@ -871,8 +999,11 @@ public class SlashAchievements(AchievementViewService views, InteractiveService 
 
             var updated = result.Value!;
             var roleText = updated.RoleRewardId is { } roleRewardId ? MentionUtils.MentionRole(roleRewardId) : "-";
-            await ConfirmAsync(Strings.AchievementRewardsSet(ctx.Guild.Id, updated.Name, roleText,
-                updated.CurrencyReward.ToString("N0"), updated.XpReward.ToString("N0")));
+            var summary = Strings.AchievementRewardsSet(ctx.Guild.Id, updated.Name, roleText,
+                updated.CurrencyReward.ToString("N0"), updated.XpReward.ToString("N0"));
+            if (updated.RoleRemoveId is { } roleRemoveId)
+                summary += "\n" + Strings.AchievementRewardTakeSet(ctx.Guild.Id, updated.Name, MentionUtils.MentionRole(roleRemoveId));
+            await ConfirmAsync(summary);
         }
 
         /// <summary>

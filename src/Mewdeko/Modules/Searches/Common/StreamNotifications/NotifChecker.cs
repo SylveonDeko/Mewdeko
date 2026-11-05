@@ -56,6 +56,21 @@ public class NotifChecker
             },
             {
                 FType.Kick, new KickProvider(httpClientFactory, credsProvider)
+            },
+            {
+                FType.TikTok, new TikTokProvider(httpClientFactory, credsProvider)
+            },
+            {
+                FType.Bluesky, new BlueskyProvider(httpClientFactory)
+            },
+            {
+                FType.Reddit, new RedditProvider(httpClientFactory)
+            },
+            {
+                FType.Podcast, new PodcastProvider(httpClientFactory)
+            },
+            {
+                FType.YoutubeUploads, new YoutubeUploadsProvider(httpClientFactory)
             }
         };
         offlineBuffer = [];
@@ -72,6 +87,21 @@ public class NotifChecker
     ///     Occurs when streams become online.
     /// </summary>
     public event Func<List<StreamData>, Task> OnStreamsOnline = _ => Task.CompletedTask;
+
+    /// <summary>
+    ///     Occurs on every check of a stream that was live and still is, carrying its latest data.
+    /// </summary>
+    public event Func<List<StreamData>, Task> OnStreamsUpdated = _ => Task.CompletedTask;
+
+    /// <summary>
+    ///     Occurs the first time a stream is checked after being tracked, carrying its current data.
+    /// </summary>
+    public event Func<List<StreamData>, Task> OnStreamsFirstChecked = _ => Task.CompletedTask;
+
+    /// <summary>
+    ///     Occurs when an account posts a new video.
+    /// </summary>
+    public event Func<List<StreamData>, Task> OnVideosPosted = _ => Task.CompletedTask;
 
     /// <summary>
     ///     Gets all streams that have been failing for more than the provided timespan.
@@ -142,6 +172,9 @@ public class NotifChecker
 
                     var newlyOnline = new List<StreamData>();
                     var newlyOffline = new List<StreamData>();
+                    var stillLive = new List<StreamData>();
+                    var newVideos = new List<StreamData>();
+                    var firstChecked = new List<StreamData>();
                     // go through all new stream data, compare them with the old ones
                     foreach (var newData in newStreamData.SelectMany(x => x))
                     {
@@ -154,6 +187,7 @@ public class NotifChecker
                             || oldData is null)
                         {
                             await CacheAddData(cachekey, newData, true);
+                            firstChecked.Add(newData);
                             continue;
                         }
 
@@ -161,8 +195,28 @@ public class NotifChecker
                         if (string.IsNullOrWhiteSpace(newData.Game))
                             newData.Game = oldData.Game;
 
+                        if (string.IsNullOrEmpty(newData.LatestVideoId))
+                        {
+                            newData.LatestVideoId = oldData.LatestVideoId;
+                            newData.LatestVideoUrl = oldData.LatestVideoUrl;
+                            newData.LatestVideoTitle = oldData.LatestVideoTitle;
+                            newData.LatestVideoThumbnail = oldData.LatestVideoThumbnail;
+                            newData.LatestVideoDescription = oldData.LatestVideoDescription;
+                            newData.LatestVideoPublished = oldData.LatestVideoPublished;
+                            newData.LatestVideoMedia = oldData.LatestVideoMedia;
+                        }
+
                         await CacheAddData(cachekey, newData, true);
 
+                        if (!string.IsNullOrEmpty(newData.LatestVideoId)
+                            && !string.IsNullOrEmpty(oldData.LatestVideoId)
+                            && newData.LatestVideoId != oldData.LatestVideoId)
+                        {
+                            newVideos.Add(newData);
+                        }
+
+                        if (newData.IsLive && oldData.IsLive)
+                            stillLive.Add(newData);
 
                         // if the stream is offline, we need to check if it was
                         // marked as offline once previously
@@ -204,6 +258,15 @@ public class NotifChecker
                     {
                         tasks.Add(OnStreamsOffline(newlyOffline));
                     }
+
+                    if (stillLive.Count > 0)
+                        tasks.Add(OnStreamsUpdated(stillLive));
+
+                    if (newVideos.Count > 0)
+                        tasks.Add(OnVideosPosted(newVideos));
+
+                    if (firstChecked.Count > 0)
+                        tasks.Add(OnStreamsFirstChecked(firstChecked));
 
                     await Task.WhenAll(tasks).ConfigureAwait(false);
 
@@ -297,6 +360,36 @@ public class NotifChecker
 
         // if no provider found, return null
         return null;
+    }
+
+    /// <summary>
+    ///     Looks up an account, subreddit, channel or podcast on a specific platform from a URL, handle or name.
+    /// </summary>
+    /// <param name="type">The platform to look on.</param>
+    /// <param name="input">The URL, handle or name to resolve.</param>
+    /// <param name="includeReposts">Whether reposts count as new posts, where the platform has them.</param>
+    /// <returns>The source's data, or null when it could not be found.</returns>
+    public async Task<StreamData?> ResolveAsync(FType type, string input, bool includeReposts)
+    {
+        if (!streamProviders.TryGetValue(type, out var provider))
+            return null;
+
+        return await provider.ResolveAsync(input, includeReposts).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Tells a platform's provider where a followed source is read from.
+    /// </summary>
+    /// <param name="type">The platform.</param>
+    /// <param name="name">The followed name.</param>
+    /// <param name="sourceUrl">The feed URL stored for the source.</param>
+    public void RegisterSource(FType type, string? name, string? sourceUrl)
+    {
+        if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(sourceUrl))
+            return;
+
+        if (streamProviders.TryGetValue(type, out var provider))
+            provider.RegisterSource(name, sourceUrl);
     }
 
     /// <summary>

@@ -203,6 +203,9 @@ anime:
   - anime
   - ani
   - aq
+announcerole:
+  - announcerole
+  - pingrole
 anonrep:
   - anonrep
 antialt:
@@ -273,6 +276,15 @@ autohentai:
 autoplay:
   - autoplay
   - ap
+autopurge:
+  - autopurge
+  - apurge
+autopurgelist:
+  - autopurgelist
+autopurgenow:
+  - autopurgenow
+autopurgeoff:
+  - autopurgeoff
 autotranslang:
   - autotranslang
   - atl
@@ -342,6 +354,24 @@ birthdaychannel:
 birthdayconfig:
   - birthdayconfig
   - bdaycfg
+birthdayhour:
+  - birthdayhour
+  - bdayhour
+birthdayagemessage:
+  - birthdayagemessage
+  - bdayagemsg
+birthdayyearrule:
+  - birthdayyearrule
+  - bdayyear
+birthdayadminset:
+  - birthdayadminset
+  - bdayset
+birthdayadminremove:
+  - birthdayadminremove
+  - bdayremove
+birthdayforget:
+  - birthdayforget
+  - bdayforget
 birthdaylist:
   - birthdaylist
   - bdaylist
@@ -425,6 +455,15 @@ catmdl:
 challengeleaderboard:
   - challengeleaderboard
   - chlb
+chanlock:
+  - chanlock
+  - timedlock
+chanlocks:
+  - chanlocks
+  - lockedchannels
+chanunlock:
+  - chanunlock
+  - timedunlock
 channelaccessapply:
   - channelaccessapply
   - caapply
@@ -541,6 +580,15 @@ clearqueue:
 cmdcooldown:
   - cmdcooldown
   - cmdcd
+cmdreply:
+  - cmdreply
+  - replychannel
+cmdreplylist:
+  - cmdreplylist
+  - replychannels
+cmdreplyremove:
+  - cmdreplyremove
+  - replychannelremove
 coinflip:
   - coinflip
   - flip
@@ -580,6 +628,12 @@ confessionunblacklist:
 config:
   - config
   - conf
+configcleanup:
+  - configcleanup
+  - cleanupconfig
+configcleanupapply:
+  - configcleanupapply
+  - cleanupconfigapply
 coprmonitoradd:
   - coprmonitoradd
   - coprmonadd
@@ -969,9 +1023,40 @@ shopdesc:
   - shopdesc
 shoptoggle:
   - shoptoggle
+shopaddstatic:
+  - shopaddstatic
+shopbuymessage:
+  - shopbuymessage
+  - shopbuymsg
+shopusemessage:
+  - shopusemessage
+  - shopusemsg
+shopuseonbuy:
+  - shopuseonbuy
+shopgive:
+  - shopgive
+shoptake:
+  - shoptake
+shopspawn:
+  - shopspawn
+boostadd:
+  - boostadd
+boostremove:
+  - boostremove
+boosttoggle:
+  - boosttoggle
+boostlist:
+  - boostlist
+  - boosts
 cteventchannel:
   - cteventchannel
   - chattriggereventchannel
+cteventrole:
+  - cteventrole
+  - chattriggereventrole
+ctblocks:
+  - ctblocks
+  - chattriggerblocks
 ctplaceholders:
   - ctplaceholders
   - chattriggerplaceholders
@@ -1056,6 +1141,12 @@ customafkmessage:
 dailychallenge:
   - dailychallenge
   - dc
+dailydice:
+  - dailydice
+  - ddice
+dailydiceboard:
+  - dailydiceboard
+  - ddboard
 dailyreward:
   - dailyreward
   - daily
@@ -1166,6 +1257,9 @@ e621:
   - e621
 edit:
   - edit
+editlink:
+  - editlink
+  - editmsglink
 editchattrigger:
   - editchattrigger
   - ect
@@ -1291,6 +1385,24 @@ glist:
   - glist
   - giveaways
   - giveawaylist
+gdraft:
+  - gdraft
+  - giveawaydraft
+gdrafts:
+  - gdrafts
+  - giveawaydrafts
+gdraftstart:
+  - gdraftstart
+  - giveawaydraftstart
+gdraftdelete:
+  - gdraftdelete
+  - giveawaydraftdelete
+gentries:
+  - gentries
+  - giveawayentries
+gprize:
+  - gprize
+  - giveawayprize
 globalcommand:
   - globalcommand
   - gcmd
@@ -1371,6 +1483,9 @@ hentaibomb:
   - hentaibomb
 hentaigif:
   - hentaigif
+hide:
+  - hide
+  - hidechannel
 highfive:
   - highfive
 highlight:
@@ -1530,6 +1645,18 @@ levelnotif:
 levelupchannel:
   - levelupchannel
   - lvlupchan
+levelupinterval:
+  - levelupinterval
+  - lvlupint
+levelupminlevel:
+  - levelupminlevel
+  - lvlupmin
+leveluprewardsonly:
+  - leveluprewardsonly
+  - lvluprewards
+leveluplog:
+  - leveluplog
+  - lvluplog
 levelupmessages:
   - levelupmessages
   - lvlupmsgs
@@ -1592,6 +1719,12 @@ lock:
 lockdown:
   - lockdown
   - lockdownserver
+lockdownexempt:
+  - lockdownexempt
+  - ldexempt
+lockdownexemptlist:
+  - lockdownexemptlist
+  - ldexemptlist
 log:
   - log
 logcategory:
@@ -1599,12 +1732,28 @@ logcategory:
   - logcat
 logevents:
   - logevents
+logexport:
+  - logexport
+  - lexport
 logignore:
   - logignore
   - lignore
 logignorelist:
   - logignorelist
   - lignorel
+logimport:
+  - logimport
+  - limport
+logprefix:
+  - logprefix
+  - lprefix
+logignorebots:
+  - logignorebots
+  - logbots
+  - lbots
+logsetup:
+  - logsetup
+  - lsetup
 loop:
   - loop
   - queuerepeat
@@ -1648,6 +1797,9 @@ massnickstop:
 maxsuggestionlength:
   - maxsuggestionlength
   - maxsuggestlength
+memberdump:
+  - memberdump
+  - dumpmembers
 memberrole:
   - memberrole
 meme:
@@ -1691,6 +1843,9 @@ movie:
   - movie
   - omdb
   - imdb
+msgjson:
+  - msgjson
+  - messagejson
 multigreetadd:
   - multigreetadd
   - mgadd
@@ -1879,6 +2034,12 @@ patreontop:
   - pttop
 pause:
   - pause
+permcheck:
+  - permcheck
+  - checkperms
+permcheckbot:
+  - permcheckbot
+  - botpermcheck
 permcontrol:
   - permcontrol
   - permc
@@ -1921,6 +2082,16 @@ polltemplate:
 polltemplates:
   - polltemplates
   - ptemplates
+pollmaxvotes:
+  - pollmaxvotes
+  - pmaxvotes
+pollblockrole:
+  - pollblockrole
+  - pblockrole
+pollresultsmessage:
+  - pollresultsmessage
+  - pollresults
+  - presults
 porn:
   - porn
 pornbomb:
@@ -1929,6 +2100,17 @@ pout:
   - pout
 prefixcommand:
   - prefix
+slashdiagnose:
+  - slashdiagnose
+  - slashdiag
+slashresync:
+  - slashresync
+servercolor:
+  - servercolor
+  - guildcolor
+previous:
+  - previous
+  - prev
 previewlinks:
   - previewlinks
   - plinks
@@ -1950,6 +2132,10 @@ purge:
   - purge
   - clear
   - prune
+purgereactions:
+  - purgereactions
+  - clearreactions
+  - prunereactions
 purgeuser:
   - purgeuser
   - pruneuser
@@ -2048,6 +2234,61 @@ remindlist:
   - remindlist
   - remindl
   - remindlst
+remindrepeat:
+  - remindrepeat
+  - remindrep
+remindsubscribe:
+  - remindsubscribe
+  - remindsub
+remindunsubscribe:
+  - remindunsubscribe
+  - remindunsub
+youngestaccounts:
+  - youngestaccounts
+  - youngest
+oldestaccounts:
+  - oldestaccounts
+  - oldest
+latestjoiners:
+  - latestjoiners
+  - newusers
+earliestjoiners:
+  - earliestjoiners
+  - oldusers
+fancy:
+  - fancy
+boldfancy:
+  - boldfancy
+fraktur:
+  - fraktur
+boldfraktur:
+  - boldfraktur
+freegamealert:
+  - freegamealert
+  - freegames
+freegameremove:
+  - freegameremove
+  - freegamestop
+freegamelist:
+  - freegamelist
+  - freegamechannels
+freegamesnow:
+  - freegamesnow
+  - freenow
+freegamestores:
+  - freegamestores
+doublestruck:
+  - doublestruck
+smallcaps:
+  - smallcaps
+aesthetic:
+  - aesthetic
+clap:
+  - clap
+spaceout:
+  - spaceout
+emojify:
+  - emojify
 removeaddroles:
   - removeaddroles
   - remar
@@ -2237,6 +2478,10 @@ repeatlist:
 repeatmessage:
   - repeatmessage
   - repmsg
+repeatpingrole:
+  - repeatpingrole
+  - reppingrole
+  - repping
 repeatpriority:
   - repeatpriority
   - reppriority
@@ -2417,6 +2662,10 @@ rolecmd:
 rolecolor:
   - rolecolor
   - roleclr
+rolediagnose:
+  - rolediagnose
+  - diagnoserole
+  - whycantassign
 rolegreetadd:
   - rolegreetadd
   - rgadd
@@ -2843,6 +3092,28 @@ starboardallowbots:
   - starbots
   - starbotsallow
   - starbab
+starboardselfstar:
+  - starboardselfstar
+  - starself
+starboardnsfw:
+  - starboardnsfw
+  - starnsfw
+starboardlock:
+  - starboardlock
+  - starlock
+starboardunlock:
+  - starboardunlock
+  - starunlock
+starboardautostar:
+  - starboardautostar
+  - starautostar
+  - autostar
+starboardjump:
+  - starboardjump
+  - starjump
+starboardrandom:
+  - starboardrandom
+  - starrandom
 starboardchtoggle:
   - starboardchtoggle
   - starboardchannel
@@ -2877,6 +3148,50 @@ starboardwlmode:
   - starboardmode
   - starboardwhitelist
   - swm
+starboarddesign:
+  - starboarddesign
+  - stardesign
+starboarddesignreset:
+  - starboarddesignreset
+  - stardesignreset
+starboarddesigntest:
+  - starboarddesigntest
+  - stardesigntest
+  - starpreview
+starboardplaceholders:
+  - starboardplaceholders
+  - starplaceholders
+starboardautoreactmode:
+  - starboardautoreact
+  - starreact
+starboardmultireact:
+  - starboardmultireact
+  - starmulti
+starboardallowrole:
+  - starboardallowrole
+  - starallowrole
+starboarddenyrole:
+  - starboarddenyrole
+  - stardenyrole
+starboardminage:
+  - starboardminage
+  - starminage
+starboardmaxage:
+  - starboardmaxage
+  - starmaxage
+starboardrepostcooldown:
+  - starboardrepostcooldown
+  - starcooldown
+starboardremoveinvalid:
+  - starboardremoveinvalid
+  - starinvalid
+starboardenabled:
+  - starboardenabled
+  - starenabled
+starboardsetup:
+  - starboardsetup
+  - starsetup
+  - createstarboardchannel
 stare:
   - stare
 startupcommandadd:
@@ -2907,6 +3222,36 @@ stfu:
   - stfu
   - cmute
   - channelmute
+stick:
+  - stick
+  - stickmsg
+stickin:
+  - stickin
+  - stickmsgin
+stickyclear:
+  - stickyclear
+  - stickiesclear
+stickyedit:
+  - stickyedit
+  - stickedit
+stickylist:
+  - stickylist
+  - stickies
+stickyset:
+  - stickyset
+  - stickset
+stickytemplatedelete:
+  - stickytemplatedelete
+  - stickytdelete
+stickytemplatelist:
+  - stickytemplatelist
+  - stickytlist
+stickytemplatesave:
+  - stickytemplatesave
+  - stickytsave
+stickytemplateuse:
+  - stickytemplateuse
+  - stickytuse
 stopjob:
   - sj
   - stopjob
@@ -2917,6 +3262,20 @@ streamadd:
 streamcheck:
   - streamcheck
   - stc
+streamdeleteonend:
+  - streamdeleteonend
+  - stdeleteonend
+  - stdoe
+streamsocial:
+  - streamsocial
+  - stsocial
+podcastsearch:
+  - podcastsearch
+  - podsearch
+streamlivemessage:
+  - streamlivemessage
+  - stlive
+  - stlm
 streamlist:
   - streamlist
   - stl
@@ -2954,6 +3313,10 @@ streamtemplate:
   - streamtemplate
   - stt
   - sttemplate
+streamvideomessage:
+  - streamvideomessage
+  - stvmsg
+  - stvm
 stringsreload:
   - stringsreload
 sudo:
@@ -2962,6 +3325,9 @@ sudo:
 suggest:
   - suggest
   - suggestion
+suggestanonymous:
+  - suggestanonymous
+  - anonsuggest
 suggestbuttonchannel:
   - suggestbuttonchannel
 suggestbuttoncolor:
@@ -2983,6 +3349,9 @@ suggestinfo:
 suggestmessage:
   - suggestmessage
   - suggestmsg
+suggestvotecolor:
+  - suggestvotecolor
+  - votecolor
 suggestmotecolor:
   - suggestmotecolor
 suggestmotes:
@@ -2994,6 +3363,9 @@ suggestmotesmode:
 suggestthreadstype:
   - suggestthreadstype
   - suggestthreads
+suggestwho:
+  - suggestwho
+  - sugwho
 symbolic:
   - sym
   - symbolicmath
@@ -3041,6 +3413,24 @@ ticketarchive:
 ticketarchivecategory:
   - ticketarchivecategory
   - tarchivecat
+ticketclaimedcategory:
+  - ticketclaimedcategory
+  - tclaimedcat
+ticketoptionclaimedcategory:
+  - ticketoptionclaimedcategory
+  - toptclaimedcat
+ticketoptiondmtranscript:
+  - ticketoptiondmtranscript
+  - toptdmtranscript
+ticketdmtranscript:
+  - ticketdmtranscript
+  - tdmtranscript
+ticketpaneldmtranscript:
+  - ticketpaneldmtranscript
+  - tpaneldmtranscript
+ticketserverdmtranscript:
+  - ticketserverdmtranscript
+  - tserverdmtranscript
 ticketthreadchannel:
   - ticketthreadchannel
   - tthreadchannel
@@ -3366,6 +3756,9 @@ unban:
 undeafen:
   - undeafen
   - undef
+unhide:
+  - unhide
+  - unhidechannel
 unlock:
   - unlock
   - channelunlock
@@ -3378,6 +3771,9 @@ unmute:
 unmuteall:
   - unmuteall
   - umall
+unstick:
+  - unstick
+  - stickyremove
 unstfu:
   - unstfu
   - unchannelmute
@@ -3487,6 +3883,30 @@ voicedeny:
   - denyuser
   - vdeny
   - removeuser
+voicehide:
+  - voicehide
+  - vchide
+  - hidevoice
+voicereveal:
+  - voicereveal
+  - vcreveal
+  - revealvoice
+voicekick:
+  - voicekick
+  - vckick
+  - kickvoice
+voicehubs:
+  - voicehubs
+  - vchubs
+voicehubadd:
+  - voicehubadd
+  - vchubadd
+voicehubremove:
+  - voicehubremove
+  - vchubremove
+voicehubconfig:
+  - voicehubconfig
+  - vchubconfig
 voicekeepalive:
   - voicekeepalive
   - vckeepalive
@@ -3558,6 +3978,15 @@ voicetransfer:
   - transfervoice
   - vtransfer
   - givevc
+voicetextlink:
+  - voicetextlink
+  - vtlink
+voicetextlinks:
+  - voicetextlinks
+  - vtlinks
+voicetextunlink:
+  - voicetextunlink
+  - vtunlink
 voiceunlock:
   - voiceunlock
   - vcunlock
@@ -3611,6 +4040,9 @@ warn:
 warnclear:
   - warnclear
   - warnc
+warnclearall:
+  - warnclearall
+  - warncall
 warnexpire:
   - warnexpire
   - warne
@@ -3624,6 +4056,37 @@ warnpunish:
 warnpunishlist:
   - warnpunishlist
   - warnpl
+case:
+  - case
+cases:
+  - cases
+casereason:
+  - casereason
+  - casereas
+casedelete:
+  - casedelete
+  - casedel
+caseexport:
+  - caseexport
+modstats:
+  - modstats
+  - modleaderboard
+modcaselog:
+  - modcaselog
+note:
+  - note
+notes:
+  - notes
+noteremove:
+  - noteremove
+  - notedel
+noteclear:
+  - noteclear
+report:
+  - report
+reportlog:
+  - reportlog
+  - setreport
 wave:
   - wave
 weather:
@@ -3727,6 +4190,17 @@ wowjoke:
   - wowjoke
 xkcd:
   - xkcd
+exportxp:
+  - exportxp
+  - xpexport
+xpbackground:
+  - xpbackground
+  - xpbg
+  - rankbg
+xpserverbackground:
+  - xpserverbackground
+  - xpserverbg
+  - serverrankbg
 xpboost:
   - xpboost
 xpboosts:
@@ -3980,6 +4454,24 @@ invitelabelremove:
   - unlabelinvite
 invitelabels:
   - invitelabels
+inviteroleadd:
+  - inviteroleadd
+  - invroleadd
+inviteroleremove:
+  - inviteroleremove
+  - invroleremove
+inviteroles:
+  - inviteroles
+  - invroles
+inviterolemode:
+  - inviterolemode
+  - invrolemode
+inviteroledrop:
+  - inviteroledrop
+  - invroledrop
+inviterolesync:
+  - inviterolesync
+  - invrolesync
 inviteexport:
   - inviteexport
   - exportinvites
@@ -4142,6 +4634,9 @@ rolemenucreate:
   - rolemenucreate
   - rmenucreate
   - rolemenunew
+rolemenuusetemplate:
+  - rolemenuusetemplate
+  - rmenutemplate
 rolemenuadd:
   - rolemenuadd
   - rmenuadd
@@ -4185,6 +4680,44 @@ rolemenudelete:
 rolemenuimport:
   - rolemenuimport
   - rmenuimport
+rolemenutemp:
+  - rolemenutemp
+  - rmenutemp
+rolemenuroletemp:
+  - rolemenuroletemp
+  - rmenuroletemp
+rolemenucap:
+  - rolemenucap
+  - rmenucap
+rolemenublock:
+  - rolemenublock
+  - rmenublock
+rolemenuexpire:
+  - rolemenuexpire
+  - rmenuexpire
+rolemenugroup:
+  - rolemenugroup
+  - rmenugroup
+rolemenugroupmax:
+  - rolemenugroupmax
+  - rmenugroupmax
+rolemenugroupdelete:
+  - rolemenugroupdelete
+  - rmenugroupdelete
+  - rmenugroupdel
+rolemenugroups:
+  - rolemenugroups
+  - rmenugroups
+rolemenucolor:
+  - rolemenucolor
+  - rolemenucolour
+  - rmenucolor
+rolemenubuttonstyle:
+  - rolemenubuttonstyle
+  - rmenubuttonstyle
+rolemenuchannel:
+  - rolemenuchannel
+  - rmenuchannel
 achoverview:
   - achievements
   - achoverview
@@ -4264,6 +4797,15 @@ achrevoke:
   - achrevoke
 achreset:
   - achreset
+achresetall:
+  - achresetall
+achresetone:
+  - achresetone
+achalmostthere:
+  - achalmostthere
+achunlockmessage:
+  - achunlockmessage
+  - achum
 achcreate:
   - achcreate
 achcreatephrase:
@@ -4272,6 +4814,8 @@ achcreatereaction:
   - achcreatereaction
 achcreatemanual:
   - achcreatemanual
+achcreaterole:
+  - achcreaterole
 achdelete:
   - achdelete
 achrewardrole:
@@ -4282,6 +4826,8 @@ achrewardxp:
   - achrewardxp
 achrewardclear:
   - achrewardclear
+achrewardtakerole:
+  - achrewardtakerole
 achexcluderole:
   - achexcluderole
 achexcludechannel:
@@ -4301,3 +4847,283 @@ bridgecommand:
 joinroletimeout:
   - joinroletimeout
   - jrt
+automod:
+  - automod
+  - amod
+automodcaps:
+  - automodcaps
+  - amcaps
+  - capsfilter
+automodattachments:
+  - automodattachments
+  - amatt
+automodmedia:
+  - automodmedia
+  - ammedia
+  - mediaonly
+automodmediachannel:
+  - automodmediachannel
+  - ammc
+automodmediathreads:
+  - automodmediathreads
+  - amthreads
+automodfiles:
+  - automodfiles
+  - amfiles
+  - unsafefiles
+automodfiletype:
+  - automodfiletype
+  - amtype
+automodduration:
+  - automodduration
+  - amduration
+automodmessage:
+  - automodmessage
+  - ammsg
+automodexempt:
+  - automodexempt
+  - amexempt
+protectionoptions:
+  - protectionoptions
+  - popt
+protectionexempt:
+  - protectionexempt
+  - pexempt
+automodlog:
+  - automodlog
+  - amlog
+automodreview:
+  - automodreview
+  - amreview
+automodserverexempt:
+  - automodserverexempt
+  - amserverexempt
+automodimageonly:
+  - automodimageonly
+  - amimage
+  - imageonly
+automodimagechannel:
+  - automodimagechannel
+  - amimgc
+automodvideoonly:
+  - automodvideoonly
+  - amvideo
+  - videoonly
+automodvideochannel:
+  - automodvideochannel
+  - amvidc
+automodcommandsonly:
+  - automodcommandsonly
+  - amcmdonly
+  - commandsonly
+automodcommandschannel:
+  - automodcommandschannel
+  - amcmdc
+automodemoji:
+  - automodemoji
+  - amemoji
+  - emojispam
+automodspoilers:
+  - automodspoilers
+  - amspoilers
+  - spoilerspam
+automodzalgo:
+  - automodzalgo
+  - amzalgo
+  - zalgofilter
+filternormalize:
+  - filternormalize
+  - fnorm
+filterinvnoroles:
+  - filterinvnoroles
+  - finr
+filterlinnoroles:
+  - filterlinnoroles
+  - flnr
+linklimit:
+  - linklimit
+  - linklim
+filterlinkallow:
+  - filterlinkallow
+  - flallow
+filterlinkblock:
+  - filterlinkblock
+  - flblock
+filterlinkdomains:
+  - filterlinkdomains
+  - fldomains
+autoreact:
+  - autoreact
+  - areact
+automodlist:
+  - automodlist
+  - amlist
+automodcreate:
+  - automodcreate
+  - amcreate
+automodedit:
+  - automodedit
+  - amedit
+automoddelete:
+  - automoddelete
+  - amdelete
+automodfollowup:
+  - automodfollowup
+  - amfollow
+backupcreate:
+  - backupcreate
+  - bkcreate
+backuplist:
+  - backuplist
+  - bklist
+backupinfo:
+  - backupinfo
+  - bkinfo
+backupdelete:
+  - backupdelete
+  - bkdelete
+backuprestore:
+  - backuprestore
+  - bkrestore
+reasonalias:
+  - reasonalias
+  - rsnalias
+reasonaliaslist:
+  - reasonaliaslist
+  - rsnaliases
+reasonaliasremove:
+  - reasonaliasremove
+  - rsnaliasdel
+punishdm:
+  - punishdm
+  - pdm
+punishdmlist:
+  - punishdmlist
+  - pdmlist
+punishdmreset:
+  - punishdmreset
+  - pdmreset
+hardmute:
+  - hardmute
+  - hmute
+ctstaff:
+  - ctstaff
+  - chattriggerstaff
+ctnsfw:
+  - ctnsfw
+  - chattriggernsfw
+ctchannels:
+  - ctchannels
+  - chattriggerchannels
+ctdenychannels:
+  - ctdenychannels
+  - chattriggerdenychannels
+ctdenyroles:
+  - ctdenyroles
+  - chattriggerdenyroles
+ctanonymous:
+  - ctanonymous
+  - chattriggeranonymous
+ctreplychannel:
+  - ctreplychannel
+  - chattriggerreplychannel
+ctprompt:
+  - ctprompt
+  - chattriggerprompt
+ctprompttime:
+  - ctprompttime
+  - chattriggerprompttime
+ctmembers:
+  - ctmembers
+  - chattriggermembers
+ctmemberadd:
+  - ctmemberadd
+  - ctmadd
+ctmemberedit:
+  - ctmemberedit
+  - ctmedit
+ctmemberdelete:
+  - ctmemberdelete
+  - ctmdelete
+ctmine:
+  - ctmine
+  - chattriggermine
+ctclaim:
+  - ctclaim
+  - chattriggerclaim
+ctraw:
+  - ctraw
+  - chattriggerraw
+ctshare:
+  - ctshare
+  - chattriggershare
+ctshareimport:
+  - ctshareimport
+  - chattriggershareimport
+channame:
+  - channame
+chantopic:
+  - chantopic
+channsfw:
+  - channsfw
+chanbitrate:
+  - chanbitrate
+chanuserlimit:
+  - chanuserlimit
+  - chanlimit
+chancategory:
+  - chancategory
+  - chanmove
+chanposition:
+  - chanposition
+  - chanpos
+chansync:
+  - chansync
+chanclone:
+  - chanclone
+  - clonechan
+templatesave:
+  - templatesave
+  - tmplsave
+templatelist:
+  - templatelist
+  - tmpllist
+templatedelete:
+  - templatedelete
+  - tmpldelete
+templateapply:
+  - templateapply
+  - tmplapply
+automationlist:
+  - automations
+automationshow:
+  - automationshow
+automationenable:
+  - automationenable
+automationdisable:
+  - automationdisable
+automationdelete:
+  - automationdelete
+automationtest:
+  - automationtest
+automationlog:
+  - automationlog
+automationtemplates:
+  - automationtemplates
+automationtemplate:
+  - automationtemplate
+verificationgate:
+  - verification
+  - verify
+  - vgate
+welcomecard:
+  - welcomecard
+  - wcard
+welcomecardpreview:
+  - welcomecardpreview
+  - wcardpreview
+  - wcp
+backgroundpresets:
+  - backgroundpresets
+  - bgpresets
+  - cardbackgrounds

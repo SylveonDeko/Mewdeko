@@ -58,7 +58,7 @@ public class Bridge(GuildSettingsService guildSettings) : MewdekoSubmodule<Bridg
                     await ReplyErrorAsync(ErrorText(error));
                 else
                     await ReplyConfirmAsync(Strings.BridgeLinked(guildId, linked.RemoteChannelName,
-                        linked.RemoteGuildName, "Fluxer"));
+                        linked.RemoteGuildName, BridgeSettings.PlatformLabel(BridgeProtocol.Fluxer)));
                 break;
             }
             case "list":
