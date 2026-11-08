@@ -19,7 +19,7 @@
   "invite_link_channel_cleared": "個人用の招待リンクは今後システムチャンネルを指すようになります。",
   "invite_log_channel_set": "参加と退出の帰属は {0} に記録されます。",
   "invite_log_channel_cleared": "招待のログ記録を無効にしました。",
-  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** 件の招待（✅ {3} · 🚪 {4} · ⚠️ {5} · 🎁 {6}）",
+  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** 件の招待（✅ {3},🚪 {4},⚠️ {5},🎁 {6}）",
   "invite_stats_title": "成長分析（{0}）",
   "invite_stats_joins": "参加",
   "invite_stats_leaves": "退出",

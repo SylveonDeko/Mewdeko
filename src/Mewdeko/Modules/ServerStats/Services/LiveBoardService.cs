@@ -413,7 +413,7 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
                     .WithDescription(rows.Count == 0
                         ? strings.NoInviteData(guild.Id)
                         : string.Join("\n", rows.Select((x, i) =>
-                            $"`{i + 1}.` <@{x.UserId}>: **{x.Total}** (✅ {x.Regular} · 🚪 {x.Left} · ⚠️ {x.Fake})")))
+                            $"`{i + 1}.` <@{x.UserId}>: **{x.Total}** (✅ {x.Regular},🚪 {x.Left},⚠️ {x.Fake})")))
                     .WithFooter(footer).WithCurrentTimestamp();
                 return (eb.Build(), null);
             }

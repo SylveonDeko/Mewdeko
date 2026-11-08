@@ -744,9 +744,9 @@ public sealed partial class AnalyticsAlertService : INService, IReadyExecutor, I
 
         var title = notification.Kind switch
         {
-            "test" => $"{SeverityEmoji(rule.Severity)} TEST · {rule.Name}",
-            "resolved" => $"✅ RESOLVED · {rule.Name}",
-            _ => $"{SeverityEmoji(rule.Severity)} {rule.Severity.ToUpperInvariant()} · {rule.Name}"
+            "test" => $"{SeverityEmoji(rule.Severity)} TEST,{rule.Name}",
+            "resolved" => $"✅ RESOLVED,{rule.Name}",
+            _ => $"{SeverityEmoji(rule.Severity)} {rule.Severity.ToUpperInvariant()},{rule.Name}"
         };
         var color = resolved
             ? 0x4ADE80
@@ -799,7 +799,7 @@ public sealed partial class AnalyticsAlertService : INService, IReadyExecutor, I
                     color,
                     footer = new
                     {
-                        text = $"{rule.Metric} · rule #{rule.Id}"
+                        text = $"{rule.Metric},rule #{rule.Id}"
                     },
                     timestamp = DateTime.UtcNow.ToString("o")
                 }

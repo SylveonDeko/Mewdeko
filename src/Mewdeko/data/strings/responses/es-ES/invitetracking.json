@@ -19,7 +19,7 @@
   "invite_link_channel_cleared": "Los enlaces de invitación personales ahora apuntarán al canal del sistema.",
   "invite_log_channel_set": "La atribución de entradas y salidas se registrará en {0}.",
   "invite_log_channel_cleared": "El registro de invitaciones ha sido desactivado.",
-  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** invitaciones (✅ {3} · 🚪 {4} · ⚠️ {5} · 🎁 {6})",
+  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** invitaciones (✅ {3},🚪 {4},⚠️ {5},🎁 {6})",
   "invite_stats_title": "Análisis de crecimiento ({0})",
   "invite_stats_joins": "Entradas",
   "invite_stats_leaves": "Salidas",

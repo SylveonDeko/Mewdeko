@@ -19,7 +19,7 @@
   "invite_link_channel_cleared": "Les liens d'invitation personnels pointeront désormais vers le salon système.",
   "invite_log_channel_set": "Les arrivées et départs seront journalisés dans {0}.",
   "invite_log_channel_cleared": "La journalisation des invitations a été désactivée.",
-  "invite_leaderboard_entry": "`{0}.` **{1}** : **{2}** invitations (✅ {3} · 🚪 {4} · ⚠️ {5} · 🎁 {6})",
+  "invite_leaderboard_entry": "`{0}.` **{1}** : **{2}** invitations (✅ {3},🚪 {4},⚠️ {5},🎁 {6})",
   "invite_stats_title": "Analyse de la croissance ({0})",
   "invite_stats_joins": "Arrivées",
   "invite_stats_leaves": "Départs",

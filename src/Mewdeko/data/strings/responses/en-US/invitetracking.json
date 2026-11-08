@@ -19,7 +19,7 @@
   "invite_link_channel_cleared": "Personal invite links will now point at the system channel.",
   "invite_log_channel_set": "Join and leave attribution will be logged in {0}.",
   "invite_log_channel_cleared": "Invite logging has been disabled.",
-  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** invites (✅ {3} · 🚪 {4} · ⚠️ {5} · 🎁 {6})",
+  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** invites (✅ {3},🚪 {4},⚠️ {5},🎁 {6})",
   "invite_stats_title": "Growth Analytics ({0})",
   "invite_stats_joins": "Joins",
   "invite_stats_leaves": "Leaves",

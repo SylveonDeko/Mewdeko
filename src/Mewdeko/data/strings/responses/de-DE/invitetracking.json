@@ -19,7 +19,7 @@
   "invite_link_channel_cleared": "Persönliche Einladungslinks verweisen jetzt auf den Systemkanal.",
   "invite_log_channel_set": "Beitritte und Austritte werden in {0} protokolliert.",
   "invite_log_channel_cleared": "Einladungsprotokollierung wurde deaktiviert.",
-  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** Einladungen (✅ {3} · 🚪 {4} · ⚠️ {5} · 🎁 {6})",
+  "invite_leaderboard_entry": "`{0}.` **{1}**: **{2}** Einladungen (✅ {3},🚪 {4},⚠️ {5},🎁 {6})",
   "invite_stats_title": "Wachstumsanalyse ({0})",
   "invite_stats_joins": "Beitritte",
   "invite_stats_leaves": "Austritte",

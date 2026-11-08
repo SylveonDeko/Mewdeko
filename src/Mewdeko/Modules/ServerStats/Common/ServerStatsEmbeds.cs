@@ -73,7 +73,7 @@ public static class ServerStatsEmbeds
         var total = rows.Sum(x => x.Seconds);
         eb.WithDescription(string.Join("\n", rows.Select((x, i) =>
             $"`{i + 1}.` {TypeIcon(x.Type)} **{x.Name}**: {ServerStatsService.FormatDuration(x.Seconds)}" +
-            (user == null ? $" · {x.Players} {(x.Players == 1 ? "player" : "players")}" : "") +
+            (user == null ? $",{x.Players} {(x.Players == 1 ? "player" : "players")}" : "") +
             (total > 0 ? $" ({x.Seconds * 100.0 / total:F0}%)" : ""))));
         return eb;
     }

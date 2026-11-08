@@ -190,7 +190,7 @@ public sealed class AnalyticsDigestService : INService, IReadyExecutor, IDisposa
             .ToListAsync().ConfigureAwait(false);
 
         var builder = new StringBuilder();
-        builder.Append("## Weekly analytics digest · ").Append(from.ToString("yyyy-MM-dd")).Append(" to ")
+        builder.Append("## Weekly analytics digest,").Append(from.ToString("yyyy-MM-dd")).Append(" to ")
             .Append(today.ToString("yyyy-MM-dd")).Append(" UTC\n```\n");
 
         Line(builder, "Guilds", guildsNow, guildsThen);
