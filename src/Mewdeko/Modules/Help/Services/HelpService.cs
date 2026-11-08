@@ -48,6 +48,7 @@ public class HelpService : INService, IReadyExecutor
             ["WelcomeCards"] = "serversetup",
             ["Verification"] = "serversetup",
             ["RoleGreets"] = "serversetup",
+            ["Automations"] = "serversetup",
             ["Starboard"] = "serversetup",
             ["Bridge"] = "serversetup",
             ["StatChannels"] = "serversetup",
