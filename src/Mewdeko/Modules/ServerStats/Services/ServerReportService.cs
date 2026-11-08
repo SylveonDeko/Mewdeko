@@ -27,6 +27,7 @@ public class ServerReportService : INService, IReadyExecutor, IDisposable
     private readonly ServerStatsService stats;
     private readonly GeneratedBotStrings strings;
     private readonly SemaphoreSlim tickLock = new(1, 1);
+    private readonly GuildOwnershipService ownership;
     private Timer? tickTimer;
 
     /// <summary>
@@ -40,8 +41,9 @@ public class ServerReportService : INService, IReadyExecutor, IDisposable
     /// <param name="logger">The logger instance for structured logging.</param>
     public ServerReportService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         ServerStatsService stats, InviteCountService invites, GeneratedBotStrings strings,
-        ILogger<ServerReportService> logger)
+        ILogger<ServerReportService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.stats = stats;
@@ -121,7 +123,7 @@ public class ServerReportService : INService, IReadyExecutor, IDisposable
 
             foreach (var settings in enabled)
             {
-                if (!IsDue(settings, now))
+                if (!ownership.IsMine(settings.GuildId) || !IsDue(settings, now))
                     continue;
 
                 var guild = client.GetGuild(settings.GuildId);

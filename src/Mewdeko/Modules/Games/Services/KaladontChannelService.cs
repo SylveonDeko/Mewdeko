@@ -22,6 +22,7 @@ public class KaladontChannelService : INService, IReadyExecutor
     private readonly EventHandler eventHandler;
     private readonly GamesService gamesService;
     private readonly ILogger<KaladontChannelService> logger;
+    private readonly GuildOwnershipService ownership;
 
     // Active persistent games by channel ID
     private readonly System.Collections.Concurrent.ConcurrentDictionary<ulong, PersistentKaladontGame> persistentGames =
@@ -39,8 +40,10 @@ public class KaladontChannelService : INService, IReadyExecutor
         IMemoryCache cache,
         EventHandler eventHandler,
         DiscordShardedClient client,
-        GeneratedBotStrings strings)
+        GeneratedBotStrings strings,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.gamesService = gamesService;
         this.logger = logger;
@@ -65,7 +68,7 @@ public class KaladontChannelService : INService, IReadyExecutor
             .Where(x => x.IsActive)
             .ToListAsync();
 
-        foreach (var channel in channels)
+        foreach (var channel in channels.Where(x => ownership.IsMine(x.GuildId)))
         {
             try
             {

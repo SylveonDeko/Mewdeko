@@ -258,6 +258,15 @@ public class ProtectionController(
                 roleId = antiPostChannelStats?.AntiPostChannelSettings?.RoleId ?? 0,
                 ignoreBots = antiPostChannelStats?.AntiPostChannelSettings?.IgnoreBots ?? true,
                 channelCount = antiPostChannelStats?.AntiPostChannelSettings?.AntiPostChannelChannels?.Count() ?? 0,
+                channels =
+                    antiPostChannelStats?.AntiPostChannelSettings?.AntiPostChannelChannels?.Select(c => c.ChannelId)
+                        .ToList() ?? new List<ulong>(),
+                ignoredRoles =
+                    antiPostChannelStats?.AntiPostChannelSettings?.AntiPostChannelIgnoredRoles?.Select(r => r.RoleId)
+                        .ToList() ?? new List<ulong>(),
+                ignoredUsers =
+                    antiPostChannelStats?.AntiPostChannelSettings?.AntiPostChannelIgnoredUsers?.Select(u => u.UserId)
+                        .ToList() ?? new List<ulong>(),
                 counter = antiPostChannelStats?.Counter ?? 0
             },
             antiImageHash = new
@@ -365,6 +374,18 @@ public class ProtectionController(
         auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
+            if (request.UserThreshold is < 2 or > 30)
+                return BadRequest("User threshold must be between 2 and 30");
+
+            if (request.Seconds is < 2 or > 300)
+                return BadRequest("Time window must be between 2 and 300 seconds");
+
+            if (request.PunishDuration is < 0 or > 1440)
+                return BadRequest("Punishment duration must be between 0 and 1440 minutes");
+
+            if (request.Action == Modules.Administration.Common.PunishmentAction.AddRole)
+                return BadRequest("AddRole action is not supported for anti-raid");
+
             var result = await protectionService.StartAntiRaidAsync(
                 guildId,
                 request.UserThreshold,
@@ -399,6 +420,12 @@ public class ProtectionController(
         auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
+            if (request.MessageThreshold is < 2 or > 10)
+                return BadRequest("Message threshold must be between 2 and 10");
+
+            if (request.MuteTime is < 0 or > 1440)
+                return BadRequest("Mute time must be between 0 and 1440 minutes");
+
             await protectionService.StartAntiSpamAsync(
                 guildId,
                 request.MessageThreshold,
@@ -446,6 +473,12 @@ public class ProtectionController(
         auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
+            if (request.MinAgeMinutes < 1)
+                return BadRequest("Minimum age must be at least 1 minute");
+
+            if (request.ActionDurationMinutes is < 0 or > 1440)
+                return BadRequest("Action duration must be between 0 and 1440 minutes");
+
             await protectionService.StartAntiAltAsync(
                 guildId,
                 request.MinAgeMinutes,
@@ -478,6 +511,18 @@ public class ProtectionController(
         auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
+            if (request.MentionThreshold < 1)
+                return BadRequest("Mention threshold must be at least 1");
+
+            if (request.TimeWindowSeconds < 1)
+                return BadRequest("Time window must be at least 1 second");
+
+            if (request.MaxMentionsInTimeWindow < 1)
+                return BadRequest("Max mentions in time window must be at least 1");
+
+            if (request.MuteTime is < 0 or > 1440)
+                return BadRequest("Mute time must be between 0 and 1440 minutes");
+
             await protectionService.StartAntiMassMentionAsync(
                 guildId,
                 request.MentionThreshold,
@@ -880,6 +925,160 @@ public class ProtectionController(
     {
         auditContext.RecordBefore(protectionService.GetAntiImageHashStats(guildId));
         var added = await protectionService.ToggleAntiImageHashIgnoredChannelAsync(guildId, channelId);
+        return Ok(new
+        {
+            added
+        });
+    }
+
+    /// <summary>
+    ///     Configures anti-mass-post protection
+    /// </summary>
+    [HttpPut("anti-mass-post")]
+    public async Task<IActionResult> ConfigureAntiMassPost(ulong guildId, [FromBody] AntiMassPostConfigRequest? request)
+    {
+        if (request == null)
+            return BadRequest("Invalid request data");
+
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
+
+        if (!request.Enabled)
+        {
+            var stopped = await protectionService.TryStopAntiMassPost(guildId);
+            return Ok(new
+            {
+                success = stopped
+            });
+        }
+
+        if (request.ChannelThreshold is < 2 or > 20)
+            return BadRequest("Channel threshold must be between 2 and 20");
+
+        if (request.TimeWindowSeconds is < 10 or > 600)
+            return BadRequest("Time window must be between 10 and 600 seconds");
+
+        if (request.PunishDuration is < 0 or > 1440)
+            return BadRequest("Punishment duration must be between 0 and 1440 minutes");
+
+        var result = await protectionService.StartAntiMassPostAsync(
+            guildId,
+            request.ChannelThreshold,
+            request.TimeWindowSeconds,
+            request.ContentSimilarityThreshold,
+            request.MinContentLength,
+            request.CheckLinksOnly,
+            request.CheckDuplicateContent,
+            request.RequireIdenticalContent,
+            request.CaseSensitive,
+            request.DeleteMessages,
+            request.NotifyUser,
+            request.Action,
+            request.PunishDuration,
+            request.RoleId,
+            request.IgnoreBots,
+            request.MaxMessagesTracked);
+
+        if (result == null)
+            return BadRequest("Failed to start anti-mass-post protection");
+
+        return Ok(new
+        {
+            success = true
+        });
+    }
+
+    /// <summary>
+    ///     Configures anti-post-channel protection
+    /// </summary>
+    [HttpPut("anti-post-channel")]
+    public async Task<IActionResult> ConfigureAntiPostChannel(ulong guildId,
+        [FromBody] AntiPostChannelConfigRequest? request)
+    {
+        if (request == null)
+            return BadRequest("Invalid request data");
+
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
+
+        if (!request.Enabled)
+        {
+            var stopped = await protectionService.TryStopAntiPostChannel(guildId);
+            return Ok(new
+            {
+                success = stopped
+            });
+        }
+
+        if (request.PunishDuration is < 0 or > 1440)
+            return BadRequest("Punishment duration must be between 0 and 1440 minutes");
+
+        var result = await protectionService.StartAntiPostChannelAsync(
+            guildId,
+            request.Action,
+            request.PunishDuration,
+            request.RoleId,
+            request.DeleteMessages,
+            request.NotifyUser,
+            request.IgnoreBots);
+
+        if (result == null)
+            return BadRequest("Failed to start anti-post-channel protection");
+
+        return Ok(new
+        {
+            success = true
+        });
+    }
+
+    /// <summary>
+    ///     Adds a honeypot channel to anti-post-channel protection
+    /// </summary>
+    [HttpPost("anti-post-channel/channels/{channelId}")]
+    public async Task<IActionResult> AddAntiPostChannel(ulong guildId, ulong channelId)
+    {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
+        var success = await protectionService.AddAntiPostChannelAsync(guildId, channelId);
+        return Ok(new
+        {
+            success
+        });
+    }
+
+    /// <summary>
+    ///     Removes a honeypot channel from anti-post-channel protection
+    /// </summary>
+    [HttpDelete("anti-post-channel/channels/{channelId}")]
+    public async Task<IActionResult> RemoveAntiPostChannel(ulong guildId, ulong channelId)
+    {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
+        var success = await protectionService.RemoveAntiPostChannelAsync(guildId, channelId);
+        return Ok(new
+        {
+            success
+        });
+    }
+
+    /// <summary>
+    ///     Toggles a role as exempt from anti-post-channel protection
+    /// </summary>
+    [HttpPost("anti-post-channel/ignored-roles/{roleId}")]
+    public async Task<IActionResult> ToggleAntiPostChannelIgnoredRole(ulong guildId, ulong roleId)
+    {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
+        var added = await protectionService.ToggleAntiPostChannelIgnoredRoleAsync(guildId, roleId);
+        return Ok(new
+        {
+            added
+        });
+    }
+
+    /// <summary>
+    ///     Toggles a user as exempt from anti-post-channel protection
+    /// </summary>
+    [HttpPost("anti-post-channel/ignored-users/{userId}")]
+    public async Task<IActionResult> ToggleAntiPostChannelIgnoredUser(ulong guildId, ulong userId)
+    {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
+        var added = await protectionService.ToggleAntiPostChannelIgnoredUserAsync(guildId, userId);
         return Ok(new
         {
             added

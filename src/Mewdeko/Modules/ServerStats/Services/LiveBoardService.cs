@@ -41,6 +41,7 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
     private readonly ServerStatsService stats;
     private readonly GeneratedBotStrings strings;
     private readonly SemaphoreSlim tickLock = new(1, 1);
+    private readonly GuildOwnershipService ownership;
     private Timer? tickTimer;
 
     /// <summary>
@@ -53,8 +54,10 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
     /// <param name="strings">Localized strings.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public LiveBoardService(DiscordShardedClient client, IDataConnectionFactory dbFactory, ServerStatsService stats,
-        InviteCountService invites, GeneratedBotStrings strings, ILogger<LiveBoardService> logger)
+        InviteCountService invites, GeneratedBotStrings strings, ILogger<LiveBoardService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.stats = stats;
@@ -126,6 +129,42 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
     }
 
     /// <summary>
+    ///     Changes a live board's settings and refreshes its message.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="id">The board ID.</param>
+    /// <param name="kind">What to show.</param>
+    /// <param name="range">The window.</param>
+    /// <param name="entries">Rows for leaderboards.</param>
+    /// <param name="intervalMinutes">Refresh interval.</param>
+    /// <returns>The updated board, or null when it does not exist.</returns>
+    public async Task<LiveBoard?> UpdateAsync(SocketGuild guild, int id, LiveBoardKind kind, StatsRange range,
+        int entries, int intervalMinutes)
+    {
+        LiveBoard? board;
+        await using (var db = await dbFactory.CreateConnectionAsync())
+        {
+            board = await db.LiveBoards.FirstOrDefaultAsync(x => x.GuildId == guild.Id && x.Id == id);
+            if (board == null)
+                return null;
+
+            board.Kind = (int)kind;
+            board.Range = (int)range;
+            board.Entries = Math.Clamp(entries, 3, 25);
+            board.IntervalMinutes = Math.Max(MinimumIntervalMinutes, intervalMinutes);
+            await db.LiveBoards.Where(x => x.Id == id)
+                .Set(x => x.Kind, board.Kind)
+                .Set(x => x.Range, board.Range)
+                .Set(x => x.Entries, board.Entries)
+                .Set(x => x.IntervalMinutes, board.IntervalMinutes)
+                .UpdateAsync();
+        }
+
+        await RefreshAsync(guild, board);
+        return board;
+    }
+
+    /// <summary>
     ///     Deletes a live board and its message.
     /// </summary>
     /// <param name="guild">The guild.</param>
@@ -186,7 +225,7 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
         {
             await using var db = await dbFactory.CreateConnectionAsync();
             var now = DateTime.UtcNow;
-            var boards = await db.LiveBoards.ToListAsync();
+            var boards = (await db.LiveBoards.ToListAsync()).Where(b => ownership.IsMine(b.GuildId)).ToList();
             var due = boards.Where(b => b.LastUpdateAt == null ||
                                         now - b.LastUpdateAt.Value >= TimeSpan.FromMinutes(
                                             Math.Max(MinimumIntervalMinutes, b.IntervalMinutes)));

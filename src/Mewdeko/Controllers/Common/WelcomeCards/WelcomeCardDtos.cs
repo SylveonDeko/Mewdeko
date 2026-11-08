@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+using DataModel;
 using Mewdeko.Common.Cards;
 
 namespace Mewdeko.Controllers.Common.WelcomeCards;
@@ -8,9 +10,10 @@ namespace Mewdeko.Controllers.Common.WelcomeCards;
 public class WelcomeCardResponse
 {
     /// <summary>
-    ///     Whether the card is attached to messages.
+    ///     Where the card appears: None, EmbedImage or Attached.
     /// </summary>
-    public bool Enabled { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public CardPlacement Placement { get; set; }
 
     /// <summary>
     ///     The card's design.
@@ -132,9 +135,10 @@ public class WelcomeCardStarterResponse
 public class WelcomeCardSaveRequest
 {
     /// <summary>
-    ///     Whether the card is attached, or null to keep it.
+    ///     Where the card appears: None, EmbedImage or Attached, or null to keep it.
     /// </summary>
-    public bool? Enabled { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public CardPlacement? Placement { get; set; }
 
     /// <summary>
     ///     The design, or null to keep it.

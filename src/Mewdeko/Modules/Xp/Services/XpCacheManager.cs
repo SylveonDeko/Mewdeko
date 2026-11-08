@@ -314,18 +314,22 @@ public class XpCacheManager : INService
             var settings = await GetGuildXpSettingsAsync(guildId).ConfigureAwait(false);
             multiplier = settings.XpMultiplier;
 
-            // Apply channel multiplier if exists
-            var channelMultiplier = await db.XpChannelMultipliers
-                .FirstOrDefaultAsync(c => c.GuildId == guildId && c.ChannelId == channelId)
+            var guild = client.GetGuild(guildId);
+
+            var scopes = ChannelScopes(guild, channelId);
+            var channelMultipliers = await db.XpChannelMultipliers
+                .Where(c => c.GuildId == guildId && scopes.Contains(c.ChannelId))
+                .ToListAsync()
                 .ConfigureAwait(false);
+            var channelMultiplier = scopes
+                .Select(id => channelMultipliers.FirstOrDefault(c => c.ChannelId == id))
+                .FirstOrDefault(c => c != null);
 
             if (channelMultiplier != null)
             {
                 multiplier *= channelMultiplier.Multiplier;
             }
 
-            // Get guild and user for role checks
-            var guild = client.GetGuild(guildId);
             var user = guild?.GetUser(userId);
 
             if (user != null)
@@ -397,6 +401,25 @@ public class XpCacheManager : INService
             logger.LogError(ex, "Error calculating effective multiplier");
             return 1.0; // Default multiplier on error
         }
+    }
+
+    /// <summary>
+    ///     Gets the IDs a channel multiplier can be set on for a channel, most specific first: the channel, a thread's
+    ///     parent channel, then the category.
+    /// </summary>
+    private static List<ulong> ChannelScopes(SocketGuild? guild, ulong channelId)
+    {
+        List<ulong> scopes = [channelId];
+        IGuildChannel? channel = guild?.GetChannel(channelId);
+        if (channel is SocketThreadChannel { ParentChannel: { } parent })
+        {
+            scopes.Add(parent.Id);
+            channel = parent;
+        }
+
+        if (channel is INestedChannel { CategoryId: { } categoryId })
+            scopes.Add(categoryId);
+        return scopes;
     }
 
     /// <summary>

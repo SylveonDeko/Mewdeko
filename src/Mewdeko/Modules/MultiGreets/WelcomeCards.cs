@@ -41,13 +41,18 @@ public class WelcomeCards(GuildSettingsService guildSettings, CardPresetService 
                 return;
             case "enable":
             case "on":
-                await Service.SetEnabledAsync(guildId, target, true);
-                await ReplyConfirmAsync(Strings.WelcomecardEnabled(guildId));
+                await (await Service.SetPlacementAsync(guildId, target, CardPlacement.Attached)
+                    ? ReplyConfirmAsync(Strings.WelcomecardEnabled(guildId))
+                    : ReplyErrorAsync(Strings.WelcomecardNoMessage(guildId)));
                 return;
             case "disable":
             case "off":
-                await Service.SetEnabledAsync(guildId, target, false);
-                await ReplyConfirmAsync(Strings.WelcomecardDisabled(guildId));
+                await (await Service.SetPlacementAsync(guildId, target, CardPlacement.None)
+                    ? ReplyConfirmAsync(Strings.WelcomecardDisabled(guildId))
+                    : ReplyErrorAsync(Strings.WelcomecardNoMessage(guildId)));
+                return;
+            case "placement":
+                await PlacementAsync(target, value);
                 return;
             case "background":
                 await BackgroundAsync(target, value);
@@ -135,8 +140,15 @@ public class WelcomeCards(GuildSettingsService guildSettings, CardPresetService 
     [UserPerm(GuildPermission.ManageGuild)]
     public async Task WelcomeCardPreview(WelcomeCardTarget target = WelcomeCardTarget.Greet)
     {
+        var owner = (await Service.OwnersAsync(ctx.Guild.Id, target)).FirstOrDefault(-1);
+        if (owner < 0)
+        {
+            await ReplyErrorAsync(Strings.WelcomecardNoMessage(ctx.Guild.Id));
+            return;
+        }
+
         using var typing = ctx.Channel.EnterTypingState();
-        var image = await Service.RenderAsync(ctx.Guild.Id, target, ctx.User);
+        var image = await Service.RenderAsync(ctx.Guild.Id, target, owner, ctx.User);
         await ctx.Channel.SendFileAsync(new MemoryStream(image), WelcomeCardService.FileName);
     }
 
@@ -162,13 +174,49 @@ public class WelcomeCards(GuildSettingsService guildSettings, CardPresetService 
         await ctx.Channel.SendMessageAsync(embed: embed, allowedMentions: AllowedMentions.None);
     }
 
+    private async Task PlacementAsync(WelcomeCardTarget target, string? value)
+    {
+        var guildId = ctx.Guild.Id;
+        var placement = value?.ToLowerInvariant() switch
+        {
+            "none" => CardPlacement.None,
+            "embed" => CardPlacement.EmbedImage,
+            "attached" => CardPlacement.Attached,
+            _ => (CardPlacement?)null
+        };
+        if (placement is not { } chosen)
+        {
+            await ReplyErrorAsync(Strings.WelcomecardInvalidPlacement(guildId));
+            return;
+        }
+
+        if (!await Service.SetPlacementAsync(guildId, target, chosen))
+        {
+            await ReplyErrorAsync(Strings.WelcomecardNoMessage(guildId));
+            return;
+        }
+
+        await ReplyConfirmAsync(Strings.WelcomecardPlacementSaved(guildId, PlacementName(guildId, chosen)));
+    }
+
+    private string PlacementName(ulong guildId, CardPlacement placement)
+    {
+        return placement switch
+        {
+            CardPlacement.EmbedImage => Strings.WelcomecardPlacementEmbed(guildId),
+            CardPlacement.Attached => Strings.WelcomecardPlacementAttached(guildId),
+            _ => Strings.WelcomecardPlacementNone(guildId)
+        };
+    }
+
     private async Task BackgroundAsync(WelcomeCardTarget target, string? value)
     {
         var guildId = ctx.Guild.Id;
         if (string.Equals(value, "none", StringComparison.OrdinalIgnoreCase))
         {
-            await Service.SetBackgroundAsync(guildId, target, null);
-            await ReplyConfirmAsync(Strings.WelcomecardBackgroundRemoved(guildId));
+            await (await Service.SetBackgroundAsync(guildId, target, null)
+                ? ReplyConfirmAsync(Strings.WelcomecardBackgroundRemoved(guildId))
+                : ReplyErrorAsync(Strings.WelcomecardNoMessage(guildId)));
             return;
         }
 
@@ -200,8 +248,10 @@ public class WelcomeCards(GuildSettingsService guildSettings, CardPresetService 
             return;
         }
 
-        await ReplyErrorAsync(Strings.WelcomecardUnknownStarter(guildId,
-            string.Join(", ", WelcomeCardTemplates.Starters.Select(s => s.Id))));
+        await ReplyErrorAsync(await Service.OwnersAsync(guildId, target) is { Count: 0 }
+            ? Strings.WelcomecardNoMessage(guildId)
+            : Strings.WelcomecardUnknownStarter(guildId,
+                string.Join(", ", WelcomeCardTemplates.Starters.Select(s => s.Id))));
     }
 
     private async Task ApplyAsync(WelcomeCardTarget target, WelcomeCardBasics basics)
@@ -225,6 +275,9 @@ public class WelcomeCards(GuildSettingsService guildSettings, CardPresetService 
             case WelcomeCardError.MissingElement:
                 await ReplyErrorAsync(Strings.WelcomecardMissingElement(guildId));
                 break;
+            case WelcomeCardError.NoMessage:
+                await ReplyErrorAsync(Strings.WelcomecardNoMessage(guildId));
+                break;
             default:
                 await ReplyErrorAsync(Strings.WelcomecardInvalidText(guildId));
                 break;
@@ -234,13 +287,20 @@ public class WelcomeCards(GuildSettingsService guildSettings, CardPresetService 
     private async Task ShowAsync(WelcomeCardTarget target)
     {
         var guildId = ctx.Guild.Id;
-        var setting = await Service.GetSettingsAsync(guildId, target);
-        var summary = WelcomeCardTemplates.Summarize(await Service.GetTemplateAsync(guildId, target));
+        var owner = (await Service.OwnersAsync(guildId, target)).FirstOrDefault(-1);
+        if (owner < 0)
+        {
+            await ReplyErrorAsync(Strings.WelcomecardNoMessage(guildId));
+            return;
+        }
+
+        var setting = await Service.GetCardAsync(guildId, target, owner);
+        var summary = WelcomeCardTemplates.Summarize(await Service.GetTemplateAsync(guildId, target, owner));
         await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder()
             .WithOkColor()
             .WithTitle(Strings.WelcomecardShowTitle(guildId, target.ToString()))
             .WithDescription(Strings.WelcomecardShowBody(guildId,
-                setting.Enabled ? Strings.WelcomecardOn(guildId) : Strings.WelcomecardOff(guildId),
+                PlacementName(guildId, setting.Placement),
                 summary.Background,
                 summary.HasImage ? Strings.WelcomecardImage(guildId) : Strings.WelcomecardNone(guildId),
                 summary.Overlay,

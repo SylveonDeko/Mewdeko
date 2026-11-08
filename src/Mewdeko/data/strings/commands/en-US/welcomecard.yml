@@ -3,6 +3,7 @@ welcomecard:
     - greet
     - 'greet show'
     - 'greet enable'
+    - 'greet placement embed'
     - 'greet color #23272A'
     - 'greet background https://example.com/image.png'
     - 'greet background preset:nature-dusk'
@@ -13,13 +14,13 @@ welcomecard:
     - 'greet textcolor #FFFFFF'
     - 'greet avatar circle'
     - 'greet reset banner'
-  desc: 'Sets up the image card attached to greet, bye, DM greet and boost messages. Options: show, enable, disable, color, textcolor, background (a link, an attachment, preset:id or none), overlay (0 to 100), title and subtitle (placeholders like %user.name%, %server.name% and %server.members% work), font (noto-bold, noto or unisans), avatar (circle, rounded or square) and reset (a starter layout: classic, centered, banner or minimal). The dashboard designer changes everything else.'
+  desc: 'Sets up the card on welcome, bye, DM greet, boost and role greet messages. A welcome or role greet change applies to all of them. Options: show, enable (attached), disable, placement (none, embed or attached), color, textcolor, background (a link, an attachment, preset:id or none), overlay (0 to 100), title and subtitle (placeholders like %user.name%, %server.name% and %server.members% work), font (noto-bold, noto or unisans), avatar (circle, rounded or square) and reset (a starter layout: classic, centered, banner or minimal). The dashboard designer changes everything else.'
   params:
-    - desc: 'greet, bye, dmgreet or boost.'
+    - desc: 'greet, bye, dmgreet, boost or rolegreet.'
       name: target
       optional: false
       type: string
-    - desc: 'show, enable, disable, color, background, overlay, title, subtitle, font, textcolor, avatar or reset.'
+    - desc: 'show, enable, disable, placement, color, background, overlay, title, subtitle, font, textcolor, avatar or reset.'
       name: option
       optional: true
       type: string
@@ -33,7 +34,7 @@ welcomecardpreview:
     - bye
   desc: 'Sends a preview of the welcome card using your own account.'
   params:
-    - desc: 'greet, bye, dmgreet or boost.'
+    - desc: 'greet, bye, dmgreet, boost or rolegreet.'
       name: target
       optional: true
       type: string

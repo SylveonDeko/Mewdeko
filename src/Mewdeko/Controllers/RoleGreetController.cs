@@ -59,10 +59,7 @@ public class RoleGreetController : Controller
     [HttpPost("role/{roleId}")]
     public async Task<IActionResult> AddRoleGreet(ulong guildId, ulong roleId, [FromBody] ulong channelId)
     {
-        var success = await roleGreetService.AddRoleGreet(guildId, channelId, roleId);
-        if (!success)
-            return BadRequest("Maximum number of greets reached for this role");
-
+        await roleGreetService.AddRoleGreet(guildId, channelId, roleId);
         return Ok();
     }
 

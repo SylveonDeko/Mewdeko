@@ -22,16 +22,6 @@ namespace Mewdeko.Modules.Achievements.Services;
 public sealed partial class AchievementService : INService, IReadyExecutor, IUnloadableService
 {
     /// <summary>
-    ///     Most achievements a server can make.
-    /// </summary>
-    public const int MaxCustomAchievements = 200;
-
-    /// <summary>
-    ///     Most categories a server can make.
-    /// </summary>
-    public const int MaxCustomCategories = 25;
-
-    /// <summary>
     ///     Longest achievement or category name.
     /// </summary>
     public const int NameLength = 80;
@@ -91,6 +81,7 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
     private readonly InteractionService interactionService;
     private readonly InviteCountService inviteCounts;
     private readonly ILogger<AchievementService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly MessageCountService messageCounts;
     private readonly SemaphoreSlim[] memberLocks;
     private readonly ServerStatsSettingsService statsSettings;
@@ -134,8 +125,10 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
         InteractionService interactionService,
         IServiceProvider services,
         IAnalyticsCollector collector,
-        ILogger<AchievementService> logger)
+        ILogger<AchievementService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.strings = strings;
@@ -408,7 +401,7 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
         var customs = await db.CustomAchievements.Where(x => x.GuildId == guildId).ToListAsync();
         var categories = await db.AchievementCategories.Where(x => x.GuildId == guildId).ToListAsync();
         var uploads = await db.AchievementIconUploads
-            .Where(x => x.GuildId == guildId)
+            .Where(x => x.GuildId == guildId && x.Kind != AchievementIconService.MemberCardKind)
             .Select(x => new { x.Id, x.PublicUrl, x.Kind })
             .ToListAsync();
         var uploadUrls = uploads.ToDictionary(x => x.Id, x => x.PublicUrl ?? IconUploadPath(guildId, x.Id));
@@ -831,10 +824,6 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
         try
         {
             await using var db = await dbFactory.CreateConnectionAsync();
-            var count = await db.CustomAchievements.CountAsync(x => x.GuildId == guild.Id);
-            if (count >= MaxCustomAchievements)
-                return AchievementResult<AchievementDefinition>.Fail(AchievementError.TooManyAchievements);
-
             var position = await db.CustomAchievements
                 .Where(x => x.GuildId == guild.Id)
                 .Select(x => (int?)x.Position)
@@ -992,9 +981,6 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
             return AchievementResult<AchievementCategory>.Fail(iconError);
 
         await using var db = await dbFactory.CreateConnectionAsync();
-        if (await db.AchievementCategories.CountAsync(x => x.GuildId == guildId) >= MaxCustomCategories)
-            return AchievementResult<AchievementCategory>.Fail(AchievementError.TooManyCategories);
-
         var row = new AchievementCategory
         {
             GuildId = guildId,
@@ -1349,7 +1335,8 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
             return (AchievementError.None, stored);
 
         await using var db = await dbFactory.CreateConnectionAsync();
-        var owned = await db.AchievementIconUploads.AnyAsync(x => x.Id == uploadId && x.GuildId == guildId);
+        var owned = await db.AchievementIconUploads.AnyAsync(x =>
+            x.Id == uploadId && x.GuildId == guildId && x.Kind != AchievementIconService.MemberCardKind);
         return owned ? (AchievementError.None, stored) : (AchievementError.IconInvalid, null);
     }
 

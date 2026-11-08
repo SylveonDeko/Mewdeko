@@ -22,6 +22,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
+    private readonly GuildOwnershipService ownership;
     private readonly object hashSetLock = new();
     private readonly ILogger<StreamNotificationService> logger;
     private readonly Random rng = new MewdekoRandom();
@@ -58,8 +59,9 @@ public class StreamNotificationService : IReadyExecutor, INService
         IHttpClientFactory httpFactory,
         Mewdeko bot,
         EventHandler eventHandler, ILogger<StreamNotificationService> logger, ILogger<NotifChecker> logger2,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.client = client;
         this.strings = strings;
@@ -97,7 +99,8 @@ public class StreamNotificationService : IReadyExecutor, INService
 #endif
 
             // Load followed streams
-            var followedStreams = await db.FollowedStreams.ToListAsync();
+            var allFollowedStreams = await db.FollowedStreams.ToListAsync();
+            var followedStreams = allFollowedStreams.Where(x => ownership.IsMine(x.GuildId)).ToList();
 #if DEBUG
             logger.LogInformation(
                 "[StreamNotificationService] Loaded {TotalStreamCount} followed streams from database",
@@ -150,7 +153,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 #endif
             }
 
-            await LoadTrackedMessagesAsync(db, followedStreams);
+            await LoadTrackedMessagesAsync(db, allFollowedStreams);
 
             // Create counter dictionary for tracking using efficient string comparison
             var counterGroups = followedStreams.GroupBy(x => new
@@ -345,6 +348,9 @@ public class StreamNotificationService : IReadyExecutor, INService
             foreach (var row in rows)
             {
                 var fs = followedStreams.FirstOrDefault(x => x.Id == row.FollowedStreamId);
+                if (fs is not null && !ownership.IsMine(fs.GuildId))
+                    continue;
+
                 if (fs is null || !TracksMessage(fs))
                 {
                     stale.Add(row.Id);
@@ -735,14 +741,6 @@ public class StreamNotificationService : IReadyExecutor, INService
             return null;
 
         await using var db = await dbFactory.CreateConnectionAsync();
-
-        // Check stream count limit
-        var streamCount = await db.FollowedStreams
-            .Where(x => x.GuildId == guildId)
-            .CountAsync();
-
-        if (streamCount >= 10)
-            return null;
 
         // Create new stream with guild data
         var fs = new FollowedStream

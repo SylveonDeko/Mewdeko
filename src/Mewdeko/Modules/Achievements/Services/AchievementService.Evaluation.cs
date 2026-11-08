@@ -271,7 +271,8 @@ public sealed partial class AchievementService
                 else
                 {
                     var due = settingsCache.Values
-                        .Where(s => s.Enabled && client.GetGuild(s.Row.GuildId) is not null)
+                        .Where(s => s.Enabled && ownership.IsMine(s.Row.GuildId) &&
+                                    client.GetGuild(s.Row.GuildId) is not null)
                         .Select(s => s.Row.GuildId)
                         .FirstOrDefault(id => !lastSweeps.TryGetValue(id, out var last) || DateTime.UtcNow - last > SweepEvery);
                     if (due == 0)
@@ -298,7 +299,7 @@ public sealed partial class AchievementService
         lastSweeps[guildId] = DateTime.UtcNow;
         var guild = client.GetGuild(guildId);
         var settings = GetSettings(guildId);
-        if (guild is null || !settings.Enabled)
+        if (guild is null || !settings.Enabled || !ownership.IsMine(guildId))
             return;
 
         var backfill = settings.Row.BackfilledAt is null;
@@ -911,6 +912,8 @@ public sealed partial class AchievementService
             return unlocked;
 
         collector.Feature(FeatureKey, guild.Id);
+        _ = eventHandler.PublishEventAsync("AchievementsUnlocked",
+            new AchievementsUnlockedEventArgs(guild.Id, user.Id, unlocked.Select(d => d.Key).ToList()));
         await GrantRewardsAsync(user, unlocked);
 
         var all = unlocked.Concat(globalUnlocked).ToList();

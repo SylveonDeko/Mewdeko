@@ -18,6 +18,7 @@ public class BotHellService : INService, IReadyExecutor
     private readonly BotCredentials creds;
     private readonly EventHandler handler;
     private readonly ILogger<BotHellService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -29,9 +30,12 @@ public class BotHellService : INService, IReadyExecutor
     /// <param name="creds">The bot credentials.</param>
     /// <param name="strings">The localization strings provider.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public BotHellService(EventHandler handler, DiscordShardedClient client, BotConfigService bss,
-        BotCredentials creds, GeneratedBotStrings strings, ILogger<BotHellService> logger)
+        BotCredentials creds, GeneratedBotStrings strings, ILogger<BotHellService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.handler = handler;
         this.client = client;
         this.bss = bss;
@@ -282,6 +286,9 @@ public class BotHellService : INService, IReadyExecutor
 
     private Task OnJoinedGuild(SocketGuild guild)
     {
+        if (!ownership.HandlesGlobalWork)
+            return Task.CompletedTask;
+
         _ = Task.Run(async () =>
         {
             try

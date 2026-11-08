@@ -268,18 +268,18 @@ public partial class SlashCurrency
                 .WithTitle(Strings.LotteryDrawTitle(ctx.Guild.Id, CurrencyRng.Next(1000, 9999)))
                 .WithColor(won ? Color.Green : Color.Red)
                 .AddField(Strings.LotteryTicketCost(ctx.Guild.Id, ticketCost, emote), $"{ticketCost} {emote}", true)
-                .AddField(Strings.LotteryYourTickets(ctx.Guild.Id, ticketCount.ToString()), "", true);
+                .AddDescriptionLine(Strings.LotteryYourTickets(ctx.Guild.Id, ticketCount.ToString()));
 
             if (won)
             {
                 winAmount = await WinAsync(totalCost, (double)winAmount / totalCost, "lottery");
 
-                eb.WithDescription(Strings.LotteryWinner(ctx.Guild.Id, ctx.User.Mention, CurrencyRng.Next(1, 1000),
+                eb.AddDescriptionLine(Strings.LotteryWinner(ctx.Guild.Id, ctx.User.Mention, CurrencyRng.Next(1, 1000),
                     winAmount, emote));
             }
             else
             {
-                eb.WithDescription(Strings.LotteryNoWinner(ctx.Guild.Id, totalCost + CurrencyRng.Next(100, 500),
+                eb.AddDescriptionLine(Strings.LotteryNoWinner(ctx.Guild.Id, totalCost + CurrencyRng.Next(100, 500),
                     emote));
             }
 
@@ -306,7 +306,7 @@ public partial class SlashCurrency
         {
             var challenge = await dailyChallengeService.GetCurrentChallenge(ctx.User.Id, ctx.Guild.Id);
 
-            if (challenge == null)
+            if (challenge.IsCompleted)
             {
                 await ErrorAsync(Strings.DailyChallengeAlreadyCompleted(ctx.Guild.Id));
                 return;
@@ -316,11 +316,11 @@ public partial class SlashCurrency
                 .WithTitle(Strings.DailyChallengeTitle(ctx.Guild.Id))
                 .WithColor(Color.Blue)
                 .WithDescription(challenge.Description)
-                .AddField(Strings.DailyChallengeProgress(ctx.Guild.Id, challenge.Progress, challenge.RequiredAmount),
-                    "", true)
-                .AddField(
+                .AddDescriptionLine(Strings.DailyChallengeProgress(ctx.Guild.Id, challenge.Progress,
+                    challenge.RequiredAmount))
+                .AddDescriptionLine(
                     Strings.DailyChallengeReward(ctx.Guild.Id, challenge.RewardAmount,
-                        await Service.GetCurrencyEmote(ctx.Guild.Id)), "", true);
+                        await Service.GetCurrencyEmote(ctx.Guild.Id)));
 
             if (challenge.Progress >= challenge.RequiredAmount)
             {
@@ -342,9 +342,9 @@ public partial class SlashCurrency
         {
             var challenge = await dailyChallengeService.GetCurrentChallenge(ctx.User.Id, ctx.Guild.Id);
 
-            if (challenge == null)
+            if (challenge.IsCompleted)
             {
-                await ErrorAsync(Strings.DailyChallengeNoneAvailable(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.DailyChallengeAlreadyClaimed(ctx.Guild.Id));
                 return;
             }
 
@@ -354,21 +354,19 @@ public partial class SlashCurrency
                 return;
             }
 
-            var reward = await dailyChallengeService.CompleteChallenge(ctx.User.Id, ctx.Guild.Id,
-                challenge.ChallengeType);
+            var reward = await dailyChallengeService.ClaimChallenge(ctx.User.Id, ctx.Guild.Id);
 
-            if (reward > 0)
-            {
-                await Service.CreditAsync(ctx.User.Id, reward, Strings.DailyChallengeTransactionReward(ctx.Guild.Id),
-                    CurrencyCategory.Challenge, ctx.Guild.Id, "challenge");
-
-                await ReplyConfirmAsync(Strings.DailyChallengeClaimed(ctx.Guild.Id, reward,
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)));
-            }
-            else
+            if (reward <= 0)
             {
                 await ReplyErrorAsync(Strings.DailyChallengeAlreadyClaimed(ctx.Guild.Id));
+                return;
             }
+
+            await Service.CreditAsync(ctx.User.Id, reward, Strings.DailyChallengeTransactionReward(ctx.Guild.Id),
+                CurrencyCategory.Challenge, ctx.Guild.Id, "challenge");
+
+            await ReplyConfirmAsync(Strings.DailyChallengeClaimed(ctx.Guild.Id, reward,
+                await Service.GetCurrencyEmote(ctx.Guild.Id)));
         }
 
         /// <summary>

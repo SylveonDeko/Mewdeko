@@ -43,6 +43,11 @@ public sealed class AchievementCardRenderer : INService
     public sealed class CardData
     {
         /// <summary>
+        ///     Image drawn over the card background from an equipped design, or null for none. The caller disposes it.
+        /// </summary>
+        public SKBitmap? Backdrop { get; init; }
+
+        /// <summary>
         ///     Display name.
         /// </summary>
         public required string Name { get; init; }
@@ -124,6 +129,29 @@ public sealed class AchievementCardRenderer : INService
                 [0f, 0.6f, 1f],
                 SKShaderTileMode.Clamp);
             canvas.DrawRoundRect(card, Radius, Radius, background);
+        }
+
+        if (data.Backdrop is { Width: > 0, Height: > 0 } backdrop)
+        {
+            canvas.Save();
+            canvas.ClipRoundRect(new SKRoundRect(card, Radius, Radius), antialias: true);
+            var scale = Math.Max(Width / (float)backdrop.Width, Height / (float)backdrop.Height);
+            var drawWidth = backdrop.Width * scale;
+            var drawHeight = backdrop.Height * scale;
+            using var backdropImage = SKImage.FromBitmap(backdrop);
+            using var imagePaint = new SKPaint
+            {
+                IsAntialias = true
+            };
+            canvas.DrawImage(backdropImage,
+                new SKRect((Width - drawWidth) / 2, (Height - drawHeight) / 2, (Width + drawWidth) / 2,
+                    (Height + drawHeight) / 2), new SKSamplingOptions(SKCubicResampler.Mitchell), imagePaint);
+            using var dim = new SKPaint
+            {
+                Color = Canvas.WithAlpha(150)
+            };
+            canvas.DrawRect(card, dim);
+            canvas.Restore();
         }
 
         using (var glow = new SKPaint())

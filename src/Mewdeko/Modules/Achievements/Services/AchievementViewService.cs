@@ -5,8 +5,11 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Achievements.Common;
+using Mewdeko.Modules.CardDesigns.Services;
 using Mewdeko.Services.Strings;
+using SkiaSharp;
 
 namespace Mewdeko.Modules.Achievements.Services;
 
@@ -22,6 +25,7 @@ public sealed class AchievementViewService : INService
 
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly CardDesignService designs;
     private readonly AchievementCardRenderer renderer;
     private readonly AchievementService service;
     private readonly GeneratedBotStrings strings;
@@ -34,9 +38,12 @@ public sealed class AchievementViewService : INService
     /// <param name="strings">Localized bot strings.</param>
     /// <param name="client">The Discord client.</param>
     /// <param name="dbFactory">Database connection factory.</param>
+    /// <param name="designs">The card design library.</param>
     public AchievementViewService(AchievementService service, AchievementCardRenderer renderer,
-        GeneratedBotStrings strings, DiscordShardedClient client, IDataConnectionFactory dbFactory)
+        GeneratedBotStrings strings, DiscordShardedClient client, IDataConnectionFactory dbFactory,
+        CardDesignService designs)
     {
+        this.designs = designs;
         this.service = service;
         this.renderer = renderer;
         this.strings = strings;
@@ -472,8 +479,12 @@ public sealed class AchievementViewService : INService
             : strings.AchievementOverviewTopTier(localeGuildId);
 
         var name = target is SocketGuildUser member ? member.DisplayName : target.GlobalName ?? target.Username;
+        using var backdrop = guild is null
+            ? null
+            : await LoadBackdropAsync(guild.Id, target.Id);
         return await renderer.RenderAsync(new AchievementCardRenderer.CardData
         {
+            Backdrop = backdrop,
             Name = name,
             AvatarUrl = target.GetAvatarUrl(ImageFormat.Png, 256) ?? target.GetDefaultAvatarUrl(),
             Scope = scope,
@@ -486,6 +497,12 @@ public sealed class AchievementViewService : INService
             ProgressLabel = progressLabel,
             EmptySlotLabel = strings.AchievementCardEmptySlot(localeGuildId)
         });
+    }
+
+    private async Task<SKBitmap?> LoadBackdropAsync(ulong guildId, ulong userId)
+    {
+        var design = await designs.ResolveAsync(guildId, userId, CardDesignTarget.Achievement);
+        return design is null ? null : await designs.LoadAchievementBackdropAsync(design);
     }
 
     /// <summary>
@@ -629,10 +646,6 @@ public sealed class AchievementViewService : INService
             AchievementError.MetricInvalid => strings.AchievementErrorMetric(guildId),
             AchievementError.ThresholdInvalid => strings.AchievementErrorThreshold(guildId),
             AchievementError.KeywordMissing => strings.AchievementErrorKeyword(guildId),
-            AchievementError.TooManyAchievements => strings.AchievementErrorTooMany(guildId,
-                AchievementService.MaxCustomAchievements),
-            AchievementError.TooManyCategories => strings.AchievementErrorTooManyCategories(guildId,
-                AchievementService.MaxCustomCategories),
             AchievementError.RoleNotAssignable => strings.AchievementErrorRole(guildId),
             AchievementError.CategoryInvalid => strings.AchievementErrorCategory(guildId),
             AchievementError.IconInvalid => strings.AchievementErrorIcon(guildId),

@@ -8,7 +8,6 @@
   "rolegreet_delete_success": "已成功更新 RoleGreet #{0}，将在 {1} 后删除",
   "rolegreet_disable_status": "RoleGreet {0} 已设为 {1}",
   "rolegreet_greetbots_set": "RoleGreet {0} 的 GreetBots 已设为 {1}",
-  "rolegreet_max_limit": "您似乎已达到 10 个 RoleGreet 的上限！请删除一个再添加新的。",
   "rolegreet_message_preview_prompt": "您希望以普通文本查看，还是预览实际的显示效果？",
   "rolegreet_message_set": "已设置 RoleGreet #{0} 的消息！",
   "rolegreet_no_delete": "RoleGreet #{0} 不再自动删除。",

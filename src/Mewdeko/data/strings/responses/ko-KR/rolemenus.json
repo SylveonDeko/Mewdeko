@@ -41,7 +41,6 @@
   "rolemenu_option_missing": "{0}은(는) 이 메뉴에 없어요.",
   "rolemenu_too_many_options": "메뉴에는 옵션을 최대 25개까지 넣을 수 있어요.",
   "rolemenu_needs_option": "메뉴에는 옵션이 최소 하나 있어야 해요. 대신 메뉴를 삭제해 주세요.",
-  "rolemenu_too_many_menus": "이 서버에는 이미 역할 메뉴가 {0}개 있어요. 허용되는 최대 개수예요.",
   "rolemenu_role_not_assignable": "{0}은(는) 줄 수 없어요. 제 최상위 역할을 그 위로 옮기고, 어떤 연동 기능도 그 역할을 관리하지 않도록 해 주세요.",
   "rolemenu_role_above_you": "회원님의 최상위 역할보다 아래에 있는 역할만 제공할 수 있는데, {0}은(는) 그렇지 않아요.",
   "rolemenu_invalid_emoji": "`{0}`은(는) 제가 사용할 수 있는 이모지가 아니에요.",

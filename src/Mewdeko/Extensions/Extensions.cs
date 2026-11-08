@@ -441,7 +441,15 @@ public static partial class Extensions
     /// <returns>Real summary of the command.</returns>
     public static string RealSummary(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix)
     {
-        return string.Format(strings.GetCommandStrings(cmd.Name, guildId).Desc, prefix);
+        var desc = strings.GetCommandStrings(cmd.Name, guildId).Desc;
+        try
+        {
+            return string.Format(desc, prefix);
+        }
+        catch (FormatException)
+        {
+            return desc.Replace("{0}", prefix);
+        }
     }
 
     /// <summary>
@@ -494,6 +502,18 @@ public static partial class Extensions
         if (lastPage != null)
             return embed.WithFooter(efb => efb.WithText($"{curPage + 1} / {lastPage + 1}"));
         return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
+    }
+
+    /// <summary>
+    ///     Appends a line to the description of an embed.
+    /// </summary>
+    /// <param name="eb">Embed builder to add the line to.</param>
+    /// <param name="line">Line to append.</param>
+    /// <returns>Embed builder with the line appended.</returns>
+    public static EmbedBuilder AddDescriptionLine(this EmbedBuilder eb, string line)
+    {
+        eb.Description = string.IsNullOrEmpty(eb.Description) ? line : $"{eb.Description}\n{line}";
+        return eb;
     }
 
     /// <summary>

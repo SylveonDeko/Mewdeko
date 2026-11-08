@@ -18,6 +18,7 @@ public class PollSchedulerService : INService, IReadyExecutor, IDisposable
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<PollSchedulerService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly PollService pollService;
     private readonly Timer schedulerTimer;
     private readonly SemaphoreSlim semaphore = new(1, 1);
@@ -32,8 +33,9 @@ public class PollSchedulerService : INService, IReadyExecutor, IDisposable
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The strings service.</param>
     public PollSchedulerService(IDataConnectionFactory dbFactory, PollService pollService,
-        DiscordShardedClient client, ILogger<PollSchedulerService> logger, GeneratedBotStrings strings)
+        DiscordShardedClient client, ILogger<PollSchedulerService> logger, GeneratedBotStrings strings, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.pollService = pollService;
         this.client = client;
@@ -211,6 +213,7 @@ public class PollSchedulerService : INService, IReadyExecutor, IDisposable
                 .Where(sp => !sp.IsExecuted && !sp.IsCancelled && sp.ScheduledFor <= now)
                 .ToListAsync();
 
+            duePolls = duePolls.Where(sp => ownership.IsMine(sp.GuildId)).ToList();
             if (duePolls.Count == 0)
                 return;
 

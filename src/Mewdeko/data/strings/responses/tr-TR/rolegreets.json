@@ -8,7 +8,6 @@
   "rolegreet_delete_success": "RoleGreet #{0} {1} sonra silinecek şekilde güncellendi",
   "rolegreet_disable_status": "RoleGreet {0} durumu {1} olarak ayarlandı",
   "rolegreet_greetbots_set": "RoleGreet {0} için GreetBots {1} olarak ayarlandı",
-  "rolegreet_max_limit": "Görünüşe göre en fazla 10 RoleGreet sınırına ulaştın! Yeni bir tane eklemek için birini kaldır.",
   "rolegreet_message_preview_prompt": "Bunu normal metin olarak mı görmek istersin, yoksa gerçekte nasıl göründüğünü önizlemek ister misin?",
   "rolegreet_message_set": "RoleGreet #{0} için RoleGreet mesajı ayarlandı!",
   "rolegreet_no_delete": "RoleGreet #{0} artık silinmeyecek.",

@@ -352,11 +352,6 @@ public class RoleMenuEmojiLookup
 public class RoleMenuLimitsLookup
 {
     /// <summary>
-    ///     Most menus per server.
-    /// </summary>
-    public int MaxMenus { get; set; }
-
-    /// <summary>
     ///     Most options per menu.
     /// </summary>
     public int MaxOptions { get; set; }

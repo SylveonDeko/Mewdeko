@@ -25,6 +25,7 @@ public class TwitchEventSubService : INService, IReadyExecutor
     private readonly ConcurrentDictionary<string, DateTime> processedMessages = new();
     private readonly TwitchApiClient twitchApiClient;
     private readonly TwitchService twitchService;
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>Initializes the cloud-chatbot EventSub service.</summary>
     public TwitchEventSubService(
@@ -33,8 +34,10 @@ public class TwitchEventSubService : INService, IReadyExecutor
         DiscordShardedClient discordClient,
         ILogger<TwitchEventSubService> logger,
         TwitchApiClient twitchApiClient,
-        TwitchService twitchService)
+        TwitchService twitchService,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.credentials = credentials;
         this.dbFactory = dbFactory;
         this.discordClient = discordClient;
@@ -85,9 +88,11 @@ public class TwitchEventSubService : INService, IReadyExecutor
             return;
         }
 
-        var configs = await db.TwitchGuildConfigs
-            .Where(x => x.Enabled && x.UseEventSub && x.TwitchUserId != null)
-            .ToListAsync();
+        var configs = (await db.TwitchGuildConfigs
+                .Where(x => x.Enabled && x.UseEventSub && x.TwitchUserId != null)
+                .ToListAsync())
+            .Where(x => ownership.IsMine(x.GuildId))
+            .ToList();
 
         foreach (var config in configs)
         {

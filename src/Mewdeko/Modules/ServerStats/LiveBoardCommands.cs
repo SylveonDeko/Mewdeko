@@ -27,13 +27,6 @@ public class LiveBoardCommands(ServerReportService reports) : MewdekoModuleBase<
     public async Task LiveBoardAdd(ITextChannel channel, LiveBoardKind kind, StatsRange range = StatsRange.Weekly,
         int entries = 10, int intervalMinutes = 15)
     {
-        var existing = await Service.GetAsync(ctx.Guild.Id);
-        if (existing.Count >= 10)
-        {
-            await ReplyErrorAsync(Strings.LiveBoardLimit(ctx.Guild.Id));
-            return;
-        }
-
         var board = await Service.CreateAsync((SocketGuild)ctx.Guild, channel, kind, range, true, entries,
             intervalMinutes);
         await ReplyConfirmAsync(Strings.LiveBoardCreated(ctx.Guild.Id, board.Id, kind.ToString(), channel.Mention,

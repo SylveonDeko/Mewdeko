@@ -68,7 +68,10 @@ public partial class Currency
 
         if (await Service.TryDebitAsync(ctx.User.Id, bet, Strings.BetPlacedTransaction(ctx.Guild.Id, gameKey),
                 CurrencyCategory.GameBet, ctx.Guild.Id, gameKey))
+        {
+            await dailyChallengeService.RecordBet(ctx.User.Id, ctx.Guild.Id, gameKey, bet);
             return true;
+        }
 
         await ErrorAsync(Strings.BetInsufficientFunds(ctx.Guild.Id, bet, emote));
         return false;
@@ -98,6 +101,8 @@ public partial class Currency
 
         await Service.CreditAsync(ctx.User.Id, total, Strings.BetWonTransaction(ctx.Guild.Id, gameKey),
             CurrencyCategory.GamePayout, ctx.Guild.Id, gameKey);
+
+        await dailyChallengeService.RecordPayout(ctx.User.Id, ctx.Guild.Id, stake, total);
 
         return total;
     }
@@ -133,6 +138,8 @@ public partial class Currency
 
         await Service.CreditAsync(ctx.User.Id, amount, Strings.BetWonTransaction(ctx.Guild.Id, gameKey),
             CurrencyCategory.GamePayout, ctx.Guild.Id, gameKey);
+
+        await dailyChallengeService.RecordPayout(ctx.User.Id, ctx.Guild.Id, stake, amount);
 
         return amount;
     }

@@ -41,7 +41,6 @@
   "rolemenu_option_missing": "{0} 不在这个菜单中。",
   "rolemenu_too_many_options": "一个菜单最多只能有 25 个选项。",
   "rolemenu_needs_option": "菜单至少需要一个选项。如果不需要了，请直接删除菜单。",
-  "rolemenu_too_many_menus": "本服务器已有 {0} 个身份组菜单，已达到上限。",
   "rolemenu_role_not_assignable": "我无法发放 {0}。请把我的最高身份组移到它上方，并确保没有集成服务管理它。",
   "rolemenu_role_above_you": "你只能提供低于你自己最高身份组的身份组，而 {0} 不符合。",
   "rolemenu_invalid_emoji": "`{0}` 不是我能使用的表情。",

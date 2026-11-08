@@ -25,5 +25,7 @@ namespace DataModel
 		[Column("LastStatusUpdate"                                                                                   )] public DateTime  LastStatusUpdate { get; set; } // timestamp (6) without time zone
 		[Column("Port"                                                                                               )] public int       Port             { get; set; } // integer
 		[Column("Host"            , CanBeNull    = false                                                             )] public string    Host             { get; set; } = "localhost"; // text
+		[Column("OwnerUserId"                                                                                        )] public ulong?    OwnerUserId      { get; set; } // numeric(20,0)
+		[Column("IsCustom"                                                                                           )] public bool      IsCustom         { get; set; } // boolean
 	}
 }

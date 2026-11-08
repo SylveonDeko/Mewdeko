@@ -1061,6 +1061,26 @@ public class MewdekoDb : DataConnection
     public ITable<BotInstance> BotInstances => this.GetTable<BotInstance>();
 
     /// <summary>
+    ///     Gets the guild ownership table, which assigns guilds to bot instances.
+    /// </summary>
+    public ITable<GuildOwnership> GuildOwnerships => this.GetTable<GuildOwnership>();
+
+    /// <summary>
+    ///     Gets the custom bot slots table.
+    /// </summary>
+    public ITable<CustomBotSlot> CustomBotSlots => this.GetTable<CustomBotSlot>();
+
+    /// <summary>
+    ///     Gets the custom bot secrets table, which holds each custom bot's encrypted token and container.
+    /// </summary>
+    public ITable<CustomBotSecret> CustomBotSecrets => this.GetTable<CustomBotSecret>();
+
+    /// <summary>
+    ///     Gets the stored Ko-fi payments table.
+    /// </summary>
+    public ITable<KofiPayment> KofiPayments => this.GetTable<KofiPayment>();
+
+    /// <summary>
     ///     Gets the bot reviews table.
     /// </summary>
     public ITable<BotReview> BotReviews => this.GetTable<BotReview>();
@@ -1216,6 +1236,26 @@ public class MewdekoDb : DataConnection
     ///     Gets the currency shop items table.
     /// </summary>
     public ITable<ShopItem> ShopItems => this.GetTable<ShopItem>();
+
+    /// <summary>
+    ///     Gets the card design library table.
+    /// </summary>
+    public ITable<CardDesign> CardDesigns => this.GetTable<CardDesign>();
+
+    /// <summary>
+    ///     Gets the member card design settings table.
+    /// </summary>
+    public ITable<CardDesignSetting> CardDesignSettings => this.GetTable<CardDesignSetting>();
+
+    /// <summary>
+    ///     Gets the card design ownership table.
+    /// </summary>
+    public ITable<CardDesignOwner> CardDesignOwners => this.GetTable<CardDesignOwner>();
+
+    /// <summary>
+    ///     Gets the equipped card designs table.
+    /// </summary>
+    public ITable<EquippedCardDesign> EquippedCardDesigns => this.GetTable<EquippedCardDesign>();
 
     /// <summary>
     ///     Gets the user shop inventory table.
@@ -2748,4 +2788,9 @@ public class MewdekoDb : DataConnection
     ///     Gets the table of images guilds uploaded for welcome card designs.
     /// </summary>
     public ITable<WelcomeCardImage> WelcomeCardImages => this.GetTable<WelcomeCardImage>();
+
+    /// <summary>
+    ///     Gets the table of cards attached to member event messages.
+    /// </summary>
+    public ITable<MessageCard> MessageCards => this.GetTable<MessageCard>();
 }

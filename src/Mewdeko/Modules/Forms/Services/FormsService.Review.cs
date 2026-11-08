@@ -215,20 +215,6 @@ public partial class FormsService
                 return false;
             }
 
-            var embed = new EmbedBuilder()
-                .WithTitle(form.Name)
-                .WithDescription(string.IsNullOrWhiteSpace(form.AnnounceMessage)
-                    ? form.Description ?? "This form is now open."
-                    : form.AnnounceMessage)
-                .WithOkColor()
-                .WithCurrentTimestamp();
-
-            if (form.ExpiresAt is { } closesAt)
-            {
-                var closesUnix = new DateTimeOffset(closesAt, TimeSpan.Zero).ToUnixTimeSeconds();
-                embed.AddField("Closes", $"<t:{closesUnix}:R> (<t:{closesUnix}:f>)");
-            }
-
             var content = form.AnnounceRoleId is { } roleId and > 0
                 ? MentionUtils.MentionRole(roleId)
                 : null;
@@ -239,6 +225,40 @@ public partial class FormsService
                     RoleIds = [pingRole]
                 }
                 : AllowedMentions.None;
+
+            var message = string.IsNullOrWhiteSpace(form.AnnounceMessage)
+                ? null
+                : new ReplacementBuilder().WithServer(client, guild).Build().Replace(form.AnnounceMessage);
+
+            if (message != null && SmartEmbed.TryParse(message, guild.Id, out var embeds, out var plainText,
+                    out var components))
+            {
+                var text = string.Join(' ', new[]
+                {
+                    content, plainText
+                }.Where(part => !string.IsNullOrWhiteSpace(part)));
+
+                await channel.SendMessageAsync(text, embeds: embeds, components: components?.Build(),
+                    allowedMentions: mentions);
+
+                logger.LogInformation("Announced form {FormId} in channel {ChannelId}", formId, channelId);
+
+                return true;
+            }
+
+            var description = message ?? form.Description ?? "This form is now open.";
+
+            var embed = new EmbedBuilder()
+                .WithTitle(form.Name)
+                .WithDescription(description)
+                .WithOkColor()
+                .WithCurrentTimestamp();
+
+            if (form.ExpiresAt is { } closesAt)
+            {
+                var closesUnix = new DateTimeOffset(closesAt, TimeSpan.Zero).ToUnixTimeSeconds();
+                embed.AddField("Closes", $"<t:{closesUnix}:R> (<t:{closesUnix}:f>)");
+            }
 
             await channel.SendMessageAsync(content, embed: embed.Build(), allowedMentions: mentions);
 

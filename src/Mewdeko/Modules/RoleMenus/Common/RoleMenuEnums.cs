@@ -209,11 +209,6 @@ public enum RoleMenuError
     NotFound,
 
     /// <summary>
-    ///     The server already has the most menus allowed.
-    /// </summary>
-    TooManyMenus,
-
-    /// <summary>
     ///     The menu name is too long.
     /// </summary>
     NameInvalid,

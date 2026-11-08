@@ -30,6 +30,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
     private readonly ConcurrentDictionary<ulong, bool> guildDataLoaded = new();
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<AfkService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly SemaphoreSlim messageUpdateSemaphore = new(5, 5); // Rate limit protection
     private readonly ConcurrentDictionary<ulong, DateTime> recentlyProcessedMessages = new();
     private readonly GeneratedBotStrings strings;
@@ -56,8 +57,10 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
         BotConfigService config,
-        GeneratedBotStrings strings, ILogger<AfkService> logger, IAnalyticsCollector collector)
+        GeneratedBotStrings strings, ILogger<AfkService> logger, IAnalyticsCollector collector,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.collector = collector;
         this.cache = cache;
         this.guildSettings = guildSettings;
@@ -95,6 +98,9 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         // Background cleanup of old entries
         _ = Task.Run(async () =>
         {
+            if (!ownership.HandlesGlobalWork)
+                return;
+
             try
             {
                 var oneMonthAgo = DateTime.UtcNow.AddMonths(-1);
@@ -499,6 +505,9 @@ public class AfkService : INService, IReadyExecutor, IDisposable
 
             _ = Task.Run(async () => // Run DB cleanup in background
             {
+                if (!ownership.HandlesGlobalWork)
+                    return;
+
                 try
                 {
                     var oneMonthAgo = now.AddMonths(-1);
@@ -558,7 +567,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
             foreach (var afk in timedAfks)
             {
                 // Ensure When has value before calculating duration
-                if (!afk.When.HasValue) continue;
+                if (!afk.When.HasValue || !ownership.IsMine(afk.GuildId)) continue;
 
                 var cacheOptions = new FusionCacheEntryOptions
                 {

@@ -2261,7 +2261,7 @@ streamvideomessage:
   args:
     - number
     - text
-  desc: 'Sets the message sent when a followed TikTok account posts a new video. Needs TikTokRssBridgeUrl in the bot credentials, such as https://host/tiktok/user/@{username} for an RSSHub instance.'
+  desc: 'Sets the message sent when a followed TikTok account posts a new video. Needs TikTokRssBridgeUrl in the bot credentials, such as https://host/tiktok/user/@{{username}} for an RSSHub instance.'
   params:
     - desc: The 1-based index of the stream.
       name: index

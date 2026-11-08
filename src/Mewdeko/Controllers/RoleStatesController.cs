@@ -40,7 +40,7 @@ public class RoleStatesController : Controller
     public async Task<IActionResult> GetSettings(ulong guildId)
     {
         var settings = await roleStatesService.GetRoleStateSettings(guildId);
-        return Ok(settings);
+        return Ok(settings ?? new RoleStateSetting { GuildId = guildId, DeniedRoles = "", DeniedUsers = "" });
     }
 
     /// <summary>

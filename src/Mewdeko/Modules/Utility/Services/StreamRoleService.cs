@@ -20,6 +20,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly ILogger<StreamRoleService> logger;
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="StreamRoleService" />.
@@ -29,8 +30,9 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
     /// <param name="eventHandler">Event handler for capturing and responding to guild member updates.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public StreamRoleService(DiscordShardedClient client, IDataConnectionFactory dbFactory, EventHandler eventHandler,
-        ILogger<StreamRoleService> logger)
+        ILogger<StreamRoleService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.eventHandler = eventHandler;
@@ -44,7 +46,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
     {
         try
         {
-            foreach (var i in client.Guilds)
+            foreach (var i in client.Guilds.Where(g => ownership.IsMine(g.Id)))
             {
                 await RescanUsers(i);
             }

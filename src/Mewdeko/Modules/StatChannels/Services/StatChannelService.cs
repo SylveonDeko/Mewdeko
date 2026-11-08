@@ -53,6 +53,7 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
     private readonly GuildTimezoneService timezones;
     private readonly TwitchService twitchService;
     private readonly SemaphoreSlim updateSemaphore = new(1, 1);
+    private readonly GuildOwnershipService ownership;
     private bool isDisposed;
     private Timer? updateTimer;
 
@@ -67,8 +68,10 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
         ILogger<StatChannelService> logger,
         IAnalyticsCollector collector,
         ServerStatsService serverStats,
-        GuildTimezoneService timezones)
+        GuildTimezoneService timezones,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.collector = collector;
         this.dbFactory = dbFactory;
         this.client = client;
@@ -958,7 +961,8 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
         try
         {
             await using var db = await dbFactory.CreateConnectionAsync();
-            var allStatChannels = await db.StatChannels.ToListAsync();
+            var allStatChannels = (await db.StatChannels.ToListAsync()).Where(sc => ownership.IsMine(sc.GuildId))
+                .ToList();
 
             var now = DateTime.UtcNow;
             var due = allStatChannels

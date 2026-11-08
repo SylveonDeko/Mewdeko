@@ -73,6 +73,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<MuteService> logger;
     private readonly ModCaseService modCases;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
 
@@ -92,11 +93,13 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="modCases">The service recording moderation cases</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles</param>
     public MuteService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         GuildSettingsService guildSettings,
         EventHandler eventHandler, GeneratedBotStrings strings, BanPruneService banPrune, ModCaseService modCases,
-        ILogger<MuteService> logger)
+        ILogger<MuteService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.modCases = modCases;
         this.client = client;
         this.banPrune = banPrune;
@@ -173,7 +176,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                 })
                 .ToListAsync();
 
-            foreach (var timer in unmuteTimers)
+            foreach (var timer in unmuteTimers.Where(x => ownership.IsMine(x.GuildId.Value)))
             {
                 var key = new TimerKey(timer.GuildId.Value, timer.UserId, TimerType.Mute);
                 CreateIndividualTimer(key, timer.UnmuteAt);
@@ -188,7 +191,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                 })
                 .ToListAsync();
 
-            foreach (var timer in unbanTimers)
+            foreach (var timer in unbanTimers.Where(x => ownership.IsMine(x.GuildId.Value)))
             {
                 var key = new TimerKey(timer.GuildId.Value, timer.UserId, TimerType.Ban);
                 CreateIndividualTimer(key, timer.UnbanAt);
@@ -202,7 +205,7 @@ public class MuteService : INService, IReadyExecutor, IDisposable
                 })
                 .ToListAsync();
 
-            foreach (var timer in unroleTimers)
+            foreach (var timer in unroleTimers.Where(x => ownership.IsMine(x.GuildId.Value)))
             {
                 var key = new TimerKey(timer.GuildId.Value, timer.UserId, TimerType.AddRole, timer.RoleId);
                 CreateIndividualTimer(key, timer.UnbanAt);
@@ -269,6 +272,9 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// </summary>
     private async Task ProcessIndividualItem(TimerKey key)
     {
+        if (!ownership.IsMine(key.GuildId))
+            return;
+
         try
         {
             switch (key.Type)

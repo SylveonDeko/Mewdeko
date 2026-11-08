@@ -24,11 +24,6 @@ namespace Mewdeko.Modules.RoleMenus.Services;
 public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
 {
     /// <summary>
-    ///     Most menus one server can have.
-    /// </summary>
-    public const int MaxMenusPerGuild = 50;
-
-    /// <summary>
     ///     Most options one menu can have: one dropdown of 25, or 25 buttons in 5 rows.
     /// </summary>
     public const int MaxOptions = 25;
@@ -202,6 +197,11 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
     private readonly ILogger<RoleMenuService> logger;
 
     /// <summary>
+    ///     Decides which guilds this instance handles.
+    /// </summary>
+    private readonly GuildOwnershipService ownership;
+
+    /// <summary>
     ///     Stripes that serialize role changes for one member.
     /// </summary>
     private readonly SemaphoreSlim[] memberLocks;
@@ -281,6 +281,7 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
     /// <param name="guildSettings">Guild settings service.</param>
     /// <param name="collector">Analytics collector.</param>
     /// <param name="logger">Logger instance.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public RoleMenuService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -289,8 +290,10 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
         RoleCommandsService roleCommands,
         GuildSettingsService guildSettings,
         IAnalyticsCollector collector,
-        ILogger<RoleMenuService> logger)
+        ILogger<RoleMenuService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.strings = strings;
@@ -833,10 +836,6 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
         try
         {
             await using var db = await dbFactory.CreateConnectionAsync();
-
-            var count = await db.RoleMenus.CountAsync(x => x.GuildId == guildId);
-            if (count >= MaxMenusPerGuild)
-                return RoleMenuResult.Fail(RoleMenuError.TooManyMenus, MaxMenusPerGuild.ToString());
 
             var (error, detail) = ValidateDraft(guild, draft);
             if (error != RoleMenuError.None)
@@ -2539,8 +2538,8 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
         var due = await db.RoleMenuTempGrants
             .Where(x => x.ExpiresAt <= DateTime.UtcNow)
             .OrderBy(x => x.ExpiresAt)
-            .Take(200)
             .ToListAsync();
+        due = due.Where(x => ownership.IsMine(x.GuildId)).Take(200).ToList();
 
         foreach (var grant in due)
         {
@@ -2583,7 +2582,7 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
     private async Task ExpireMenusAsync()
     {
         var due = menus.Values
-            .Where(x => x.ExpiresAt is { } at && at <= DateTime.UtcNow)
+            .Where(x => x.ExpiresAt is { } at && at <= DateTime.UtcNow && ownership.IsMine(x.GuildId))
             .Select(x => x.Id)
             .ToList();
 
@@ -3213,7 +3212,6 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
         return result.Error switch
         {
             RoleMenuError.NotFound => strings.RolemenuNotFound(guildId, menuId?.ToString() ?? detail),
-            RoleMenuError.TooManyMenus => strings.RolemenuTooManyMenus(guildId, MaxMenusPerGuild),
             RoleMenuError.NameInvalid => strings.RolemenuNameInvalid(guildId),
             RoleMenuError.NoOptions => strings.RolemenuNeedsOption(guildId),
             RoleMenuError.TooManyOptions => strings.RolemenuTooManyOptions(guildId),

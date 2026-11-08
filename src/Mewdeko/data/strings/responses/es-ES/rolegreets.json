@@ -8,7 +8,6 @@
   "rolegreet_delete_success": "RoleGreet #{0} actualizado con éxito para eliminar después de {1}",
   "rolegreet_disable_status": "RoleGreet {0} establecido en {1}",
   "rolegreet_greetbots_set": "RoleGreet {0} GreetBots establecido en {1}",
-  "rolegreet_max_limit": "Parece que has alcanzado tu límite máximo de 10 RoleGreets. Por favor, elimina uno para añadir otro.",
   "rolegreet_message_preview_prompt": "¿Te gustaría ver esto como texto normal o te gustaría previsualizar cómo se ve realmente?",
   "rolegreet_message_set": "¡Mensaje RoleGreet para RoleGreet #{0} establecido!",
   "rolegreet_no_delete": "RoleGreet #{0} ya no se eliminará.",

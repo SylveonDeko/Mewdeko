@@ -345,16 +345,6 @@ public enum AchievementError
     KeywordMissing,
 
     /// <summary>
-    ///     The server has as many achievements as it can.
-    /// </summary>
-    TooManyAchievements,
-
-    /// <summary>
-    ///     The server has as many categories as it can.
-    /// </summary>
-    TooManyCategories,
-
-    /// <summary>
     ///     The reward role cannot be given out by the bot.
     /// </summary>
     RoleNotAssignable,
@@ -370,14 +360,14 @@ public enum AchievementError
     TooManyUploads,
 
     /// <summary>
-    ///     The server already has the most card designs allowed.
-    /// </summary>
-    TooManyCards,
-
-    /// <summary>
     ///     The server already has the most card designer images allowed.
     /// </summary>
     TooManyCardImages,
+
+    /// <summary>
+    ///     The server already has the most member design images allowed.
+    /// </summary>
+    TooManyMemberImages,
 
     /// <summary>
     ///     The category key is unknown.

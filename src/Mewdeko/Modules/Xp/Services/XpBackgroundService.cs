@@ -178,6 +178,17 @@ public class XpBackgroundService(
         }
     }
 
+    /// <summary>
+    ///     Fits an image to the size of the rank card.
+    /// </summary>
+    /// <param name="raw">The image bytes.</param>
+    /// <returns>The fitted PNG, or null when the bytes are not an image.</returns>
+    public byte[]? Fit(byte[] raw)
+    {
+        using var bitmap = SKBitmap.Decode(raw);
+        return bitmap is null ? null : FitToCard(bitmap);
+    }
+
     private async Task<(XpBackgroundResult Result, string Stored)> ResolveAsync(string key, string source)
     {
         if (source.Trim().StartsWith(CardPresets.Prefix, StringComparison.OrdinalIgnoreCase))

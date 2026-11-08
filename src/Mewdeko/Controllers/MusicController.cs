@@ -692,6 +692,46 @@ public class MusicController : Controller
     }
 
     /// <summary>
+    ///     Moves a track to another position in the queue
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="request">The queue indexes to move from and to</param>
+    /// <returns>OK result when the track is moved</returns>
+    [HttpPost("queue/move")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> MoveQueueItem(ulong guildId, [FromBody] MoveQueueRequest request)
+    {
+        var queue = (await cache.GetMusicQueue(guildId)).OrderBy(x => x.Index).ToList();
+
+        var fromPosition = queue.FindIndex(x => x.Index == request.FromIndex);
+        var toPosition = queue.FindIndex(x => x.Index == request.ToIndex);
+        if (fromPosition < 0 || toPosition < 0)
+            return NotFound("Track not found");
+
+        if (fromPosition == toPosition)
+            return Ok();
+
+        var slots = queue.Select(x => x.Index).ToList();
+        var currentTrack = await cache.GetCurrentTrack(guildId);
+        var currentIndex = currentTrack?.Index;
+
+        var moved = queue[fromPosition];
+        var playing = currentIndex is null ? null : queue.FirstOrDefault(x => x.Index == currentIndex);
+        queue.RemoveAt(fromPosition);
+        queue.Insert(toPosition, moved);
+        for (var i = 0; i < queue.Count; i++)
+            queue[i].Index = slots[i];
+
+        await cache.SetMusicQueue(guildId, queue);
+        if (playing is not null)
+            await cache.SetCurrentTrack(guildId, playing);
+
+        await eventManager.BroadcastPlayerUpdate(guildId);
+
+        return Ok();
+    }
+
+    /// <summary>
     ///     Sets the volume
     /// </summary>
     /// <param name="guildId">The Discord guild ID</param>

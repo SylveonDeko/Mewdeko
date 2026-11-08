@@ -230,6 +230,12 @@ public class CurrencyConfig
     public long DailyStreakMaxBonus { get; set; }
 
     /// <summary>
+    ///     Whether the community finished the dashboard's economy setup.
+    /// </summary>
+    [Column("SetupComplete")]
+    public bool SetupComplete { get; set; }
+
+    /// <summary>
     ///     When this configuration row was created.
     /// </summary>
     [Column("DateAdded")]

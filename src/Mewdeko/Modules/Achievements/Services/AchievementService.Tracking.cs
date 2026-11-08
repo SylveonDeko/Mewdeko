@@ -348,7 +348,7 @@ public sealed partial class AchievementService
         var now = DateTime.UtcNow;
         foreach (var guild in client.Guilds)
         {
-            if (!IsEnabled(guild.Id))
+            if (!IsEnabled(guild.Id) || !ownership.IsMine(guild.Id))
                 continue;
             foreach (var channel in guild.VoiceChannels)
             foreach (var user in channel.ConnectedUsers)

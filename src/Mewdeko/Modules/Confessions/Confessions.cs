@@ -118,7 +118,7 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
             return;
         }
 
-        if (gc.ConfessionBlacklist.Split(" ").Contains(ctx.User.Id.ToString()))
+        if (await Service.IsBlacklistedAsync(serverId, ctx.User.Id).ConfigureAwait(false))
         {
             await ErrorAsync(Strings.ConfessionsBlacklisted(serverId)).ConfigureAwait(false);
             return;

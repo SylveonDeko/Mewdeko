@@ -24,6 +24,7 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     private readonly EventHandler handler;
     private readonly ILogger<MessageRepeaterService> logger;
     private readonly MessageCountService? messageCountService;
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>
     ///     Initializes a new instance of the MessageRepeaterService class.
@@ -42,9 +43,11 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         Mewdeko bot, EventHandler handler, ILogger<MessageRepeaterService> logger,
+        GuildOwnershipService ownership,
         StickyConditionService? conditionService = null, MessageCountService? messageCountService = null,
         GuildTimezoneService? guildTimezoneService = null, IAnalyticsCollector? collector = null)
     {
+        this.ownership = ownership;
         this.collector = collector;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -110,7 +113,7 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
             await bot.Ready.Task.ConfigureAwait(false);
             logger.LogInformation("Loading message repeaters");
 
-            foreach (var guild in client.Guilds)
+            foreach (var guild in client.Guilds.Where(g => ownership.IsMine(g.Id)))
             {
                 await InitializeGuildRepeaters(guild);
             }

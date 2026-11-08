@@ -59,6 +59,7 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<JoinRoleTimeoutService> logger;
     private readonly ModCaseService modCases;
+    private readonly GuildOwnershipService ownership;
     private readonly ConcurrentDictionary<ulong, JoinRoleTimeoutSetting> settings = new();
     private readonly GeneratedBotStrings strings;
 
@@ -73,8 +74,9 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
     /// <param name="modCases">The service recording moderation cases.</param>
     public JoinRoleTimeoutService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         EventHandler eventHandler, GeneratedBotStrings strings, ILogger<JoinRoleTimeoutService> logger,
-        ModCaseService modCases)
+        ModCaseService modCases, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.modCases = modCases;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -375,7 +377,7 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
         foreach (var setting in enabled)
         {
             var guild = client.GetGuild(setting.GuildId);
-            if (guild is null)
+            if (guild is null || !ownership.IsMine(guild.Id))
                 continue;
 
             try

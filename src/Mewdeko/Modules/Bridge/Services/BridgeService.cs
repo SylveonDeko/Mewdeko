@@ -51,6 +51,7 @@ public partial class BridgeService : INService, IReadyExecutor, IUnloadableServi
     private readonly ILogger<BridgeService> logger;
     private readonly GeneratedBotStrings strings;
     private readonly FilterService filterService;
+    private readonly GuildOwnershipService ownership;
     private readonly string consumer = $"{ThisPlatform}-{Environment.ProcessId}";
     private int started;
     private Task? readLoop;
@@ -67,8 +68,9 @@ public partial class BridgeService : INService, IReadyExecutor, IUnloadableServi
     /// <param name="logger">The logger.</param>
     public BridgeService(DiscordShardedClient client, IDataCache cache, IDataConnectionFactory dbFactory,
         EventHandler eventHandler, GeneratedBotStrings strings, FilterService filterService,
-        ILogger<BridgeService> logger)
+        ILogger<BridgeService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.filterService = filterService;
         this.client = client;
         this.cache = cache;
@@ -105,7 +107,10 @@ public partial class BridgeService : INService, IReadyExecutor, IUnloadableServi
         await using (var db = await dbFactory.CreateConnectionAsync())
         {
             foreach (var bridge in await db.ChannelBridges.ToListAsync())
-                Track(bridge);
+            {
+                if (ownership.IsMine(bridge.GuildId))
+                    Track(bridge);
+            }
         }
 
         try

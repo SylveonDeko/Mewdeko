@@ -1,6 +1,7 @@
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Controllers.Common.AuditLog;
 using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Controllers.Common.XpBackgrounds;
 using Mewdeko.Modules.Import.Services;
@@ -18,8 +19,9 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class XpController(
+public partial class XpController(
     XpService xp,
+    XpRoleSyncService roleSyncService,
     DiscordShardedClient client,
     IDataConnectionFactory dbFactory,
     ILogger<XpController> logger,
@@ -60,6 +62,28 @@ public class XpController(
 
         auditContext.RecordAfter(await xp.GetGuildXpSettingsAsync(guildId));
         return Ok();
+    }
+
+    /// <summary>
+    ///     Gets the rank card background the server uses, as a data URI the dashboard can show
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <returns>The stored value and its image, or a 404 when there is none</returns>
+    [HttpGet("background")]
+    [SkipAudit]
+    public async Task<IActionResult> GetBackground(ulong guildId)
+    {
+        var settings = await xp.GetGuildXpSettingsAsync(guildId);
+        if (string.IsNullOrWhiteSpace(settings.CustomXpImageUrl))
+            return NotFound("No background set");
+
+        var bytes = await backgroundService.LoadAsync(settings.CustomXpImageUrl);
+        return bytes is null
+            ? NotFound("Background could not be loaded")
+            : Ok(new
+            {
+                Value = settings.CustomXpImageUrl, Image = $"data:image/png;base64,{Convert.ToBase64String(bytes)}"
+            });
     }
 
     /// <summary>
@@ -107,8 +131,8 @@ public class XpController(
         var updatedSettings = await xp.UpdateGuildXpSettingsAsync(guildId, s =>
         {
             if (settings.XpPerMessage > 0) s.XpPerMessage = settings.XpPerMessage;
-            if (settings.MessageXpCooldown > 0) s.MessageXpCooldown = settings.MessageXpCooldown;
-            if (settings.VoiceXpPerMinute > 0) s.VoiceXpPerMinute = settings.VoiceXpPerMinute;
+            if (settings.MessageXpCooldown >= 0) s.MessageXpCooldown = settings.MessageXpCooldown;
+            if (settings.VoiceXpPerMinute >= 0) s.VoiceXpPerMinute = settings.VoiceXpPerMinute;
             if (settings.VoiceXpTimeout > 0) s.VoiceXpTimeout = settings.VoiceXpTimeout;
             if (settings.XpMultiplier > 0) s.XpMultiplier = settings.XpMultiplier;
             s.XpCurveType = settings.XpCurveType;
@@ -117,6 +141,9 @@ public class XpController(
             s.LevelUpInterval = Math.Max(1, settings.LevelUpInterval);
             s.LevelUpMinLevel = Math.Max(0, settings.LevelUpMinLevel);
             s.LevelUpRewardsOnly = settings.LevelUpRewardsOnly;
+            s.LevelUpChannel = settings.LevelUpChannel;
+            s.ExclusiveRoleRewards = settings.ExclusiveRoleRewards;
+            if (!string.IsNullOrWhiteSpace(settings.LevelUpMessage)) s.LevelUpMessage = settings.LevelUpMessage;
         });
 
         if (curveTypeChanged)
@@ -147,7 +174,15 @@ public class XpController(
     public async Task<IActionResult> GetLevelUpLog(ulong guildId)
     {
         var entries = await xp.GetLevelUpLogAsync(guildId);
-        return Ok(entries);
+        var guild = client.GetGuild(guildId);
+        return Ok(entries.Select(x => new
+        {
+            x.UserId,
+            Username = guild?.GetUser(x.UserId)?.Username ?? "Unknown",
+            x.OldLevel,
+            x.NewLevel,
+            x.DateAdded
+        }));
     }
 
     /// <summary>

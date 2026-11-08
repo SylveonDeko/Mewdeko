@@ -274,6 +274,25 @@ public class ConfessionService(
     }
 
     /// <summary>
+    ///     Checks whether a user is blocked from confessing, either by their own ID or by one of their roles.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="userId">The ID of the user.</param>
+    /// <returns>True if the user or one of their roles is blacklisted.</returns>
+    public async Task<bool> IsBlacklistedAsync(ulong guildId, ulong userId)
+    {
+        var blacklist = (await guildSettings.GetGuildConfig(guildId)).GetConfessionBlacklists();
+        if (blacklist.Count == 0)
+            return false;
+
+        if (blacklist.Contains(userId))
+            return true;
+
+        var member = client.GetGuild(guildId)?.GetUser(userId);
+        return member is not null && member.Roles.Any(role => blacklist.Contains(role.Id));
+    }
+
+    /// <summary>
     ///     Sets the confession log channel for a guild.
     /// </summary>
     /// <param name="guild">The guild to set the confession log channel for.</param>

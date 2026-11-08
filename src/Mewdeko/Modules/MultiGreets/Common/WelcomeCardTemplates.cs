@@ -40,6 +40,11 @@ public enum WelcomeCardError
     MissingElement,
 
     /// <summary>
+    ///     The community has no message of that kind to put a card on.
+    /// </summary>
+    NoMessage,
+
+    /// <summary>
     ///     The image could not be read.
     /// </summary>
     InvalidImage,

@@ -17,6 +17,7 @@ public class MusicPlayerRecoveryService : INService, IReadyExecutor
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
     private readonly ILogger<MusicPlayerRecoveryService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -28,13 +29,15 @@ public class MusicPlayerRecoveryService : INService, IReadyExecutor
     /// <param name="services">The service provider.</param>
     /// <param name="strings">The localization service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public MusicPlayerRecoveryService(
         IDataCache cache,
         IAudioService audioService,
         DiscordShardedClient client,
         IServiceProvider services,
-        GeneratedBotStrings strings, ILogger<MusicPlayerRecoveryService> logger)
+        GeneratedBotStrings strings, ILogger<MusicPlayerRecoveryService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.cache = cache;
         this.audioService = audioService;
         this.client = client;
@@ -66,7 +69,7 @@ public class MusicPlayerRecoveryService : INService, IReadyExecutor
     private async Task RecoverPlayersAsync()
     {
         // Process guilds in batches to avoid rate limiting
-        var guilds = client.Guilds.ToList();
+        var guilds = client.Guilds.Where(x => ownership.IsMine(x.Id)).ToList();
         logger.LogInformation("Checking {Count} guilds for music player recovery", guilds.Count);
 
         // Process up to 5 guilds concurrently

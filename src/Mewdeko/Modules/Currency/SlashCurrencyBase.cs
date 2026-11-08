@@ -25,6 +25,11 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
     public EconomyBoostService BoostService { get; set; }
 
     /// <summary>
+    ///     The service tracking daily challenge progress from finished games.
+    /// </summary>
+    public DailyChallengeService DailyChallengeService { get; set; }
+
+    /// <summary>
     ///     Validates a wager, enforces the guild's limits, and takes the stake atomically. Reports the
     ///     reason to the user itself when a wager is refused, so callers only branch on the boolean.
     /// </summary>
@@ -74,7 +79,10 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
 
         if (await Service.TryDebitAsync(ctx.User.Id, bet, Strings.BetPlacedTransaction(ctx.Guild.Id, gameKey),
                 CurrencyCategory.GameBet, ctx.Guild.Id, gameKey))
+        {
+            await DailyChallengeService.RecordBet(ctx.User.Id, ctx.Guild.Id, gameKey, bet);
             return true;
+        }
 
         await ErrorAsync(Strings.BetInsufficientFunds(ctx.Guild.Id, bet, emote));
         return false;
@@ -100,6 +108,8 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
 
         await Service.CreditAsync(ctx.User.Id, total, Strings.BetWonTransaction(ctx.Guild.Id, gameKey),
             CurrencyCategory.GamePayout, ctx.Guild.Id, gameKey);
+
+        await DailyChallengeService.RecordPayout(ctx.User.Id, ctx.Guild.Id, stake, total);
 
         return total;
     }
@@ -135,6 +145,8 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
 
         await Service.CreditAsync(ctx.User.Id, amount, Strings.BetWonTransaction(ctx.Guild.Id, gameKey),
             CurrencyCategory.GamePayout, ctx.Guild.Id, gameKey);
+
+        await DailyChallengeService.RecordPayout(ctx.User.Id, ctx.Guild.Id, stake, amount);
 
         return amount;
     }

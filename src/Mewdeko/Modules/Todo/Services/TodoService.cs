@@ -877,4 +877,116 @@ public class TodoService : INService
         return await ctx.TodoListPermissions
             .AnyAsync(x => x.TodoListId == listId && x.UserId == userId && x.CanEdit);
     }
+
+    /// <summary>
+    ///     Marks a completed todo item as pending again.
+    /// </summary>
+    /// <param name="itemId">The item ID</param>
+    /// <param name="userId">The user reopening the item</param>
+    /// <returns>True if successful</returns>
+    public async Task<bool> UncompleteTodoItemAsync(int itemId, ulong userId)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+
+        var item = await ctx.TodoItems.Where(x => x.Id == itemId).FirstOrDefaultAsync();
+        if (item is null) return false;
+
+        if (!await CanUserCompleteItemAsync(item.TodoListId, userId, item.CreatedBy))
+            return false;
+
+        var updated = await ctx.TodoItems
+            .Where(x => x.Id == itemId && x.IsCompleted)
+            .Set(x => x.IsCompleted, false)
+            .Set(x => x.CompletedAt, (DateTime?)null)
+            .Set(x => x.CompletedBy, (ulong?)null)
+            .UpdateAsync();
+
+        if (updated > 0)
+        {
+            await ctx.TodoLists
+                .Where(x => x.Id == item.TodoListId)
+                .Set(x => x.UpdatedAt, DateTime.UtcNow)
+                .UpdateAsync();
+        }
+
+        return updated > 0;
+    }
+
+    /// <summary>
+    ///     Updates a todo list's name, description, color and visibility.
+    /// </summary>
+    /// <param name="listId">The list ID</param>
+    /// <param name="userId">The user updating the list</param>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="name">The new name, or null to keep the current name</param>
+    /// <param name="description">The new description, or null to clear it</param>
+    /// <param name="color">The new hex color, or null to keep the current color</param>
+    /// <param name="isPublic">The new visibility, or null to keep the current visibility</param>
+    /// <returns>Null on success, otherwise the reason it failed</returns>
+    public async Task<string?> UpdateTodoListAsync(int listId, ulong userId, ulong guildId, string? name,
+        string? description, string? color, bool? isPublic)
+    {
+        if (!await CanUserManageListAsync(listId, userId))
+            return "You cannot manage this list.";
+
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+
+        var list = await ctx.TodoLists.Where(x => x.Id == listId && x.GuildId == guildId).FirstOrDefaultAsync();
+        if (list is null)
+            return "List not found.";
+
+        var newName = string.IsNullOrWhiteSpace(name) ? list.Name : name.Trim();
+        if (newName != list.Name)
+        {
+            var taken = await ctx.TodoLists.AnyAsync(x => x.Id != listId && x.GuildId == guildId &&
+                                                          x.OwnerId == list.OwnerId && x.Name == newName &&
+                                                          x.IsServerList == list.IsServerList);
+            if (taken)
+                return "A list with that name already exists.";
+        }
+
+        if (color is not null && !System.Text.RegularExpressions.Regex.IsMatch(color, "^#[0-9a-fA-F]{6}$"))
+            return "The color must be a hex code like #7289da.";
+
+        var newDescription = string.IsNullOrWhiteSpace(description) ? null : description.Trim();
+
+        await ctx.TodoLists
+            .Where(x => x.Id == listId)
+            .Set(x => x.Name, newName)
+            .Set(x => x.Description, newDescription)
+            .Set(x => x.Color, color ?? list.Color)
+            .Set(x => x.IsPublic, isPublic ?? list.IsPublic)
+            .Set(x => x.UpdatedAt, DateTime.UtcNow)
+            .UpdateAsync();
+
+        return null;
+    }
+
+    /// <summary>
+    ///     Works out what a user can do on a todo list.
+    /// </summary>
+    /// <param name="listId">The list ID</param>
+    /// <param name="userId">The user to check</param>
+    /// <param name="guildId">The guild ID</param>
+    /// <returns>The user's access, or null if the list does not exist in the guild</returns>
+    public async Task<(bool IsOwner, bool CanView, bool CanAdd, bool CanEdit, bool CanComplete, bool CanDelete, bool
+        CanManage)?> GetListAccessAsync(int listId, ulong userId, ulong guildId)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+
+        var list = await ctx.TodoLists.Where(x => x.Id == listId && x.GuildId == guildId).FirstOrDefaultAsync();
+        if (list is null)
+            return null;
+
+        if (list.OwnerId == userId)
+            return (true, true, true, true, true, true, true);
+
+        var permission = await ctx.TodoListPermissions
+            .Where(x => x.TodoListId == listId && x.UserId == userId)
+            .FirstOrDefaultAsync();
+
+        var canView = permission?.CanView == true || (list.IsServerList && list.IsPublic);
+        return (false, canView, permission?.CanAdd == true, permission?.CanEdit == true,
+            permission?.CanComplete == true, permission?.CanDelete == true, permission?.CanManageList == true);
+    }
 }

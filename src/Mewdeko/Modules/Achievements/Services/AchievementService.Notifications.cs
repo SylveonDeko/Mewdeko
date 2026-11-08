@@ -369,7 +369,7 @@ public sealed partial class AchievementService
         {
             var data = await BuildImageDataAsync(user, def, catalog, label, more, progress, locked);
             return await services.GetRequiredService<AchievementUnlockRenderer>()
-                .RenderAsync(data, await GetCardForAsync(user.Guild.Id, def));
+                .RenderAsync(data, await GetCardForMemberAsync(user.Guild.Id, user.Id, def));
         }
         catch (Exception ex)
         {

@@ -130,15 +130,20 @@ public class AfkController : Controller
         }
 
 
-        var result = users.Select(user => new
-        {
-            UserId = user.Id,
-            user.Username,
-            user.Nickname,
-            AvatarUrl = user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl(),
-            // Find the matching latest AFK status for this user
-            AfkStatus = latestAfks.FirstOrDefault(a => a != null && a.UserId == user.Id)
-        }).ToList();
+        var awayByUser = latestAfks
+            .Where(a => !string.IsNullOrEmpty(a.Message))
+            .ToDictionary(a => a.UserId);
+
+        var result = users
+            .Where(user => awayByUser.ContainsKey(user.Id))
+            .Select(user => new
+            {
+                UserId = user.Id,
+                user.Username,
+                user.Nickname,
+                AvatarUrl = user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl(),
+                AfkStatus = awayByUser[user.Id]
+            }).ToList();
 
         return Ok(result);
     }
@@ -164,6 +169,7 @@ public class AfkController : Controller
     [HttpPost("deletion")]
     public async Task<IActionResult> AfkDelSet(ulong guildId, [FromBody] int time)
     {
+        if (time < 0) return BadRequest("Deletion time can't be negative.");
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
         auditContext.RecordBefore(await afk.GetAfkDel(guildId));
@@ -193,6 +199,7 @@ public class AfkController : Controller
     [HttpPost("length")]
     public async Task<IActionResult> AfkLengthSet(ulong guildId, [FromBody] int length)
     {
+        if (length is < 1 or > 4096) return BadRequest("Length must be between 1 and 4096.");
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
         auditContext.RecordBefore(await afk.GetAfkLength(guildId));
@@ -222,6 +229,7 @@ public class AfkController : Controller
     [HttpPost("type")]
     public async Task<IActionResult> AfkTypeSet(ulong guildId, [FromBody] int type)
     {
+        if (type is < 1 or > 4) return BadRequest("Type must be between 1 and 4.");
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
         auditContext.RecordBefore(await afk.GetAfkType(guildId));
@@ -253,6 +261,7 @@ public class AfkController : Controller
     {
         var stoopidTime = StoopidTime.FromInput(timeout); // Assuming StoopidTime is accessible
         var timeoutSeconds = (int)stoopidTime.Time.TotalSeconds;
+        if (timeoutSeconds is < 0 or > 7200) return BadRequest("Timeout must be between 0 seconds and 2 hours.");
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
         auditContext.RecordBefore(await afk.GetAfkTimeout(guildId));

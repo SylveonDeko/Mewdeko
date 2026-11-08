@@ -31,6 +31,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
     private readonly IDataConnectionFactory db;
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<PatreonService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -45,6 +46,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
     /// <param name="logger">Serilog logger.</param>
     /// <param name="collector">The analytics collector.</param>
     /// <param name="botConfig">The bot configuration service.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public PatreonService(
         DiscordShardedClient client,
         IDataConnectionFactory db,
@@ -52,8 +54,10 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
         GeneratedBotStrings strings,
         IBotCredentials creds,
         PatreonApiClient apiClient, ILogger<PatreonService> logger, IAnalyticsCollector collector,
-        BotConfigService botConfig)
+        BotConfigService botConfig,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.botConfig = botConfig;
         this.collector = collector;
         this.client = client;
@@ -265,7 +269,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                          x.PatreonLastAnnouncement.Value.Year != now.Year))
             .ToListAsync();
 
-        foreach (var config in configs)
+        foreach (var config in configs.Where(x => ownership.IsMine(x.GuildId)))
         {
             try
             {
@@ -296,6 +300,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                          x.PatreonLastAnnouncement.Value.Month != now.Month ||
                          x.PatreonLastAnnouncement.Value.Year != now.Year))
             .ToListAsync();
+        configs = configs.Where(x => ownership.IsMine(x.GuildId)).ToList();
 
         logger.LogInformation("Found {Count} overdue Patreon announcements", configs.Count);
 
@@ -822,7 +827,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
 
             // Trigger role sync for this user if enabled
             var config = await uow.GuildConfigs.FirstOrDefaultAsync(x => x.GuildId == guildId);
-            if (config?.PatreonRoleSync == true)
+            if (config?.PatreonRoleSync == true && discordUserId != 0)
             {
                 _ = SyncUserRolesAsync(guildId, discordUserId);
             }
@@ -1041,6 +1046,18 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                 tierId, roleId, guildId);
             return false;
         }
+    }
+
+    /// <summary>
+    ///     Checks whether role synchronization is on for a guild
+    /// </summary>
+    /// <param name="guildId">Discord guild ID</param>
+    /// <returns>True if tier roles are being synced</returns>
+    public async Task<bool> IsRoleSyncEnabled(ulong guildId)
+    {
+        await using var uow = await db.CreateConnectionAsync();
+        var config = await uow.GuildConfigs.FirstOrDefaultAsync(x => x.GuildId == guildId);
+        return config?.PatreonRoleSync ?? false;
     }
 
     /// <summary>

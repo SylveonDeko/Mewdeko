@@ -290,6 +290,9 @@ public class PatreonController : ControllerBase
             }
 
             var supporters = await patreonService.GetActiveSupportersAsync(guildId);
+            foreach (var supporter in supporters)
+                supporter.Email = null;
+
             return Ok(supporters);
         }
         catch (Exception ex)
@@ -313,8 +316,7 @@ public class PatreonController : ControllerBase
     {
         try
         {
-            var config = await patreonService.GetPatreonConfig(guildId);
-            return Ok(config);
+            return Ok(await BuildConfigResponse(guildId));
         }
         catch (Exception ex)
         {
@@ -348,6 +350,14 @@ public class PatreonController : ControllerBase
                 });
             }
 
+            if (request.AnnouncementDay is < 1 or > 28)
+            {
+                return BadRequest(new
+                {
+                    error = "Announcement day must be between 1 and 28"
+                });
+            }
+
             if (request.ChannelId.HasValue)
             {
                 await patreonService.SetPatreonChannel(guildId, request.ChannelId.Value);
@@ -373,8 +383,20 @@ public class PatreonController : ControllerBase
                 await patreonService.ToggleRoleSyncAsync(guildId);
             }
 
-            var updatedConfig = await patreonService.GetPatreonConfig(guildId);
-            return Ok(updatedConfig);
+            if (request.AnnouncementsEnabled.HasValue)
+            {
+                var current = await patreonService.GetPatreonConfig(guildId);
+                if (current.enabled != request.AnnouncementsEnabled.Value)
+                    await patreonService.TogglePatreonAnnouncements(guildId);
+            }
+
+            if (request.RoleSyncEnabled.HasValue &&
+                await patreonService.IsRoleSyncEnabled(guildId) != request.RoleSyncEnabled.Value)
+            {
+                await patreonService.ToggleRoleSyncAsync(guildId);
+            }
+
+            return Ok(await BuildConfigResponse(guildId));
         }
         catch (Exception ex)
         {
@@ -558,16 +580,69 @@ public class PatreonController : ControllerBase
                 });
             }
 
-            await patreonService.MapTierToRoleAsync(guildId, request.TierId, request.RoleId);
+            if (!await patreonService.MapTierToRoleAsync(guildId, request.TierId, request.RoleId))
+            {
+                return NotFound(new
+                {
+                    error = "Tier not found"
+                });
+            }
+
             return Ok(new
             {
-                message = "Tier mapped to role successfully"
+                message = request.RoleId == 0 ? "Tier role removed" : "Tier mapped to role successfully"
             });
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error mapping Patreon tier {TierId} to role {RoleId} for guild {GuildId}",
                 request.TierId, request.RoleId, guildId);
+            return StatusCode(500, new
+            {
+                error = "Internal server error"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Links a Patreon supporter to a Discord member, or unlinks them with a Discord ID of 0
+    /// </summary>
+    /// <param name="guildId">Discord guild ID</param>
+    /// <param name="request">Supporter link request</param>
+    /// <returns>Link result</returns>
+    [HttpPost("supporters/link")]
+    [EnableRateLimiting("AuthPolicy")]
+    public async Task<IActionResult> LinkSupporter([FromQuery] ulong guildId,
+        [FromBody] PatreonSupporterLinkRequest request)
+    {
+        try
+        {
+            var config = await patreonService.GetPatreonOAuthConfig(guildId);
+            if (string.IsNullOrEmpty(config.accessToken))
+            {
+                return BadRequest(new
+                {
+                    error = "Patreon not configured for this guild"
+                });
+            }
+
+            if (!await patreonService.LinkUserAsync(guildId, request.DiscordUserId, request.PatreonUserId))
+            {
+                return NotFound(new
+                {
+                    error = "Supporter not found"
+                });
+            }
+
+            return Ok(new
+            {
+                message = request.DiscordUserId == 0 ? "Supporter unlinked" : "Supporter linked"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error linking Patreon supporter {PatreonUserId} for guild {GuildId}",
+                request.PatreonUserId, guildId);
             return StatusCode(500, new
             {
                 error = "Internal server error"
@@ -612,5 +687,20 @@ public class PatreonController : ControllerBase
                 error = "Internal server error"
             });
         }
+    }
+
+    private async Task<PatreonConfigResponse> BuildConfigResponse(ulong guildId)
+    {
+        var config = await patreonService.GetPatreonConfig(guildId);
+        return new PatreonConfigResponse
+        {
+            GuildId = guildId,
+            PatreonChannelId = config.channelId,
+            PatreonMessage = config.message,
+            PatreonAnnouncementDay = config.day,
+            PatreonEnabled = config.enabled,
+            PatreonRoleSync = await patreonService.IsRoleSyncEnabled(guildId),
+            PatreonLastAnnouncement = config.lastAnnouncement
+        };
     }
 }

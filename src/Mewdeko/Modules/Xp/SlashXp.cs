@@ -5,6 +5,7 @@ using Discord.Net;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Modules.CardDesigns.Services;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Import.Services;
 using Mewdeko.Modules.Xp.Models;
@@ -17,6 +18,7 @@ namespace Mewdeko.Modules.Xp;
 /// </summary>
 [Group("xp", "Experience and levels")]
 public partial class SlashXp(
+    CardDesignViewService designViews,
     InteractiveService interactivity,
     ICurrencyService currencyService,
     XpRoleSyncService roleSyncService,

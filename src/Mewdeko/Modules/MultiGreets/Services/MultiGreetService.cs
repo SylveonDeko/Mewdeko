@@ -176,6 +176,7 @@ public class MultiGreetService : INService
     {
         await using var db = await dbFactory.CreateConnectionAsync();
         await db.DeleteAsync(greet);
+        await welcomeCards.DeleteCardAsync(greet.GuildId, WelcomeCardTarget.Greet, greet.Id);
     }
 
     /// <summary>
@@ -189,6 +190,7 @@ public class MultiGreetService : INService
         foreach (var greet in greets)
         {
             await db.DeleteAsync(greet);
+            await welcomeCards.DeleteCardAsync(greet.GuildId, WelcomeCardTarget.Greet, greet.Id);
         }
     }
 
@@ -208,12 +210,16 @@ public class MultiGreetService : INService
         await db.UpdateAsync(greet);
     }
 
-    private static async Task SendSmartEmbedMessage(IMessageChannel channel, string content, ulong guildId,
-        int deleteTime = 0, byte[]? card = null)
+    private async Task SendSmartEmbedMessage(IMessageChannel channel, string content, MultiGreet greet, IGuildUser user)
     {
-        var built = SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components)
-            ? components?.Build()
-            : null;
+        var guildId = user.Guild.Id;
+        var deleteTime = greet.DeleteTime;
+        var isEmbed = SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components);
+        var built = isEmbed ? components?.Build() : null;
+        if (!isEmbed) plainText = content;
+        var (card, embeds) = await welcomeCards.TryAttachAsync(guildId, WelcomeCardTarget.Greet, greet.Id, user,
+            embedData);
+        embedData = embeds;
         if (!string.IsNullOrWhiteSpace(plainText) || embedData?.Length > 0 || built?.Components.Count > 0)
         {
             var msg = card is null
@@ -233,12 +239,16 @@ public class MultiGreetService : INService
         }
     }
 
-    private async Task<ulong> SendSmartEmbedWebhookMessage(DiscordWebhookClient webhook, string content, ulong guildId,
-        byte[]? card = null)
+    private async Task<ulong> SendSmartEmbedWebhookMessage(DiscordWebhookClient webhook, string content,
+        MultiGreet greet, IGuildUser user)
     {
-        var built = SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components)
-            ? components?.Build()
-            : null;
+        var guildId = user.Guild.Id;
+        var isEmbed = SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components);
+        var built = isEmbed ? components?.Build() : null;
+        if (!isEmbed) plainText = content;
+        var (card, embeds) = await welcomeCards.TryAttachAsync(guildId, WelcomeCardTarget.Greet, greet.Id, user,
+            embedData);
+        embedData = embeds;
         if (!string.IsNullOrWhiteSpace(plainText) || embedData?.Length > 0 || built?.Components.Count > 0)
         {
             return card is null
@@ -272,14 +282,12 @@ public class MultiGreetService : INService
             return;
         }
 
-        var card = await welcomeCards.TryRenderAsync(user.Guild.Id, WelcomeCardTarget.Greet, user);
-
         try
         {
             if (greet.WebhookUrl != null)
             {
                 var webhook = new DiscordWebhookClient(greet.WebhookUrl);
-                var msgId = await SendSmartEmbedWebhookMessage(webhook, content, user.Guild.Id, card);
+                var msgId = await SendSmartEmbedWebhookMessage(webhook, content, greet, user);
                 if (greet.DeleteTime > 0)
                 {
                     var msg = await channel.GetMessageAsync(msgId);
@@ -288,7 +296,7 @@ public class MultiGreetService : INService
             }
             else
             {
-                await SendSmartEmbedMessage(channel, content, user.Guild.Id, greet.DeleteTime, card);
+                await SendSmartEmbedMessage(channel, content, greet, user);
             }
 
             collector.Feature("greet", user.Guild.Id);

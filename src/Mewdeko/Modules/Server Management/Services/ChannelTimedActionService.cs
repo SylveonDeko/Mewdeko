@@ -26,6 +26,7 @@ public class ChannelTimedActionService : INService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<ChannelTimedActionService> logger;
     private readonly SemaphoreSlim gate = new(1, 1);
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -47,8 +48,10 @@ public class ChannelTimedActionService : INService, IReadyExecutor
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The generated bot strings.</param>
     public ChannelTimedActionService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, ILogger<ChannelTimedActionService> logger, GeneratedBotStrings strings)
+        EventHandler eventHandler, ILogger<ChannelTimedActionService> logger, GeneratedBotStrings strings,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.strings = strings;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -272,7 +275,7 @@ public class ChannelTimedActionService : INService, IReadyExecutor
             var due = await db.ChannelTimedActions.Where(x => x.EndsAt != null && x.EndsAt <= now).ToListAsync();
             foreach (var action in due)
             {
-                if (client.GetGuild(action.GuildId) is null)
+                if (!ownership.IsMine(action.GuildId) || client.GetGuild(action.GuildId) is null)
                     continue;
 
                 try

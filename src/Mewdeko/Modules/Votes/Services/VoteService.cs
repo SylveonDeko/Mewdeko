@@ -190,10 +190,6 @@ public class VoteService : INService
 
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        // Count vote roles using LinqToDB
-        if (await db.VoteRoles.CountAsync(x => x.GuildId == guildId) >= 10)
-            return (false, Strings.ReachedMaximumVoteRoles(guildId));
-
         // Check if role already exists as vote role using LinqToDB
         if (await db.VoteRoles
                 .AnyAsync(x => x.GuildId == guildId && x.RoleId == roleId))
@@ -255,7 +251,7 @@ public class VoteService : INService
 
         // Find the vote role using LinqToDB
         var voteRole = await db.VoteRoles
-            .FirstOrDefaultAsync(x => x.RoleId == roleId);
+            .FirstOrDefaultAsync(x => x.RoleId == roleId && x.GuildId == guildId);
 
         if (voteRole is null)
             return (false, Strings.RoleNotAddedAsVoteRole(guildId));

@@ -411,6 +411,9 @@ public class CustomVoiceController(
     public async Task<IActionResult> UpdateChannel(ulong guildId, ulong channelId,
         [FromBody] UpdateCustomVoiceChannelRequest request)
     {
+        if (request.IsLocked.HasValue)
+            await customVoiceService.UpdateVoiceChannelAsync(guildId, channelId, isLocked: request.IsLocked);
+
         await using var db = await dbFactory.CreateConnectionAsync();
 
         var channel = await db.CustomVoiceChannels
@@ -459,6 +462,14 @@ public class CustomVoiceController(
 
         auditContext.RecordBefore(await db.CustomVoiceChannels
             .FirstOrDefaultAsync(c => c.GuildId == guildId && c.ChannelId == channelId));
+
+        if (await customVoiceService.DeleteVoiceChannelAsync(guildId, channelId))
+        {
+            return Ok(new
+            {
+                success = true, message = "Channel deleted successfully"
+            });
+        }
 
         var deleted = await db.CustomVoiceChannels
             .Where(c => c.GuildId == guildId && c.ChannelId == channelId)

@@ -79,6 +79,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler handler;
     private readonly ILogger<GuildDataRetentionService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
     private readonly SemaphoreSlim purgeLock = new(1, 1);
     private DateTime lastOrphanScan = DateTime.MinValue;
@@ -94,10 +95,12 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     /// <param name="creds">The bot credentials.</param>
     /// <param name="strings">The localization strings provider.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public GuildDataRetentionService(EventHandler handler, DiscordShardedClient client,
         IDataConnectionFactory dbFactory, BotConfigService bss, BotCredentials creds, GeneratedBotStrings strings,
-        ILogger<GuildDataRetentionService> logger)
+        ILogger<GuildDataRetentionService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.handler = handler;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -134,7 +137,8 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     {
         handler.Subscribe("LeftGuild", "GuildDataRetentionService", OnLeftGuild);
         handler.Subscribe("JoinedGuild", "GuildDataRetentionService", OnJoinedGuild);
-        _ = RunLoop();
+        if (ownership.HandlesGlobalWork)
+            _ = RunLoop();
         return Task.CompletedTask;
     }
 
@@ -228,7 +232,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     /// <returns>The number of rows removed, or null when the bot is still in the guild.</returns>
     public async Task<long?> PurgeNowAsync(ulong guildId)
     {
-        if (client.GetGuild(guildId) is not null)
+        if (!ownership.HandlesGlobalWork || !ownership.IsMine(guildId) || client.GetGuild(guildId) is not null)
             return null;
 
         await using (var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false))
@@ -250,7 +254,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     /// <returns>How many guilds were newly queued.</returns>
     public async Task<int> ScanOrphansAsync()
     {
-        if (!AllShardsConnected() || client.Guilds.Count == 0)
+        if (!ownership.HandlesGlobalWork || !AllShardsConnected() || client.Guilds.Count == 0)
             return 0;
 
         var snapshot = await GetSchemaAsync().ConfigureAwait(false);
@@ -266,7 +270,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
             foreach (var id in ids)
             {
                 var guildId = (ulong)id;
-                if (!present.Contains(guildId))
+                if (!present.Contains(guildId) && ownership.IsMine(guildId))
                     found.Add(guildId);
             }
 
@@ -301,6 +305,9 @@ public class GuildDataRetentionService : INService, IReadyExecutor
 
     private Task OnLeftGuild(SocketGuild guild)
     {
+        if (!ownership.HandlesGlobalWork || !ownership.IsMine(guild.Id))
+            return Task.CompletedTask;
+
         _ = Task.Run(async () =>
         {
             try
@@ -378,7 +385,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     /// <returns>How many guilds were purged and how many rows that removed.</returns>
     public async Task<(int Guilds, long Rows)> PurgePendingAsync(bool ignoreDeadline)
     {
-        if (!AllShardsConnected())
+        if (!ownership.HandlesGlobalWork || !AllShardsConnected())
             return (0, 0);
 
         List<GuildDataRetention> due;
@@ -391,7 +398,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
             due = await query.OrderBy(x => x.PurgeAfter).ToListAsync().ConfigureAwait(false);
         }
 
-        var rejoined = due.Where(x => client.GetGuild(x.GuildId) is not null).ToList();
+        var rejoined = due.Where(x => client.GetGuild(x.GuildId) is not null || !ownership.IsMine(x.GuildId)).ToList();
         foreach (var entry in rejoined)
             await CancelAsync(entry.GuildId).ConfigureAwait(false);
         due = due.Except(rejoined).ToList();
@@ -428,7 +435,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
             .Select(x => x.GuildId)
             .ToListAsync().ConfigureAwait(false);
 
-        var rejoined = pending.Where(id => client.GetGuild(id) is not null).ToList();
+        var rejoined = pending.Where(id => client.GetGuild(id) is not null || !ownership.IsMine(id)).ToList();
         if (rejoined.Count == 0)
             return;
 

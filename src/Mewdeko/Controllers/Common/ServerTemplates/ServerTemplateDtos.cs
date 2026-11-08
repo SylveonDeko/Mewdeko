@@ -46,3 +46,14 @@ public class ServerTemplateListResponse
     /// </summary>
     public List<ServerTemplateDto> Templates { get; set; } = [];
 }
+
+/// <summary>
+///     Request to save a server as a template.
+/// </summary>
+public class SaveServerTemplateRequest
+{
+    /// <summary>
+    ///     The template name.
+    /// </summary>
+    public string Name { get; set; } = "";
+}

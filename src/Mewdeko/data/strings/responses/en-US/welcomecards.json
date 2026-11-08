@@ -10,7 +10,13 @@
   "welcomecard_background_removed": "Background image removed.",
   "welcomecard_background_unknown_preset": "That preset doesn't exist. List them with the background presets command.",
   "welcomecard_disabled": "The card is off.",
-  "welcomecard_enabled": "The card is on. Send a preview to check how it looks.",
+  "welcomecard_enabled": "The card is attached to the message. Send a preview to check how it looks.",
+  "welcomecard_invalid_placement": "The placement must be none, embed or attached.",
+  "welcomecard_no_message": "There's no message of that kind to put a card on.",
+  "welcomecard_placement_attached": "Attached",
+  "welcomecard_placement_embed": "Embed image",
+  "welcomecard_placement_none": "None",
+  "welcomecard_placement_saved": "The card placement is now {0}.",
   "welcomecard_image": "Image",
   "welcomecard_invalid_color": "Colours must be hex, like #23272A.",
   "welcomecard_invalid_font": "That font isn't available. Use one of: {0}.",
@@ -24,7 +30,7 @@
   "welcomecard_on": "On",
   "welcomecard_reset": "The card now uses the {0} layout.",
   "welcomecard_saved": "Saved.",
-  "welcomecard_show_body": "Status: {0}\nBackground colour: {1}\nBackground image: {2}\nOverlay: {3}%\nTitle: {4}\nSubtitle: {5}\nFont: {6}\nText colour: {7}\nAvatar: {8}",
+  "welcomecard_show_body": "Placement: {0}\nBackground colour: {1}\nBackground image: {2}\nOverlay: {3}%\nTitle: {4}\nSubtitle: {5}\nFont: {6}\nText colour: {7}\nAvatar: {8}",
   "welcomecard_show_title": "Welcome card ({0})",
   "welcomecard_unknown_starter": "That layout doesn't exist. Use one of: {0}."
 }

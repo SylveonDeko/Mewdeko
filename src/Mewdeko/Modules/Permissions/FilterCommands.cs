@@ -427,7 +427,6 @@ public partial class Permissions
                 });
 
                 Service.InvalidateCache(guildId);
-                await ReplyConfirmAsync(Strings.WordFilterChannelOn(guildId)).ConfigureAwait(false);
             }
             else
             {
@@ -437,8 +436,12 @@ public partial class Permissions
                     .DeleteAsync();
 
                 Service.InvalidateCache(guildId);
-                await ReplyConfirmAsync(Strings.WordFilterChannelOff(guildId)).ConfigureAwait(false);
             }
+
+            if (await Service.FilterChannel(channelId, guildId).ConfigureAwait(false))
+                await ReplyConfirmAsync(Strings.WordFilterChannelOn(guildId)).ConfigureAwait(false);
+            else
+                await ReplyConfirmAsync(Strings.WordFilterChannelOff(guildId)).ConfigureAwait(false);
         }
 
         /// <summary>

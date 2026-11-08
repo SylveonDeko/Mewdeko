@@ -41,7 +41,6 @@
   "rolemenu_option_missing": "{0} nie ma w tym menu.",
   "rolemenu_too_many_options": "Menu może mieć najwyżej 25 opcji.",
   "rolemenu_needs_option": "Menu potrzebuje co najmniej jednej opcji. Zamiast tego usuń menu.",
-  "rolemenu_too_many_menus": "Ten serwer ma już {0} menu ról, czyli maksymalną dozwoloną liczbę.",
   "rolemenu_role_not_assignable": "Nie mogę nadać roli {0}. Przesuń moją najwyższą rolę powyżej niej i upewnij się, że żadna integracja jej nie zarządza.",
   "rolemenu_role_above_you": "Możesz oferować tylko role niższe od Twojej najwyższej roli, a {0} nią nie jest.",
   "rolemenu_invalid_emoji": "`{0}` nie jest emotką, której mogę użyć.",

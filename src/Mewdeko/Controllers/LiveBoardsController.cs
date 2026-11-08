@@ -69,11 +69,31 @@ public class LiveBoardsController : Controller
             return NotFound("Guild not found");
         if (guild.GetTextChannel(request.ChannelId) is not { } channel)
             return BadRequest("Channel not found");
-        if ((await boards.GetAsync(guildId)).Count >= 10)
-            return BadRequest("A guild may have at most 10 live boards");
 
         var board = await boards.CreateAsync(guild, channel, request.Kind, request.Range, request.Pin,
             request.Entries, request.IntervalMinutes);
+        auditContext.RecordAfter(board);
+        return Ok(board);
+    }
+
+    /// <summary>
+    ///     Changes a live board's content, window, rows and refresh interval, then refreshes it.
+    /// </summary>
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(ulong guildId, int id, [FromBody] LiveBoardRequest? request)
+    {
+        if (request == null)
+            return BadRequest("The request body is missing or is not valid JSON for this endpoint");
+
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var board = await boards.UpdateAsync(guild, id, request.Kind, request.Range, request.Entries,
+            request.IntervalMinutes);
+        if (board == null)
+            return NotFound("Live board not found");
+
         auditContext.RecordAfter(board);
         return Ok(board);
     }

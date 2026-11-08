@@ -29,4 +29,14 @@ public class PatreonConfigUpdateRequest
     ///     Whether to toggle role sync on/off
     /// </summary>
     public bool? ToggleRoleSync { get; set; }
+
+    /// <summary>
+    ///     Turns announcements on or off. Applied after the channel, which switches them on when set.
+    /// </summary>
+    public bool? AnnouncementsEnabled { get; set; }
+
+    /// <summary>
+    ///     Turns role sync on or off
+    /// </summary>
+    public bool? RoleSyncEnabled { get; set; }
 }

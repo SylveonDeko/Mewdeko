@@ -35,6 +35,7 @@ public class TwitchService : INService, IReadyExecutor
 
     private readonly SemaphoreSlim snapshotLock = new(1, 1);
     private readonly GeneratedBotStrings strings;
+    private readonly GuildOwnershipService ownership;
 
     private readonly TwitchApiClient twitchApiClient;
     private TwitchAPI? helixApi;
@@ -59,8 +60,10 @@ public class TwitchService : INService, IReadyExecutor
         TwitchCommandHandler commandHandler,
         TwitchApiClient twitchApiClient,
         DiscordShardedClient client,
-        GeneratedBotStrings strings)
+        GeneratedBotStrings strings,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.creds = creds;
         this.dbFactory = dbFactory;
         this.logger = logger;
@@ -119,9 +122,11 @@ public class TwitchService : INService, IReadyExecutor
     public async Task LoadConfigsForModernAsync()
     {
         await using var conn = await dbFactory.CreateConnectionAsync();
-        var configs = await conn.TwitchGuildConfigs
-            .Where(c => c.Enabled)
-            .ToListAsync();
+        var configs = (await conn.TwitchGuildConfigs
+                .Where(c => c.Enabled)
+                .ToListAsync())
+            .Where(c => ownership.IsMine(c.GuildId))
+            .ToList();
 
         channelToGuild.Clear();
         foreach (var cfg in configs)
@@ -2120,9 +2125,11 @@ public class TwitchService : INService, IReadyExecutor
     private async Task ProcessTimersAsync(CancellationToken ct)
     {
         await using var conn = await dbFactory.CreateConnectionAsync();
-        var timers = await conn.TwitchTimers
-            .Where(x => x.Enabled)
-            .ToListAsync(ct);
+        var timers = (await conn.TwitchTimers
+                .Where(x => x.Enabled)
+                .ToListAsync(ct))
+            .Where(x => ownership.IsMine(x.GuildId))
+            .ToList();
 
         if (timers.Count == 0)
             return;

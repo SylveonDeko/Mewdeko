@@ -49,6 +49,9 @@ public partial class SlashCurrency : SlashCurrencyBase
             return;
         }
 
+        await DailyChallengeService.RecordBet(ctx.User.Id, ctx.Guild.Id, "diceduel", betAmount);
+        await DailyChallengeService.RecordBet(challengerId, ctx.Guild.Id, "diceduel", betAmount);
+
         var challengerRoll = CurrencyRng.Next(1, 7);
         var accepterRoll = CurrencyRng.Next(1, 7);
         var pot = betAmount * 2;
@@ -67,6 +70,7 @@ public partial class SlashCurrency : SlashCurrencyBase
         {
             await Service.CreditAsync(challengerId, boostedPot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
                 CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
+            await DailyChallengeService.RecordPayout(challengerId, ctx.Guild.Id, betAmount, boostedPot);
 
             eb.WithDescription(Strings.DiceDuelChallengerWin(ctx.Guild.Id, challenger?.Mention ?? "Challenger",
                 challengerRoll, ctx.User.Mention, accepterRoll));
@@ -75,6 +79,7 @@ public partial class SlashCurrency : SlashCurrencyBase
         {
             await Service.CreditAsync(ctx.User.Id, boostedPot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
                 CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
+            await DailyChallengeService.RecordPayout(ctx.User.Id, ctx.Guild.Id, betAmount, boostedPot);
 
             eb.WithDescription(Strings.DiceDuelAccepterWin(ctx.Guild.Id, ctx.User.Mention, accepterRoll,
                 challenger?.Mention ?? "Challenger", challengerRoll));
@@ -126,6 +131,7 @@ public partial class SlashCurrency : SlashCurrencyBase
 
             await Service.CreditAsync(userId, winnings, Strings.TriviaChainTransactionCashedOut(ctx.Guild.Id),
                 CurrencyCategory.GamePayout, ctx.Guild.Id, "triviachain");
+            await DailyChallengeService.RecordPayout(userId, ctx.Guild.Id, stake, winnings);
 
             await RespondAsync(Strings.TriviaChainCashedOut(ctx.Guild.Id, winnings,
                 await Service.GetCurrencyEmote(ctx.Guild.Id)));

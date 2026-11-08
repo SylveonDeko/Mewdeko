@@ -26,6 +26,7 @@ public class ChannelCommandService : INService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly LogCommandService logService;
     private readonly ModCaseService modCases;
+    private readonly GuildOwnershipService ownership;
 
     private readonly ConcurrentDictionary<ulong, HashSet<ulong>> lockdownExemptions = new();
 
@@ -43,8 +44,10 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// <param name="modCases">The service recording moderation cases</param>
     /// <param name="logService">The service writing the server logs</param>
     public ChannelCommandService(IDataCache dataCache, EventHandler handler, IDataConnectionFactory dbFactory,
-        DiscordShardedClient client, BanPruneService banPrune, ModCaseService modCases, LogCommandService logService)
+        DiscordShardedClient client, BanPruneService banPrune, ModCaseService modCases, LogCommandService logService,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.logService = logService;
         this.banPrune = banPrune;
         this.modCases = modCases;
@@ -81,7 +84,7 @@ public class ChannelCommandService : INService, IReadyExecutor
             .Distinct()
             .ToListAsync();
 
-        foreach (var guild in client.Guilds)
+        foreach (var guild in client.Guilds.Where(g => ownership.IsMine(g.Id)))
         {
             var guildId = guild.Id;
             var isInRedis = redisJoinBlockedGuilds.Any(g => g == (RedisValue)guildId.ToString());
@@ -115,7 +118,7 @@ public class ChannelCommandService : INService, IReadyExecutor
             return;
 
         // If there are guilds in Redis but not in lockdownGuilds (not recognized during the loop), remove them from Redis
-        foreach (var guildId in redisJoinBlockedGuilds.Select(g => (ulong)g))
+        foreach (var guildId in redisJoinBlockedGuilds.Select(g => (ulong)g).Where(ownership.IsMine))
         {
             if (!lockdownGuilds.ContainsKey(guildId))
             {

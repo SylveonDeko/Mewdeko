@@ -3,6 +3,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Database.Enums;
+using Mewdeko.Modules.CardDesigns.Services;
 using Mewdeko.Modules.Currency.Models;
 
 namespace Mewdeko.Modules.Currency.Services;
@@ -15,6 +16,7 @@ namespace Mewdeko.Modules.Currency.Services;
 public class ShopService : INService
 {
     private readonly ICurrencyService currencyService;
+    private readonly CardDesignService designs;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly ILogger<ShopService> logger;
@@ -26,9 +28,11 @@ public class ShopService : INService
     /// <param name="currencyService">The currency service used to charge and refund buyers.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="eventHandler">Publishes purchases to other services.</param>
+    /// <param name="designs">The card design library, for design items.</param>
     public ShopService(IDataConnectionFactory dbFactory, ICurrencyService currencyService, ILogger<ShopService> logger,
-        EventHandler eventHandler)
+        EventHandler eventHandler, CardDesignService designs)
     {
+        this.designs = designs;
         this.dbFactory = dbFactory;
         this.currencyService = currencyService;
         this.logger = logger;
@@ -174,6 +178,14 @@ public class ShopService : INService
         if (item.Stock == 0)
             return new PurchaseResult(PurchaseOutcome.OutOfStock, item);
 
+        if (item.ItemType == (int)ShopItemType.Design)
+        {
+            if (item.DesignId is not { } designId || await designs.GetDesignAsync(guildId, designId) is null)
+                return new PurchaseResult(PurchaseOutcome.Disabled, item);
+            if (await designs.OwnsAsync(guildId, userId, designId))
+                return new PurchaseResult(PurchaseOutcome.LimitReached, item);
+        }
+
         if (!await currencyService.TryDebitAsync(userId, item.Price, $"Shop: {item.Name}",
                 CurrencyCategory.ShopPurchase, guildId))
             return new PurchaseResult(PurchaseOutcome.InsufficientFunds, item);
@@ -245,6 +257,7 @@ public class ShopService : INService
             }
         }
 
+        await GrantDesignAsync(guildId, userId, item);
         _ = eventHandler.PublishEventAsync("ShopItemPurchased", new MemberActivityEventArgs(guildId, userId));
         return new PurchaseResult(PurchaseOutcome.Success, item);
     }
@@ -311,7 +324,10 @@ public class ShopService : INService
             .UpdateAsync();
 
         if (updated > 0)
+        {
+            await GrantDesignAsync(guildId, userId, item);
             return true;
+        }
 
         try
         {
@@ -333,6 +349,7 @@ public class ShopService : INService
                 .UpdateAsync();
         }
 
+        await GrantDesignAsync(guildId, userId, item);
         return true;
     }
 
@@ -366,6 +383,9 @@ public class ShopService : INService
                         x.Quantity >= taking)
             .Set(x => x.Quantity, x => x.Quantity - taking)
             .UpdateAsync();
+
+        if (updated > 0 && owned - taking <= 0 && item is { ItemType: (int)ShopItemType.Design, DesignId: { } designId })
+            await designs.RevokeAsync(guildId, userId, designId);
 
         return updated > 0 ? taking : 0;
     }
@@ -424,6 +444,12 @@ public class ShopService : INService
         return await db.UserInventoryItems
             .Where(x => x.GuildId == guildId)
             .SumAsync(x => (long?)x.TotalPaid) ?? 0;
+    }
+
+    private async Task GrantDesignAsync(ulong guildId, ulong userId, ShopItem item)
+    {
+        if (item is { ItemType: (int)ShopItemType.Design, DesignId: { } designId })
+            await designs.GrantAsync(guildId, userId, designId, CardDesignSource.Purchase);
     }
 
     private async Task RestoreStockAsync(MewdekoDb db, ShopItem item)

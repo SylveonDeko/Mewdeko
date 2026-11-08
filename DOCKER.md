@@ -77,6 +77,27 @@ The page also shows, per registered instance, the commit it runs (stamped into t
 
 Forks publishing under another name can point the version check elsewhere with `MEWDEKO_IMAGE_REPO` and `MEWDEKO_IMAGE_TAG`.
 
+## Paid custom bots
+
+The master instance can run a container per customer bot. A Ko-fi purchase grants a slot, the buyer submits their own bot token in the dashboard, and the master creates and starts a container of the same image with a generated `credentials.json` (shared database, Redis and API key, `IsMasterInstance` false). It needs the Docker socket mounted, like the Owner Docker page, and the master must run in a container on a user defined network.
+
+Add these to the master's `credentials.json`:
+
+| Key | Default | Purpose |
+| --- | --- | --- |
+| `KofiVerificationToken` | empty | Ko-fi webhook verification token. Purchases are ignored while empty. |
+| `KofiShopItemCodes` | empty | Comma separated shop item codes that grant a slot. Empty means every shop order. |
+| `CustomBotImage` | the master's own image | Image the custom bots run. |
+| `CustomBotNetwork` | the master's first network | Docker network the custom bots join. |
+| `CustomBotDataPath` | `custombots` under the working directory | Folder where each bot's credentials are written. Mount a host folder here. |
+| `CustomBotHostDataPath` | found from the master's mounts | The same folder as the Docker host sees it. |
+| `CustomBotPortStart` / `CustomBotPortEnd` | `5100` / `5999` | API port range handed to custom bots. |
+| `CustomBotEncryptionKey` | derived from `ApiKey` and `JwtSecret` | Key the stored tokens are encrypted with. Changing it makes stored tokens unreadable. |
+| `CustomBotGraceDays` | `35` | Days after a payment before the bot is stopped. |
+| `CustomBotDaysPerPayment` | `31` | Days one payment extends a slot by. |
+
+Ko-fi posts to `https://<bot api host>/botapi/CustomBots/kofi`. Subscription payments extend the buyer's slot, shop orders create slots, donations grant nothing. A buyer links a purchase to their Discord account with the email and transaction id from Ko-fi. When a slot lapses past the grace period the bot is stopped and its guilds return to the main bot. The container and token are kept for 14 days so a renewal restores the bot, then they are deleted.
+
 ## Dashboard
 
 The companion image is [`sylveondeko/mewdash`](https://hub.docker.com/r/sylveondeko/mewdash). Its required environment variables and standalone launch command are documented in the [dashboard Docker guide](https://github.com/SylveonDeko/MewdekoDash/blob/main/DOCKER.md).

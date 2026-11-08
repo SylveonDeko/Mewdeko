@@ -25,13 +25,20 @@ public class SlashWelcomeCards(CardPresetService presets) : MewdekoSlashModuleBa
     public async Task Show(WelcomeCardTarget target)
     {
         var guildId = ctx.Guild.Id;
-        var setting = await Service.GetSettingsAsync(guildId, target);
-        var summary = WelcomeCardTemplates.Summarize(await Service.GetTemplateAsync(guildId, target));
+        var owner = (await Service.OwnersAsync(guildId, target)).FirstOrDefault(-1);
+        if (owner < 0)
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.WelcomecardNoMessage(guildId), Config);
+            return;
+        }
+
+        var setting = await Service.GetCardAsync(guildId, target, owner);
+        var summary = WelcomeCardTemplates.Summarize(await Service.GetTemplateAsync(guildId, target, owner));
         await ctx.Interaction.RespondAsync(embed: new EmbedBuilder()
             .WithOkColor()
             .WithTitle(Strings.WelcomecardShowTitle(guildId, target.ToString()))
             .WithDescription(Strings.WelcomecardShowBody(guildId,
-                setting.Enabled ? Strings.WelcomecardOn(guildId) : Strings.WelcomecardOff(guildId),
+                PlacementName(guildId, setting.Placement),
                 summary.Background,
                 summary.HasImage ? Strings.WelcomecardImage(guildId) : Strings.WelcomecardNone(guildId),
                 summary.Overlay,
@@ -53,10 +60,47 @@ public class SlashWelcomeCards(CardPresetService presets) : MewdekoSlashModuleBa
     [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task Toggle(WelcomeCardTarget target, bool enabled)
     {
-        await Service.SetEnabledAsync(ctx.Guild.Id, target, enabled);
+        if (!await Service.SetPlacementAsync(ctx.Guild.Id, target,
+                enabled ? CardPlacement.Attached : CardPlacement.None))
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.WelcomecardNoMessage(ctx.Guild.Id), Config);
+            return;
+        }
+
         await ctx.Interaction.SendEphemeralConfirmAsync(enabled
             ? Strings.WelcomecardEnabled(ctx.Guild.Id)
             : Strings.WelcomecardDisabled(ctx.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Sets where the card appears on the message.
+    /// </summary>
+    /// <param name="target">Which message the card is for.</param>
+    /// <param name="placement">Where the card appears.</param>
+    [SlashCommand("placement", "Sets where the card appears on the message")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task Placement(WelcomeCardTarget target, CardPlacement placement)
+    {
+        var guildId = ctx.Guild.Id;
+        if (!await Service.SetPlacementAsync(guildId, target, placement))
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.WelcomecardNoMessage(guildId), Config);
+            return;
+        }
+
+        await ctx.Interaction.SendEphemeralConfirmAsync(
+            Strings.WelcomecardPlacementSaved(guildId, PlacementName(guildId, placement)));
+    }
+
+    private string PlacementName(ulong guildId, CardPlacement placement)
+    {
+        return placement switch
+        {
+            CardPlacement.EmbedImage => Strings.WelcomecardPlacementEmbed(guildId),
+            CardPlacement.Attached => Strings.WelcomecardPlacementAttached(guildId),
+            _ => Strings.WelcomecardPlacementNone(guildId)
+        };
     }
 
     /// <summary>
@@ -136,8 +180,11 @@ public class SlashWelcomeCards(CardPresetService presets) : MewdekoSlashModuleBa
         var guildId = ctx.Guild.Id;
         if (remove)
         {
-            await Service.SetBackgroundAsync(guildId, target, null);
-            await ctx.Interaction.SendEphemeralFollowupConfirmAsync(Strings.WelcomecardBackgroundRemoved(guildId));
+            if (await Service.SetBackgroundAsync(guildId, target, null))
+                await ctx.Interaction.SendEphemeralFollowupConfirmAsync(
+                    Strings.WelcomecardBackgroundRemoved(guildId));
+            else
+                await ctx.Interaction.SendEphemeralFollowupErrorAsync(Strings.WelcomecardNoMessage(guildId), Config);
             return;
         }
 
@@ -176,11 +223,19 @@ public class SlashWelcomeCards(CardPresetService presets) : MewdekoSlashModuleBa
         string layout = WelcomeCardTemplates.ClassicId)
     {
         var guildId = ctx.Guild.Id;
-        if (await Service.ResetToStarterAsync(guildId, target, layout) == WelcomeCardError.None)
-            await ctx.Interaction.SendEphemeralConfirmAsync(Strings.WelcomecardReset(guildId, layout));
-        else
-            await ctx.Interaction.SendEphemeralErrorAsync(Strings.WelcomecardUnknownStarter(guildId,
-                string.Join(", ", WelcomeCardTemplates.Starters.Select(s => s.Id))), Config);
+        switch (await Service.ResetToStarterAsync(guildId, target, layout))
+        {
+            case WelcomeCardError.None:
+                await ctx.Interaction.SendEphemeralConfirmAsync(Strings.WelcomecardReset(guildId, layout));
+                break;
+            case WelcomeCardError.NoMessage:
+                await ctx.Interaction.SendEphemeralErrorAsync(Strings.WelcomecardNoMessage(guildId), Config);
+                break;
+            default:
+                await ctx.Interaction.SendEphemeralErrorAsync(Strings.WelcomecardUnknownStarter(guildId,
+                    string.Join(", ", WelcomeCardTemplates.Starters.Select(s => s.Id))), Config);
+                break;
+        }
     }
 
     /// <summary>
@@ -193,7 +248,14 @@ public class SlashWelcomeCards(CardPresetService presets) : MewdekoSlashModuleBa
     public async Task Preview(WelcomeCardTarget target)
     {
         await DeferAsync(true);
-        var image = await Service.RenderAsync(ctx.Guild.Id, target, ctx.User);
+        var owner = (await Service.OwnersAsync(ctx.Guild.Id, target)).FirstOrDefault(-1);
+        if (owner < 0)
+        {
+            await ctx.Interaction.SendEphemeralFollowupErrorAsync(Strings.WelcomecardNoMessage(ctx.Guild.Id), Config);
+            return;
+        }
+
+        var image = await Service.RenderAsync(ctx.Guild.Id, target, owner, ctx.User);
         using var stream = new MemoryStream(image);
         await ctx.Interaction.FollowupWithFileAsync(new FileAttachment(stream, WelcomeCardService.FileName),
             ephemeral: true);
@@ -210,6 +272,7 @@ public class SlashWelcomeCards(CardPresetService presets) : MewdekoSlashModuleBa
             WelcomeCardError.InvalidFont => Strings.WelcomecardInvalidFont(guildId,
                 string.Join(", ", WelcomeCardTemplates.Fonts.Keys)),
             WelcomeCardError.MissingElement => Strings.WelcomecardMissingElement(guildId),
+            WelcomeCardError.NoMessage => Strings.WelcomecardNoMessage(guildId),
             _ => Strings.WelcomecardInvalidText(guildId)
         };
 

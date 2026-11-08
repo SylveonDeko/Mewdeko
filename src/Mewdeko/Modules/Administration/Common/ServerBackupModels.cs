@@ -400,3 +400,24 @@ public class BackupRestoreProgress
     /// </summary>
     public List<string> Failures { get; } = [];
 }
+
+/// <summary>
+///     A restore started from the dashboard and how far it has got.
+/// </summary>
+public class BackupRestoreJob
+{
+    /// <summary>
+    ///     Gets the progress of the restore.
+    /// </summary>
+    public BackupRestoreProgress Progress { get; } = new();
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the restore is over.
+    /// </summary>
+    public bool Finished { get; set; }
+
+    /// <summary>
+    ///     Gets when the restore started.
+    /// </summary>
+    public DateTime StartedAt { get; } = DateTime.UtcNow;
+}

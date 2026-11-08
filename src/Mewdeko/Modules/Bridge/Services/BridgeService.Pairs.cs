@@ -7,7 +7,8 @@ public partial class BridgeService
 {
     string IBridgePairHost.Platform => ThisPlatform;
 
-    bool IBridgePairHost.HasGuild(ulong guildId) => client.GetGuild(guildId) is not null;
+    bool IBridgePairHost.HasGuild(ulong guildId) =>
+        client.GetGuild(guildId) is not null && ownership.IsMine(guildId);
 
     string IBridgePairHost.GuildName(ulong guildId) => client.GetGuild(guildId)?.Name ?? "";
 

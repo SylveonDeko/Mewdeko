@@ -41,7 +41,6 @@
   "rolemenu_option_missing": "{0} bu menüde yok.",
   "rolemenu_too_many_options": "Bir menüde en fazla 25 seçenek olabilir.",
   "rolemenu_needs_option": "Bir menüde en az bir seçenek olmalı. Bunun yerine menüyü sil.",
-  "rolemenu_too_many_menus": "Bu sunucuda zaten {0} rol menüsü var, izin verilen en fazla sayı bu.",
   "rolemenu_role_not_assignable": "{0} rolünü veremiyorum. En yüksek rolümü onun üstüne taşı ve hiçbir entegrasyonun onu yönetmediğinden emin ol.",
   "rolemenu_role_above_you": "Yalnızca kendi en yüksek rolünün altındaki rolleri sunabilirsin, {0} ise değil.",
   "rolemenu_invalid_emoji": "`{0}` kullanabileceğim bir emoji değil.",

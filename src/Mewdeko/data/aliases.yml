@@ -4197,6 +4197,24 @@ xpbackground:
   - xpbackground
   - xpbg
   - rankbg
+equip:
+  - equip
+  - equipdesign
+unequipdesign:
+  - unequipdesign
+  - removedesign
+designs:
+  - designs
+  - mydesigns
+mydesign:
+  - mydesign
+memberdesigns:
+  - memberdesigns
+  - pendingdesigns
+approvedesign:
+  - approvedesign
+rejectdesign:
+  - rejectdesign
 xpserverbackground:
   - xpserverbackground
   - xpserverbg

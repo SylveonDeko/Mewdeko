@@ -8,7 +8,6 @@
   "rolegreet_delete_success": "역할 인사 #{0}을(를) {1} 후에 삭제되도록 업데이트했어요",
   "rolegreet_disable_status": "역할 인사 {0}을(를) {1}(으)로 설정했어요",
   "rolegreet_greetbots_set": "역할 인사 {0}의 봇 인사를 {1}(으)로 설정했어요",
-  "rolegreet_max_limit": "역할 인사를 최대 10개까지 사용할 수 있어요! 하나를 제거한 후에 추가해 주세요.",
   "rolegreet_message_preview_prompt": "이걸 일반 텍스트로 보시겠어요, 아니면 실제 모습을 미리 보시겠어요?",
   "rolegreet_message_set": "역할 인사 #{0}의 메시지를 설정했어요!",
   "rolegreet_no_delete": "역할 인사 #{0}은(는) 더 이상 자동 삭제되지 않아요.",

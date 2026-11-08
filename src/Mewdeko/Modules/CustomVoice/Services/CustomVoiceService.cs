@@ -69,6 +69,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
     private readonly EventHandler eventHandler;
     private readonly SemaphoreSlim @lock = new(1, 1);
     private readonly ILogger<CustomVoiceService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
 
@@ -85,8 +86,10 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
         EventHandler eventHandler,
-        GeneratedBotStrings strings, ILogger<CustomVoiceService> logger, IAnalyticsCollector collector)
+        GeneratedBotStrings strings, ILogger<CustomVoiceService> logger, IAnalyticsCollector collector,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.collector = collector;
         this.dbFactory = dbFactory;
         this.client = client;
@@ -138,7 +141,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
             await using (var db = await dbFactory.CreateConnectionAsync())
                 rows = await db.CustomVoiceChannels.Where(x => x.TextChannelId != null).ToListAsync();
 
-            foreach (var row in rows)
+            foreach (var row in rows.Where(x => ownership.IsMine(x.GuildId)))
             {
                 try
                 {
@@ -326,7 +329,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
             foreach (var channel in allChannels)
             {
                 var guild = client.GetGuild(channel.GuildId);
-                if (guild == null)
+                if (guild == null || !ownership.IsMine(channel.GuildId))
                     continue;
 
                 var voiceChannel = guild.GetVoiceChannel(channel.ChannelId);
@@ -2138,6 +2141,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
     private string FormatChannelName(string format, IGuildUser user, IGuild guild)
     {
         return format
+            .Replace("{username}", user.Username)
             .Replace("{0}", user.Username)
             .Replace("{1}", user.DiscriminatorValue.ToString("D4"))
             .Replace("{2}", guild.Name);
@@ -2383,7 +2387,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
                                                         oldState.VoiceChannel.Id);
                                                 }
                                             });
-                                        }, null, TimeSpan.FromSeconds(config.EmptyChannelTimeout),
+                                        }, null, TimeSpan.FromMinutes(config.EmptyChannelTimeout),
                                         Timeout.InfiniteTimeSpan);
 
                                     emptyChannelTimers.TryAdd(oldState.VoiceChannel.Id, timer);
@@ -2577,7 +2581,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
                             }
 
                             var guild = client.GetGuild(customChannel.GuildId);
-                            if (guild == null)
+                            if (guild == null || !ownership.IsMine(customChannel.GuildId))
                             {
                                 this.emptyChannels.TryRemove(channelId, out _);
                                 continue;
@@ -2629,7 +2633,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
         {
             try
             {
-                if (row.KeepAlive || client.GetGuild(row.GuildId) is not { } guild ||
+                if (row.KeepAlive || !ownership.IsMine(row.GuildId) || client.GetGuild(row.GuildId) is not { } guild ||
                     !configs.TryGetValue(row.GuildId, out var guildConfigs))
                     continue;
 

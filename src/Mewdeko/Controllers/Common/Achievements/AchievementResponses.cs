@@ -374,16 +374,6 @@ public class AchievementPlaceholderResponse
 public class AchievementLimitsResponse
 {
     /// <summary>
-    ///     Most server made achievements.
-    /// </summary>
-    public int MaxCustomAchievements { get; set; }
-
-    /// <summary>
-    ///     Most server made categories.
-    /// </summary>
-    public int MaxCustomCategories { get; set; }
-
-    /// <summary>
     ///     Longest name.
     /// </summary>
     public int NameLength { get; set; }
@@ -1249,9 +1239,6 @@ public class AchievementCardLimitsResponse
 
     /// <summary>Most card images.</summary>
     public int MaxImages { get; set; } = global::Mewdeko.Modules.Achievements.Services.AchievementIconService.MaxCardUploads;
-
-    /// <summary>Most saved designs.</summary>
-    public int MaxDesigns { get; set; } = global::Mewdeko.Modules.Achievements.Services.AchievementService.MaxCardDesigns;
 
     /// <summary>Longest design name.</summary>
     public int NameLength { get; set; } = global::Mewdeko.Modules.Achievements.Services.AchievementService.CardNameLength;

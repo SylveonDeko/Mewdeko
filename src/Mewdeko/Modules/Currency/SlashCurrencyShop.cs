@@ -116,7 +116,9 @@ public partial class SlashCurrency
                 await ErrorAsync(Strings.ShopInsufficientFunds(ctx.Guild.Id, result.Item!.Price, emote));
                 return;
             case PurchaseOutcome.LimitReached:
-                await ErrorAsync(Strings.ShopLimitReached(ctx.Guild.Id, result.Item!.MaxPerUser, name));
+                await ErrorAsync(result.Item!.ItemType == (int)ShopItemType.Design
+                    ? Strings.ShopDesignOwned(ctx.Guild.Id, name)
+                    : Strings.ShopLimitReached(ctx.Guild.Id, result.Item.MaxPerUser, name));
                 return;
         }
 
@@ -156,7 +158,10 @@ public partial class SlashCurrency
             ? Strings.ShopPurchased(ctx.Guild.Id, item.Name, item.Price, emote)
             : ShopService.FormatMessage(item.BuyMessage, ctx.User, item));
 
-        if (!item.UseOnBuy || !item.Consumable || item.ItemType == (int)ShopItemType.Static)
+        if (item.ItemType == (int)ShopItemType.Design)
+            await ConfirmAsync(Strings.ShopDesignGranted(ctx.Guild.Id, item.Name));
+
+        if (!item.UseOnBuy || !item.Consumable || item.ItemType is (int)ShopItemType.Static or (int)ShopItemType.Design)
             return;
 
         if ((await ShopService.ConsumeAsync(ctx.Guild.Id, ctx.User.Id, item.Name)).Outcome == PurchaseOutcome.Success)
@@ -196,7 +201,9 @@ public partial class SlashCurrency
             eb.AddField($"{entry.Item.Name} x{entry.Quantity}",
                 entry.Item.Consumable
                     ? Strings.InventoryConsumable(ctx.Guild.Id, entry.Item.Name)
-                    : entry.Item.Description ?? Strings.InventoryNoDescription(ctx.Guild.Id), true);
+                    : string.IsNullOrWhiteSpace(entry.Item.Description)
+                        ? Strings.InventoryNoDescription(ctx.Guild.Id)
+                        : entry.Item.Description, true);
         }
 
         await ctx.Interaction.RespondAsync(embed: eb.Build());

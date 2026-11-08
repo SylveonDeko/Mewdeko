@@ -13,15 +13,15 @@ using SkiaSharp;
 namespace Mewdeko.Modules.MultiGreets.Services;
 
 /// <summary>
-///     Draws welcome cards for greet and bye messages from each server's card design, and keeps the designs and the
-///     images they use.
+///     Draws the cards of member event messages (welcome, bye, boost, DM greet and role greet) from each message's card
+///     design, and keeps the designs and the images they use.
 /// </summary>
 public class WelcomeCardService : INService
 {
     /// <summary>
     ///     The name of the attached image file.
     /// </summary>
-    public const string FileName = "welcome.png";
+    public const string FileName = "card.png";
 
     /// <summary>
     ///     Largest image accepted for upload or download.
@@ -44,7 +44,7 @@ public class WelcomeCardService : INService
     private readonly ILogger<WelcomeCardService> logger;
     private readonly GuildPaletteService palettes;
     private readonly SemaphoreSlim saveLock = new(1, 1);
-    private readonly ConcurrentDictionary<(ulong, WelcomeCardTarget), WelcomeCardSetting> settings = new();
+    private readonly ConcurrentDictionary<(ulong, WelcomeCardTarget, int), MessageCard> settings = new();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="WelcomeCardService" /> class.
@@ -71,23 +71,45 @@ public class WelcomeCardService : INService
     }
 
     /// <summary>
-    ///     Gets a guild's card settings, or the defaults when it has none.
+    ///     Gets the card of one message, or the defaults when it has none.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
-    public async Task<WelcomeCardSetting> GetSettingsAsync(ulong guildId, WelcomeCardTarget target)
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID, or 0 for the bye, DM greet and boost messages.</param>
+    public async Task<MessageCard> GetCardAsync(ulong guildId, WelcomeCardTarget target, int ownerId = 0)
     {
-        if (settings.TryGetValue((guildId, target), out var cached))
+        if (settings.TryGetValue((guildId, target, ownerId), out var cached))
             return cached;
 
         await using var db = await dbFactory.CreateConnectionAsync();
-        var row = await db.WelcomeCardSettings.FirstOrDefaultAsync(x => x.GuildId == guildId && x.Target == target)
-                  ?? new WelcomeCardSetting
+        var row = await db.MessageCards.FirstOrDefaultAsync(x =>
+                      x.GuildId == guildId && x.Target == target && x.OwnerId == ownerId)
+                  ?? new MessageCard
                   {
-                      GuildId = guildId, Target = target, DateAdded = DateTime.UtcNow
+                      GuildId = guildId, Target = target, OwnerId = ownerId, DateAdded = DateTime.UtcNow
                   };
-        settings[(guildId, target)] = row;
+        settings[(guildId, target, ownerId)] = row;
         return row;
+    }
+
+    /// <summary>
+    ///     Lists the messages of a kind that can carry a card: every multi-greet or role greet of the guild, or the one
+    ///     message of the other kinds.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="target">Which kind of message.</param>
+    /// <returns>The owner IDs. Empty when the guild has no message of that kind.</returns>
+    public async Task<IReadOnlyList<int>> OwnersAsync(ulong guildId, WelcomeCardTarget target)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        return target switch
+        {
+            WelcomeCardTarget.Greet => await db.MultiGreets.Where(x => x.GuildId == guildId).Select(x => x.Id)
+                .ToListAsync(),
+            WelcomeCardTarget.RoleGreet => await db.GetTable<RoleGreet>().Where(x => x.GuildId == guildId).Select(x => x.Id)
+                .ToListAsync(),
+            _ => [0]
+        };
     }
 
     /// <summary>
@@ -95,38 +117,44 @@ public class WelcomeCardService : INService
     ///     background picture moved into the server's images the first time it is read.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID, or 0.</param>
     /// <returns>The design.</returns>
-    public async Task<CardTemplate> GetTemplateAsync(ulong guildId, WelcomeCardTarget target)
+    public async Task<CardTemplate> GetTemplateAsync(ulong guildId, WelcomeCardTarget target, int ownerId = 0)
     {
-        var row = await GetSettingsAsync(guildId, target);
+        var row = await GetCardAsync(guildId, target, ownerId);
         if (!string.IsNullOrWhiteSpace(row.Template))
             return WelcomeCardTemplates.Parse(row.Template);
-        if (row.Id == 0 || row.BackgroundData is not { Length: > 0 } legacyImage)
-            return WelcomeCardTemplates.FromLegacy(row, null);
+        if (row.Id == 0)
+            return WelcomeCardTemplates.Classic();
 
         await saveLock.WaitAsync();
         try
         {
-            row = await GetSettingsAsync(guildId, target);
+            row = await GetCardAsync(guildId, target, ownerId);
             if (!string.IsNullOrWhiteSpace(row.Template))
                 return WelcomeCardTemplates.Parse(row.Template);
 
-            var image = Normalize(legacyImage);
-            if (image is null)
-                return WelcomeCardTemplates.FromLegacy(row, null);
-
             await using var db = await dbFactory.CreateConnectionAsync();
-            var id = await db.InsertWithInt32IdentityAsync(new WelcomeCardImage
+            var legacy = await db.WelcomeCardSettings.FirstOrDefaultAsync(x =>
+                x.GuildId == guildId && x.Target == target);
+            if (legacy is null)
+                return WelcomeCardTemplates.Classic();
+
+            int? upload = null;
+            if (legacy.BackgroundData is { Length: > 0 } legacyImage && Normalize(legacyImage) is { } image)
             {
-                GuildId = guildId, Data = image.Value.Image, Thumbnail = image.Value.Thumbnail,
-                DateAdded = DateTime.UtcNow
-            });
-            var template = WelcomeCardTemplates.FromLegacy(row, id);
+                upload = await db.InsertWithInt32IdentityAsync(new WelcomeCardImage
+                {
+                    GuildId = guildId, Data = image.Image, Thumbnail = image.Thumbnail, DateAdded = DateTime.UtcNow
+                });
+            }
+
+            var template = WelcomeCardTemplates.FromLegacy(legacy, upload);
             var copy = Clone(row);
             copy.Template = template.Serialize();
             await db.UpdateAsync(copy);
-            settings[(guildId, target)] = copy;
+            settings[(guildId, target, ownerId)] = copy;
             return template;
         }
         finally
@@ -136,26 +164,27 @@ public class WelcomeCardService : INService
     }
 
     /// <summary>
-    ///     Saves a card's design, its on and off state, or both.
+    ///     Saves a card's design, its placement, or both.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
-    /// <param name="enabled">Whether the card is attached, or null to keep it.</param>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID, or 0.</param>
+    /// <param name="placement">Where the card appears, or null to keep it.</param>
     /// <param name="template">The design, or null to keep it. It is brought within limits first.</param>
-    /// <returns>The state and design as saved.</returns>
-    public async Task<(bool Enabled, CardTemplate Template)> SaveAsync(ulong guildId, WelcomeCardTarget target,
-        bool? enabled, CardTemplate? template)
+    /// <returns>The placement and design as saved.</returns>
+    public async Task<(CardPlacement Placement, CardTemplate Template)> SaveAsync(ulong guildId,
+        WelcomeCardTarget target, int ownerId, CardPlacement? placement, CardTemplate? template)
     {
         var owned = template is null ? null : await OwnedAsync(guildId, template);
+        var current = owned is null ? await GetTemplateAsync(guildId, target, ownerId) : null;
 
         await saveLock.WaitAsync();
         try
         {
-            var copy = Clone(await GetSettingsAsync(guildId, target));
-            if (enabled is { } on)
-                copy.Enabled = on;
-            if (owned is not null)
-                copy.Template = owned.Serialize();
+            var copy = Clone(await GetCardAsync(guildId, target, ownerId));
+            if (placement is { } where)
+                copy.Placement = where;
+            copy.Template = (owned ?? current)?.Serialize() ?? copy.Template;
 
             await using var db = await dbFactory.CreateConnectionAsync();
             if (copy.Id == 0)
@@ -163,11 +192,8 @@ public class WelcomeCardService : INService
             else
                 await db.UpdateAsync(copy);
 
-            settings[(guildId, target)] = copy;
-            return (copy.Enabled,
-                owned ?? (string.IsNullOrWhiteSpace(copy.Template)
-                    ? WelcomeCardTemplates.FromLegacy(copy, null)
-                    : WelcomeCardTemplates.Parse(copy.Template)));
+            settings[(guildId, target, ownerId)] = copy;
+            return (copy.Placement, owned ?? current ?? WelcomeCardTemplates.Classic());
         }
         finally
         {
@@ -179,49 +205,78 @@ public class WelcomeCardService : INService
     ///     Changes a card's design and saves it.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID, or 0.</param>
     /// <param name="change">Applies the change to the design and reports why it can't be made.</param>
     /// <returns>The error, or none.</returns>
-    public async Task<WelcomeCardError> EditAsync(ulong guildId, WelcomeCardTarget target,
+    public async Task<WelcomeCardError> EditAsync(ulong guildId, WelcomeCardTarget target, int ownerId,
         Func<CardTemplate, WelcomeCardError> change)
     {
-        var template = (await GetTemplateAsync(guildId, target)).Clone();
+        var template = (await GetTemplateAsync(guildId, target, ownerId)).Clone();
         var error = change(template);
         if (error != WelcomeCardError.None)
             return error;
 
-        await SaveAsync(guildId, target, null, template);
+        await SaveAsync(guildId, target, ownerId, null, template);
         return WelcomeCardError.None;
     }
 
     /// <summary>
-    ///     Makes the basic changes the commands offer.
+    ///     Changes the design of every message of a kind and saves them.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the cards are for.</param>
+    /// <param name="change">Applies the change to each design and reports why it can't be made.</param>
+    /// <returns>The first error, or none. NoMessage when the guild has no message of that kind.</returns>
+    public async Task<WelcomeCardError> EditAllAsync(ulong guildId, WelcomeCardTarget target,
+        Func<CardTemplate, WelcomeCardError> change)
+    {
+        var owners = await OwnersAsync(guildId, target);
+        if (owners.Count == 0)
+            return WelcomeCardError.NoMessage;
+
+        foreach (var owner in owners)
+        {
+            var error = await EditAsync(guildId, target, owner, change);
+            if (error != WelcomeCardError.None)
+                return error;
+        }
+
+        return WelcomeCardError.None;
+    }
+
+    /// <summary>
+    ///     Makes the basic changes the commands offer to every message of a kind.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="target">Which kind of message the cards are for.</param>
     /// <param name="basics">The changes.</param>
     /// <returns>The error, or none.</returns>
     public Task<WelcomeCardError> ApplyAsync(ulong guildId, WelcomeCardTarget target, WelcomeCardBasics basics)
     {
-        return EditAsync(guildId, target, template => WelcomeCardTemplates.Apply(template, basics));
+        return EditAllAsync(guildId, target, template => WelcomeCardTemplates.Apply(template, basics));
     }
 
     /// <summary>
-    ///     Turns a card on or off.
+    ///     Sets where the card of every message of a kind appears.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
-    /// <param name="enabled">Whether the card is attached.</param>
-    public Task SetEnabledAsync(ulong guildId, WelcomeCardTarget target, bool enabled)
+    /// <param name="target">Which kind of message the cards are for.</param>
+    /// <param name="placement">Where the cards appear.</param>
+    /// <returns>False when the guild has no message of that kind.</returns>
+    public async Task<bool> SetPlacementAsync(ulong guildId, WelcomeCardTarget target, CardPlacement placement)
     {
-        return SaveAsync(guildId, target, enabled, null);
+        var owners = await OwnersAsync(guildId, target);
+        foreach (var owner in owners)
+            await SaveAsync(guildId, target, owner, placement, null);
+        return owners.Count > 0;
     }
 
     /// <summary>
-    ///     Replaces a card's design with a starter layout.
+    ///     Replaces the design of every card of a kind with a starter layout.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the cards are for.</param>
     /// <param name="starterId">The layout's short name.</param>
     /// <returns>The error, or none.</returns>
     public async Task<WelcomeCardError> ResetToStarterAsync(ulong guildId, WelcomeCardTarget target, string starterId)
@@ -231,8 +286,47 @@ public class WelcomeCardService : INService
         if (starter is null)
             return WelcomeCardError.UnknownStarter;
 
-        await SaveAsync(guildId, target, null, starter.Build());
+        var owners = await OwnersAsync(guildId, target);
+        if (owners.Count == 0)
+            return WelcomeCardError.NoMessage;
+
+        foreach (var owner in owners)
+            await SaveAsync(guildId, target, owner, null, starter.Build());
         return WelcomeCardError.None;
+    }
+
+    /// <summary>
+    ///     Replaces the design of one card with a starter layout.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID, or 0.</param>
+    /// <param name="starterId">The layout's short name.</param>
+    /// <returns>The error, or none.</returns>
+    public async Task<WelcomeCardError> ResetToStarterAsync(ulong guildId, WelcomeCardTarget target, int ownerId,
+        string starterId)
+    {
+        var starter = WelcomeCardTemplates.Starters.FirstOrDefault(s =>
+            string.Equals(s.Id, starterId, StringComparison.OrdinalIgnoreCase));
+        if (starter is null)
+            return WelcomeCardError.UnknownStarter;
+
+        await SaveAsync(guildId, target, ownerId, null, starter.Build());
+        return WelcomeCardError.None;
+    }
+
+    /// <summary>
+    ///     Removes the cards of messages that no longer exist.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="target">Which kind of message.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID.</param>
+    public async Task DeleteCardAsync(ulong guildId, WelcomeCardTarget target, int ownerId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.MessageCards.Where(x => x.GuildId == guildId && x.Target == target && x.OwnerId == ownerId)
+            .DeleteAsync();
+        settings.TryRemove((guildId, target, ownerId), out _);
     }
 
     /// <summary>
@@ -328,7 +422,7 @@ public class WelcomeCardService : INService
         await saveLock.WaitAsync();
         try
         {
-            var rows = await db.WelcomeCardSettings.Where(x => x.GuildId == guildId && x.Template != null)
+            var rows = await db.MessageCards.Where(x => x.GuildId == guildId && x.Template != null)
                 .ToListAsync();
             foreach (var row in rows.Where(r => r.Template!.Contains(link)))
             {
@@ -339,7 +433,20 @@ public class WelcomeCardService : INService
                     element.Url = "";
                 row.Template = template.Serialize();
                 await db.UpdateAsync(row);
-                settings[(guildId, row.Target)] = row;
+                settings[(guildId, row.Target, row.OwnerId)] = row;
+            }
+
+            var legacyRows = await db.WelcomeCardSettings.Where(x => x.GuildId == guildId && x.Template != null)
+                .ToListAsync();
+            foreach (var row in legacyRows.Where(r => r.Template!.Contains(link)))
+            {
+                var template = WelcomeCardTemplates.Parse(row.Template);
+                if (template.Background.Url == link)
+                    template.Background.Url = "";
+                foreach (var element in template.Elements.Where(e => e.Url == link))
+                    element.Url = "";
+                row.Template = template.Serialize();
+                await db.UpdateAsync(row);
             }
         }
         finally
@@ -388,17 +495,17 @@ public class WelcomeCardService : INService
     }
 
     /// <summary>
-    ///     Sets the background picture of a card's design. Null goes back to the plain colour.
+    ///     Sets the background picture of every card of a kind. Null goes back to the plain colour.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the cards are for.</param>
     /// <param name="image">The image bytes, or null to remove the picture.</param>
     /// <returns>Whether the image could be used.</returns>
     public async Task<bool> SetBackgroundAsync(ulong guildId, WelcomeCardTarget target, byte[]? image)
     {
         if (image is null)
         {
-            return await EditAsync(guildId, target, template =>
+            return await EditAllAsync(guildId, target, template =>
             {
                 if (template.Background.Kind == "image")
                     template.Background.Kind = "solid";
@@ -411,7 +518,7 @@ public class WelcomeCardService : INService
         if (error != WelcomeCardError.None || stored is null)
             return false;
 
-        return await EditAsync(guildId, target, template =>
+        return await EditAllAsync(guildId, target, template =>
         {
             template.Background.Kind = "image";
             template.Background.Url = $"{AchievementIcons.UploadPrefix}{stored.Id}";
@@ -422,10 +529,10 @@ public class WelcomeCardService : INService
     }
 
     /// <summary>
-    ///     Sets the background of a card's design to a shared preset.
+    ///     Sets the background of every card of a kind to a shared preset.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the cards are for.</param>
     /// <param name="reference">A <c>preset:id</c> reference.</param>
     /// <returns>Whether the preset exists.</returns>
     public async Task<bool> SetPresetBackgroundAsync(ulong guildId, WelcomeCardTarget target, string reference)
@@ -433,7 +540,7 @@ public class WelcomeCardService : INService
         if (!await presets.ExistsAsync(reference) || !CardPresets.TryParse(reference, out var id))
             return false;
 
-        return await EditAsync(guildId, target, template =>
+        return await EditAllAsync(guildId, target, template =>
         {
             template.Background.Kind = "image";
             template.Background.Url = CardPresets.Reference(id);
@@ -444,26 +551,46 @@ public class WelcomeCardService : INService
     }
 
     /// <summary>
-    ///     Draws the card for a member if cards are on for the message.
+    ///     Draws the card of a message for a member and sets it up to go out with the message.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID, or 0.</param>
     /// <param name="user">The member.</param>
-    /// <returns>The PNG, or null when cards are off or the card could not be drawn.</returns>
-    public async Task<byte[]?> TryRenderAsync(ulong guildId, WelcomeCardTarget target, IUser user)
+    /// <param name="embeds">The message's embeds, or none.</param>
+    /// <returns>
+    ///     The PNG to send as a file, or null for no card, and the embeds to send. When the card is an embed image it
+    ///     fills the first embed without an image, or a new embed after them when they all have one.
+    /// </returns>
+    public async Task<(byte[]? Card, Discord.Embed[]? Embeds)> TryAttachAsync(ulong guildId,
+        WelcomeCardTarget target, int ownerId, IUser user, Discord.Embed[]? embeds)
     {
-        var setting = await GetSettingsAsync(guildId, target);
-        if (!setting.Enabled)
-            return null;
-
         try
         {
-            return await RenderAsync(guildId, target, user);
+            var row = await GetCardAsync(guildId, target, ownerId);
+            if (row.Placement == CardPlacement.None)
+                return (null, embeds);
+
+            var card = await RenderAsync(guildId, target, ownerId, user);
+            if (row.Placement == CardPlacement.EmbedImage)
+            {
+                var url = $"attachment://{FileName}";
+                var list = embeds?.ToList() ?? [];
+                var slot = list.FindIndex(e => e.Image is null);
+                if (slot >= 0)
+                    list[slot] = list[slot].ToEmbedBuilder().WithImageUrl(url).Build();
+                else if (list.Count < 10)
+                    list.Add(new EmbedBuilder().WithImageUrl(url).Build());
+                embeds = [.. list];
+            }
+
+            return (card, embeds);
         }
         catch (Exception ex)
         {
-            logger.LogWarning(ex, "Could not draw the welcome card for {UserId} in {GuildId}", user.Id, guildId);
-            return null;
+            logger.LogWarning(ex, "Could not draw the {Target} card for {UserId} in {GuildId}", target, user.Id,
+                guildId);
+            return (null, embeds);
         }
     }
 
@@ -471,12 +598,13 @@ public class WelcomeCardService : INService
     ///     Draws a card for a member with the design saved for the message.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
-    /// <param name="target">Which message the card is for.</param>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <param name="ownerId">The multi-greet or role greet ID, or 0.</param>
     /// <param name="user">The member.</param>
     /// <returns>The PNG.</returns>
-    public async Task<byte[]> RenderAsync(ulong guildId, WelcomeCardTarget target, IUser user)
+    public async Task<byte[]> RenderAsync(ulong guildId, WelcomeCardTarget target, int ownerId, IUser user)
     {
-        var result = await RenderCardAsync(guildId, await GetTemplateAsync(guildId, target), user);
+        var result = await RenderCardAsync(guildId, await GetTemplateAsync(guildId, target, ownerId), user);
         await using var image = result.Image;
         return image.ToArray();
     }
@@ -566,20 +694,13 @@ public class WelcomeCardService : INService
         return encoded.ToArray();
     }
 
-    private static WelcomeCardSetting Clone(WelcomeCardSetting source) => new()
+    private static MessageCard Clone(MessageCard source) => new()
     {
         Id = source.Id,
         GuildId = source.GuildId,
         Target = source.Target,
-        Enabled = source.Enabled,
-        BackgroundColor = source.BackgroundColor,
-        BackgroundData = source.BackgroundData,
-        OverlayOpacity = source.OverlayOpacity,
-        Title = source.Title,
-        Subtitle = source.Subtitle,
-        FontName = source.FontName,
-        TextColor = source.TextColor,
-        AvatarShape = source.AvatarShape,
+        OwnerId = source.OwnerId,
+        Placement = source.Placement,
         Template = source.Template,
         DateAdded = source.DateAdded
     };

@@ -332,8 +332,6 @@ public class Birthday : MewdekoModuleBase<BirthdayService>
                 .AddField("Age Message", config.AgeMessage.IsNullOrWhiteSpace() ? "Not set" : "Custom Message Set")
                 .AddField("Announcement Hour", $"{config.AnnouncementHour}:00", true)
                 .AddField("Birth Year", ((BirthYearRule)config.BirthYearRule).ToString(), true)
-                .AddField("Default Timezone", config.DefaultTimezone ?? "UTC", true)
-                .AddField("Reminder Days", config.BirthdayReminderDays.ToString(), true)
                 .AddField("Enabled Features", features.Any() ? string.Join(", ", features) : "None");
 
             await ctx.Channel.SendMessageAsync(embed: embed.Build());

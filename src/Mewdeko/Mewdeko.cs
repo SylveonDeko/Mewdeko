@@ -272,6 +272,10 @@ public class Mewdeko : IDisposable
         {
             logger.LogInformation("Joined server: {0} [{1}]", arg.Name, arg.Id);
 
+            var ownership = Services.GetRequiredService<GuildOwnershipService>();
+            if (!ownership.IsCustomInstance && !ownership.IsMine(arg.Id))
+                return;
+
             var gc = await GuildSettingsService.GetGuildConfig(arg.Id).ConfigureAwait(false);
 
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);

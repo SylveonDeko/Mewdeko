@@ -8,7 +8,6 @@
   "rolegreet_delete_success": "Uspešno ažuriran RoleGreet #{0} da se briše nakon {1}",
   "rolegreet_disable_status": "RoleGreet {0} postavljen na {1}",
   "rolegreet_greetbots_set": "RoleGreet {0} GreetBots postavljen na {1}",
-  "rolegreet_max_limit": "Izgleda da ste dostigli maksimum od 10 RoleGreet-ova! Molimo uklonite jedan da biste dodali drugi.",
   "rolegreet_message_preview_prompt": "Da li želite da pogledate ovo kao običan tekst ili želite da vidite kako stvarno izgleda?",
   "rolegreet_message_set": "RoleGreet Poruka za RoleGreet #{0} postavljena!",
   "rolegreet_no_delete": "RoleGreet #{0} se više neće brisati.",

@@ -38,6 +38,7 @@ public class XpBackgroundProcessor : INService, IDisposable
     private readonly Timer decayTimer;
     private readonly EventHandler eventHandler;
     private readonly ILogger<XpBackgroundProcessor> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly TimeSpan maxProcessingInterval = TimeSpan.FromSeconds(5);
     private readonly Timer memoryMonitorTimer;
 
@@ -71,8 +72,9 @@ public class XpBackgroundProcessor : INService, IDisposable
         IDataConnectionFactory dbFactory,
         XpCacheManager cacheManager,
         XpCompetitionManager competitionManager, DiscordShardedClient client, EventHandler eventHandler,
-        ILogger<XpBackgroundProcessor> logger)
+        ILogger<XpBackgroundProcessor> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.cacheManager = cacheManager;
         this.competitionManager = competitionManager;
@@ -757,10 +759,12 @@ public class XpBackgroundProcessor : INService, IDisposable
             await using var db = await dbFactory.CreateConnectionAsync();
 
             // Get guilds with decay enabled
-            var guildsWithDecay = await db.GuildXpSettings
-                .Where(g => g.EnableXpDecay)
-                .ToListAsync()
-                .ConfigureAwait(false);
+            var guildsWithDecay = (await db.GuildXpSettings
+                    .Where(g => g.EnableXpDecay)
+                    .ToListAsync()
+                    .ConfigureAwait(false))
+                .Where(g => ownership.IsMine(g.GuildId))
+                .ToList();
 
             if (guildsWithDecay.Count == 0)
                 return;

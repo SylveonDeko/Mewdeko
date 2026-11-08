@@ -19,6 +19,7 @@ public class FeedsService : INService
         new();
 
     private readonly ConcurrentDictionary<string, HashSet<FeedSub>> subs;
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="FeedsService" /> class.
@@ -26,8 +27,11 @@ public class FeedsService : INService
     /// <param name="dbFactory">The database service.</param>
     /// <param name="client">The Discord client.</param>
     /// <param name="bot">The bot instance.</param>
-    public FeedsService(IDataConnectionFactory dbFactory, DiscordShardedClient client, Mewdeko bot)
+    /// <param name="ownership">The guild ownership rules.</param>
+    public FeedsService(IDataConnectionFactory dbFactory, DiscordShardedClient client, Mewdeko bot,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         subs = new ConcurrentDictionary<string, HashSet<FeedSub>>();
 
@@ -184,7 +188,10 @@ public class FeedsService : INService
                         //send the created embed to all subscribed channels
                         foreach (var feed1 in value)
                         {
-                            var channel = client.GetGuild(feed1.GuildId).GetTextChannel(feed1.ChannelId);
+                            if (!ownership.IsMine(feed1.GuildId))
+                                continue;
+
+                            var channel = client.GetGuild(feed1.GuildId)?.GetTextChannel(feed1.ChannelId);
                             if (channel is null)
                                 continue;
                             var (builder, content, componentBuilder) =
@@ -340,13 +347,6 @@ public class FeedsService : INService
             .AnyAsync(x => x.GuildId == guildId && x.Url.ToLower() == trimmedFeed);
 
         if (exists)
-            return false;
-
-        // Check feed count limit
-        var feedCount = await db.FeedSubs
-            .CountAsync(x => x.GuildId == guildId);
-
-        if (feedCount >= 10)
             return false;
 
         // Create and add new feed with GuildId

@@ -352,6 +352,61 @@ public class BotCredentials : IBotCredentials
     public string SentryDsn { get; set; }
 
     /// <summary>
+    ///     Gets or sets the verification token Ko-fi sends with every webhook.
+    /// </summary>
+    public string KofiVerificationToken { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the Ko-fi shop item codes that grant a custom bot slot. Empty means every shop order does.
+    /// </summary>
+    public string KofiShopItemCodes { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the image custom bot containers run. Empty uses the image this instance runs.
+    /// </summary>
+    public string CustomBotImage { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the Docker network custom bot containers join. Empty uses this instance's network.
+    /// </summary>
+    public string CustomBotNetwork { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the folder, as this instance sees it, where each custom bot's credentials file is written.
+    /// </summary>
+    public string CustomBotDataPath { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the folder as the Docker host sees it, used for the bind mount.
+    /// </summary>
+    public string CustomBotHostDataPath { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the first API port handed to a custom bot.
+    /// </summary>
+    public int CustomBotPortStart { get; set; } = 5100;
+
+    /// <summary>
+    ///     Gets or sets the last API port handed to a custom bot.
+    /// </summary>
+    public int CustomBotPortEnd { get; set; } = 5999;
+
+    /// <summary>
+    ///     Gets or sets the key custom bot tokens are encrypted with.
+    /// </summary>
+    public string CustomBotEncryptionKey { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets how many days after a Ko-fi payment a custom bot keeps running before it is stopped.
+    /// </summary>
+    public int CustomBotGraceDays { get; set; } = 35;
+
+    /// <summary>
+    ///     Gets or sets how many days one Ko-fi payment extends a slot by.
+    /// </summary>
+    public int CustomBotDaysPerPayment { get; set; } = 31;
+
+    /// <summary>
     ///     Checks if the specified user is an owner.
     /// </summary>
     /// <param name="u">The user to check.</param>
@@ -626,6 +681,24 @@ public class BotCredentials : IBotCredentials
             OpenMeteoApiUrl = data[nameof(OpenMeteoApiUrl)] ?? "https://api.open-meteo.com";
             PostgresSetupCompleted = bool.TryParse(data[nameof(PostgresSetupCompleted)], out var pgSetup) && pgSetup;
             SentryDsn = data[nameof(SentryDsn)];
+            KofiVerificationToken = data[nameof(KofiVerificationToken)] ?? "";
+            KofiShopItemCodes = data[nameof(KofiShopItemCodes)] ?? "";
+            CustomBotImage = data[nameof(CustomBotImage)] ?? "";
+            CustomBotNetwork = data[nameof(CustomBotNetwork)] ?? "";
+            CustomBotDataPath = data[nameof(CustomBotDataPath)] ?? "";
+            CustomBotHostDataPath = data[nameof(CustomBotHostDataPath)] ?? "";
+            CustomBotPortStart = int.TryParse(data[nameof(CustomBotPortStart)], out var cbStart) && cbStart > 0
+                ? cbStart
+                : 5100;
+            CustomBotPortEnd = int.TryParse(data[nameof(CustomBotPortEnd)], out var cbEnd) && cbEnd > 0
+                ? cbEnd
+                : 5999;
+            CustomBotEncryptionKey = data[nameof(CustomBotEncryptionKey)] ?? "";
+            CustomBotGraceDays = int.TryParse(data[nameof(CustomBotGraceDays)], out var cbGrace) && cbGrace >= 0
+                ? cbGrace
+                : 35;
+            CustomBotDaysPerPayment =
+                int.TryParse(data[nameof(CustomBotDaysPerPayment)], out var cbDays) && cbDays > 0 ? cbDays : 31;
             LavalinkPassword = data[nameof(LavalinkPassword)] ?? "youshallnotpass";
             LavalinkDefaultSearchSource = data[nameof(LavalinkDefaultSearchSource)] ?? "youtube";
 

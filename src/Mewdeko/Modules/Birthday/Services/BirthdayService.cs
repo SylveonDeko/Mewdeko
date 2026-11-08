@@ -28,6 +28,7 @@ public class BirthdayService : INService, IDisposable
     private readonly GuildSettingsService guildSettings;
     private readonly GuildTimezoneService guildTimezone;
     private readonly ILogger<BirthdayService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
     private bool isDisposed;
 
@@ -50,8 +51,10 @@ public class BirthdayService : INService, IDisposable
         GeneratedBotStrings strings,
         ILogger<BirthdayService> logger,
         IAnalyticsCollector collector,
-        GuildTimezoneService guildTimezone)
+        GuildTimezoneService guildTimezone,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.guildTimezone = guildTimezone;
         this.collector = collector;
         this.client = client;
@@ -415,6 +418,9 @@ public class BirthdayService : INService, IDisposable
         {
             foreach (var guild in client.Guilds)
             {
+                if (!ownership.IsMine(guild.Id))
+                    continue;
+
                 try
                 {
                     await ProcessGuildBirthdaysAsync(guild, GetServerNow(guild.Id));

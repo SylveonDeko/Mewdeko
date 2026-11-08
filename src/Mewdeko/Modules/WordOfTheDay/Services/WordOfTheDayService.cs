@@ -33,6 +33,7 @@ public class WordOfTheDayService : INService, IDisposable
     private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<WordOfTheDayService> logger;
     private readonly SemaphoreSlim postLock = new(1, 1);
+    private readonly GuildOwnershipService ownership;
     private readonly Timer scheduleTimer;
     private readonly GeneratedBotStrings strings;
     private bool isDisposed;
@@ -52,8 +53,10 @@ public class WordOfTheDayService : INService, IDisposable
         IHttpClientFactory httpFactory,
         GeneratedBotStrings strings,
         ILogger<WordOfTheDayService> logger,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.httpFactory = httpFactory;
@@ -1014,7 +1017,7 @@ public class WordOfTheDayService : INService, IDisposable
         {
             try
             {
-                if (client.GetGuild(config.GuildId) is null) continue;
+                if (!ownership.IsMine(config.GuildId) || client.GetGuild(config.GuildId) is null) continue;
 
                 var localNow = GetLocalNow(config);
                 if (localNow.Hour < config.PostHour) continue;

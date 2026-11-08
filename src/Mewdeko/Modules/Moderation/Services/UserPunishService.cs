@@ -25,6 +25,7 @@ public class UserPunishService : INService, IDisposable
     private readonly ILogger<UserPunishService> logger;
     private readonly Dictionary<ulong, MassNick> massNicks = new();
     private readonly MuteService mute;
+    private readonly GuildOwnershipService ownership;
     private Timer? warnExpirationTimer;
 
     /// <summary>
@@ -44,11 +45,13 @@ public class UserPunishService : INService, IDisposable
     /// <param name="banPrune">The service resolving how many days of messages a ban purges.</param>
     /// <param name="cases">The service recording moderation cases.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public UserPunishService(MuteService mute, IDataConnectionFactory dbFactory, BlacklistService blacklistService,
         DiscordShardedClient client,
         GuildSettingsService guildSettings, BanPruneService banPrune, ModCaseService cases,
-        ILogger<UserPunishService> logger)
+        ILogger<UserPunishService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         Cases = cases;
         this.mute = mute;
         this.banPrune = banPrune;
@@ -396,6 +399,7 @@ public class UserPunishService : INService, IDisposable
                 g.GuildId, g.WarnExpireHours, g.WarnExpireAction
             })
             .ToListAsync();
+        relevantGuildConfigs = relevantGuildConfigs.Where(g => ownership.IsMine(g.GuildId)).ToList();
 
         // Process warnings to be forgiven (WarnExpireAction.Clear)
         var warningIdsToClear = new List<int>();

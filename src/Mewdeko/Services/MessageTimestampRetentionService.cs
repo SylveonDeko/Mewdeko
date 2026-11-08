@@ -53,6 +53,7 @@ public class MessageTimestampRetentionService : BackgroundService
 
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<MessageTimestampRetentionService> logger;
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="MessageTimestampRetentionService" /> class.
@@ -61,8 +62,9 @@ public class MessageTimestampRetentionService : BackgroundService
     /// <param name="logger">The logger.</param>
     public MessageTimestampRetentionService(
         IDataConnectionFactory dbFactory,
-        ILogger<MessageTimestampRetentionService> logger)
+        ILogger<MessageTimestampRetentionService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.logger = logger;
     }
@@ -73,6 +75,9 @@ public class MessageTimestampRetentionService : BackgroundService
     /// <param name="stoppingToken">Token signalled when the host is shutting down.</param>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (!ownership.HandlesGlobalWork)
+            return;
+
         logger.LogInformation("Message timestamp retention service started, keeping {Days} days",
             RetentionPeriod.TotalDays);
 

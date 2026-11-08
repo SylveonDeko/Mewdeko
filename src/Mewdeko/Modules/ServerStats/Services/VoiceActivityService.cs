@@ -21,6 +21,7 @@ public class VoiceActivityService : INService, IReadyExecutor, IDisposable
     private static readonly TimeSpan CheckpointInterval = TimeSpan.FromMinutes(5);
 
     private readonly SemaphoreSlim checkpointLock = new(1, 1);
+    private readonly GuildOwnershipService ownership;
 
     private readonly DiscordShardedClient client;
     private readonly IAnalyticsCollector collector;
@@ -42,8 +43,9 @@ public class VoiceActivityService : INService, IReadyExecutor, IDisposable
     /// <param name="collector">The analytics collector.</param>
     public VoiceActivityService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         ServerStatsSettingsService settings, EventHandler eventHandler, ILogger<VoiceActivityService> logger,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.settings = settings;
@@ -71,7 +73,7 @@ public class VoiceActivityService : INService, IReadyExecutor, IDisposable
         var started = 0;
         foreach (var guild in client.Guilds)
         {
-            if (!settings.GetCachedSettings(guild.Id).TrackVoice)
+            if (!ownership.IsMine(guild.Id) || !settings.GetCachedSettings(guild.Id).TrackVoice)
                 continue;
 
             foreach (var channel in guild.VoiceChannels)

@@ -37,6 +37,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly GuildSettingsService guildSettings;
     private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<OwnerOnlyService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly Replacer rep;
     private readonly GeneratedBotStrings strings;
 
@@ -72,11 +73,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     ///     and checking for updates. It also listens for commands to leave guilds or reload images via Redis subscriptions.
     /// </remarks>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public OwnerOnlyService(DiscordShardedClient client, CommandHandler cmdHandler, IDataConnectionFactory dbFactory,
         GeneratedBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
         BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot,
-        GuildSettingsService guildSettings, EventHandler handler, ILogger<OwnerOnlyService> logger)
+        GuildSettingsService guildSettings, EventHandler handler, ILogger<OwnerOnlyService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         var redis = cache.Redis;
         this.cmdHandler = cmdHandler;
         this.dbFactory = dbFactory;
@@ -216,7 +220,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         autoCommands =
             (await dbContext.AutoCommands
                 .ToListAsync())
-            .Where(x => x.Interval >= 5 && x.GuildId.HasValue)
+            .Where(x => x.Interval >= 5 && x.GuildId.HasValue && ownership.IsMine(x.GuildId.Value))
             .AsEnumerable()
             .GroupBy(x => x.GuildId!.Value)
             .ToDictionary(x => x.Key,
@@ -311,7 +315,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private async Task CheckUpdateTimer()
     {
         var interval = bss.Data.CheckUpdateInterval;
-        if (interval < 1)
+        if (interval < 1 || !ownership.HandlesGlobalWork)
             return;
         using var timer = new PeriodicTimer(TimeSpan.FromHours(interval));
         do
@@ -533,7 +537,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         try
         {
-            if (cmd.GuildId is null)
+            if (cmd.GuildId is null || !ownership.IsMine(cmd.GuildId.Value))
                 return;
             var guild = client.GetGuild(cmd.GuildId.Value);
             var prefix = await guildSettings.GetPrefix(guild);

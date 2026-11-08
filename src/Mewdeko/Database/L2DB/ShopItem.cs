@@ -58,6 +58,12 @@ public class ShopItem
     public string? TextContent { get; set; }
 
     /// <summary>
+    ///     Card design granted when <see cref="ItemType" /> is a design item.
+    /// </summary>
+    [Column("DesignId")]
+    public int? DesignId { get; set; }
+
+    /// <summary>
     ///     Remaining stock, or -1 for unlimited.
     /// </summary>
     [Column("Stock")]

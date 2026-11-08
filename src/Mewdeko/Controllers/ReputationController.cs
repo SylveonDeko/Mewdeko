@@ -408,6 +408,218 @@ public class ReputationController(
     }
 
     /// <summary>
+    ///     Sets the reputation decay settings
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="request">The decay settings</param>
+    /// <returns>Success response</returns>
+    [HttpPost("decay")]
+    public async Task<IActionResult> SetDecay(ulong guildId, [FromBody] DecaySettingsRequest request)
+    {
+        string[] types = ["daily", "weekly", "monthly", "fixed", "percentage"];
+
+        if (request.Type != null && !types.Contains(request.Type.ToLowerInvariant()))
+            return BadRequest("Invalid decay type");
+        if (request.Amount is < 1 or > 100)
+            return BadRequest("Amount must be between 1 and 100");
+        if (request.InactiveDays is < 1 or > 365)
+            return BadRequest("Inactive days must be between 1 and 365");
+
+        auditContext.RecordBefore(await service.GetConfigAsync(guildId));
+        await service.SetDecaySettingsAsync(guildId, request.Enabled, request.Type?.ToLowerInvariant(),
+            request.Amount, request.InactiveDays);
+        auditContext.RecordAfter(await service.GetConfigAsync(guildId));
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets a member's reputation total and whether it is frozen
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="userId">The member</param>
+    /// <returns>The total and freeze state</returns>
+    [HttpGet("members/{userId}")]
+    public async Task<IActionResult> GetMemberRep(ulong guildId, ulong userId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var rep = await db.UserReputations.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
+        return Ok(new
+        {
+            totalRep = rep?.TotalRep ?? 0, isFrozen = rep?.IsFrozen ?? false
+        });
+    }
+
+    /// <summary>
+    ///     Removes reputation from a member
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="userId">The member</param>
+    /// <param name="request">The amount and acting member</param>
+    /// <returns>The new total</returns>
+    [HttpPost("members/{userId}/take")]
+    public async Task<IActionResult> TakeMemberRep(ulong guildId, ulong userId, [FromBody] MemberRepRequest request)
+    {
+        if (request.Amount <= 0)
+            return BadRequest("Amount must be positive");
+
+        var total = await service.TakeReputationAsync(guildId, userId, request.Amount, request.AdminId);
+        return Ok(new
+        {
+            totalRep = total
+        });
+    }
+
+    /// <summary>
+    ///     Sets a member's reputation to a value
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="userId">The member</param>
+    /// <param name="request">The value and acting member</param>
+    /// <returns>The new total</returns>
+    [HttpPost("members/{userId}/set")]
+    public async Task<IActionResult> SetMemberRep(ulong guildId, ulong userId, [FromBody] MemberRepRequest request)
+    {
+        if (request.Amount < 0)
+            return BadRequest("Amount cannot be negative");
+
+        await service.SetReputationAsync(guildId, userId, request.Amount, request.AdminId);
+        return Ok(new
+        {
+            totalRep = request.Amount
+        });
+    }
+
+    /// <summary>
+    ///     Freezes or unfreezes a member's reputation
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="userId">The member</param>
+    /// <param name="frozen">Whether to freeze</param>
+    /// <returns>Success response</returns>
+    [HttpPost("members/{userId}/freeze")]
+    public async Task<IActionResult> FreezeMemberRep(ulong guildId, ulong userId, [FromBody] bool frozen)
+    {
+        if (frozen)
+        {
+            await service.FreezeUserAsync(guildId, userId);
+            return Ok();
+        }
+
+        return await service.UnfreezeUserAsync(guildId, userId) ? Ok() : NotFound("Member has no reputation data");
+    }
+
+    /// <summary>
+    ///     Resets a member's reputation
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="userId">The member</param>
+    /// <returns>Success response</returns>
+    [HttpPost("members/{userId}/reset")]
+    public async Task<IActionResult> ResetMemberRep(ulong guildId, ulong userId)
+    {
+        return await service.ResetUserReputationAsync(guildId, userId) ? Ok() : NotFound("Member has no reputation data");
+    }
+
+    /// <summary>
+    ///     Gets the reactions that give reputation.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>The reaction rules</returns>
+    [HttpGet("reactions")]
+    public async Task<IActionResult> GetReactionRules(ulong guildId)
+    {
+        var rules = await service.GetReactionConfigsAsync(guildId);
+        return Ok(rules.Select(x => new
+        {
+            emoji = x.EmojiId.HasValue ? $"<:{x.EmojiName}:{x.EmojiId}>" : x.EmojiName,
+            emojiName = x.EmojiName,
+            emojiId = x.EmojiId,
+            amount = x.RepAmount,
+            repType = x.RepType
+        }));
+    }
+
+    /// <summary>
+    ///     Adds or updates a reaction that gives reputation.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="request">The reaction rule</param>
+    /// <returns>Success response</returns>
+    [HttpPost("reactions")]
+    public async Task<IActionResult> AddReactionRule(ulong guildId, [FromBody] ReactionRuleRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Emoji))
+            return BadRequest("An emoji is required");
+        if (request.Amount == 0)
+            return BadRequest("Amount cannot be 0");
+        if (!await service.IsValidReputationTypeAsync(guildId, request.RepType))
+            return BadRequest("Unknown reputation type");
+
+        await service.AddOrUpdateReactionConfigAsync(guildId, request.Emoji.Trim(), request.Amount, request.RepType);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Removes a reaction that gives reputation.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="emoji">The emoji to remove</param>
+    /// <returns>Success response</returns>
+    [HttpDelete("reactions")]
+    public async Task<IActionResult> RemoveReactionRule(ulong guildId, [FromQuery] string emoji)
+    {
+        return await service.RemoveReactionConfigAsync(guildId, emoji)
+            ? Ok()
+            : NotFound("Reaction rule not found");
+    }
+
+    /// <summary>
+    ///     Gets the custom reputation types with their display names.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>The custom types</returns>
+    [HttpGet("types")]
+    public async Task<IActionResult> GetCustomTypes(ulong guildId)
+    {
+        var types = await service.GetCustomTypesAsync(guildId);
+        return Ok(types.Select(x => new
+        {
+            typeName = x.TypeName, displayName = x.DisplayName
+        }));
+    }
+
+    /// <summary>
+    ///     Adds a custom reputation type.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="request">The type</param>
+    /// <returns>Success response</returns>
+    [HttpPost("types")]
+    public async Task<IActionResult> AddCustomType(ulong guildId, [FromBody] CustomTypeRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.TypeName) || string.IsNullOrWhiteSpace(request.DisplayName))
+            return BadRequest("A name and display name are required");
+
+        return await service.AddCustomTypeAsync(guildId, request.TypeName.Trim(), request.DisplayName.Trim())
+            ? Ok()
+            : Conflict("That type already exists");
+    }
+
+    /// <summary>
+    ///     Removes a custom reputation type.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="typeName">The type to remove</param>
+    /// <returns>Success response</returns>
+    [HttpDelete("types/{typeName}")]
+    public async Task<IActionResult> RemoveCustomType(ulong guildId, string typeName)
+    {
+        return await service.RemoveCustomTypeAsync(guildId, typeName)
+            ? Ok()
+            : NotFound("Type not found");
+    }
+
+    /// <summary>
     ///     Gets valid custom reputation types for a guild
     /// </summary>
     /// <param name="guildId">The ID of the guild</param>

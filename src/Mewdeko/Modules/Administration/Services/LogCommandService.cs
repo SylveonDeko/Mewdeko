@@ -36,7 +36,8 @@ public class LogCommandService(
     MuteService muteService,
     GeneratedBotStrings strings,
     ILogger<LogCommandService> logger,
-    IAnalyticsCollector collector) : INService, IReadyExecutor
+    IAnalyticsCollector collector,
+    GuildOwnershipService ownership) : INService, IReadyExecutor
 {
     /// <summary>
     ///     Result of toggling a channel's ignore status
@@ -1049,7 +1050,7 @@ public class LogCommandService(
         foreach (var guild in client.Guilds)
         {
             var user = guild.GetUser(args.Id);
-            if (user != null && GuildLogSettings.TryGetValue(guild.Id, out var logSetting))
+            if (user != null && ownership.IsMine(guild.Id) && GuildLogSettings.TryGetValue(guild.Id, out var logSetting))
             {
                 if (logSetting.UsernameUpdatedId is null or 0)
                     continue;
@@ -1805,7 +1806,8 @@ public class LogCommandService(
         foreach (var guild in client.Guilds)
         {
             var userInGuild = guild.GetUser(args.Id);
-            if (userInGuild == null || !GuildLogSettings.TryGetValue(guild.Id, out var logSetting)) continue;
+            if (userInGuild == null || !ownership.IsMine(guild.Id) ||
+                !GuildLogSettings.TryGetValue(guild.Id, out var logSetting)) continue;
             if (logSetting.UserUpdatedId is null or 0 || IgnoresBot(guild.Id, args))
                 continue;
 
@@ -3375,7 +3377,7 @@ public class LogCommandService(
             foreach (var row in ended)
             {
                 var guild = client.GetGuild(row.GuildId);
-                if (guild is null)
+                if (guild is null || !ownership.IsMine(row.GuildId))
                     continue;
 
                 GuildEmbedColorService.Enter(row.GuildId);

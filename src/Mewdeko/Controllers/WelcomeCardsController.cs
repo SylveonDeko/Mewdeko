@@ -31,13 +31,13 @@ public class WelcomeCardsController(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     [HttpGet]
-    public async Task<IActionResult> Get(ulong guildId, WelcomeCardTarget target)
+    public async Task<IActionResult> Get(ulong guildId, WelcomeCardTarget target, [FromQuery] int ownerId = 0)
     {
         var guild = client.GetGuild(guildId);
         if (guild is null)
             return NotFound("Guild not found.");
 
-        return Ok(await ResponseAsync(guild, target));
+        return Ok(await ResponseAsync(guild, target, ownerId));
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class WelcomeCardsController(
     /// <param name="request">The state and design.</param>
     [HttpPost]
     public async Task<IActionResult> Save(ulong guildId, WelcomeCardTarget target,
-        [FromBody] WelcomeCardSaveRequest request)
+        [FromBody] WelcomeCardSaveRequest request, [FromQuery] int ownerId = 0)
     {
         var guild = client.GetGuild(guildId);
         if (guild is null)
@@ -56,13 +56,13 @@ public class WelcomeCardsController(
 
         auditContext.RecordBefore(new
         {
-            (await service.GetSettingsAsync(guildId, target)).Enabled
+            (await service.GetCardAsync(guildId, target, ownerId)).Placement
         });
-        await service.SaveAsync(guildId, target, request.Enabled, request.Template);
-        var response = await ResponseAsync(guild, target);
+        await service.SaveAsync(guildId, target, ownerId, request.Placement, request.Template);
+        var response = await ResponseAsync(guild, target, ownerId);
         auditContext.RecordAfter(new
         {
-            response.Enabled, Elements = response.Template.Elements.Count
+            response.Placement, Elements = response.Template.Elements.Count
         });
         return Ok(response);
     }
@@ -89,14 +89,15 @@ public class WelcomeCardsController(
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="starterId">The layout's short name.</param>
     [HttpPost("starters/{starterId}")]
-    public async Task<IActionResult> UseStarter(ulong guildId, WelcomeCardTarget target, string starterId)
+    public async Task<IActionResult> UseStarter(ulong guildId, WelcomeCardTarget target, string starterId,
+        [FromQuery] int ownerId = 0)
     {
         var guild = client.GetGuild(guildId);
         if (guild is null)
             return NotFound("Guild not found.");
 
         auditContext.RecordBefore(null);
-        var error = await service.ResetToStarterAsync(guildId, target, starterId);
+        var error = await service.ResetToStarterAsync(guildId, target, ownerId, starterId);
         if (error != WelcomeCardError.None)
             return BadRequest(error.ToString());
 
@@ -104,7 +105,7 @@ public class WelcomeCardsController(
         {
             starterId
         });
-        return Ok(await ResponseAsync(guild, target));
+        return Ok(await ResponseAsync(guild, target, ownerId));
     }
 
     /// <summary>
@@ -117,14 +118,14 @@ public class WelcomeCardsController(
     [HttpPost("preview")]
     [SkipAudit]
     public async Task<IActionResult> Preview(ulong guildId, WelcomeCardTarget target,
-        [FromBody] WelcomeCardPreviewRequest request)
+        [FromBody] WelcomeCardPreviewRequest request, [FromQuery] int ownerId = 0)
     {
         var guild = client.GetGuild(guildId);
         if (guild is null)
             return NotFound("Guild not found.");
 
         var template = request.Template is null
-            ? await service.GetTemplateAsync(guildId, target)
+            ? await service.GetTemplateAsync(guildId, target, ownerId)
             : await service.OwnedAsync(guildId, request.Template);
         var memberId = ulong.TryParse(request.UserId, out var requested)
             ? requested
@@ -163,13 +164,14 @@ public class WelcomeCardsController(
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="userId">The member to draw the card for.</param>
     [HttpGet("preview")]
-    public async Task<IActionResult> PreviewFile(ulong guildId, WelcomeCardTarget target, [FromQuery] ulong userId)
+    public async Task<IActionResult> PreviewFile(ulong guildId, WelcomeCardTarget target, [FromQuery] ulong userId,
+        [FromQuery] int ownerId = 0)
     {
         var user = client.GetGuild(guildId)?.GetUser(userId);
         if (user is null)
             return NotFound();
 
-        return File(await service.RenderAsync(guildId, target, user), "image/png");
+        return File(await service.RenderAsync(guildId, target, ownerId, user), "image/png");
     }
 
     /// <summary>
@@ -181,7 +183,7 @@ public class WelcomeCardsController(
     [HttpGet("preview/image")]
     [SkipAudit]
     public async Task<IActionResult> PreviewImage(ulong guildId, WelcomeCardTarget target,
-        [FromQuery] ulong? userId = null)
+        [FromQuery] ulong? userId = null, [FromQuery] int ownerId = 0)
     {
         var guild = client.GetGuild(guildId);
         if (guild is null)
@@ -190,7 +192,7 @@ public class WelcomeCardsController(
         IUser? user = userId is { } id ? guild.GetUser(id) : null;
         user ??= guild.CurrentUser;
 
-        var bytes = await service.RenderAsync(guildId, target, user);
+        var bytes = await service.RenderAsync(guildId, target, ownerId, user);
         return Ok(new
         {
             image = $"data:image/png;base64,{Convert.ToBase64String(bytes)}"
@@ -246,7 +248,8 @@ public class WelcomeCardsController(
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="id">The image ID.</param>
     [HttpDelete("images/{id:int}")]
-    public async Task<IActionResult> DeleteImage(ulong guildId, WelcomeCardTarget target, int id)
+    public async Task<IActionResult> DeleteImage(ulong guildId, WelcomeCardTarget target, int id,
+        [FromQuery] int ownerId = 0)
     {
         var guild = client.GetGuild(guildId);
         if (guild is null)
@@ -259,18 +262,18 @@ public class WelcomeCardsController(
         if (!await service.DeleteImageAsync(guildId, id))
             return NotFound();
 
-        return Ok(await ResponseAsync(guild, target));
+        return Ok(await ResponseAsync(guild, target, ownerId));
     }
 
-    private async Task<WelcomeCardResponse> ResponseAsync(SocketGuild guild, WelcomeCardTarget target)
+    private async Task<WelcomeCardResponse> ResponseAsync(SocketGuild guild, WelcomeCardTarget target, int ownerId)
     {
-        var setting = await service.GetSettingsAsync(guild.Id, target);
-        var template = await service.GetTemplateAsync(guild.Id, target);
+        var setting = await service.GetCardAsync(guild.Id, target, ownerId);
+        var template = await service.GetTemplateAsync(guild.Id, target, ownerId);
         var palette = await paletteService.GetAsync(guild);
         var images = await service.GetImagesAsync(guild.Id);
         return new WelcomeCardResponse
         {
-            Enabled = setting.Enabled,
+            Placement = setting.Placement,
             Template = template,
             BuiltIn = WelcomeCardTemplates.Classic(),
             Images = images.Select(ImageResponse).ToList(),

@@ -2,6 +2,7 @@ using DataModel;
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.Currency;
 using Mewdeko.Database.Enums;
+using Mewdeko.Modules.CardDesigns.Services;
 using Mewdeko.Modules.Currency.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,8 @@ public class CurrencyController : Controller
     private readonly CurrencyAnalyticsService analyticsService;
     private readonly DiscordShardedClient client;
     private readonly CurrencyConfigService configService;
+    private readonly CardDesignService designs;
+    private readonly GuildSettingsService guildSettings;
     private readonly ICurrencyService currencyService;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EconomyBoostService boostService;
@@ -41,6 +44,8 @@ public class CurrencyController : Controller
     /// <param name="boostService">The scheduled boost service.</param>
     /// <param name="dbFactory">The database connection factory.</param>
     /// <param name="client">The Discord client, used to resolve users and roles.</param>
+    /// <param name="guildSettings">The guild settings service, which holds the currency emoji and daily reward.</param>
+    /// <param name="designs">The card design library, for design shop items.</param>
     /// <param name="logger">The logger.</param>
     public CurrencyController(
         ICurrencyService currencyService,
@@ -50,8 +55,12 @@ public class CurrencyController : Controller
         EconomyBoostService boostService,
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
+        GuildSettingsService guildSettings,
+        CardDesignService designs,
         ILogger<CurrencyController> logger)
     {
+        this.guildSettings = guildSettings;
+        this.designs = designs;
         this.boostService = boostService;
         this.currencyService = currencyService;
         this.configService = configService;
@@ -236,6 +245,71 @@ public class CurrencyController : Controller
 
     #endregion
 
+    #region Setup
+
+    /// <summary>
+    ///     Gets the economy setup: currency emoji, daily reward, and whether the economy counts as set up.
+    /// </summary>
+    /// <param name="guildId">The guild to read.</param>
+    /// <returns>The setup state.</returns>
+    [HttpGet("setup")]
+    public async Task<IActionResult> GetSetup(ulong guildId)
+    {
+        return Ok(await BuildSetupAsync(guildId));
+    }
+
+    /// <summary>
+    ///     Applies a partial update to the economy setup.
+    /// </summary>
+    /// <param name="guildId">The guild to update.</param>
+    /// <param name="request">The fields to change. Omitted fields are left alone.</param>
+    /// <returns>The setup state after the update, or a 400 explaining what is wrong.</returns>
+    [HttpPatch("setup")]
+    public async Task<IActionResult> UpdateSetup(ulong guildId, [FromBody] EconomySetupRequest request)
+    {
+        if (request.CurrencyEmoji is not null && CurrencySetupRules.ValidateEmoji(request.CurrencyEmoji) is { } emojiError)
+            return BadRequest(emojiError);
+
+        var guildConfig = await guildSettings.GetGuildConfig(guildId);
+        var amount = request.RewardAmount ?? guildConfig.RewardAmount;
+        var cooldown = request.RewardTimeoutSeconds ?? guildConfig.RewardTimeoutSeconds;
+
+        if ((request.RewardAmount.HasValue || request.RewardTimeoutSeconds.HasValue) &&
+            CurrencySetupRules.ValidateReward(amount, cooldown) is { } rewardError)
+            return BadRequest(rewardError);
+
+        if (request.CurrencyEmoji is not null)
+            guildConfig.CurrencyEmoji = request.CurrencyEmoji.Trim();
+        guildConfig.RewardAmount = amount;
+        guildConfig.RewardTimeoutSeconds = cooldown;
+        await guildSettings.UpdateGuildConfig(guildId, guildConfig);
+
+        if (request.SetupComplete.HasValue)
+            await configService.UpdateAsync(guildId, config => config.SetupComplete = request.SetupComplete.Value);
+
+        return Ok(await BuildSetupAsync(guildId));
+    }
+
+    private async Task<EconomySetupResponse> BuildSetupAsync(ulong guildId)
+    {
+        var guildConfig = await guildSettings.GetGuildConfig(guildId);
+        var economy = await configService.GetConfigAsync(guildId);
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var configured = economy.SetupComplete || await db.TransactionHistories.AnyAsync(x => x.GuildId == guildId);
+
+        return new EconomySetupResponse
+        {
+            CurrencyEmoji = guildConfig.CurrencyEmoji,
+            RewardAmount = guildConfig.RewardAmount,
+            RewardTimeoutSeconds = guildConfig.RewardTimeoutSeconds,
+            SetupComplete = economy.SetupComplete,
+            Configured = configured
+        };
+    }
+
+    #endregion
+
     #region Configuration
 
     /// <summary>
@@ -258,6 +332,22 @@ public class CurrencyController : Controller
     [HttpPatch("config")]
     public async Task<IActionResult> UpdateConfig(ulong guildId, [FromBody] UpdateEconomyConfigRequest request)
     {
+        var current = await configService.GetConfigAsync(guildId);
+
+        (long Min, long Max)? Pair(long? min, long? max, long currentMin, long currentMax)
+        {
+            return min.HasValue || max.HasValue ? (min ?? currentMin, max ?? currentMax) : null;
+        }
+
+        var rangeError = CurrencySetupRules.ValidateRanges(
+            Pair(request.WorkMinReward, request.WorkMaxReward, current.WorkMinReward, current.WorkMaxReward),
+            Pair(request.CrimeMinReward, request.CrimeMaxReward, current.CrimeMinReward, current.CrimeMaxReward),
+            Pair(request.CrimeFineMin, request.CrimeFineMax, current.CrimeFineMin, current.CrimeFineMax),
+            Pair(request.MinBet, request.MaxBet, current.MinBet, current.MaxBet));
+
+        if (rangeError is not null)
+            return BadRequest(rangeError);
+
         var updated = await configService.UpdateAsync(guildId, config =>
         {
             if (request.GamblingEnabled.HasValue) config.GamblingEnabled = request.GamblingEnabled.Value;
@@ -346,6 +436,7 @@ public class CurrencyController : Controller
     {
         var items = await shopService.GetItemsAsync(guildId, true);
         var guild = client.GetGuild(guildId);
+        var designNames = (await designs.GetDesignsAsync(guildId)).ToDictionary(d => d.Id, d => d.Name);
 
         await using var db = await dbFactory.CreateConnectionAsync();
 
@@ -374,6 +465,8 @@ public class CurrencyController : Controller
                 RoleId = item.RoleId,
                 RoleName = item.RoleId.HasValue ? guild?.GetRole(item.RoleId.Value)?.Name : null,
                 TextContent = item.TextContent,
+                DesignId = item.DesignId,
+                DesignName = item.DesignId.HasValue ? designNames.GetValueOrDefault(item.DesignId.Value) : null,
                 Stock = item.Stock,
                 MaxPerUser = item.MaxPerUser,
                 RequiredRoleId = item.RequiredRoleId,
@@ -407,7 +500,10 @@ public class CurrencyController : Controller
             return BadRequest("Name is required.");
         if (request.Price < 0)
             return BadRequest("Price cannot be negative.");
+        if (await ValidateItemTypeAsync(guildId, request) is { } typeError)
+            return BadRequest(typeError);
 
+        var isDesign = request.ItemType == (int)ShopItemType.Design;
         var created = await shopService.AddItemAsync(new ShopItem
         {
             GuildId = guildId,
@@ -417,13 +513,14 @@ public class CurrencyController : Controller
             ItemType = request.ItemType,
             RoleId = request.RoleId,
             TextContent = request.TextContent,
+            DesignId = isDesign ? request.DesignId : null,
             Stock = request.Stock < 0 ? -1 : request.Stock,
-            MaxPerUser = Math.Max(0, request.MaxPerUser),
+            MaxPerUser = isDesign ? 1 : Math.Max(0, request.MaxPerUser),
             RequiredRoleId = request.RequiredRoleId,
-            Consumable = request.Consumable,
+            Consumable = !isDesign && request.Consumable,
             BuyMessage = request.BuyMessage,
             UseMessage = request.UseMessage,
-            UseOnBuy = request.UseOnBuy,
+            UseOnBuy = !isDesign && request.UseOnBuy,
             Enabled = request.Enabled,
             SortOrder = request.SortOrder
         });
@@ -443,7 +540,10 @@ public class CurrencyController : Controller
     {
         if (request.Price < 0)
             return BadRequest("Price cannot be negative.");
+        if (await ValidateItemTypeAsync(guildId, request) is { } typeError)
+            return BadRequest(typeError);
 
+        var isDesign = request.ItemType == (int)ShopItemType.Design;
         var updated = await shopService.UpdateItemAsync(guildId, name, item =>
         {
             item.Name = string.IsNullOrWhiteSpace(request.Name) ? item.Name : request.Name.Trim();
@@ -452,13 +552,14 @@ public class CurrencyController : Controller
             item.ItemType = request.ItemType;
             item.RoleId = request.RoleId;
             item.TextContent = request.TextContent;
+            item.DesignId = isDesign ? request.DesignId : null;
             item.Stock = request.Stock < 0 ? -1 : request.Stock;
-            item.MaxPerUser = Math.Max(0, request.MaxPerUser);
+            item.MaxPerUser = isDesign ? 1 : Math.Max(0, request.MaxPerUser);
             item.RequiredRoleId = request.RequiredRoleId;
-            item.Consumable = request.Consumable;
+            item.Consumable = !isDesign && request.Consumable;
             item.BuyMessage = request.BuyMessage;
             item.UseMessage = request.UseMessage;
-            item.UseOnBuy = request.UseOnBuy;
+            item.UseOnBuy = !isDesign && request.UseOnBuy;
             item.Enabled = request.Enabled;
             item.SortOrder = request.SortOrder;
         });
@@ -554,6 +655,18 @@ public class CurrencyController : Controller
         {
             Taken = await shopService.TakeItemAsync(guildId, userId, item, request.Amount)
         });
+    }
+
+    private async Task<string?> ValidateItemTypeAsync(ulong guildId, ShopItemRequest request)
+    {
+        if (!Enum.IsDefined((ShopItemType)request.ItemType))
+            return "Item type must be 0, 1, 2, 3 or 4.";
+        if (request.ItemType != (int)ShopItemType.Design)
+            return null;
+        if (request.DesignId is not { } designId)
+            return "Pick the design this item grants.";
+
+        return await designs.GetDesignAsync(guildId, designId) is null ? "That design doesn't exist." : null;
     }
 
     #endregion

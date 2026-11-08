@@ -22,6 +22,7 @@ public class FormLaunchService : BackgroundService
 
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<FormLaunchService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly FormsService service;
 
     /// <summary>
@@ -33,8 +34,10 @@ public class FormLaunchService : BackgroundService
     public FormLaunchService(
         IDataConnectionFactory dbFactory,
         FormsService service,
-        ILogger<FormLaunchService> logger)
+        ILogger<FormLaunchService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.service = service;
         this.logger = logger;
@@ -78,11 +81,14 @@ public class FormLaunchService : BackgroundService
                         && f.AnnouncedAt == null
                         && f.AnnounceChannelId != null
                         && !f.IsDraft)
-            .Select(f => f.Id)
+            .Select(f => new
+            {
+                f.Id, f.GuildId
+            })
             .ToListAsync(stoppingToken);
 
-        foreach (var formId in due)
-            await service.AnnounceLaunchAsync(formId);
+        foreach (var form in due.Where(f => ownership.IsMine(f.GuildId)))
+            await service.AnnounceLaunchAsync(form.Id);
     }
 
     /// <summary>

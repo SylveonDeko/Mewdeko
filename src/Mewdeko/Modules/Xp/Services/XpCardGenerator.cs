@@ -5,6 +5,9 @@ using DataModel;
 using Humanizer;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Database.Enums;
+using Mewdeko.Modules.CardDesigns.Common;
+using Mewdeko.Modules.CardDesigns.Services;
 using Mewdeko.Modules.Xp.Models;
 using SkiaSharp;
 
@@ -16,6 +19,7 @@ namespace Mewdeko.Modules.Xp.Services;
 public class XpCardGenerator : INService
 {
     private readonly XpBackgroundService backgrounds;
+    private readonly CardDesignService designs;
     private readonly IDataConnectionFactory dbFactory;
     private readonly byte[] defaultBackground;
     private readonly IHttpClientFactory httpClientFactory;
@@ -30,11 +34,14 @@ public class XpCardGenerator : INService
     /// <param name="httpClientFactory">The HTTP client factory.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="backgrounds">The rank card background service.</param>
+    /// <param name="designs">The card design library.</param>
     public XpCardGenerator(
         IDataConnectionFactory dbFactory,
         XpService xpService,
-        IHttpClientFactory httpClientFactory, ILogger<XpCardGenerator> logger, XpBackgroundService backgrounds)
+        IHttpClientFactory httpClientFactory, ILogger<XpCardGenerator> logger, XpBackgroundService backgrounds,
+        CardDesignService designs)
     {
+        this.designs = designs;
         this.backgrounds = backgrounds;
         this.dbFactory = dbFactory ?? throw new ArgumentNullException(nameof(dbFactory));
         this.xpService = xpService ?? throw new ArgumentNullException(nameof(xpService));
@@ -760,10 +767,39 @@ public class XpCardGenerator : INService
     /// <returns>The image bytes, or null.</returns>
     private async Task<byte[]?> LoadBackgroundAsync(ulong userId, ulong guildId)
     {
-        var own = await backgrounds.GetUserBackgroundAsync(userId);
-        if (own is not null && await backgrounds.LoadAsync(own) is { } ownBytes)
-            return ownBytes;
+        foreach (var source in CardDesignRules.RankOrder)
+        {
+            var bytes = source switch
+            {
+                RankSource.Equipped => await LoadDesignAsync(
+                    await designs.GetEquippedDesignAsync(guildId, userId, CardDesignTarget.Rank)),
+                RankSource.Personal => await LoadPersonalAsync(userId),
+                RankSource.CommunityDefault => await LoadDesignAsync(
+                    await designs.GetDefaultDesignAsync(guildId, CardDesignTarget.Rank)),
+                RankSource.Server => await LoadServerAsync(guildId),
+                _ => null
+            };
 
+            if (bytes is not null)
+                return bytes;
+        }
+
+        return null;
+    }
+
+    private async Task<byte[]?> LoadDesignAsync(CardDesign? design)
+    {
+        return design is null ? null : await designs.LoadRankBackgroundAsync(design);
+    }
+
+    private async Task<byte[]?> LoadPersonalAsync(ulong userId)
+    {
+        var own = await backgrounds.GetUserBackgroundAsync(userId);
+        return own is null ? null : await backgrounds.LoadAsync(own);
+    }
+
+    private async Task<byte[]?> LoadServerAsync(ulong guildId)
+    {
         var server = await GetXpImageAsync(guildId);
         return server is null ? null : await backgrounds.LoadAsync(server);
     }

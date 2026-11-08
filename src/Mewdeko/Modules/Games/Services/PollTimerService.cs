@@ -15,6 +15,7 @@ public class PollTimerService : INService, IReadyExecutor, IDisposable
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<PollTimerService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly PollService pollService;
     private readonly SemaphoreSlim semaphore = new(1, 1);
     private readonly GeneratedBotStrings strings;
@@ -29,8 +30,9 @@ public class PollTimerService : INService, IReadyExecutor, IDisposable
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The strings service.</param>
     public PollTimerService(IDataConnectionFactory dbFactory, PollService pollService,
-        DiscordShardedClient client, ILogger<PollTimerService> logger, GeneratedBotStrings strings)
+        DiscordShardedClient client, ILogger<PollTimerService> logger, GeneratedBotStrings strings, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.pollService = pollService;
         this.client = client;
@@ -236,6 +238,7 @@ public class PollTimerService : INService, IReadyExecutor, IDisposable
                 .Where(p => p.IsActive && p.ExpiresAt.HasValue && p.ExpiresAt.Value <= DateTime.UtcNow)
                 .ToListAsync();
 
+            expiredPolls = expiredPolls.Where(p => ownership.IsMine(p.GuildId)).ToList();
             if (expiredPolls.Count == 0)
                 return;
 

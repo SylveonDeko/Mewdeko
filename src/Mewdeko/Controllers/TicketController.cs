@@ -1079,7 +1079,7 @@ public class TicketController : Controller
                 return NotFound("Ticket not found");
 
             IGuild guild = client.GetGuild(guildId);
-            var channel = await guild.GetTextChannelAsync(ticket.ChannelId);
+            var channel = await guild.GetChannelAsync(ticket.ChannelId);
             var creator = await guild.GetUserAsync(ticket.CreatorId);
             var claimedBy = ticket.ClaimedBy.HasValue ? await guild.GetUserAsync(ticket.ClaimedBy.Value) : null;
 
@@ -1115,6 +1115,45 @@ public class TicketController : Controller
     }
 
     /// <summary>
+    ///     Gets the staff notes on a ticket
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="ticketId">The ID of the ticket</param>
+    /// <returns>The notes, oldest first</returns>
+    [HttpGet("tickets/{ticketId}/notes")]
+    public async Task<IActionResult> GetTicketNotes(ulong guildId, int ticketId)
+    {
+        try
+        {
+            var ticket = await ticketService.GetTicketAsync(ticketId);
+            if (ticket == null || ticket.GuildId != guildId)
+                return NotFound("Ticket not found");
+
+            IGuild guild = client.GetGuild(guildId);
+            var notes = await ticketService.GetTicketNotesAsync(ticketId);
+            var result = await Task.WhenAll(notes.Select(async note =>
+            {
+                var author = guild == null ? null : await guild.GetUserAsync(note.AuthorId);
+                return new
+                {
+                    note.Id,
+                    note.AuthorId,
+                    AuthorName = author?.Username ?? "Unknown User",
+                    note.Content,
+                    note.CreatedAt
+                };
+            }));
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error getting notes for ticket {TicketId} in guild {GuildId}", ticketId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
     ///     Gets a ticket by its channel ID
     /// </summary>
     /// <param name="guildId">The ID of the guild</param>
@@ -1130,7 +1169,7 @@ public class TicketController : Controller
                 return NotFound("Ticket not found");
 
             IGuild guild = client.GetGuild(guildId);
-            var channel = await guild.GetTextChannelAsync(ticket.ChannelId);
+            var channel = await guild.GetChannelAsync(ticket.ChannelId);
             var creator = await guild.GetUserAsync(ticket.CreatorId);
             var claimedBy = ticket.ClaimedBy.HasValue ? await guild.GetUserAsync(ticket.ClaimedBy.Value) : null;
 
@@ -1187,7 +1226,7 @@ public class TicketController : Controller
 
             var result = await Task.WhenAll(tickets.Select(async ticket =>
             {
-                var channel = await guild.GetTextChannelAsync(ticket.ChannelId);
+                var channel = await guild.GetChannelAsync(ticket.ChannelId);
                 var creator = await guild.GetUserAsync(ticket.CreatorId);
                 var claimedBy = ticket.ClaimedBy.HasValue ? await guild.GetUserAsync(ticket.ClaimedBy.Value) : null;
                 var buttonLabel = ticket.Button?.Label;
@@ -1628,7 +1667,7 @@ public class TicketController : Controller
 
             var linkedTickets = await Task.WhenAll((ticketCase.Tickets ?? new List<Ticket>()).Select(async ticket =>
             {
-                var channel = await guild.GetTextChannelAsync(ticket.ChannelId);
+                var channel = await guild.GetChannelAsync(ticket.ChannelId);
                 var ticketCreator = await guild.GetUserAsync(ticket.CreatorId);
                 return new
                 {
@@ -2074,11 +2113,15 @@ public class TicketController : Controller
                 request.Level,
                 request.PingStaff,
                 request.ResponseTime,
-                request.Color);
+                new Color(request.Color));
 
             if (success)
                 return Ok();
             return BadRequest("Failed to create priority or priority already exists");
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -2147,7 +2190,7 @@ public class TicketController : Controller
                 request.Id,
                 request.Name,
                 request.Description,
-                request.Color);
+                new Color(request.Color));
 
             if (success)
                 return Ok();
@@ -2423,7 +2466,10 @@ public class TicketController : Controller
                 logChannelId = settings?.LogChannelId,
                 defaultMaxTickets = settings?.DefaultMaxTickets,
                 blacklistedUsers = settings?.BlacklistedUsers,
-                dmTranscriptOnClose = settings?.DmTranscriptOnClose ?? false
+                dmTranscriptOnClose = settings?.DmTranscriptOnClose ?? false,
+                enableStaffPings = settings?.EnableStaffPings ?? false,
+                enableDmNotifications = settings?.EnableDmNotifications ?? false,
+                notificationRoles = settings?.NotificationRoles ?? []
             });
         }
         catch (Exception ex)
@@ -2471,6 +2517,29 @@ public class TicketController : Controller
         catch (Exception ex)
         {
             logger.LogError(ex, "Error setting the transcript DM option for guild {GuildId}", guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Sets who gets notified when a ticket is created, claimed or unclaimed
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="request">Request containing the notification options</param>
+    /// <returns>Success response</returns>
+    [HttpPut("settings/notifications")]
+    public async Task<IActionResult> SetNotificationSettings(ulong guildId,
+        [FromBody] UpdateNotificationSettingsRequest request)
+    {
+        try
+        {
+            await ticketService.SetNotificationSettingsAsync(guildId, request.EnableStaffPings,
+                request.EnableDmNotifications, request.NotificationRoles);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error setting the notification options for guild {GuildId}", guildId);
             return StatusCode(500, "Internal server error");
         }
     }

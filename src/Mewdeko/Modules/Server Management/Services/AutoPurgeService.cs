@@ -60,6 +60,7 @@ public partial class AutoPurgeService : INService, IReadyExecutor
     private readonly ILogger<AutoPurgeService> logger;
     private readonly ConcurrentDictionary<ulong, SemaphoreSlim> running = new();
     private readonly GeneratedBotStrings strings;
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AutoPurgeService" /> class.
@@ -70,8 +71,9 @@ public partial class AutoPurgeService : INService, IReadyExecutor
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The generated bot strings.</param>
     public AutoPurgeService(DiscordShardedClient client, IDataConnectionFactory dbFactory, EventHandler eventHandler,
-        ILogger<AutoPurgeService> logger, GeneratedBotStrings strings)
+        ILogger<AutoPurgeService> logger, GeneratedBotStrings strings, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.strings = strings;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -327,7 +329,7 @@ public partial class AutoPurgeService : INService, IReadyExecutor
         var now = DateTime.UtcNow;
         foreach (var setting in all.Where(x => x.LastRunAt is null || x.LastRunAt.Value.AddMinutes(x.IntervalMinutes) <= now))
         {
-            if (client.GetGuild(setting.GuildId) is null)
+            if (!ownership.IsMine(setting.GuildId) || client.GetGuild(setting.GuildId) is null)
                 continue;
 
             try

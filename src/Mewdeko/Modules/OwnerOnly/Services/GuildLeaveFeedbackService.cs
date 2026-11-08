@@ -37,6 +37,7 @@ public class GuildLeaveFeedbackService : INService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler handler;
     private readonly ILogger<GuildLeaveFeedbackService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -49,10 +50,12 @@ public class GuildLeaveFeedbackService : INService, IReadyExecutor
     /// <param name="bss">The bot config service.</param>
     /// <param name="creds">The bot credentials.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public GuildLeaveFeedbackService(EventHandler handler, DiscordShardedClient client,
         IDataConnectionFactory dbFactory, GeneratedBotStrings strings, BotConfigService bss, BotCredentials creds,
-        ILogger<GuildLeaveFeedbackService> logger)
+        ILogger<GuildLeaveFeedbackService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.handler = handler;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -106,6 +109,9 @@ public class GuildLeaveFeedbackService : INService, IReadyExecutor
 
     private Task OnLeftGuild(SocketGuild guild)
     {
+        if (!ownership.HandlesGlobalWork || !ownership.IsMine(guild.Id))
+            return Task.CompletedTask;
+
         _ = Task.Run(async () =>
         {
             try

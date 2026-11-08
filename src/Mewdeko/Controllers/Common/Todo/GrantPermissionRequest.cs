@@ -21,9 +21,24 @@ public class GrantPermissionRequest
     public bool CanView { get; set; }
 
     /// <summary>
-    ///     Can edit items in the list
+    ///     Can add items to the list
+    /// </summary>
+    public bool CanAdd { get; set; }
+
+    /// <summary>
+    ///     Can edit other people's items in the list
     /// </summary>
     public bool CanEdit { get; set; }
+
+    /// <summary>
+    ///     Can complete other people's items in the list
+    /// </summary>
+    public bool CanComplete { get; set; }
+
+    /// <summary>
+    ///     Can delete other people's items in the list
+    /// </summary>
+    public bool CanDelete { get; set; }
 
     /// <summary>
     ///     Can manage the list and permissions

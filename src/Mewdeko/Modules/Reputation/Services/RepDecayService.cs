@@ -16,6 +16,7 @@ public class RepDecayService : INService, IReadyExecutor, IUnloadableService
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<RepDecayService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly SemaphoreSlim semaphore = new(1, 1);
     private readonly GeneratedBotStrings strings;
 
@@ -28,12 +29,15 @@ public class RepDecayService : INService, IReadyExecutor, IUnloadableService
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The localized bot strings.</param>
     /// <param name="client">The Discord sharded client.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public RepDecayService(
         IDataConnectionFactory dbFactory,
         ILogger<RepDecayService> logger,
         GeneratedBotStrings strings,
-        DiscordShardedClient client)
+        DiscordShardedClient client,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.logger = logger;
         this.strings = strings;
@@ -106,6 +110,7 @@ public class RepDecayService : INService, IReadyExecutor, IUnloadableService
         var guildsWithDecay = await db.RepConfigs
             .Where(x => x.EnableDecay)
             .ToListAsync();
+        guildsWithDecay = guildsWithDecay.Where(x => ownership.IsMine(x.GuildId)).ToList();
 
         if (!guildsWithDecay.Any())
         {

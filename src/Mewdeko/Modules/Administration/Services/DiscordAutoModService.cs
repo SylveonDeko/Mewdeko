@@ -31,6 +31,7 @@ public partial class DiscordAutoModService : INService
     private readonly ConcurrentDictionary<ulong, Dictionary<ulong, AutoModFollowUp>> followUps = new();
     private readonly ILogger<DiscordAutoModService> logger;
     private readonly ModCaseService modCases;
+    private readonly GuildOwnershipService ownership;
     private readonly MuteService muteService;
     private readonly GeneratedBotStrings strings;
     private readonly UserPunishService userPunishService;
@@ -45,11 +46,13 @@ public partial class DiscordAutoModService : INService
     /// <param name="strings">The generated bot strings.</param>
     /// <param name="logger">The logger instance.</param>
     /// <param name="modCases">The service recording moderation cases.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public DiscordAutoModService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         UserPunishService userPunishService, MuteService muteService, GeneratedBotStrings strings,
-        ILogger<DiscordAutoModService> logger, ModCaseService modCases)
+        ILogger<DiscordAutoModService> logger, ModCaseService modCases, GuildOwnershipService ownership)
     {
         this.modCases = modCases;
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.userPunishService = userPunishService;
@@ -847,6 +850,9 @@ public partial class DiscordAutoModService : INService
 
     private async Task OnRuleDeleted(SocketAutoModRule rule)
     {
+        if (!ownership.IsMine(rule.Guild.Id))
+            return;
+
         try
         {
             if ((await GetFollowUpsAsync(rule.Guild.Id)).ContainsKey(rule.Id))
@@ -860,6 +866,9 @@ public partial class DiscordAutoModService : INService
 
     private async Task OnActionExecuted(SocketGuild guild, AutoModRuleAction action, AutoModActionExecutedData data)
     {
+        if (!ownership.IsMine(guild.Id))
+            return;
+
         try
         {
             var ruleId = data.Rule.Id;

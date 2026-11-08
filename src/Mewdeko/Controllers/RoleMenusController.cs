@@ -393,7 +393,6 @@ public class RoleMenusController : Controller
             MenuCount = menuCount,
             Limits = new RoleMenuLimitsLookup
             {
-                MaxMenus = RoleMenuService.MaxMenusPerGuild,
                 MaxOptions = RoleMenuService.MaxOptions,
                 MaxReactionOptions = RoleMenuService.MaxReactionOptions,
                 ButtonsPerRow = RoleMenuService.ButtonsPerRow,
@@ -887,8 +886,6 @@ public class RoleMenusController : Controller
         return result.Error switch
         {
             RoleMenuError.NotFound => NotFound("Role menu not found."),
-            RoleMenuError.TooManyMenus =>
-                BadRequest($"This server already has {RoleMenuService.MaxMenusPerGuild} role menus."),
             RoleMenuError.NameInvalid => BadRequest("Menu names have to be 1 to 100 characters."),
             RoleMenuError.NoOptions => BadRequest("A menu needs at least one option."),
             RoleMenuError.TooManyOptions => BadRequest("A menu can have at most 25 options."),

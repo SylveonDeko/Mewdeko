@@ -19,6 +19,7 @@ public class UserPunishService2 : INService, IDisposable
     private readonly ILogger<UserPunishService2> logger;
     private readonly ModCaseService cases;
     private readonly MuteService mute;
+    private readonly GuildOwnershipService ownership;
     private Timer? warnExpirationTimer;
 
     /// <summary>
@@ -35,10 +36,12 @@ public class UserPunishService2 : INService, IDisposable
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="cases">The service recording moderation cases</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles</param>
     public UserPunishService2(MuteService mute, IDataConnectionFactory dbFactory,
         GuildSettingsService guildSettings, BanPruneService banPrune, ModCaseService cases,
-        ILogger<UserPunishService2> logger)
+        ILogger<UserPunishService2> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.cases = cases;
         this.mute = mute;
         this.banPrune = banPrune;
@@ -247,6 +250,7 @@ public class UserPunishService2 : INService, IDisposable
         var relevantGuildConfigsForClear = await dbContext.GuildConfigs
             .Where(gc => gc.MiniWarnExpireHours > 0 && gc.MiniWarnExpireAction == (int)WarnExpireAction.Clear)
             .ToListAsync();
+        relevantGuildConfigsForClear = relevantGuildConfigsForClear.Where(gc => ownership.IsMine(gc.GuildId)).ToList();
 
         var cleared = 0;
 
@@ -263,6 +267,7 @@ public class UserPunishService2 : INService, IDisposable
         var relevantGuildConfigsForDelete = await dbContext.GuildConfigs
             .Where(gc => gc.MiniWarnExpireHours > 0 && gc.MiniWarnExpireAction == (int)WarnExpireAction.Delete)
             .ToListAsync();
+        relevantGuildConfigsForDelete = relevantGuildConfigsForDelete.Where(gc => ownership.IsMine(gc.GuildId)).ToList();
 
         var deleted = 0;
 

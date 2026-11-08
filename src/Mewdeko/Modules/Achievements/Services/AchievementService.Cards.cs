@@ -2,17 +2,15 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Cards;
+using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Achievements.Common;
+using Mewdeko.Modules.CardDesigns.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Modules.Achievements.Services;
 
 public sealed partial class AchievementService
 {
-    /// <summary>
-    ///     Most card designs a server keeps.
-    /// </summary>
-    public const int MaxCardDesigns = 20;
-
     /// <summary>
     ///     Longest card design name.
     /// </summary>
@@ -61,7 +59,26 @@ public sealed partial class AchievementService
                 return design.Template;
         }
 
-        return AchievementCards.Default();
+        var library = await services.GetRequiredService<CardDesignService>()
+            .GetDefaultDesignAsync(guildId, CardDesignTarget.Achievement);
+        return library is null ? AchievementCards.Default() : CardDesignService.AchievementTemplate(library);
+    }
+
+    /// <summary>
+    ///     The design an achievement card is drawn with for a member: the design they equipped, else
+    ///     <see cref="GetCardForAsync" />.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The member.</param>
+    /// <param name="definition">The achievement.</param>
+    /// <returns>The design.</returns>
+    public async Task<CardTemplate> GetCardForMemberAsync(ulong guildId, ulong userId, AchievementDefinition definition)
+    {
+        var equipped = await services.GetRequiredService<CardDesignService>()
+            .GetEquippedDesignAsync(guildId, userId, CardDesignTarget.Achievement);
+        return equipped is null
+            ? await GetCardForAsync(guildId, definition)
+            : CardDesignService.AchievementTemplate(equipped);
     }
 
     /// <summary>
@@ -77,8 +94,6 @@ public sealed partial class AchievementService
         name = name.Trim();
         if (name.Length is 0 or > CardNameLength)
             return AchievementResult<AchievementCardDesignInfo>.Fail(AchievementError.NameInvalid);
-        if ((await GetCardDesignsAsync(guildId)).Count >= MaxCardDesigns)
-            return AchievementResult<AchievementCardDesignInfo>.Fail(AchievementError.TooManyCards);
 
         var card = await OwnedCardAsync(guildId, template);
         var now = DateTime.UtcNow;
@@ -214,7 +229,8 @@ public sealed partial class AchievementService
 
         await using var db = await dbFactory.CreateConnectionAsync();
         var owned = (await db.AchievementIconUploads
-            .Where(x => x.GuildId == guildId && linked.Contains(x.Id))
+            .Where(x => x.GuildId == guildId && x.Kind != AchievementIconService.MemberCardKind &&
+                        linked.Contains(x.Id))
             .Select(x => x.Id)
             .ToListAsync()).ToHashSet();
 
@@ -237,6 +253,7 @@ public sealed partial class AchievementService
     /// <param name="uploadId">The deleted upload.</param>
     public async Task DropCardUploadAsync(ulong guildId, int uploadId)
     {
+        await services.GetRequiredService<CardDesignService>().DropUploadAsync(guildId, uploadId);
         foreach (var design in await GetCardDesignsAsync(guildId))
         {
             if (CardRules.Uploads(design.Template).Contains(uploadId))

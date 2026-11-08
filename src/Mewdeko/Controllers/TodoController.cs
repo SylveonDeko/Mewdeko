@@ -47,6 +47,51 @@ public class TodoController(
     }
 
     /// <summary>
+    ///     Gets what a user can do on a todo list
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="listId">The list ID</param>
+    /// <param name="userId">The user ID to check</param>
+    /// <returns>The user's access to the list</returns>
+    [HttpGet("lists/{listId}/access/{userId}")]
+    public async Task<IActionResult> GetTodoListAccess(ulong guildId, int listId, ulong userId)
+    {
+        var access = await todoService.GetListAccessAsync(listId, userId, guildId);
+        if (access is null)
+            return NotFound("Todo list not found");
+
+        return Ok(new TodoListAccessResponse
+        {
+            IsOwner = access.Value.IsOwner,
+            CanView = access.Value.CanView,
+            CanAdd = access.Value.CanAdd,
+            CanEdit = access.Value.CanEdit,
+            CanComplete = access.Value.CanComplete,
+            CanDelete = access.Value.CanDelete,
+            CanManage = access.Value.CanManage
+        });
+    }
+
+    /// <summary>
+    ///     Updates a todo list's name, description, color and visibility
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="listId">The list ID</param>
+    /// <param name="request">The update request</param>
+    /// <returns>Success or error response</returns>
+    [HttpPut("lists/{listId}")]
+    public async Task<IActionResult> UpdateTodoList(ulong guildId, int listId,
+        [FromBody] UpdateTodoListRequest request)
+    {
+        var error = await todoService.UpdateTodoListAsync(listId, request.UserId, guildId, request.Name,
+            request.Description, request.Color, request.IsPublic);
+        if (error is not null)
+            return BadRequest(error);
+
+        return Ok();
+    }
+
+    /// <summary>
     ///     Gets all items in a todo list
     /// </summary>
     /// <param name="guildId">The guild ID</param>
@@ -93,7 +138,7 @@ public class TodoController(
     public async Task<IActionResult> AddTodoItem(ulong guildId, int listId, [FromBody] AddTodoItemRequest request)
     {
         var item = await todoService.AddTodoItemAsync(listId, request.UserId, request.Title, request.Description,
-            request.Priority, request.DueDate);
+            request.Priority, request.DueDate, request.Tags);
         if (item == null)
             return BadRequest("Failed to add todo item");
 
@@ -117,6 +162,40 @@ public class TodoController(
         return Ok();
     }
 
+    /// <summary>
+    ///     Marks a completed todo item as pending again
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="itemId">The item ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <returns>Success or error response</returns>
+    [HttpPut("items/{itemId}/uncomplete/{userId}")]
+    public async Task<IActionResult> UncompleteTodoItem(ulong guildId, int itemId, ulong userId)
+    {
+        var success = await todoService.UncompleteTodoItemAsync(itemId, userId);
+        if (!success)
+            return BadRequest("Failed to reopen todo item");
+
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Moves a todo item to a new position
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="itemId">The item ID</param>
+    /// <param name="request">The reorder request</param>
+    /// <returns>Success or error response</returns>
+    [HttpPut("items/{itemId}/reorder")]
+    public async Task<IActionResult> ReorderTodoItem(ulong guildId, int itemId,
+        [FromBody] ReorderTodoItemRequest request)
+    {
+        var success = await todoService.ReorderTodoItemAsync(itemId, request.UserId, request.Position);
+        if (!success)
+            return BadRequest("Failed to move todo item");
+
+        return Ok();
+    }
 
     /// <summary>
     ///     Deletes a todo item
@@ -248,7 +327,8 @@ public class TodoController(
         [FromBody] GrantPermissionRequest request)
     {
         var success = await todoService.GrantPermissionsAsync(listId, request.TargetUserId, request.RequestingUserId,
-            request.CanView, request.CanEdit, request.CanManage);
+            request.CanView, request.CanAdd, request.CanEdit, request.CanComplete, request.CanDelete,
+            request.CanManage);
         if (!success)
             return BadRequest("Failed to grant permissions");
 

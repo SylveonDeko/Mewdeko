@@ -21,6 +21,7 @@ public class VoiceTextLinkService : INService, IReadyExecutor
     private readonly ConcurrentDictionary<ulong, VoiceTextLink> links = new();
     private readonly ILogger<VoiceTextLinkService> logger;
     private readonly ConcurrentDictionary<ulong, ulong> temporaryHubs = new();
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="VoiceTextLinkService" /> class.
@@ -31,8 +32,10 @@ public class VoiceTextLinkService : INService, IReadyExecutor
     /// <param name="logger">The logger instance.</param>
     /// <param name="customVoice">The custom voice service.</param>
     public VoiceTextLinkService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, ILogger<VoiceTextLinkService> logger, CustomVoiceService customVoice)
+        EventHandler eventHandler, ILogger<VoiceTextLinkService> logger, CustomVoiceService customVoice,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.logger = logger;
@@ -55,7 +58,7 @@ public class VoiceTextLinkService : INService, IReadyExecutor
 
         _ = Task.Run(async () =>
         {
-            foreach (var link in all)
+            foreach (var link in all.Where(x => ownership.IsMine(x.GuildId)))
             {
                 try
                 {

@@ -41,7 +41,6 @@
   "rolemenu_option_missing": "{0} não está neste menu.",
   "rolemenu_too_many_options": "Um menu pode ter no máximo 25 opções.",
   "rolemenu_needs_option": "Um menu precisa ter pelo menos uma opção. Exclua o menu em vez disso.",
-  "rolemenu_too_many_menus": "Este servidor já tem {0} menus de cargos, o máximo permitido.",
   "rolemenu_role_not_assignable": "Não consigo entregar {0}. Mova meu cargo mais alto acima dele e certifique-se de que nenhuma integração o gerencia.",
   "rolemenu_role_above_you": "Você só pode oferecer cargos abaixo do seu cargo mais alto, e {0} não está.",
   "rolemenu_invalid_emoji": "`{0}` não é um emoji que eu posso usar.",

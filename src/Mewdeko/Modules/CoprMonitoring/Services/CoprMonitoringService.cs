@@ -28,6 +28,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
     private readonly BotConfigService config;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<CoprMonitoringService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
     // In-memory cache: Key = (owner, project), Value = List of monitors for that project
@@ -52,8 +53,10 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
         DiscordShardedClient client,
         ILogger<CoprMonitoringService> logger,
         BotConfigService config,
-        GeneratedBotStrings strings)
+        GeneratedBotStrings strings,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.dbFactory = dbFactory;
         this.client = client;
         this.logger = logger;
@@ -726,7 +729,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
                     return;
 
                 matchingMonitors = projectMonitors
-                    .Where(x => x.IsEnabled)
+                    .Where(x => x.IsEnabled && ownership.IsMine(x.GuildId))
                     .ToList();
             }
 

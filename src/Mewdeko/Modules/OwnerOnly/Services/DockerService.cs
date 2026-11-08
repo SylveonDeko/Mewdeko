@@ -382,6 +382,147 @@ public sealed class DockerService : INService, IDisposable
     }
 
     /// <summary>
+    ///     Reads a container's full inspect document.
+    /// </summary>
+    /// <param name="idOrName">The container id or name.</param>
+    /// <returns>The document, or null when the daemon does not know the container or is unreachable.</returns>
+    public async Task<JsonElement?> InspectContainerAsync(string idOrName)
+    {
+        try
+        {
+            using var response = await GetAsync($"containers/{Uri.EscapeDataString(idOrName)}/json");
+            if (response == null || !response.IsSuccessStatusCode)
+                return null;
+
+            using var doc = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            return doc.RootElement.Clone();
+        }
+        catch (Exception ex) when (IsTransportError(ex))
+        {
+            logger.LogWarning(ex, "Could not inspect container {Name}", idOrName);
+            return null;
+        }
+    }
+
+    /// <summary>
+    ///     Pulls an image when the daemon does not already have it.
+    /// </summary>
+    /// <param name="image">The image reference, such as repo/name:tag.</param>
+    /// <returns>Whether the image is now available, with the daemon's message when it is not.</returns>
+    public async Task<DockerActionResult> EnsureImageAsync(string image)
+    {
+        try
+        {
+            using var present = await GetAsync($"images/{image}/json");
+            if (present is { IsSuccessStatusCode: true })
+                return new DockerActionResult
+                {
+                    Success = true
+                };
+
+            var slash = image.LastIndexOf('/');
+            var colon = image.LastIndexOf(':');
+            var repo = colon > slash ? image[..colon] : image;
+            var tag = colon > slash ? image[(colon + 1)..] : "latest";
+
+            using var response = await PostAsync(
+                $"images/create?fromImage={Uri.EscapeDataString(repo)}&tag={Uri.EscapeDataString(tag)}", null,
+                PullTimeout);
+            if (response == null)
+                return Failure("Docker is not available on this host");
+
+            if (response.IsSuccessStatusCode)
+                return new DockerActionResult
+                {
+                    Success = true
+                };
+
+            return Failure(ExtractDaemonMessage(await response.Content.ReadAsStringAsync()) ??
+                           $"Docker answered {(int)response.StatusCode}");
+        }
+        catch (Exception ex) when (IsTransportError(ex))
+        {
+            logger.LogWarning(ex, "Could not pull image {Image}", image);
+            return Failure(ex.Message);
+        }
+    }
+
+    /// <summary>
+    ///     Creates a container without starting it.
+    /// </summary>
+    /// <param name="name">The container name.</param>
+    /// <param name="spec">The create body, serialized as given.</param>
+    /// <returns>The new container id, or the daemon's message when it refused.</returns>
+    public async Task<(string? Id, string? Error)> CreateContainerAsync(string name, object spec)
+    {
+        try
+        {
+            using var response = await PostAsync($"containers/create?name={Uri.EscapeDataString(name)}", spec,
+                TimeSpan.FromSeconds(60));
+            InvalidateOverview();
+            if (response == null)
+                return (null, "Docker is not available on this host");
+
+            var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                return (null, ExtractDaemonMessage(body) ?? $"Docker answered {(int)response.StatusCode}");
+
+            using var doc = JsonDocument.Parse(body);
+            return (ReadString(doc.RootElement, "Id"), null);
+        }
+        catch (Exception ex) when (IsTransportError(ex))
+        {
+            logger.LogWarning(ex, "Could not create container {Name}", name);
+            return (null, ex.Message);
+        }
+    }
+
+    /// <summary>
+    ///     Force removes a container. A container the daemon does not know counts as removed.
+    /// </summary>
+    /// <param name="idOrName">The container id or name.</param>
+    public async Task<DockerActionResult> RemoveContainerAsync(string idOrName)
+    {
+        try
+        {
+            using var response = await DeleteAsync($"containers/{Uri.EscapeDataString(idOrName)}?force=true");
+            InvalidateOverview();
+            if (response == null)
+                return Failure("Docker is not available on this host");
+
+            if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotFound)
+                return new DockerActionResult
+                {
+                    Success = true
+                };
+
+            return Failure(ExtractDaemonMessage(await response.Content.ReadAsStringAsync()) ??
+                           $"Docker answered {(int)response.StatusCode}");
+        }
+        catch (Exception ex) when (IsTransportError(ex))
+        {
+            logger.LogWarning(ex, "Could not remove container {Name}", idOrName);
+            return Failure(ex.Message);
+        }
+    }
+
+    /// <summary>
+    ///     Removes a named volume, ignoring one that does not exist.
+    /// </summary>
+    /// <param name="name">The volume name.</param>
+    public async Task RemoveVolumeAsync(string name)
+    {
+        try
+        {
+            using var response = await DeleteAsync($"volumes/{Uri.EscapeDataString(name)}");
+        }
+        catch (Exception ex) when (IsTransportError(ex))
+        {
+            logger.LogWarning(ex, "Could not remove volume {Name}", name);
+        }
+    }
+
+    /// <summary>
     ///     Starts a compose operation on a project in a helper container and returns the job to poll.
     /// </summary>
     /// <param name="project">The project, as discovered from container labels.</param>

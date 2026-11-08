@@ -10,6 +10,7 @@ public class HorseRacingService : INService
     private static readonly string[] Animals = ["🐎", "🐪", "🦏", "🦛", "🐘", "🦒", "🦘", "🐅", "🐆", "🦓"];
     private readonly EconomyBoostService boostService;
     private readonly ICurrencyService cs;
+    private readonly DailyChallengeService dailyChallengeService;
     private readonly ConcurrentDictionary<ulong, RaceData> races = new();
 
     /// <summary>
@@ -17,10 +18,12 @@ public class HorseRacingService : INService
     /// </summary>
     /// <param name="cs">The currency service.</param>
     /// <param name="boostService">The service applying scheduled earning boosts.</param>
-    public HorseRacingService(ICurrencyService cs, EconomyBoostService boostService)
+    public HorseRacingService(ICurrencyService cs, EconomyBoostService boostService,
+        DailyChallengeService dailyChallengeService)
     {
         this.cs = cs;
         this.boostService = boostService;
+        this.dailyChallengeService = dailyChallengeService;
     }
 
     /// <summary>
@@ -30,11 +33,18 @@ public class HorseRacingService : INService
     /// <param name="guildId">The ID of the guild where the race is taking place.</param>
     /// <param name="betAmount">The amount of currency the user is betting.</param>
     /// <returns>A tuple indicating the success of joining, a message, and whether the race has started.</returns>
-    /// <summary>
-    ///     Allows a user to join a race or starts a new race if none exists.
-    /// </summary>
-    /// <returns>A tuple indicating the success of joining, a message, and whether the race has started.</returns>
     public async Task<(bool Success, string Message, bool RaceStarted)> JoinRace(IUser user, ulong guildId,
+        int betAmount)
+    {
+        var result = await TryJoinRace(user, guildId, betAmount);
+
+        if (result.Success)
+            await dailyChallengeService.RecordBet(user.Id, guildId, "horserace", betAmount);
+
+        return result;
+    }
+
+    private async Task<(bool Success, string Message, bool RaceStarted)> TryJoinRace(IUser user, ulong guildId,
         int betAmount)
     {
         await Task.CompletedTask;
@@ -163,6 +173,8 @@ public class HorseRacingService : INService
 
                 await cs.CreditAsync(racer.UserId, winnings, "Horse Race", CurrencyCategory.GamePayout, guildId,
                     "horserace");
+
+                await dailyChallengeService.RecordPayout(racer.UserId, guildId, racer.BetAmount, winnings);
             }
 
             finalPositions.Add(new FinalPosition(i + 1, racer.UserId, racer.Animal, winnings, racer.Username));

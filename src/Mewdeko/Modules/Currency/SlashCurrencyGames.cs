@@ -310,7 +310,6 @@ public partial class SlashCurrency
                 else
                 {
                     var warStake = betAmount * 2;
-
                     eb.WithTitle(Strings.WarBattleStart(ctx.Guild.Id))
                         .WithDescription(Strings.WarBattleDescription(ctx.Guild.Id))
                         .WithColor(Color.Orange);
@@ -367,7 +366,7 @@ public partial class SlashCurrency
             var eb = new EmbedBuilder()
                 .WithTitle(Strings.CrapsTitle(ctx.Guild.Id))
                 .WithColor(Color.Blue)
-                .AddField(Strings.CrapsRolled(ctx.Guild.Id, die1, die2, total), "");
+                .WithDescription(Strings.CrapsRolled(ctx.Guild.Id, die1, die2, total));
 
             var won = false;
             var push = false;
@@ -804,17 +803,17 @@ public partial class SlashCurrency
             var eb = new EmbedBuilder()
                 .WithTitle(Strings.CrashTitle(ctx.Guild.Id))
                 .WithColor(won ? Color.Green : Color.Red)
-                .AddField(Strings.CrashTargetMultiplier(ctx.Guild.Id, $"{targetMultiplier:F2}x"), "", true)
-                .AddField(Strings.CrashActualMultiplier(ctx.Guild.Id, $"{crashPoint:F2}x"), "", true);
+                .AddDescriptionLine(Strings.CrashTargetMultiplier(ctx.Guild.Id, $"{targetMultiplier:F2}"))
+                .AddDescriptionLine(Strings.CrashActualMultiplier(ctx.Guild.Id, $"{crashPoint:F2}"));
 
             if (won)
             {
                 var winAmount = await WinAsync(betAmount, targetMultiplier, "crash");
-                eb.WithDescription(Strings.CrashWin(ctx.Guild.Id, targetMultiplier, winAmount - betAmount, emote));
+                eb.AddDescriptionLine(Strings.CrashWin(ctx.Guild.Id, targetMultiplier, winAmount - betAmount, emote));
             }
             else
             {
-                eb.WithDescription(Strings.CrashLose(ctx.Guild.Id, crashPoint, betAmount, emote));
+                eb.AddDescriptionLine(Strings.CrashLose(ctx.Guild.Id, crashPoint, betAmount, emote));
             }
 
             await ctx.Interaction.FollowupAsync(embed: eb.Build());
@@ -857,19 +856,20 @@ public partial class SlashCurrency
             var eb = new EmbedBuilder()
                 .WithTitle(Strings.KenoTitle(ctx.Guild.Id))
                 .WithColor(multiplier > 0 ? Color.Green : Color.Red)
-                .AddField(Strings.KenoYourNumbers(ctx.Guild.Id, string.Join(", ", selectedNumbers.OrderBy(x => x))),
-                    "")
-                .AddField(Strings.KenoDrawnNumbers(ctx.Guild.Id, string.Join(", ", drawnNumbers.OrderBy(x => x))), "")
-                .AddField(Strings.KenoMatches(ctx.Guild.Id, matches.ToString()), "", true);
+                .AddDescriptionLine(Strings.KenoYourNumbers(ctx.Guild.Id,
+                    string.Join(", ", selectedNumbers.OrderBy(x => x))))
+                .AddDescriptionLine(Strings.KenoDrawnNumbers(ctx.Guild.Id,
+                    string.Join(", ", drawnNumbers.OrderBy(x => x))))
+                .AddDescriptionLine(Strings.KenoMatches(ctx.Guild.Id, matches.ToString()));
 
             if (multiplier > 0)
             {
                 var winAmount = await WinAsync(betAmount, multiplier, "keno");
-                eb.WithDescription(Strings.KenoWin(ctx.Guild.Id, matches, winAmount - betAmount, emote));
+                eb.AddDescriptionLine(Strings.KenoWin(ctx.Guild.Id, matches, winAmount - betAmount, emote));
             }
             else
             {
-                eb.WithDescription(Strings.KenoLose(ctx.Guild.Id, matches, betAmount, emote));
+                eb.AddDescriptionLine(Strings.KenoLose(ctx.Guild.Id, matches, betAmount, emote));
             }
 
             await ctx.Interaction.FollowupAsync(embed: eb.Build());
@@ -920,8 +920,8 @@ public partial class SlashCurrency
                 .WithDescription(profit > 0
                     ? Strings.PlinkoWin(ctx.Guild.Id, multiplier, Math.Abs(profit), emote)
                     : Strings.PlinkoLose(ctx.Guild.Id, multiplier, Math.Abs(profit), emote))
-                .AddField(Strings.PlinkoMultiplier(ctx.Guild.Id, $"{multiplier:F2}x"), "", true)
-                .AddField(Strings.PlinkoSlot(ctx.Guild.Id, slot.ToString()), "", true)
+                .AddDescriptionLine(Strings.PlinkoMultiplier(ctx.Guild.Id, $"{multiplier:F2}"))
+                .AddDescriptionLine(Strings.PlinkoSlot(ctx.Guild.Id, slot.ToString()))
                 .WithImageUrl("attachment://plinko.png");
 
             await ctx.Interaction.FollowupWithFileAsync(stream, "plinko.png", embed: eb.Build());
@@ -1029,22 +1029,22 @@ public partial class SlashCurrency
             var eb = new EmbedBuilder()
                 .WithTitle(Strings.BingoTitle(ctx.Guild.Id))
                 .WithColor(won ? Color.Green : Color.Red)
-                .AddField(Strings.BingoCardType(ctx.Guild.Id, cardType.ToString().ToUpperInvariant()), "", true)
-                .AddField(
+                .AddDescriptionLine(Strings.BingoCardType(ctx.Guild.Id, cardType.ToString().ToUpperInvariant()))
+                .AddDescriptionLine(
                     Strings.BingoCalledNumbers(ctx.Guild.Id,
-                        string.Join(", ", calledNumbers.Take(10)) + (calledNumbers.Count > 10 ? "..." : "")), "");
+                        string.Join(", ", calledNumbers.Take(10)) + (calledNumbers.Count > 10 ? "..." : "")));
 
             var cardDisplay = CurrencyGameLogic.FormatBingoCard(playerCard, calledNumbers);
-            eb.AddField(Strings.BingoYourCard(ctx.Guild.Id, cardDisplay), "");
+            eb.AddDescriptionLine(Strings.BingoYourCard(ctx.Guild.Id, cardDisplay));
 
             if (won)
             {
                 var winAmount = await WinAsync(betAmount, config.multiplier, "bingo");
-                eb.WithDescription(Strings.BingoWin(ctx.Guild.Id, winAmount - betAmount, emote));
+                eb.AddDescriptionLine(Strings.BingoWin(ctx.Guild.Id, winAmount - betAmount, emote));
             }
             else
             {
-                eb.WithDescription(Strings.BingoLose(ctx.Guild.Id, betAmount, emote));
+                eb.AddDescriptionLine(Strings.BingoLose(ctx.Guild.Id, betAmount, emote));
             }
 
             await ctx.Interaction.FollowupAsync(embed: eb.Build());
@@ -1082,8 +1082,8 @@ public partial class SlashCurrency
             var eb = new EmbedBuilder()
                 .WithTitle(Strings.DuckRaceTitle(ctx.Guild.Id))
                 .WithColor(multiplier > 0 ? Color.Green : Color.Red)
-                .AddField(Strings.DuckRaceYourDuck(ctx.Guild.Id, $"{ducks[userDuck]} (#{userDuck + 1})"), "", true)
-                .AddField(Strings.DuckRacePosition(ctx.Guild.Id, $"{userPosition}/5"), "", true);
+                .AddDescriptionLine(Strings.DuckRaceYourDuck(ctx.Guild.Id, $"{ducks[userDuck]} (#{userDuck + 1})"))
+                .AddDescriptionLine(Strings.DuckRacePosition(ctx.Guild.Id, $"{userPosition}/5"));
 
             var resultsText = "";
             for (var i = 0; i < raceResults.Count; i++)
@@ -1093,16 +1093,16 @@ public partial class SlashCurrency
                 resultsText += raceResults[i].duckIndex == userDuck ? $"**{line}**\n" : $"{line}\n";
             }
 
-            eb.AddField(Strings.DuckRaceResults(ctx.Guild.Id, resultsText), "");
+            eb.AddDescriptionLine(Strings.DuckRaceResults(ctx.Guild.Id, resultsText.TrimEnd()));
 
             if (multiplier > 0)
             {
                 var winAmount = await WinAsync(betAmount, multiplier, "duckrace");
-                eb.WithDescription(Strings.DuckRaceWin(ctx.Guild.Id, winAmount - betAmount, emote));
+                eb.AddDescriptionLine(Strings.DuckRaceWin(ctx.Guild.Id, winAmount - betAmount, emote));
             }
             else
             {
-                eb.WithDescription(Strings.DuckRaceLose(ctx.Guild.Id, betAmount, emote));
+                eb.AddDescriptionLine(Strings.DuckRaceLose(ctx.Guild.Id, betAmount, emote));
             }
 
             await ctx.Interaction.FollowupAsync(embed: eb.Build());
@@ -1150,7 +1150,7 @@ public partial class SlashCurrency
                 .WithTitle(Strings.WheelFortuneTitle(ctx.Guild.Id))
                 .WithColor(balanceChange >= 0 ? Color.Green : Color.Red)
                 .WithDescription(Strings.WheelFortuneResult(ctx.Guild.Id, segment))
-                .AddField(Strings.WheelFortuneType(ctx.Guild.Id, wheelKey.ToUpperInvariant()), "", true)
+                .AddDescriptionLine(Strings.WheelFortuneType(ctx.Guild.Id, wheelKey.ToUpperInvariant()))
                 .WithImageUrl("attachment://wheel.png");
 
             await ctx.Interaction.FollowupWithFileAsync(stream, "wheel.png", embed: eb.Build());
@@ -1248,27 +1248,25 @@ public partial class SlashCurrency
             var eb = new EmbedBuilder()
                 .WithTitle(Strings.ScratchCardTitle(ctx.Guild.Id))
                 .WithColor(Color.Blue)
-                .AddField(Strings.ScratchCardType(ctx.Guild.Id, cardType.ToString().ToUpperInvariant()), "", true)
-                .AddField(Strings.ScratchCardCost(ctx.Guild.Id, card.cost, emote), "", true);
+                .AddDescriptionLine(Strings.ScratchCardType(ctx.Guild.Id, cardType.ToString().ToUpperInvariant()))
+                .AddDescriptionLine(Strings.ScratchCardCost(ctx.Guild.Id, card.cost, emote));
 
             if (won)
             {
                 var winAmount = CurrencyRng.Next(card.minWin, card.maxWin + 1);
                 winAmount = (int)await WinAsync(card.cost, (double)winAmount / card.cost, "scratchcard");
 
-                eb.WithDescription(Strings.ScratchCardWin(ctx.Guild.Id, winAmount, emote))
-                    .WithColor(Color.Green);
-
                 var symbols = CurrencyGameLogic.GenerateScratchSymbols(true);
-                eb.AddField(Strings.ScratchCardSymbols(ctx.Guild.Id, symbols), "");
+                eb.AddDescriptionLine(Strings.ScratchCardSymbols(ctx.Guild.Id, symbols))
+                    .AddDescriptionLine(Strings.ScratchCardWin(ctx.Guild.Id, winAmount, emote))
+                    .WithColor(Color.Green);
             }
             else
             {
-                eb.WithDescription(Strings.ScratchCardLose(ctx.Guild.Id))
-                    .WithColor(Color.Red);
-
                 var symbols = CurrencyGameLogic.GenerateScratchSymbols(false);
-                eb.AddField(Strings.ScratchCardSymbols(ctx.Guild.Id, symbols), "");
+                eb.AddDescriptionLine(Strings.ScratchCardSymbols(ctx.Guild.Id, symbols))
+                    .AddDescriptionLine(Strings.ScratchCardLose(ctx.Guild.Id))
+                    .WithColor(Color.Red);
             }
 
             await ctx.Interaction.FollowupAsync(embed: eb.Build());
@@ -1318,8 +1316,8 @@ public partial class SlashCurrency
                 .WithTitle(Strings.RussianRouletteTitle(ctx.Guild.Id))
                 .WithDescription(Strings.RussianRouletteDescription(ctx.Guild.Id))
                 .WithColor(Color.Blue)
-                .AddField(Strings.RussianRouletteChambers(ctx.Guild.Id, $"{chamber}/6"), "", true)
-                .AddField(Strings.RussianRouletteBullets(ctx.Guild.Id, bullets.ToString()), "", true);
+                .AddDescriptionLine(Strings.RussianRouletteChambers(ctx.Guild.Id, chamber.ToString()))
+                .AddDescriptionLine(Strings.RussianRouletteBullets(ctx.Guild.Id, bullets.ToString()));
 
             if (survived)
             {
@@ -1381,8 +1379,8 @@ public partial class SlashCurrency
                 .WithTitle(Strings.MemoryTitle(ctx.Guild.Id))
                 .WithDescription(Strings.MemorySequenceShow(ctx.Guild.Id, sequenceDisplay))
                 .WithColor(Color.Blue)
-                .AddField(Strings.MemoryDifficulty(ctx.Guild.Id, difficulty.ToString().ToUpperInvariant()), "", true)
-                .AddField(Strings.MemoryShowTime(ctx.Guild.Id, $"{config.showTime / 1000} seconds"), "", true);
+                .AddDescriptionLine(Strings.MemoryDifficulty(ctx.Guild.Id, difficulty.ToString().ToUpperInvariant()))
+                .AddDescriptionLine(Strings.MemoryShowTime(ctx.Guild.Id, $"{config.showTime / 1000} seconds"));
 
             var message = await ctx.Interaction.FollowupAsync(embed: showEmbed.Build());
 

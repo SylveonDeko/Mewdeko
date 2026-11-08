@@ -215,14 +215,16 @@ public class FilterService : IEarlyBehavior, INService
     }
 
     /// <summary>
-    ///     Retrieves the set of filtered words for a specific channel within a guild.
+    ///     Checks whether the word filter applies in a channel.
     /// </summary>
     /// <param name="channelId">The ID of the channel.</param>
     /// <param name="guildId">The ID of the guild.</param>
-    /// <returns>A set of filtered words for the channel, or null if no filters are set.</returns>
+    /// <returns>True if filtered words are removed in the channel; otherwise, false.</returns>
     public async Task<bool> FilterChannel(ulong channelId, ulong guildId)
     {
-        return (await GetData(guildId).ConfigureAwait(false)).WordChannels.Contains(channelId);
+        var serverWide = (await gss.GetGuildConfig(guildId).ConfigureAwait(false))?.FilterWords ?? false;
+        var listed = (await GetData(guildId).ConfigureAwait(false)).WordChannels.Contains(channelId);
+        return serverWide != listed;
     }
 
     /// <summary>
@@ -370,7 +372,7 @@ public class FilterService : IEarlyBehavior, INService
         var channelId = usrMsg.Channel.Id;
         var guildId = guild.Id;
 
-        if (!await ShouldFilterChannel(channelId, guildId))
+        if (!await FilterChannel(channelId, guildId))
             return false;
 
         var filteredWords = await GetFilteredWordsForServer(guildId);
@@ -451,11 +453,6 @@ public class FilterService : IEarlyBehavior, INService
         }
 
         return false;
-    }
-
-    private async Task<bool> ShouldFilterChannel(ulong channelId, ulong guildId)
-    {
-        return (await GetData(guildId).ConfigureAwait(false)).WordChannels.Contains(channelId);
     }
 
     private async Task<HashSet<string>> GetFilteredWordsForServer(ulong guildId)

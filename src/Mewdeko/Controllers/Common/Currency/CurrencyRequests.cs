@@ -132,6 +132,9 @@ public class ShopItemRequest
     /// <summary>Text delivered for text items.</summary>
     public string? TextContent { get; set; }
 
+    /// <summary>The card design granted for design items.</summary>
+    public int? DesignId { get; set; }
+
     /// <summary>Remaining stock, or -1 for unlimited.</summary>
     public int Stock { get; set; } = -1;
 
@@ -212,4 +215,22 @@ public class AdjustBalanceRequest
 
     /// <summary>Reason recorded on the ledger entry.</summary>
     public string? Reason { get; set; }
+}
+
+/// <summary>
+///     Partial update of the economy setup. Omitted fields are left alone.
+/// </summary>
+public class EconomySetupRequest
+{
+    /// <summary>The currency emoji.</summary>
+    public string? CurrencyEmoji { get; set; }
+
+    /// <summary>The daily reward amount.</summary>
+    public int? RewardAmount { get; set; }
+
+    /// <summary>Seconds between daily rewards.</summary>
+    public int? RewardTimeoutSeconds { get; set; }
+
+    /// <summary>Whether setup is finished.</summary>
+    public bool? SetupComplete { get; set; }
 }

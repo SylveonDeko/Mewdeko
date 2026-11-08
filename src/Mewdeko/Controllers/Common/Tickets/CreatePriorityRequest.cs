@@ -38,7 +38,7 @@ public class CreatePriorityRequest
     public TimeSpan ResponseTime { get; set; }
 
     /// <summary>
-    ///     The color associated with this priority
+    ///     The color associated with this priority, as a 24-bit RGB value
     /// </summary>
-    public Color Color { get; set; }
+    public uint Color { get; set; }
 }

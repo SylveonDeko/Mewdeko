@@ -30,13 +30,6 @@ public class SlashLiveBoards : MewdekoSlashModuleBase<LiveBoardService>
         [MinValue(5)] [MaxValue(1440)] int intervalMinutes = 15)
     {
         await DeferAsync();
-        var existing = await Service.GetAsync(ctx.Guild.Id);
-        if (existing.Count >= 10)
-        {
-            await ReplyErrorAsync(Strings.LiveBoardLimit(ctx.Guild.Id));
-            return;
-        }
-
         var board = await Service.CreateAsync((SocketGuild)ctx.Guild, channel, kind, range, pin, entries,
             intervalMinutes);
         await ReplyConfirmAsync(Strings.LiveBoardCreated(ctx.Guild.Id, board.Id, kind.ToString(), channel.Mention,

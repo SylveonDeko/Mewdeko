@@ -23,7 +23,7 @@ public class CreateTagRequest
     public string Description { get; set; } = null!;
 
     /// <summary>
-    ///     The color associated with the tag
+    ///     The color associated with the tag, as a 24-bit RGB value
     /// </summary>
-    public Color Color { get; set; }
+    public uint Color { get; set; }
 }

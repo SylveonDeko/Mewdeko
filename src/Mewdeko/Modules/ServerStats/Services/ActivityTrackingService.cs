@@ -35,6 +35,7 @@ public class ActivityTrackingService : INService, IReadyExecutor, IDisposable
 
     private readonly ServerStatsSettingsService settings;
     private readonly SemaphoreSlim sweepLock = new(1, 1);
+    private readonly GuildOwnershipService ownership;
     private Timer? sweepTimer;
 
     /// <summary>
@@ -48,8 +49,9 @@ public class ActivityTrackingService : INService, IReadyExecutor, IDisposable
     /// <param name="collector">The analytics collector.</param>
     public ActivityTrackingService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         ServerStatsSettingsService settings, EventHandler eventHandler, ILogger<ActivityTrackingService> logger,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.settings = settings;
@@ -95,7 +97,7 @@ public class ActivityTrackingService : INService, IReadyExecutor, IDisposable
             var now = DateTime.UtcNow;
             foreach (var guild in user.MutualGuilds)
             {
-                if (!settings.GetCachedSettings(guild.Id).TrackActivities)
+                if (!ownership.IsMine(guild.Id) || !settings.GetCachedSettings(guild.Id).TrackActivities)
                     continue;
 
                 var member = guild.GetUser(user.Id);
@@ -214,7 +216,7 @@ public class ActivityTrackingService : INService, IReadyExecutor, IDisposable
 
             foreach (var guild in client.Guilds)
             {
-                if (!settings.GetCachedSettings(guild.Id).TrackActivities)
+                if (!ownership.IsMine(guild.Id) || !settings.GetCachedSettings(guild.Id).TrackActivities)
                     continue;
 
                 foreach (var member in guild.Users)

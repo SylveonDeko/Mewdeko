@@ -3,6 +3,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Discord.Net;
+using LinqToDB;
+using LinqToDB.Async;
 using Mewdeko.Modules.Bridge.Common;
 using StackExchange.Redis;
 using Embed = Discord.Embed;
@@ -11,12 +13,16 @@ namespace Mewdeko.Modules.Bridge.Services;
 
 public partial class BridgeService
 {
+    private string Group => ownership.HandlesGlobalWork
+        ? BridgeProtocol.ConsumerGroup
+        : $"{BridgeProtocol.ConsumerGroup}-{client.CurrentUser.Id}";
+
     private async Task EnsureGroupAsync()
     {
         try
         {
             await cache.Redis.GetDatabase().StreamCreateConsumerGroupAsync(
-                BridgeProtocol.InboundStream(ThisPlatform), BridgeProtocol.ConsumerGroup, "0-0");
+                BridgeProtocol.InboundStream(ThisPlatform), Group, ownership.HandlesGlobalWork ? "0-0" : "$");
         }
         catch (RedisServerException ex) when (ex.Message.Contains("BUSYGROUP"))
         {
@@ -40,7 +46,7 @@ public partial class BridgeService
             try
             {
                 var entries = await cache.Redis.GetDatabase().StreamReadGroupAsync(stream,
-                    BridgeProtocol.ConsumerGroup, consumer, ">", 50);
+                    Group, consumer, ">", 50);
                 if (entries.Length == 0)
                 {
                     await wake.WaitAsync(TimeSpan.FromSeconds(1), token);
@@ -75,7 +81,7 @@ public partial class BridgeService
         RedisValue start = "0-0";
         do
         {
-            var result = await db.StreamAutoClaimAsync(stream, BridgeProtocol.ConsumerGroup, consumer,
+            var result = await db.StreamAutoClaimAsync(stream, Group, consumer,
                 (long)MinClaimIdle.TotalMilliseconds, start, 100);
             foreach (var entry in result.ClaimedEntries)
                 Dispatch(entry);
@@ -170,7 +176,7 @@ public partial class BridgeService
         try
         {
             await cache.Redis.GetDatabase().StreamAcknowledgeAsync(BridgeProtocol.InboundStream(ThisPlatform),
-                BridgeProtocol.ConsumerGroup, id);
+                Group, id);
         }
         catch (Exception ex)
         {
@@ -188,7 +194,8 @@ public partial class BridgeService
 
         if (BridgeEnvelopeType.IsPairLevel(envelope.Type))
         {
-            await Pairs.HandleAsync(envelope);
+            if (await HandlesPairEnvelopeAsync(envelope))
+                await Pairs.HandleAsync(envelope);
             return;
         }
 
@@ -237,9 +244,24 @@ public partial class BridgeService
         }
     }
 
+    private async Task<bool> HandlesPairEnvelopeAsync(BridgeEnvelope envelope)
+    {
+        if (envelope.Pair is { } accepted)
+            return ownership.IsMine(accepted.Request.GuildId);
+
+        if (envelope.PairId is not { } pairId)
+            return ownership.HandlesGlobalWork;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var guildId = await db.BridgePairs.Where(x => x.PairId == pairId).Select(x => (ulong?)x.GuildId)
+            .FirstOrDefaultAsync();
+        return guildId is { } id ? ownership.IsMine(id) : ownership.HandlesGlobalWork;
+    }
+
     private async Task HandleLinkAcceptedAsync(BridgeEnvelope envelope)
     {
-        if (envelope.Link is not { } link || link.Request.Platform != ThisPlatform)
+        if (envelope.Link is not { } link || link.Request.Platform != ThisPlatform ||
+            !ownership.IsMine(link.Request.GuildId))
             return;
 
         var request = link.Request;

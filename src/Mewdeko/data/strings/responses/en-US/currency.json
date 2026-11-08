@@ -234,6 +234,8 @@
   "shop_item_stock": "{0} left",
   "shop_item_taken": "Took {0} x **{1}** from {2}.",
   "shop_limit_reached":"You already own the maximum of {0} **{1}**.",
+  "shop_design_owned": "You already own **{0}**.",
+  "shop_design_granted": "**{0}** is yours. Use the equip command to wear it.",
   "shop_missing_role": "You need {0} to buy that.",
   "shop_no_such_item": "This server's shop has nothing called **{0}**.",
   "shop_out_of_stock": "**{0}** is sold out.",

@@ -802,6 +802,9 @@ public class AchievementsController : Controller
     [SkipAudit]
     public async Task<IActionResult> GetIcon(ulong guildId, int id)
     {
+        if (!await icons.IsPublicAsync(guildId, id))
+            return NotFound();
+
         var bytes = await icons.GetBytesAsync(guildId, id);
         return bytes is null ? NotFound() : File(bytes, "image/png");
     }

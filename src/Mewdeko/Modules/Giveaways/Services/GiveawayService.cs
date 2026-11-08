@@ -33,6 +33,7 @@ public class GiveawayService : INService, IDisposable
     private readonly ConcurrentDictionary<ulong, (Giveaway? Giveaway, DateTime At)> reactionGiveaways = new();
     private readonly ConcurrentDictionary<(int GiveawayId, ulong UserId), byte> reactionEntrants = new();
     private readonly XpService xpService;
+    private readonly GuildOwnershipService ownership;
 
 
     /// <summary>
@@ -77,8 +78,9 @@ public class GiveawayService : INService, IDisposable
         MessageCountService msgCntService,
         GeneratedBotStrings strings, ILogger<GiveawayService> logger, TriggerEventPublisher triggerEvents,
         IAnalyticsCollector collector, EventHandler eventHandler, ICurrencyService currencyService,
-        XpService xpService)
+        XpService xpService, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.eventHandler = eventHandler;
         this.currencyService = currencyService;
         this.xpService = xpService;
@@ -162,8 +164,57 @@ public class GiveawayService : INService, IDisposable
     }
 
     /// <summary>
+    ///     Changes a guild's giveaway defaults.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="apply">Writes the new values onto the guild's config.</param>
+    /// <returns>The updated config.</returns>
+    public async Task<GuildConfig> UpdateSettingsAsync(ulong guildId, Action<GuildConfig> apply)
+    {
+        var gc = await guildConfig.GetGuildConfig(guildId);
+        apply(gc);
+        await guildConfig.UpdateGuildConfig(guildId, gc);
+        InvalidateGuildConfigCache(guildId);
+        return gc;
+    }
+
+    /// <summary>
+    ///     Gets a guild's giveaway defaults.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>The guild's config.</returns>
+    public Task<GuildConfig> GetSettingsAsync(ulong guildId)
+    {
+        return guildConfig.GetGuildConfig(guildId);
+    }
+
+    /// <summary>
+    ///     Counts the members entered into each button or captcha giveaway of a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>The entry count of each giveaway that has any, keyed by giveaway ID.</returns>
+    public async Task<Dictionary<int, int>> GetEntryCountsAsync(ulong guildId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var counts = await (from entry in dbContext.GiveawayUsers
+                join giveaway in dbContext.Giveaways on entry.GiveawayId equals giveaway.Id
+                where giveaway.ServerId == guildId
+                group entry by entry.GiveawayId
+                into grouped
+                select new
+                {
+                    GiveawayId = grouped.Key, Count = grouped.Count()
+                })
+            .ToListAsync();
+
+        return counts.ToDictionary(x => x.GiveawayId, x => x.Count);
+    }
+
+    /// <summary>
     ///     Gets a giveaway by its ID.
     /// </summary>
+
     /// <param name="id">The giveaway ID.</param>
     /// <returns>A giveaway or null if not found.</returns>
     public async Task<Giveaway?> GetGiveawayById(int id)
@@ -1218,6 +1269,9 @@ public class GiveawayService : INService, IDisposable
 
     private async Task ScheduleGiveaway(Giveaway giveaway)
     {
+        if (!ownership.IsMine(giveaway.ServerId))
+            return;
+
         try
         {
             await timerLock.WaitAsync();
@@ -1283,6 +1337,12 @@ public class GiveawayService : INService, IDisposable
             var giveaway = await GetGiveawayById(timerState.GiveawayId);
 
             if (giveaway == null || giveaway.Ended == 1)
+            {
+                CleanupGiveawayTimer(timerState.GiveawayId);
+                return;
+            }
+
+            if (!ownership.IsMine(giveaway.ServerId))
             {
                 CleanupGiveawayTimer(timerState.GiveawayId);
                 return;
@@ -1355,10 +1415,16 @@ public class GiveawayService : INService, IDisposable
                 try
                 {
                     await using var dbContext = await dbFactory.CreateConnectionAsync();
-                    var activeGiveaways = await dbContext.Giveaways
-                        .Where(g => g.Ended == GiveawayStatus.Active)
+                    var activeGiveaways = (await dbContext.Giveaways
+                            .Where(g => g.Ended == GiveawayStatus.Active)
+                            .Select(g => new
+                            {
+                                g.Id, g.ServerId
+                            })
+                            .ToListAsync())
+                        .Where(g => ownership.IsMine(g.ServerId))
                         .Select(g => g.Id)
-                        .ToListAsync();
+                        .ToList();
 
                     var activeIds = activeGiveaways.ToHashSet();
 
@@ -1463,9 +1529,11 @@ public class GiveawayService : INService, IDisposable
             await using var dbContext = await dbFactory.CreateConnectionAsync();
 
             // Get all active giveaways
-            var activeGiveaways = await dbContext.Giveaways
-                .Where(g => g.Ended == GiveawayStatus.Active)
-                .ToListAsync();
+            var activeGiveaways = (await dbContext.Giveaways
+                    .Where(g => g.Ended == GiveawayStatus.Active)
+                    .ToListAsync())
+                .Where(g => ownership.IsMine(g.ServerId))
+                .ToList();
 
             var orphanedCount = 0;
 

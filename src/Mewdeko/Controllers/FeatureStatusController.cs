@@ -272,7 +272,7 @@ public class FeatureStatusController(
                 Of(await Check(db.VerificationSettings.Where(x => x.GuildId == g),
                     x => x.Enabled && x.ChannelId != null)),
             ["welcome-cards"] = async (db, _, g) =>
-                Of(await Check(db.WelcomeCardSettings.Where(x => x.GuildId == g), x => x.Enabled)),
+                Of(await Check(db.MessageCards.Where(x => x.GuildId == g), x => x.Placement != CardPlacement.None)),
             ["automod"] = async (db, _, g) =>
             {
                 var rules = await Check(db.AutomodRuleSettings.Where(x => x.GuildId == g), x => x.Enabled);

@@ -29,6 +29,7 @@ public sealed class EventHandler : IDisposable
     private readonly Timer metricsResetTimer;
     private readonly ConcurrentDictionary<string, ModuleMetrics> moduleMetrics = new();
     private readonly EventHandlerOptions options;
+    private readonly GuildOwnershipService ownership;
     private readonly PerformanceMonitorService perfService;
     private readonly BatchedEventProcessor<(SocketUser, SocketPresence, SocketPresence)> presenceProcessor;
 
@@ -44,6 +45,9 @@ public sealed class EventHandler : IDisposable
     private readonly BatchedEventProcessor<(Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>)>
         typingProcessor;
 
+    private static readonly HashSet<string> GuildLifecycleEvents =
+        ["JoinedGuild", "LeftGuild", "GuildAvailable", "GuildUnavailable"];
+
     private volatile bool disposed;
 
     /// <summary>
@@ -56,14 +60,17 @@ public sealed class EventHandler : IDisposable
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null.</exception>
     /// <param name="interaction">The interaction service.</param>
     /// <param name="collector">The analytics collector that counts and times events.</param>
+    /// <param name="ownership">The service deciding which guilds this instance handles.</param>
     public EventHandler(
         DiscordShardedClient client,
         InteractionService interaction,
         PerformanceMonitorService perfService,
         ILogger<EventHandler> logger,
         EventHandlerOptions options,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client ?? throw new ArgumentNullException(nameof(client));
         this.interaction = interaction;
         this.collector = collector;
@@ -1037,6 +1044,9 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnMessageReceived(SocketMessage arg)
     {
+        if (arg.Channel is SocketGuildChannel { Guild: var messageGuild } && !ownership.IsMine(messageGuild.Id))
+            return Task.CompletedTask;
+
         CountEvent("MessageReceived", (arg.Channel as SocketGuildChannel)?.Guild);
         if (messageProcessor != null)
             messageProcessor.Enqueue(arg);
@@ -1045,6 +1055,9 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
     {
+        if (arg1 is SocketGuildUser { Guild: var presenceGuild } && !ownership.IsMine(presenceGuild.Id))
+            return Task.CompletedTask;
+
         CountEvent("PresenceUpdated", (arg1 as SocketGuildUser)?.Guild);
         if (rateLimiters.TryGetValue("PresenceUpdated", out var limiter) && !limiter.TryAcquire())
             return Task.CompletedTask;
@@ -1056,7 +1069,14 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnUserIsTyping(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
-        CountEvent("UserIsTyping", (arg2.HasValue ? arg2.Value as SocketGuildChannel : null)?.Guild);
+        var typingGuild = ResolveGuild(arg2);
+        if (typingGuild is not null && !ownership.IsMine(typingGuild.Id))
+            return Task.CompletedTask;
+
+        if (typingGuild is null && IsUnresolved(arg2) && !ownership.HandlesGlobalWork)
+            return Task.CompletedTask;
+
+        CountEvent("UserIsTyping", typingGuild);
         if (rateLimiters.TryGetValue("UserIsTyping", out var limiter) && !limiter.TryAcquire())
             return Task.CompletedTask;
 
@@ -1309,7 +1329,16 @@ public sealed class EventHandler : IDisposable
             return Task.CompletedTask;
         }
 
-        CountEvent(eventType, GuildOf(args));
+        var eventGuild = GuildOf(args);
+        var gateGuildId = args is SocketInteraction interactionArgs ? interactionArgs.GuildId : eventGuild?.Id;
+        if (gateGuildId is { } gated && !GuildLifecycleEvents.Contains(eventType) && !ownership.IsMine(gated))
+            return Task.CompletedTask;
+
+        if (gateGuildId is null && CacheableChannelOf(args) is { } cacheableChannel &&
+            IsUnresolved(cacheableChannel) && !ownership.HandlesGlobalWork)
+            return Task.CompletedTask;
+
+        CountEvent(eventType, eventGuild);
 
         if (!stringEventSubscriptions.TryGetValue(eventType, out var handlers))
         {
@@ -1320,7 +1349,7 @@ public sealed class EventHandler : IDisposable
 
         logger.LogDebug("Found {SubscriptionCount} string-based subscriptions for event {EventType}", handlers.Count,
             eventType);
-        var eventGuildId = GuildOf(args)?.Id;
+        var eventGuildId = eventGuild?.Id;
         _ = Task.Run(async () =>
         {
             GuildEmbedColorService.Enter(eventGuildId);
@@ -1369,7 +1398,32 @@ public sealed class EventHandler : IDisposable
             guild is null ? null : client.GetShardIdFor(guild));
     }
 
-    private static SocketGuild? GuildOf<T>(T args)
+    private SocketGuild? ResolveGuild(Cacheable<IMessageChannel, ulong> channel)
+    {
+        object? resolved = channel.HasValue ? channel.Value : client.GetChannel(channel.Id);
+        return (resolved as SocketGuildChannel)?.Guild;
+    }
+
+    private bool IsUnresolved(Cacheable<IMessageChannel, ulong> channel)
+    {
+        return !channel.HasValue && client.GetChannel(channel.Id) is null;
+    }
+
+    private static Cacheable<IMessageChannel, ulong>? CacheableChannelOf<T>(T args)
+    {
+        return args switch
+        {
+            ValueTuple<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>> tuple => tuple.Item2,
+            ValueTuple<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>> tuple =>
+                tuple.Item2,
+            ValueTuple<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>> tuple => tuple.Item2,
+            ValueTuple<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction> tuple =>
+                tuple.Item2,
+            _ => null
+        };
+    }
+
+    private SocketGuild? GuildOf<T>(T args)
     {
         return args switch
         {
@@ -1386,15 +1440,15 @@ public sealed class EventHandler : IDisposable
             ValueTuple<SocketAuditLogEntry, SocketGuild> tuple => tuple.Item2,
             ValueTuple<Cacheable<SocketGuildUser, ulong>, SocketGuildUser> tuple => tuple.Item2.Guild,
             ValueTuple<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>> tuple =>
-                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+                ResolveGuild(tuple.Item2),
             ValueTuple<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel> tuple =>
                 (tuple.Item3 as SocketGuildChannel)?.Guild,
             ValueTuple<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>> tuple =>
-                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+                ResolveGuild(tuple.Item2),
             ValueTuple<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>> tuple =>
-                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+                ResolveGuild(tuple.Item2),
             ValueTuple<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction> tuple =>
-                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+                ResolveGuild(tuple.Item2),
             ValueTuple<SocketUser, SocketUser> tuple => (tuple.Item2 as SocketGuildUser)?.Guild,
             SocketUser user => user.MutualGuilds.FirstOrDefault(),
             ValueTuple<SocketUser, SocketGuild> tuple => tuple.Item2,

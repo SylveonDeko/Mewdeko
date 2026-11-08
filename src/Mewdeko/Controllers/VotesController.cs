@@ -26,7 +26,12 @@ public class VotesController(
     [HttpGet("roles")]
     public async Task<IActionResult> GetVoteRoles(ulong guildId)
     {
-        var voteRoles = await service.GetVoteRoles(guildId);
+        var guild = client.GetGuild(guildId);
+        var voteRoles = (await service.GetVoteRoles(guildId))
+            .Select(r => new
+            {
+                r.RoleId, RoleName = guild?.GetRole(r.RoleId)?.Name ?? "Deleted role", Seconds = r.Timer
+            });
         return Ok(voteRoles);
     }
 
@@ -257,6 +262,54 @@ public class VotesController(
             .Take(limit)
             .ToListAsync();
 
-        return Ok(leaderboard);
+        var guild = client.GetGuild(guildId);
+        return Ok(leaderboard.Select(x => new
+        {
+            x.userId, x.voteCount, username = guild?.GetUser(x.userId)?.Username
+        }));
+    }
+
+    /// <summary>
+    ///     Gets vote totals and the most recent votes for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>Vote totals and recent votes</returns>
+    [HttpGet("summary")]
+    public async Task<IActionResult> GetVoteSummary(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var now = DateTime.UtcNow;
+        var monthStart = new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        var totalVotes = await db.Votes.CountAsync(x => x.GuildId == guildId);
+        var votesThisMonth = await db.Votes.CountAsync(x => x.GuildId == guildId && x.DateAdded >= monthStart);
+        var uniqueVoters = await db.Votes
+            .Where(x => x.GuildId == guildId)
+            .Select(x => x.UserId)
+            .Distinct()
+            .CountAsync();
+
+        var recent = await db.Votes
+            .Where(x => x.GuildId == guildId)
+            .OrderByDescending(x => x.DateAdded)
+            .Take(10)
+            .Select(x => new
+            {
+                x.UserId, x.DateAdded
+            })
+            .ToListAsync();
+
+        var guild = client.GetGuild(guildId);
+        return Ok(new
+        {
+            totalVotes,
+            votesThisMonth,
+            uniqueVoters,
+            recent = recent.Select(x => new
+            {
+                x.UserId, username = guild?.GetUser(x.UserId)?.Username, x.DateAdded
+            })
+        });
     }
 }

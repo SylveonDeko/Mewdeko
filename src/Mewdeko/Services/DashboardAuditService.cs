@@ -13,7 +13,10 @@ namespace Mewdeko.Services;
 ///     dashboard audit action filter; reads come from the audit log controller.
 ///     A daily timer purges entries past the retention window.
 /// </summary>
-public class DashboardAuditService(IDataConnectionFactory dbFactory, ILogger<DashboardAuditService> logger)
+public class DashboardAuditService(
+    IDataConnectionFactory dbFactory,
+    ILogger<DashboardAuditService> logger,
+    GuildOwnershipService ownership)
     : INService, IReadyExecutor, IDisposable
 {
     /// <summary>
@@ -29,6 +32,9 @@ public class DashboardAuditService(IDataConnectionFactory dbFactory, ILogger<Das
     /// </summary>
     public Task OnReadyAsync()
     {
+        if (!ownership.HandlesGlobalWork)
+            return Task.CompletedTask;
+
         retentionTimer = new Timer(
             _ => _ = RunRetentionAsync(),
             null,

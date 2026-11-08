@@ -31,19 +31,10 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     public async Task RoleGreetAdd(IRole role, [Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
-        switch (await Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id))
-        {
-            case true:
-                await ctx.Channel.SendConfirmAsync(
-                        Strings.RolegreetAddSuccess(ctx.Guild.Id, role.Mention, channel.Mention))
-                    .ConfigureAwait(false);
-                break;
-            case false:
-                await ctx.Channel.SendErrorAsync(
-                        Strings.RolegreetMaxLimit(ctx.Guild.Id), Config)
-                    .ConfigureAwait(false);
-                break;
-        }
+        await Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id);
+        await ctx.Channel.SendConfirmAsync(
+                Strings.RolegreetAddSuccess(ctx.Guild.Id, role.Mention, channel.Mention))
+            .ConfigureAwait(false);
     }
 
     /// <summary>

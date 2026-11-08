@@ -52,6 +52,7 @@ public class ServerBackupService : INService
     private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<ServerBackupService> logger;
     private readonly ConcurrentDictionary<ulong, byte> running = new();
+    private readonly ConcurrentDictionary<ulong, BackupRestoreJob> jobs = new();
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -560,6 +561,66 @@ public class ServerBackupService : INService
         }
 
         return embed;
+    }
+
+    /// <summary>
+    ///     Gets the latest restore started for a server with <see cref="StartRestore" />.
+    /// </summary>
+    /// <param name="guildId">The server ID.</param>
+    /// <returns>The job, or null if none was started since the bot started.</returns>
+    public BackupRestoreJob? GetJob(ulong guildId)
+    {
+        return jobs.GetValueOrDefault(guildId);
+    }
+
+    /// <summary>
+    ///     Starts a restore in the background after <see cref="CheckRestoreAsync" /> passes.
+    /// </summary>
+    /// <param name="guild">The server to restore into.</param>
+    /// <param name="user">The person who started the restore.</param>
+    /// <param name="data">The backup data.</param>
+    /// <param name="mode">Whether to replace everything or only add what is missing.</param>
+    /// <returns>The job.</returns>
+    public BackupRestoreJob StartRestore(IGuild guild, IUser user, ServerBackupData data, BackupRestoreMode mode)
+    {
+        var job = new BackupRestoreJob();
+        jobs[guild.Id] = job;
+        _ = Task.Run(async () =>
+        {
+            ulong? reportChannel = null;
+            try
+            {
+                reportChannel = await RestoreAsync(guild, data, mode, 0, job.Progress);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Backup restore failed in {Guild}", guild.Id);
+                job.Progress.Failures.Add(ex.Message);
+            }
+
+            job.Finished = true;
+            var final = ProgressEmbed(guild.Id, job.Progress, true).Build();
+            try
+            {
+                await user.SendMessageAsync(embed: final);
+                return;
+            }
+            catch (Exception)
+            {
+            }
+
+            if (reportChannel is { } id && await guild.GetTextChannelAsync(id) is { } text)
+            {
+                try
+                {
+                    await text.SendMessageAsync(user.Mention, embed: final);
+                }
+                catch (Exception)
+                {
+                }
+            }
+        });
+        return job;
     }
 
     /// <summary>

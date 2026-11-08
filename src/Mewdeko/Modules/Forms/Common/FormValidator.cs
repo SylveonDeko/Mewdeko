@@ -207,11 +207,6 @@ public static partial class FormValidator
             errors.Add("The form cannot close before it opens");
         }
 
-        if (form.AnnounceChannelId.HasValue && !form.OpensAt.HasValue)
-        {
-            errors.Add("A launch announcement needs an opening time to announce");
-        }
-
         if (form.MinAccountAgeDays is < 0)
         {
             errors.Add("Minimum account age cannot be negative");

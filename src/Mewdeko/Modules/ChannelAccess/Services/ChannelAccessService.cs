@@ -21,6 +21,7 @@ public class ChannelAccessService : INService, IReadyExecutor, IDisposable
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<ChannelAccessService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
     private readonly SemaphoreSlim voteLock = new(1, 1);
     private Timer? expiryTimer;
@@ -36,8 +37,10 @@ public class ChannelAccessService : INService, IReadyExecutor, IDisposable
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         GeneratedBotStrings strings,
-        ILogger<ChannelAccessService> logger)
+        ILogger<ChannelAccessService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.strings = strings;
@@ -843,7 +846,7 @@ public class ChannelAccessService : INService, IReadyExecutor, IDisposable
                     .ToListAsync();
             }
 
-            foreach (var application in expired)
+            foreach (var application in expired.Where(x => ownership.IsMine(x.GuildId)))
             {
                 var config = await GetConfigByIdAsync(application.ConfigId);
                 if (config is null)

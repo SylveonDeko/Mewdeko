@@ -29,4 +29,9 @@ public class AddTodoItemRequest
     ///     Optional due date for the item
     /// </summary>
     public DateTime? DueDate { get; set; }
+
+    /// <summary>
+    ///     Tags to attach to the item
+    /// </summary>
+    public string[]? Tags { get; set; }
 }

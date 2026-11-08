@@ -9,7 +9,6 @@
   "rolegreet_delete_success": "Met succes Bijgewerkt RoleGreet #{0} naar delete after {1}",
   "rolegreet_disable_status": "RoleGreet {0} set naar {1}",
   "rolegreet_greetbots_set": "RoleGreet {0} GreetBots set naar {1}",
-  "rolegreet_max_limit": "Seems like je hebben reached je max of 10 RoleGreets! Please remove one naar add another one.",
   "rolegreet_message_preview_prompt": "Would je like naar view this as regular text of would je like naar preview how it actually looks?",
   "rolegreet_message_set": "RoleGreet Bericht voor RoleGreet #{0} set!",
   "rolegreet_no_delete": "RoleGreet #{0} zal geen longer delete.",

@@ -57,6 +57,7 @@ public partial class FreeGameService : INService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<FreeGameService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -68,8 +69,10 @@ public partial class FreeGameService : INService, IReadyExecutor
     /// <param name="strings">The generated bot strings.</param>
     /// <param name="logger">The logger instance.</param>
     public FreeGameService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        IHttpClientFactory httpFactory, GeneratedBotStrings strings, ILogger<FreeGameService> logger)
+        IHttpClientFactory httpFactory, GeneratedBotStrings strings, ILogger<FreeGameService> logger,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.httpFactory = httpFactory;
@@ -184,36 +187,40 @@ public partial class FreeGameService : INService, IReadyExecutor
             if (games is null)
                 continue;
 
-            if (!known.Any(x => x.Store == store))
+            var scope = ScopedStore(store);
+            if (!known.Any(x => x.Store == scope))
             {
                 await db.InsertAsync(new FreeGameAnnounced
                 {
-                    Store = store, GameKey = SeedKey, DateAdded = DateTime.UtcNow
+                    Store = scope, GameKey = SeedKey, DateAdded = DateTime.UtcNow
                 });
                 foreach (var game in games)
                     await db.InsertAsync(new FreeGameAnnounced
                     {
-                        Store = store, GameKey = game.Key, DateAdded = DateTime.UtcNow
+                        Store = scope, GameKey = game.Key, DateAdded = DateTime.UtcNow
                     });
                 continue;
             }
 
-            foreach (var game in games.Where(x => !known.Contains((x.Store, x.Key))))
+            foreach (var game in games.Where(x => !known.Contains((scope, x.Key))))
             {
                 await AnnounceAsync(game);
                 await db.InsertAsync(new FreeGameAnnounced
                 {
-                    Store = game.Store, GameKey = game.Key, DateAdded = DateTime.UtcNow
+                    Store = scope, GameKey = game.Key, DateAdded = DateTime.UtcNow
                 });
             }
         }
     }
 
+    private string ScopedStore(string store) =>
+        ownership.HandlesGlobalWork ? store : $"{store}#{ownership.InstanceId}";
+
     private async Task AnnounceAsync(FreeGame game)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
         var alerts = await db.FreeGameAlerts.ToListAsync();
-        foreach (var alert in alerts.Where(x => game.Store switch
+        foreach (var alert in alerts.Where(x => ownership.IsMine(x.GuildId) && game.Store switch
                  {
                      Epic => x.Epic,
                      Steam => x.Steam,

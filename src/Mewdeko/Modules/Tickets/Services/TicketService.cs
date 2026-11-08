@@ -33,6 +33,7 @@ public class TicketService : INService
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly ILogger<TicketService> logger;
+    private readonly GuildOwnershipService ownership;
     private readonly GeneratedBotStrings strings;
     private readonly TriggerEventPublisher triggerEvents;
 
@@ -48,6 +49,7 @@ public class TicketService : INService
     /// <param name="credentials">The bot credentials for dashboard URL.</param>
     /// <param name="triggerEvents">Publishes ticket events to chat triggers.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="ownership">Decides which instance handles each guild.</param>
     public TicketService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
@@ -57,8 +59,10 @@ public class TicketService : INService
         ChatLogService chatLogService,
         BotCredentials credentials,
         TriggerEventPublisher triggerEvents,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.collector = collector;
         this.triggerEvents = triggerEvents;
         this.dbFactory = dbFactory;
@@ -2264,14 +2268,14 @@ public class TicketService : INService
                 // Create new settings
                 settings = new GuildTicketSetting
                 {
-                    GuildId = guildId, TranscriptChannelId = channelId
+                    GuildId = guildId, TranscriptChannelId = channelId == 0 ? null : channelId
                 };
                 await ctx.InsertAsync(settings);
             }
             else
             {
                 // Update existing settings
-                settings.TranscriptChannelId = channelId;
+                settings.TranscriptChannelId = channelId == 0 ? null : channelId;
                 await ctx.UpdateAsync(settings);
             }
         }
@@ -2298,14 +2302,14 @@ public class TicketService : INService
                 // Create new settings
                 settings = new GuildTicketSetting
                 {
-                    GuildId = guildId, LogChannelId = channelId
+                    GuildId = guildId, LogChannelId = channelId == 0 ? null : channelId
                 };
                 await ctx.InsertAsync(settings);
             }
             else
             {
                 // Update existing settings
-                settings.LogChannelId = channelId;
+                settings.LogChannelId = channelId == 0 ? null : channelId;
                 await ctx.UpdateAsync(settings);
             }
         }
@@ -2369,6 +2373,57 @@ public class TicketService : INService
         }
     }
 
+
+    /// <summary>
+    ///     Sets who gets notified about ticket activity in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="enableStaffPings">Whether the notification roles are pinged when a ticket is created.</param>
+    /// <param name="enableDmNotifications">Whether a ticket's creator is DMed when staff claim or unclaim it.</param>
+    /// <param name="notificationRoles">The roles pinged when a ticket is created.</param>
+    public async Task SetNotificationSettingsAsync(ulong guildId, bool enableStaffPings, bool enableDmNotifications,
+        IEnumerable<ulong>? notificationRoles)
+    {
+        try
+        {
+            await using var ctx = await dbFactory.CreateConnectionAsync();
+            var settings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+            var roles = notificationRoles?.Distinct().ToArray() ?? [];
+
+            if (settings == null)
+            {
+                await ctx.InsertAsync(new GuildTicketSetting
+                {
+                    GuildId = guildId,
+                    EnableStaffPings = enableStaffPings,
+                    EnableDmNotifications = enableDmNotifications,
+                    NotificationRoles = roles
+                });
+            }
+            else
+            {
+                settings.EnableStaffPings = enableStaffPings;
+                settings.EnableDmNotifications = enableDmNotifications;
+                settings.NotificationRoles = roles;
+                await ctx.UpdateAsync(settings);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to set the notification options for guild {GuildId}", guildId);
+        }
+    }
+
+    /// <summary>
+    ///     Gets the staff notes on a ticket, oldest first.
+    /// </summary>
+    /// <param name="ticketId">The ID of the ticket.</param>
+    /// <returns>The ticket's notes.</returns>
+    public async Task<List<TicketNote>> GetTicketNotesAsync(int ticketId)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+        return await ctx.TicketNotes.Where(n => n.TicketId == ticketId).OrderBy(n => n.CreatedAt).ToListAsync();
+    }
 
     /// <summary>
     ///     Links tickets to an existing case.
@@ -3445,11 +3500,13 @@ public class TicketService : INService
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
 
-        var pendingDeletions = await ctx.ScheduledTicketDeletions
-            .Where(d => !d.IsProcessed && d.ExecuteAt <= DateTime.UtcNow)
-            .OrderBy(d => d.ExecuteAt)
-            .Take(50) // Process in batches
-            .ToListAsync();
+        var pendingDeletions = (await ctx.ScheduledTicketDeletions
+                .Where(d => !d.IsProcessed && d.ExecuteAt <= DateTime.UtcNow)
+                .OrderBy(d => d.ExecuteAt)
+                .ToListAsync())
+            .Where(d => ownership.IsMine(d.GuildId))
+            .Take(50)
+            .ToList();
 
         foreach (var deletion in pendingDeletions)
         {
@@ -3946,7 +4003,7 @@ public class TicketService : INService
             {
                 var edit = new NoteEdit
                 {
-                    CaseNoteId = noteId,
+                    TicketNoteId = noteId,
                     OldContent = note.Content,
                     NewContent = newContent,
                     EditorId = author.Id,

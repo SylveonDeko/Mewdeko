@@ -7,6 +7,7 @@ using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Modules.CardDesigns.Services;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Import.Services;
 using Mewdeko.Modules.Xp.Extensions;
@@ -18,7 +19,8 @@ namespace Mewdeko.Modules.Xp;
 /// <summary>
 ///     Module for managing XP system functionality.
 /// </summary>
-public class Xp(
+public partial class Xp(
+    CardDesignViewService designViews,
     InteractiveService serv,
     ICurrencyService currencyService,
     XpRoleSyncService roleSyncService,

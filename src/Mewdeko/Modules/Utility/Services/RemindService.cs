@@ -55,6 +55,7 @@ public partial class RemindService : INService
     private readonly ConcurrentDictionary<int, Timer> reminderTimers;
     private readonly GeneratedBotStrings strings;
     private readonly GuildTimezoneService tz;
+    private readonly GuildOwnershipService ownership;
 
     /// <summary>
     ///     Initializes the reminder service, starting the background task to check for and execute reminders.
@@ -65,8 +66,9 @@ public partial class RemindService : INService
     /// <param name="strings">The bot strings service for localized messages.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public RemindService(DiscordShardedClient client, IDataConnectionFactory dbFactory, GuildTimezoneService tz,
-        GeneratedBotStrings strings, ILogger<RemindService> logger)
+        GeneratedBotStrings strings, ILogger<RemindService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.tz = tz;
@@ -81,7 +83,8 @@ public partial class RemindService : INService
     /// </summary>
     private async Task InitializeRemindersAsync()
     {
-        var reminders = await GetRemindersAsync();
+        await Task.Delay(TimeSpan.FromSeconds(20));
+        var reminders = (await GetRemindersAsync()).Where(OwnsReminder);
         foreach (var reminder in reminders)
         {
             // Only schedule reminders that haven't occurred yet
@@ -115,6 +118,9 @@ public partial class RemindService : INService
         return Task.CompletedTask;
     }
 
+    private bool OwnsReminder(Reminder reminder) =>
+        reminder.ServerId == 0 ? ownership.HandlesGlobalWork : ownership.IsMine(reminder.ServerId);
+
     private async Task<List<Reminder>> GetRemindersAsync()
     {
         await using var db = await dbFactory.CreateConnectionAsync();
@@ -141,6 +147,9 @@ public partial class RemindService : INService
 
                 reminder = current;
             }
+
+            if (!OwnsReminder(reminder))
+                return;
 
             var subscribers = ParseSubscribers(reminder.Subscribers);
 

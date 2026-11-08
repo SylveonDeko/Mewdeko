@@ -18,6 +18,7 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
     private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
+    private readonly GuildOwnershipService ownership;
 
 
     private readonly Channel<(SocketMessage, TaskCompletionSource<bool>)> highlightQueue =
@@ -38,8 +39,10 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
     public HighlightsService(DiscordShardedClient client, IFusionCache cache, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, ILogger<HighlightsService> logger, IAnalyticsCollector collector)
+        EventHandler eventHandler, ILogger<HighlightsService> logger, IAnalyticsCollector collector,
+        GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.collector = collector;
         this.client = client;
         this.cache = cache;
@@ -64,6 +67,9 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
         await Task.CompletedTask; // Keep async signature
         logger.LogInformation("Starting {Type} Cache - Lazy loading enabled", GetType());
 
+        if (!ownership.HandlesGlobalWork)
+            return;
+
         // Optional: Background cleanup of old/unused data
         _ = Task.Run(async () =>
         {
@@ -73,6 +79,7 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
 
                 // lean up highlights for guilds the bot is no longer in
                 var currentGuildIds = client.Guilds.Select(g => g.Id).ToHashSet();
+                currentGuildIds.UnionWith(await dbContext.GuildOwnerships.Select(x => x.GuildId).ToListAsync());
                 var orphanedHighlights = await dbContext.Highlights
                     .Where(h => !currentGuildIds.Contains(h.GuildId))
                     .CountAsync();
@@ -467,6 +474,43 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
             options => options
                 .SetDuration(TimeSpan.FromMinutes(30))
         ).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Removes every highlight a user has in a guild.
+    /// </summary>
+    /// <param name="guildId">The guild to remove highlights from</param>
+    /// <param name="userId">The user whose highlights are removed</param>
+    /// <returns>The number of highlights removed</returns>
+    public async Task<int> RemoveUserHighlights(ulong guildId, ulong userId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var count = await dbContext.Highlights
+            .Where(x => x.GuildId == guildId && x.UserId == userId)
+            .DeleteAsync();
+
+        await cache.RemoveAsync($"highlights_{guildId}");
+        return count;
+    }
+
+    /// <summary>
+    ///     Removes a word from every user's highlights in a guild.
+    /// </summary>
+    /// <param name="guildId">The guild to remove highlights from</param>
+    /// <param name="word">The word to remove, ignoring case</param>
+    /// <returns>The number of highlights removed</returns>
+    public async Task<int> RemoveWord(ulong guildId, string word)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var lowered = word.ToLower();
+        var count = await dbContext.Highlights
+            .Where(x => x.GuildId == guildId && x.Word != null && x.Word.ToLower() == lowered)
+            .DeleteAsync();
+
+        await cache.RemoveAsync($"highlights_{guildId}");
+        return count;
     }
 
     private async Task<List<Highlight?>> GetForGuild(ulong guildId)

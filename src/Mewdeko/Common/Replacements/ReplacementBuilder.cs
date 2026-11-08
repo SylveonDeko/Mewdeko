@@ -229,7 +229,7 @@ public partial class ReplacementBuilder
         reps.TryAdd("%dancegif%", () => nekosBestApi.ActionsApi.Dance().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%facepalmgif%",
             () => nekosBestApi.ActionsApi.Facepalm().GetAwaiter().GetResult().Results.First().Url);
-        reps.TryAdd("%feedgif", () => nekosBestApi.ActionsApi.Feed().GetAwaiter().GetResult().Results.First().Url);
+        reps.TryAdd("%feedgif%",() => nekosBestApi.ActionsApi.Feed().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%handholdgif%",
             () => nekosBestApi.ActionsApi.Handhold().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%happygif%", () => nekosBestApi.ActionsApi.Happy().GetAwaiter().GetResult().Results.First().Url);
@@ -393,6 +393,7 @@ public partial class ReplacementBuilder
     /// <returns>The built Replacer instance.</returns>
     public Replacer Build()
     {
+        WithGifs();
         return new Replacer(reps.Select(x => (x.Key, x.Value)).ToArray(),
             regex.Select(x => (x.Key, x.Value)).ToArray());
     }

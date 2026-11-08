@@ -41,7 +41,6 @@
   "rolemenu_option_missing": "{0} はこのメニューにありません。",
   "rolemenu_too_many_options": "メニューの選択肢は最大 25 個までです。",
   "rolemenu_needs_option": "メニューには選択肢が少なくとも 1 つ必要です。代わりにメニューを削除してください。",
-  "rolemenu_too_many_menus": "このサーバーにはすでに {0} 個のロールメニューがあり、これが上限です。",
   "rolemenu_role_not_assignable": "{0} は付与できません。BOTの最上位ロールをそれより上に移動し、連携機能で管理されていないことを確認してください。",
   "rolemenu_role_above_you": "あなたの最上位ロールより下のロールしか提供できず、{0} はそれより上です。",
   "rolemenu_invalid_emoji": "`{0}` は使用できる絵文字ではありません。",

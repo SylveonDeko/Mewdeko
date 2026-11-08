@@ -32,6 +32,7 @@ namespace Mewdeko.Modules.Minecraft.Services;
 /// <param name="botConfig">The bot configuration service.</param>
 /// <param name="strings">The localization service.</param>
 /// <param name="logger">The logger instance.</param>
+/// <param name="ownership">The service deciding which guilds this instance handles.</param>
 public class MinecraftService(
     IDataConnectionFactory dbFactory,
     DiscordShardedClient client,
@@ -40,7 +41,8 @@ public class MinecraftService(
     IHttpClientFactory httpFactory,
     BotConfigService botConfig,
     GeneratedBotStrings strings,
-    ILogger<MinecraftService> logger)
+    ILogger<MinecraftService> logger,
+    GuildOwnershipService ownership)
     : INService, IReadyExecutor, IDisposable
 {
     private const string ServersCacheKey = "mc_servers_{0}";
@@ -100,11 +102,12 @@ public class MinecraftService(
                     }
                 }
 
-                if (server.WatchChannelId != null)
+                if (server.WatchChannelId != null && ownership.IsMine(server.GuildId))
                     StartWatchTimer(server);
             }
 
-            _ = Task.Run(() => CleanupSnapshotsAsync());
+            if (ownership.HandlesGlobalWork)
+                _ = Task.Run(() => CleanupSnapshotsAsync());
 
             logger.LogInformation("Minecraft Service Ready - {Count} servers cached, {WatchCount} being watched",
                 allServers.Count, allServers.Count(s => s.WatchChannelId != null));
@@ -1127,7 +1130,7 @@ public class MinecraftService(
         {
             await using var db = await dbFactory.CreateConnectionAsync();
             var server = await db.MinecraftServers.FirstOrDefaultAsync(s => s.Id == serverId);
-            if (server?.WatchChannelId == null) return;
+            if (server?.WatchChannelId == null || !ownership.IsMine(server.GuildId)) return;
 
             var guild = client.GetGuild(server.GuildId);
             if (guild == null) return;

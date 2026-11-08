@@ -43,6 +43,7 @@ public class InviteCountService : INService, IReadyExecutor
 
     private readonly ILogger<InviteCountService> logger;
     private readonly ModCaseService modCases;
+    private readonly GuildOwnershipService ownership;
     private readonly ConcurrentDictionary<ulong, ConcurrentDictionary<string, int>> pendingUses = new();
     private readonly EventHandler eventHandler;
     private readonly GeneratedBotStrings strings;
@@ -60,8 +61,9 @@ public class InviteCountService : INService, IReadyExecutor
     /// <param name="modCases">The service recording moderation cases.</param>
     public InviteCountService(EventHandler handler, IDataConnectionFactory dbFactory, DiscordShardedClient client,
         ILogger<InviteCountService> logger, IAnalyticsCollector collector, GeneratedBotStrings strings,
-        ModCaseService modCases)
+        ModCaseService modCases, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.modCases = modCases;
         eventHandler = handler;
         this.dbFactory = dbFactory;
@@ -106,6 +108,7 @@ public class InviteCountService : INService, IReadyExecutor
             try
             {
                 var enabledGuilds = client.Guilds
+                    .Where(g => ownership.IsMine(g.Id))
                     .Where(g => inviteCountSettings.TryGetValue(g.Id, out var s) && s.IsEnabled)
                     .Where(g => g.CurrentUser?.GuildPermissions.Has(GuildPermission.ManageGuild) == true)
                     .ToList();
@@ -159,6 +162,16 @@ public class InviteCountService : INService, IReadyExecutor
 
             var currentGuildIds = client.Guilds.Select(g => g.Id).ToHashSet();
             await using var db = await dbFactory.CreateConnectionAsync();
+
+            var knownGuildIds = await db.InviteCountSettings.Select(s => s.GuildId)
+                .Union(db.InviteCounts.Select(c => c.GuildId))
+                .Union(db.InvitedBies.Select(i => i.GuildId))
+                .Union(db.InviteTrackingExclusions.Select(i => i.GuildId))
+                .Union(db.InviteLabels.Select(i => i.GuildId))
+                .ToListAsync();
+            var foreignGuildIds = knownGuildIds.Where(id => !currentGuildIds.Contains(id) && !ownership.IsMine(id))
+                .ToList();
+            currentGuildIds.UnionWith(foreignGuildIds);
 
             var settings = await db.InviteCountSettings.Where(s => !currentGuildIds.Contains(s.GuildId))
                 .DeleteAsync();

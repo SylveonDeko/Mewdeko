@@ -8,7 +8,6 @@
   "rolegreet_delete_success": "RoleGreet #{0} を {1} 後に削除するように更新しました",
   "rolegreet_disable_status": "RoleGreet {0} を {1} に設定しました",
   "rolegreet_greetbots_set": "RoleGreet {0} の GreetBots を {1} に設定しました",
-  "rolegreet_max_limit": "Seems like you have reached your max of 10 ロールGreets! Please remove one to add another one.",
   "rolegreet_message_preview_prompt": "通常のテキストで表示しますか、それとも実際の見た目をプレビューしますか？",
   "rolegreet_message_set": "RoleGreet #{0} のメッセージを設定しました！",
   "rolegreet_no_delete": "RoleGreet #{0} は削除されなくなります。",

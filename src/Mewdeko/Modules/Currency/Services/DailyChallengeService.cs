@@ -1,6 +1,9 @@
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Database.DbContextStuff;
+using Serilog;
+using System.Threading;
 
 namespace Mewdeko.Modules.Currency.Services;
 
@@ -9,7 +12,14 @@ namespace Mewdeko.Modules.Currency.Services;
 /// </summary>
 public class DailyChallengeService : INService
 {
+    private static readonly string[] SpecificGames =
+    [
+        "blackjack", "roulette", "slots", "crash", "keno", "plinko", "bingo", "memory", "trivia"
+    ];
+
     private readonly IDataConnectionFactory connectionFactory;
+
+    private readonly SemaphoreSlim[] gates = Enumerable.Range(0, 64).Select(_ => new SemaphoreSlim(1, 1)).ToArray();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="DailyChallengeService" /> class.
@@ -21,23 +31,141 @@ public class DailyChallengeService : INService
     }
 
     /// <summary>
-    ///     Gets the current daily challenge for a user.
+    ///     Gets today's daily challenge for a user, creating it on first use.
     /// </summary>
     /// <param name="userId">The user ID.</param>
     /// <param name="guildId">The guild ID.</param>
-    /// <returns>The daily challenge or null if already completed.</returns>
-    public async Task<DailyChallenge?> GetCurrentChallenge(ulong userId, ulong guildId)
+    /// <returns>The daily challenge. <see cref="DailyChallenge.IsCompleted" /> is set once it has been claimed.</returns>
+    public async Task<DailyChallenge> GetCurrentChallenge(ulong userId, ulong guildId)
     {
-        await using var ctx = await connectionFactory.CreateConnectionAsync();
+        var gate = GateFor(userId);
+        await gate.WaitAsync();
+        try
+        {
+            await using var ctx = await connectionFactory.CreateConnectionAsync();
+            return await GetOrCreateAsync(ctx, userId, guildId);
+        }
+        finally
+        {
+            gate.Release();
+        }
+    }
+
+    /// <summary>
+    ///     Records the stake of a game that was just started for today's challenge.
+    /// </summary>
+    /// <param name="userId">The user ID.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="gameKey">The game identifier used on the ledger.</param>
+    /// <param name="bet">The amount wagered.</param>
+    public Task RecordBet(ulong userId, ulong guildId, string gameKey, long bet)
+    {
+        return RecordAsync(userId, guildId, challenge => challenge.ChallengeType switch
+        {
+            DailyChallengeType.PlayGames => 1,
+            DailyChallengeType.SpendCurrency => bet,
+            DailyChallengeType.PlaySpecificGame => MatchesSpecificGame(challenge.Description, gameKey) ? 1 : 0,
+            DailyChallengeType.WinGames or DailyChallengeType.EarnCurrency => 0,
+            _ => 1
+        });
+    }
+
+    /// <summary>
+    ///     Records the payout of a finished game for today's challenge.
+    /// </summary>
+    /// <param name="userId">The user ID.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="bet">The amount wagered.</param>
+    /// <param name="payout">The total amount returned to the player, stake included.</param>
+    public Task RecordPayout(ulong userId, ulong guildId, long bet, long payout)
+    {
+        var winnings = Math.Max(0, payout - bet);
+
+        return RecordAsync(userId, guildId, challenge => challenge.ChallengeType switch
+        {
+            DailyChallengeType.WinGames => winnings > 0 ? 1 : 0,
+            DailyChallengeType.EarnCurrency => winnings,
+            _ => 0
+        });
+    }
+
+    /// <summary>
+    ///     Claims today's challenge once its progress is full.
+    /// </summary>
+    /// <param name="userId">The user ID.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The reward amount, or 0 when the challenge is unfinished or already claimed.</returns>
+    public async Task<long> ClaimChallenge(ulong userId, ulong guildId)
+    {
+        var gate = GateFor(userId);
+        await gate.WaitAsync();
+        try
+        {
+            await using var ctx = await connectionFactory.CreateConnectionAsync();
+            var challenge = await GetOrCreateAsync(ctx, userId, guildId);
+
+            if (challenge.IsCompleted || challenge.Progress < challenge.RequiredAmount)
+                return 0;
+
+            var claimed = await ctx.DailyChallenges
+                .Where(dc => dc.Id == challenge.Id && !dc.IsCompleted)
+                .Set(dc => dc.IsCompleted, true)
+                .Set(dc => dc.CompletedAt, DateTime.UtcNow)
+                .UpdateAsync();
+
+            return claimed > 0 ? challenge.RewardAmount : 0;
+        }
+        finally
+        {
+            gate.Release();
+        }
+    }
+
+    private async Task RecordAsync(ulong userId, ulong guildId, Func<DailyChallenge, long> amountFor)
+    {
+        try
+        {
+            var gate = GateFor(userId);
+            await gate.WaitAsync();
+            try
+            {
+                await using var ctx = await connectionFactory.CreateConnectionAsync();
+                var challenge = await GetOrCreateAsync(ctx, userId, guildId);
+
+                if (challenge.IsCompleted || challenge.Progress >= challenge.RequiredAmount)
+                    return;
+
+                var amount = amountFor(challenge);
+                if (amount <= 0)
+                    return;
+
+                var progress = (int)Math.Min(challenge.RequiredAmount, challenge.Progress + amount);
+
+                await ctx.DailyChallenges
+                    .Where(dc => dc.Id == challenge.Id)
+                    .Set(dc => dc.Progress, progress)
+                    .UpdateAsync();
+            }
+            finally
+            {
+                gate.Release();
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Failed to record daily challenge progress for {UserId} in {GuildId}", userId, guildId);
+        }
+    }
+
+    private static async Task<DailyChallenge> GetOrCreateAsync(MewdekoDb ctx, ulong userId, ulong guildId)
+    {
         var today = DateTime.UtcNow.Date;
 
         var existing = await ctx.DailyChallenges
             .FirstOrDefaultAsync(dc => dc.UserId == userId && dc.GuildId == guildId && dc.Date == today);
 
         if (existing != null)
-        {
-            return existing.IsCompleted ? null : existing;
-        }
+            return existing;
 
         var challenge = GenerateNewChallenge(userId, guildId, today);
         challenge.Id = await ctx.InsertWithInt32IdentityAsync(challenge);
@@ -45,39 +173,15 @@ public class DailyChallengeService : INService
         return challenge;
     }
 
-    /// <summary>
-    ///     Completes a daily challenge and awards the reward.
-    /// </summary>
-    /// <param name="userId">The user ID.</param>
-    /// <param name="guildId">The guild ID.</param>
-    /// <param name="challengeType">The type of challenge completed.</param>
-    /// <returns>The reward amount.</returns>
-    public async Task<long> CompleteChallenge(ulong userId, ulong guildId, DailyChallengeType challengeType)
+    private SemaphoreSlim GateFor(ulong userId)
     {
-        await using var ctx = await connectionFactory.CreateConnectionAsync();
-        var today = DateTime.UtcNow.Date;
+        return gates[(int)(userId % (ulong)gates.Length)];
+    }
 
-        var challenge = await ctx.DailyChallenges
-            .FirstOrDefaultAsync(dc => dc.UserId == userId && dc.GuildId == guildId &&
-                                       dc.Date == today && dc.ChallengeType == challengeType);
-
-        if (challenge == null || challenge.IsCompleted)
-        {
-            return 0;
-        }
-
-        challenge.Progress++;
-
-        if (challenge.Progress >= challenge.RequiredAmount)
-        {
-            challenge.IsCompleted = true;
-            challenge.CompletedAt = DateTime.UtcNow;
-            await ctx.UpdateAsync(challenge);
-            return challenge.RewardAmount;
-        }
-
-        await ctx.UpdateAsync(challenge);
-        return 0;
+    private static bool MatchesSpecificGame(string description, string gameKey)
+    {
+        var game = SpecificGames.FirstOrDefault(g => description == SpecificGameDescription(g));
+        return game != null && gameKey.StartsWith(game, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -135,11 +239,11 @@ public class DailyChallengeService : INService
 
     private static string GetSpecificGameChallenge(Random rand)
     {
-        var games = new[]
-        {
-            "blackjack", "roulette", "slots", "crash", "keno", "plinko", "bingo", "memory", "trivia"
-        };
-        var game = games[rand.Next(games.Length)];
+        return SpecificGameDescription(SpecificGames[rand.Next(SpecificGames.Length)]);
+    }
+
+    private static string SpecificGameDescription(string game)
+    {
         return $"Play {game} 3 times";
     }
 }

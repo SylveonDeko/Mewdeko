@@ -31,6 +31,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     private readonly IBotCredentials creds;
     private readonly HttpClient http;
     private readonly ILogger<StatsService> logger;
+    private readonly GuildOwnershipService ownership;
 
     private readonly DateTime started;
     private PeriodicTimer topGgTimer;
@@ -46,8 +47,9 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     /// <param name="logger">The logger instance for structured logging.</param>
     public StatsService(
         DiscordShardedClient client, IBotCredentials creds,
-        HttpClient http, IDataCache cache, ILogger<StatsService> logger)
+        HttpClient http, IDataCache cache, ILogger<StatsService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client ?? throw new ArgumentNullException(nameof(client));
         this.creds = creds ?? throw new ArgumentNullException(nameof(creds));
         this.http = http ?? throw new ArgumentNullException(nameof(http));
@@ -70,6 +72,9 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     /// <inheritdoc />
     public Task OnReadyAsync()
     {
+        if (!ownership.HandlesGlobalWork)
+            return Task.CompletedTask;
+
         _ = Task.Run(async () =>
         {
             var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
@@ -218,7 +223,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
 
     private async Task PostToTopGg()
     {
-        if (string.IsNullOrEmpty(creds.VotesToken)) return;
+        if (string.IsNullOrEmpty(creds.VotesToken) || !ownership.HandlesGlobalWork) return;
 
         topGgTimer = new PeriodicTimer(TimeSpan.FromMinutes(30));
 

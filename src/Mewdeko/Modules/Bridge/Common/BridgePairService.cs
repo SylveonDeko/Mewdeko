@@ -229,6 +229,9 @@ public sealed class BridgePairService
         await using var db = await dbFactory.CreateConnectionAsync();
         foreach (var guildId in await db.BridgePairs.Select(x => x.GuildId).Distinct().ToListAsync())
         {
+            if (!host.HasGuild(guildId))
+                continue;
+
             pairedGuilds[guildId] = 0;
             try
             {

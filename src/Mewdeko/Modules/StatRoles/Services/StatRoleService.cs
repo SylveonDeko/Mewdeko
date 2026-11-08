@@ -38,6 +38,7 @@ public class StatRoleService : INService, IReadyExecutor, IDisposable
     private readonly ILogger<StatRoleService> logger;
     private readonly ConcurrentDictionary<ulong, DateTime> manualRuns = new();
     private readonly ServerStatsService stats;
+    private readonly GuildOwnershipService ownership;
     private Timer? tickTimer;
 
     /// <summary>
@@ -48,9 +49,11 @@ public class StatRoleService : INService, IReadyExecutor, IDisposable
     /// <param name="stats">The stats query service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="ownership">The guild ownership rules.</param>
     public StatRoleService(DiscordShardedClient client, IDataConnectionFactory dbFactory, ServerStatsService stats,
-        ILogger<StatRoleService> logger, IAnalyticsCollector collector)
+        ILogger<StatRoleService> logger, IAnalyticsCollector collector, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.stats = stats;
@@ -257,7 +260,8 @@ public class StatRoleService : INService, IReadyExecutor, IDisposable
         {
             await using var db = await dbFactory.CreateConnectionAsync();
             var now = DateTime.UtcNow;
-            var enabled = await db.StatRoles.Where(x => x.Enabled).ToListAsync();
+            var enabled = (await db.StatRoles.Where(x => x.Enabled).ToListAsync())
+                .Where(x => ownership.IsMine(x.GuildId)).ToList();
 
             var dueGuilds = enabled
                 .Where(x => x.LastRunAt == null ||

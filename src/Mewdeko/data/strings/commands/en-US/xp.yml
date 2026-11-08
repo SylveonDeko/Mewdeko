@@ -1287,6 +1287,70 @@ xpbackground:
       name: source
       optional: true
       type: string
+equip:
+  args:
+    - Sunset
+  desc: 'Equips a card design you own or that is free. Each design is drawn on either your rank card or your achievement card.'
+  params:
+    - desc: 'The name of the design.'
+      name: design
+      optional: false
+      type: string
+unequipdesign:
+  args:
+    - rank
+    - achievement
+  desc: 'Removes your equipped design for the rank or achievement card.'
+  params:
+    - desc: 'Either rank or achievement.'
+      name: card
+      optional: false
+      type: string
+designs:
+  args:
+    - ''
+  desc: 'Lists the card designs you can equip.'
+  params: [ ]
+mydesign:
+  args:
+    - ''
+  desc: 'Shows the status of the card designs you made yourself. Edit them on the dashboard.'
+  params: [ ]
+memberdesigns:
+  args:
+    - ''
+  desc: 'Lists the member designs with an uploaded background waiting for review.'
+  params: [ ]
+approvedesign:
+  args:
+    - '@user rank'
+  desc: 'Approves the uploaded background a member sent for their rank or achievement card.'
+  params:
+    - desc: 'The member who made the design.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Either rank or achievement.'
+      name: card
+      optional: false
+      type: string
+rejectdesign:
+  args:
+    - '@user rank Not suitable for this community'
+  desc: 'Turns down the uploaded background a member sent for their card and tells them, with an optional reason.'
+  params:
+    - desc: 'The member who made the design.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Either rank or achievement.'
+      name: card
+      optional: false
+      type: string
+    - desc: 'Why it was turned down. The member sees it.'
+      name: reason
+      optional: true
+      type: string
 xpserverbackground:
   args:
     - '[image url]'

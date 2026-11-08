@@ -194,9 +194,34 @@ public class HighlightsController(
             .Where(h => h.GuildId == guildId && h.UserId == userId)
             .ToListAsync());
 
-        var count = await db.Highlights
-            .Where(h => h.GuildId == guildId && h.UserId == userId)
-            .DeleteAsync();
+        var count = await service.RemoveUserHighlights(guildId, userId);
+
+        return Ok(new
+        {
+            removedCount = count
+        });
+    }
+
+    /// <summary>
+    ///     Removes a word from every user's highlights in a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="word">The word to remove</param>
+    /// <returns>Number of highlights removed</returns>
+    [HttpDelete("word")]
+    public async Task<IActionResult> RemoveWord(ulong guildId, [FromQuery] string word)
+    {
+        if (string.IsNullOrWhiteSpace(word))
+            return BadRequest("Word cannot be empty");
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var lowered = word.ToLower();
+        auditContext.RecordBefore(await db.Highlights
+            .Where(h => h.GuildId == guildId && h.Word != null && h.Word.ToLower() == lowered)
+            .ToListAsync());
+
+        var count = await service.RemoveWord(guildId, word);
 
         return Ok(new
         {

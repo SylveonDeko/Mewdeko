@@ -36,7 +36,6 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     [CheckPermissions]
     public async Task Confess(string confession, IAttachment? attachment = null)
     {
-        var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist?.Split(" ");
         var attachUrl = attachment?.Url;
         if ((await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel is 0)
         {
@@ -44,22 +43,14 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
             return;
         }
 
-        if (blacklists?.Length > 0)
+        if (await Service.IsBlacklistedAsync(ctx.Guild.Id, ctx.User.Id).ConfigureAwait(false))
         {
-            if (blacklists.Contains(ctx.User.Id.ToString()))
-            {
-                await EphemeralReplyErrorAsync(Strings.ConfessionsBlacklisted(ctx.Guild.Id)).ConfigureAwait(false);
-                return;
-            }
+            await EphemeralReplyErrorAsync(Strings.ConfessionsBlacklisted(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
 
-            await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx, attachUrl)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx, attachUrl)
-                .ConfigureAwait(false);
-        }
+        await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx, attachUrl)
+            .ConfigureAwait(false);
     }
 
     /// <summary>

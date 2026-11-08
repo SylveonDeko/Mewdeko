@@ -1,7 +1,15 @@
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Controllers.Common.Achievements;
+using Mewdeko.Controllers.Common.DashboardAccess;
+using Mewdeko.Controllers.Common.Designs;
 using Mewdeko.Controllers.Common.UserSettings;
+using Mewdeko.Database.Enums;
+using Mewdeko.Modules.Achievements.Common;
+using Mewdeko.Modules.CardDesigns.Common;
+using Mewdeko.Modules.CardDesigns.Services;
+using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Afk.Services;
 using Mewdeko.Modules.Birthday.Services;
 using Mewdeko.Modules.Highlights.Services;
@@ -38,8 +46,173 @@ public class MeController(
     IDataConnectionFactory dbFactory,
     WizardDecisionService wizardService,
     EventHandler eventHandler,
+    CardDesignService cardDesigns,
+    ICurrencyService currencyService,
     IDashboardAuditContext auditContext) : Controller
 {
+    /// <summary>
+    ///     Gets the card designs a user can use in one guild, with equipped flags and preview data
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <returns>The user's designs per card</returns>
+    [HttpGet("designs")]
+    public async Task<IActionResult> GetDesigns(ulong guildId, ulong userId)
+    {
+        if (!await ValidateUserMembership(guildId, userId))
+            return NotFound("User is not a member of this guild");
+
+        return Ok(await DesignMapping.BuildMemberAsync(cardDesigns, guildId, userId));
+    }
+
+    /// <summary>
+    ///     Lists every shared guild where designs exist.
+    /// </summary>
+    /// <param name="guildId">Any guild the user is in</param>
+    /// <param name="userId">The user ID</param>
+    /// <returns>The guilds and how many designs the user can use in each</returns>
+    [HttpGet("designs/guilds")]
+    public async Task<IActionResult> GetDesignGuilds(ulong guildId, ulong userId)
+    {
+        var result = new List<DesignGuildResponse>();
+        foreach (var guild in client.Guilds.Where(g => g.GetUser(userId) != null))
+        {
+            var available = await cardDesigns.GetAvailableAsync(guild.Id, userId);
+            var membersMake = (await cardDesigns.GetSettingsAsync(guild.Id)).MemberEnabled;
+            if (available.Count == 0 && !membersMake)
+                continue;
+
+            result.Add(new DesignGuildResponse
+            {
+                GuildId = guild.Id, Name = guild.Name, IconUrl = guild.IconUrl, Available = available.Count
+            });
+        }
+
+        return Ok(result.OrderBy(g => g.Name));
+    }
+
+    /// <summary>
+    ///     Gets what a member can do about making their own designs in one guild: the rules, whether they qualify and
+    ///     the designs they made.
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <returns>The member's own designs and the rules that apply</returns>
+    [HttpGet("designs/own")]
+    public async Task<IActionResult> GetOwnDesigns(ulong guildId, ulong userId)
+    {
+        if (!await ValidateUserMembership(guildId, userId))
+            return NotFound("User is not a member of this guild");
+
+        return Ok(await BuildOwnDesignsAsync(guildId, userId));
+    }
+
+    /// <summary>
+    ///     Creates or replaces the member's own design for one card. Replacing never makes a second copy.
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <param name="target">The card: 0 for rank, 1 for achievement</param>
+    /// <param name="request">The design, and an optional uploaded background</param>
+    /// <returns>The member's own designs after the change, or why the save was refused</returns>
+    [HttpPut("designs/own/{target:int}")]
+    public async Task<IActionResult> SaveOwnDesign(ulong guildId, ulong userId, int target,
+        [FromBody] SaveOwnDesignRequest request)
+    {
+        if (!await ValidateUserMembership(guildId, userId))
+            return NotFound("User is not a member of this guild");
+        if (await HttpContext.GetDashboardUserIdAsync() != userId)
+            return StatusCode(403, "You can only change your own designs.");
+        if (!Enum.IsDefined((CardDesignTarget)target))
+            return BadRequest("Target must be 0 or 1.");
+
+        byte[]? upload = null;
+        if (!string.IsNullOrEmpty(request.Upload))
+        {
+            upload = DesignMapping.DecodeUpload(request.Upload);
+            if (upload is null)
+                return BadRequest(AchievementMapping.Describe(AchievementError.IconInvalid));
+        }
+
+        var result = await cardDesigns.SaveMemberAsync(guildId, userId, (CardDesignTarget)target, request.Data, upload,
+            request.RemoveUpload);
+        return result.Error switch
+        {
+            MemberSaveError.None => Ok(await BuildOwnDesignsAsync(guildId, userId)),
+            MemberSaveError.Disabled => StatusCode(403, "Members can't make designs here."),
+            MemberSaveError.NotEligible => StatusCode(403, "You don't meet the requirement to make a design."),
+            MemberSaveError.UploadsOff => BadRequest("This community only allows preset backgrounds."),
+            MemberSaveError.PoolFull => Conflict(AchievementMapping.Describe(AchievementError.TooManyMemberImages)),
+            MemberSaveError.NoFunds => StatusCode(402, "You can't afford that."),
+            MemberSaveError.BadImage => BadRequest(AchievementMapping.Describe(result.ImageError ??
+                                                                               AchievementError.IconInvalid)),
+            _ => BadRequest(result.Message ?? "That isn't a valid design.")
+        };
+    }
+
+    /// <summary>
+    ///     Reads the member's own uploaded background, including one still waiting for review.
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <param name="target">The card: 0 for rank, 1 for achievement</param>
+    /// <returns>The image as a data address</returns>
+    [HttpGet("designs/own/{target:int}/image")]
+    public async Task<IActionResult> GetOwnDesignImage(ulong guildId, ulong userId, int target)
+    {
+        if (await HttpContext.GetDashboardUserIdAsync() != userId)
+            return StatusCode(403, "You can only see your own designs.");
+        if (!Enum.IsDefined((CardDesignTarget)target))
+            return BadRequest("Target must be 0 or 1.");
+
+        var design = await cardDesigns.GetMemberDesignAsync(guildId, userId, (CardDesignTarget)target);
+        return Ok(new DesignImageResponse
+        {
+            DataUrl = design is null ? null : await cardDesigns.GetMemberImageAsync(design)
+        });
+    }
+
+    private async Task<OwnDesignsResponse> BuildOwnDesignsAsync(ulong guildId, ulong userId)
+    {
+        var settings = await cardDesigns.GetSettingsAsync(guildId);
+        var eligibility = await cardDesigns.GetEligibilityAsync(guildId, userId);
+        var guild = client.GetGuild(guildId);
+        var equipped = await cardDesigns.GetEquippedIdsAsync(guildId, userId);
+
+        async Task<OwnDesignResponse?> OwnAsync(CardDesignTarget target)
+        {
+            var design = await cardDesigns.GetMemberDesignAsync(guildId, userId, target);
+            return design is null
+                ? null
+                : await DesignMapping.MapOwnAsync(cardDesigns, design, equipped.GetValueOrDefault(target));
+        }
+
+        return new OwnDesignsResponse
+        {
+            Enabled = settings.MemberEnabled,
+            Eligible = eligibility == MemberEligibility.Eligible,
+            Reason = eligibility switch
+            {
+                MemberEligibility.Disabled => "disabled",
+                MemberEligibility.NeedsRole => "role",
+                MemberEligibility.NeedsLevel => "level",
+                _ => null
+            },
+            Who = settings.MemberWho,
+            RoleNames = CardDesignRules.ParseRoleIds(settings.MemberRoleIds)
+                .Select(r => guild?.GetRole(r)?.Name)
+                .OfType<string>()
+                .ToList(),
+            MinLevel = settings.MemberMinLevel,
+            Uploads = settings.MemberUploads,
+            Review = settings.MemberReview,
+            Cost = settings.MemberCost,
+            CurrencyEmote = await currencyService.GetCurrencyEmote(guildId),
+            Rank = await OwnAsync(CardDesignTarget.Rank),
+            Achievement = await OwnAsync(CardDesignTarget.Achievement)
+        };
+    }
+
     /// <summary>
     ///     Validates that the user is a member of the specified guild
     /// </summary>

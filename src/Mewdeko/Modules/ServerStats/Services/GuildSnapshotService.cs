@@ -25,6 +25,7 @@ public class GuildSnapshotService : INService, IReadyExecutor, IDisposable
     private readonly ILogger<GuildSnapshotService> logger;
     private readonly ServerStatsSettingsService settings;
     private readonly SemaphoreSlim snapshotLock = new(1, 1);
+    private readonly GuildOwnershipService ownership;
     private Timer? snapshotTimer;
     private Timer? sweepTimer;
 
@@ -36,8 +37,9 @@ public class GuildSnapshotService : INService, IReadyExecutor, IDisposable
     /// <param name="settings">The stats settings service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public GuildSnapshotService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        ServerStatsSettingsService settings, ILogger<GuildSnapshotService> logger)
+        ServerStatsSettingsService settings, ILogger<GuildSnapshotService> logger, GuildOwnershipService ownership)
     {
+        this.ownership = ownership;
         this.client = client;
         this.dbFactory = dbFactory;
         this.settings = settings;
@@ -79,7 +81,7 @@ public class GuildSnapshotService : INService, IReadyExecutor, IDisposable
 
             foreach (var guild in client.Guilds)
             {
-                if (!settings.GetCachedSettings(guild.Id).TrackSnapshots)
+                if (!ownership.IsMine(guild.Id) || !settings.GetCachedSettings(guild.Id).TrackSnapshots)
                     continue;
 
                 rows.Add(Sample(guild, stamp));
@@ -128,6 +130,9 @@ public class GuildSnapshotService : INService, IReadyExecutor, IDisposable
 
     private async Task SweepAsync()
     {
+        if (!ownership.HandlesGlobalWork)
+            return;
+
         try
         {
             var cutoff = DateTime.UtcNow - RetentionPeriod;

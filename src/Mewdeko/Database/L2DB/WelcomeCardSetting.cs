@@ -27,7 +27,83 @@ public enum WelcomeCardTarget
     /// <summary>
     ///     The message sent when a member boosts the guild.
     /// </summary>
-    Boost = 3
+    Boost = 3,
+
+    /// <summary>
+    ///     The messages sent when a member is given a role.
+    /// </summary>
+    RoleGreet = 4
+}
+
+/// <summary>
+///     Where a message card appears.
+/// </summary>
+public enum CardPlacement
+{
+    /// <summary>
+    ///     The message has no card.
+    /// </summary>
+    None = 0,
+
+    /// <summary>
+    ///     The card is the embed's image.
+    /// </summary>
+    EmbedImage = 1,
+
+    /// <summary>
+    ///     The card is sent as a file with the message.
+    /// </summary>
+    Attached = 2
+}
+
+/// <summary>
+///     Represents the card of one member event message: a multi-greet, a role greet, or the bye, DM greet or boost
+///     message.
+/// </summary>
+[Table("MessageCards")]
+public class MessageCard
+{
+    /// <summary>
+    ///     Gets or sets the database row identifier.
+    /// </summary>
+    [Column("Id", IsPrimaryKey = true, IsIdentity = true, SkipOnInsert = true, SkipOnUpdate = true)]
+    public int Id { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the guild ID the card belongs to.
+    /// </summary>
+    [Column("GuildId")]
+    public ulong GuildId { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the kind of message the card is for.
+    /// </summary>
+    [Column("Target")]
+    public WelcomeCardTarget Target { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the multi-greet or role greet ID, or 0 for the bye, DM greet and boost messages.
+    /// </summary>
+    [Column("OwnerId")]
+    public int OwnerId { get; set; }
+
+    /// <summary>
+    ///     Gets or sets where the card appears.
+    /// </summary>
+    [Column("Placement")]
+    public CardPlacement Placement { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the card design as card template JSON, or null for the classic layout.
+    /// </summary>
+    [Column("Template")]
+    public string? Template { get; set; }
+
+    /// <summary>
+    ///     Gets or sets when the row was created.
+    /// </summary>
+    [Column("DateAdded")]
+    public DateTime DateAdded { get; set; }
 }
 
 /// <summary>
