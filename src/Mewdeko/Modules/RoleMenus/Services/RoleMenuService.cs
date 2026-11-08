@@ -2041,13 +2041,6 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
     }
 
     /// <summary>
-    ///     Gives and takes roles for a member's pick, following the menu's mode and limits.
-    /// </summary>
-    /// <param name="menu">The menu.</param>
-    /// <param name="member">The member.</param>
-    /// <param name="picked">The options picked, in pick order.</param>
-    /// <returns>What changed and any notes.</returns>
-    /// <summary>
     ///     Downloads the guild's members when the cache is incomplete, so role holder counts are accurate.
     /// </summary>
     /// <param name="guild">The guild.</param>
@@ -2057,6 +2050,14 @@ public class RoleMenuService : INService, IReadyExecutor, IUnloadableService
             await guild.DownloadUsersAsync();
     }
 
+    /// <summary>
+    ///     Gives and takes roles for a member's pick, following the menu's mode and limits.
+    /// </summary>
+    /// <param name="menu">The menu.</param>
+    /// <param name="member">The member.</param>
+    /// <param name="picked">The options picked, in pick order.</param>
+    /// <param name="trigger">What caused the change.</param>
+    /// <returns>What changed and any notes.</returns>
     private async Task<RoleMenuOutcome> ApplyAsync(RoleMenu menu, SocketGuildUser member,
         IReadOnlyList<RoleMenuOption> picked, RoleMenuTrigger trigger = RoleMenuTrigger.Pick)
     {

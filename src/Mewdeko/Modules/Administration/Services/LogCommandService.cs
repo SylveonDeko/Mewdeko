@@ -29,6 +29,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// <param name="strings">The localization service.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
 /// <param name="collector">The analytics collector.</param>
+/// <param name="ownership">The guild ownership service.</param>
 public class LogCommandService(
     IDataConnectionFactory dbFactory,
     DiscordShardedClient client,

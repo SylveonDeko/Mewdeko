@@ -97,7 +97,7 @@ public static class UnicodeText
     private static float DrawShaped(SKCanvas canvas, float x, float y, string text, SKFont font, SKPaint paint)
     {
         var width = MeasureShaped(text, font);
-        canvas.DrawShapedText(text, x, y, font, paint);
+        canvas.DrawShapedText(text, x, y, SKTextAlign.Left, font, paint);
         return width;
     }
 

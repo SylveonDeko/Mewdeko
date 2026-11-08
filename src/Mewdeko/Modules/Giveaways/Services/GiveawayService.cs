@@ -69,6 +69,7 @@ public class GiveawayService : INService, IDisposable
     /// <param name="eventHandler">Publishes giveaway entries to other services.</param>
     /// <param name="currencyService">The currency service, used to pay coin prizes.</param>
     /// <param name="xpService">The XP service, used to pay XP prizes.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public GiveawayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,

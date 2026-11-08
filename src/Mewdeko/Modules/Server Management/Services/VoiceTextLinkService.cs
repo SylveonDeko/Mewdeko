@@ -31,6 +31,7 @@ public class VoiceTextLinkService : INService, IReadyExecutor
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="logger">The logger instance.</param>
     /// <param name="customVoice">The custom voice service.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public VoiceTextLinkService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         EventHandler eventHandler, ILogger<VoiceTextLinkService> logger, CustomVoiceService customVoice,
         GuildOwnershipService ownership)

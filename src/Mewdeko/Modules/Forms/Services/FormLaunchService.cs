@@ -31,6 +31,7 @@ public class FormLaunchService : BackgroundService
     /// <param name="dbFactory">Provider for database connections.</param>
     /// <param name="service">The forms service, which owns the announcement itself.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public FormLaunchService(
         IDataConnectionFactory dbFactory,
         FormsService service,

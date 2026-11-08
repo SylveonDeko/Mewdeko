@@ -30,6 +30,7 @@ public class WelcomeCardsController(
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
+    /// <param name="ownerId">The card owner ID.</param>
     [HttpGet]
     public async Task<IActionResult> Get(ulong guildId, WelcomeCardTarget target, [FromQuery] int ownerId = 0)
     {
@@ -46,6 +47,7 @@ public class WelcomeCardsController(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="request">The state and design.</param>
+    /// <param name="ownerId">The card owner ID.</param>
     [HttpPost]
     public async Task<IActionResult> Save(ulong guildId, WelcomeCardTarget target,
         [FromBody] WelcomeCardSaveRequest request, [FromQuery] int ownerId = 0)
@@ -88,6 +90,7 @@ public class WelcomeCardsController(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="starterId">The layout's short name.</param>
+    /// <param name="ownerId">The card owner ID.</param>
     [HttpPost("starters/{starterId}")]
     public async Task<IActionResult> UseStarter(ulong guildId, WelcomeCardTarget target, string starterId,
         [FromQuery] int ownerId = 0)
@@ -115,6 +118,7 @@ public class WelcomeCardsController(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="request">The design and who to draw it for.</param>
+    /// <param name="ownerId">The card owner ID.</param>
     [HttpPost("preview")]
     [SkipAudit]
     public async Task<IActionResult> Preview(ulong guildId, WelcomeCardTarget target,
@@ -163,6 +167,7 @@ public class WelcomeCardsController(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="userId">The member to draw the card for.</param>
+    /// <param name="ownerId">The card owner ID.</param>
     [HttpGet("preview")]
     public async Task<IActionResult> PreviewFile(ulong guildId, WelcomeCardTarget target, [FromQuery] ulong userId,
         [FromQuery] int ownerId = 0)
@@ -180,6 +185,7 @@ public class WelcomeCardsController(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="userId">The member to draw the card for. The bot is used when omitted or not found.</param>
+    /// <param name="ownerId">The card owner ID.</param>
     [HttpGet("preview/image")]
     [SkipAudit]
     public async Task<IActionResult> PreviewImage(ulong guildId, WelcomeCardTarget target,
@@ -247,6 +253,7 @@ public class WelcomeCardsController(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="target">Greet, Bye, DmGreet or Boost.</param>
     /// <param name="id">The image ID.</param>
+    /// <param name="ownerId">The card owner ID.</param>
     [HttpDelete("images/{id:int}")]
     public async Task<IActionResult> DeleteImage(ulong guildId, WelcomeCardTarget target, int id,
         [FromQuery] int ownerId = 0)

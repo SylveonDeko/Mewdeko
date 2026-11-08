@@ -41,6 +41,7 @@ public class SlashRemindCommands(InteractiveService interactivity) : MewdekoSlas
     /// <param name="time">When the reminder should trigger.</param>
     /// <param name="reminder">The message for the reminder. If empty, prompts the user to input the reminder text.</param>
     /// <param name="channel">The target channel when the target is Channel.</param>
+    /// <param name="repeat">How often the reminder repeats, if at all.</param>
     /// <returns>A task that represents the asynchronous operation of adding a reminder.</returns>
     [SlashCommand("set", "Send a reminder to yourself, this channel, or another channel.")]
     public async Task Remind(
@@ -232,6 +233,7 @@ public class SlashRemindCommands(InteractiveService interactivity) : MewdekoSlas
     /// <param name="sId">The target ID for the reminder, either a user or a channel.</param>
     /// <param name="sPri">Indicates if the reminder is private.</param>
     /// <param name="sTime">The time when the reminder should trigger.</param>
+    /// <param name="sRepeat">The repeat interval of the reminder.</param>
     /// <param name="modal">The modal containing the reminder text.</param>
     /// <returns>A task that represents the asynchronous operation of processing the reminder modal submission.</returns>
     [ModalInteraction("remind:*,*,*,*;", true)]

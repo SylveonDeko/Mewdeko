@@ -111,6 +111,7 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
     /// <param name="services">Service provider, for the currency service.</param>
     /// <param name="collector">Analytics collector.</param>
     /// <param name="logger">Logger instance.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public AchievementService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,

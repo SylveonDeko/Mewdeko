@@ -39,6 +39,7 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     /// <param name="messageCountService">Service for activity detection.</param>
     /// <param name="guildTimezoneService">Service for timezone handling.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public MessageRepeaterService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,

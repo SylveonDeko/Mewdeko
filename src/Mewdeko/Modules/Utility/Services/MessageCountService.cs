@@ -338,11 +338,6 @@ public class MessageCountService : INService, IDisposable
     }
 
     /// <summary>
-    ///     Checks if a message is valid for counting based on guild settings and message properties.
-    /// </summary>
-    /// <param name="message">The Discord message to validate.</param>
-    /// <returns>True if the message should be counted, false otherwise.</returns>
-    /// <summary>
     ///     Whether a guild counts messages.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
@@ -352,6 +347,11 @@ public class MessageCountService : INService, IDisposable
         return countGuilds.Contains(guildId);
     }
 
+    /// <summary>
+    ///     Checks if a message is valid for counting based on guild settings and message properties.
+    /// </summary>
+    /// <param name="message">The Discord message to validate.</param>
+    /// <returns>True if the message should be counted, false otherwise.</returns>
     private bool IsValidMessage(SocketMessage message)
     {
         if (countGuilds.Count == 0 ||

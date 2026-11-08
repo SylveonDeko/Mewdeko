@@ -48,6 +48,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="config">The bot configuration service.</param>
     /// <param name="strings">The localization strings provider.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public CoprMonitoringService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
@@ -942,6 +943,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
     ///     Gets the appropriate color for the build status.
     /// </summary>
     /// <param name="status">The build status.</param>
+    /// <param name="guildId">The guild ID.</param>
     /// <returns>The Discord color.</returns>
     private Color GetColorForStatus(CoprBuildStatus status, ulong guildId)
     {

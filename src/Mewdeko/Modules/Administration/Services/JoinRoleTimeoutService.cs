@@ -72,6 +72,7 @@ public class JoinRoleTimeoutService : INService, IReadyExecutor
     /// <param name="strings">The generated bot strings.</param>
     /// <param name="logger">The logger instance.</param>
     /// <param name="modCases">The service recording moderation cases.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public JoinRoleTimeoutService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         EventHandler eventHandler, GeneratedBotStrings strings, ILogger<JoinRoleTimeoutService> logger,
         ModCaseService modCases, GuildOwnershipService ownership)

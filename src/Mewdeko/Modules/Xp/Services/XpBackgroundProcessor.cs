@@ -68,6 +68,7 @@ public class XpBackgroundProcessor : INService, IDisposable
     /// <param name="client">The Discord sharded client.</param>
     /// <param name="eventHandler">The event handler service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public XpBackgroundProcessor(
         IDataConnectionFactory dbFactory,
         XpCacheManager cacheManager,

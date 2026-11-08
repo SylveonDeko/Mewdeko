@@ -18,6 +18,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     ///     Initializes a new instance of the <see cref="GlobalPermissionService" /> class.
     /// </summary>
     /// <param name="bss">The bot configuration service.</param>
+    /// <param name="identity">The slash command identity service.</param>
     public GlobalPermissionService(BotConfigService bss, SlashCommandIdentityService identity)
     {
         this.bss = bss;

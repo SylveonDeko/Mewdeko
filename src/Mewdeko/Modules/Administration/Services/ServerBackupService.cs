@@ -329,7 +329,7 @@ public class ServerBackupService : INService
             Id = role.Id,
             IsEveryone = role.Id == guild.Id,
             Name = role.Name,
-            Color = role.Color.RawValue,
+            Color = role.Colors.PrimaryColor.RawValue,
             Permissions = role.Permissions.RawValue,
             Hoist = role.IsHoisted,
             Mentionable = role.IsMentionable,

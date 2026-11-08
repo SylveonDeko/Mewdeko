@@ -29,6 +29,7 @@ public class PollTimerService : INService, IReadyExecutor, IDisposable
     /// <param name="client">The Discord client.</param>
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The strings service.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public PollTimerService(IDataConnectionFactory dbFactory, PollService pollService,
         DiscordShardedClient client, ILogger<PollTimerService> logger, GeneratedBotStrings strings, GuildOwnershipService ownership)
     {

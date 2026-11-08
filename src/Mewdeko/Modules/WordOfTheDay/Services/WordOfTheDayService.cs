@@ -47,6 +47,7 @@ public class WordOfTheDayService : INService, IDisposable
     /// <param name="strings">Localized bot strings.</param>
     /// <param name="logger">Logger instance.</param>
     /// <param name="collector">Analytics collector.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public WordOfTheDayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,

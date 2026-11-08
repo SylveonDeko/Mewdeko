@@ -69,10 +69,11 @@ public static class VerificationCaptcha
         for (var i = 0; i < 4; i++)
         {
             linePaint.Color = RandomColor(40, 140);
-            using var path = new SKPath();
+            using var builder = new SKPathBuilder();
             var y = Next(15, Height - 15);
-            path.MoveTo(0, y);
-            path.CubicTo(Width / 3f, y + Next(-30, 31), Width * 2 / 3f, y + Next(-30, 31), Width, y + Next(-20, 21));
+            builder.MoveTo(0, y);
+            builder.CubicTo(Width / 3f, y + Next(-30, 31), Width * 2 / 3f, y + Next(-30, 31), Width, y + Next(-20, 21));
+            using var path = builder.Detach();
             canvas.DrawPath(path, linePaint);
         }
 

@@ -18,6 +18,7 @@ public class HorseRacingService : INService
     /// </summary>
     /// <param name="cs">The currency service.</param>
     /// <param name="boostService">The service applying scheduled earning boosts.</param>
+    /// <param name="dailyChallengeService">The daily challenge service.</param>
     public HorseRacingService(ICurrencyService cs, EconomyBoostService boostService,
         DailyChallengeService dailyChallengeService)
     {

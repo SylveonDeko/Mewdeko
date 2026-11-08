@@ -53,6 +53,7 @@ public class TwitchService : INService, IReadyExecutor
     /// <param name="twitchApiClient">Client for modern Twitch OAuth, EventSub, and Helix chat APIs.</param>
     /// <param name="client">The Discord client instance, used to deliver go-live notifications.</param>
     /// <param name="strings">The localized response-string accessor.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public TwitchService(
         IBotCredentials creds,
         IDataConnectionFactory dbFactory,

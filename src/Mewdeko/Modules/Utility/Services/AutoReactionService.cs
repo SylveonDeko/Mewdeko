@@ -82,7 +82,6 @@ public class AutoReactionService : INService
     /// <summary>
     ///     Initializes a new instance of the <see cref="AutoReactionService" /> class.
     /// </summary>
-    /// <param name="client">The Discord client.</param>
     /// <param name="dbFactory">The database connection factory.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="strings">The generated bot strings.</param>

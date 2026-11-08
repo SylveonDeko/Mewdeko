@@ -53,6 +53,7 @@ public class LiveBoardService : INService, IReadyExecutor, IDisposable
     /// <param name="invites">The invite tracking service.</param>
     /// <param name="strings">Localized strings.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public LiveBoardService(DiscordShardedClient client, IDataConnectionFactory dbFactory, ServerStatsService stats,
         InviteCountService invites, GeneratedBotStrings strings, ILogger<LiveBoardService> logger,
         GuildOwnershipService ownership)

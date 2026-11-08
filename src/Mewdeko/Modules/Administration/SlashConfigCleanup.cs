@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Administration;
 ///     Slash commands for finding and fixing settings that point at deleted channels or roles.
 /// </summary>
 [Group("config-cleanup", "Find settings that point at deleted channels or roles")]
-public class SlashConfigCleanup(GuildSettingsService gss) : MewdekoSlashModuleBase<ConfigCleanupService>
+public class SlashConfigCleanup : MewdekoSlashModuleBase<ConfigCleanupService>
 {
     /// <summary>
     ///     Shows the settings that point at deleted channels or roles without changing anything.

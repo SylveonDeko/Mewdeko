@@ -27,7 +27,6 @@ public partial class SlashUtility
     /// </summary>
     [Group("info", "Ids, role lists, emotes, chat saving and other utilities")]
     public class UtilityInfo(
-        DiscordShardedClient client,
         IBotCredentials creds,
         BotConfigService config,
         InteractiveService interactivity,

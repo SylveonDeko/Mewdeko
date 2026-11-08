@@ -38,6 +38,7 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
     /// <param name="eventHandler">Async event handler because discord stoopid</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public HighlightsService(DiscordShardedClient client, IFusionCache cache, IDataConnectionFactory dbFactory,
         EventHandler eventHandler, ILogger<HighlightsService> logger, IAnalyticsCollector collector,
         GuildOwnershipService ownership)

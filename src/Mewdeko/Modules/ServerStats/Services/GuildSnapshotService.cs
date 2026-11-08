@@ -36,6 +36,7 @@ public class GuildSnapshotService : INService, IReadyExecutor, IDisposable
     /// <param name="dbFactory">The database connection factory.</param>
     /// <param name="settings">The stats settings service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public GuildSnapshotService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         ServerStatsSettingsService settings, ILogger<GuildSnapshotService> logger, GuildOwnershipService ownership)
     {

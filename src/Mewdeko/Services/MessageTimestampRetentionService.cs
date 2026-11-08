@@ -60,6 +60,7 @@ public class MessageTimestampRetentionService : BackgroundService
     /// </summary>
     /// <param name="dbFactory">The database connection factory.</param>
     /// <param name="logger">The logger.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public MessageTimestampRetentionService(
         IDataConnectionFactory dbFactory,
         ILogger<MessageTimestampRetentionService> logger, GuildOwnershipService ownership)

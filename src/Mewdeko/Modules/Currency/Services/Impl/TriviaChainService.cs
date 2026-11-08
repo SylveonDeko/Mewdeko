@@ -12,6 +12,8 @@ namespace Mewdeko.Modules.Currency.Services.Impl;
 ///     Service implementation for managing trivia chain games.
 /// </summary>
 /// <param name="strings">The localized strings service.</param>
+/// <param name="boostService">The service applying scheduled earning boosts.</param>
+/// <param name="dailyChallengeService">The daily challenge service.</param>
 public class TriviaChainService(
     GeneratedBotStrings strings,
     EconomyBoostService boostService,

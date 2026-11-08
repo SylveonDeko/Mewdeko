@@ -70,6 +70,7 @@ public partial class AutoPurgeService : INService, IReadyExecutor
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The generated bot strings.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public AutoPurgeService(DiscordShardedClient client, IDataConnectionFactory dbFactory, EventHandler eventHandler,
         ILogger<AutoPurgeService> logger, GeneratedBotStrings strings, GuildOwnershipService ownership)
     {

@@ -831,6 +831,7 @@ public class UserPunishService : INService, IDisposable
     /// <param name="defaultMessage">The default message to send.</param>
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
+    /// <param name="caseNumber">The moderation case number, if any.</param>
     /// <returns></returns>
     public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser? target,
         string? defaultMessage,
@@ -882,6 +883,7 @@ public class UserPunishService : INService, IDisposable
     /// <param name="defaultMessage">The default message to send.</param>
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
+    /// <param name="caseNumber">The moderation case number, if any.</param>
     /// <returns></returns>
     public async Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(
         DiscordShardedClient DiscordShardedClient,

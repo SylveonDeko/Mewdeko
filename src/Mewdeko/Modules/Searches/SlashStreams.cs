@@ -17,6 +17,7 @@ namespace Mewdeko.Modules.Searches;
 /// </summary>
 /// <param name="dbFactory">The database connection factory.</param>
 /// <param name="interactivity">The interactive service used for pagination.</param>
+/// <param name="httpFactory">The HTTP client factory.</param>
 [Group("stream", "Manage stream notifications")]
 public class SlashStreams(
     IDataConnectionFactory dbFactory,

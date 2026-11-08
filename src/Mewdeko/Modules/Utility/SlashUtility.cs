@@ -30,9 +30,7 @@ public partial class SlashUtility(
     BotConfigService config,
     IDataConnectionFactory dbFactory,
     InteractiveService interactivity,
-    IDataCache cache,
-    DownloadTracker tracker,
-    MediaConversionService mediaConversionService) : MewdekoSlashModuleBase<UtilityService>
+    IDataCache cache) : MewdekoSlashModuleBase<UtilityService>
 {
     private static readonly SemaphoreSlim PingSem = new(1, 1);
 

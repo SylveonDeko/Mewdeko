@@ -2853,7 +2853,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .Replace("%role.mention%", role.Mention, StringComparison.OrdinalIgnoreCase)
             .Replace("%role.name%", role.Name, StringComparison.OrdinalIgnoreCase)
             .Replace("%role.id%", role.Id.ToString(), StringComparison.OrdinalIgnoreCase)
-            .Replace("%role.color%", role.Color.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%role.color%", role.Colors.PrimaryColor.ToString(), StringComparison.OrdinalIgnoreCase)
             .Replace("%role%", role.Mention, StringComparison.OrdinalIgnoreCase);
     }
 

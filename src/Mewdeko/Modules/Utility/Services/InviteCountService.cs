@@ -59,6 +59,7 @@ public class InviteCountService : INService, IReadyExecutor
     /// <param name="collector">The analytics collector.</param>
     /// <param name="strings">Localized strings for log channel embeds.</param>
     /// <param name="modCases">The service recording moderation cases.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public InviteCountService(EventHandler handler, IDataConnectionFactory dbFactory, DiscordShardedClient client,
         ILogger<InviteCountService> logger, IAnalyticsCollector collector, GeneratedBotStrings strings,
         ModCaseService modCases, GuildOwnershipService ownership)

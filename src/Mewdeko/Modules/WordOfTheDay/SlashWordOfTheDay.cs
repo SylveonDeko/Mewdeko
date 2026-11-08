@@ -395,7 +395,7 @@ public class SlashWordOfTheDay : MewdekoSlashModuleBase<WordOfTheDayService>
     [SlashCommand("config", "Shows the word of the day configuration")]
     [RequireContext(ContextType.Guild)]
     [CheckPermissions]
-    public async Task Config()
+    public async Task ShowConfig()
     {
         var config = await Service.GetConfigAsync(ctx.Guild.Id);
         var customCount = (await Service.GetCustomWordsAsync(ctx.Guild.Id)).Count;

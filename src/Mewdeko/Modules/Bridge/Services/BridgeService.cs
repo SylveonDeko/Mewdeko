@@ -66,6 +66,7 @@ public partial class BridgeService : INService, IReadyExecutor, IUnloadableServi
     /// <param name="strings">The localized strings.</param>
     /// <param name="filterService">The filter service, for the guild's filtered words.</param>
     /// <param name="logger">The logger.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public BridgeService(DiscordShardedClient client, IDataCache cache, IDataConnectionFactory dbFactory,
         EventHandler eventHandler, GeneratedBotStrings strings, FilterService filterService,
         ILogger<BridgeService> logger, GuildOwnershipService ownership)

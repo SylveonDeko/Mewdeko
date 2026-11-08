@@ -35,6 +35,7 @@ public class RepCommandRequirementsService : INService, ILateBlocker
     /// <param name="repService">The reputation service.</param>
     /// <param name="logger">The logger instance.</param>
     /// <param name="config">The bot config class</param>
+    /// <param name="identity">The slash command identity service.</param>
     public RepCommandRequirementsService(
         IDataConnectionFactory dbFactory,
         GeneratedBotStrings strings,

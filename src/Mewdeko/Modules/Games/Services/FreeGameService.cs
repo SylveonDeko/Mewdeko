@@ -68,6 +68,7 @@ public partial class FreeGameService : INService, IReadyExecutor
     /// <param name="httpFactory">The HTTP client factory.</param>
     /// <param name="strings">The generated bot strings.</param>
     /// <param name="logger">The logger instance.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public FreeGameService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         IHttpClientFactory httpFactory, GeneratedBotStrings strings, ILogger<FreeGameService> logger,
         GuildOwnershipService ownership)

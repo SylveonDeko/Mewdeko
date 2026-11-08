@@ -16,6 +16,7 @@ public partial class Moderation
     ///     Commands for moderation cases, staff notes and member reports.
     /// </summary>
     /// <param name="interactive">The service used to send paginated lists.</param>
+    /// <param name="punish">The user punishment service.</param>
     [Group]
     public class ModCaseCommands(InteractiveService interactive, UserPunishService punish)
         : MewdekoSubmodule<ModCaseService>

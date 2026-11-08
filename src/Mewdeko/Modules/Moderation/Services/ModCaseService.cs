@@ -748,6 +748,7 @@ public partial class ModCaseService : INService
     /// <param name="action">The action taken.</param>
     /// <param name="reason">The reason, if any.</param>
     /// <param name="duration">How long the action lasts, if it has a duration.</param>
+    /// <param name="caseNumber">The moderation case number, if any.</param>
     /// <returns>Null if no custom DM is set, otherwise whether the member was messaged or the DM is turned off.</returns>
     public async Task<bool?> SendPunishDmAsync(IGuild guild, IUser user, IUser moderator, ModCaseAction action,
         string? reason, TimeSpan? duration = null, int? caseNumber = null)

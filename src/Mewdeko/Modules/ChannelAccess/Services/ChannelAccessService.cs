@@ -33,6 +33,7 @@ public class ChannelAccessService : INService, IReadyExecutor, IDisposable
     /// <param name="dbFactory">The database connection factory.</param>
     /// <param name="strings">The localization service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public ChannelAccessService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,

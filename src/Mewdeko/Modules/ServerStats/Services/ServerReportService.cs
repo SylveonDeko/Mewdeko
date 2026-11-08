@@ -39,6 +39,7 @@ public class ServerReportService : INService, IReadyExecutor, IDisposable
     /// <param name="invites">The invite tracking service.</param>
     /// <param name="strings">Localized strings.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public ServerReportService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         ServerStatsService stats, InviteCountService invites, GeneratedBotStrings strings,
         ILogger<ServerReportService> logger, GuildOwnershipService ownership)

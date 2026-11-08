@@ -51,6 +51,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="logger2">The logger instance for structured logging.</param>
     /// <param name="guildSettings">The guild settings service.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public StreamNotificationService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
@@ -888,6 +889,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// <param name="stream">The stream data.</param>
     /// <param name="followedStream">The followed stream configuration.</param>
     /// <param name="guildId">The guild ID for localization.</param>
+    /// <param name="duration">How long the stream lasted, if it has ended.</param>
     /// <returns>A replacement builder with stream placeholders.</returns>
     private ReplacementBuilder CreateStreamReplacer(StreamData stream, FollowedStream followedStream, ulong guildId,
         TimeSpan? duration = null)

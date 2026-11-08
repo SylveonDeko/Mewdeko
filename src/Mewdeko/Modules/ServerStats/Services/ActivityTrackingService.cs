@@ -47,6 +47,7 @@ public class ActivityTrackingService : INService, IReadyExecutor, IDisposable
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public ActivityTrackingService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         ServerStatsSettingsService settings, EventHandler eventHandler, ILogger<ActivityTrackingService> logger,
         IAnalyticsCollector collector, GuildOwnershipService ownership)

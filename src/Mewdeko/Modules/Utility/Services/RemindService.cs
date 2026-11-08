@@ -65,6 +65,7 @@ public partial class RemindService : INService
     /// <param name="tz">The timezone service for guild timezones.</param>
     /// <param name="strings">The bot strings service for localized messages.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public RemindService(DiscordShardedClient client, IDataConnectionFactory dbFactory, GuildTimezoneService tz,
         GeneratedBotStrings strings, ILogger<RemindService> logger, GuildOwnershipService ownership)
     {

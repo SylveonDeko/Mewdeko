@@ -7,6 +7,8 @@ namespace Mewdeko.Modules.Currency.Services;
 ///     Service that handles the logic for a Blackjack game.
 /// </summary>
 /// <param name="strings">The localization service.</param>
+/// <param name="boostService">The service applying scheduled earning boosts.</param>
+/// <param name="dailyChallengeService">The daily challenge service.</param>
 public class BlackjackService(
     GeneratedBotStrings strings,
     EconomyBoostService boostService,

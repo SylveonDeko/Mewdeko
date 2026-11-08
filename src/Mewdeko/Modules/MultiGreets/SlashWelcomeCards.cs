@@ -11,8 +11,8 @@ namespace Mewdeko.Modules.MultiGreets;
 /// <summary>
 ///     Slash commands for the image card attached to greet and bye messages.
 /// </summary>
-[Group("welcomecard", "Set up the image card attached to greet and bye messages")]
 /// <param name="presets">The shared background presets.</param>
+[Group("welcomecard", "Set up the image card attached to greet and bye messages")]
 public class SlashWelcomeCards(CardPresetService presets) : MewdekoSlashModuleBase<WelcomeCardService>
 {
     /// <summary>

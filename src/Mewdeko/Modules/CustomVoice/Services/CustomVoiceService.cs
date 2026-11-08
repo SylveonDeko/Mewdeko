@@ -82,6 +82,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
     /// <param name="strings">The localized strings service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public CustomVoiceService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
@@ -843,6 +844,7 @@ public class CustomVoiceService : INService, IUnloadableService, IReadyExecutor
     /// </summary>
     /// <param name="guild">The guild.</param>
     /// <param name="user">The user.</param>
+    /// <param name="hubChannelId">The hub channel the user joined, if any.</param>
     /// <returns>The created voice channel if successful, null otherwise.</returns>
     public async Task<IVoiceChannel> CreateVoiceChannelAsync(IGuild guild, IGuildUser user,
         ulong? hubChannelId = null)

@@ -43,6 +43,7 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="modCases">The service recording moderation cases</param>
     /// <param name="logService">The service writing the server logs</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public ChannelCommandService(IDataCache dataCache, EventHandler handler, IDataConnectionFactory dbFactory,
         DiscordShardedClient client, BanPruneService banPrune, ModCaseService modCases, LogCommandService logService,
         GuildOwnershipService ownership)

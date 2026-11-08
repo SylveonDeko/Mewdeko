@@ -45,6 +45,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     /// <param name="cache">The caching service</param>
     /// <exception cref="ArgumentNullException"></exception>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public StatsService(
         DiscordShardedClient client, IBotCredentials creds,
         HttpClient http, IDataCache cache, ILogger<StatsService> logger, GuildOwnershipService ownership)

@@ -127,6 +127,7 @@ public static class Extensions
     /// <param name="containsAnywhere">Boolean value indicating whether the trigger is contained anywhere in the message.</param>
     /// <param name="dbFactory">Optional: The LinqToDB database factory. Default is null.</param>
     /// <param name="triggerId">Optional: The ID of the trigger. Default is 0.</param>
+    /// <param name="anonymous">Whether the response is sent anonymously.</param>
     /// <returns>The resolved response string.</returns>
     private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
         DiscordShardedClient client, string resolvedTrigger, bool containsAnywhere,

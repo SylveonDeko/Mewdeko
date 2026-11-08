@@ -20,6 +20,7 @@ public class CmdCdService : ILateBlocker, INService
     ///     Initializes a new instance of the <see cref="CmdCdService" /> class.
     /// </summary>
     /// <param name="dbFactory">The database connection factory.</param>
+    /// <param name="identity">The slash command identity service.</param>
     public CmdCdService(IDataConnectionFactory dbFactory, SlashCommandIdentityService identity)
     {
         this.dbFactory = dbFactory;

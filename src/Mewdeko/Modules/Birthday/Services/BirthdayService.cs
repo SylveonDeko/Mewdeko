@@ -43,6 +43,7 @@ public class BirthdayService : INService, IDisposable
     /// <param name="logger">Logger instance.</param>
     /// <param name="collector">The analytics collector.</param>
     /// <param name="guildTimezone">Service for reading a server's timezone.</param>
+    /// <param name="ownership">The guild ownership service.</param>
     public BirthdayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
