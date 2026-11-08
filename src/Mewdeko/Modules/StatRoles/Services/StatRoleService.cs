@@ -209,7 +209,10 @@ public class StatRoleService : INService, IReadyExecutor, IDisposable
     private static void Normalize(StatRole role)
     {
         role.IntervalMinutes = Math.Max(MinimumIntervalMinutes, role.IntervalMinutes);
-        role.LookbackDays = Math.Clamp(role.LookbackDays, 0, ServerStatsService.MaxLookbackDays);
+        role.LookbackDays = role.LookbackDays == ServerStatsService.TodayLookback &&
+                            (StatRoleLimit)role.LimitType != StatRoleLimit.DailyStreak
+            ? ServerStatsService.TodayLookback
+            : Math.Clamp(role.LookbackDays, 0, ServerStatsService.MaxLookbackDays);
         role.Minimum = Math.Max(0, role.Minimum);
         role.TopStart = Math.Max(1, role.TopStart);
         role.TopEnd = Math.Max(role.TopStart, role.TopEnd);

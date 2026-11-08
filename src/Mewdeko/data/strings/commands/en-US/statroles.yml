@@ -51,6 +51,24 @@ statroletop:
       name: name
       optional: true
       type: string
+statroledaily:
+  args:
+    - '@role'
+    - '@role VoiceMinutes [name]'
+  desc: 'Gives the role to the most active member today. It moves when someone passes them and resets at midnight UTC.'
+  params:
+    - desc: 'The role to manage.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'What to measure, messages by default.'
+      name: stat
+      optional: true
+      type: StatRoleStat
+    - desc: 'A display name.'
+      name: name
+      optional: true
+      type: string
 statrolepercent:
   args:
     - '@role Messages 10 [lookbackDays] [name]'

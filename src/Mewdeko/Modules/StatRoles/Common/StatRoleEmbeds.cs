@@ -1,4 +1,5 @@
 using DataModel;
+using Mewdeko.Modules.ServerStats.Services;
 using Mewdeko.Modules.StatRoles.Services;
 using Mewdeko.Services.Strings;
 
@@ -18,7 +19,12 @@ public static class StatRoleEmbeds
     {
         var stat = (StatRoleStat)role.StatType;
         var limit = (StatRoleLimit)role.LimitType;
-        var window = role.LookbackDays == 0 ? "all time" : $"last {role.LookbackDays}d";
+        var window = role.LookbackDays switch
+        {
+            0 => "all time",
+            ServerStatsService.TodayLookback => "today",
+            _ => $"last {role.LookbackDays}d"
+        };
         var activity = string.IsNullOrWhiteSpace(role.ActivityName) ? "any game" : role.ActivityName;
         var unit = stat switch
         {

@@ -4588,6 +4588,9 @@ statroleadd:
 statroletop:
   - statroletop
   - srtop
+statroledaily:
+  - statroledaily
+  - srdaily
 statrolepercent:
   - statrolepercent
   - srpercent

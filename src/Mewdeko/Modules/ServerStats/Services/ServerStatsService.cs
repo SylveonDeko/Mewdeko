@@ -19,6 +19,11 @@ public class ServerStatsService : INService
     /// </summary>
     public const int MaxLookbackDays = 90;
 
+    /// <summary>
+    ///     The lookback value for a window that starts at midnight UTC today.
+    /// </summary>
+    public const int TodayLookback = -1;
+
     private readonly ActivityTrackingService activities;
     private readonly IDataConnectionFactory dbFactory;
     private readonly JoinLeaveLoggerService joinLeave;
@@ -58,7 +63,7 @@ public class ServerStatsService : INService
 
     private static DateTime Since(int lookbackDays)
     {
-        return DateTime.UtcNow.AddDays(-lookbackDays);
+        return lookbackDays == TodayLookback ? DateTime.UtcNow.Date : DateTime.UtcNow.AddDays(-lookbackDays);
     }
 
     private (List<ulong> Channels, List<ulong> Users) Exclusions(ulong guildId)
@@ -456,7 +461,7 @@ public class ServerStatsService : INService
 
         if (kind == StatKind.Messages)
         {
-            if (lookbackDays > 0)
+            if (lookbackDays != 0)
             {
                 var ts = Timestamps(db, guildId, lookbackDays);
                 if (channels is { Count: > 0 })
@@ -482,7 +487,7 @@ public class ServerStatsService : INService
                 .ToDictionary(x => x.Key, x => (long)x.Value);
         }
 
-        if (lookbackDays > 0)
+        if (lookbackDays != 0)
         {
             var seg = Segments(db, guildId, lookbackDays);
             if (channels is { Count: > 0 })
@@ -712,7 +717,7 @@ public class ServerStatsService : INService
         int lookbackDays)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
-        if (lookbackDays > 0)
+        if (lookbackDays != 0)
         {
             return (await ActivitySegments(db, guildId, lookbackDays, name)
                     .GroupBy(x => x.UserId)
