@@ -124,10 +124,9 @@ public class MusicController : Controller
                 return Ok(idleStatus);
             }
 
-            // Bot is not in any voice channel
-            return NotFound(new
+            return Ok(new
             {
-                Error = "No active player found", BotInChannel = false
+                CurrentTrack = (object)null, BotInChannel = false, IsInVoiceChannel = false
             });
         }
 
