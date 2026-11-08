@@ -32,7 +32,12 @@ public enum WelcomeCardTarget
     /// <summary>
     ///     The messages sent when a member is given a role.
     /// </summary>
-    RoleGreet = 4
+    RoleGreet = 4,
+
+    /// <summary>
+    ///     The reply sent when someone mentions an away member.
+    /// </summary>
+    Afk = 5
 }
 
 /// <summary>

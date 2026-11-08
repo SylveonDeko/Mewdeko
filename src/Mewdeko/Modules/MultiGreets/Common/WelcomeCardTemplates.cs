@@ -288,6 +288,8 @@ public static class WelcomeCardTemplates
             WelcomeCardTarget.Boost => new WelcomeCardWording("Thanks for boosting, %user.name%",
                 "%server.name% is at level %server.boostlevel%", "%server.name% now has %server.boostcount% boosts",
                 "just boosted %server.name%", "%server.boostcount% boosts"),
+            WelcomeCardTarget.Afk => new WelcomeCardWording("%user.name% is away",
+                "Back soon", "%user.name% is away right now", "is away", "Member #%server.members%"),
             WelcomeCardTarget.RoleGreet => new WelcomeCardWording("Congrats, %user.name%",
                 "Enjoy your new role in %server.name%", "You have a new role in %server.name%",
                 "got a new role in %server.name%", "Member #%server.members%"),

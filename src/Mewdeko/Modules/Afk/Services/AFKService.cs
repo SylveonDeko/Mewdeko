@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Threading;
 using DataModel;
 using Discord.Net;
@@ -6,6 +7,7 @@ using Humanizer;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.MultiGreets.Services;
 using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
@@ -34,6 +36,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
     private readonly SemaphoreSlim messageUpdateSemaphore = new(5, 5); // Rate limit protection
     private readonly ConcurrentDictionary<ulong, DateTime> recentlyProcessedMessages = new();
     private readonly GeneratedBotStrings strings;
+    private readonly WelcomeCardService welcomeCards;
     private bool isDisposed;
     private bool isInitialized;
 
@@ -58,8 +61,9 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         EventHandler eventHandler,
         BotConfigService config,
         GeneratedBotStrings strings, ILogger<AfkService> logger, IAnalyticsCollector collector,
-        GuildOwnershipService ownership)
+        GuildOwnershipService ownership, WelcomeCardService welcomeCards)
     {
+        this.welcomeCards = welcomeCards;
         this.ownership = ownership;
         this.collector = collector;
         this.cache = cache;
@@ -169,6 +173,19 @@ public class AfkService : INService, IReadyExecutor, IDisposable
     {
         var afk = await GetAfk(guildId, userId);
         return afk is not null;
+    }
+
+    /// <summary>
+    ///     Sends an AFK reply with the community's AFK card for the away member, if it has one.
+    /// </summary>
+    private async Task<IUserMessage> SendAfkAsync(IMessageChannel channel, ulong guildId, IGuildUser away,
+        string? text, Discord.Embed[]? embeds, MessageComponent? components)
+    {
+        var (card, withCard) = await welcomeCards.TryAttachAsync(guildId, WelcomeCardTarget.Afk, 0, away, embeds);
+        return card is null
+            ? await channel.SendMessageAsync(text, embeds: withCard, components: components)
+            : await channel.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, text,
+                embeds: withCard, components: components);
     }
 
     /// <summary>
@@ -718,7 +735,8 @@ public class AfkService : INService, IReadyExecutor, IDisposable
                             ? new ComponentBuilder().WithButton(style: ButtonStyle.Link, url: config.Data.SupportServer,
                                 label: "Invite Me!", emote: config.Data.SuccessEmote.ToIEmote()).Build()
                             : null;
-                        var sentMsg = await msg.Channel.SendMessageAsync(embed: embed, components: components);
+                        var sentMsg = await SendAfkAsync(msg.Channel, user.GuildId, mentionedGuildUser, null,
+                            [embed], components);
                         if (afkDeleteTime > 0) sentMsg.DeleteAfter(afkDeleteTime);
                     }
                     else
@@ -742,13 +760,14 @@ public class AfkService : INService, IReadyExecutor, IDisposable
                         if (SmartEmbed.TryParse(parsedMessage, user.GuildId, out var embed, out var plainText,
                                 out var components))
                         {
-                            var sentMsg = await msg.Channel.SendMessageAsync(plainText, embeds: embed,
-                                components: components?.Build());
+                            var sentMsg = await SendAfkAsync(msg.Channel, user.GuildId, mentionedGuildUser, plainText,
+                                embed, components?.Build());
                             if (afkDeleteTime > 0) sentMsg.DeleteAfter(afkDeleteTime);
                         }
                         else
                         {
-                            var sentMsg = await msg.Channel.SendMessageAsync(parsedMessage.SanitizeMentions(true));
+                            var sentMsg = await SendAfkAsync(msg.Channel, user.GuildId, mentionedGuildUser,
+                                parsedMessage.SanitizeMentions(true), null, null);
                             if (afkDeleteTime > 0) sentMsg.DeleteAfter(afkDeleteTime);
                         }
                     }
