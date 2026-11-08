@@ -44,6 +44,23 @@ public sealed class DashboardAccessEnforcementFilter(
             return;
         }
 
+        var descriptor = (ControllerActionDescriptor)context.ActionDescriptor;
+        if (descriptor.ControllerName == "Me")
+        {
+            if (context.RouteData.Values.TryGetValue("userId", out var routeUser) &&
+                routeUser?.ToString() == userId.ToString())
+            {
+                await next();
+                return;
+            }
+
+            context.Result = new ObjectResult("You can only see your own data.")
+            {
+                StatusCode = StatusCodes.Status403Forbidden
+            };
+            return;
+        }
+
         var guild = client.GetGuild(guildId);
         var guildUser = guild?.GetUser(userId);
         if (guild == null || guildUser == null)
@@ -61,7 +78,6 @@ public sealed class DashboardAccessEnforcementFilter(
             return;
         }
 
-        var descriptor = (ControllerActionDescriptor)context.ActionDescriptor;
         var requiredLevel = HttpMethods.IsGet(http.Request.Method) || HttpMethods.IsHead(http.Request.Method)
             ? DashboardAccessLevel.View
             : DashboardAccessLevel.Manage;

@@ -36,7 +36,7 @@ public class SuggestionsController(
 
 
         if (suggestions.Count == 0)
-            return NotFound("No suggestions for this guild.");
+            return Ok(Array.Empty<object>());
 
         // Fetch user info from guild cache only (no expensive REST calls)
         var guild = client.GetGuild(guildId);

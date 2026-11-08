@@ -282,12 +282,7 @@ public class PatreonController : ControllerBase
         {
             var config = await patreonService.GetPatreonOAuthConfig(guildId);
             if (string.IsNullOrEmpty(config.accessToken))
-            {
-                return BadRequest(new
-                {
-                    error = "Patreon not configured for this guild"
-                });
-            }
+                return Ok(Array.Empty<object>());
 
             var supporters = await patreonService.GetActiveSupportersAsync(guildId);
             foreach (var supporter in supporters)

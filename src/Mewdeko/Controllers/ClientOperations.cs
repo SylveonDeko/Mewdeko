@@ -37,7 +37,7 @@ public class ClientOperations(DiscordShardedClient client, DashboardAccessServic
 
         return Ok(guild.Roles.Select(x => new NeededRoleInfo
         {
-            Id = x.Id, Name = x.Name
+            Id = x.Id, Name = x.Name, Color = x.Colors.PrimaryColor.RawValue, IconUrl = x.GetIconUrl(), Position = x.Position
         }));
     }
 

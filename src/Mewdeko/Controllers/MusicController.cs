@@ -126,7 +126,11 @@ public class MusicController : Controller
 
             return Ok(new
             {
-                CurrentTrack = (object)null, BotInChannel = false, IsInVoiceChannel = false
+                CurrentTrack = (object)null,
+                Queue = Array.Empty<object>(),
+                State = PlayerState.NotPlaying,
+                BotInChannel = false,
+                IsInVoiceChannel = false
             });
         }
 
