@@ -65,8 +65,18 @@ public enum WelcomeCardError
 /// </summary>
 /// <param name="Id">Its short name.</param>
 /// <param name="Name">What it is called.</param>
-/// <param name="Build">Makes a fresh copy of the layout.</param>
-public sealed record WelcomeCardStarter(string Id, string Name, Func<CardTemplate> Build);
+/// <param name="Build">Makes a fresh copy of the layout worded for a kind of message.</param>
+public sealed record WelcomeCardStarter(string Id, string Name, Func<WelcomeCardTarget, CardTemplate> Build);
+
+/// <summary>
+///     The text a starter layout uses for one kind of message.
+/// </summary>
+/// <param name="Title">The main line.</param>
+/// <param name="Subtitle">The line under it.</param>
+/// <param name="Detail">The line under it on the centered layout.</param>
+/// <param name="Action">What the member did, after their name.</param>
+/// <param name="Count">The short count line.</param>
+public sealed record WelcomeCardWording(string Title, string Subtitle, string Detail, string Action, string Count);
 
 /// <summary>
 ///     Basic changes to a welcome card that the text and slash commands make. Anything left null stays as it is.
@@ -216,7 +226,75 @@ public static class WelcomeCardTemplates
     /// <returns>A fresh copy.</returns>
     public static CardTemplate Classic()
     {
-        return FromLegacy(new WelcomeCardSetting(), null);
+        return Classic(WelcomeCardTarget.Greet);
+    }
+
+    /// <summary>
+    ///     The classic layout worded for a kind of message.
+    /// </summary>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <returns>A fresh copy.</returns>
+    public static CardTemplate Classic(WelcomeCardTarget target)
+    {
+        var words = Wording(target);
+        return FromLegacy(new WelcomeCardSetting
+        {
+            Title = words.Title, Subtitle = words.Detail
+        }, null);
+    }
+
+    /// <summary>
+    ///     Swaps text left at the greet wording for the wording of another kind of message.
+    /// </summary>
+    /// <param name="template">The design, changed in place.</param>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <returns>The same design.</returns>
+    public static CardTemplate Reword(CardTemplate template, WelcomeCardTarget target)
+    {
+        if (target is WelcomeCardTarget.Greet or WelcomeCardTarget.DmGreet)
+            return template;
+
+        var from = Wording(WelcomeCardTarget.Greet);
+        var to = Wording(target);
+        var swaps = new Dictionary<string, string>
+        {
+            [from.Title] = to.Title,
+            [from.Subtitle] = to.Subtitle,
+            [from.Detail] = to.Detail,
+            [from.Action] = to.Action,
+            [from.Count] = to.Count
+        };
+        foreach (var element in template.Elements)
+        {
+            if (swaps.TryGetValue(element.Text, out var text))
+                element.Text = text;
+        }
+
+        return template;
+    }
+
+    /// <summary>
+    ///     The text the starter layouts use for a kind of message.
+    /// </summary>
+    /// <param name="target">Which kind of message the card is for.</param>
+    /// <returns>The text.</returns>
+    public static WelcomeCardWording Wording(WelcomeCardTarget target)
+    {
+        return target switch
+        {
+            WelcomeCardTarget.Bye => new WelcomeCardWording("Goodbye, %user.name%",
+                "Thanks for being part of %server.name%", "%server.name% now has %server.members% members",
+                "just left %server.name%", "%server.members% members"),
+            WelcomeCardTarget.Boost => new WelcomeCardWording("Thanks for boosting, %user.name%",
+                "%server.name% is at level %server.boostlevel%", "%server.name% now has %server.boostcount% boosts",
+                "just boosted %server.name%", "%server.boostcount% boosts"),
+            WelcomeCardTarget.RoleGreet => new WelcomeCardWording("Congrats, %user.name%",
+                "Enjoy your new role in %server.name%", "You have a new role in %server.name%",
+                "got a new role in %server.name%", "Member #%server.members%"),
+            _ => new WelcomeCardWording("Welcome, %user.name%", "Glad to have you in %server.name%",
+                "You are member #%server.members% of %server.name%", "just joined %server.name%",
+                "Member #%server.members%")
+        };
     }
 
     /// <summary>
@@ -429,8 +507,9 @@ public static class WelcomeCardTemplates
             : $"#{color.Red:x2}{color.Green:x2}{color.Blue:x2}{color.Alpha:x2}";
     }
 
-    private static CardTemplate Centered()
+    private static CardTemplate Centered(WelcomeCardTarget target)
     {
+        var words = Wording(target);
         return new CardTemplate
         {
             Width = 1000,
@@ -449,20 +528,21 @@ public static class WelcomeCardTemplates
                 new CardElement
                 {
                     Id = "title", Type = CardElementType.Text, Name = "Title", X = 60, Y = 206, W = 880, H = 66,
-                    FontSize = 52, Shrink = true, Align = "center", Text = "Welcome, %user.name%"
+                    FontSize = 52, Shrink = true, Align = "center", Text = words.Title
                 },
                 new CardElement
                 {
                     Id = "subtitle", Type = CardElementType.Text, Name = "Subtitle", X = 60, Y = 276, W = 880,
                     H = 44, FontSize = 28, Bold = false, Align = "center", Color = "muted",
-                    Text = "You are member #%server.members% of %server.name%"
+                    Text = words.Detail
                 }
             ]
         };
     }
 
-    private static CardTemplate Banner()
+    private static CardTemplate Banner(WelcomeCardTarget target)
     {
+        var words = Wording(target);
         return new CardTemplate
         {
             Width = 1000,
@@ -486,7 +566,7 @@ public static class WelcomeCardTemplates
                 new CardElement
                 {
                     Id = "members", Type = CardElementType.Text, Name = "Member count", X = 640, Y = 66, W = 304,
-                    H = 44, FontSize = 26, Align = "right", Color = "primary", Text = "Member #%server.members%"
+                    H = 44, FontSize = 26, Align = "right", Color = "primary", Text = words.Count
                 },
                 new CardElement
                 {
@@ -501,19 +581,20 @@ public static class WelcomeCardTemplates
                 new CardElement
                 {
                     Id = "title", Type = CardElementType.Text, Name = "Title", X = 212, Y = 206, W = 732, H = 66,
-                    FontSize = 52, Shrink = true, Text = "Welcome, %user.name%"
+                    FontSize = 52, Shrink = true, Text = words.Title
                 },
                 new CardElement
                 {
                     Id = "subtitle", Type = CardElementType.Text, Name = "Subtitle", X = 212, Y = 276, W = 732,
-                    H = 44, FontSize = 28, Bold = false, Color = "muted", Text = "Glad to have you in %server.name%"
+                    H = 44, FontSize = 28, Bold = false, Color = "muted", Text = words.Subtitle
                 }
             ]
         };
     }
 
-    private static CardTemplate Minimal()
+    private static CardTemplate Minimal(WelcomeCardTarget target)
     {
+        var words = Wording(target);
         return new CardTemplate
         {
             Width = 1000,
@@ -543,12 +624,12 @@ public static class WelcomeCardTemplates
                 new CardElement
                 {
                     Id = "joined", Type = CardElementType.Text, Name = "Joined", X = 270, Y = 180, W = 670, H = 44,
-                    FontSize = 30, Bold = false, Color = "muted", Text = "just joined %server.name%"
+                    FontSize = 30, Bold = false, Color = "muted", Text = words.Action
                 },
                 new CardElement
                 {
                     Id = "members", Type = CardElementType.MemberCount, X = 270, Y = 236, W = 670, H = 40,
-                    FontSize = 24, Color = "primary", Text = "Member #%server.members%"
+                    FontSize = 24, Color = "primary", Text = words.Count
                 }
             ]
         };

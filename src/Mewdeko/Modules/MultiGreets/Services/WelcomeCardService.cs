@@ -124,22 +124,22 @@ public class WelcomeCardService : INService
     {
         var row = await GetCardAsync(guildId, target, ownerId);
         if (!string.IsNullOrWhiteSpace(row.Template))
-            return WelcomeCardTemplates.Parse(row.Template);
+            return WelcomeCardTemplates.Reword(WelcomeCardTemplates.Parse(row.Template), target);
         if (row.Id == 0)
-            return WelcomeCardTemplates.Classic();
+            return WelcomeCardTemplates.Classic(target);
 
         await saveLock.WaitAsync();
         try
         {
             row = await GetCardAsync(guildId, target, ownerId);
             if (!string.IsNullOrWhiteSpace(row.Template))
-                return WelcomeCardTemplates.Parse(row.Template);
+                return WelcomeCardTemplates.Reword(WelcomeCardTemplates.Parse(row.Template), target);
 
             await using var db = await dbFactory.CreateConnectionAsync();
             var legacy = await db.WelcomeCardSettings.FirstOrDefaultAsync(x =>
                 x.GuildId == guildId && x.Target == target);
             if (legacy is null)
-                return WelcomeCardTemplates.Classic();
+                return WelcomeCardTemplates.Classic(target);
 
             int? upload = null;
             if (legacy.BackgroundData is { Length: > 0 } legacyImage && Normalize(legacyImage) is { } image)
@@ -150,7 +150,7 @@ public class WelcomeCardService : INService
                 });
             }
 
-            var template = WelcomeCardTemplates.FromLegacy(legacy, upload);
+            var template = WelcomeCardTemplates.Reword(WelcomeCardTemplates.FromLegacy(legacy, upload), target);
             var copy = Clone(row);
             copy.Template = template.Serialize();
             await db.UpdateAsync(copy);
@@ -193,7 +193,7 @@ public class WelcomeCardService : INService
                 await db.UpdateAsync(copy);
 
             settings[(guildId, target, ownerId)] = copy;
-            return (copy.Placement, owned ?? current ?? WelcomeCardTemplates.Classic());
+            return (copy.Placement, owned ?? current ?? WelcomeCardTemplates.Classic(target));
         }
         finally
         {
@@ -291,7 +291,7 @@ public class WelcomeCardService : INService
             return WelcomeCardError.NoMessage;
 
         foreach (var owner in owners)
-            await SaveAsync(guildId, target, owner, null, starter.Build());
+            await SaveAsync(guildId, target, owner, null, starter.Build(target));
         return WelcomeCardError.None;
     }
 
@@ -311,7 +311,7 @@ public class WelcomeCardService : INService
         if (starter is null)
             return WelcomeCardError.UnknownStarter;
 
-        await SaveAsync(guildId, target, ownerId, null, starter.Build());
+        await SaveAsync(guildId, target, ownerId, null, starter.Build(target));
         return WelcomeCardError.None;
     }
 

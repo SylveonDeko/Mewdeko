@@ -1,3 +1,4 @@
+using DataModel;
 using Mewdeko.Common.Cards;
 using Mewdeko.Common.Palette;
 using Mewdeko.Modules.Achievements.Common;
@@ -246,11 +247,30 @@ public class AchievementCardTemplateTests
             Assert.That(WelcomeCardTemplates.Starters.Select(s => s.Id), Is.Unique);
             Assert.That(WelcomeCardTemplates.Starters.Any(s => s.Id == WelcomeCardTemplates.ClassicId));
             foreach (var starter in WelcomeCardTemplates.Starters)
+            foreach (var target in Enum.GetValues<WelcomeCardTarget>())
             {
-                var built = starter.Build();
+                var built = starter.Build(target);
                 Assert.That(WelcomeCardTemplates.Sanitize(built.Clone()).Serialize(), Is.EqualTo(built.Serialize()),
-                    starter.Id);
+                    $"{starter.Id} {target}");
             }
+        });
+    }
+
+    /// <summary>
+    ///     Cards for other messages start with their own text, and saved cards left at the greet text pick it up.
+    /// </summary>
+    [Test]
+    public void CardsAreWordedPerMessage()
+    {
+        var boost = WelcomeCardTemplates.Classic(WelcomeCardTarget.Boost);
+        var reworded = WelcomeCardTemplates.Reword(WelcomeCardTemplates.Classic(), WelcomeCardTarget.Bye);
+        Assert.Multiple(() =>
+        {
+            Assert.That(boost.Elements.Single(e => e.Id == "title").Text,
+                Is.EqualTo(WelcomeCardTemplates.Wording(WelcomeCardTarget.Boost).Title));
+            Assert.That(reworded.Elements.Single(e => e.Id == "title").Text, Is.EqualTo("Goodbye, %user.name%"));
+            Assert.That(WelcomeCardTemplates.Classic().Elements.Single(e => e.Id == "title").Text,
+                Is.EqualTo("Welcome, %user.name%"));
         });
     }
 }
