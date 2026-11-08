@@ -48,7 +48,8 @@ public class MeController(
     EventHandler eventHandler,
     CardDesignService cardDesigns,
     ICurrencyService currencyService,
-    IDashboardAuditContext auditContext) : Controller
+    IDashboardAuditContext auditContext,
+    AfkInboxService afkInbox) : Controller
 {
     /// <summary>
     ///     Gets the card designs a user can use in one guild, with equipped flags and preview data
@@ -526,6 +527,7 @@ public class MeController(
                 profilePrivacy = 0, // Public
                 birthdayDisplayMode = 0, // Default
                 greetDmsOptOut = false,
+                afkMessagesOptOut = false,
                 statsOptOut = false,
                 birthday = (DateTime?)null,
                 birthdayTimezone = "UTC",
@@ -544,6 +546,7 @@ public class MeController(
             profilePrivacy = user.ProfilePrivacy,
             birthdayDisplayMode = user.BirthdayDisplayMode,
             greetDmsOptOut = user.GreetDmsOptOut,
+            afkMessagesOptOut = user.AfkMessagesOptOut,
             statsOptOut = user.StatsOptOut,
             birthday = user.Birthday,
             birthdayTimezone = user.BirthdayTimezone ?? "UTC",
@@ -595,6 +598,9 @@ public class MeController(
 
         if (request.GreetDmsOptOut.HasValue)
             dbUser.GreetDmsOptOut = request.GreetDmsOptOut.Value;
+
+        if (request.AfkMessagesOptOut.HasValue)
+            dbUser.AfkMessagesOptOut = request.AfkMessagesOptOut.Value;
 
         if (request.StatsOptOut.HasValue)
             dbUser.StatsOptOut = request.StatsOptOut.Value;
@@ -943,6 +949,25 @@ public class MeController(
         return Ok(new
         {
             greetDmsOptOut = newStatus
+        });
+    }
+
+    /// <summary>
+    ///     Turns messages left while AFK on or off for the user
+    /// </summary>
+    /// <param name="guildId">The guild ID (for route consistency)</param>
+    /// <param name="userId">The user ID</param>
+    /// <returns>New opt-out status</returns>
+    [HttpPost("profile/toggle-afk-messages")]
+    public async Task<IActionResult> ToggleAfkMessages(ulong guildId, ulong userId)
+    {
+        var user = client.GetUser(userId);
+        if (user == null)
+            return NotFound("User not found");
+
+        return Ok(new
+        {
+            afkMessagesOptOut = await afkInbox.SetOptOutAsync(user)
         });
     }
 

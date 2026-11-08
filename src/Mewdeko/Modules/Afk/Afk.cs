@@ -12,7 +12,10 @@ namespace Mewdeko.Modules.Afk;
 ///     Module for managing AFK.
 /// </summary>
 /// <param name="serv">The interactivity service for doing embed pagination.</param>
-public class Afk(InteractiveService serv) : MewdekoModuleBase<AfkService>
+/// <param name="inbox">The service holding messages left for AFK members.</param>
+/// <param name="guildSettings">The guild settings service.</param>
+public class Afk(InteractiveService serv, AfkInboxService inbox, GuildSettingsService guildSettings)
+    : MewdekoModuleBase<AfkService>
 {
     /// <summary>
     ///     Enumerates different types of AFK (Away From Keyboard) settings.
@@ -606,5 +609,192 @@ public class Afk(InteractiveService serv) : MewdekoModuleBase<AfkService>
                 await ReplyErrorAsync(Strings.AfkRmFailHierarchy(ctx.Guild.Id)).ConfigureAwait(false);
                 break;
         }
+    }
+
+    /// <summary>
+    ///     Turns messages left for you while AFK on or off.
+    /// </summary>
+    /// <param name="enabled">Whether members can leave you messages. Leave empty to switch.</param>
+    /// <example>.afkmessages</example>
+    /// <example>.afkmessages false</example>
+    [Cmd]
+    [Aliases]
+    public async Task AfkMessages(bool? enabled = null)
+    {
+        var optedOut = await inbox.SetOptOutAsync(ctx.User, enabled.HasValue ? !enabled.Value : null);
+        var guildId = ctx.Guild?.Id ?? 0;
+        await ReplyConfirmAsync(optedOut ? Strings.AfkMessagesOff(guildId) : Strings.AfkMessagesOn(guildId));
+    }
+
+    /// <summary>
+    ///     Sends you the messages left for you while you were AFK in a DM.
+    /// </summary>
+    /// <example>.afkinbox</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task AfkInbox()
+    {
+        var guildId = ctx.Guild.Id;
+        if (await inbox.CountAsync(guildId, ctx.User.Id) == 0)
+        {
+            await ReplyErrorAsync(Strings.AfkInboxEmpty(guildId));
+            return;
+        }
+
+        IDMChannel dm;
+        try
+        {
+            dm = await ctx.User.CreateDMChannelAsync();
+        }
+        catch
+        {
+            await ReplyErrorAsync(Strings.AfkInboxDmFailed(guildId));
+            return;
+        }
+
+        var messages = await inbox.TakeAsync(guildId, ctx.User.Id);
+        var prefix = await guildSettings.GetPrefix(ctx.Guild);
+        var pages = new List<string>();
+        var page = new System.Text.StringBuilder();
+        foreach (var message in messages)
+        {
+            var sender = await ctx.Guild.GetUserAsync(message.SenderId);
+            var entry =
+                $"**{sender?.ToString() ?? message.SenderId.ToString()}** {TimestampTag.FromDateTime(DateTime.SpecifyKind(message.DateAdded, DateTimeKind.Utc), TimestampTagStyles.Relative)}\n{message.Content}\n\n";
+            if (page.Length + entry.Length > 4000)
+            {
+                pages.Add(page.ToString());
+                page.Clear();
+            }
+
+            page.Append(entry);
+        }
+
+        pages.Add(page.ToString());
+        try
+        {
+            for (var i = 0; i < pages.Count; i++)
+            {
+                var embed = new EmbedBuilder().WithOkColor(guildId).WithDescription(pages[i]);
+                if (i == 0) embed.WithTitle($"{Strings.AfkInboxTitle(guildId)}: {ctx.Guild.Name}");
+                if (i == pages.Count - 1) embed.WithFooter(Strings.AfkInboxFooterText(guildId, prefix));
+                await dm.SendMessageAsync(embed: embed.Build());
+            }
+
+            await ReplyConfirmAsync(Strings.AfkInboxDmSent(guildId));
+        }
+        catch
+        {
+            await ReplyErrorAsync(Strings.AfkInboxDmFailed(guildId));
+        }
+    }
+
+    /// <summary>
+    ///     Leaves a message for someone who is AFK.
+    /// </summary>
+    /// <param name="user">The AFK member.</param>
+    /// <param name="message">The message.</param>
+    /// <example>.afkmsg @user Call me when you're back</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task AfkMsg(IGuildUser user, [Remainder] string message)
+    {
+        var guildId = ctx.Guild.Id;
+        var name = user.ToString();
+        try
+        {
+            await ctx.Message.DeleteAsync();
+        }
+        catch
+        {
+            // ignored
+        }
+
+        string reply;
+        var left = false;
+        if (user.Id == ctx.User.Id) reply = Strings.AfkMessageSelf(guildId);
+        else if (!await inbox.IsEnabledAsync(guildId)) reply = Strings.AfkMessageDisabled(guildId);
+        else if (!await Service.IsAfk(guildId, user.Id)) reply = Strings.AfkMessageNotAfk(guildId, name);
+        else
+        {
+            var result = await inbox.LeaveAsync(guildId, user.Id, ctx.User.Id, message);
+            left = result == AfkLeaveResult.Left;
+            reply = result switch
+            {
+                AfkLeaveResult.Disabled => Strings.AfkMessageDisabled(guildId),
+                AfkLeaveResult.OptedOut => Strings.AfkMessageOptedOut(guildId, name),
+                AfkLeaveResult.Full => Strings.AfkMessageFull(guildId, name),
+                AfkLeaveResult.TooMany => Strings.AfkMessageTooMany(guildId, name),
+                _ => Strings.AfkMessageLeft(guildId, name)
+            };
+        }
+
+        var sent = left ? await ReplyConfirmAsync(reply) : await ReplyErrorAsync(reply);
+        sent.DeleteAfter(10);
+    }
+
+    /// <summary>
+    ///     Stops someone from leaving you AFK messages.
+    /// </summary>
+    /// <param name="user">Who to block.</param>
+    /// <example>.afkblock @user</example>
+    [Cmd]
+    [Aliases]
+    public async Task AfkBlock(IUser user)
+    {
+        await inbox.BlockAsync(ctx.User.Id, user.Id);
+        await ReplyConfirmAsync(Strings.AfkBlocked(ctx.Guild?.Id ?? 0, user.ToString()));
+    }
+
+    /// <summary>
+    ///     Lets someone leave you AFK messages again.
+    /// </summary>
+    /// <param name="user">Who to unblock.</param>
+    /// <example>.afkunblock @user</example>
+    [Cmd]
+    [Aliases]
+    public async Task AfkUnblock(IUser user)
+    {
+        var guildId = ctx.Guild?.Id ?? 0;
+        if (await inbox.UnblockAsync(ctx.User.Id, user.Id))
+            await ReplyConfirmAsync(Strings.AfkUnblocked(guildId, user.ToString()));
+        else
+            await ReplyErrorAsync(Strings.AfkNotBlocked(guildId, user.ToString()));
+    }
+
+    /// <summary>
+    ///     Turns leaving messages for AFK members on or off for the server.
+    /// </summary>
+    /// <param name="enabled">Whether members can leave messages. Leave empty to switch.</param>
+    /// <example>.afkallowmessages</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task AfkAllowMessages(bool? enabled = null)
+    {
+        var next = enabled ?? !await inbox.IsEnabledAsync(ctx.Guild.Id);
+        await inbox.SetEnabledAsync(ctx.Guild.Id, next);
+        await ReplyConfirmAsync(next
+            ? Strings.AfkMessagesServerOn(ctx.Guild.Id)
+            : Strings.AfkMessagesServerOff(ctx.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Turns the notify button on AFK replies on or off.
+    /// </summary>
+    /// <param name="enabled">Whether to show the button. Leave empty to switch.</param>
+    /// <example>.afknotifybutton</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task AfkNotifyButton(bool? enabled = null)
+    {
+        var next = enabled ?? !await Service.GetAfkNotifyButton(ctx.Guild.Id);
+        await Service.AfkNotifyButtonSet(ctx.Guild, next);
+        await ReplyConfirmAsync(next ? Strings.AfkNotifyOn(ctx.Guild.Id) : Strings.AfkNotifyOff(ctx.Guild.Id));
     }
 }

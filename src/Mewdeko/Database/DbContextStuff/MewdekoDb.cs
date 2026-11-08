@@ -2729,6 +2729,16 @@ public class MewdekoDb : DataConnection
     public ITable<AchievementUserSetting> AchievementUserSettings => this.GetTable<AchievementUserSetting>();
 
     /// <summary>
+    ///     Gets the AFK inbox table: messages left for AFK members until they read them.
+    /// </summary>
+    public ITable<AfkInboxMessage> AfkInbox => this.GetTable<AfkInboxMessage>();
+
+    /// <summary>
+    ///     Gets the AFK inbox blocks table: who each member stopped from leaving them AFK messages.
+    /// </summary>
+    public ITable<AfkInboxBlock> AfkInboxBlocks => this.GetTable<AfkInboxBlock>();
+
+    /// <summary>
     ///     Gets the achievement almost there table: members already told they are close to an achievement.
     /// </summary>
     public ITable<AchievementAlmostThere> AchievementAlmostThere => this.GetTable<AchievementAlmostThere>();

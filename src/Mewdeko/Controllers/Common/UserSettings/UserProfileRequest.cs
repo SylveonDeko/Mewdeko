@@ -31,6 +31,11 @@ public class UserProfileRequest
     public bool? GreetDmsOptOut { get; set; }
 
     /// <summary>
+    ///     Whether to stop members leaving messages while AFK
+    /// </summary>
+    public bool? AfkMessagesOptOut { get; set; }
+
+    /// <summary>
     ///     Whether to opt out of stats collection
     /// </summary>
     public bool? StatsOptOut { get; set; }

@@ -103,6 +103,8 @@ namespace DataModel
 		[Column("AfkDisabledChannels"                                                                                                 )] public string?   AfkDisabledChannels                { get; set; } // text
 		[Column("AfkDel"                                                                                                              )] public string?   AfkDel                             { get; set; } // text
 		[Column("AfkTimeout"                                                                                                          )] public int       AfkTimeout                         { get; set; } // integer
+		[Column("AfkNotifyButton"                                                                                                     )] public bool      AfkNotifyButton                    { get; set; } // boolean
+		[Column("AfkMessages"                                                                                                         )] public bool      AfkMessages                        { get; set; } // boolean
         [Column("PreviewLinks"                                                                                                        )] public int       PreviewLinks                       { get; set; } // integer
 		[Column("fwarn"                                                                                                               )] public int       Fwarn                              { get; set; } // integer
 		[Column("invwarn"                                                                                                             )] public int       Invwarn                            { get; set; } // integer

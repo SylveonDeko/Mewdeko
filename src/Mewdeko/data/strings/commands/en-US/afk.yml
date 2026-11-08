@@ -7,6 +7,75 @@ afk:
       name: message
       optional: true
       type: string
+afkallowmessages:
+  args:
+    - ''
+    - 'true'
+    - 'false'
+  desc: 'Lets members leave messages for AFK members, read when they come back.'
+  params:
+    - desc: 'Whether members can leave messages. Leave empty to switch.'
+      name: enabled
+      optional: true
+      type: bool?
+afkblock:
+  args:
+    - '@user'
+  desc: 'Stops someone from leaving you AFK messages.'
+  params:
+    - desc: 'Who to block.'
+      name: user
+      optional: false
+      type: IUser
+afkinbox:
+  args:
+    - ''
+  desc: 'Sends you the messages left for you while you were AFK in a DM.'
+  params: [ ]
+afkmessages:
+  args:
+    - ''
+    - 'false'
+    - 'true'
+  desc: 'Turns messages left for you while AFK on or off.'
+  params:
+    - desc: 'Whether members can leave you messages. Leave empty to switch.'
+      name: enabled
+      optional: true
+      type: bool?
+afkmsg:
+  args:
+    - '@user Call me when you''re back'
+  desc: 'Leaves a message for someone who is AFK.'
+  params:
+    - desc: 'The AFK member.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The message.'
+      name: message
+      optional: false
+      type: string
+afknotifybutton:
+  args:
+    - ''
+    - 'true'
+    - 'false'
+  desc: 'Adds a button to AFK replies to get a DM when the person is back.'
+  params:
+    - desc: 'Whether to show the button. Leave empty to switch.'
+      name: enabled
+      optional: true
+      type: bool?
+afkunblock:
+  args:
+    - '@user'
+  desc: 'Lets someone leave you AFK messages again.'
+  params:
+    - desc: 'Who to unblock.'
+      name: user
+      optional: false
+      type: IUser
 afkdel:
   args:
     - ''

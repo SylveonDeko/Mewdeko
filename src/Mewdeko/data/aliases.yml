@@ -123,6 +123,10 @@ addxp:
   - addxp
 adsarm:
   - adsarm
+afkallowmessages:
+  - afkallowmessages
+afkblock:
+  - afkblock
 afkdel:
   - afkdel
   - afkdelete
@@ -130,9 +134,18 @@ afkdisable:
   - afkdisable
 afkdisabledlist:
   - afkdisabledlist
+afkinbox:
+  - afkinbox
 afklength:
   - afklength
   - maxafklength
+afkmessages:
+  - afkmessages
+afkmsg:
+  - afkmsg
+  - afkmessage
+afknotifybutton:
+  - afknotifybutton
 afkremove:
   - afkrm
   - afkremove
@@ -140,6 +153,8 @@ afktimeout:
   - afktimeout
 afktype:
   - afktype
+afkunblock:
+  - afkunblock
 afkundisable:
   - afkundisable
 afkview:

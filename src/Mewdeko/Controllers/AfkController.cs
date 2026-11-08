@@ -16,6 +16,7 @@ namespace Mewdeko.Controllers;
 public class AfkController : Controller
 {
     private readonly AfkService afk;
+    private readonly AfkInboxService inbox;
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<AfkController> logger;
@@ -29,10 +30,12 @@ public class AfkController : Controller
     /// <param name="dbFactory">The factory for creating database connections.</param>
     /// <param name="logger">Logger for this class.</param>
     /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    /// <param name="inbox">The service holding messages left for AFK members.</param>
     public AfkController(AfkService afk, DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        ILogger<AfkController> logger, IDashboardAuditContext auditContext)
+        ILogger<AfkController> logger, IDashboardAuditContext auditContext, AfkInboxService inbox)
     {
         this.afk = afk;
+        this.inbox = inbox;
         this.client = client;
         this.dbFactory = dbFactory;
         this.logger = logger;
@@ -267,6 +270,57 @@ public class AfkController : Controller
         auditContext.RecordBefore(await afk.GetAfkTimeout(guildId));
         await afk.AfkTimeoutSet(guild, timeoutSeconds);
         auditContext.RecordAfter(timeoutSeconds);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets whether AFK replies carry the notify button.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    [HttpGet("notify-button")]
+    public async Task<IActionResult> GetAfkNotifyButton(ulong guildId)
+    {
+        return Ok(await afk.GetAfkNotifyButton(guildId));
+    }
+
+    /// <summary>
+    ///     Sets whether AFK replies carry the notify button.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="enabled">Whether to show the button.</param>
+    [HttpPost("notify-button")]
+    public async Task<IActionResult> AfkNotifyButtonSet(ulong guildId, [FromBody] bool enabled)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await afk.GetAfkNotifyButton(guildId));
+        await afk.AfkNotifyButtonSet(guild, enabled);
+        auditContext.RecordAfter(enabled);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets whether members can leave messages for AFK members.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    [HttpGet("messages")]
+    public async Task<IActionResult> GetAfkMessages(ulong guildId)
+    {
+        return Ok(await inbox.IsEnabledAsync(guildId));
+    }
+
+    /// <summary>
+    ///     Sets whether members can leave messages for AFK members.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="enabled">Whether messages are allowed.</param>
+    [HttpPost("messages")]
+    public async Task<IActionResult> AfkMessagesSet(ulong guildId, [FromBody] bool enabled)
+    {
+        if (client.GetGuild(guildId) is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await inbox.IsEnabledAsync(guildId));
+        await inbox.SetEnabledAsync(guildId, enabled);
+        auditContext.RecordAfter(enabled);
         return Ok();
     }
 
