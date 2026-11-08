@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using Mewdeko.Common.Palette;
@@ -645,7 +646,7 @@ public sealed class CardRenderer : INService
         {
             using var font = renderer.Font(e);
             var label = content.ProgressLabel;
-            var labelWidth = string.IsNullOrEmpty(label) ? 0 : font.MeasureText(label) + 20;
+            var labelWidth = string.IsNullOrEmpty(label) ? 0 : UnicodeText.Measure(label, font) + 20;
             var track = new SKRect(rect.Left, rect.Top, rect.Right - labelWidth, rect.Bottom);
             var radius = Math.Min(e.Radius > 0 ? e.Radius : track.Height / 2, track.Height / 2);
             if (Color(e.Fill) is { } trackColor)
@@ -669,7 +670,8 @@ public sealed class CardRenderer : INService
             if (string.IsNullOrEmpty(label) || Color(e.Color2) is not { } labelColor)
                 return;
             using var ink = Ink(labelColor);
-            canvas.DrawText(label, rect.Right, Baseline(font, rect.MidY), SKTextAlign.Right, font, ink);
+            UnicodeText.Draw(canvas, rect.Right - UnicodeText.Measure(label, font), Baseline(font, rect.MidY), label,
+                font, ink);
         }
 
         private void DrawMember(SKCanvas canvas, Laid item)
@@ -684,7 +686,7 @@ public sealed class CardRenderer : INService
             var nameWidth = MeasurePieces(name, nameFont, 0, e.FontSize);
             var scopeWidth = Math.Max(0, rect.Width - nameWidth - 10);
             var scope = Fit(e.Uppercase ? scopeText.ToUpperInvariant() : scopeText, scopeFont, scopeWidth);
-            var total = nameWidth + (scope.Length > 0 ? 10 + scopeFont.MeasureText(scope) : 0);
+            var total = nameWidth + (scope.Length > 0 ? 10 + UnicodeText.Measure(scope, scopeFont) : 0);
             var x = e.Align switch
             {
                 "right" => rect.Right - total,
@@ -697,8 +699,7 @@ public sealed class CardRenderer : INService
             if (scope.Length == 0 || Color(e.Color2) is not { } scopeColor)
                 return;
             using var scopeInk = Ink(scopeColor);
-            canvas.DrawText(scope, x + nameWidth + 10, Baseline(scopeFont, centerY), SKTextAlign.Left, scopeFont,
-                scopeInk);
+            UnicodeText.Draw(canvas, x + nameWidth + 10, Baseline(scopeFont, centerY), scope, scopeFont, scopeInk);
         }
 
         private void DrawPill(SKCanvas canvas, Laid item)
@@ -982,23 +983,29 @@ public sealed class CardRenderer : INService
     {
         if (spacing == 0)
         {
-            canvas.DrawText(text, x, y, SKTextAlign.Left, font, paint);
+            UnicodeText.Draw(canvas, x, y, text, font, paint);
             return;
         }
 
-        foreach (var letter in text)
-        {
-            var s = letter.ToString();
-            canvas.DrawText(s, x, y, SKTextAlign.Left, font, paint);
-            x += font.MeasureText(s) + spacing;
-        }
+        var letters = StringInfo.GetTextElementEnumerator(text);
+        while (letters.MoveNext())
+            x += UnicodeText.Draw(canvas, x, y, letters.GetTextElement(), font, paint) + spacing;
     }
 
     private static float MeasureSpaced(string text, SKFont font, float spacing)
     {
         if (spacing == 0 || text.Length == 0)
-            return font.MeasureText(text);
-        return text.Sum(c => font.MeasureText(c.ToString()) + spacing) - spacing;
+            return UnicodeText.Measure(text, font);
+        var width = 0f;
+        var count = 0;
+        var letters = StringInfo.GetTextElementEnumerator(text);
+        while (letters.MoveNext())
+        {
+            width += UnicodeText.Measure(letters.GetTextElement(), font);
+            count++;
+        }
+
+        return width + spacing * (count - 1);
     }
 
     private static string Fit(string text, SKFont font, float maxWidth, float spacing = 0)
@@ -1009,7 +1016,7 @@ public sealed class CardRenderer : INService
             return text;
         var trimmed = text;
         while (trimmed.Length > 1 && MeasureSpaced(trimmed + "...", font, spacing) > maxWidth)
-            trimmed = trimmed[..^1];
+            trimmed = trimmed[..StringInfo.ParseCombiningCharacters(trimmed)[^1]];
         return trimmed.TrimEnd() + "...";
     }
 

@@ -117,6 +117,7 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="9.1.0"/>
     <PackageReference Include="ServiceCollectionExtensions" Version="1.0.2"/>
     <PackageReference Include="SkiaSharp" Version="4.148.0"/>
+    <PackageReference Include="SkiaSharp.HarfBuzz" Version="4.148.0"/>
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="4.148.0"/>
     <PackageReference Include="SpotifyAPI.Web" Version="7.4.2"/>
     <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.4.2"/>
