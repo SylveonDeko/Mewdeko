@@ -40,6 +40,9 @@ public class RedisCache : IDataCache
         redisKey = creds.RedisKey();
     }
 
+    /// <inheritdoc />
+    public string KeyPrefix => redisKey;
+
     /// <summary>
     ///     The Redis connection multiplexer.
     /// </summary>

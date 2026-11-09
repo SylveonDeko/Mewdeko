@@ -281,7 +281,7 @@ public class XpBackgroundProcessor : INService, IDisposable
         if (await cacheManager.IsServerExcludedAsync(user.Guild.Id).ConfigureAwait(false))
             return;
 
-        var key = $"xp:first_msg:{user.Guild.Id}:{user.Id}";
+        var key = cacheManager.Key($"first_msg:{user.Guild.Id}:{user.Id}");
         var dateString = DateTime.UtcNow.ToString("yyyy-MM-dd");
         var redis = cacheManager.GetRedisDatabase();
 
@@ -957,13 +957,6 @@ public class XpBackgroundProcessor : INService, IDisposable
             logger.LogInformation(
                 "Discord Cache: Guilds: {Guilds}, Users: {Users}, Channels: {Channels}, Messages: {Messages}",
                 client.Guilds.Count, cachedUsers, cachedChannels, cachedMessages);
-
-            // Force a Gen0 collection to see if memory can be reclaimed
-            if (memoryMb > 600)
-            {
-                logger.LogWarning("High memory usage detected, forcing GC");
-                GC.Collect(0, GCCollectionMode.Forced);
-            }
         }
         catch (Exception ex)
         {

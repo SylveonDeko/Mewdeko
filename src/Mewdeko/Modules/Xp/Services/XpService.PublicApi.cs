@@ -140,8 +140,8 @@ public partial class XpService
         // Cache keys carry the guild's leaderboard version, so invalidation is one INCR
         // and outdated pages simply expire.
         var version = await cacheManager.GetLeaderboardVersionAsync(guildId);
-        var cacheKeyLb = $"xp:leaderboard:{guildId}:v{version}:{page}:{pageSize}";
-        var cacheKeyCount = $"xp:leaderboard:count:{guildId}:v{version}";
+        var cacheKeyLb = cacheManager.Key($"leaderboard:{guildId}:v{version}:{page}:{pageSize}");
+        var cacheKeyCount = cacheManager.Key($"leaderboard:count:{guildId}:v{version}");
 
         var red = cacheManager.GetRedisDatabase();
 

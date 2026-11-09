@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Xp.Services;
 public class XpCacheManager : INService
 {
     // Constants for Redis keys and cache parameters
-    private const string RedisKeyPrefix = "xp:";
+    private readonly string RedisKeyPrefix;
     private const string GuildSettingsKey = "guild_settings";
     private const string GuildUserKey = "guild_user";
     private const string CooldownKey = "cooldown";
@@ -70,6 +70,7 @@ public class XpCacheManager : INService
         this.client = client;
         this.logger = logger;
         redisCache = dataCache.Redis.GetDatabase();
+        RedisKeyPrefix = $"{dataCache.KeyPrefix}_xp:";
 
         // Initialize small hot cache for frequently accessed guilds
         hotGuildCache = new MemoryCache(hotCacheOptions);
@@ -82,6 +83,16 @@ public class XpCacheManager : INService
     public IDatabase GetRedisDatabase()
     {
         return redisCache;
+    }
+
+    /// <summary>
+    ///     Builds an XP Redis key under this bot's prefix.
+    /// </summary>
+    /// <param name="suffix">The key after the XP prefix.</param>
+    /// <returns>The full key.</returns>
+    public string Key(string suffix)
+    {
+        return RedisKeyPrefix + suffix;
     }
 
     /// <summary>
@@ -626,7 +637,6 @@ public class XpCacheManager : INService
             if (keysToDelete.Count < MaxBatchSize) continue;
             await redisCache.KeyDeleteAsync(keysToDelete.ToArray()).ConfigureAwait(false);
             keysRemoved += keysToDelete.Count;
-            logger.LogInformation("Deleted {Count} Redis keys for disconnected guilds", keysToDelete.Count);
             keysToDelete.Clear();
         }
 
@@ -634,7 +644,6 @@ public class XpCacheManager : INService
         if (keysToDelete.Count <= 0) return (keysRemoved, keysExamined);
         await redisCache.KeyDeleteAsync(keysToDelete.ToArray()).ConfigureAwait(false);
         keysRemoved += keysToDelete.Count;
-        logger.LogInformation("Deleted {Count} Redis keys for disconnected guilds", keysToDelete.Count);
 
         return (keysRemoved, keysExamined);
     }
@@ -771,7 +780,7 @@ public class XpCacheManager : INService
         }
     }
 
-    private static string LeaderboardVersionKey(ulong guildId)
+    private string LeaderboardVersionKey(ulong guildId)
     {
         return $"{RedisKeyPrefix}leaderboard:ver:{guildId}";
     }

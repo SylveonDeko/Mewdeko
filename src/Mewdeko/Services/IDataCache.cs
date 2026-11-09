@@ -37,6 +37,11 @@ public interface IDataCache
     public ConnectionMultiplexer Redis { get; }
 
     /// <summary>
+    ///     Gets the prefix this bot instance puts on its Redis keys, so instances sharing one Redis stay apart.
+    /// </summary>
+    public string KeyPrefix { get; }
+
+    /// <summary>
     ///     Gets the local image cache.
     /// </summary>
     public IImageCache LocalImages { get; }

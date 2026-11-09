@@ -116,14 +116,14 @@ public class XpRewardManager : INService
 
     private static readonly TimeSpan RewardCacheTtl = TimeSpan.FromHours(1);
 
-    private static string RoleRewardsKey(ulong guildId)
+    private string RoleRewardsKey(ulong guildId)
     {
-        return $"xp:rewards:{guildId}:role:all";
+        return cacheManager.Key($"rewards:{guildId}:role:all");
     }
 
-    private static string CurrencyRewardsKey(ulong guildId)
+    private string CurrencyRewardsKey(ulong guildId)
     {
-        return $"xp:rewards:{guildId}:currency:all";
+        return cacheManager.Key($"rewards:{guildId}:currency:all");
     }
 
     /// <summary>
