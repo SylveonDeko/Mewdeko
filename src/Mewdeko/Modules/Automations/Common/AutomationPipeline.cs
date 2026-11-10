@@ -127,11 +127,23 @@ public static class AutomationPipeline
         {
             case JsonObject obj:
                 foreach (var key in obj.Select(x => x.Key).ToList())
-                    obj[key] = Walk(obj[key], replacer);
+                {
+                    var child = obj[key];
+                    var walked = Walk(child, replacer);
+                    if (!ReferenceEquals(walked, child))
+                        obj[key] = walked;
+                }
+
                 return obj;
             case JsonArray array:
                 for (var i = 0; i < array.Count; i++)
-                    array[i] = Walk(array[i], replacer);
+                {
+                    var child = array[i];
+                    var walked = Walk(child, replacer);
+                    if (!ReferenceEquals(walked, child))
+                        array[i] = walked;
+                }
+
                 return array;
             case JsonValue value when value.TryGetValue<string>(out var text):
                 return JsonValue.Create(replacer.Replace(text));

@@ -1046,13 +1046,13 @@ public class MusicController : Controller
 
         return Ok(new
         {
-            settings.TtsVolume,
-            settings.TtsSpeed,
+            TtsVolume = settings.TtsVolume > 0 ? settings.TtsVolume : 100,
+            TtsSpeed = settings.TtsSpeed > 0 ? settings.TtsSpeed : 1.0f,
             settings.TtsDefaultVoice,
             settings.TtsReplyContext,
             settings.TtsAttachmentNarration,
             settings.TtsConsecutiveGrouping,
-            settings.TtsMaxQueueSize,
+            TtsMaxQueueSize = settings.TtsMaxQueueSize > 0 ? settings.TtsMaxQueueSize : 10,
             settings.TtsRoleId,
             VoiceChannels = vcSettings.Select(vc => new
             {

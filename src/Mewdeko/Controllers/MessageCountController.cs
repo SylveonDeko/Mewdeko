@@ -43,7 +43,7 @@ public class MessageCountController(
 
         // Calculate messages from the last 24 hours
         var yesterday = DateTime.UtcNow.AddDays(-1);
-        var dailyMessages = counts.Where(c => c.DateAdded >= yesterday).Sum(c => (long)c.Count);
+        var dailyMessages = SentSince(counts, yesterday);
         var totalMessages = counts.Sum(c => (long)c.Count);
 
         return Ok(new
@@ -74,7 +74,7 @@ public class MessageCountController(
             });
 
         var totalMessages = counts.Sum(c => (long)c.Count);
-        var dailyMessages = counts.Where(c => c.DateAdded >= DateTime.UtcNow.AddDays(-1)).Sum(c => (long)c.Count);
+        var dailyMessages = SentSince(counts, DateTime.UtcNow.AddDays(-1));
 
         return Ok(new
         {
@@ -107,7 +107,7 @@ public class MessageCountController(
             });
 
         var totalMessages = counts.Sum(c => (long)c.Count);
-        var dailyMessages = counts.Where(c => c.DateAdded >= DateTime.UtcNow.AddDays(-1)).Sum(c => (long)c.Count);
+        var dailyMessages = SentSince(counts, DateTime.UtcNow.AddDays(-1));
 
         return Ok(new
         {
@@ -142,7 +142,7 @@ public class MessageCountController(
             {
                 UserId = g.Key.ToString(),
                 TotalMessages = g.Sum(x => (long)x.Count),
-                DailyMessages = g.Where(x => x.DateAdded >= DateTime.UtcNow.AddDays(-1)).Sum(x => (long)x.Count)
+                DailyMessages = SentSince(g, DateTime.UtcNow.AddDays(-1))
             })
             .OrderByDescending(u => u.TotalMessages)
             .Take(limit)
@@ -197,7 +197,7 @@ public class MessageCountController(
             {
                 userId = g.Key.ToString(),
                 totalMessages = g.Sum(x => (long)x.Count),
-                dailyMessages = g.Where(x => x.DateAdded >= dayCutoff).Sum(x => (long)x.Count),
+                dailyMessages = SentSince(g, dayCutoff),
                 percentage = totalMessages > 0 ? Math.Round(g.Sum(x => (long)x.Count) * 100.0 / totalMessages, 2) : 0
             })
             .OrderByDescending(u => u.totalMessages)
@@ -211,7 +211,7 @@ public class MessageCountController(
                 channelId = g.Key.ToString(),
                 channelName = guild.GetTextChannel(g.Key)?.Name ?? "Unknown Channel",
                 totalMessages = g.Sum(x => (long)x.Count),
-                dailyMessages = g.Where(x => x.DateAdded >= dayCutoff).Sum(x => (long)x.Count),
+                dailyMessages = SentSince(g, dayCutoff),
                 percentage = totalMessages > 0 ? Math.Round(g.Sum(x => (long)x.Count) * 100.0 / totalMessages, 2) : 0
             })
             .OrderByDescending(c => c.totalMessages)
@@ -233,7 +233,7 @@ public class MessageCountController(
             })
             .ToArray();
 
-        var dailyMessages = counts.Where(c => c.DateAdded >= dayCutoff).Sum(c => (long)c.Count);
+        var dailyMessages = SentSince(counts, dayCutoff);
 
         var stats = new
         {
@@ -336,4 +336,7 @@ public class MessageCountController(
             });
         }
     }
+
+    private static long SentSince(IEnumerable<DataModel.MessageCount> counts, DateTime cutoff) =>
+        counts.Sum(c => (long)(c.MessageTimestamps?.Count(t => t.Timestamp >= cutoff) ?? 0));
 }
