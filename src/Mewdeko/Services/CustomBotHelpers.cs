@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Services;
@@ -266,6 +267,51 @@ public static partial class CustomBotRedactor
     [GeneratedRegex(@"(?i)(password|pwd|apikey|api_key|secret)\s*[=:]\s*[^;\s,""']+")]
     private static partial Regex KeyValuePattern();
 
+    [GeneratedRegex(@"(?i)\b(host|server|username|user id|userid|uid)\s*=\s*[^;\s,""']+")]
+    private static partial Regex ConnectionPartPattern();
+
+    [GeneratedRegex(@"(?i)\b[a-z][a-z0-9+.-]*://[^/\s:@]*:[^/\s@]*@[^/\s,;""']+")]
+    private static partial Regex UrlCredentialPattern();
+
+    [GeneratedRegex(@"(?i)\b(?:host|server)\s*=\s*([^;\s,""']+)")]
+    private static partial Regex HostPartPattern();
+
+    /// <summary>
+    ///     Pulls the host names out of connection strings so they can be masked wherever they show up on their own.
+    /// </summary>
+    /// <param name="connectionStrings">Postgres style, URL style or Redis style connection strings.</param>
+    /// <returns>The distinct host names, three characters or longer.</returns>
+    public static List<string> ConnectionHosts(IEnumerable<string?> connectionStrings)
+    {
+        var hosts = new List<string>();
+        foreach (var text in connectionStrings)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                continue;
+
+            foreach (Match match in HostPartPattern().Matches(text))
+                hosts.Add(match.Groups[1].Value);
+
+            foreach (var part in text.Split(';', ','))
+            {
+                var trimmed = part.Trim();
+                if (trimmed.Contains('=') || trimmed.Length == 0)
+                    continue;
+
+                var withoutScheme = trimmed.Contains("://") ? trimmed[(trimmed.IndexOf("://", StringComparison.Ordinal) + 3)..] : trimmed;
+                var at = withoutScheme.LastIndexOf('@');
+                if (at >= 0)
+                    withoutScheme = withoutScheme[(at + 1)..];
+
+                var host = withoutScheme.Split('/', ':')[0];
+                if (host.Length > 0)
+                    hosts.Add(host);
+            }
+        }
+
+        return hosts.Where(x => x.Length >= 3).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+    }
+
     /// <summary>
     ///     Masks every known secret, anything shaped like a Discord token and connection string passwords.
     /// </summary>
@@ -282,7 +328,9 @@ public static partial class CustomBotRedactor
         }
 
         line = TokenPattern().Replace(line, Mask);
-        return KeyValuePattern().Replace(line, m => m.Value[..(m.Value.IndexOfAny(['=', ':']) + 1)] + Mask);
+        line = UrlCredentialPattern().Replace(line, Mask);
+        line = KeyValuePattern().Replace(line, m => m.Value[..(m.Value.IndexOfAny(['=', ':']) + 1)] + Mask);
+        return ConnectionPartPattern().Replace(line, m => m.Value[..(m.Value.IndexOf('=') + 1)] + Mask);
     }
 }
 
@@ -367,5 +415,181 @@ public static class CustomBotCrypto
         {
             return null;
         }
+    }
+
+    /// <summary>
+    ///     Derives the key the first version of this feature used when no encryption key was configured.
+    ///     It exists only so rows written back then can still be read and re-encrypted.
+    /// </summary>
+    /// <param name="apiKey">The master API key.</param>
+    /// <param name="jwtSecret">The shared JWT secret.</param>
+    public static byte[] LegacyKey(string apiKey, string jwtSecret)
+    {
+        return DeriveKey($"{apiKey}:{jwtSecret}");
+    }
+
+    /// <summary>
+    ///     Decrypts with the current key and, failing that, the legacy key.
+    /// </summary>
+    /// <param name="stored">The stored text.</param>
+    /// <param name="key">The current key.</param>
+    /// <param name="legacyKey">The legacy key, or null when none applies.</param>
+    /// <returns>The plain text and whether the legacy key was needed, or a null text when neither key works.</returns>
+    public static (string? Plain, bool UsedLegacy) DecryptWithFallback(string stored, byte[] key, byte[]? legacyKey)
+    {
+        var plain = Decrypt(stored, key);
+        if (plain is not null)
+            return (plain, false);
+
+        if (legacyKey is null)
+            return (null, false);
+
+        plain = Decrypt(stored, legacyKey);
+        return (plain, plain is not null);
+    }
+
+    /// <summary>
+    ///     Picks the API key to use when calling a child: its own when one is stored and readable, the master's
+    ///     otherwise, so a child made before per-child keys existed keeps working until it is recreated.
+    /// </summary>
+    /// <param name="stored">The child's encrypted key, or null when it has none.</param>
+    /// <param name="key">The current encryption key, or null when none is configured.</param>
+    /// <param name="legacyKey">The legacy encryption key.</param>
+    /// <param name="masterKey">The master API key.</param>
+    public static string ResolveApiKey(string? stored, byte[]? key, byte[]? legacyKey, string masterKey)
+    {
+        if (stored is null || key is null)
+            return masterKey;
+
+        return DecryptWithFallback(stored, key, legacyKey).Plain ?? masterKey;
+    }
+
+    /// <summary>
+    ///     Makes a new random API key for a custom bot.
+    /// </summary>
+    public static string GenerateApiKey()
+    {
+        return Convert.ToHexString(RandomNumberGenerator.GetBytes(48)).ToLowerInvariant();
+    }
+}
+
+/// <summary>
+///     Caps how often one user may try to claim a purchase, so an email and transaction id cannot be guessed.
+/// </summary>
+/// <param name="maxAttempts">How many attempts one user gets per window.</param>
+/// <param name="window">How long an attempt counts.</param>
+public sealed class CustomBotClaimLimiter(int maxAttempts, TimeSpan window)
+{
+    private readonly Dictionary<ulong, List<DateTime>> attempts = new();
+
+    /// <summary>
+    ///     Records an attempt and says whether it is allowed.
+    /// </summary>
+    /// <param name="userId">The user trying.</param>
+    /// <param name="now">The current time in UTC.</param>
+    /// <returns>False when the user already used up the window.</returns>
+    public bool TryAttempt(ulong userId, DateTime now)
+    {
+        lock (attempts)
+        {
+            if (!attempts.TryGetValue(userId, out var times))
+            {
+                times = [];
+                attempts[userId] = times;
+            }
+
+            times.RemoveAll(x => now - x >= window);
+            if (times.Count >= maxAttempts)
+                return false;
+
+            times.Add(now);
+            return true;
+        }
+    }
+}
+
+/// <summary>
+///     Builds the credentials file a custom bot container starts with.
+/// </summary>
+/// <param name="Token">The customer's bot token.</param>
+/// <param name="Port">The API port of the container.</param>
+/// <param name="ContainerName">The container name, which is also its host name on the Docker network.</param>
+/// <param name="ApiKey">The API key of this one bot.</param>
+/// <param name="JwtSecret">The JWT secret shared with the dashboard.</param>
+/// <param name="DbConnection">The Postgres connection string the bot gets.</param>
+/// <param name="RedisConnection">The Redis connection string the bot gets.</param>
+/// <param name="OwnerIds">The owners of the main bot.</param>
+/// <param name="DashboardUrl">The dashboard address.</param>
+public sealed record CustomBotChildInputs(
+    string Token,
+    int Port,
+    string ContainerName,
+    string ApiKey,
+    string JwtSecret,
+    string DbConnection,
+    string RedisConnection,
+    IEnumerable<ulong> OwnerIds,
+    string? DashboardUrl);
+
+/// <summary>
+///     Builds a custom bot's credentials from an allowlist, so a key added to the master's file later never reaches a
+///     customer's container unless it is added here on purpose.
+/// </summary>
+public static class CustomBotChildCredentials
+{
+    /// <summary>
+    ///     The keys copied from the master's file when present. Everything else in that file stays behind.
+    /// </summary>
+    public static readonly string[] InheritedKeys =
+    [
+        "UseGlobalCurrency", "PostgresSetupCompleted", "LavalinkUrl", "LavalinkPassword", "LavalinkNodes",
+        "LavalinkDefaultSearchSource", "GoogleApiKey", "SpotifyClientId", "SpotifyClientSecret", "LastFmApiKey",
+        "LastFmApiSecret", "OsuApiKey", "Rule34ApiKey", "Rule34UserId", "OpenMeteoApiUrl", "TikTokRssBridgeUrl",
+        "TurnstileKey", "GiveawayEntryUrl", "PatreonClientId", "PatreonClientSecret", "PatreonBaseUrl",
+        "TwitchClientId", "TwitchClientSecret", "KickClientId", "KickClientSecret", "TrovoClientId"
+    ];
+
+    /// <summary>
+    ///     Picks the value a child gets: the dedicated setting when set, the master's own otherwise.
+    /// </summary>
+    /// <param name="dedicated">The setting meant for custom bots.</param>
+    /// <param name="fallback">The master's own value.</param>
+    public static string Pick(string? dedicated, string fallback)
+    {
+        return string.IsNullOrWhiteSpace(dedicated) ? fallback : dedicated;
+    }
+
+    /// <summary>
+    ///     Builds the credentials of one custom bot.
+    /// </summary>
+    /// <param name="master">The parsed master credentials file, or null when it could not be read.</param>
+    /// <param name="inputs">The values that are specific to this bot.</param>
+    public static JsonObject Build(JsonObject? master, CustomBotChildInputs inputs)
+    {
+        var node = new JsonObject();
+        if (master is not null)
+        {
+            foreach (var key in InheritedKeys)
+            {
+                if (master.TryGetPropertyValue(key, out var value) && value is not null)
+                    node[key] = value.DeepClone();
+            }
+        }
+
+        node["Token"] = inputs.Token;
+        node["PsqlConnectionString"] = inputs.DbConnection;
+        node["RedisConnections"] = inputs.RedisConnection;
+        node["ApiKey"] = inputs.ApiKey;
+        node["JwtSecret"] = inputs.JwtSecret;
+        node["OwnerIds"] = new JsonArray(inputs.OwnerIds.Select(x => (JsonNode)JsonValue.Create(x)).ToArray());
+        if (!string.IsNullOrWhiteSpace(inputs.DashboardUrl))
+            node["DashboardUrl"] = inputs.DashboardUrl;
+
+        node["IsMasterInstance"] = false;
+        node["IsApiEnabled"] = true;
+        node["ApiPort"] = inputs.Port;
+        node["InstanceApiHost"] = inputs.ContainerName;
+        node["TotalShards"] = 1;
+        return node;
     }
 }

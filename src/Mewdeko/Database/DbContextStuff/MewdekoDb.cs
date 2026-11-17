@@ -2739,6 +2739,16 @@ public class MewdekoDb : DataConnection
     public ITable<AfkInboxBlock> AfkInboxBlocks => this.GetTable<AfkInboxBlock>();
 
     /// <summary>
+    ///     Gets the blackjack tables table: unfinished tables saved between steps.
+    /// </summary>
+    public ITable<BlackjackTableRow> BlackjackTables => this.GetTable<BlackjackTableRow>();
+
+    /// <summary>
+    ///     Gets the blackjack seats table: which table each seated member plays at.
+    /// </summary>
+    public ITable<BlackjackSeatRow> BlackjackSeats => this.GetTable<BlackjackSeatRow>();
+
+    /// <summary>
     ///     Gets the achievement almost there table: members already told they are close to an achievement.
     /// </summary>
     public ITable<AchievementAlmostThere> AchievementAlmostThere => this.GetTable<AchievementAlmostThere>();

@@ -407,6 +407,31 @@ public class BotCredentials : IBotCredentials
     public int CustomBotDaysPerPayment { get; set; } = 31;
 
     /// <summary>
+    ///     Gets or sets the Postgres connection string handed to custom bots. Empty hands them this instance's own.
+    /// </summary>
+    public string CustomBotDbConnection { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the Redis connection string handed to custom bots. Empty hands them this instance's own.
+    /// </summary>
+    public string CustomBotRedisConnection { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the memory limit of each custom bot container in megabytes.
+    /// </summary>
+    public int CustomBotMemoryMb { get; set; } = 2048;
+
+    /// <summary>
+    ///     Gets or sets how many CPUs each custom bot container may use.
+    /// </summary>
+    public double CustomBotCpus { get; set; } = 1.0;
+
+    /// <summary>
+    ///     Gets or sets how many processes each custom bot container may run.
+    /// </summary>
+    public int CustomBotPidsLimit { get; set; } = 512;
+
+    /// <summary>
     ///     Checks if the specified user is an owner.
     /// </summary>
     /// <param name="u">The user to check.</param>
@@ -699,6 +724,18 @@ public class BotCredentials : IBotCredentials
                 : 35;
             CustomBotDaysPerPayment =
                 int.TryParse(data[nameof(CustomBotDaysPerPayment)], out var cbDays) && cbDays > 0 ? cbDays : 31;
+            CustomBotDbConnection = data[nameof(CustomBotDbConnection)] ?? "";
+            CustomBotRedisConnection = data[nameof(CustomBotRedisConnection)] ?? "";
+            CustomBotMemoryMb = int.TryParse(data[nameof(CustomBotMemoryMb)], out var cbMem) && cbMem >= 128
+                ? cbMem
+                : 2048;
+            CustomBotCpus = double.TryParse(data[nameof(CustomBotCpus)], System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out var cbCpu) && cbCpu > 0
+                ? cbCpu
+                : 1.0;
+            CustomBotPidsLimit = int.TryParse(data[nameof(CustomBotPidsLimit)], out var cbPids) && cbPids >= 16
+                ? cbPids
+                : 512;
             LavalinkPassword = data[nameof(LavalinkPassword)] ?? "youshallnotpass";
             LavalinkDefaultSearchSource = data[nameof(LavalinkDefaultSearchSource)] ?? "youtube";
 

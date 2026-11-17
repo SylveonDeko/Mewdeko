@@ -1,3 +1,4 @@
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
+[RequireOwner]
 public class SlashDiagnosticsController(
     SlashDiagnosticsService service,
     DiscordShardedClient client,

@@ -175,6 +175,8 @@ public class Program
                 {
                     options.Filters.Add<AuditLogFilter>();
                     options.Filters.Add<DashboardAccessEnforcementFilter>();
+                    options.Filters.Add<UserRouteBindingFilter>();
+                    options.Filters.Add<Controllers.Common.RequiredBodyFilter>();
                 })
                 .AddJsonOptions(options =>
                 {
@@ -548,5 +550,6 @@ public class Program
         services.AddHostedService<PatreonService>();
         services.AddHostedService<MessageTimestampRetentionService>();
         services.AddHostedService<FormLaunchService>();
+        services.AddHostedService<BlackjackTimeoutService>();
     }
 }

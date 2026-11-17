@@ -28,6 +28,7 @@ namespace DataModel
 		[Column("ApiPort"                                                              )] public int      ApiPort        { get; set; } // integer
 		[Column("ContainerName" , CanBeNull = false                                    )] public string   ContainerName  { get; set; } = null!; // text
 		[Column("DateAdded"     , SkipOnInsert = true, SkipOnUpdate = true             )] public DateTime DateAdded      { get; set; } // timestamp (6) without time zone
+		[Column("ApiKeyEncrypted"                                                      )] public string?  ApiKeyEncrypted { get; set; } // text
 	}
 
 	[Table("KofiPayments")]

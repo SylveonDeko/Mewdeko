@@ -120,13 +120,6 @@ public class CustomBotService : INService, IReadyExecutor
     private static readonly TimeSpan GuildCacheTtl = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan ExpiryInterval = TimeSpan.FromMinutes(10);
 
-    private static readonly string[] StrippedKeys =
-    [
-        "Token", "KofiVerificationToken", "KofiShopItemCodes", "CustomBotImage", "CustomBotNetwork",
-        "CustomBotDataPath", "CustomBotHostDataPath", "CustomBotPortStart", "CustomBotPortEnd",
-        "CustomBotEncryptionKey", "CustomBotGraceDays", "CustomBotDaysPerPayment"
-    ];
-
     private readonly BotCredentials creds;
     private readonly IDataConnectionFactory dbFactory;
     private readonly DockerService docker;
@@ -134,6 +127,8 @@ public class CustomBotService : INService, IReadyExecutor
 
     private readonly ConcurrentDictionary<int, (DateTime At, List<(ulong Id, string Name, string? Icon)> Guilds)>
         guildCache = new();
+
+    private readonly CustomBotClaimLimiter claimLimiter = new(5, TimeSpan.FromMinutes(15));
 
     private readonly SemaphoreSlim lifecycle = new(1, 1);
     private readonly ILogger<CustomBotService> logger;
@@ -168,7 +163,7 @@ public class CustomBotService : INService, IReadyExecutor
     /// <summary>
     ///     Gets whether this instance runs the custom bot machinery. Only the master does.
     /// </summary>
-    public bool Enabled => ownership.HandlesGlobalWork;
+    public bool Enabled => ownership.HandlesGlobalWork && !string.IsNullOrWhiteSpace(creds.CustomBotEncryptionKey);
 
     /// <summary>
     ///     Starts the expiry loop on the master instance.
@@ -178,8 +173,21 @@ public class CustomBotService : INService, IReadyExecutor
         if (!ownership.HandlesGlobalWork)
             return Task.CompletedTask;
 
+        if (!Enabled)
+            logger.LogWarning("Custom bots are disabled until CustomBotEncryptionKey is set in credentials.json");
+
         _ = Task.Run(async () =>
         {
+            try
+            {
+                if (Enabled)
+                    await ReencryptLegacyAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Could not re-encrypt custom bot tokens");
+            }
+
             using var timer = new PeriodicTimer(ExpiryInterval);
             do
             {
@@ -212,14 +220,35 @@ public class CustomBotService : INService, IReadyExecutor
         }
     }
 
-    private byte[] Key
+    private byte[] Key => CustomBotCrypto.DeriveKey(creds.CustomBotEncryptionKey);
+
+    private byte[] LegacyKey => CustomBotCrypto.LegacyKey(creds.ApiKey, creds.JwtSecret);
+
+    private string Reveal(string stored)
     {
-        get
+        return CustomBotCrypto.DecryptWithFallback(stored, Key, LegacyKey).Plain!;
+    }
+
+    private string? TryReveal(string? stored)
+    {
+        return stored is null ? null : CustomBotCrypto.DecryptWithFallback(stored, Key, LegacyKey).Plain;
+    }
+
+    private async Task ReencryptLegacyAsync()
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var secrets = await db.CustomBotSecrets.ToListAsync();
+        foreach (var secret in secrets)
         {
-            var secret = !string.IsNullOrWhiteSpace(creds.CustomBotEncryptionKey)
-                ? creds.CustomBotEncryptionKey
-                : $"{creds.ApiKey}:{creds.JwtSecret}";
-            return CustomBotCrypto.DeriveKey(secret);
+            var (plain, usedLegacy) = CustomBotCrypto.DecryptWithFallback(secret.EncryptedToken, Key, LegacyKey);
+            if (plain is null || !usedLegacy)
+                continue;
+
+            await db.CustomBotSecrets.Where(x => x.InstanceId == secret.InstanceId)
+                .Set(x => x.EncryptedToken, CustomBotCrypto.Encrypt(plain, Key))
+                .UpdateAsync();
+            logger.LogInformation("Re-encrypted the stored token of custom bot {Instance} with the configured key",
+                secret.InstanceId);
         }
     }
 
@@ -342,6 +371,9 @@ public class CustomBotService : INService, IReadyExecutor
     /// <returns>Null on success, otherwise the error message.</returns>
     public async Task<string?> ClaimAsync(ulong userId, string? email, string? transactionId)
     {
+        if (!claimLimiter.TryAttempt(userId, DateTime.UtcNow))
+            return "too many attempts, try again later";
+
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(transactionId))
             return "no matching purchase";
 
@@ -354,14 +386,16 @@ public class CustomBotService : INService, IReadyExecutor
             return "no matching purchase";
 
         var slot = await db.CustomBotSlots.FirstOrDefaultAsync(x => x.Id == slotId);
-        if (slot is null)
+        if (slot is null || slot.UserId != null && slot.UserId != userId)
             return "no matching purchase";
 
-        if (slot.UserId != null && slot.UserId != userId)
-            return "already claimed";
-
+        var from = slot.DateAdded.AddMinutes(-1);
+        var to = slot.DateAdded.AddMinutes(1);
         await db.CustomBotSlots
-            .Where(x => x.UserId == null && x.KofiEmail != null && x.KofiEmail.ToLower() == lowered)
+            .Where(x => x.UserId == null && (x.Id == slotId || x.KofiTransactionId == null &&
+                                             x.Source == CustomBotExpiry.KofiSource && x.KofiEmail != null &&
+                                             x.KofiEmail.ToLower() == lowered && x.DateAdded >= from &&
+                                             x.DateAdded <= to))
             .Set(x => x.UserId, userId)
             .UpdateAsync();
         return null;
@@ -455,7 +489,7 @@ public class CustomBotService : INService, IReadyExecutor
         {
             var assigned = (await db.GuildOwnerships.Where(x => x.InstanceId == instance.Id)
                 .Select(x => x.GuildId).ToListAsync()).ToHashSet();
-            var token = CustomBotCrypto.Decrypt(secret.EncryptedToken, Key);
+            var token = TryReveal(secret.EncryptedToken);
             if (token is not null)
             {
                 var list = await GetBotGuildsAsync(instance.Id, token, false);
@@ -643,7 +677,8 @@ public class CustomBotService : INService, IReadyExecutor
             });
 
             var containerName = ContainerNameFor(instanceId);
-            var launch = await LaunchAsync(setup, instanceId, userId, containerName, port.Value, token);
+            var childKey = CustomBotCrypto.GenerateApiKey();
+            var launch = await LaunchAsync(setup, instanceId, userId, containerName, port.Value, token, childKey);
             if (launch is not null)
             {
                 await db.BotInstances.Where(x => x.Id == instanceId).DeleteAsync();
@@ -657,6 +692,7 @@ public class CustomBotService : INService, IReadyExecutor
             {
                 InstanceId = instanceId,
                 EncryptedToken = CustomBotCrypto.Encrypt(token, Key),
+                ApiKeyEncrypted = CustomBotCrypto.Encrypt(childKey, Key),
                 ApiPort = port.Value,
                 ContainerName = containerName
             });
@@ -685,7 +721,10 @@ public class CustomBotService : INService, IReadyExecutor
     {
         var overview = await docker.GetOverviewAsync();
         if (overview.Availability != DockerAvailability.Available)
-            return new Setup("", "", "", "", overview.Message ?? "Docker is not available");
+        {
+            logger.LogWarning("Docker is not available for custom bots: {Message}", overview.Message);
+            return new Setup("", "", "", "", "Docker is not available, contact the owner");
+        }
 
         var self = overview.Containers.FirstOrDefault(c => c.IsSelf);
         JsonElement? inspected = self is null ? null : await docker.InspectContainerAsync(self.Id);
@@ -704,7 +743,10 @@ public class CustomBotService : INService, IReadyExecutor
                 .FirstOrDefault(x => x is not ("bridge" or "host" or "none")) ?? "";
 
         if (string.IsNullOrWhiteSpace(network))
-            return new Setup(image, "", "", "", "no Docker network, set CustomBotNetwork");
+        {
+            logger.LogWarning("No Docker network found for custom bots, set CustomBotNetwork");
+            return new Setup(image, "", "", "", "the host is not set up for custom bots, contact the owner");
+        }
 
         var dataPath = string.IsNullOrWhiteSpace(creds.CustomBotDataPath)
             ? Path.Combine(Directory.GetCurrentDirectory(), "custombots")
@@ -755,51 +797,33 @@ public class CustomBotService : INService, IReadyExecutor
         return Path.Combine(setup.DataPath, containerName);
     }
 
-    private JsonObject BuildChildCredentials(string token, int port, string containerName)
+    private JsonObject BuildChildCredentials(string token, int port, string containerName, string apiKey)
     {
-        JsonObject? node = null;
+        JsonObject? master = null;
         var path = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
         try
         {
             if (File.Exists(path))
-                node = JsonNode.Parse(File.ReadAllText(path)) as JsonObject;
+                master = JsonNode.Parse(File.ReadAllText(path)) as JsonObject;
         }
         catch (Exception ex) when (ex is IOException or JsonException)
         {
             logger.LogWarning(ex, "Could not read credentials.json to copy for a custom bot");
         }
 
-        node ??= new JsonObject();
-        node["PsqlConnectionString"] = creds.PsqlConnectionString;
-        node["RedisConnections"] = creds.RedisConnections;
-        node["ApiKey"] = creds.ApiKey;
-        node["JwtSecret"] = creds.JwtSecret;
-        node["OwnerIds"] = new JsonArray(creds.OwnerIds.Select(x => (JsonNode)JsonValue.Create(x)).ToArray());
-        if (!string.IsNullOrWhiteSpace(creds.DiscordClientId))
-            node["DiscordClientId"] = creds.DiscordClientId;
-        if (!string.IsNullOrWhiteSpace(creds.DiscordClientSecret))
-            node["DiscordClientSecret"] = creds.DiscordClientSecret;
-        if (!string.IsNullOrWhiteSpace(creds.DashboardUrl))
-            node["DashboardUrl"] = creds.DashboardUrl;
-
-        foreach (var key in StrippedKeys)
-            node.Remove(key);
-
-        node["Token"] = token;
-        node["IsMasterInstance"] = false;
-        node["IsApiEnabled"] = true;
-        node["ApiPort"] = port;
-        node["InstanceApiHost"] = containerName;
-        node["TotalShards"] = 1;
-        return node;
+        return CustomBotChildCredentials.Build(master, new CustomBotChildInputs(token, port, containerName, apiKey,
+            creds.JwtSecret,
+            CustomBotChildCredentials.Pick(creds.CustomBotDbConnection, creds.PsqlConnectionString),
+            CustomBotChildCredentials.Pick(creds.CustomBotRedisConnection, creds.RedisConnections),
+            creds.OwnerIds, creds.DashboardUrl));
     }
 
-    private void WriteCredentials(Setup setup, string containerName, string token, int port)
+    private void WriteCredentials(Setup setup, string containerName, string token, int port, string apiKey)
     {
         var directory = CredentialsDirectory(setup, containerName);
         Directory.CreateDirectory(directory);
         var file = Path.Combine(directory, "credentials.json");
-        var json = BuildChildCredentials(token, port, containerName)
+        var json = BuildChildCredentials(token, port, containerName, apiKey)
             .ToJsonString(new JsonSerializerOptions
             {
                 WriteIndented = true
@@ -808,21 +832,25 @@ public class CustomBotService : INService, IReadyExecutor
     }
 
     private async Task<string?> LaunchAsync(Setup setup, int instanceId, ulong userId, string containerName, int port,
-        string token)
+        string token, string apiKey)
     {
         try
         {
-            WriteCredentials(setup, containerName, token, port);
+            WriteCredentials(setup, containerName, token, port, apiKey);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             logger.LogError(ex, "Could not write credentials for custom bot {Instance}", instanceId);
-            return "could not write the bot's credentials, check CustomBotDataPath";
+            return "could not prepare the bot's files, contact the owner";
         }
 
         var pulled = await docker.EnsureImageAsync(setup.Image);
         if (!pulled.Success)
-            return pulled.Message ?? "could not get the bot image";
+        {
+            logger.LogError("Could not pull the custom bot image for {Instance}: {Message}", instanceId,
+                pulled.Message);
+            return "could not get the bot image, contact the owner";
+        }
 
         var hostFile = Path.Combine(setup.HostDataPath, containerName, "credentials.json");
         var spec = new
@@ -843,7 +871,19 @@ public class CustomBotService : INService, IReadyExecutor
                 {
                     Name = "unless-stopped"
                 },
-                NetworkMode = setup.Network
+                NetworkMode = setup.Network,
+                Memory = (long)creds.CustomBotMemoryMb * 1024 * 1024,
+                MemorySwap = (long)creds.CustomBotMemoryMb * 1024 * 1024,
+                NanoCpus = (long)(creds.CustomBotCpus * 1_000_000_000d),
+                PidsLimit = (long)creds.CustomBotPidsLimit,
+                CapDrop = new[]
+                {
+                    "ALL"
+                },
+                SecurityOpt = new[]
+                {
+                    "no-new-privileges"
+                }
             },
             NetworkingConfig = new
             {
@@ -863,7 +903,10 @@ public class CustomBotService : INService, IReadyExecutor
         await docker.RemoveContainerAsync(containerName);
         var (id, error) = await docker.CreateContainerAsync(containerName, spec);
         if (id is null)
-            return error ?? "could not create the container";
+        {
+            logger.LogError("Could not create the container for custom bot {Instance}: {Message}", instanceId, error);
+            return "could not create the container, contact the owner";
+        }
 
         var started = await docker.RunActionAsync(new DockerContainerInfo
         {
@@ -872,7 +915,11 @@ public class CustomBotService : INService, IReadyExecutor
         if (!started.Success)
         {
             await docker.RemoveContainerAsync(id);
-            return started.Message ?? "could not start the container";
+        {
+            logger.LogError("Could not start the container for custom bot {Instance}: {Message}", instanceId,
+                started.Message);
+            return "could not start the container, contact the owner";
+        }
         }
 
         return null;
@@ -916,7 +963,12 @@ public class CustomBotService : INService, IReadyExecutor
             return "container is missing";
 
         var result = await docker.RunActionAsync(container, action);
-        return result.Success ? null : result.Message ?? "docker refused";
+        if (result.Success)
+            return null;
+
+        logger.LogWarning("Docker refused {Action} for custom bot {Instance}: {Message}", action, instanceId,
+            result.Message);
+        return "the action failed, try again or contact the owner";
     }
 
     /// <summary>
@@ -951,7 +1003,11 @@ public class CustomBotService : INService, IReadyExecutor
         var name = secret?.ContainerName ?? ContainerNameFor(instanceId);
         var removed = await docker.RemoveContainerAsync(name);
         if (!removed.Success)
-            return removed.Message ?? "could not remove the container";
+        {
+            logger.LogError("Could not remove the container of custom bot {Instance}: {Message}", instanceId,
+                removed.Message);
+            return "could not remove the container, contact the owner";
+        }
 
         await docker.RemoveVolumeAsync($"{name}-data");
         try
@@ -1019,12 +1075,15 @@ public class CustomBotService : INService, IReadyExecutor
             if (instance.BotId != bot.Value.Id)
                 await ReleaseAllGuildsAsync(db, instanceId);
 
-            var launch = await LaunchAsync(setup, instanceId, userId, secret.ContainerName, secret.ApiPort, token);
+            var childKey = CustomBotCrypto.GenerateApiKey();
+            var launch = await LaunchAsync(setup, instanceId, userId, secret.ContainerName, secret.ApiPort, token,
+                childKey);
             if (launch is not null)
                 return launch;
 
             await db.CustomBotSecrets.Where(x => x.InstanceId == instanceId)
                 .Set(x => x.EncryptedToken, CustomBotCrypto.Encrypt(token, Key))
+                .Set(x => x.ApiKeyEncrypted, CustomBotCrypto.Encrypt(childKey, Key))
                 .UpdateAsync();
             await db.BotInstances.Where(x => x.Id == instanceId)
                 .Set(x => x.BotId, bot.Value.Id)
@@ -1062,12 +1121,18 @@ public class CustomBotService : INService, IReadyExecutor
         if (chunk is null)
             return [];
 
-        var secrets = new[]
+        var connections = new[]
         {
-            CustomBotCrypto.Decrypt(secret.EncryptedToken, Key), creds.ApiKey, creds.JwtSecret,
-            creds.DiscordClientSecret, creds.PsqlConnectionString, creds.RedisConnections,
-            creds.CustomBotEncryptionKey, creds.KofiVerificationToken
+            creds.PsqlConnectionString, creds.RedisConnections, creds.CustomBotDbConnection,
+            creds.CustomBotRedisConnection
         };
+        var secrets = new List<string?>
+        {
+            TryReveal(secret.EncryptedToken), TryReveal(secret.ApiKeyEncrypted), creds.ApiKey, creds.JwtSecret,
+            creds.DiscordClientSecret, creds.CustomBotEncryptionKey, creds.KofiVerificationToken
+        };
+        secrets.AddRange(connections);
+        secrets.AddRange(CustomBotRedactor.ConnectionHosts(connections));
         return chunk.Lines.Select(l => CustomBotRedactor.Redact(l.Text, secrets)).ToList();
     }
 
@@ -1091,7 +1156,7 @@ public class CustomBotService : INService, IReadyExecutor
         if (!CanManageGuild(userId, guildId))
             return "you need Manage Server in that server";
 
-        var token = CustomBotCrypto.Decrypt(secret.EncryptedToken, Key);
+        var token = TryReveal(secret.EncryptedToken);
         if (token is null)
             return "stored token cannot be read";
 
@@ -1099,7 +1164,21 @@ public class CustomBotService : INService, IReadyExecutor
         if (guilds.All(g => g.Id != guildId))
             return "the bot is not in that server, invite it first";
 
+        var current = await (from o in db.GuildOwnerships
+            join i in db.BotInstances on o.InstanceId equals i.Id
+            where o.GuildId == guildId && o.InstanceId != instanceId && i.IsCustom
+            select i).FirstOrDefaultAsync();
+        if (current is not null && current.OwnerUserId != userId && !creds.IsOwner(userId))
+        {
+            logger.LogWarning(
+                "Refused guild assignment: user {UserId} wanted guild {GuildId} for instance {InstanceId} but instance {Current} holds it",
+                userId, guildId, instanceId, current.Id);
+            return "that server is already served by another custom bot";
+        }
+
         await ownership.AssignAsync(guildId, instanceId);
+        logger.LogInformation("User {UserId} assigned guild {GuildId} to custom bot instance {InstanceId}", userId,
+            guildId, instanceId);
         return null;
     }
 
@@ -1121,6 +1200,8 @@ public class CustomBotService : INService, IReadyExecutor
             return "that server is not assigned to this bot";
 
         await ownership.ReleaseAsync(guildId);
+        logger.LogInformation("User {UserId} released guild {GuildId} from custom bot instance {InstanceId}", userId,
+            guildId, instanceId);
         return null;
     }
 

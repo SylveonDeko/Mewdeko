@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Threading;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,17 +39,11 @@ public class SystemInfoController : ControllerBase
     /// <summary>
     ///     Gets system information including CPU, memory, and uptime.
     /// </summary>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>Current system resource utilization information.</returns>
     [HttpGet]
-    public IActionResult GetSystemInfo([FromQuery] ulong userId)
+    [RequireOwner]
+    public IActionResult GetSystemInfo()
     {
-        // Check if the provided user ID is a bot owner
-        if (!credentials.IsOwner(userId))
-        {
-            return Forbid();
-        }
-
         try
         {
             // Get system info

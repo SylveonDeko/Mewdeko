@@ -92,9 +92,14 @@ Add these to the master's `credentials.json`:
 | `CustomBotDataPath` | `custombots` under the working directory | Folder where each bot's credentials are written. Mount a host folder here. |
 | `CustomBotHostDataPath` | found from the master's mounts | The same folder as the Docker host sees it. |
 | `CustomBotPortStart` / `CustomBotPortEnd` | `5100` / `5999` | API port range handed to custom bots. |
-| `CustomBotEncryptionKey` | derived from `ApiKey` and `JwtSecret` | Key the stored tokens are encrypted with. Changing it makes stored tokens unreadable. |
+| `CustomBotEncryptionKey` | none, required | Key the stored tokens are encrypted with. Custom bots stay disabled until it is set. Changing it makes stored tokens unreadable. |
 | `CustomBotGraceDays` | `35` | Days after a payment before the bot is stopped. |
 | `CustomBotDaysPerPayment` | `31` | Days one payment extends a slot by. |
+| `CustomBotDbConnection` | the master's connection | Postgres connection string handed to custom bots. Point it at a limited role. |
+| `CustomBotRedisConnection` | the master's connection | Redis connection string handed to custom bots. Point it at a limited ACL user. |
+| `CustomBotMemoryMb` | `2048` | Memory limit of each custom bot container. |
+| `CustomBotCpus` | `1` | CPUs each custom bot container may use. |
+| `CustomBotPidsLimit` | `512` | Processes each custom bot container may run. |
 
 Ko-fi posts to `https://<bot api host>/botapi/CustomBots/kofi`. Subscription payments extend the buyer's slot, shop orders create slots, donations grant nothing. A buyer links a purchase to their Discord account with the email and transaction id from Ko-fi. When a slot lapses past the grace period the bot is stopped and its guilds return to the main bot. The container and token are kept for 14 days so a renewal restores the bot, then they are deleted.
 

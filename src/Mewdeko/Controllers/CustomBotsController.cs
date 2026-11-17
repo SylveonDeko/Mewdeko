@@ -4,6 +4,7 @@ using Mewdeko.Services;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.Controllers;
@@ -44,11 +45,9 @@ public class CustomBotsController(CustomBotService bots, BotCredentials creds, I
     /// <param name="Days">How many days, or null for never expiring.</param>
     public sealed record GrantRequest(int? Days);
 
-    private async Task<ulong?> JwtUserAsync()
+    private Task<ulong?> JwtUserAsync()
     {
-        var auth = await HttpContext.AuthenticateAsync(DashJwtConstants.SchemeName);
-        var claim = auth.Principal?.FindFirst(DashJwtConstants.UserIdClaim)?.Value;
-        return ulong.TryParse(claim, out var id) ? id : null;
+        return DashboardCaller.GetUserIdAsync(HttpContext);
     }
 
     private async Task<IActionResult?> GuardUserAsync(ulong userId)
@@ -57,10 +56,7 @@ public class CustomBotsController(CustomBotService bots, BotCredentials creds, I
             return StatusCode(503, new { error = "custom bots are handled by the main instance" });
 
         var jwt = await JwtUserAsync();
-        if (jwt is { } id && id != userId && !creds.IsOwner(id))
-            return Forbid();
-
-        return null;
+        return DashboardCaller.CanActFor(jwt, userId, creds.IsOwner) ? null : StatusCode(StatusCodes.Status403Forbidden);
     }
 
     private async Task<IActionResult?> GuardOwnerAsync()
@@ -69,7 +65,7 @@ public class CustomBotsController(CustomBotService bots, BotCredentials creds, I
             return StatusCode(503, new { error = "custom bots are handled by the main instance" });
 
         var jwt = await JwtUserAsync();
-        return jwt is { } id && creds.IsOwner(id) ? null : Forbid();
+        return jwt is { } id && creds.IsOwner(id) ? null : StatusCode(StatusCodes.Status403Forbidden);
     }
 
     private IActionResult Result(string? error)

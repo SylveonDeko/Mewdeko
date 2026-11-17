@@ -35,8 +35,12 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
     /// </summary>
     /// <param name="bet">The amount being wagered.</param>
     /// <param name="gameKey">Stable game identifier recorded on the ledger entry.</param>
+    /// <param name="takeStake">
+    ///     <see langword="false" /> to check the limits only, for a game that takes the stake itself
+    ///     together with saving the game.
+    /// </param>
     /// <returns><see langword="true" /> if the stake was taken and the game may proceed.</returns>
-    protected async Task<bool> TryTakeBetAsync(long bet, string gameKey)
+    protected async Task<bool> TryTakeBetAsync(long bet, string gameKey, bool takeStake = true)
     {
         var config = await ConfigService.GetConfigAsync(ctx.Guild.Id);
         var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
@@ -76,6 +80,9 @@ public abstract class SlashCurrencyBase : MewdekoSlashModuleBase<ICurrencyServic
                 return false;
             }
         }
+
+        if (!takeStake)
+            return true;
 
         if (await Service.TryDebitAsync(ctx.User.Id, bet, Strings.BetPlacedTransaction(ctx.Guild.Id, gameKey),
                 CurrencyCategory.GameBet, ctx.Guild.Id, gameKey))

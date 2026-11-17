@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Discord.Commands;
 using Mewdeko.Controllers.Common.Bot;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,9 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             UserCount = clients.Select(x => x.Guilds.Sum(g => g.Users.Count)).Sum(),
             CommitHash = GetCommitHash(),
             BotId = client.CurrentUser.Id,
-            InstanceUrl = $"http://{creds.InstanceApiHost}:{creds.ApiPort}"
+            InstanceUrl = DashboardCaller.IsOwner(await DashboardCaller.GetUserIdAsync(HttpContext), creds.IsOwner)
+                ? $"http://{creds.InstanceApiHost}:{creds.ApiPort}"
+                : ""
         };
 
         return Ok(toReturn);

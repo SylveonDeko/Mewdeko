@@ -27,7 +27,7 @@ bingo:
 blackjack:
   args:
     - number
-  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  desc: 'Opens a Blackjack table in this channel, or joins the open one. Up to 5 players. Moves are buttons.'
   params:
     - &ref_113
       desc: 'The bet amount for the player.'
@@ -37,7 +37,7 @@ blackjack:
 blackjack_long:
   args:
     - number
-  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  desc: 'Opens a Blackjack table in this channel, or joins the open one. Up to 5 players. Moves are buttons.'
   params:
     - desc: 'The bet amount for the player.'
       name: amount
@@ -46,7 +46,7 @@ blackjack_long:
 blackjack_long_1:
   args:
     - number
-  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  desc: 'Opens a Blackjack table in this channel, or joins the open one. Up to 5 players. Moves are buttons.'
   params:
     - desc: 'The bet amount for the player.'
       name: amount
@@ -55,7 +55,7 @@ blackjack_long_1:
 blackjack_long_2:
   args:
     - number
-  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  desc: 'Opens a Blackjack table in this channel, or joins the open one. Up to 5 players. Moves are buttons.'
   params:
     - desc: 'The bet amount for the player.'
       name: amount

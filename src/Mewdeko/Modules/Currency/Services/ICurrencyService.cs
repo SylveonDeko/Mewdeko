@@ -1,8 +1,48 @@
 using DataModel;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Currency.Services.Impl;
 
 namespace Mewdeko.Modules.Currency.Services;
+
+/// <summary>
+///     One player's wallet movement inside a game step.
+/// </summary>
+/// <param name="UserId">The player.</param>
+/// <param name="Debit">The amount to take from the wallet, zero for none.</param>
+/// <param name="Credit">The amount to add to the wallet, zero for none.</param>
+/// <param name="DebitDescription">The description recorded on the debit ledger entry.</param>
+/// <param name="CreditDescription">
+///     The description recorded on the credit ledger entry. When set, an entry is written even for a
+///     credit of zero, so a lost game still shows in the history.
+/// </param>
+public readonly record struct GameWalletChange(
+    ulong UserId,
+    long Debit,
+    long Credit,
+    string? DebitDescription,
+    string? CreditDescription);
+
+/// <summary>
+///     What happened to a game step that moves money and saved state together.
+/// </summary>
+public enum CurrencyStepResult
+{
+    /// <summary>
+    ///     The state changed and the money moved.
+    /// </summary>
+    Applied,
+
+    /// <summary>
+    ///     The saved state was no longer what the caller saw, so nothing changed.
+    /// </summary>
+    StateConflict,
+
+    /// <summary>
+    ///     The wallet did not hold the amount to debit, so nothing changed.
+    /// </summary>
+    InsufficientFunds
+}
 
 /// <summary>
 ///     Service interface for managing user currency balances and transactions.
@@ -63,6 +103,22 @@ public interface ICurrencyService
     /// <returns>A task representing the asynchronous operation.</returns>
     public Task CreditAsync(ulong userId, long amount, string description, CurrencyCategory category,
         ulong? guildId = null, string? source = null);
+
+    /// <summary>
+    ///     Runs a change to a game's saved state and the matching wallet movements of any number of
+    ///     players in one database transaction, so a game can never be saved without its money moving
+    ///     or the other way round.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild (optional).</param>
+    /// <param name="changes">The wallet movements, at most one per user.</param>
+    /// <param name="source">Stable machine-readable originator, such as a game key.</param>
+    /// <param name="stateChange">
+    ///     Changes the game's saved state on the transaction's connection and returns
+    ///     <see langword="false" /> when the state is no longer what the caller saw.
+    /// </param>
+    /// <returns>Whether the step was applied, lost a race on the state, or a wallet was short.</returns>
+    public Task<CurrencyStepResult> TryApplyGameStepAsync(ulong? guildId, IReadOnlyList<GameWalletChange> changes,
+        string source, Func<MewdekoDb, Task<bool>> stateChange);
 
     /// <summary>
     ///     Gets the wallet balance of the user.

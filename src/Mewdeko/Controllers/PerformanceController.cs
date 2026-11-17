@@ -1,3 +1,4 @@
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]")]
 [Authorize("ApiKeyPolicy")]
+[RequireOwner]
 public class PerformanceController : ControllerBase
 {
     private readonly BotCredentials credentials;

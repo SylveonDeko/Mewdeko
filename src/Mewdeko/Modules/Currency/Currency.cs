@@ -296,7 +296,8 @@ public partial class Currency(
     }
 
     /// <summary>
-    ///     Starts a new game of Blackjack or joins an existing one.
+    ///     Opens a blackjack table in this channel, or sits down at the one that is open for joining. Up to 5
+    ///     players share a table. Hit, stand, double, split, surrender and insurance are buttons.
     /// </summary>
     /// <param name="amount">The bet amount for the player.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -304,127 +305,107 @@ public partial class Currency(
     [Aliases]
     public async Task Blackjack(long amount)
     {
-        if (!await TryTakeBetAsync(amount, "blackjack"))
+        if (!await TryTakeBetAsync(amount, "blackjack", false))
             return;
+
+        var (status, session) = await blackjackService.SitAsync(ctx.Guild.Id, ctx.Channel.Id, ctx.User.Id, amount);
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+
+        switch (status)
+        {
+            case BlackjackSitStatus.AlreadySeated:
+                await ReplyErrorAsync(Strings.AlreadyInGame(ctx.Guild.Id));
+                return;
+            case BlackjackSitStatus.Full:
+                await ReplyErrorAsync(Strings.BlackjackGameFull(ctx.Guild.Id));
+                return;
+            case BlackjackSitStatus.InProgress:
+                await ReplyErrorAsync(Strings.BlackjackTableBusy(ctx.Guild.Id));
+                return;
+            case BlackjackSitStatus.InsufficientFunds:
+                await ErrorAsync(Strings.BetInsufficientFunds(ctx.Guild.Id, amount, emote));
+                return;
+            case BlackjackSitStatus.Joined:
+                await ReplyConfirmAsync(Strings.BlackjackJoined(ctx.Guild.Id, ctx.User.Username));
+                await blackjackService.UpdateMessageAsync(session!);
+                return;
+        }
 
         try
         {
-            var game = BlackjackService.StartOrJoinGame(ctx.User, amount);
-            var embed = game.CreateGameEmbed(Strings.BlackjackJoined(ctx.Guild.Id, ctx.User.Username), ctx.Guild.Id,
-                Strings);
-            await ReplyAsync(embeds: embed);
+            var message = await ReplyAsync(embeds: blackjackService.BuildEmbeds(session!, emote),
+                components: blackjackService.BuildButtons(session!));
+            await blackjackService.AttachMessageAsync(session!, message.Id);
         }
-        catch (InvalidOperationException ex)
+        catch
         {
-            await PushAsync(amount, "blackjack");
+            if (await blackjackService.AbandonAsync(ctx.Guild.Id, ctx.Channel.Id))
+                await ErrorAsync(Strings.BlackjackTableClosed(ctx.Guild.Id));
 
-            switch (ex.Message)
-            {
-                case "blackjack_game_full":
-                    await ReplyErrorAsync(Strings.BlackjackGameFull(ctx.Guild.Id));
-                    break;
-                case "blackjack_already_in_game":
-                    await ReplyErrorAsync(Strings.AlreadyInGame(ctx.Guild.Id));
-                    break;
-                case "no_ongoing_game":
-                    await ReplyErrorAsync(Strings.NoOngoingGame(ctx.Guild.Id));
-                    break;
-            }
+            throw;
         }
     }
 
     /// <summary>
-    ///     Hits and draws a new card for the player.
+    ///     Hits and draws a new card on the active hand. Does the same as the Hit button.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [Cmd]
     [Aliases]
     public async Task Hit()
     {
-        try
-        {
-            var game = BlackjackService.GetGame(ctx.User);
-            game.HitPlayer(ctx.User);
-            var embed = game.CreateGameEmbed(Strings.BlackjackHit(ctx.Guild.Id, ctx.User.Username), ctx.Guild.Id,
-                Strings);
-
-            if (BlackjackService.BlackjackGame.CalculateHandTotal(game.PlayerHands[ctx.User]) > 21)
-            {
-                await EndGame(game, false, Strings.BlackjackBust(ctx.Guild.Id, ctx.User.Username));
-            }
-            else if (BlackjackService.BlackjackGame.CalculateHandTotal(game.PlayerHands[ctx.User]) == 21)
-            {
-                await Stand();
-            }
-            else
-            {
-                await ReplyAsync(embeds: embed);
-            }
-        }
-        catch (InvalidOperationException ex)
-        {
-            switch (ex.Message)
-            {
-                case "no_ongoing_game":
-                    await ReplyErrorAsync(Strings.NoOngoingGame(ctx.Guild.Id));
-                    break;
-                default:
-                    await ReplyAsync(Strings.BlackjackError(ctx.Guild.Id, ex.Message));
-                    break;
-            }
-        }
+        await PlayBlackjackAsync(BlackjackActions.Hit);
     }
 
     /// <summary>
-    ///     Stands and ends the player's turn, handling the dealer's turn.
+    ///     Stands on the active hand. Does the same as the Stand button.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [Cmd]
     [Aliases]
     public async Task Stand()
     {
-        try
-        {
-            var embed = await blackjackService.HandleStandAsync(ctx.User, ctx.Guild.Id,
-                (userId, payout) => Service.AddUserBalanceAsync(userId, payout, ctx.Guild.Id),
-                (userId, payout, description) =>
-                    Service.AddTransactionAsync(userId, payout, description, ctx.Guild.Id,
-                        CurrencyCategory.GamePayout, "blackjack"),
-                await Service.GetCurrencyEmote(ctx.Guild.Id));
-            await ReplyAsync(embeds: embed);
-        }
-        catch (InvalidOperationException ex)
-        {
-            switch (ex.Message)
-            {
-                case "no_ongoing_game":
-                    await ReplyErrorAsync(Strings.NoOngoingGame(ctx.Guild.Id));
-                    break;
-                default:
-                    await ReplyAsync(Strings.BlackjackError(ctx.Guild.Id, ex.Message));
-                    break;
-            }
-        }
+        await PlayBlackjackAsync(BlackjackActions.Stand);
     }
 
     /// <summary>
-    ///     Ends the game and updates the player's balance and transactions.
+    ///     Makes a blackjack move for the caller, who must be seated and on turn, and updates the table message.
     /// </summary>
-    /// <param name="game">The current game instance.</param>
-    /// <param name="playerWon">Indicates whether the player won or lost.</param>
-    /// <param name="message">The message to display in the embed.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    private async Task EndGame(BlackjackService.BlackjackGame game, bool playerWon, string message)
+    /// <param name="action">The move.</param>
+    private async Task PlayBlackjackAsync(BlackjackActions action)
     {
-        var stake = game.Bets[ctx.User];
+        var table = await blackjackService.FindForUserAsync(ctx.Guild.Id, ctx.User.Id);
 
-        if (playerWon)
-            await WinAsync(stake, 2.0, "blackjack");
+        if (table is null)
+        {
+            await ReplyErrorAsync(Strings.NoOngoingGame(ctx.Guild.Id));
+            return;
+        }
 
-        BlackjackService.EndGame(ctx.User);
+        var result = await blackjackService.ActAsync(ctx.Guild.Id, table.ChannelId, ctx.User.Id, action);
 
-        var embed = game.CreateGameEmbed(message, ctx.Guild.Id, Strings);
-        await ReplyAsync(embeds: embed);
+        switch (result.Status)
+        {
+            case BlackjackActionStatus.Applied:
+                await blackjackService.UpdateMessageAsync(result.Session!);
+                await blackjackService.AnnounceTurnAsync(result.Session!);
+                break;
+            case BlackjackActionStatus.NotYourTurn:
+                await ReplyErrorAsync(Strings.BlackjackNotYourTurn(ctx.Guild.Id));
+                break;
+            case BlackjackActionStatus.InsufficientFunds:
+                await ErrorAsync(Strings.BlackjackInsufficient(ctx.Guild.Id, result.Cost,
+                    await Service.GetCurrencyEmote(ctx.Guild.Id)));
+                break;
+            case BlackjackActionStatus.NoGame:
+            case BlackjackActionStatus.NotSeated:
+            case BlackjackActionStatus.OtherMessage:
+                await ReplyErrorAsync(Strings.NoOngoingGame(ctx.Guild.Id));
+                break;
+            default:
+                await ReplyErrorAsync(Strings.BlackjackMoveNotAllowed(ctx.Guild.Id));
+                break;
+        }
     }
 
     /// <summary>

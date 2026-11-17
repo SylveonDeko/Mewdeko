@@ -89,6 +89,65 @@ public abstract class CurrencyServiceBase<TBalance> : ICurrencyService
     }
 
     /// <inheritdoc />
+    public async Task<CurrencyStepResult> TryApplyGameStepAsync(ulong? guildId, IReadOnlyList<GameWalletChange> changes,
+        string source, Func<MewdekoDb, Task<bool>> stateChange)
+    {
+        await using var db = await DbFactory.CreateConnectionAsync();
+        await using var transaction = await db.BeginTransactionAsync();
+
+        if (!await stateChange(db))
+        {
+            await transaction.RollbackAsync();
+            return CurrencyStepResult.StateConflict;
+        }
+
+        foreach (var change in changes.OrderBy(c => c.UserId))
+        {
+            var userId = change.UserId;
+            var debit = change.Debit;
+            var credit = change.Credit;
+
+            if (debit > 0)
+            {
+                var debited = await db.GetTable<TBalance>()
+                    .Where(UserKey(userId, guildId))
+                    .Where(x => x.Balance >= debit)
+                    .Set(x => x.Balance, x => x.Balance - debit)
+                    .UpdateAsync();
+
+                if (debited == 0)
+                {
+                    await transaction.RollbackAsync();
+                    return CurrencyStepResult.InsufficientFunds;
+                }
+
+                await db.InsertAsync(BuildTransaction(userId, -debit, change.DebitDescription ?? source, guildId,
+                    CurrencyCategory.GameBet, source));
+            }
+
+            if (credit > 0)
+            {
+                var credited = await db.GetTable<TBalance>()
+                    .Where(UserKey(userId, guildId))
+                    .Set(x => x.Balance, x => x.Balance + credit)
+                    .UpdateAsync();
+
+                if (credited == 0)
+                    await InsertBalanceRowAsync(db, userId, guildId, credit);
+            }
+
+            if (change.CreditDescription is not null)
+            {
+                await db.InsertAsync(BuildTransaction(userId, credit, change.CreditDescription, guildId,
+                    CurrencyCategory.GamePayout, source));
+            }
+        }
+
+        await transaction.CommitAsync();
+        return CurrencyStepResult.Applied;
+    }
+
+    /// <inheritdoc />
     public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId = null)
     {
         await using var db = await DbFactory.CreateConnectionAsync();

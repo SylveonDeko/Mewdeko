@@ -8,6 +8,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Controllers.Common.Bot;
+using Mewdeko.Services;
 using Mewdeko.Services.Impl;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;
@@ -29,8 +30,13 @@ public class InstanceManagementService : INService, IReadyExecutor
     /// </summary>
     private static readonly TimeSpan StatusProbeTimeout = TimeSpan.FromSeconds(10);
 
+    private static readonly System.Text.RegularExpressions.Regex HostPattern = new(
+        @"^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$",
+        System.Text.RegularExpressions.RegexOptions.Compiled);
+
     private readonly string apiKey;
     private readonly DiscordShardedClient client;
+    private readonly BotCredentials creds;
     private readonly IDataConnectionFactory dbFactory;
     private readonly IHttpClientFactory factory;
     private readonly ILogger<InstanceManagementService> logger;
@@ -46,7 +52,7 @@ public class InstanceManagementService : INService, IReadyExecutor
         IDataConnectionFactory dbFactory,
         IHttpClientFactory factory, DiscordShardedClient client, ILogger<InstanceManagementService> logger)
     {
-        var creds = new BotCredentials();
+        creds = new BotCredentials();
         apiKey = creds.ApiKey;
         this.dbFactory = dbFactory;
         this.factory = factory;
@@ -113,10 +119,77 @@ public class InstanceManagementService : INService, IReadyExecutor
         }
     }
 
-    private HttpClient CreateAuthenticatedClient()
+    /// <summary>
+    ///     Checks that a host is a plain host name or IP address, with no scheme, port, path or credentials.
+    /// </summary>
+    /// <param name="host">The host to check. Null or empty is accepted and means the default.</param>
+    /// <returns>True when the host is safe to put into a URL.</returns>
+    public static bool IsValidHost(string? host)
+    {
+        if (string.IsNullOrEmpty(host))
+            return true;
+
+        if (host.Length > 253)
+            return false;
+
+        if (host.All(c => c is >= '0' and <= '9' or >= 'a' and <= 'f' or >= 'A' and <= 'F' or ':' or '.') &&
+            System.Net.IPAddress.TryParse(host, out _))
+            return true;
+
+        return HostPattern.IsMatch(host);
+    }
+
+    private byte[]? CurrentCryptoKey => string.IsNullOrWhiteSpace(creds.CustomBotEncryptionKey)
+        ? null
+        : CustomBotCrypto.DeriveKey(creds.CustomBotEncryptionKey);
+
+    private async Task<string> ApiKeyForPortAsync(int port)
+    {
+        if (CurrentCryptoKey is not { } key)
+            return apiKey;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var secret = await db.CustomBotSecrets.FirstOrDefaultAsync(x => x.ApiPort == port);
+        return CustomBotCrypto.ResolveApiKey(secret?.ApiKeyEncrypted, key,
+            CustomBotCrypto.LegacyKey(creds.ApiKey, creds.JwtSecret), apiKey);
+    }
+
+    /// <summary>
+    ///     Gets the API key of every custom bot that has its own, keyed by port. Only the dashboard server may be
+    ///     given these.
+    /// </summary>
+    /// <returns>A map from instance port to that instance's API key.</returns>
+    public async Task<Dictionary<string, string>> GetInstanceKeysAsync()
+    {
+        var result = new Dictionary<string, string>();
+        if (CurrentCryptoKey is not { } key)
+            return result;
+
+        var legacy = CustomBotCrypto.LegacyKey(creds.ApiKey, creds.JwtSecret);
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var secrets = await db.CustomBotSecrets.Where(x => x.ApiKeyEncrypted != null).ToListAsync();
+        foreach (var secret in secrets)
+        {
+            var (plain, _) = CustomBotCrypto.DecryptWithFallback(secret.ApiKeyEncrypted!, key, legacy);
+            if (plain is not null)
+                result[secret.ApiPort.ToString()] = plain;
+        }
+
+        return result;
+    }
+
+    private async Task<HttpClient> CreateAuthenticatedClientAsync(int port, bool asOwner)
     {
         var httpClient = factory.CreateClient();
-        httpClient.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
+        httpClient.DefaultRequestHeaders.Add("X-Api-Key", await ApiKeyForPortAsync(port));
+        if (asOwner && creds.OwnerIds.Length > 0 && !string.IsNullOrWhiteSpace(creds.JwtSecret))
+        {
+            var token = AuthHandlers.DashJwtConstants.MintToken(creds.JwtSecret, creds.OwnerIds[0],
+                TimeSpan.FromMinutes(2));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+
         return httpClient;
     }
 
@@ -158,6 +231,9 @@ public class InstanceManagementService : INService, IReadyExecutor
         if (port is < 1024 or > 65535)
             throw new ArgumentOutOfRangeException(nameof(port), "Port must be between 1024 and 65535");
 
+        if (!IsValidHost(host))
+            return (false, null, "invalid_host");
+
         var resolvedHost = string.IsNullOrWhiteSpace(host) ? "localhost" : host;
 
         await using var db = await dbFactory.CreateConnectionAsync();
@@ -197,11 +273,14 @@ public class InstanceManagementService : INService, IReadyExecutor
         if (port is < 1024 or > 65535)
             throw new ArgumentOutOfRangeException(nameof(port), "Port must be between 1024 and 65535");
 
+        if (!IsValidHost(host))
+            return null;
+
         var resolvedHost = string.IsNullOrWhiteSpace(host) ? await ResolveHostAsync(port) : host;
 
         try
         {
-            using var httpClient = CreateAuthenticatedClient();
+            using var httpClient = await CreateAuthenticatedClientAsync(port, false);
             using var timeout = new CancellationTokenSource(StatusProbeTimeout);
             var response = await httpClient.GetAsync($"http://{resolvedHost}:{port}/botapi/BotStatus",
                 timeout.Token);
@@ -454,7 +533,7 @@ public class InstanceManagementService : INService, IReadyExecutor
         try
         {
             var host = await ResolveHostAsync(port);
-            using var httpClient = CreateAuthenticatedClient();
+            using var httpClient = await CreateAuthenticatedClientAsync(port, true);
             var response =
                 await httpClient.PostAsync($"http://{host}:{port}/botapi/InstanceManagement/update", null);
 
@@ -491,7 +570,7 @@ public class InstanceManagementService : INService, IReadyExecutor
         try
         {
             var host = await ResolveHostAsync(port);
-            using var httpClient = CreateAuthenticatedClient();
+            using var httpClient = await CreateAuthenticatedClientAsync(port, true);
             var response =
                 await httpClient.PostAsync($"http://{host}:{port}/botapi/InstanceManagement/restart", null);
 

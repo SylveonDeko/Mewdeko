@@ -350,10 +350,24 @@ public class GuildOwnershipService : INService, IReadyExecutor, IDisposable
         if (parts.Length != 2 || !ulong.TryParse(parts[0], out var guildId) || !int.TryParse(parts[1], out var owner))
             return;
 
-        if (owner == 0)
-            map.Remove(guildId);
-        else
-            map.Set(guildId, owner);
+        _ = ApplyVerifiedAsync(guildId);
+    }
+
+    private async Task ApplyVerifiedAsync(ulong guildId)
+    {
+        try
+        {
+            await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
+            var row = await db.GuildOwnerships.FirstOrDefaultAsync(x => x.GuildId == guildId).ConfigureAwait(false);
+            if (row is null)
+                map.Remove(guildId);
+            else
+                map.Set(guildId, row.InstanceId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to verify a guild ownership change for {GuildId}", guildId);
+        }
     }
 
     private void OnConnectionRestored(object? sender, ConnectionFailedEventArgs args)
