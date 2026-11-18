@@ -432,6 +432,58 @@ public class BotCredentials : IBotCredentials
     public int CustomBotPidsLimit { get; set; } = 512;
 
     /// <summary>
+    ///     Gets or sets whether the run command is available.
+    /// </summary>
+    public bool CodeRunEnabled { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the container runtime code runs use, such as runsc. Empty uses Docker's default.
+    /// </summary>
+    public string CodeRunRuntime { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the Docker host code runs go to, as a unix:// or tcp:// address. Empty uses this instance's own
+    ///     Docker connection.
+    /// </summary>
+    public string CodeRunDockerHost { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the PFX file holding the client certificate for a tcp:// code run host.
+    /// </summary>
+    public string CodeRunDockerCertFile { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the password of the client certificate file. Empty means none.
+    /// </summary>
+    public string CodeRunDockerCertPassword { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the PEM file of the certificate authority the code run host's certificate must chain to.
+    /// </summary>
+    public string CodeRunDockerCaFile { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the client certificate as PEM text. Used instead of the PFX file when set with the key.
+    /// </summary>
+    public string CodeRunDockerCertPem { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the client certificate's private key as PEM text.
+    /// </summary>
+    public string CodeRunDockerKeyPem { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the certificate authority as PEM text. Used instead of the CA file when set.
+    /// </summary>
+    public string CodeRunDockerCaPem { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the code run Docker host address custom bots use. Empty means custom bots get no code run
+    ///     settings at all.
+    /// </summary>
+    public string CodeRunDockerHostForCustomBots { get; set; } = "";
+
+    /// <summary>
     ///     Checks if the specified user is an owner.
     /// </summary>
     /// <param name="u">The user to check.</param>
@@ -736,6 +788,16 @@ public class BotCredentials : IBotCredentials
             CustomBotPidsLimit = int.TryParse(data[nameof(CustomBotPidsLimit)], out var cbPids) && cbPids >= 16
                 ? cbPids
                 : 512;
+            CodeRunEnabled = bool.TryParse(data[nameof(CodeRunEnabled)], out var codeRun) && codeRun;
+            CodeRunRuntime = data[nameof(CodeRunRuntime)] ?? "";
+            CodeRunDockerHost = data[nameof(CodeRunDockerHost)] ?? "";
+            CodeRunDockerCertFile = data[nameof(CodeRunDockerCertFile)] ?? "";
+            CodeRunDockerCertPassword = data[nameof(CodeRunDockerCertPassword)] ?? "";
+            CodeRunDockerCaFile = data[nameof(CodeRunDockerCaFile)] ?? "";
+            CodeRunDockerCertPem = data[nameof(CodeRunDockerCertPem)] ?? "";
+            CodeRunDockerKeyPem = data[nameof(CodeRunDockerKeyPem)] ?? "";
+            CodeRunDockerCaPem = data[nameof(CodeRunDockerCaPem)] ?? "";
+            CodeRunDockerHostForCustomBots = data[nameof(CodeRunDockerHostForCustomBots)] ?? "";
             LavalinkPassword = data[nameof(LavalinkPassword)] ?? "youshallnotpass";
             LavalinkDefaultSearchSource = data[nameof(LavalinkDefaultSearchSource)] ?? "youtube";
 

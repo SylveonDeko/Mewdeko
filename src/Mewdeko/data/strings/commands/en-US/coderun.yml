@@ -1,0 +1,16 @@
+run:
+  args:
+    - 'python print("hi")'
+    - 'js console.log(1 + 1)'
+    - 'languages'
+  desc: 'Runs code in a throwaway sandbox and shows the output. Give a language and the code, or a code block whose first line names the language. Use run languages to see what is installed.'
+  params:
+    - desc: 'The language and the code, or a code block.'
+      name: input
+      optional: true
+      type: string
+pullrunimages:
+  args:
+    - ''
+  desc: 'Pulls the Docker images of every language the run command offers and reports progress.'
+  params: [ ]

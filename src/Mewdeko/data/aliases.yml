@@ -5163,3 +5163,9 @@ backgroundpresets:
   - backgroundpresets
   - bgpresets
   - cardbackgrounds
+run:
+  - run
+  - runcode
+pullrunimages:
+  - pullrunimages
+  - pullruns

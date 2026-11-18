@@ -1,0 +1,102 @@
+[
+  {
+    "name": "python",
+    "aliases": ["py", "python3"],
+    "image": "python:3.13-alpine",
+    "fileName": "main.py",
+    "run": "python3 main.py",
+    "env": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONUNBUFFERED": "1"
+    }
+  },
+  {
+    "name": "javascript",
+    "aliases": ["js", "node", "nodejs"],
+    "image": "node:22-alpine",
+    "fileName": "main.js",
+    "run": "node main.js"
+  },
+  {
+    "name": "typescript",
+    "aliases": ["ts"],
+    "image": "node:22-alpine",
+    "fileName": "main.ts",
+    "run": "node main.ts"
+  },
+  {
+    "name": "bash",
+    "aliases": ["sh", "shell"],
+    "image": "bash:5.2",
+    "fileName": "main.sh",
+    "run": "bash main.sh"
+  },
+  {
+    "name": "c",
+    "aliases": [],
+    "image": "gcc:14",
+    "fileName": "main.c",
+    "compile": "gcc -O1 -o main main.c -lm",
+    "run": "./main"
+  },
+  {
+    "name": "cpp",
+    "aliases": ["c++", "cc"],
+    "image": "gcc:14",
+    "fileName": "main.cpp",
+    "compile": "g++ -O1 -std=c++20 -o main main.cpp",
+    "run": "./main"
+  },
+  {
+    "name": "java",
+    "aliases": [],
+    "image": "eclipse-temurin:21-jdk-alpine",
+    "fileName": "Main.java",
+    "compile": "javac -d . Main.java",
+    "run": "java -Xmx128m -XX:+UseSerialGC -XX:-UsePerfData -cp . Main"
+  },
+  {
+    "name": "go",
+    "aliases": ["golang"],
+    "image": "mewdeko-coderun-go:1.23",
+    "fileName": "main.go",
+    "compile": "go build -o main main.go",
+    "run": "./main",
+    "env": {
+      "GOCACHE": "/gocache",
+      "GOPATH": "/work/go",
+      "GOFLAGS": "-buildvcs=false",
+      "GOTOOLCHAIN": "local",
+      "CGO_ENABLED": "0"
+    }
+  },
+  {
+    "name": "rust",
+    "aliases": ["rs"],
+    "image": "rust:1.83-alpine",
+    "fileName": "main.rs",
+    "compile": "rustc -O -o main main.rs",
+    "run": "./main"
+  },
+  {
+    "name": "ruby",
+    "aliases": ["rb"],
+    "image": "ruby:3.3-alpine",
+    "fileName": "main.rb",
+    "run": "ruby main.rb"
+  },
+  {
+    "name": "php",
+    "aliases": [],
+    "image": "php:8.3-cli-alpine",
+    "fileName": "main.php",
+    "run": "php main.php"
+  },
+  {
+    "name": "perl",
+    "aliases": ["pl"],
+    "image": "perl:5.40-slim",
+    "fileName": "main.pl",
+    "run": "perl main.pl"
+  }
+]

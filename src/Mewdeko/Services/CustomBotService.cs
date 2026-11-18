@@ -815,7 +815,11 @@ public class CustomBotService : INService, IReadyExecutor
             creds.JwtSecret,
             CustomBotChildCredentials.Pick(creds.CustomBotDbConnection, creds.PsqlConnectionString),
             CustomBotChildCredentials.Pick(creds.CustomBotRedisConnection, creds.RedisConnections),
-            creds.OwnerIds, creds.DashboardUrl));
+            creds.OwnerIds, creds.DashboardUrl,
+            CustomBotCodeRun.For(creds.CodeRunEnabled, creds.CodeRunRuntime, creds.CodeRunDockerHostForCustomBots,
+                new DockerTlsSettings(creds.CodeRunDockerCertFile, creds.CodeRunDockerCertPassword,
+                    creds.CodeRunDockerCaFile, creds.CodeRunDockerCertPem, creds.CodeRunDockerKeyPem,
+                    creds.CodeRunDockerCaPem))));
     }
 
     private void WriteCredentials(Setup setup, string containerName, string token, int port, string apiKey)

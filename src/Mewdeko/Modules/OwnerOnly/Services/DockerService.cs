@@ -88,6 +88,18 @@ public sealed class DockerService : INService, IDisposable
         }
     }
 
+    /// <summary>
+    ///     Gets the client for this instance's own Docker connection, or null when no daemon was found. The service
+    ///     keeps ownership, callers must not dispose it.
+    /// </summary>
+    public HttpClient? ApiClient
+    {
+        get
+        {
+            return Client;
+        }
+    }
+
     private HttpClient? Client
     {
         get
@@ -895,28 +907,7 @@ public sealed class DockerService : INService, IDisposable
 
     private static (HttpClient, string, string, string?) BuildUnixTransport(string socketPath)
     {
-        var handler = new SocketsHttpHandler
-        {
-            ConnectCallback = async (_, cancellationToken) =>
-            {
-                var socket = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
-                try
-                {
-                    await socket.ConnectAsync(new UnixDomainSocketEndPoint(socketPath), cancellationToken);
-                    return new NetworkStream(socket, true);
-                }
-                catch
-                {
-                    socket.Dispose();
-                    throw;
-                }
-            }
-        };
-
-        return (new HttpClient(handler)
-        {
-            BaseAddress = new Uri("http://docker/"), Timeout = Timeout.InfiniteTimeSpan
-        }, "unix://" + socketPath, socketPath, null);
+        return DockerTransport.BuildUnix(socketPath);
     }
 
     private async Task<HttpResponseMessage?> GetAsync(string path)

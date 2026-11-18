@@ -520,6 +520,7 @@ public sealed class CustomBotClaimLimiter(int maxAttempts, TimeSpan window)
 /// <param name="RedisConnection">The Redis connection string the bot gets.</param>
 /// <param name="OwnerIds">The owners of the main bot.</param>
 /// <param name="DashboardUrl">The dashboard address.</param>
+/// <param name="CodeRun">The code run settings the bot gets, or null for none.</param>
 public sealed record CustomBotChildInputs(
     string Token,
     int Port,
@@ -529,7 +530,39 @@ public sealed record CustomBotChildInputs(
     string DbConnection,
     string RedisConnection,
     IEnumerable<ulong> OwnerIds,
-    string? DashboardUrl);
+    string? DashboardUrl,
+    CustomBotCodeRun? CodeRun = null);
+
+/// <summary>
+///     The code run settings handed to a custom bot. The certificate material is inline PEM because the container
+///     cannot read the master's files.
+/// </summary>
+/// <param name="Runtime">The sandbox runtime.</param>
+/// <param name="Host">The address of the code run host as the container reaches it.</param>
+/// <param name="CertPem">The client certificate as PEM text, or empty.</param>
+/// <param name="KeyPem">The client certificate's key as PEM text, or empty.</param>
+/// <param name="CaPem">The certificate authority as PEM text, or empty.</param>
+public sealed record CustomBotCodeRun(string Runtime, string Host, string CertPem, string KeyPem, string CaPem)
+{
+    /// <summary>
+    ///     Decides what code run settings custom bots get. They get none unless code runs are enabled and an address
+    ///     for custom bots is set.
+    /// </summary>
+    /// <param name="enabled">Whether the master has code runs enabled.</param>
+    /// <param name="runtime">The master's sandbox runtime.</param>
+    /// <param name="hostForCustomBots">The address custom bots use.</param>
+    /// <param name="tls">The master's TLS settings, as files or inline PEM.</param>
+    public static CustomBotCodeRun? For(bool enabled, string runtime, string hostForCustomBots,
+        Modules.OwnerOnly.Services.DockerTlsSettings tls)
+    {
+        if (!enabled || string.IsNullOrWhiteSpace(hostForCustomBots))
+            return null;
+
+        var pem = Modules.OwnerOnly.Services.DockerTransport.ExportPem(tls);
+        return new CustomBotCodeRun(runtime ?? "", hostForCustomBots.Trim(), pem?.CertPem ?? "", pem?.KeyPem ?? "",
+            pem?.CaPem ?? "");
+    }
+}
 
 /// <summary>
 ///     Builds a custom bot's credentials from an allowlist, so a key added to the master's file later never reaches a
@@ -590,6 +623,16 @@ public static class CustomBotChildCredentials
         node["ApiPort"] = inputs.Port;
         node["InstanceApiHost"] = inputs.ContainerName;
         node["TotalShards"] = 1;
+        if (inputs.CodeRun is { } codeRun)
+        {
+            node["CodeRunEnabled"] = true;
+            node["CodeRunRuntime"] = codeRun.Runtime;
+            node["CodeRunDockerHost"] = codeRun.Host;
+            node["CodeRunDockerCertPem"] = codeRun.CertPem;
+            node["CodeRunDockerKeyPem"] = codeRun.KeyPem;
+            node["CodeRunDockerCaPem"] = codeRun.CaPem;
+        }
+
         return node;
     }
 }
