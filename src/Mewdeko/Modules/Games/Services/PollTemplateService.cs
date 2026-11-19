@@ -58,7 +58,7 @@ public class PollTemplateService : INService
             // Check if template name already exists in this guild
             var existingTemplate = await db.GetTable<PollTemplate>()
                 .FirstOrDefaultAsync(t => t.GuildId == guildId &&
-                                          string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase));
+                                          t.Name.ToLower() == name.ToLower());
 
             if (existingTemplate != null)
                 throw new InvalidOperationException($"A template with the name '{name}' already exists in this guild");
@@ -147,7 +147,7 @@ public class PollTemplateService : INService
             await using var db = await dbFactory.CreateConnectionAsync();
             return await db.GetTable<PollTemplate>()
                 .FirstOrDefaultAsync(t => t.GuildId == guildId &&
-                                          string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase));
+                                          t.Name.ToLower() == name.ToLower());
         }
         catch (Exception ex)
         {
@@ -195,7 +195,7 @@ public class PollTemplateService : INService
                 // Check if new name already exists
                 var existingTemplate = await db.GetTable<PollTemplate>()
                     .FirstOrDefaultAsync(t => t.GuildId == template.GuildId &&
-                                              string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase) &&
+                                              t.Name.ToLower() == name.ToLower() &&
                                               t.Id != templateId);
 
                 if (existingTemplate != null)

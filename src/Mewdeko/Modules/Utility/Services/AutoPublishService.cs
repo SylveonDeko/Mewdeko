@@ -233,9 +233,9 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
+        var lowered = word.ToLower();
         var existingWordBlacklist = await dbContext.PublishWordBlacklists
-            .FirstOrDefaultAsync(x =>
-                x.ChannelId == channelId && x.Word.Equals(word, StringComparison.CurrentCultureIgnoreCase));
+            .FirstOrDefaultAsync(x => x.ChannelId == channelId && x.Word.ToLower() == lowered);
         if (existingWordBlacklist != null)
         {
             // Word is already blacklisted in the channel
@@ -244,7 +244,7 @@ public class AutoPublishService : INService
 
         var wordBlacklist = new PublishWordBlacklist
         {
-            ChannelId = channelId, Word = word.ToLower()
+            ChannelId = channelId, Word = lowered
         };
         await dbContext.InsertAsync(wordBlacklist);
 
@@ -261,9 +261,9 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
+        var lowered = word.ToLower();
         var wordBlacklist = await dbContext.PublishWordBlacklists
-            .FirstOrDefaultAsync(x =>
-                x.ChannelId == channelId && x.Word.Equals(word, StringComparison.CurrentCultureIgnoreCase));
+            .FirstOrDefaultAsync(x => x.ChannelId == channelId && x.Word.ToLower() == lowered);
         if (wordBlacklist == null)
         {
             // Word is not blacklisted in the channel

@@ -578,7 +578,7 @@ public class FilterService : IEarlyBehavior, INService
 
         await db.FilteredWords
             .Where(fw => fw.GuildId == guildId &&
-                         fw.Word.Trim().Equals(word, StringComparison.InvariantCultureIgnoreCase))
+                         fw.Word.Trim().ToLower() == word.ToLower())
             .DeleteAsync();
         InvalidateCache(guildId);
     }
