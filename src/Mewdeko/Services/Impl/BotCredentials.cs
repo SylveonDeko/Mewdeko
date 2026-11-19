@@ -293,6 +293,12 @@ public class BotCredentials : IBotCredentials
     public string CdnUrl { get; set; }
 
     /// <summary>
+    ///     Gets or sets the Postgres connection string of the database that holds the translation tables. Empty means
+    ///     this instance's own database.
+    /// </summary>
+    public string TranslationsDbConnection { get; set; } = "";
+
+    /// <summary>
     ///     Gets or sets the Twitch client ID.
     /// </summary>
     public string TwitchClientId { get; set; }
@@ -735,6 +741,7 @@ public class BotCredentials : IBotCredentials
             ChatSavePath = data[nameof(ChatSavePath)];
             CdnPath = data[nameof(CdnPath)] ?? "";
             CdnUrl = (data[nameof(CdnUrl)] ?? "").TrimEnd('/');
+            TranslationsDbConnection = data[nameof(TranslationsDbConnection)] ?? "";
             IsApiEnabled = bool.Parse(data[nameof(IsApiEnabled)] ?? "false");
 
 
@@ -969,6 +976,7 @@ public class BotCredentials : IBotCredentials
         public string ChatSavePath { get; } = "/usr/share/nginx/cdn/chatlogs/";
         public string CdnPath { get; } = "";
         public string CdnUrl { get; } = "";
+        public string TranslationsDbConnection { get; } = "";
         public bool PostgresSetupCompleted { get; set; }
         public string SentryDsn { get; } = "";
 

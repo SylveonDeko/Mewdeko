@@ -20,6 +20,7 @@ using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
+using Mewdeko.Services.Translations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -32,7 +33,6 @@ namespace Mewdeko.Modules.OwnerOnly;
 ///     operations within the Mewdeko bot framework.
 /// </summary>
 /// <param name="client">The Discord client used to interact with the Discord API.</param>
-/// <param name="strings">Provides access to localized strings within the bot.</param>
 /// <param name="serv">Interactive service for handling interactive user commands.</param>
 /// <param name="dbFactory">Service for database operations and access.</param>
 /// <param name="cache">Cache service for storing and retrieving temporary data.</param>
@@ -41,11 +41,11 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="creds">Bot credentials and configuration secrets.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
 /// <param name="botHells">Service that flags servers littered with bots.</param>
+/// <param name="translations">Service that applies approved translations over the loaded strings.</param>
 [SlashOwnerOnly]
 [Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
 public partial class SlashOwnerOnly(
     DiscordShardedClient client,
-    IBotStrings strings,
     InteractiveService serv,
     IDataConnectionFactory dbFactory,
     IDataCache cache,
@@ -53,7 +53,8 @@ public partial class SlashOwnerOnly(
     CommandHandler commandHandler,
     BotCredentials creds,
     ILogger<SlashOwnerOnly> logger,
-    BotHellService botHells)
+    BotHellService botHells,
+    TranslationService translations)
     : MewdekoSlashModuleBase<OwnerOnlyService>
 {
     /// <summary>
@@ -583,10 +584,10 @@ public partial class SlashOwnerOnly(
     ///     A confirmation message is sent upon successful reloading of bot strings.
     /// </remarks>
     [SlashCommand("stringsreload", "Reloads localized strings")]
-    public Task StringsReload()
+    public async Task StringsReload()
     {
-        strings.Reload();
-        return ReplyConfirmAsync(Strings.BotStringsReloaded(ctx.Guild.Id));
+        await translations.ReloadAsync(true).ConfigureAwait(false);
+        await ReplyConfirmAsync(Strings.BotStringsReloaded(ctx.Guild.Id)).ConfigureAwait(false);
     }
 
     private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)

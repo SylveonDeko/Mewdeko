@@ -62,6 +62,12 @@ public interface IBotCredentials
     public string CdnUrl { get; }
 
     /// <summary>
+    ///     Gets the Postgres connection string of the database that holds the translation tables. Empty means the
+    ///     bot's own database.
+    /// </summary>
+    public string TranslationsDbConnection { get; }
+
+    /// <summary>
     ///     Gets the total number of shards the bot has.
     /// </summary>
     public int TotalShards { get; }

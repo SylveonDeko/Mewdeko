@@ -237,6 +237,17 @@ public class MultiGreetService : INService
             if (deleteTime > 0)
                 msg.DeleteAfter(deleteTime);
         }
+        else
+        {
+            await DisableEmptyGreet(greet, user);
+        }
+    }
+
+    private async Task DisableEmptyGreet(MultiGreet greet, IGuildUser user)
+    {
+        await MultiGreetDisable(greet, true);
+        logger.LogInformation("MultiGreet {GreetId} disabled in {Guild} because it has nothing to send", greet.Id,
+            user.Guild);
     }
 
     private async Task<ulong> SendSmartEmbedWebhookMessage(DiscordWebhookClient webhook, string content,
@@ -255,6 +266,12 @@ public class MultiGreetService : INService
                 ? await webhook.SendMessageAsync(plainText, embeds: embedData, components: built)
                 : await webhook.SendFileAsync(new MemoryStream(card), WelcomeCardService.FileName, plainText,
                     embeds: embedData, components: built);
+        }
+
+        if (string.IsNullOrWhiteSpace(content) && card is null)
+        {
+            await DisableEmptyGreet(greet, user);
+            return 0;
         }
 
         return card is null
@@ -288,7 +305,7 @@ public class MultiGreetService : INService
             {
                 var webhook = new DiscordWebhookClient(greet.WebhookUrl);
                 var msgId = await SendSmartEmbedWebhookMessage(webhook, content, greet, user);
-                if (greet.DeleteTime > 0)
+                if (greet.DeleteTime > 0 && msgId != 0)
                 {
                     var msg = await channel.GetMessageAsync(msgId);
                     msg?.DeleteAfter(greet.DeleteTime);

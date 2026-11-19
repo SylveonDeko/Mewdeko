@@ -1,3 +1,5 @@
+using Mewdeko.Services.Translations;
+
 namespace Mewdeko.Services.strings.impl;
 
 /// <summary>
@@ -6,6 +8,7 @@ namespace Mewdeko.Services.strings.impl;
 public class LocalBotStringsProvider : IBotStringsProvider
 {
     private readonly IStringsSource source;
+    private volatile IReadOnlyList<TranslationOverride> overrides = [];
     private IReadOnlyDictionary<string, Dictionary<string, CommandStrings>> commandStrings;
     private IReadOnlyDictionary<string, Dictionary<string, string>> responseStrings;
 
@@ -41,8 +44,17 @@ public class LocalBotStringsProvider : IBotStringsProvider
     /// </summary>
     public void Reload()
     {
-        responseStrings = source.GetResponseStrings();
+        var responses = source.GetResponseStrings();
+        TranslationOverrides.Apply(responses, overrides);
+        responseStrings = responses;
         commandStrings = source.GetCommandStrings();
+    }
+
+    /// <inheritdoc />
+    public void ReloadWithOverrides(IReadOnlyList<TranslationOverride> newOverrides)
+    {
+        overrides = newOverrides;
+        Reload();
     }
 
     /// <inheritdoc />

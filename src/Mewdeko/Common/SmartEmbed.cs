@@ -49,7 +49,7 @@ public static class SmartEmbed
 
             if (string.IsNullOrEmpty(input))
             {
-                Log.Warning("Embed text was empty for guild {GuildId}, called from {Caller} at {File}:{Line}",
+                Log.Debug("Embed text was empty for guild {GuildId}, called from {Caller} at {File}:{Line}",
                     guildId, caller, Path.GetFileName(callerFile), callerLine);
                 return false;
             }

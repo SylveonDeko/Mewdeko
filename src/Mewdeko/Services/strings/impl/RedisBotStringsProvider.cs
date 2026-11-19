@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Web;
+using Mewdeko.Services.Translations;
 using StackExchange.Redis;
 
 namespace Mewdeko.Services.strings.impl;
@@ -14,6 +15,7 @@ public class RedisBotStringsProvider : IBotStringsProvider
     private readonly ConnectionMultiplexer redis;
     private readonly IStringsSource source;
     private IReadOnlyCollection<string> availableLocales = Array.Empty<string>();
+    private volatile IReadOnlyList<TranslationOverride> overrides = [];
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="RedisBotStringsProvider" /> class.
@@ -96,13 +98,32 @@ public class RedisBotStringsProvider : IBotStringsProvider
         var responseStrings = source.GetResponseStrings();
         availableLocales = responseStrings.Keys.ToArray();
 
+        var resolvedOverrides = TranslationOverrides.Resolve(responseStrings, overrides);
+
         foreach (var (localeName, localeStrings) in responseStrings)
         {
+            var hashKey = $"{creds.RedisKey()}:responses:{localeName}";
             var hashFields = localeStrings
                 .Select(x => new HashEntry(x.Key, x.Value))
                 .ToArray();
 
-            redisDb.HashSet($"{creds.RedisKey()}:responses:{localeName}", hashFields);
+            redisDb.HashSet(hashKey, hashFields);
+
+            resolvedOverrides.TryGetValue(localeName, out var localeOverrides);
+            var staleFields = redisDb.HashKeys(hashKey)
+                .Where(x => !localeStrings.ContainsKey(x.ToString())
+                            && localeOverrides?.ContainsKey(x.ToString()) != true)
+                .ToArray();
+
+            if (staleFields.Length > 0)
+                redisDb.HashDelete(hashKey, staleFields);
+
+            if (localeOverrides is { Count: > 0 })
+            {
+                redisDb.HashSet(hashKey, localeOverrides
+                    .Select(x => new HashEntry(x.Key, x.Value))
+                    .ToArray());
+            }
         }
 
         foreach (var (localeName, localeStrings) in source.GetCommandStrings())
@@ -181,6 +202,13 @@ public class RedisBotStringsProvider : IBotStringsProvider
 
             redisDb.HashSet($"{creds.RedisKey()}:commands:{localeName}", hashFields.ToArray());
         }
+    }
+
+    /// <inheritdoc />
+    public void ReloadWithOverrides(IReadOnlyList<TranslationOverride> newOverrides)
+    {
+        overrides = newOverrides;
+        Reload();
     }
 
     /// <inheritdoc />

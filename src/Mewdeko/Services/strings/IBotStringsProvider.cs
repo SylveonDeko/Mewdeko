@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Services.strings.impl;
+using Mewdeko.Services.Translations;
 
 namespace Mewdeko.Services.strings;
 
@@ -19,6 +20,13 @@ public interface IBotStringsProvider
     ///     Reloads string cache
     /// </summary>
     public void Reload();
+
+    /// <summary>
+    ///     Reloads string cache and puts the given approved translations over the file text. The translations are kept
+    ///     and applied again by later calls to <see cref="Reload" />.
+    /// </summary>
+    /// <param name="overrides">The approved translations.</param>
+    public void ReloadWithOverrides(IReadOnlyList<TranslationOverride> overrides);
 
     /// <summary>
     ///     Gets command arg examples and description

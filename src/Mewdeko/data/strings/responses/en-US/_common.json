@@ -221,7 +221,6 @@
   "code_block_platform": "```{0}",
   "code_block_shell": "```{0}\n{1}```",
   "color_field": "`Color:` {0}\n",
-  "color_invalid": "All RGB color values must be >0 and <255",
   "color_set": "Color Set",
   "comic_not_found": "Comic not found.",
   "comic_number": "Comic #",

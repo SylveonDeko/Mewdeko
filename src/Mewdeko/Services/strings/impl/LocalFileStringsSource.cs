@@ -41,17 +41,31 @@ public class LocalFileStringsSource : IStringsSource
     /// <returns>A dictionary containing response strings for each locale.</returns>
     public Dictionary<string, Dictionary<string, string>> GetResponseStrings()
     {
-        var outputDict = new Dictionary<string, Dictionary<string, string>>();
+        var outputDict = MergeResponseFiles(GetResponseFiles());
 
-        foreach (var file in Directory.GetFiles(responsesPath, "*.json"))
+        foreach (var localeDir in Directory.GetDirectories(responsesPath))
+            outputDict.TryAdd(Path.GetFileName(localeDir), new Dictionary<string, string>());
+
+        return outputDict;
+    }
+
+    /// <summary>
+    ///     Gets the response files one by one. Legacy single-file locales come first, then each locale directory's
+    ///     files, ordered by file name without extension using ordinal comparison.
+    /// </summary>
+    /// <returns>One entry per file that could be read.</returns>
+    public List<ResponseFile> GetResponseFiles()
+    {
+        var files = new List<ResponseFile>();
+
+        foreach (var file in Directory.GetFiles(responsesPath, "*.json").OrderBy(GetGroupName, StringComparer.Ordinal))
         {
             try
             {
                 var langDict =
                     JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(file), LenientOptions);
-                var localeName = GetLocaleName(file);
                 if (langDict != null)
-                    outputDict[localeName] = langDict;
+                    files.Add(new ResponseFile(GetLocaleName(file), "", langDict));
             }
             catch (Exception ex)
             {
@@ -59,14 +73,11 @@ public class LocalFileStringsSource : IStringsSource
             }
         }
 
-        foreach (var localeDir in Directory.GetDirectories(responsesPath))
+        foreach (var localeDir in Directory.GetDirectories(responsesPath).OrderBy(x => x, StringComparer.Ordinal))
         {
             var localeName = Path.GetFileName(localeDir);
-            var mergedDict = outputDict.TryGetValue(localeName, out var existing)
-                ? existing
-                : new Dictionary<string, string>();
 
-            foreach (var file in Directory.GetFiles(localeDir, "*.json"))
+            foreach (var file in Directory.GetFiles(localeDir, "*.json").OrderBy(GetGroupName, StringComparer.Ordinal))
             {
                 try
                 {
@@ -75,9 +86,7 @@ public class LocalFileStringsSource : IStringsSource
                     if (moduleDict == null)
                         continue;
 
-                    foreach (var (key, value) in moduleDict)
-                        mergedDict[key] = value;
-
+                    files.Add(new ResponseFile(localeName, GetGroupName(file), moduleDict));
                     Log.Debug("Loaded {Count} responses from {File}", moduleDict.Count, Path.GetFileName(file));
                 }
                 catch (Exception ex)
@@ -85,11 +94,34 @@ public class LocalFileStringsSource : IStringsSource
                     Log.Error(ex, "Error loading {FileName} response strings: {ErrorMessage}", file, ex.Message);
                 }
             }
-
-            outputDict[localeName] = mergedDict;
         }
 
-        return outputDict;
+        return files;
+    }
+
+    /// <summary>
+    ///     Merges response files into one dictionary per locale. A key that appears in several files of a locale takes
+    ///     its text from the file that comes last.
+    /// </summary>
+    /// <param name="files">The files, in merge order.</param>
+    /// <returns>The merged strings by locale and key.</returns>
+    public static Dictionary<string, Dictionary<string, string>> MergeResponseFiles(IEnumerable<ResponseFile> files)
+    {
+        var merged = new Dictionary<string, Dictionary<string, string>>();
+
+        foreach (var file in files)
+        {
+            if (!merged.TryGetValue(file.Locale, out var localeDict))
+            {
+                localeDict = new Dictionary<string, string>();
+                merged[file.Locale] = localeDict;
+            }
+
+            foreach (var (key, value) in file.Strings)
+                localeDict[key] = value;
+        }
+
+        return merged;
     }
 
     /// <summary>
@@ -154,6 +186,11 @@ public class LocalFileStringsSource : IStringsSource
         }
 
         return outputDict;
+    }
+
+    private static string GetGroupName(string fileName)
+    {
+        return Path.GetFileNameWithoutExtension(fileName);
     }
 
     private static string GetLocaleName(string fileName)
