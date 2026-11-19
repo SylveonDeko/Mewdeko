@@ -34,6 +34,7 @@ public class TranslationService : INService, IReadyExecutor, IDisposable
     private readonly ITranslationStore store;
     private readonly IBotStringsProvider stringsProvider;
     private long appliedVersion = -1;
+    private int disposed;
     private int pendingReload;
     private int started;
 
@@ -64,6 +65,9 @@ public class TranslationService : INService, IReadyExecutor, IDisposable
     /// </summary>
     public void Dispose()
     {
+        if (Interlocked.Exchange(ref disposed, 1) == 1)
+            return;
+
         cts.Cancel();
         cts.Dispose();
         GC.SuppressFinalize(this);
