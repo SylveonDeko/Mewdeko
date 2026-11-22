@@ -122,4 +122,22 @@ public class GuildOwnershipTests
             Assert.That(new GuildOwnershipMap(false).IsMaster, Is.False);
         });
     }
+
+    /// <summary>
+    ///     An instance that is alone in its database handles every guild and the work with no guild.
+    /// </summary>
+    [Test]
+    public void StandaloneInstance_HandlesEverything()
+    {
+        var alone = new GuildOwnershipMap(false, 1);
+        Assert.That(alone.IsMine(Guild), Is.False);
+
+        alone.Standalone = true;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(alone.IsMine(Guild), Is.True);
+            Assert.That(alone.IsMaster, Is.True);
+        });
+    }
 }

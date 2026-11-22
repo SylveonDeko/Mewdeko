@@ -15,7 +15,9 @@ namespace Mewdeko.Services;
 public sealed class GuildOwnershipMap
 {
     private readonly ConcurrentDictionary<ulong, int> owners = new();
+    private readonly bool configuredMaster;
     private volatile int instanceId;
+    private volatile bool standalone;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="GuildOwnershipMap" /> class.
@@ -24,14 +26,24 @@ public sealed class GuildOwnershipMap
     /// <param name="instanceId">This instance's BotInstance id, or 0 when it is not known yet.</param>
     public GuildOwnershipMap(bool isMaster, int instanceId = 0)
     {
-        IsMaster = isMaster;
+        configuredMaster = isMaster;
         this.instanceId = instanceId;
     }
 
     /// <summary>
-    ///     Gets whether this instance is the master instance.
+    ///     Gets whether this instance is the master instance. An instance that is alone in its database counts
+    ///     as one, since no other instance exists to handle its guilds.
     /// </summary>
-    public bool IsMaster { get; }
+    public bool IsMaster => configuredMaster || standalone;
+
+    /// <summary>
+    ///     Gets or sets whether this is the only instance in its database.
+    /// </summary>
+    public bool Standalone
+    {
+        get => standalone;
+        set => standalone = value;
+    }
 
     /// <summary>
     ///     Gets or sets this instance's BotInstance id, or 0 when it is not known yet.
@@ -144,6 +156,7 @@ public class GuildOwnershipService : INService, IReadyExecutor, IDisposable
                 .Where(x => x.Port == creds.ApiPort && x.Host == creds.InstanceApiHost)
                 .Select(x => x.Id)
                 .FirstOrDefault();
+            map.Standalone = !db.BotInstances.Any(x => x.Id != map.InstanceId);
             map.Replace(db.GuildOwnerships.Select(x => new KeyValuePair<ulong, int>(x.GuildId, x.InstanceId))
                 .ToList());
         }
@@ -317,6 +330,8 @@ public class GuildOwnershipService : INService, IReadyExecutor, IDisposable
         {
             await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
             var rows = await db.GuildOwnerships.ToListAsync().ConfigureAwait(false);
+            var ownId = map.InstanceId;
+            map.Standalone = !await db.BotInstances.AnyAsync(x => x.Id != ownId).ConfigureAwait(false);
             map.Replace(rows.Select(x => new KeyValuePair<ulong, int>(x.GuildId, x.InstanceId)));
         }
         catch (Exception ex)
