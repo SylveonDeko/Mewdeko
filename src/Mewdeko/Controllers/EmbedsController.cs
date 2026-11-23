@@ -10,6 +10,7 @@ using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SkiaSharp;
 using Embed = DataModel.Embed;
 using EmbedWebhookPersona = DataModel.EmbedWebhookPersona;
 using Image = Discord.Image;
@@ -64,6 +65,16 @@ public class EmbedsController(
     ///     Discord never reads these; it receives the image by upload onto the persona's webhook.
     /// </summary>
     private const string AvatarCdnFolder = "embedbuilder";
+
+    /// <summary>
+    ///     The CDN folder pictures uploaded for messages are stored in, with one subfolder per guild.
+    /// </summary>
+    private const string ImageCdnFolder = "embedbuilder/images";
+
+    /// <summary>
+    ///     The largest uploaded picture accepted, the same ceiling the avatar upload uses.
+    /// </summary>
+    private const int MaxImageBytes = 8 * 1024 * 1024;
 
     /// <summary>
     ///     Gets all personal embed templates saved by a user.
@@ -403,6 +414,38 @@ public class EmbedsController(
 
         await cdn.DeleteByPrefixAsync(AvatarCdnFolder, PersonaAvatarPrefix(id));
         return Ok("Persona deleted successfully");
+    }
+
+    /// <summary>
+    ///     Stores a picture for use in a built message and returns its public address. The type is decided
+    ///     from the file's own bytes, never from its name or declared media type. Needs the CDN, because a
+    ///     picture in a message has to be fetchable by Discord and nothing else here keeps the bytes.
+    /// </summary>
+    /// <param name="guildId">The guild the picture belongs to.</param>
+    /// <param name="request">The picture to store.</param>
+    /// <returns>The public address of the stored picture.</returns>
+    [HttpPost("images/{guildId}")]
+    public async Task<IActionResult> UploadImage(ulong guildId, [FromBody] UploadEmbedImageRequest request)
+    {
+        if (!await HasGuildSectionAccessAsync(guildId, DashboardAccessLevel.Manage))
+            return Forbid();
+
+        if (string.IsNullOrWhiteSpace(request.Data))
+            return BadRequest("Choose a picture to upload.");
+
+        if (!cdn.IsConfigured)
+            return BadRequest("This bot cannot store uploaded pictures, so paste a link to the picture instead.");
+
+        if (!TryDecodeImage(request.Data, out var bytes, out var extension, out var problem))
+            return BadRequest(problem);
+
+        var fileName = $"{Guid.NewGuid():N}.{extension}";
+        var url = await cdn.SaveAsync($"{ImageCdnFolder}/{guildId}", fileName, bytes!);
+        if (url == null)
+            return StatusCode(500, "The picture could not be saved. Try again, or paste a link to it instead.");
+
+        auditContext.RecordAfter(new { Url = url, Bytes = bytes!.Length });
+        return Ok(new EmbedImageResponse { Url = url });
     }
 
     /// <summary>
@@ -922,6 +965,98 @@ public class EmbedsController(
         }
 
         return true;
+    }
+
+    /// <summary>
+    ///     Decodes an uploaded picture from raw base64 or a <c>data:</c> URI and works out what it is from its
+    ///     leading bytes. Only png, jpg, gif and webp are accepted, and the file must also decode as an image,
+    ///     so a renamed script or a truncated file is refused here.
+    /// </summary>
+    /// <param name="data">The submitted picture payload.</param>
+    /// <param name="bytes">The decoded picture bytes, when decoding succeeds.</param>
+    /// <param name="extension">The file extension for the detected type.</param>
+    /// <param name="problem">A message describing why the payload was rejected, when it was.</param>
+    private static bool TryDecodeImage(string data, out byte[]? bytes, out string extension, out string? problem)
+    {
+        bytes = null;
+        extension = "png";
+        problem = null;
+
+        var payload = data.Trim();
+        if (payload.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+        {
+            var comma = payload.IndexOf(',');
+            if (comma < 0)
+            {
+                problem = "The picture could not be read.";
+                return false;
+            }
+
+            payload = payload[(comma + 1)..];
+        }
+
+        try
+        {
+            bytes = Convert.FromBase64String(payload);
+        }
+        catch (FormatException)
+        {
+            problem = "The picture could not be read.";
+            return false;
+        }
+
+        if (bytes.Length == 0)
+        {
+            problem = "The picture is empty.";
+            return false;
+        }
+
+        if (bytes.Length > MaxImageBytes)
+        {
+            problem = "The picture must be 8 MB or smaller.";
+            return false;
+        }
+
+        var detected = DetectImageExtension(bytes);
+        if (detected == null)
+        {
+            problem = "Upload a png, jpg, gif or webp picture.";
+            return false;
+        }
+
+        using var codec = SKCodec.Create(new SKMemoryStream(bytes));
+        if (codec == null || codec.Info.Width <= 0 || codec.Info.Height <= 0)
+        {
+            problem = "The picture could not be read.";
+            return false;
+        }
+
+        extension = detected;
+        return true;
+    }
+
+    /// <summary>
+    ///     Identifies png, jpg, gif and webp by their signature bytes.
+    /// </summary>
+    /// <returns>The file extension, or null when the bytes are not one of those formats.</returns>
+    private static string? DetectImageExtension(byte[] bytes)
+    {
+        if (bytes.Length >= 8 && bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47 &&
+            bytes[4] == 0x0D && bytes[5] == 0x0A && bytes[6] == 0x1A && bytes[7] == 0x0A)
+            return "png";
+
+        if (bytes.Length >= 3 && bytes[0] == 0xFF && bytes[1] == 0xD8 && bytes[2] == 0xFF)
+            return "jpg";
+
+        if (bytes.Length >= 6 && bytes[0] == 'G' && bytes[1] == 'I' && bytes[2] == 'F' && bytes[3] == '8' &&
+            (bytes[4] == '7' || bytes[4] == '9') && bytes[5] == 'a')
+            return "gif";
+
+        if (bytes.Length >= 12 && bytes[0] == 'R' && bytes[1] == 'I' && bytes[2] == 'F' && bytes[3] == 'F' &&
+            bytes[8] == 'W' && bytes[9] == 'E' && bytes[10] == 'B' && bytes[11] == 'P')
+            return "webp";
+
+        return null;
     }
 
     /// <summary>
