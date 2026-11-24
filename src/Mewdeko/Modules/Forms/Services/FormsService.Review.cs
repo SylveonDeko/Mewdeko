@@ -2,6 +2,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Database.Enums;
+using Mewdeko.Modules.Forms.Common;
 
 namespace Mewdeko.Modules.Forms.Services;
 
@@ -152,8 +153,9 @@ public partial class FormsService
     ///     Whether someone may decide a form's responses from Discord.
     /// </summary>
     /// <remarks>
-    ///     A form may name the role that reviews it. When it does not, the fallback is Manage
-    ///     Server, so a review button is never open to whoever happens to see the channel.
+    ///     A form may name the roles that review it, and holding any one of them is enough. When it
+    ///     names none, the fallback is Manage Server, so a review button is never open to whoever
+    ///     happens to see the channel.
     /// </remarks>
     /// <param name="form">The form the response belongs to.</param>
     /// <param name="user">The person who pressed the button.</param>
@@ -163,8 +165,10 @@ public partial class FormsService
         if (user.GuildPermissions.Administrator || user.GuildPermissions.ManageGuild)
             return true;
 
-        if (form.ReviewerRoleId is { } reviewerRoleId and > 0)
-            return user.RoleIds.Contains(reviewerRoleId);
+        var reviewerRoleIds = ReadRoleIds(form.ReviewerRoleIds);
+
+        if (reviewerRoleIds.Count > 0)
+            return user.RoleIds.Any(reviewerRoleIds.Contains);
 
         // Whoever the form hands roles out to on approval is also trusted to make that call.
         var approvalRoles = ReadRoleIds(form.ApprovalRoleIds)
@@ -228,7 +232,9 @@ public partial class FormsService
 
             var message = string.IsNullOrWhiteSpace(form.AnnounceMessage)
                 ? null
-                : new ReplacementBuilder().WithServer(client, guild).Build().Replace(form.AnnounceMessage);
+                : new ReplacementBuilder().WithServer(client, guild).Build().Replace(
+                    FormPlaceholders.Apply(form.AnnounceMessage,
+                        await BuildPlaceholderContextAsync(form, null, null, false, true)));
 
             if (message != null && SmartEmbed.TryParse(message, guild.Id, out var embeds, out var plainText,
                     out var components))

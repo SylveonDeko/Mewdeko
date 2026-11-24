@@ -39,7 +39,7 @@ public partial class FormsService
     private static readonly HashSet<string> UndiffedSettings =
     [
         nameof(Form.Id), nameof(Form.GuildId), nameof(Form.CreatedBy), nameof(Form.CreatedAt),
-        nameof(Form.UpdatedAt), nameof(Form.AnnouncedAt)
+        nameof(Form.UpdatedAt), nameof(Form.AnnouncedAt), nameof(Form.ReviewerRoleId)
     ];
 
     /// <summary>
@@ -183,7 +183,8 @@ public partial class FormsService
     }
 
     /// <summary>
-    ///     Reads the form stored inside a saved version.
+    ///     Reads the form stored inside a saved version. A version saved while the form still had a
+    ///     single reviewer role has that role carried over into the list.
     /// </summary>
     /// <param name="version">The version to read.</param>
     /// <returns>The form as it stood, or null when the snapshot cannot be read.</returns>
@@ -191,7 +192,12 @@ public partial class FormsService
     {
         try
         {
-            return JsonSerializer.Deserialize<FormSnapshot>(version.Snapshot, SnapshotOptions);
+            var snapshot = JsonSerializer.Deserialize<FormSnapshot>(version.Snapshot, SnapshotOptions);
+
+            if (snapshot?.Form is { ReviewerRoleIds: null, ReviewerRoleId: > 0 } form)
+                form.ReviewerRoleIds = form.ReviewerRoleId.Value.ToString();
+
+            return snapshot;
         }
         catch (JsonException)
         {
@@ -257,23 +263,41 @@ public partial class FormsService
         await db.FormQuestionConditions.Where(c => oldQuestionIds.Contains(c.QuestionId)).DeleteAsync();
         await db.FormQuestions.Where(q => q.FormId == formId).DeleteAsync();
 
+        await RecreateQuestionsAsync(db, formId, snapshot.Questions);
+
+        logger.LogInformation("Restored form {FormId} to version {VersionNumber}", formId, versionNumber);
+
+        await SaveVersionAsync(formId, userId);
+
+        return true;
+    }
+
+    /// <summary>
+    ///     Writes captured questions onto a form as new rows, along with their options and conditions,
+    ///     and points everything that referred to a question by identifier at its new identifier.
+    /// </summary>
+    /// <param name="db">The connection to write through.</param>
+    /// <param name="formId">The form the questions belong to.</param>
+    /// <param name="captured">The questions to write.</param>
+    private static async Task RecreateQuestionsAsync(MewdekoDb db, int formId, List<FormQuestionSnapshot> captured)
+    {
         var idMap = new Dictionary<int, int>();
 
-        foreach (var captured in snapshot.Questions.OrderBy(q => q.Question.DisplayOrder))
+        foreach (var entry in captured.OrderBy(q => q.Question.DisplayOrder))
         {
-            var originalId = captured.Question.Id;
+            var originalId = entry.Question.Id;
 
-            captured.Question.Id = 0;
-            captured.Question.FormId = formId;
+            entry.Question.Id = 0;
+            entry.Question.FormId = formId;
 
-            var newId = await db.InsertWithInt32IdentityAsync(captured.Question);
+            var newId = await db.InsertWithInt32IdentityAsync(entry.Question);
             idMap[originalId] = newId;
-            captured.Question.Id = newId;
+            entry.Question.Id = newId;
         }
 
-        foreach (var captured in snapshot.Questions)
+        foreach (var entry in captured)
         {
-            var question = captured.Question;
+            var question = entry.Question;
 
             question.ConditionalParentQuestionId = Remap(question.ConditionalParentQuestionId, idMap);
             question.RequiredWhenParentQuestionId = Remap(question.RequiredWhenParentQuestionId, idMap);
@@ -282,14 +306,14 @@ public partial class FormsService
 
             await db.UpdateAsync(question);
 
-            foreach (var option in captured.Options)
+            foreach (var option in entry.Options)
             {
                 option.Id = 0;
                 option.QuestionId = question.Id;
                 await db.InsertAsync(option);
             }
 
-            foreach (var condition in captured.Conditions)
+            foreach (var condition in entry.Conditions)
             {
                 condition.Id = 0;
                 condition.QuestionId = question.Id;
@@ -297,13 +321,6 @@ public partial class FormsService
                 await db.InsertAsync(condition);
             }
         }
-
-        logger.LogInformation("Restored form {FormId} to version {VersionNumber}", formId, versionNumber);
-
-        // The restore is itself an edit, so it gets a version of its own and can be undone in turn.
-        await SaveVersionAsync(formId, userId);
-
-        return true;
     }
 
     /// <summary>

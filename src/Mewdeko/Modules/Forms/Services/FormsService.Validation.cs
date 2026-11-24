@@ -66,23 +66,35 @@ public partial class FormsService
 
         var accepted = new Dictionary<int, object>();
         var errors = new Dictionary<int, string>();
+        var visible = new HashSet<int>();
 
         foreach (var question in questions)
         {
             // Visibility is judged against the answers accepted so far, which is exactly what the
             // submitter had in front of them when they reached this question.
-            if (!await ShouldShowQuestionAsync(question, accepted, userId, form.GuildId))
+            if (!await ShouldShowQuestionAsync(question, accepted, userId, form.GuildId, visible))
                 continue;
+
+            visible.Add(question.Id);
 
             if (FormAnswerValidator.IsPresentational(question.QuestionType))
                 continue;
 
             answers.TryGetValue(question.Id, out var submitted);
 
-            var isRequired = IsQuestionRequired(question, accepted);
+            var isRequired = IsQuestionRequired(question, accepted, visible);
             var questionOptions = options.GetValueOrDefault(question.Id, []);
 
             var error = FormAnswerValidator.ValidateAnswer(question, submitted, questionOptions, isRequired);
+
+            if (error == null && FormAnswerValidator.IsImage(question.QuestionType) &&
+                FormAnswerValidator.ReadText(submitted)?.Trim() is { Length: > 0 } picture)
+            {
+                if (!images.IsStoredImage(picture, form.Id))
+                    error = "Upload a png, jpg, gif or webp picture";
+                else
+                    submitted = picture;
+            }
 
             if (error != null)
             {

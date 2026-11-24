@@ -40,12 +40,18 @@ public partial class FormsService
             errors.AddRange(FormValidator.ValidateQuestion(definition.Question));
             errors.AddRange(
                 FormValidator.ValidateQuestionOptions(definition.Question.QuestionType, definition.Options));
+
+            foreach (var condition in definition.Conditions)
+                errors.AddRange(FormValidator.ValidateCondition(condition));
         }
 
         errors.AddRange(FormValidator.ValidatePiping(request.Questions.Select(q => q.Question).ToList()));
 
         if (errors.Count > 0)
             return (null, errors);
+
+        form.ReviewerRoleId = null;
+        form.ReviewerRoleIds = NormalizeReviewerRoles(guildId, form.ReviewerRoleIds);
 
         await using var db = await dbFactory.CreateConnectionAsync();
 
@@ -144,5 +150,23 @@ public partial class FormsService
             request.Questions.Count);
 
         return (form, []);
+    }
+
+    /// <summary>
+    ///     Cleans the stored list of reviewer roles, dropping anything that is not an identifier and
+    ///     any role the guild does not have, so a request cannot name a role from somewhere else.
+    /// </summary>
+    /// <param name="guildId">The guild the form belongs to.</param>
+    /// <param name="stored">The list as submitted.</param>
+    /// <returns>The cleaned comma separated list, or null when no role is left.</returns>
+    private string? NormalizeReviewerRoles(ulong guildId, string? stored)
+    {
+        var roleIds = ReadRoleIds(stored);
+        var guild = client.GetGuild(guildId);
+
+        if (guild != null)
+            roleIds = roleIds.Where(id => guild.GetRole(id) != null).ToList();
+
+        return roleIds.Count == 0 ? null : string.Join(",", roleIds);
     }
 }

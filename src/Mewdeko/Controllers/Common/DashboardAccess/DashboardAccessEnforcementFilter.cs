@@ -38,9 +38,7 @@ public sealed class DashboardAccessEnforcementFilter(
             return;
         }
 
-        var authResult = await http.AuthenticateAsync(DashJwtConstants.SchemeName);
-        if (!authResult.Succeeded || authResult.Principal is not { } principal ||
-            !ulong.TryParse(principal.FindFirst(DashJwtConstants.UserIdClaim)?.Value, out var userId))
+        if (await DashboardAccessRule.ReadUserIdAsync(http) is not { } userId)
         {
             context.Result = new UnauthorizedResult();
             return;
@@ -63,35 +61,12 @@ public sealed class DashboardAccessEnforcementFilter(
             return;
         }
 
-        var guild = client.GetGuild(guildId);
-        var guildUser = guild?.GetUser(userId);
-        if (guild == null || guildUser == null)
-        {
-            context.Result = new ObjectResult("You are not a member of this server.")
-            {
-                StatusCode = StatusCodes.Status403Forbidden
-            };
-            return;
-        }
+        var verdict = await DashboardAccessRule.EvaluateGuildAsync(
+            client, dashboardAccessService, userId, http.Request.Method, guildId, descriptor.ControllerName);
 
-        if (guild.OwnerId == userId || guildUser.GuildPermissions.Has(GuildPermission.Administrator))
+        if (DashboardAccessRule.ToResult(verdict) is { } refusal)
         {
-            await next();
-            return;
-        }
-
-        var requiredLevel = HttpMethods.IsGet(http.Request.Method) || HttpMethods.IsHead(http.Request.Method)
-            ? DashboardAccessLevel.View
-            : DashboardAccessLevel.Manage;
-        var accessLevel = await dashboardAccessService.GetSectionAccessAsync(
-            guildId, userId, guildUser.Roles.Select(role => role.Id).ToList(), descriptor.ControllerName);
-
-        if (accessLevel < requiredLevel)
-        {
-            context.Result = new ObjectResult("You do not have access to this dashboard section.")
-            {
-                StatusCode = StatusCodes.Status403Forbidden
-            };
+            context.Result = refusal;
             return;
         }
 

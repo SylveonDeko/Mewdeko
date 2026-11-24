@@ -1,5 +1,6 @@
 using DataModel;
 using Mewdeko.Database.Enums;
+using Mewdeko.Modules.Forms.Common;
 
 namespace Mewdeko.Modules.Forms.Services;
 
@@ -256,7 +257,10 @@ public partial class FormsService
                 embed.AddField("Reviewer notes", notes.TrimTo(1024));
 
             if (approved && !string.IsNullOrWhiteSpace(form.SuccessMessage))
-                embed.AddField("Message", form.SuccessMessage.TrimTo(1024));
+                embed.AddField("Message",
+                    (FormPlaceholders.Apply(form.SuccessMessage,
+                        await BuildPlaceholderContextAsync(form, userId, user.Username, false, false)) ?? string.Empty)
+                    .TrimTo(1024));
 
             if (!string.IsNullOrWhiteSpace(inviteCode))
                 embed.AddField("Invite", $"https://discord.gg/{inviteCode}");

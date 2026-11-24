@@ -21,6 +21,11 @@ public static partial class FormAnswerValidator
     public const int MaxAnswerLength = 4000;
 
     /// <summary>
+    ///     The question type that takes a picture the submitter uploads.
+    /// </summary>
+    public const string ImageType = "image";
+
+    /// <summary>
     ///     Question types that present the submitter a fixed list of options.
     /// </summary>
     private static readonly HashSet<string> OptionTypes =
@@ -37,6 +42,16 @@ public static partial class FormAnswerValidator
     public static bool RequiresOptions(string? questionType)
     {
         return questionType != null && OptionTypes.Contains(questionType);
+    }
+
+    /// <summary>
+    ///     Determines whether a question type takes an uploaded picture as its answer.
+    /// </summary>
+    /// <param name="questionType">The question type to inspect.</param>
+    /// <returns>True for the picture upload type.</returns>
+    public static bool IsImage(string? questionType)
+    {
+        return string.Equals(questionType, ImageType, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -92,6 +107,7 @@ public static partial class FormAnswerValidator
             "number" => ValidateNumber(question, text),
             "email" => EmailRegex().IsMatch(text) ? null : "Enter a valid email address",
             "url" => IsSafeUrl(text) ? null : "Enter a valid http or https address",
+            ImageType => IsSafeUrl(text) ? null : "Upload a png, jpg, gif or webp picture",
             _ => ValidateTextLength(question, text)
         };
     }

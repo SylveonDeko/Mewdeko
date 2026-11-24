@@ -22,7 +22,9 @@ public partial class FormsService : INService
     private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
+    private readonly IBotCredentials creds;
     private readonly IHttpClientFactory httpFactory;
+    private readonly FormImageService images;
     private readonly ILogger<FormsService> logger;
     private readonly ModCaseService modCases;
     private readonly GeneratedBotStrings strings;
@@ -38,6 +40,8 @@ public partial class FormsService : INService
     /// <param name="collector">The analytics collector.</param>
     /// <param name="httpFactory">Creates the clients that post to form notification webhooks.</param>
     /// <param name="modCases">The service recording moderation cases.</param>
+    /// <param name="images">The service that stores pictures submitted as answers.</param>
+    /// <param name="creds">The bot credentials, which hold the dashboard address.</param>
     public FormsService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -46,8 +50,12 @@ public partial class FormsService : INService
         GeneratedBotStrings strings,
         IAnalyticsCollector collector,
         IHttpClientFactory httpFactory,
-        ModCaseService modCases)
+        ModCaseService modCases,
+        FormImageService images,
+        IBotCredentials creds)
     {
+        this.creds = creds;
+        this.images = images;
         this.modCases = modCases;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -198,6 +206,9 @@ public partial class FormsService : INService
 
             if (string.IsNullOrWhiteSpace(answerValue))
                 answerValue = "*(No answer)*";
+            else if (FormAnswerValidator.IsImage(answer.QuestionType) && embed.ImageUrl == null &&
+                     images.IsStoredImage(answerValue, form.Id))
+                embed.WithImageUrl(answerValue);
 
             embed.AddField($"❓ {questionText.TrimTo(256)}", $"└─ {answerValue.TrimTo(1018)}");
         }
@@ -229,6 +240,8 @@ public partial class FormsService : INService
         form.CreatedAt = DateTime.UtcNow;
         form.UpdatedAt = DateTime.UtcNow;
         form.IsActive = true;
+        form.ReviewerRoleId = null;
+        form.ReviewerRoleIds = NormalizeReviewerRoles(guildId, form.ReviewerRoleIds);
 
         var id = await db.InsertWithInt32IdentityAsync(form);
         form.Id = id;
@@ -286,6 +299,8 @@ public partial class FormsService : INService
         await using var db = await dbFactory.CreateConnectionAsync();
 
         form.UpdatedAt = DateTime.UtcNow;
+        form.ReviewerRoleId = null;
+        form.ReviewerRoleIds = NormalizeReviewerRoles(form.GuildId, form.ReviewerRoleIds);
         var updated = await db.UpdateAsync(form);
 
         logger.LogInformation("Updated form {FormId} '{FormName}'", form.Id, form.Name);
@@ -309,6 +324,9 @@ public partial class FormsService : INService
         var deleted = await db.Forms
             .Where(f => f.Id == formId)
             .DeleteAsync();
+
+        if (deleted > 0)
+            await images.DeleteFormImagesAsync(formId);
 
         logger.LogInformation("Deleted form {FormId} and all associated data", formId);
         return deleted > 0;
@@ -368,98 +386,28 @@ public partial class FormsService : INService
     /// <returns>The duplicated form.</returns>
     public async Task<Form> DuplicateFormAsync(int formId, ulong userId)
     {
+        var snapshot = await CaptureSnapshotAsync(formId)
+                       ?? throw new InvalidOperationException("Form not found");
+
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        // Get original form
-        var originalForm = await GetFormAsync(formId);
-        if (originalForm == null)
-            throw new InvalidOperationException("Form not found");
+        var duplicateForm = snapshot.Form;
+        duplicateForm.Id = 0;
+        duplicateForm.Name = $"{duplicateForm.Name} (Copy)";
+        duplicateForm.IsActive = false;
+        duplicateForm.IsDraft = true;
+        duplicateForm.AnnouncedAt = null;
+        duplicateForm.CreatedBy = userId;
+        duplicateForm.CreatedAt = DateTime.UtcNow;
+        duplicateForm.UpdatedAt = DateTime.UtcNow;
 
-        // Get original questions and options
-        var originalQuestions = await GetFormQuestionsAsync(formId);
+        duplicateForm.Id = await db.InsertWithInt32IdentityAsync(duplicateForm);
 
-        // Create duplicate form
-        var duplicateForm = new Form
-        {
-            GuildId = originalForm.GuildId,
-            Name = $"{originalForm.Name} (Copy)",
-            Description = originalForm.Description,
-            SubmitChannelId = originalForm.SubmitChannelId,
-            AllowMultipleSubmissions = originalForm.AllowMultipleSubmissions,
-            MaxResponses = originalForm.MaxResponses,
-            RequireCaptcha = originalForm.RequireCaptcha,
-            IsActive = false, // Start as inactive
-            IsDraft = true, // Start as draft
-            AllowAnonymous = originalForm.AllowAnonymous,
-            ExpiresAt = originalForm.ExpiresAt,
-            RequiredRoleId = originalForm.RequiredRoleId,
-            SuccessMessage = originalForm.SuccessMessage,
-            CreatedBy = userId,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
+        await RecreateQuestionsAsync(db, duplicateForm.Id, snapshot.Questions);
 
-        var newFormId = await db.InsertWithInt32IdentityAsync(duplicateForm);
-        duplicateForm.Id = newFormId;
+        await SaveVersionAsync(duplicateForm.Id, userId);
 
-        // Duplicate questions
-        var questionIdMapping = new Dictionary<int, int>();
-
-        foreach (var originalQuestion in originalQuestions)
-        {
-            var duplicateQuestion = new FormQuestion
-            {
-                FormId = newFormId,
-                QuestionText = originalQuestion.QuestionText,
-                QuestionType = originalQuestion.QuestionType,
-                IsRequired = originalQuestion.IsRequired,
-                DisplayOrder = originalQuestion.DisplayOrder,
-                Placeholder = originalQuestion.Placeholder,
-                MinValue = originalQuestion.MinValue,
-                MaxValue = originalQuestion.MaxValue,
-                MinLength = originalQuestion.MinLength,
-                MaxLength = originalQuestion.MaxLength,
-                // Note: Conditional logic will be updated after all questions are created
-                ConditionalParentQuestionId = null,
-                ConditionalOperator = originalQuestion.ConditionalOperator,
-                ConditionalExpectedValue = originalQuestion.ConditionalExpectedValue,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            var newQuestionId = await db.InsertWithInt32IdentityAsync(duplicateQuestion);
-            questionIdMapping[originalQuestion.Id] = newQuestionId;
-
-            // Duplicate options
-            var originalOptions = await GetQuestionOptionsAsync(originalQuestion.Id);
-            foreach (var originalOption in originalOptions)
-            {
-                var duplicateOption = new FormQuestionOption
-                {
-                    QuestionId = newQuestionId,
-                    OptionText = originalOption.OptionText,
-                    OptionValue = originalOption.OptionValue,
-                    DisplayOrder = originalOption.DisplayOrder
-                };
-
-                await db.InsertAsync(duplicateOption);
-            }
-        }
-
-        // Update conditional logic references
-        foreach (var originalQuestion in originalQuestions)
-        {
-            if (originalQuestion.ConditionalParentQuestionId.HasValue &&
-                questionIdMapping.TryGetValue(originalQuestion.ConditionalParentQuestionId.Value, out var newParentId))
-            {
-                var newQuestionId = questionIdMapping[originalQuestion.Id];
-                await db.FormQuestions
-                    .Where(q => q.Id == newQuestionId)
-                    .Set(q => q.ConditionalParentQuestionId, newParentId)
-                    .UpdateAsync();
-            }
-        }
-
-        logger.LogInformation("Duplicated form {OriginalFormId} to new form {NewFormId}", formId, newFormId);
+        logger.LogInformation("Duplicated form {OriginalFormId} to new form {NewFormId}", formId, duplicateForm.Id);
         return duplicateForm;
     }
 
@@ -833,12 +781,17 @@ public partial class FormsService : INService
     /// <param name="currentAnswers">Dictionary of questionId -> current answer values.</param>
     /// <param name="userId">The user ID for Discord-based conditionals.</param>
     /// <param name="guildId">The guild ID for Discord-based conditionals.</param>
+    /// <param name="visibleQuestionIds">
+    ///     The questions already decided to be shown. The answered and not answered operators only
+    ///     hold for a question that was shown, and every question counts as shown when this is null.
+    /// </param>
     /// <returns>True if the question should be shown.</returns>
     public async Task<bool> ShouldShowQuestionAsync(
         FormQuestion question,
         Dictionary<int, object> currentAnswers,
         ulong userId,
-        ulong guildId)
+        ulong guildId,
+        IReadOnlySet<int>? visibleQuestionIds = null)
     {
         var conditionalType = (ConditionalType)question.ConditionalType;
 
@@ -850,7 +803,7 @@ public partial class FormsService : INService
         switch (conditionalType)
         {
             case ConditionalType.QuestionBased:
-                return EvaluateQuestionBasedCondition(question, currentAnswers);
+                return EvaluateQuestionBasedCondition(question, currentAnswers, visibleQuestionIds);
 
             case ConditionalType.DiscordRole:
                 return await EvaluateDiscordRoleConditionAsync(question, userId, guildId);
@@ -865,7 +818,8 @@ public partial class FormsService : INService
                 return await EvaluatePermissionConditionAsync(question, userId, guildId);
 
             case ConditionalType.MultipleConditions:
-                return await EvaluateMultipleConditionsAsync(question.Id, currentAnswers, userId, guildId);
+                return await EvaluateMultipleConditionsAsync(question.Id, currentAnswers, userId, guildId,
+                    visibleQuestionIds);
 
             default:
                 // Unknown condition type, show by default
@@ -887,45 +841,77 @@ public partial class FormsService : INService
     /// <summary>
     ///     Evaluates question-based conditional logic (original/legacy).
     /// </summary>
-    private bool EvaluateQuestionBasedCondition(FormQuestion question, Dictionary<int, object> currentAnswers)
+    private bool EvaluateQuestionBasedCondition(
+        FormQuestion question,
+        Dictionary<int, object> currentAnswers,
+        IReadOnlySet<int>? visibleQuestionIds)
     {
         // If no parent question specified, always show
         if (!question.ConditionalParentQuestionId.HasValue)
             return true;
 
-        // Check if parent question has been answered
-        if (!currentAnswers.TryGetValue(question.ConditionalParentQuestionId.Value, out var parentAnswer))
-            return false;
-
-        // Evaluate condition
-        return EvaluateCondition(
-            parentAnswer,
-            question.ConditionalOperator ?? "equals",
-            question.ConditionalExpectedValue ?? string.Empty
-        );
+        return EvaluateAgainstAnswer(
+            question.ConditionalParentQuestionId.Value,
+            question.ConditionalOperator ?? FormConditionOperators.EqualTo,
+            question.ConditionalExpectedValue,
+            currentAnswers,
+            visibleQuestionIds,
+            false);
     }
 
     /// <summary>
-    ///     Evaluates a conditional expression.
+    ///     Compares an earlier question's answer against an expected value.
     /// </summary>
-    /// <param name="actualValue">The actual value from the parent question.</param>
-    /// <param name="operator">The comparison operator.</param>
+    /// <remarks>
+    ///     The operators that ask whether a question was answered are decided by whether anything was
+    ///     given, so a question that was never shown fails them both, rather than counting as
+    ///     unanswered. Every other operator needs an answer to compare.
+    /// </remarks>
+    /// <param name="targetQuestionId">The question whose answer is compared.</param>
+    /// <param name="comparison">The comparison operator.</param>
     /// <param name="expectedValue">The expected value to compare against.</param>
+    /// <param name="currentAnswers">The answers accepted so far.</param>
+    /// <param name="visibleQuestionIds">The questions decided to be shown, or null when every question counts as shown.</param>
+    /// <param name="whenMissing">What to return when there is no answer to compare.</param>
     /// <returns>True if the condition is met.</returns>
-    private bool EvaluateCondition(object actualValue, string @operator, string expectedValue)
+    private static bool EvaluateAgainstAnswer(
+        int targetQuestionId,
+        string comparison,
+        string? expectedValue,
+        Dictionary<int, object> currentAnswers,
+        IReadOnlySet<int>? visibleQuestionIds,
+        bool whenMissing)
     {
-        var actualStr = actualValue?.ToString() ?? string.Empty;
-
-        return @operator.ToLower() switch
+        if (FormConditionOperators.IsPresence(comparison))
         {
-            "equals" => actualStr.Equals(expectedValue, StringComparison.OrdinalIgnoreCase),
-            "not_equals" => !actualStr.Equals(expectedValue, StringComparison.OrdinalIgnoreCase),
-            "contains" => actualStr.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
-            "greater_than" => double.TryParse(actualStr, out var a1) &&
-                              double.TryParse(expectedValue, out var e1) && a1 > e1,
-            "less_than" => double.TryParse(actualStr, out var a2) &&
-                           double.TryParse(expectedValue, out var e2) && a2 < e2,
-            _ => true
+            if (visibleQuestionIds != null && !visibleQuestionIds.Contains(targetQuestionId))
+                return false;
+
+            return FormConditionOperators.Compare(
+                currentAnswers.TryGetValue(targetQuestionId, out var given) ? AnswerAsText(given) : string.Empty,
+                comparison,
+                null);
+        }
+
+        if (!currentAnswers.TryGetValue(targetQuestionId, out var answer))
+            return whenMissing;
+
+        return FormConditionOperators.Compare(AnswerAsText(answer), comparison, expectedValue);
+    }
+
+    /// <summary>
+    ///     Reads an answer as the single piece of text a condition compares against. A multi-select
+    ///     answer reads as its values joined by commas, which is how the form page reads it too.
+    /// </summary>
+    /// <param name="answer">The answer as accepted.</param>
+    /// <returns>The answer as text.</returns>
+    private static string AnswerAsText(object? answer)
+    {
+        return answer switch
+        {
+            null => string.Empty,
+            string[] many => string.Join(",", many),
+            _ => answer.ToString() ?? string.Empty
         };
     }
 
@@ -1134,7 +1120,8 @@ public partial class FormsService : INService
         int questionId,
         Dictionary<int, object> currentAnswers,
         ulong userId,
-        ulong guildId)
+        ulong guildId,
+        IReadOnlySet<int>? visibleQuestionIds)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
@@ -1163,7 +1150,8 @@ public partial class FormsService : INService
 
             foreach (var condition in groupConditions)
             {
-                var conditionResult = await EvaluateSingleConditionAsync(condition, currentAnswers, userId, guildId);
+                var conditionResult = await EvaluateSingleConditionAsync(condition, currentAnswers, userId, guildId,
+                    visibleQuestionIds);
 
                 if (condition.LogicType.ToUpper() == "AND")
                 {
@@ -1193,22 +1181,24 @@ public partial class FormsService : INService
         FormQuestionCondition condition,
         Dictionary<int, object> currentAnswers,
         ulong userId,
-        ulong guildId)
+        ulong guildId,
+        IReadOnlySet<int>? visibleQuestionIds)
     {
         var conditionType = (ConditionalType)condition.ConditionType;
 
         switch (conditionType)
         {
             case ConditionalType.QuestionBased:
-                if (!condition.TargetQuestionId.HasValue ||
-                    !currentAnswers.TryGetValue(condition.TargetQuestionId.Value, out var answer))
+                if (!condition.TargetQuestionId.HasValue)
                     return false;
 
-                return EvaluateCondition(
-                    answer,
-                    condition.Operator ?? "equals",
-                    condition.ExpectedValue ?? string.Empty
-                );
+                return EvaluateAgainstAnswer(
+                    condition.TargetQuestionId.Value,
+                    condition.Operator ?? FormConditionOperators.EqualTo,
+                    condition.ExpectedValue,
+                    currentAnswers,
+                    visibleQuestionIds,
+                    false);
 
             case ConditionalType.DiscordRole:
                 if (string.IsNullOrWhiteSpace(condition.TargetRoleIds))
@@ -1258,8 +1248,12 @@ public partial class FormsService : INService
     /// </summary>
     /// <param name="question">The question to evaluate.</param>
     /// <param name="currentAnswers">Dictionary of questionId -> current answer values.</param>
+    /// <param name="visibleQuestionIds">The questions decided to be shown, or null when every question counts as shown.</param>
     /// <returns>True if the question is required.</returns>
-    public bool IsQuestionRequired(FormQuestion question, Dictionary<int, object> currentAnswers)
+    public bool IsQuestionRequired(
+        FormQuestion question,
+        Dictionary<int, object> currentAnswers,
+        IReadOnlySet<int>? visibleQuestionIds = null)
     {
         // Base required field
         if (question.IsRequired)
@@ -1268,14 +1262,13 @@ public partial class FormsService : INService
         // Check conditional required
         if (question.RequiredWhenParentQuestionId.HasValue)
         {
-            if (!currentAnswers.TryGetValue(question.RequiredWhenParentQuestionId.Value, out var parentAnswer))
-                return false;
-
-            return EvaluateCondition(
-                parentAnswer,
-                question.RequiredWhenOperator ?? "equals",
-                question.RequiredWhenValue ?? string.Empty
-            );
+            return EvaluateAgainstAnswer(
+                question.RequiredWhenParentQuestionId.Value,
+                question.RequiredWhenOperator ?? FormConditionOperators.EqualTo,
+                question.RequiredWhenValue,
+                currentAnswers,
+                visibleQuestionIds,
+                false);
         }
 
         return false;

@@ -2403,6 +2403,17 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the table recording who began filling in each form.
+    /// </summary>
+    public ITable<FormStart> FormStarts
+    {
+        get
+        {
+            return this.GetTable<FormStart>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the form share links table.
     /// </summary>
     public ITable<FormShareLink> FormShareLinks

@@ -150,11 +150,24 @@ public class Form
     public ulong? PendingRoleId { get; set; }
 
     /// <summary>
-    ///     Role permitted to decide this form's responses from the buttons posted in Discord. Null
-    ///     falls back to requiring Manage Server, so the buttons are never open to everyone.
+    ///     The single role that decided this form's responses before there was a list. Superseded by
+    ///     <see cref="ReviewerRoleIds" /> and kept so versions saved earlier still restore.
     /// </summary>
     [Column("reviewer_role_id")]
     public ulong? ReviewerRoleId { get; set; }
+
+    /// <summary>
+    ///     Comma separated roles permitted to decide this form's responses from the buttons posted in
+    ///     Discord. Null falls back to requiring Manage Server, so the buttons are never open to everyone.
+    /// </summary>
+    [Column("reviewer_role_ids")]
+    public string? ReviewerRoleIds { get; set; }
+
+    /// <summary>
+    ///     Whether a submitter may change their answers after sending, until the response is decided.
+    /// </summary>
+    [Column("allow_editing", CanBeNull = false)]
+    public bool AllowEditing { get; set; } = true;
 
     /// <summary>
     ///     Emote on this form's approve button. Null falls back to the guild's default.

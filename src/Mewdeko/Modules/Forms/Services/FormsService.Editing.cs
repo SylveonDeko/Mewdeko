@@ -38,6 +38,9 @@ public partial class FormsService
         if (form.AllowAnonymous)
             return (false, "Anonymous responses cannot be edited, because there is no way to tell who owns one");
 
+        if (!form.AllowEditing)
+            return (false, "This form does not let responses be changed after they are sent");
+
         var workflow = await db.FormResponseWorkflows.FirstOrDefaultAsync(w => w.ResponseId == responseId);
 
         // A decided response is part of the record of that decision, so it stops being editable the
@@ -198,6 +201,7 @@ public partial class FormsService
                 form.Name,
                 form.ExpiresAt,
                 form.AllowAnonymous,
+                form.AllowEditing,
                 response.SubmittedAt,
                 response.EditedAt,
                 Status = workflow == null ? (int)ResponseStatus.Pending : workflow.Status,
@@ -213,6 +217,7 @@ public partial class FormsService
             var status = (ResponseStatus)row.Status;
 
             var canEdit = !row.AllowAnonymous
+                          && row.AllowEditing
                           && status is ResponseStatus.Pending or ResponseStatus.UnderReview
                           && (row.ExpiresAt == null || row.ExpiresAt > now);
 

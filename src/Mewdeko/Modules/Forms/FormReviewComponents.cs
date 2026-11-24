@@ -133,9 +133,14 @@ public class FormReviewComponents(FormsService service) : MewdekoSlashCommandMod
 
         if (!FormsService.CanReview(form, reviewer))
         {
-            var required = form.ReviewerRoleId is { } roleId and > 0
-                ? $"the <@&{roleId}> role"
-                : "the Manage Server permission";
+            var reviewerRoleIds = FormsService.ReadRoleIds(form.ReviewerRoleIds);
+
+            var required = reviewerRoleIds.Count switch
+            {
+                0 => "the Manage Server permission",
+                1 => $"the <@&{reviewerRoleIds[0]}> role",
+                _ => $"one of the roles {string.Join(", ", reviewerRoleIds.Select(id => $"<@&{id}>"))}"
+            };
 
             await RespondAsync($"You need {required} to decide responses to this form.", ephemeral: true);
             return null;

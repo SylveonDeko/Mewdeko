@@ -10,6 +10,15 @@ namespace Mewdeko.Modules.Forms.Common;
 public static partial class FormValidator
 {
     /// <summary>
+    ///     The question types a form may contain.
+    /// </summary>
+    private static readonly HashSet<string> KnownQuestionTypes =
+    [
+        "short_text", "long_text", "multiple_choice", "checkboxes", "dropdown", "number", "email", "url",
+        "section_break", FormAnswerValidator.ImageType
+    ];
+
+    /// <summary>
     ///     Matches an answer piping placeholder, which names the question it quotes by identifier.
     /// </summary>
     [GeneratedRegex(@"\{\{Q(\d+)\}\}")]
@@ -158,6 +167,11 @@ public static partial class FormValidator
             }
         }
 
+        if (!KnownQuestionTypes.Contains(question.QuestionType ?? string.Empty))
+        {
+            errors.Add("Question type is not one this form supports");
+        }
+
         // Validate conditional logic
         if (question.ConditionalParentQuestionId.HasValue)
         {
@@ -165,11 +179,43 @@ public static partial class FormValidator
             {
                 errors.Add("Conditional operator is required when parent question is set");
             }
-
-            if (string.IsNullOrWhiteSpace(question.ConditionalExpectedValue))
+            else if (!FormConditionOperators.IsKnown(question.ConditionalOperator))
+            {
+                errors.Add("Conditional operator is not one this form supports");
+            }
+            else if (!FormConditionOperators.IsPresence(question.ConditionalOperator) &&
+                     string.IsNullOrWhiteSpace(question.ConditionalExpectedValue))
             {
                 errors.Add("Expected value is required for conditional logic");
             }
+        }
+
+        if (question.RequiredWhenParentQuestionId.HasValue)
+        {
+            if (!string.IsNullOrWhiteSpace(question.RequiredWhenOperator) &&
+                !FormConditionOperators.IsKnown(question.RequiredWhenOperator))
+            {
+                errors.Add("Required when operator is not one this form supports");
+            }
+        }
+
+        return errors;
+    }
+
+    /// <summary>
+    ///     Validates one condition of a question that combines several conditions.
+    /// </summary>
+    /// <param name="condition">The condition to validate.</param>
+    /// <returns>List of validation error messages.</returns>
+    public static List<string> ValidateCondition(FormQuestionCondition condition)
+    {
+        var errors = new List<string>();
+
+        if (condition.ConditionType == (int)ConditionalType.QuestionBased &&
+            !string.IsNullOrWhiteSpace(condition.Operator) &&
+            !FormConditionOperators.IsKnown(condition.Operator))
+        {
+            errors.Add("Conditional operator is not one this form supports");
         }
 
         return errors;
@@ -193,6 +239,11 @@ public static partial class FormValidator
         if (form.Name?.Length > 255)
         {
             errors.Add("Form name cannot exceed 255 characters");
+        }
+
+        if (form.SuccessMessage?.Length > 2000)
+        {
+            errors.Add("Success message cannot exceed 2000 characters");
         }
 
         // Validate max responses
@@ -319,6 +370,7 @@ public static partial class FormValidator
             "email" => "Email",
             "url" => "URL",
             "section_break" => "Section Break",
+            FormAnswerValidator.ImageType => "Picture",
             _ => type
         };
     }

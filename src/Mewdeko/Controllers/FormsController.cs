@@ -2,10 +2,12 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using DataModel;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Controllers.Common.Forms;
 using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Forms.Common;
 using Mewdeko.Modules.Forms.Services;
+using Mewdeko.Services;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +25,9 @@ public class FormsController : Controller
     private readonly IDashboardAuditContext auditContext;
     private readonly DiscordShardedClient client;
     private readonly BotCredentials creds;
+    private readonly DashboardAccessService dashboardAccess;
     private readonly HttpClient httpClient;
+    private readonly FormImageService images;
     private readonly ILogger<FormsController> logger;
     private readonly FormsService service;
 
@@ -36,14 +40,20 @@ public class FormsController : Controller
     /// <param name="httpClient">The HTTP client instance for Turnstile verification.</param>
     /// <param name="logger">Logger for this class.</param>
     /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    /// <param name="images">Stores the pictures submitted as answers.</param>
+    /// <param name="dashboardAccess">The per-section dashboard grants.</param>
     public FormsController(
         FormsService service,
         DiscordShardedClient client,
         BotCredentials creds,
         HttpClient httpClient,
         ILogger<FormsController> logger,
-        IDashboardAuditContext auditContext)
+        IDashboardAuditContext auditContext,
+        FormImageService images,
+        DashboardAccessService dashboardAccess)
     {
+        this.dashboardAccess = dashboardAccess;
+        this.images = images;
         this.service = service;
         this.client = client;
         this.creds = creds;
@@ -51,6 +61,83 @@ public class FormsController : Controller
         this.logger = logger;
         this.auditContext = auditContext;
     }
+
+    #region Caller Checks
+
+    /// <summary>
+    ///     Refuses a request that names a user other than the one signed in. Bot owners may act for anyone.
+    /// </summary>
+    /// <param name="userId">The user the request claims to be for.</param>
+    /// <returns>The refusal, or null when the caller may act for that user.</returns>
+    private async Task<IActionResult?> RefuseOtherUserAsync(ulong userId)
+    {
+        var caller = await DashboardCaller.GetUserIdAsync(HttpContext);
+        if (caller is null)
+            return Unauthorized();
+
+        return DashboardCaller.CanActFor(caller, userId, creds.IsOwner)
+            ? null
+            : StatusCode(403, new
+            {
+                message = "You can only act for your own account."
+            });
+    }
+
+    /// <summary>
+    ///     Tells whether the signed in user passes the dashboard access rule for a guild's forms section.
+    /// </summary>
+    /// <param name="guildId">The guild, or null when there is none.</param>
+    /// <returns>True when the caller is staff of that guild.</returns>
+    private async Task<bool> IsStaffOfAsync(ulong? guildId)
+    {
+        if (guildId is not { } id || id == 0)
+            return false;
+
+        var verdict = await DashboardAccessRule.EvaluateGuildAsync(
+            client,
+            dashboardAccess,
+            await DashboardCaller.GetUserIdAsync(HttpContext),
+            HttpContext.Request.Method,
+            id,
+            "Forms");
+
+        return verdict == DashboardAccessVerdict.Allowed;
+    }
+
+    /// <summary>
+    ///     Copies a form without the settings only staff should see: the notification webhook, the reviewer roles and
+    ///     the roles and channels used to review, announce and reward responses.
+    /// </summary>
+    /// <param name="form">The form to copy.</param>
+    /// <returns>The copy for people filling the form in.</returns>
+    private static Form WithoutStaffSettings(Form form)
+    {
+        var copy = new Form();
+
+        foreach (var property in typeof(Form).GetProperties().Where(p => p.CanRead && p.CanWrite))
+            property.SetValue(copy, property.GetValue(form));
+
+        copy.NotificationWebhookUrl = null;
+        copy.ReviewerRoleId = null;
+        copy.ReviewerRoleIds = null;
+        copy.AutoApproveRoleIds = null;
+        copy.ApprovalRoleIds = null;
+        copy.RejectionRoleIds = null;
+        copy.ApprovalAddRoleIds = null;
+        copy.ApprovalRemoveRoleIds = null;
+        copy.RejectionAddRoleIds = null;
+        copy.RejectionRemoveRoleIds = null;
+        copy.SubmitRoleIds = null;
+        copy.PendingRoleId = null;
+        copy.NotifyRoleId = null;
+        copy.SubmitChannelId = null;
+        copy.ApproveEmote = null;
+        copy.RejectEmote = null;
+
+        return copy;
+    }
+
+    #endregion
 
     #region Turnstile Verification
 
@@ -183,6 +270,7 @@ public class FormsController : Controller
     /// <param name="formId">The form ID.</param>
     /// <returns>The form details.</returns>
     [HttpGet("{formId:int}")]
+    [FormAccess(FormIdKind.Form, FormAccessMode.Viewable)]
     public async Task<IActionResult> GetForm(int formId)
     {
         try
@@ -194,7 +282,7 @@ public class FormsController : Controller
                     message = "Form not found"
                 });
 
-            return Ok(form);
+            return Ok(FormAccessFilter.ScopeOf(HttpContext) is { CallerIsStaff: true } ? form : WithoutStaffSettings(form));
         }
         catch (Exception ex)
         {
@@ -248,6 +336,7 @@ public class FormsController : Controller
     /// <param name="form">The updated form data.</param>
     /// <returns>Success status.</returns>
     [HttpPut("{formId:int}")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> UpdateForm(int formId, [FromBody] Form form)
     {
         try
@@ -263,6 +352,9 @@ public class FormsController : Controller
             }
 
             form.Id = formId; // Ensure ID matches route
+            if (FormAccessFilter.ScopeOf(HttpContext) is { } formScope)
+                form.GuildId = formScope.GuildId;
+
             auditContext.RecordBefore(await service.GetFormAsync(formId));
             var success = await service.UpdateFormAsync(form);
 
@@ -294,6 +386,7 @@ public class FormsController : Controller
     /// <param name="formId">The form ID to delete.</param>
     /// <returns>Success status.</returns>
     [HttpDelete("{formId:int}")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> DeleteForm(int formId)
     {
         try
@@ -329,6 +422,7 @@ public class FormsController : Controller
     /// <param name="isActive">The new active status.</param>
     /// <returns>Success status.</returns>
     [HttpPatch("{formId:int}/active")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> SetFormActiveStatus(int formId, [FromBody] bool isActive)
     {
         try
@@ -360,14 +454,18 @@ public class FormsController : Controller
     ///     Duplicates a form with all its questions and options.
     /// </summary>
     /// <param name="formId">The form ID to duplicate.</param>
-    /// <param name="userId">The user ID creating the duplicate.</param>
+    /// <param name="userId">Ignored. The signed in user is recorded as the creator.</param>
     /// <returns>The duplicated form.</returns>
     [HttpPost("{formId:int}/duplicate")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> DuplicateForm(int formId, [FromBody] ulong userId)
     {
+        if (await DashboardCaller.GetUserIdAsync(HttpContext) is not { } callerId)
+            return Unauthorized();
+
         try
         {
-            var duplicatedForm = await service.DuplicateFormAsync(formId, userId);
+            var duplicatedForm = await service.DuplicateFormAsync(formId, callerId);
             return Ok(duplicatedForm);
         }
         catch (InvalidOperationException ex)
@@ -393,6 +491,7 @@ public class FormsController : Controller
     /// <param name="formId">The form ID to publish.</param>
     /// <returns>Success status.</returns>
     [HttpPost("{formId:int}/publish")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> PublishForm(int formId)
     {
         try
@@ -457,6 +556,7 @@ public class FormsController : Controller
     /// <param name="formId">The form ID.</param>
     /// <returns>List of questions with their options.</returns>
     [HttpGet("{formId:int}/questions")]
+    [FormAccess(FormIdKind.Form, FormAccessMode.Viewable)]
     public async Task<IActionResult> GetFormQuestions(int formId)
     {
         try
@@ -523,6 +623,7 @@ public class FormsController : Controller
     /// <param name="question">The question to add.</param>
     /// <returns>The created question.</returns>
     [HttpPost("{formId:int}/questions")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> AddQuestion(int formId, [FromBody] FormQuestion question)
     {
         try
@@ -558,6 +659,7 @@ public class FormsController : Controller
     /// <param name="question">The updated question data.</param>
     /// <returns>Success status.</returns>
     [HttpPut("questions/{questionId:int}")]
+    [FormAccess(FormIdKind.Question)]
     public async Task<IActionResult> UpdateQuestion(int questionId, [FromBody] FormQuestion question)
     {
         try
@@ -573,6 +675,9 @@ public class FormsController : Controller
             }
 
             question.Id = questionId; // Ensure ID matches route
+            if (FormAccessFilter.ScopeOf(HttpContext) is { } questionScope)
+                question.FormId = questionScope.FormId;
+
             var success = await service.UpdateQuestionAsync(question);
 
             if (!success)
@@ -602,6 +707,7 @@ public class FormsController : Controller
     /// <param name="questionId">The question ID to delete.</param>
     /// <returns>Success status.</returns>
     [HttpDelete("questions/{questionId:int}")]
+    [FormAccess(FormIdKind.Question)]
     public async Task<IActionResult> DeleteQuestion(int questionId)
     {
         try
@@ -636,6 +742,7 @@ public class FormsController : Controller
     /// <param name="option">The option to add.</param>
     /// <returns>The created option.</returns>
     [HttpPost("questions/{questionId:int}/options")]
+    [FormAccess(FormIdKind.Question)]
     public async Task<IActionResult> AddQuestionOption(int questionId, [FromBody] FormQuestionOption option)
     {
         try
@@ -678,6 +785,7 @@ public class FormsController : Controller
     /// <param name="option">The updated option.</param>
     /// <returns>Success status.</returns>
     [HttpPut("questions/options/{optionId:int}")]
+    [FormAccess(FormIdKind.Option)]
     public async Task<IActionResult> UpdateQuestionOption(int optionId, [FromBody] FormQuestionOption option)
     {
         try
@@ -699,6 +807,9 @@ public class FormsController : Controller
             }
 
             option.Id = optionId; // Ensure option ID matches route
+            if (FormAccessFilter.ScopeOf(HttpContext) is { QuestionId: { } optionQuestionId })
+                option.QuestionId = optionQuestionId;
+
             var success = await service.UpdateQuestionOptionAsync(option);
 
             if (!success)
@@ -728,6 +839,7 @@ public class FormsController : Controller
     /// <param name="optionId">The option ID to delete.</param>
     /// <returns>Success status.</returns>
     [HttpDelete("questions/options/{optionId:int}")]
+    [FormAccess(FormIdKind.Option)]
     public async Task<IActionResult> DeleteQuestionOption(int optionId)
     {
         try
@@ -761,6 +873,7 @@ public class FormsController : Controller
     /// <param name="questionId">The question ID.</param>
     /// <returns>List of conditions.</returns>
     [HttpGet("questions/{questionId:int}/conditions")]
+    [FormAccess(FormIdKind.Question, FormAccessMode.Viewable)]
     public async Task<IActionResult> GetQuestionConditions(int questionId)
     {
         try
@@ -785,6 +898,7 @@ public class FormsController : Controller
     /// <param name="condition">The condition to add.</param>
     /// <returns>The created condition.</returns>
     [HttpPost("questions/{questionId:int}/conditions")]
+    [FormAccess(FormIdKind.Question)]
     public async Task<IActionResult> AddQuestionCondition(int questionId, [FromBody] FormQuestionCondition condition)
     {
         try
@@ -809,6 +923,7 @@ public class FormsController : Controller
     /// <param name="conditionId">The condition ID to delete.</param>
     /// <returns>Success status.</returns>
     [HttpDelete("conditions/{conditionId:int}")]
+    [FormAccess(FormIdKind.Condition)]
     public async Task<IActionResult> DeleteCondition(int conditionId)
     {
         try
@@ -847,8 +962,12 @@ public class FormsController : Controller
     /// <param name="request">The submission request.</param>
     /// <returns>Success status with response ID.</returns>
     [HttpPost("{formId:int}/submit")]
+    [FormPublic]
     public async Task<IActionResult> SubmitForm(int formId, [FromBody] FormSubmissionRequest request)
     {
+        if (await RefuseOtherUserAsync(request.UserId) is { } refusal)
+            return refusal;
+
         try
         {
             // Get form to check captcha requirement
@@ -917,7 +1036,8 @@ public class FormsController : Controller
                 message = "Form submitted successfully",
                 responseId = response.Id,
                 statusCheckToken = workflow.StatusCheckToken,
-                statusCheckUrl = $"/forms/status/{workflow.StatusCheckToken}"
+                statusCheckUrl = $"/forms/status/{workflow.StatusCheckToken}",
+                successMessage = await service.ResolveSuccessMessageAsync(form, request.UserId, request.Username)
             });
         }
         catch (FormSubmissionException ex)
@@ -948,6 +1068,7 @@ public class FormsController : Controller
     /// <param name="status">Only responses in this review state, or omitted for all of them.</param>
     /// <returns>The page of responses, with the count in each review state.</returns>
     [HttpGet("{formId:int}/responses")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> GetFormResponses(
         int formId,
         [FromQuery] int page = 1,
@@ -989,6 +1110,8 @@ public class FormsController : Controller
     /// <param name="responseId">The response ID.</param>
     /// <returns>The response details with answers.</returns>
     [HttpGet("responses/{responseId:int}")]
+    [FormAccess(FormIdKind.Response, FormAccessMode.OwnResponse)]
+    [FormOwnData]
     public async Task<IActionResult> GetResponseDetails(int responseId)
     {
         try
@@ -1023,6 +1146,7 @@ public class FormsController : Controller
     /// <param name="responseId">The response ID to delete.</param>
     /// <returns>Success status.</returns>
     [HttpDelete("responses/{responseId:int}")]
+    [FormAccess(FormIdKind.Response)]
     public async Task<IActionResult> DeleteResponse(int responseId)
     {
         try
@@ -1056,6 +1180,7 @@ public class FormsController : Controller
     /// <param name="formId">The form ID.</param>
     /// <returns>CSV file download.</returns>
     [HttpGet("{formId:int}/responses/export")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> ExportResponses(int formId)
     {
         try
@@ -1127,6 +1252,153 @@ public class FormsController : Controller
 
     #endregion
 
+    #region Funnel
+
+    /// <summary>
+    ///     Records that the signed in person began filling in a form. The person is read from the
+    ///     dashboard token, never from the request.
+    /// </summary>
+    /// <param name="formId">The form.</param>
+    /// <returns>Success status.</returns>
+    [HttpPost("{formId:int}/started")]
+    [FormPublic]
+    public async Task<IActionResult> MarkStarted(int formId)
+    {
+        if (await DashboardCaller.GetUserIdAsync(HttpContext) is not { } callerId)
+            return Unauthorized();
+
+        try
+        {
+            await service.RecordStartAsync(formId, callerId);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to record the start of form {FormId}", formId);
+            return StatusCode(500, new
+            {
+                message = "Failed to record the start"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Compares, for every form with activity in the window, the people who started it with the
+    ///     people who submitted it. Only bot owners may read it.
+    /// </summary>
+    /// <param name="days">How many days back to look.</param>
+    /// <returns>One row per form.</returns>
+    [HttpGet("funnel")]
+    [RequireOwner]
+    public async Task<IActionResult> GetFunnel([FromQuery] int days = 30)
+    {
+        try
+        {
+            return Ok(await service.GetFunnelAsync(days));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to build the forms funnel");
+            return StatusCode(500, new
+            {
+                message = "Failed to build the funnel"
+            });
+        }
+    }
+
+    #endregion
+
+    #region Answer Pictures
+
+    /// <summary>
+    ///     Stores a picture for a picture question and returns the address the answer should carry.
+    ///     The picture is decoded and written out again, so nothing the submitter sent is served back.
+    /// </summary>
+    /// <remarks>
+    ///     Needs a signed in dashboard user, and only works for a form that has a picture question and
+    ///     is open to answers. A form that is still a draft or switched off takes uploads from the
+    ///     people who manage its server, so the builder preview works.
+    /// </remarks>
+    /// <param name="formId">The form the picture answers.</param>
+    /// <param name="request">The picture to store.</param>
+    /// <returns>The address of the stored copy.</returns>
+    [HttpPost("{formId:int}/image")]
+    [FormPublic]
+    public async Task<IActionResult> UploadAnswerImage(int formId, [FromBody] FormImageUploadRequest request)
+    {
+        try
+        {
+            if (await DashboardCaller.GetUserIdAsync(HttpContext) is not { } callerId)
+                return Unauthorized();
+
+            var form = await service.GetFormAsync(formId);
+            if (form == null)
+                return NotFound(new
+                {
+                    message = "Form not found"
+                });
+
+            var guild = client.GetGuild(form.GuildId);
+            var manages = guild?.GetUser(callerId) is { } member &&
+                          (guild.OwnerId == callerId || member.GuildPermissions.ManageGuild ||
+                           member.GuildPermissions.Administrator);
+
+            if ((form.IsDraft || !form.IsActive) && !manages)
+                return NotFound(new
+                {
+                    message = "Form not found"
+                });
+
+            var questions = await service.GetFormQuestionsAsync(formId);
+            if (!questions.Any(q => FormAnswerValidator.IsImage(q.QuestionType)))
+                return BadRequest(new
+                {
+                    message = "This form has no picture question"
+                });
+
+            if (!images.IsConfigured)
+                return BadRequest(new
+                {
+                    message = "This bot cannot store uploaded pictures."
+                });
+
+            if (!FormImageService.TryDecode(request.Data, out var bytes, out var problem))
+                return BadRequest(new
+                {
+                    message = problem
+                });
+
+            if (!images.TryReserveUpload(callerId, formId))
+                return StatusCode(429, new
+                {
+                    message = "Too many pictures were uploaded for this form. Try again later."
+                });
+
+            var (url, error) = await images.StoreAsync(bytes!, formId);
+
+            if (url == null)
+                return BadRequest(new
+                {
+                    message = error
+                });
+
+            return Ok(new FormImageUploadResponse
+            {
+                Url = url
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to store a picture for form {FormId}", formId);
+            return StatusCode(500, new
+            {
+                message = "The picture could not be saved"
+            });
+        }
+    }
+
+    #endregion
+
     #region Share Links
 
     private static string? GetInstanceIdentifier(JsonElement request)
@@ -1149,6 +1421,7 @@ public class FormsController : Controller
     /// <param name="request">The share link request body.</param>
     /// <returns>The share code.</returns>
     [HttpPost("{formId:int}/share-link")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> GenerateShareLink(int formId, [FromBody] JsonElement request)
     {
         try
@@ -1182,6 +1455,7 @@ public class FormsController : Controller
     /// <param name="shareCode">The share code.</param>
     /// <returns>Form ID and instance identifier.</returns>
     [HttpGet("share/{shareCode}")]
+    [FormPublic]
     public async Task<IActionResult> ResolveShareLink(string shareCode)
     {
         try
@@ -1220,8 +1494,12 @@ public class FormsController : Controller
     /// <param name="request">The eligibility check request.</param>
     /// <returns>Eligibility status and reason if not eligible.</returns>
     [HttpPost("{formId:int}/check-eligibility")]
+    [FormPublic]
     public async Task<IActionResult> CheckEligibility(int formId, [FromBody] EligibilityCheckRequest request)
     {
+        if (await RefuseOtherUserAsync(request.UserId) is { } refusal)
+            return refusal;
+
         try
         {
             var eligibility = await service.CheckFormEligibilityAsync(formId, request.UserId);
@@ -1251,6 +1529,7 @@ public class FormsController : Controller
     /// <param name="status">Optional status filter.</param>
     /// <returns>List of pending responses with workflow information.</returns>
     [HttpGet("{formId:int}/responses/pending")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> GetPendingResponses(
         int formId,
         [FromQuery] ResponseStatus? status = null)
@@ -1289,13 +1568,17 @@ public class FormsController : Controller
     /// <param name="request">The approval request with reviewer info and notes.</param>
     /// <returns>Success status and invite code if applicable.</returns>
     [HttpPost("responses/{responseId:int}/approve")]
+    [FormAccess(FormIdKind.Response)]
     public async Task<IActionResult> ApproveResponse(int responseId, [FromBody] ApprovalRequest request)
     {
+        if (await DashboardCaller.GetUserIdAsync(HttpContext) is not { } reviewerId)
+            return Unauthorized();
+
         try
         {
             var (success, inviteCode) = await service.ApproveResponseAsync(
                 responseId,
-                request.ReviewerId,
+                reviewerId,
                 request.Notes
             );
 
@@ -1327,13 +1610,17 @@ public class FormsController : Controller
     /// <param name="request">The rejection request with reviewer info and notes.</param>
     /// <returns>Success status.</returns>
     [HttpPost("responses/{responseId:int}/reject")]
+    [FormAccess(FormIdKind.Response)]
     public async Task<IActionResult> RejectResponse(int responseId, [FromBody] RejectionRequest request)
     {
+        if (await DashboardCaller.GetUserIdAsync(HttpContext) is not { } reviewerId)
+            return Unauthorized();
+
         try
         {
             var success = await service.RejectResponseAsync(
                 responseId,
-                request.ReviewerId,
+                reviewerId,
                 request.Notes
             );
 
@@ -1365,6 +1652,7 @@ public class FormsController : Controller
     /// <returns>Workflow status information including invite code if available.</returns>
     [HttpGet("status/{token}")]
     [AllowAnonymous]
+    [FormPublic]
     public async Task<IActionResult> GetResponseStatus(string token)
     {
         try
@@ -1495,6 +1783,7 @@ public class FormsController : Controller
     /// <param name="formId">The form ID.</param>
     /// <returns>The versions, without their snapshots.</returns>
     [HttpGet("{formId:int}/versions")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> GetFormVersions(int formId)
     {
         try
@@ -1531,6 +1820,7 @@ public class FormsController : Controller
     /// <param name="versionNumber">The version to describe.</param>
     /// <returns>The changes, grouped by section.</returns>
     [HttpGet("{formId:int}/versions/{versionNumber:int}/diff")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> GetVersionDiff(int formId, int versionNumber)
     {
         try
@@ -1568,14 +1858,18 @@ public class FormsController : Controller
     ///     the existing version rather than adding a duplicate to the history.
     /// </summary>
     /// <param name="formId">The form ID.</param>
-    /// <param name="userId">Who made the edit.</param>
+    /// <param name="userId">Ignored. The signed in user is recorded as the author.</param>
     /// <returns>The saved version.</returns>
     [HttpPost("{formId:int}/versions")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> SaveFormVersion(int formId, [FromBody] ulong userId)
     {
+        if (await DashboardCaller.GetUserIdAsync(HttpContext) is not { } callerId)
+            return Unauthorized();
+
         try
         {
-            var version = await service.SaveVersionAsync(formId, userId);
+            var version = await service.SaveVersionAsync(formId, callerId);
 
             if (version == null)
                 return NotFound(new
@@ -1603,14 +1897,18 @@ public class FormsController : Controller
     /// </summary>
     /// <param name="formId">The form ID.</param>
     /// <param name="versionNumber">The version to restore.</param>
-    /// <param name="userId">Who performed the restore.</param>
+    /// <param name="userId">Ignored. The signed in user is recorded as the one who restored.</param>
     /// <returns>Success status.</returns>
     [HttpPost("{formId:int}/versions/{versionNumber:int}/restore")]
+    [FormAccess(FormIdKind.Form)]
     public async Task<IActionResult> RestoreFormVersion(int formId, int versionNumber, [FromBody] ulong userId)
     {
+        if (await DashboardCaller.GetUserIdAsync(HttpContext) is not { } callerId)
+            return Unauthorized();
+
         try
         {
-            var restored = await service.RestoreVersionAsync(formId, versionNumber, userId);
+            var restored = await service.RestoreVersionAsync(formId, versionNumber, callerId);
 
             if (!restored)
                 return NotFound(new
@@ -1688,6 +1986,7 @@ public class FormsController : Controller
     /// <param name="userId">The submitter.</param>
     /// <returns>The draft, or a null draft when there is none.</returns>
     [HttpGet("{formId:int}/draft/{userId:ulong}")]
+    [FormOwnData]
     public async Task<IActionResult> GetDraft(int formId, ulong userId)
     {
         try
@@ -1725,11 +2024,16 @@ public class FormsController : Controller
     /// <param name="request">The answers so far and the page they had reached.</param>
     /// <returns>When the draft was saved.</returns>
     [HttpPost("{formId:int}/draft")]
+    [FormOwnData]
     public async Task<IActionResult> SaveDraft(int formId, [FromBody] FormDraftRequest request)
     {
+        if (await RefuseOtherUserAsync(request.UserId) is { } refusal)
+            return refusal;
+
         try
         {
             var savedAt = await service.SaveDraftAsync(formId, request.UserId, request.Answers, request.Page);
+            await service.RecordStartAsync(formId, request.UserId);
 
             return Ok(new
             {
@@ -1753,6 +2057,7 @@ public class FormsController : Controller
     /// <param name="userId">The submitter.</param>
     /// <returns>Success status.</returns>
     [HttpDelete("{formId:int}/draft/{userId:ulong}")]
+    [FormOwnData]
     public async Task<IActionResult> DeleteDraft(int formId, ulong userId)
     {
         try
@@ -1785,8 +2090,13 @@ public class FormsController : Controller
     /// <param name="guildId">A guild to narrow the list to, or null for everything.</param>
     /// <returns>Their submissions.</returns>
     [HttpGet("submissions/{userId:ulong}")]
+    [FormOwnData]
+    [SkipDashboardAccess]
     public async Task<IActionResult> GetUserSubmissions(ulong userId, [FromQuery] ulong? guildId = null)
     {
+        if (await RefuseOtherUserAsync(userId) is { } refusal && !await IsStaffOfAsync(guildId))
+            return refusal;
+
         try
         {
             var submissions = await service.GetUserSubmissionsAsync(userId, guildId);
@@ -1825,6 +2135,8 @@ public class FormsController : Controller
     /// <param name="request">Who is making the change and the corrected answers.</param>
     /// <returns>Success status.</returns>
     [HttpPut("responses/{responseId:int}")]
+    [FormAccess(FormIdKind.Response, FormAccessMode.OwnResponse)]
+    [FormOwnData]
     public async Task<IActionResult> EditResponse(int responseId, [FromBody] FormSubmissionRequest request)
     {
         try
@@ -1867,6 +2179,8 @@ public class FormsController : Controller
     /// <param name="responseId">The response.</param>
     /// <returns>The revisions and the answers each one held.</returns>
     [HttpGet("responses/{responseId:int}/revisions")]
+    [FormAccess(FormIdKind.Response, FormAccessMode.OwnResponse)]
+    [FormOwnData]
     public async Task<IActionResult> GetResponseRevisions(int responseId)
     {
         try
