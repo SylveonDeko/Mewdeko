@@ -1284,9 +1284,25 @@ public sealed class EventHandler : IDisposable
         return ProcessDirectEvent("ShardLatencyUpdated", (oldLatency, newLatency, shard));
     }
 
-    private Task ClientOnLog(LogMessage message)
+    private async Task ClientOnLog(LogMessage message)
     {
-        return ProcessDirectEvent("Log", message);
+        if (disposed || !stringEventSubscriptions.TryGetValue("Log", out var handlers))
+            return;
+
+        CountEvent("Log", null);
+
+        foreach (var (moduleName, handler) in handlers)
+        {
+            try
+            {
+                await ExecuteHandlerByEventType("Log", handler, message);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error executing subscription for {EventType} in module {ModuleName}", "Log",
+                    moduleName);
+            }
+        }
     }
 
     private Task ClientOnInviteCreated(SocketInvite arg)

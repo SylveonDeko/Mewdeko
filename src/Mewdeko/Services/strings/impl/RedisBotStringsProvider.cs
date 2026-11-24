@@ -7,7 +7,7 @@ namespace Mewdeko.Services.strings.impl;
 
 /// <summary>
 ///     Uses <see cref="IStringsSource" /> to load strings into Redis hash (only on Shard 0)
-///     and retrieves them from Redis via <see cref="GetText" />.
+///     and keeps a copy of the response strings in memory, which <see cref="GetText" /> reads.
 /// </summary>
 public class RedisBotStringsProvider : IBotStringsProvider
 {
@@ -16,6 +16,7 @@ public class RedisBotStringsProvider : IBotStringsProvider
     private readonly IStringsSource source;
     private IReadOnlyCollection<string> availableLocales = Array.Empty<string>();
     private volatile IReadOnlyList<TranslationOverride> overrides = [];
+    private volatile Dictionary<string, Dictionary<string, string>> responses = new(StringComparer.Ordinal);
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="RedisBotStringsProvider" /> class.
@@ -41,7 +42,12 @@ public class RedisBotStringsProvider : IBotStringsProvider
     /// <returns>The text associated with the specified key for the given locale.</returns>
     public string GetText(string localeName, string? key)
     {
-        return redis.GetDatabase().HashGet($"{creds.RedisKey()}:responses:{localeName}", key);
+        if (key is null)
+            return null!;
+
+        return responses.TryGetValue(localeName, out var locale) && locale.TryGetValue(key, out var text)
+            ? text
+            : null!;
     }
 
     /// <summary>
@@ -99,9 +105,19 @@ public class RedisBotStringsProvider : IBotStringsProvider
         availableLocales = responseStrings.Keys.ToArray();
 
         var resolvedOverrides = TranslationOverrides.Resolve(responseStrings, overrides);
+        var loaded = new Dictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
 
         foreach (var (localeName, localeStrings) in responseStrings)
         {
+            var merged = new Dictionary<string, string>(localeStrings, StringComparer.Ordinal);
+            if (resolvedOverrides.TryGetValue(localeName, out var mergedOverrides))
+            {
+                foreach (var (overrideKey, overrideText) in mergedOverrides)
+                    merged[overrideKey] = overrideText;
+            }
+
+            loaded[localeName] = merged;
+
             var hashKey = $"{creds.RedisKey()}:responses:{localeName}";
             var hashFields = localeStrings
                 .Select(x => new HashEntry(x.Key, x.Value))
@@ -125,6 +141,8 @@ public class RedisBotStringsProvider : IBotStringsProvider
                     .ToArray());
             }
         }
+
+        responses = loaded;
 
         foreach (var (localeName, localeStrings) in source.GetCommandStrings())
         {
