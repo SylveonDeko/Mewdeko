@@ -67,7 +67,7 @@ public class Mewdeko : IDisposable
     /// </summary>
     public BotCredentials Credentials { get; }
 
-    private int ReadyCount { get; set; }
+    private System.Collections.Concurrent.ConcurrentDictionary<int, byte> ReadyShards { get; } = new();
 
     /// <summary>
     ///     Gets the Discord client used by the bot.
@@ -233,10 +233,11 @@ public class Mewdeko : IDisposable
 
         Task SetClientReady(DiscordSocketClient unused)
         {
-            ReadyCount++;
+            ReadyShards.TryAdd(unused.ShardId, 0);
+            var readyCount = ReadyShards.Count;
             logger.LogInformation("Shard {ShardId} is ready", unused.ShardId);
-            logger.LogInformation("{ReadyCount}/{TotalShards} shards connected", ReadyCount, Client.Shards.Count);
-            if (ReadyCount != Client.Shards.Count)
+            logger.LogInformation("{ReadyCount}/{TotalShards} shards connected", readyCount, Client.Shards.Count);
+            if (readyCount < Client.Shards.Count)
                 return Task.CompletedTask;
             _ = Task.Run(() => clientReady.TrySetResult(true));
             return Task.CompletedTask;
