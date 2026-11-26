@@ -160,6 +160,7 @@ public sealed class EventHandler : IDisposable
             case "GiveawayEntered":
             case "ShopItemPurchased":
             case "BirthdaySet":
+            case "AchievementsUnlocked":
                 switch (handler)
                 {
                     case AsyncEventHandler<T> singleHandler:

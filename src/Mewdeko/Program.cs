@@ -326,6 +326,11 @@ public class Program
                         httpContext.Request.Path.StartsWithSegments("/health"))
                         return LogEventLevel.Debug;
 
+                    var isStream = httpContext.WebSockets.IsWebSocketRequest ||
+                                   httpContext.Response.ContentType?.StartsWith("text/event-stream") == true;
+                    if (isStream && httpContext.Response.StatusCode < 400)
+                        return LogEventLevel.Debug;
+
                     return elapsed >= 1000 || httpContext.Response.StatusCode >= 400
                         ? LogEventLevel.Warning
                         : LogEventLevel.Debug;
