@@ -436,7 +436,7 @@ public class GuildLeaveFeedbackService : INService, IReadyExecutor
                     record.Reason is null ? "Not selected" : GetReasonLabel(record.Reason, record.GuildId));
 
             if (record.JoinedAt.HasValue)
-                eb.AddField("Was In Server Since", TimestampTag.FromDateTime(record.JoinedAt.Value), true);
+                eb.AddField("Was In Server Since", TimestampTag.FromDateTime(DateTime.SpecifyKind(record.JoinedAt.Value, DateTimeKind.Utc)), true);
 
             if (!string.IsNullOrWhiteSpace(record.Comment))
                 eb.AddField("Comment", record.Comment.TrimTo(1024));

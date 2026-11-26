@@ -1,11 +1,11 @@
 {
-  "confessions_blacklisted": "You are blacklisted from suggestions in that server!",
+  "confessions_blacklisted": "You are blacklisted from confessions in that server!",
   "confessions_blacklisted_added": "Added {0} to the confession blacklist!!",
   "confessions_blacklisted_already": "This user is already blacklisted!",
   "confessions_blacklisted_not": "This user is not blacklisted!",
   "confessions_blacklisted_removed": "Removed {0} from the confession blacklist!!",
   "confessions_channel_set": "Set {0} as the Confession Channel!",
-  "confessions_disabled": "Confessions disabled",
+  "confessions_disabled": "Confessions are now off. Run this command again with a channel to turn them back on.",
   "confessions_dm_closed": "I can't DM you. Open your DMs and run the command again.",
   "confessions_dm_howto": "Confessions are sent here so nobody sees who wrote them. Send: `{0}confess {1} your message`",
   "confessions_invalid_id": "The ID you provided was invalid!",

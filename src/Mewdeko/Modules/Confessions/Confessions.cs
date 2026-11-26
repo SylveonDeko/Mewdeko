@@ -129,7 +129,8 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
     }
 
     /// <summary>
-    ///     Sets the confession channel for anonymous confessions.
+    ///     Sets the confession channel for anonymous confessions. Without a channel it uses the
+    ///     current one when confessions are off, and turns confessions off when they are on.
     /// </summary>
     /// <param name="channel">The confession channel (optional).</param>
     /// <example>.confessionchannel #confessions</example>
@@ -139,6 +140,9 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
     [RequireContext(ContextType.Guild)]
     public async Task ConfessionChannel(ITextChannel? channel = null)
     {
+        if (channel is null && (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel is 0)
+            channel = ctx.Channel as ITextChannel;
+
         if (channel is null)
         {
             await Service.SetConfessionChannel(ctx.Guild, 0).ConfigureAwait(false);
@@ -151,6 +155,7 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
         if (!perms.SendMessages || !perms.EmbedLinks)
         {
             await ErrorAsync(Strings.ConfessionsInvalidPerms(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
         }
 
         await Service.SetConfessionChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
@@ -172,7 +177,7 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
     {
         if (channel is null)
         {
-            await Service.SetConfessionChannel(ctx.Guild, 0).ConfigureAwait(false);
+            await Service.SetConfessionLogChannel(ctx.Guild, 0).ConfigureAwait(false);
             await ConfirmAsync(Strings.ConfessionsLoggingDisabled(ctx.Guild.Id)).ConfigureAwait(false);
             return;
         }
@@ -182,6 +187,7 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
         if (!perms.SendMessages || !perms.EmbedLinks)
         {
             await ErrorAsync(Strings.ConfessionsInvalidPerms(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
         }
 
         await Service.SetConfessionLogChannel(ctx.Guild, channel.Id).ConfigureAwait(false);

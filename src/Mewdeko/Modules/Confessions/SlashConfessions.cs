@@ -54,7 +54,8 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     }
 
     /// <summary>
-    ///     Sets the confession channel.
+    ///     Sets the confession channel. Without a channel it uses the current one when confessions
+    ///     are off, and turns confessions off when they are on.
     /// </summary>
     /// <param name="channel">The channel to set as the confession channel.</param>
     /// <example>/confessions channel #confessions</example>
@@ -64,6 +65,9 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     [CheckPermissions]
     public async Task ConfessionChannel(ITextChannel? channel = null)
     {
+        if (channel is null && (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel is 0)
+            channel = ctx.Channel as ITextChannel;
+
         if (channel is null)
         {
             await Service.SetConfessionChannel(ctx.Guild, 0).ConfigureAwait(false);
@@ -76,6 +80,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         if (!perms.SendMessages || !perms.EmbedLinks)
         {
             await ErrorAsync(Strings.ConfessionsInvalidPerms(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
         }
 
         await Service.SetConfessionChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
@@ -105,6 +110,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         if (!perms.SendMessages || !perms.EmbedLinks)
         {
             await ErrorAsync(Strings.ConfessionsInvalidPerms(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
         }
 
         await Service.SetConfessionLogChannel(ctx.Guild, channel.Id).ConfigureAwait(false);

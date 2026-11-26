@@ -120,7 +120,7 @@ confessionblacklist_IUser_2:
 confessionchannel:
   args:
     - '[@channel]'
-  desc: 'Sets the confession channel for anonymous confessions.'
+  desc: 'Sets the confession channel for anonymous confessions. Without a channel it uses the current one, or turns confessions off when they are already on.'
   params:
     - desc: 'The confession channel (optional).'
       name: channel
